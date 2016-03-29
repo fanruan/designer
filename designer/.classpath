@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6u35"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/base"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/designer_base"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/form"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-stable"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-basic"/>
+	<classpathentry kind="lib" path="/lib/3rd.jar"/>
+	<classpathentry kind="lib" path="/lib/junit.jar"/>
+	<classpathentry kind="lib" path="/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/lib/poi2007_fat.jar"/>
+	<classpathentry kind="lib" path="/lib/postgresql-8.0-311.jdbc3.jar"/>
+	<classpathentry kind="lib" path="/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/lib/sqljdbc.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/activation.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/commons-el.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/jasper-compiler.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/jasper-runtime.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/mail.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/mx4j-remote.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/mx4j-tools.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/mx4j.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/org.mortbay.jetty.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/org.mortbay.jmx.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/saaj.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/xml-apis.jar"/>
+	<classpathentry kind="lib" path="/lib/jetty/xmlParserAPIs.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-calculate"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartattr"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartdata"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartglyph"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/engine-page"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-data"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/engine-view"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/engine-write"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/engine-remote"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/designer_chart"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/designer_form"/>
+	<classpathentry kind="lib" path="/lib/swt.jar"/>
+	<classpathentry kind="lib" path="/lib/sqlite-jdbc.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
