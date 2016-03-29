@@ -1,0 +1,1 @@
+absolute path of the serverhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬contextPath is /WebReport

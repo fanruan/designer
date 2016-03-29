@@ -1,0 +1,2 @@
+假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，
+servletURL指的是：/WebReport/ReportServer

@@ -1,0 +1,1 @@
+The result is aways true when NOFILTER is compared with any other values.

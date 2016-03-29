@@ -1,0 +1,17 @@
+  语法格式参考OPEN SQL语法。
+  例如：
+  Select :
+  employees~pernr, adr~vorna, adr~nachn, orgnam~orgtx
+  From :
+  pa0003 AS employees
+  INNER JOIN pa0000 AS status ON employees~pernr = status~pernr
+  INNER JOIN pa0001 AS org    ON employees~pernr = org~pernr
+  INNER JOIN pa0002 AS adr    ON employees~pernr = adr~pernr
+  INNER JOIN t527x  AS orgnam ON org~orgeh = orgnam~orgeh
+  INNER JOIN t002   AS lang   ON orgnam~sprsl = lang~spras
+  Where :
+  status~stat2 >= '2' AND   status~endda > sy-datum AND
+  org~endda > sy-datum AND
+  adr~endda > sy-datum AND
+  lang~laiso = 'EN'
+  注：用~来代替.连接where语句中同样支持 BETWEEN LIKE IN符号。

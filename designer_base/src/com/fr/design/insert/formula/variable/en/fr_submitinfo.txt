@@ -1,0 +1,1 @@
+callback status of form submitcontains fr_submitinfo.success and fr_submitinfo.failinfo

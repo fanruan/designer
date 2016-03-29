@@ -1,0 +1,1 @@
+package com.fr.design.mainframe;/** * Author : Shockway * Date: 13-7-9 * Time: 下午2:06 */public interface BaseWidgetPropertyPane {	public void setEditingFormDesigner(BaseFormDesigner  editor);	public void refreshDockingView();}

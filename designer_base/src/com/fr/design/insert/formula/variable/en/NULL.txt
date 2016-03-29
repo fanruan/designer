@@ -1,0 +1,1 @@
+NULL is a variable which contains nothing.

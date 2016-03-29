@@ -1,0 +1,3 @@
+报表名字
+假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，
+reportName就是WorkBook1.cpt

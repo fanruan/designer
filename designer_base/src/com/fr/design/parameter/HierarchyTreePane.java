@@ -1,0 +1,1 @@
+package com.fr.design.parameter;public interface HierarchyTreePane {	public void refreshDockingView();	public void refreshRoot();}

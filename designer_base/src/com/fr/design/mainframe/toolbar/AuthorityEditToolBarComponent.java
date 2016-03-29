@@ -1,0 +1,1 @@
+package com.fr.design.mainframe.toolbar;import javax.swing.*;/** * Author : daisy * Date: 13-9-27 * Time: 下午3:30 */public interface AuthorityEditToolBarComponent {	public void removeSelection();}

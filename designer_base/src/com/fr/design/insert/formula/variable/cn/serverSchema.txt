@@ -1,0 +1,3 @@
+serverSchema，是指协议名称.
+假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，
+serverSchema指的是：http

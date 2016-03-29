@@ -1,0 +1,3 @@
+serverName，是指服务器地址或名称.
+假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，
+serverName指的是：localhost，即访问机子的IP

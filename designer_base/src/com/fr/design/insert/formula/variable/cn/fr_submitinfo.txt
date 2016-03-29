@@ -1,0 +1,1 @@
+提交入库事件的返回信息。fr_submitinfo.success记录成功与否fr_submitinfo.failinfo简单记录出错信息

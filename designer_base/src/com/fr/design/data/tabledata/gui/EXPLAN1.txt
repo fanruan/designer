@@ -1,0 +1,6 @@
+  Where语句的语法格式参考OPEN SQL语法。
+  例如:
+  Column1 = 'ABC' AND Column2 > 100
+  AND Column3 LIKE 'DES%'
+  AND Column4 BETWEEN 1995 AND 2000
+  AND Column5 IN (1,2,3,4,5);

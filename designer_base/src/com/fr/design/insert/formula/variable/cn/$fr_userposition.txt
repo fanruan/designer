@@ -1,0 +1,3 @@
+使用权限时,$fr_userposition就是部门角色，
+格式如：{"departments":"销售","jobTitle":"销售经理"}，
+部门角色是以部门和职务组成的数组。
