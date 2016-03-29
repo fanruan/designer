@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6u35"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/base"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/designer_base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-stable"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-basic"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-calculate"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartattr"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartglyph"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/chart-chartdata"/>
+	<classpathentry kind="lib" path="/lib/3rd.jar" sourcepath="/lookandfeel"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/base-data"/>
+	<classpathentry kind="lib" path="/lib/poi2007_fat.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
