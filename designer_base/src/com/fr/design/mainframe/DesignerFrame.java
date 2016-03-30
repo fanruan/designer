@@ -574,7 +574,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
 		Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
 		if (env != null) {
-			defaultTitleSB.append('-').append(env.getUser()).append('@').append(envName).append('[');
+			defaultTitleSB.append(env.getUser()).append('@').append(envName).append('[');
 			defaultTitleSB.append(env.getEnvDescription());
 			defaultTitleSB.append(']');
 			if (editingTemplate != null) {
