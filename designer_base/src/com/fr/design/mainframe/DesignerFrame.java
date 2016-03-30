@@ -568,11 +568,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         JTemplate<?, ?> editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         StringBuilder defaultTitleSB = new StringBuilder();
         defaultTitleSB.append(ProductConstants.PRODUCT_NAME);
+		defaultTitleSB.append(" ");
+		defaultTitleSB.append(ProductConstants.BRANCH);
 		// james：标识登录的用户和登录的ENV
 		String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
 		Env env = DesignerEnvManager.getEnvManager().getEnv(envName);
 		if (env != null) {
-			defaultTitleSB.append('-').append(env.getUser()).append('@').append(envName).append('[');
+			defaultTitleSB.append(env.getUser()).append('@').append(envName).append('[');
 			defaultTitleSB.append(env.getEnvDescription());
 			defaultTitleSB.append(']');
 			if (editingTemplate != null) {
