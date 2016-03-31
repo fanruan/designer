@@ -247,7 +247,11 @@ public class DesignUtils {
         	//默认语言(中文:宋体, 英文:Tahoma, 其他:Dialog)
         	guiFRFont = getNamedFont("SimSun");
         	if (!guiFRFont.canDisplay(displayChar)) {
-				FRContext.getLogger().error(Inter.getLocText("FR-Base_SimSun_Not_Found"));
+                //比如想在中文或英文系统里用韩文设计器
+                guiFRFont = getNamedFont("Dialog");
+                if(!guiFRFont.canDisplay(displayChar)) {
+                    FRContext.getLogger().error(Inter.getLocText("FR-Base_SimSun_Not_Found"));
+                }
 			}
 		}
         
@@ -266,7 +270,8 @@ public class DesignUtils {
     	return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE) 
     			|| ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
                 || ComparatorUtils.equals(defaultLocale, Locale.JAPAN) 
-                || ComparatorUtils.equals(defaultLocale, Locale.KOREAN);
+                || ComparatorUtils.equals(defaultLocale, Locale.KOREAN)
+                || ComparatorUtils.equals(defaultLocale, Locale.KOREA);
     }
 
     /**
