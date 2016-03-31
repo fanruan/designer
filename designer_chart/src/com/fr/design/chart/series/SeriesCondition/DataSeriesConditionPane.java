@@ -5,6 +5,7 @@ import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.DataSeriesCondition;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.data.condition.AbstractCondition;
@@ -49,9 +50,12 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
         pane.setBorder(BorderFactory.createEmptyBorder());
 
         // 条件界面
-        pane.add(liteConditionPane = ChartConditionPaneFactory.createChartConditionPane(getClass()), BorderLayout.CENTER);
+        pane.add(liteConditionPane = createListConditionPane(), BorderLayout.CENTER);
         // kunsnat_size  加载属性之后 被遮挡, 最少的高度为300, 5个按钮
         liteConditionPane.setPreferredSize(new Dimension(300, 300));
+    }
+    protected ChartConditionPane createListConditionPane() {
+        return ChartConditionPaneFactory.createChartConditionPane(getClass());
     }
 
     protected void addBasicAction() {

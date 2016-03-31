@@ -48,6 +48,7 @@ public class LocalePane extends BasicPane {
     private static final String CN = "fr_zh_CN.properties";
     private static final String JP = "fr_ja_JP.properties";
     private static final String TW = "fr_zh_TW.properties";
+    private static final String KR = "fr_ko_KR.properties";
     private static final String PREFIX = "fr_";
     private static final int LOCALE_NAME_LEN = 5;
 
@@ -128,6 +129,7 @@ public class LocalePane extends BasicPane {
         Properties cn = loadLocaleProperties(CN);
         Properties jp = loadLocaleProperties(JP);
         Properties tw = loadLocaleProperties(TW);
+        Properties kr = loadLocaleProperties(KR);
 
         Set<String> keys = fr.stringPropertyNames();
         List<String> sortKeys = new ArrayList<String>(keys);
@@ -138,6 +140,7 @@ public class LocalePane extends BasicPane {
         Vector<String> cnVector = new Vector<String>();
         Vector<String> jpVector = new Vector<String>();
         Vector<String> twVector = new Vector<String>();
+        Vector<String> krVector = new Vector<String>();
         for (String key : sortKeys) {
             keyVector.add(key);
             valueVector.add(fr.getProperty(key));
@@ -145,6 +148,7 @@ public class LocalePane extends BasicPane {
             cnVector.add(cn.getProperty(key));
             jpVector.add(jp.getProperty(key));
             twVector.add(tw.getProperty(key));
+            krVector.add(kr.getProperty(key));
         }
         predefineTableModel.addColumn(Inter.getLocText("Key"), keyVector);
         predefineTableModel.addColumn(Inter.getLocText("Value"), valueVector);
@@ -152,6 +156,7 @@ public class LocalePane extends BasicPane {
         predefineTableModel.addColumn("zh_CN", cnVector);
         predefineTableModel.addColumn("ja_JP", jpVector);
         predefineTableModel.addColumn("zh_TW", twVector);
+        predefineTableModel.addColumn("ko_KR", krVector);
     }
 
     private void initCustomProperties() throws Exception {

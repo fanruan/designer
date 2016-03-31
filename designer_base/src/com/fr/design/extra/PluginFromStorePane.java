@@ -184,6 +184,9 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
+        if (StringUtils.isEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
+            LoginCheckContext.fireLoginCheckListener();
+        }
         if (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
             new SwingWorker<Void, Double>(){
 
@@ -229,8 +232,6 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
                     }
                 }
             }.execute();
-        } else {
-            LoginCheckContext.fireLoginCheckListener();
         }
 
     }

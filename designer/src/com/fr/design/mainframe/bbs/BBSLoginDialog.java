@@ -225,8 +225,12 @@ public class BBSLoginDialog extends UIDialog {
 		setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Login-Failure-Tip"));
     }
     
-    public void tipForUsernameEmpty(){
+    private void tipForUsernameEmpty(){
     	setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Username-Empty-Tip"));
+    }
+
+    public void showTipForDownloadPluginWithoutLogin() {
+        setLoginFailureTxt(Inter.getLocText("FR-Designer-BBSLogin_Download-Unlogin-Tip"));
     }
     
     private void tipForPasswordEmpty(){

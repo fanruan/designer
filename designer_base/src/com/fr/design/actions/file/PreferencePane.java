@@ -1,24 +1,5 @@
 package com.fr.design.actions.file;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.Locale;
-
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicDialog;
@@ -39,8 +20,15 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.FRFont;
 import com.fr.general.FRLevel;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.util.Locale;
 
 /**
  * 选项对话框
@@ -87,7 +75,9 @@ public class PreferencePane extends BasicPane {
     	getLocaledLanguage("Simplified_Chinese_Language", Locale.SIMPLIFIED_CHINESE), 
     	getLocaledLanguage("English_Language", Locale.ENGLISH),
     	getLocaledLanguage("Japanese_Language", Locale.JAPAN),
-    	getLocaledLanguage("Traditional_Chinese_Language", Locale.TRADITIONAL_CHINESE)}; 
+    	getLocaledLanguage("Traditional_Chinese_Language", Locale.TRADITIONAL_CHINESE),
+        getLocaledLanguage("Korea_Language",Locale.KOREA),
+    };
 
     //设置是否支持undo
     private UICheckBox supportUndoCheckBox;
@@ -366,6 +356,7 @@ public class PreferencePane extends BasicPane {
         generalPane.add(languageAndDashBoard_pane);
         languageAndDashBoard_pane.add(LanguagePane);
         languageComboBox = new UIComboBox(LANGUAGE);
+        languageComboBox.setFont(FRFont.getInstance("Dialog", Font.PLAIN, 12));//为了在中文系统中显示韩文
         ActionLabel languageLabel = new ActionLabel(Inter.getLocText("FR-Designer_Designer_Language"));
         languageLabel.addActionListener(new ActionListener() {
             @Override
