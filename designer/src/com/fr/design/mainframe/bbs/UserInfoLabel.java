@@ -81,7 +81,7 @@ public class UserInfoLabel extends UILabel{
 					bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(), UserInfoLabel.this);
 				}
 				bbsLoginDialog.clearLoginInformation();
-				bbsLoginDialog.tipForUsernameEmpty();
+				bbsLoginDialog.showTipForDownloadPluginWithoutLogin();
 				bbsLoginDialog.setModal(true);
 				bbsLoginDialog.showWindow();
 			}
