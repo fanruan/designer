@@ -113,7 +113,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     private List<ChartImagePane> createImagePaneList(String[] iconPaths, String[] tipNames) {
-        List<ChartImagePane> list = new ArrayList<>();
+        List<ChartImagePane> list = new ArrayList<ChartImagePane>();
         int iconLen = iconPaths.length;
         int tipLen = tipNames.length;
         for(int i = 0, len = Math.min(iconLen, tipLen); i < len; i++) {

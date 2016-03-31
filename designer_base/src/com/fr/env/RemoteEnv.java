@@ -11,8 +11,10 @@ import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.UserBaseEnv;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
@@ -26,6 +28,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginLoader;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -330,6 +333,8 @@ public class RemoteEnv implements Env {
 
 
     private boolean testConnection(boolean needMessage, boolean isRegisteServer, Component parentComponent) throws Exception {
+        extraChangeEnvPara();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "test_server_connection");
@@ -375,6 +380,15 @@ public class RemoteEnv implements Env {
             return false;
         } else {
             throw new EnvException(res);
+        }
+    }
+
+    private void extraChangeEnvPara() {
+        //在env连接之前, 加载一下不依赖env的插件. 看看需不需要改变参数.
+        PluginLoader.init();
+        DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getEnvProcessor();
+        if (envProcessor != null) {
+            this.path = envProcessor.changeEnvPathBeforeConnect(user, password, path);
         }
     }
 
