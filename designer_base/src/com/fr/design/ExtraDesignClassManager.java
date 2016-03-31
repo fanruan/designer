@@ -124,6 +124,18 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<HyperlinkProvider> hyperlinkGroupProviders;
 
+    private DesignerEnvProcessor envProcessor;
+
+
+    public DesignerEnvProcessor getEnvProcessor() {
+        return envProcessor;
+    }
+
+    public void setEnvProcessor(Level level, PluginSimplify simplify) throws Exception {
+        validAPILevel(level, DesignerEnvProcessor.CURRENT_LEVEL, simplify.getPluginName());
+        envProcessor = (DesignerEnvProcessor) level;
+    }
+
     public void addSupportDesignApps(Level level, PluginSimplify simplify) throws Exception {
         validAPILevel(level, App.CURRENT_LEVEL, simplify.getPluginName());
         App provider = (App) level;
@@ -783,6 +795,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addHyperlinkProvider(impl, simplify);
             } else if (tagName.equals(App.MARK_STRING)) {
                 addSupportDesignApps(impl, simplify);
+            } else if (tagName.equals(DesignerEnvProcessor.XML_TAG)) {
+                setEnvProcessor(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
