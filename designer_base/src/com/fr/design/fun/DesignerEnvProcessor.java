@@ -3,9 +3,9 @@ package com.fr.design.fun;
 import com.fr.stable.fun.Level;
 
 /**
- * ÔÚenv¼ÓÔØÖ®Ç°, ĞŞ¸Äenv²ÎÊıµÄ½Ó¿Ú
- * Èç: https [ĞèÒªÔÚ¼ÓÔØÖ®Ç°ÉèÖÃÏµÍ³Ö¤Êé];
- * cas [ĞèÒª¶¯Ì¬»ñÈ¡sessionidÀ´ĞŞ¸Äpath]
+ * åœ¨envåŠ è½½ä¹‹å‰, ä¿®æ”¹envå‚æ•°çš„æ¥å£
+ * å¦‚: https [éœ€è¦åœ¨åŠ è½½ä¹‹å‰è®¾ç½®ç³»ç»Ÿè¯ä¹¦];
+ * cas [éœ€è¦åŠ¨æ€è·å–sessionidæ¥ä¿®æ”¹path]
  *
  * Created by Administrator on 2016/3/31/0031.
  */
@@ -15,10 +15,10 @@ public interface DesignerEnvProcessor extends Level{
     int CURRENT_LEVEL = 1;
 
     /**
-     * ÔÚÔ¶³ÌenvÁ¬½ÓÖ®Ç°, ĞŞ¸ÄenvµÄpath, ÒÔÍ¨¹ıÈ¨ÏŞÈÏÖ¤. Èç¹ûÖ®Ç°Ã»ÓĞjsessionid, ÄÇÃ´¾Í¼ÓÉÏ, Èç¹ûÓĞÁË, ¾Í¸üĞÂ³ÉĞÂµÄ.
-     * Èç: localhost:8080/WebReport/ReportServer? -> localhost:8080/WebReport/ReportServer?jsessionid=abcdegf;
+     * åœ¨è¿œç¨‹envè¿æ¥ä¹‹å‰, ä¿®æ”¹envçš„path, ä»¥é€šè¿‡æƒé™è®¤è¯. å¦‚æœä¹‹å‰æ²¡æœ‰jsessionid, é‚£ä¹ˆå°±åŠ ä¸Š, å¦‚æœæœ‰äº†, å°±æ›´æ–°æˆæ–°çš„.
+     * å¦‚: localhost:8080/WebReport/ReportServer? -> localhost:8080/WebReport/ReportServer?jsessionid=abcdegf;
      *
-     * @return ĞŞ¸ÄºóµÄjsessionid
+     * @return ä¿®æ”¹åçš„jsessionid
      */
     String changeEnvPathBeforeConnect(String userName, String password, String path);
 }
