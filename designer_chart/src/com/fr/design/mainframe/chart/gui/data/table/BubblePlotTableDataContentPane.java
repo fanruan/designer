@@ -55,7 +55,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
                 new Component[]{new UILabel("   "+Inter.getLocText("Chart-Series_Name")+":"), seriesName},
                 new Component[]{new UILabel("   " +"x :"), xCombox},
                 new Component[]{new UILabel("   " +"y :"), yCombox},
-                new Component[]{new UILabel(" "+Inter.getLocText("Chart-Bubble_Size")+":"), bubbleSize},
+                new Component[]{new UILabel("   "+Inter.getLocText("FR-Chart_Bubble_Size")+":"), bubbleSize},
         };
         JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
         north.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
