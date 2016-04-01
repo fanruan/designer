@@ -159,6 +159,11 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return chartTypeInterfaces.get(plot.getPlotID()).getPlotConditionPane(plot);
     }
 
+    //大数据需要通过chart判断
+    public ConditionAttributesPane getPlotConditionPane(Chart chart) {
+        return chartTypeInterfaces.get(chart.getPlot().getPlotID()).getPlotConditionPane(chart);
+    }
+
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return chartTypeInterfaces.get(plot.getPlotID()).getPlotSeriesPane(parent, plot);
     }

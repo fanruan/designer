@@ -1,5 +1,6 @@
 package com.fr.design.chart.fun.impl;
 
+import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
@@ -45,5 +46,9 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
+    }
+
+    public ConditionAttributesPane getPlotConditionPane(Chart chart){
+        return null;
     }
 }
