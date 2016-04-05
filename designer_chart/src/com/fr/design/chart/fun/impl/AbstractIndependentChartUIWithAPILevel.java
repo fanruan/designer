@@ -47,8 +47,4 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
-
-    public ConditionAttributesPane getPlotConditionPane(Chart chart){
-        return null;
-    }
 }

@@ -55,13 +55,6 @@ public interface IndependentChartUIProvider extends Level {
     ConditionAttributesPane getPlotConditionPane(Plot plot);
 
     /**
-     * 条件属性界面
-     *
-     * @return 条件属性界面
-     */
-    ConditionAttributesPane getPlotConditionPane(Chart chart);
-
-    /**
      * 系列界面
      *
      * @return 系列界面

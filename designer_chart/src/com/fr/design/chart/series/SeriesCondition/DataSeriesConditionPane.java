@@ -54,7 +54,7 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
         // kunsnat_size  加载属性之后 被遮挡, 最少的高度为300, 5个按钮
         liteConditionPane.setPreferredSize(new Dimension(300, 300));
     }
-    
+
     protected ChartConditionPane createListConditionPane() {
         return ChartConditionPaneFactory.createChartConditionPane(getClass());
     }
