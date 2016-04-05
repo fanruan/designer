@@ -13,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataConte
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.style.series.Donut2DSeriesPane;
+import com.fr.design.mainframe.chart.gui.style.series.Donut3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.DonutPlotPane;
 
@@ -34,9 +35,9 @@ public class DonutIndependentChartInterface extends AbstractIndependentChartUIWi
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
-        return plot.isSupport3D() ? null : new Donut2DSeriesPane(parent, plot);
+        return plot.isSupport3D() ? new Donut3DSeriesPane(parent, plot) : new Donut2DSeriesPane(parent, plot);
     }
-
+    
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return plot.isSupport3D() ? new DataSeriesConditionPane() : new Donut2DPlotDataSeriesConditionPane();
     }
