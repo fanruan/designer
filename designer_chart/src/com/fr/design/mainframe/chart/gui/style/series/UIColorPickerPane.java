@@ -724,7 +724,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	}
 
 	private Color[] getColorArray(Color color, int sum) {
-		return ChartBaseUtils.createColorsWithAlpha(color, sum);
+		return ChartBaseUtils.createColorsWithHSB(color, sum);
 	}
 
 	private Formula[] getValueArray(int count) {
