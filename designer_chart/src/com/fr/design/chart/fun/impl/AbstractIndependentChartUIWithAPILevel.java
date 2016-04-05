@@ -1,6 +1,5 @@
 package com.fr.design.chart.fun.impl;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
