@@ -39,7 +39,7 @@ public class BBSDialog extends UIDialog {
 
     public BBSDialog(Frame parent) {
         super(parent);
-        //setUndecorated(true);
+        setUndecorated(true);
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
         setSize(new Dimension(OUTER_WIDTH, OUTER_HEIGHT));
