@@ -23,7 +23,7 @@ public interface DesignerEnvProcessor extends Level{
     String changeEnvPathBeforeConnect(String userName, String password, String path);
 
     /**
-     * web端预览的时候不需要jsessionid, 他会默认跳转到登陆页面, 如果带上了, 返回会因为里面资源文件加载不到而出问题.
+     * web端预览的时候不需要jsessionid, 他会默认跳转到登陆页面, 如果带上了, 反而会因为里面资源文件加载不到而出问题.
      *
      * @return web端预览地址
      */
