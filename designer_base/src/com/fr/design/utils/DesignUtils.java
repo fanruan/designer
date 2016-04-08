@@ -5,6 +5,8 @@ import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.dav.DavXMLUtils;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.env.RemoteEnv;
@@ -303,7 +305,8 @@ public class DesignUtils {
                     postfixOfUri = isUserPrivilege ? postfixOfUri + "&fr_check_url=" + time + "&id=" + FRContext.getCurrentEnv().getUserID(): postfixOfUri ;
                 }
 
-                Desktop.getDesktop().browse(new URI(FRContext.getCurrentEnv().getPath() + postfixOfUri));
+                String urlPath = getWebBrowserPath();
+                Desktop.getDesktop().browse(new URI(urlPath + postfixOfUri));
             } catch (Exception e) {
                 FRContext.getLogger().error("cannot open the url Successful", e);
             }
@@ -317,6 +320,16 @@ public class DesignUtils {
                 //
             }
         }
+    }
+
+    private static String getWebBrowserPath() {
+        String urlPath = FRContext.getCurrentEnv().getPath();
+        DesignerEnvProcessor processor = ExtraDesignClassManager.getInstance().getEnvProcessor();
+        if (processor != null) {
+            //cas访问的时候, url要处理下.
+            urlPath = processor.getWebBrowserURL(urlPath);
+        }
+        return urlPath;
     }
 
     //TODO:august:下个版本，要把下面的图片都放在一个preload文件夹下，表示可以预先加载。然后遍历一下就可以了，不用这么一个一个的写了

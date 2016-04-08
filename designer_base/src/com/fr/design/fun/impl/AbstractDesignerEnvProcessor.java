@@ -15,4 +15,13 @@ public abstract class AbstractDesignerEnvProcessor implements DesignerEnvProcess
         return path;
     }
 
+    /**
+     * web端预览的时候不需要jsessionid, 他会默认跳转到登陆页面, 如果带上了, 返回会因为里面资源文件加载不到而出问题.
+     *
+     * @return web端预览地址
+     */
+    public String getWebBrowserURL(String envPath){
+        return envPath;
+    }
+
 }
