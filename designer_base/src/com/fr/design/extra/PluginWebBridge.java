@@ -1,6 +1,8 @@
 package com.fr.design.extra;
 
 import com.fr.design.extra.exe.*;
+import com.fr.general.FRLogger;
+import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.plugin.Plugin;
@@ -157,6 +159,7 @@ public class PluginWebBridge {
 
     /**
      * 获取已经安装的插件的数组
+     *
      * @return 已安装的插件组成的数组
      */
     public Plugin[] getInstalledPlugins() {
@@ -173,5 +176,27 @@ public class PluginWebBridge {
             list.add(obj.getSlot(i).toString());
         }
         return list.toArray(new String[len]);
+    }
+
+    public String getPluginFromStore(String category, String seller, String fee) {
+
+        StringBuilder url = new StringBuilder("http://127.0.0.1:8080/ShopServer?pg=plist");
+        if(StringUtils.isNotBlank(category)){
+            url.append("&cid=").append(category.split("-")[1]);
+        }
+        if(StringUtils.isNotBlank(seller)){
+            url.append("&seller=").append(seller.split("-")[1]);
+        }
+        if(StringUtils.isNotBlank(fee)){
+            url.append("&fee=").append(fee.split("-")[1]);
+        }
+        String resText = null;
+        try {
+            HttpClient httpClient = new HttpClient(url.toString());
+            resText = httpClient.getResponseText();
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        return resText == null ? StringUtils.EMPTY : resText;
     }
 }

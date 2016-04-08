@@ -28,8 +28,7 @@ public class PluginManagerAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         final PluginManagerPane managerPane = new PluginManagerPane();
-        BasicDialog dlg = managerPane.showLargeWindow(DesignerContext.getDesignerFrame(),null);
-
+        BasicDialog dlg = managerPane.showCustomSizeWindow(DesignerContext.getDesignerFrame(), null, BasicDialog.LARGE_SHOP);
         dlg.setVisible(true);
     }
 

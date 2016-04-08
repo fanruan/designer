@@ -5,6 +5,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
@@ -24,7 +25,7 @@ public class PluginWebPane extends JFXPanel {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                Group root = new Group();
+                BorderPane root = new BorderPane();
                 Scene scene = new Scene(root);
                 PluginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
@@ -38,7 +39,7 @@ public class PluginWebPane extends JFXPanel {
                 });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
                 obj.setMember("PluginHelper", PluginWebBridge.getHelper(webEngine));
-                root.getChildren().add(webView);
+                root.setCenter(webView);
             }
         });
     }
