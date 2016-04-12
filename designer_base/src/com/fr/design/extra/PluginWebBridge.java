@@ -1,10 +1,10 @@
 package com.fr.design.extra;
 
+import com.fr.design.actions.server.PluginManagerAction;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.http.HttpClient;
-import com.fr.json.JSONArray;
-import com.fr.json.JSONObject;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,24 +27,38 @@ public class PluginWebBridge {
 
     private static PluginWebBridge helper;
 
-    public static PluginWebBridge getHelper(WebEngine webEngine) {
+    private UIDialog uiDialog;
+
+    public static PluginWebBridge getHelper() {
         if (helper != null) {
             return helper;
         }
         synchronized (PluginWebBridge.class) {
             if (helper == null) {
-                helper = new PluginWebBridge(webEngine);
+                helper = new PluginWebBridge();
             }
             return helper;
         }
     }
 
+    public static PluginWebBridge getHelper(WebEngine webEngine) {
+        getHelper();
+        helper.setEngine(webEngine);
+        return helper;
+    }
+
     private WebEngine webEngine;
 
-    private PluginWebBridge(WebEngine webEngine) {
+    private PluginWebBridge() {
+    }
+
+    public void setEngine(WebEngine webEngine){
         this.webEngine = webEngine;
     }
 
+    public void setDialogHandle(UIDialog uiDialog){
+        this.uiDialog = uiDialog;
+    }
     /**
      * 从插件服务器上安装插件
      *
@@ -181,13 +196,13 @@ public class PluginWebBridge {
     public String getPluginFromStore(String category, String seller, String fee) {
 
         StringBuilder url = new StringBuilder("http://127.0.0.1:8080/ShopServer?pg=plist");
-        if(StringUtils.isNotBlank(category)){
+        if (StringUtils.isNotBlank(category)) {
             url.append("&cid=").append(category.split("-")[1]);
         }
-        if(StringUtils.isNotBlank(seller)){
+        if (StringUtils.isNotBlank(seller)) {
             url.append("&seller=").append(seller.split("-")[1]);
         }
-        if(StringUtils.isNotBlank(fee)){
+        if (StringUtils.isNotBlank(fee)) {
             url.append("&fee=").append(fee.split("-")[1]);
         }
         String resText = null;
@@ -198,5 +213,13 @@ public class PluginWebBridge {
             FRLogger.getLogger().error(e.getMessage());
         }
         return resText == null ? StringUtils.EMPTY : resText;
+    }
+
+    public void closeWindow() {
+        if (uiDialog != null) {
+            uiDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            uiDialog.setVisible(false);
+            uiDialog.dispose();
+        }
     }
 }

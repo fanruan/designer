@@ -3,7 +3,9 @@ package com.fr.design.actions.server;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.PluginManagerPane;
+import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -28,7 +30,9 @@ public class PluginManagerAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         final PluginManagerPane managerPane = new PluginManagerPane();
+        //// TODO: 16/4/11 重新写下这个界面窗口.
         BasicDialog dlg = managerPane.showCustomSizeWindow(DesignerContext.getDesignerFrame(), null, BasicDialog.LARGE_SHOP);
+        PluginWebBridge.getHelper().setDialogHandle(dlg);
         dlg.setVisible(true);
     }
 
