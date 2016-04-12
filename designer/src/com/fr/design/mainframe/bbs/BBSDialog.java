@@ -37,6 +37,8 @@ public class BBSDialog extends UIDialog {
 
     private JFXPanel jfxPanel;
 
+    private BBSDialog that;//保存一个引用给问页面调用
+
 
     public BBSDialog(Frame parent) {
         super(parent);
@@ -44,7 +46,7 @@ public class BBSDialog extends UIDialog {
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
         setSize(new Dimension(OUTER_WIDTH, OUTER_HEIGHT));
-        BBSWebBridge.getHelper().setDialogHandle(this);
+        that = this;
     }
 
     private void initComponents(JPanel contentPane) {
@@ -60,8 +62,6 @@ public class BBSDialog extends UIDialog {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    JSObject obj = (JSObject) eng.executeScript("window");
-                    obj.setMember("BBSWebBridge", BBSWebBridge.getHelper(eng));
                     eng.executeScript("history.go(0)");
                 }
             });
@@ -89,6 +89,8 @@ public class BBSDialog extends UIDialog {
                 view.setMinSize(widthDouble, heightDouble);
                 view.setPrefSize(widthDouble, heightDouble);
                 final WebEngine eng = view.getEngine();
+                JSObject obj = (JSObject) eng.executeScript("window");
+                obj.setMember("BBSWebBridge", that);//一定要在load页面之前加载接口
                 //webEngine的userAgent貌似支持移动设备的，任何其他浏览器的userAngent都会导致程序崩溃
                 //eng.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) Apple/WebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
                 eng.load(url);
@@ -140,6 +142,11 @@ public class BBSDialog extends UIDialog {
         }
     }
 
+    public void closeWindow() {
+        this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
+    }
     /**
      * 略
      */
