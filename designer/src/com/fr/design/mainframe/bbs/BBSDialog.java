@@ -142,6 +142,9 @@ public class BBSDialog extends UIDialog {
         }
     }
 
+    /**
+     * 提供给web页面调用的关闭窗口
+     */
     public void closeWindow() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         this.setVisible(false);
