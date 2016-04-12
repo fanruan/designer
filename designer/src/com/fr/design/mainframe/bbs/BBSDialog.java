@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 
@@ -43,6 +44,7 @@ public class BBSDialog extends UIDialog {
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
         setSize(new Dimension(OUTER_WIDTH, OUTER_HEIGHT));
+        BBSWebBridge.getHelper().setDialogHandle(this);
     }
 
     private void initComponents(JPanel contentPane) {
@@ -58,6 +60,8 @@ public class BBSDialog extends UIDialog {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
+                    JSObject obj = (JSObject) eng.executeScript("window");
+                    obj.setMember("BBSWebBridge", BBSWebBridge.getHelper(eng));
                     eng.executeScript("history.go(0)");
                 }
             });
@@ -112,7 +116,7 @@ public class BBSDialog extends UIDialog {
             }
         });
     }
-    
+
     // 在本地浏览器里打开url
     private void openUrlAtLocalWebBrowser(WebEngine eng,String url){
         if(Desktop.isDesktopSupported()){
