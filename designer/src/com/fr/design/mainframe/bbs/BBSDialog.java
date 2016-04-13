@@ -31,8 +31,8 @@ public class BBSDialog extends UIDialog {
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
-    private static final int OUTER_WIDTH = 605;
-    private static final int OUTER_HEIGHT = 428;
+    private static final int OUTER_WIDTH = 600;
+    private static final int OUTER_HEIGHT = 400;
 
 
     private JFXPanel jfxPanel;
