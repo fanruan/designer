@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 
@@ -39,7 +40,7 @@ public class BBSDialog extends UIDialog {
 
     public BBSDialog(Frame parent) {
         super(parent);
-        //setUndecorated(true);
+        setUndecorated(true);
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
         setSize(new Dimension(OUTER_WIDTH, OUTER_HEIGHT));
@@ -85,6 +86,8 @@ public class BBSDialog extends UIDialog {
                 view.setMinSize(widthDouble, heightDouble);
                 view.setPrefSize(widthDouble, heightDouble);
                 final WebEngine eng = view.getEngine();
+                JSObject obj = (JSObject) eng.executeScript("window");
+                obj.setMember("BBSWebBridge", BBSDialog.this);//一定要在load页面之前加载接口
                 //webEngine的userAgent貌似支持移动设备的，任何其他浏览器的userAngent都会导致程序崩溃
                 //eng.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) Apple/WebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
                 eng.load(url);
@@ -112,7 +115,7 @@ public class BBSDialog extends UIDialog {
             }
         });
     }
-    
+
     // 在本地浏览器里打开url
     private void openUrlAtLocalWebBrowser(WebEngine eng,String url){
         if(Desktop.isDesktopSupported()){
@@ -136,6 +139,14 @@ public class BBSDialog extends UIDialog {
         }
     }
 
+    /**
+     * 提供给web页面调用的关闭窗口
+     */
+    public void closeWindow() {
+        this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
+    }
     /**
      * 略
      */
