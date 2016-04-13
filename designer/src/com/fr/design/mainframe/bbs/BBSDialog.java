@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 
@@ -30,8 +31,8 @@ public class BBSDialog extends UIDialog {
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
-    private static final int OUTER_WIDTH = 605;
-    private static final int OUTER_HEIGHT = 428;
+    private static final int OUTER_WIDTH = 600;
+    private static final int OUTER_HEIGHT = 400;
 
 
     private JFXPanel jfxPanel;
@@ -85,6 +86,8 @@ public class BBSDialog extends UIDialog {
                 view.setMinSize(widthDouble, heightDouble);
                 view.setPrefSize(widthDouble, heightDouble);
                 final WebEngine eng = view.getEngine();
+                JSObject obj = (JSObject) eng.executeScript("window");
+                obj.setMember("BBSWebBridge", BBSDialog.this);//一定要在load页面之前加载接口
                 //webEngine的userAgent貌似支持移动设备的，任何其他浏览器的userAngent都会导致程序崩溃
                 //eng.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) Apple/WebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
                 eng.load(url);
@@ -105,6 +108,8 @@ public class BBSDialog extends UIDialog {
                     @Override
                     public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
                         if (newValue == Worker.State.SUCCEEDED){
+                            JSObject obj = (JSObject) eng.executeScript("window");
+                            obj.setMember("BBSWebBridge", BBSDialog.this);
                             setVisible(true);
                         }
                     }
@@ -112,7 +117,7 @@ public class BBSDialog extends UIDialog {
             }
         });
     }
-    
+
     // 在本地浏览器里打开url
     private void openUrlAtLocalWebBrowser(WebEngine eng,String url){
         if(Desktop.isDesktopSupported()){
@@ -136,6 +141,14 @@ public class BBSDialog extends UIDialog {
         }
     }
 
+    /**
+     * 提供给web页面调用的关闭窗口
+     */
+    public void closeWindow() {
+        this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
+    }
     /**
      * 略
      */
