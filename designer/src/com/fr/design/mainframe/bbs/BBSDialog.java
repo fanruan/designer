@@ -108,6 +108,8 @@ public class BBSDialog extends UIDialog {
                     @Override
                     public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
                         if (newValue == Worker.State.SUCCEEDED){
+                            JSObject obj = (JSObject) eng.executeScript("window");
+                            obj.setMember("BBSWebBridge", BBSDialog.this);
                             setVisible(true);
                         }
                     }
