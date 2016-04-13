@@ -31,8 +31,8 @@ public class BBSDialog extends UIDialog {
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
-    private static final int OUTER_WIDTH = 605;
-    private static final int OUTER_HEIGHT = 428;
+    private static final int OUTER_WIDTH = 600;
+    private static final int OUTER_HEIGHT = 400;
 
 
     private JFXPanel jfxPanel;
@@ -108,6 +108,8 @@ public class BBSDialog extends UIDialog {
                     @Override
                     public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
                         if (newValue == Worker.State.SUCCEEDED){
+                            JSObject obj = (JSObject) eng.executeScript("window");
+                            obj.setMember("BBSWebBridge", BBSDialog.this);
                             setVisible(true);
                         }
                     }
