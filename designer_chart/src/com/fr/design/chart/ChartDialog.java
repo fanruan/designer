@@ -40,7 +40,8 @@ public class ChartDialog extends MiddleChartDialog {
     }
 	
     private void initComponent() {
-    	this.setLayout(new BorderLayout());
+		this.setModal(true);
+		this.setLayout(new BorderLayout());
     	final ChartTypePane chartTypePane = new ChartTypePane();
     	setTitle(Inter.getLocText("M-Popup_ChartType"));
 
