@@ -1,6 +1,5 @@
 package com.fr.design.extra;
 
-import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
@@ -114,10 +113,9 @@ public class PluginWebBridge {
      * 修改选中的插件的活跃状态
      *
      * @param pluginID 插件ID
-     * @param active   如果要把插件修改为激活状态,则为true,否则为false
      */
-    public void setPluginActive(String pluginID, boolean active, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID, active));
+    public void setPluginActive(String pluginID, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID));
         new Thread(task).start();
     }
 
@@ -195,7 +193,7 @@ public class PluginWebBridge {
 
     public String getPluginFromStore(String category, String seller, String fee) {
 
-        StringBuilder url = new StringBuilder("http://127.0.0.1:8080/ShopServer?pg=plist");
+        StringBuilder url = new StringBuilder("http://192.168.101.20/ShopServer?pg=plist");
         if (StringUtils.isNotBlank(category)) {
             url.append("&cid=").append(category.split("-")[1]);
         }
@@ -208,6 +206,7 @@ public class PluginWebBridge {
         String resText = null;
         try {
             HttpClient httpClient = new HttpClient(url.toString());
+            //httpClient.setTimeout(5000);
             resText = httpClient.getResponseText();
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
@@ -217,9 +216,8 @@ public class PluginWebBridge {
 
     public void closeWindow() {
         if (uiDialog != null) {
-            uiDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
-            uiDialog.dispose();
         }
     }
 }
