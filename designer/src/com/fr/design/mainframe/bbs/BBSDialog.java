@@ -5,6 +5,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 
+import com.fr.general.SiteCenter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 
@@ -30,8 +32,8 @@ public class BBSDialog extends UIDialog {
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
-    private static final int OUTER_WIDTH = 605;
-    private static final int OUTER_HEIGHT = 428;
+    private static final int OUTER_WIDTH = 600;
+    private static final int OUTER_HEIGHT = 400;
 
 
     private JFXPanel jfxPanel;
@@ -39,7 +41,7 @@ public class BBSDialog extends UIDialog {
 
     public BBSDialog(Frame parent) {
         super(parent);
-        //setUndecorated(true);
+        setUndecorated(true);
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
         setSize(new Dimension(OUTER_WIDTH, OUTER_HEIGHT));
@@ -95,7 +97,7 @@ public class BBSDialog extends UIDialog {
                     {
                     	disableLink(eng);
                     	// webView好像默认以手机版显示网页，浏览器里过滤掉这个跳转
-                		if(ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, BBSConstants.BBS_MOBILE_MOD)){
+                		if(ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, SiteCenter.getInstance().acquireUrlByKind("bbs.mobile"))){
                 			return;
                 		}
                 		openUrlAtLocalWebBrowser(eng,newValue);
@@ -105,6 +107,8 @@ public class BBSDialog extends UIDialog {
                     @Override
                     public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
                         if (newValue == Worker.State.SUCCEEDED){
+                            JSObject obj = (JSObject) eng.executeScript("window");
+                            obj.setMember("BBSWebBridge", BBSDialog.this);
                             setVisible(true);
                         }
                     }
@@ -112,7 +116,7 @@ public class BBSDialog extends UIDialog {
             }
         });
     }
-    
+
     // 在本地浏览器里打开url
     private void openUrlAtLocalWebBrowser(WebEngine eng,String url){
         if(Desktop.isDesktopSupported()){
@@ -136,6 +140,13 @@ public class BBSDialog extends UIDialog {
         }
     }
 
+    /**
+     * 提供给web页面调用的关闭窗口
+     */
+    public void closeWindow() {
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.setVisible(false);
+    }
     /**
      * 略
      */

@@ -15,4 +15,8 @@ public abstract class AbstractDesignerEnvProcessor implements DesignerEnvProcess
         return path;
     }
 
+    public String getWebBrowserURL(String envPath){
+        return envPath;
+    }
+
 }

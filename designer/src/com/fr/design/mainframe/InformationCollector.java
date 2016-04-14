@@ -51,8 +51,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private static final String XML_KEY = "ActiveKey";
 	private static final String XML_OS = "OS";
 
-    public static final String FUNCTIONS_INFO = "http://feedback.finedevelop.com:3000/monitor/function/record";
-	public static final String USER_INFO = "http://feedback.finedevelop.com:3000/monitor/userinfo/record";
     public static final String TABLE_NAME = "fr_functionrecord";
     public static final String FUNC_COLUMNNAME = "func";
 
@@ -154,7 +152,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 		byte[] content = getJSONContentAsByte();
-		HttpClient hc = new HttpClient(USER_INFO);
+		HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("user.info"));
 		hc.setContent(content);
 		if (!hc.isServerAlive()) {
 			return;
@@ -192,7 +190,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             DBUtils.closeConnection(conn);
         }
 
-        HttpClient httpClient = new HttpClient(FUNCTIONS_INFO);
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("functions.info"));
         httpClient.setContent(content);
         httpClient.setTimeout(5000);
 
