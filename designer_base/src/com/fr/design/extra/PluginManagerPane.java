@@ -37,14 +37,15 @@ public class PluginManagerPane extends BasicPane {
 
     public PluginManagerPane() {
         setLayout(new BorderLayout());
-        if (StableUtils.isDebug()) {
-            URL url = ClassLoader.getSystemResource("");
-            String installHome = url.getPath();
-            PluginWebPane webPane = new PluginWebPane(installHome);
-            add(webPane, BorderLayout.CENTER);
-        } else {
-            initTraditionalStore();
-        }
+//        if (StableUtils.isDebug()) {
+//            URL url = ClassLoader.getSystemResource("");
+//            String installHome = url.getPath();
+//            PluginWebPane webPane = new PluginWebPane(installHome);
+//            add(webPane, BorderLayout.CENTER);
+//        } else {
+//
+//        }
+        initTraditionalStore();
     }
 
     private void initTraditionalStore() {

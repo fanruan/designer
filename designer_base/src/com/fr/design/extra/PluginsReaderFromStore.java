@@ -2,6 +2,7 @@ package com.fr.design.extra;
 
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -32,7 +33,7 @@ public class PluginsReaderFromStore {
     public static Plugin[] readPlugins() throws Exception {
             String resText;
             try {
-                HttpClient httpClient = new HttpClient(PluginConstants.PLUGIN_STORE_URL);
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.store"));
                 resText = httpClient.getResponseText();
                 String charSet = EncodeConstants.ENCODING_UTF_8;
                 resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
@@ -70,7 +71,7 @@ public class PluginsReaderFromStore {
                 para.put("plugins", PluginLoader.getLoader().pluginsToString());
                 //只有当前设计器的jar高于插件新版本需要的jarTime时, 才提示更新该插件.
                 para.put("jarTime", GeneralUtils.readBuildNO());
-                HttpClient httpClient = new HttpClient(PluginConstants.PLUGIN_CHECK_UPDATE_URL, para);
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.update"), para);
                 resText = httpClient.getResponseText();
                 String charSet = EncodeConstants.ENCODING_UTF_8;
                 resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);

@@ -9,6 +9,7 @@ import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class ForumAction extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        String url = "http://bbs.finereport.com/";
+        String url = SiteCenter.getInstance().acquireUrlByKind("bbs");
         if (StringUtils.isEmpty(url)) {
             FRContext.getLogger().info("The URL is empty!");
             return;

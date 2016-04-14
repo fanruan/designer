@@ -3,11 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
@@ -73,7 +69,7 @@ public class PluginHelper {
         map.put("id", id);
         map.put("username", username);
         map.put("password", password);
-        HttpClient httpClient = new HttpClient(PluginConstants.PLUGIN_DOWNLOAD_URL, map);
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.download"), map);
         String resText = httpClient.getResponseText();
         String charSet = EncodeConstants.ENCODING_UTF_8;
         resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
@@ -288,7 +284,7 @@ public class PluginHelper {
         map.put("detail", plugin.toJSONObject().toString());
         map.put("build", GeneralUtils.readBuildNO());
         //第三个参数encode, nodejs服务器那边如果参数不encode, 带了空格会报错, 直接用urlconnection也是一样, jetty没能还原.
-        HttpClient httpClient = new HttpClient(PluginConstants.PLUGIN_INSTALL_INFO, map, true);
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.install"), map, true);
         httpClient.setTimeout(TIME_OUT);
         httpClient.asGet();
         return httpClient.getResponseText();
