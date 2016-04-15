@@ -1,8 +1,11 @@
 package com.fr.design.extra;
 
+import com.fr.base.FRContext;
+import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
@@ -92,10 +95,10 @@ public class PluginWebBridge {
     /**
      * 从插件服务器上更新选中的插件
      *
-     * @param pluginID 插件的ID
+     * @param pluginIDs 插件集合
      */
-    public void updatePluginOnline(String pluginID, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(pluginID));
+    public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(jsObjectToStringArray(pluginIDs)));
         new Thread(task).start();
     }
 
@@ -193,7 +196,7 @@ public class PluginWebBridge {
 
     public String getPluginFromStore(String category, String seller, String fee) {
 
-        StringBuilder url = new StringBuilder("http://192.168.101.20/ShopServer?pg=plist");
+        StringBuilder url = new StringBuilder("http://127.0.0.1:8080/ShopServer?pg=plist");
         if (StringUtils.isNotBlank(category)) {
             url.append("&cid=").append(category.split("-")[1]);
         }
@@ -206,7 +209,7 @@ public class PluginWebBridge {
         String resText = null;
         try {
             HttpClient httpClient = new HttpClient(url.toString());
-            //httpClient.setTimeout(5000);
+            httpClient.setTimeout(3000);
             resText = httpClient.getResponseText();
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
@@ -214,10 +217,77 @@ public class PluginWebBridge {
         return resText == null ? StringUtils.EMPTY : resText;
     }
 
+
+    public void showRestartMessage(String message){
+        int rv = JOptionPane.showOptionDialog(
+                null,
+                message,
+                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                null
+        );
+        if (rv == JOptionPane.OK_OPTION) {
+            RestartHelper.restart();
+        }
+    }
+
     public void closeWindow() {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
+        }
+    }
+
+    public void updateFileFromDisk(File fileOnDisk){
+        try {
+            Plugin plugin = PluginHelper.readPlugin(fileOnDisk);
+            if (plugin == null) {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Illegal_Plugin_Zip"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Plugin oldPlugin = PluginLoader.getLoader().getPluginById(plugin.getId());
+            if (oldPlugin != null) {
+                // 说明安装了同ID的插件，再比较两个插件的版本
+                if (PluginHelper.isNewThan(plugin, oldPlugin)) {
+                    // 说明是新的插件，删除老的然后安装新的
+                    final String[] files = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), oldPlugin);
+                    PluginHelper.installPluginFromUnzippedTempDir(FRContext.getCurrentEnv(), plugin, new After() {
+                        @Override
+                        public void done() {
+                            int rv = JOptionPane.showOptionDialog(
+                                    null,
+                                    Inter.getLocText("FR-Designer-Plugin_Update_Successful"),
+                                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.INFORMATION_MESSAGE,
+                                    null,
+                                    new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
+                                            Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")
+                                    },
+                                    null
+                            );
+
+                            if (rv == JOptionPane.OK_OPTION) {
+                                RestartHelper.restart();
+                            }
+
+                            // 如果不是立即重启，就把要删除的文件存放起来
+                            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+                                RestartHelper.saveFilesWhichToDelete(files);
+                            }
+                        }
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Version_Is_Lower_Than_Current"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Cannot_Update_Not_Install"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e1) {
+            JOptionPane.showMessageDialog(null, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

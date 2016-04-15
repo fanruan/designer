@@ -1,5 +1,16 @@
 package com.fr.design.extra.exe;
 
+import com.fr.design.RestartHelper;
+import com.fr.design.extra.After;
+import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.general.FRLogger;
+import com.fr.general.Inter;
+import org.apache.poi.poifs.crypt.AgileDecryptor;
+
+import javax.swing.*;
+import java.io.File;
+
 /**
  * Created by richie on 16/3/19.
  */
@@ -27,11 +38,6 @@ public class InstallFromDiskExecutor implements Executor {
 
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
                 },
                 new Command() {
@@ -43,9 +49,15 @@ public class InstallFromDiskExecutor implements Executor {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            PluginHelper.installPluginFromDisk(new File(filePath), new After() {
+                                @Override
+                                public void done() {
+                                    FRLogger.getLogger().info("插件安装成功");
+                                    PluginWebBridge.getHelper().showRestartMessage(Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                                }
+                            });
+                        } catch (Exception e1) {
+                            FRLogger.getLogger().error(e1.getMessage());
                         }
                     }
                 }
