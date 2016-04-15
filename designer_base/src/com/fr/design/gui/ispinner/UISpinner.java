@@ -219,6 +219,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
                 }
             }
         });
+		textField.getDocument().removeDocumentListener(docListener);
         textField.getDocument().addDocumentListener(docListener);
         textField.addFocusListener(new FocusAdapter() {
             @Override
