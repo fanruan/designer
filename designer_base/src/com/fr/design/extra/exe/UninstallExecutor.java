@@ -3,6 +3,7 @@ package com.fr.design.extra.exe;
 import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.Process;
 import com.fr.general.Inter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
@@ -35,7 +36,7 @@ public class UninstallExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         int rv = JOptionPane.showOptionDialog(
                                 null,
                                 Inter.getLocText("FR-Designer-Plugin_Will_Be_Delete"),

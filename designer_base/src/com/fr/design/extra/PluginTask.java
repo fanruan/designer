@@ -2,6 +2,7 @@ package com.fr.design.extra;
 
 import com.fr.design.extra.exe.Executor;
 import com.fr.design.extra.exe.Command;
+import com.fr.stable.StringUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -10,6 +11,7 @@ import netscape.javascript.JSObject;
 
 /**
  * 插件安装,卸载,更新等任务
+ *
  * @param <T>
  */
 public class PluginTask<T> extends Task<T> {
@@ -40,8 +42,17 @@ public class PluginTask<T> extends Task<T> {
         Command[] commands = executor.getCommands();
         for (Command command : commands) {
             String message = command.getExecuteMessage();
-            updateMessage(message);
-            command.run();
+            if (StringUtils.isNotBlank(message)) {
+                updateMessage(message);
+            }
+            command.run(new Process<String>() {
+                @Override
+                public void process(String s) {
+                    if (StringUtils.isNotBlank(s)) {
+                        updateMessage(s);
+                    }
+                }
+            });
         }
         return null;
     }

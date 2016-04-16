@@ -2,6 +2,7 @@ package com.fr.design.extra.exe;
 
 import com.fr.base.FRContext;
 import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.Process;
 import com.fr.general.Inter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
@@ -34,7 +35,7 @@ public class ModifyStatusExecutor implements Executor {
                         return StringUtils.EMPTY;
                     }
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         plugin = PluginLoader.getLoader().getPluginById(pluginID);
                         active = !plugin.isActive();
                         plugin.setActive(active);

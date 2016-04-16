@@ -1,12 +1,12 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.RestartHelper;
 import com.fr.design.extra.After;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import org.apache.poi.poifs.crypt.AgileDecryptor;
+import com.fr.plugin.PluginVerifyException;
 
 import javax.swing.*;
 import java.io.File;
@@ -37,7 +37,8 @@ public class InstallFromDiskExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<java.lang.String> process) {
+
                     }
                 },
                 new Command() {
@@ -47,7 +48,7 @@ public class InstallFromDiskExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         try {
                             PluginHelper.installPluginFromDisk(new File(filePath), new After() {
                                 @Override
@@ -56,8 +57,10 @@ public class InstallFromDiskExecutor implements Executor {
                                     PluginWebBridge.getHelper().showRestartMessage(Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                                 }
                             });
-                        } catch (Exception e1) {
-                            FRLogger.getLogger().error(e1.getMessage());
+                        } catch (PluginVerifyException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception e) {
+                            FRLogger.getLogger().error(e.getMessage());
                         }
                     }
                 }

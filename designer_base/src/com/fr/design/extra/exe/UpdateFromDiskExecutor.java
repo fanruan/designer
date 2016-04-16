@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe;
 
 import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.Process;
 
 import java.io.File;
 
@@ -30,7 +31,7 @@ public class UpdateFromDiskExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         PluginWebBridge.getHelper().updateFileFromDisk(new File(filePath));
                     }
                 }
