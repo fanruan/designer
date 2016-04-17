@@ -10,7 +10,6 @@ public abstract class BasicDialog extends UIDialog {
 	public static final Dimension MEDIUM = new Dimension(600, 400);
 	public static final Dimension DEFAULT = new Dimension(660, 600);
 	public static final Dimension LARGE = new Dimension(900, 600);
-	public static final Dimension LARGE_SHOP = new Dimension(900, 760);
 	public static final Dimension CHART = new Dimension(760, 560);
 	public static final Dimension MAP_SIZE = new Dimension(760, 450);
 	public static final Dimension UPDATE_ONLINE_SIZE = new Dimension(600,300);

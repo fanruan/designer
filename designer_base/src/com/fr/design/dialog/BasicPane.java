@@ -172,30 +172,6 @@ public abstract class BasicPane extends JPanel {
     }
 
     /**
-     * 显示自定义大小的窗口
-     *
-     * @param window    窗口
-     * @param l         对话框监听器
-     * @param dimension 窗口大小
-     * @return 对话框
-     */
-    public BasicDialog showCustomSizeWindow(Window window, DialogActionListener l, Dimension dimension) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        dg.setBasicDialogSize(dimension);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
-    }
-
-    /**
      * 显示窗口
      *
      * @param window 窗口

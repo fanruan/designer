@@ -31,6 +31,8 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
+    public static final String PLUGIN_SHOP = "http://127.0.0.1:8080/ShopServer?pg=plist";
+
     public static PluginWebBridge getHelper() {
         if (helper != null) {
             return helper;
@@ -196,7 +198,7 @@ public class PluginWebBridge {
 
     public String getPluginFromStore(String category, String seller, String fee) {
 
-        StringBuilder url = new StringBuilder("http://127.0.0.1:8080/ShopServer?pg=plist");
+        StringBuilder url = new StringBuilder(PLUGIN_SHOP);
         if (StringUtils.isNotBlank(category)) {
             url.append("&cid=").append(category.split("-")[1]);
         }
@@ -217,6 +219,20 @@ public class PluginWebBridge {
         return resText == null ? StringUtils.EMPTY : resText;
     }
 
+    /**
+     * 搜索在线插件
+     *
+     * @param keyword 关键字
+     */
+    public String searchPlugin(String keyword) {
+        try {
+            HttpClient httpClient = new HttpClient(PluginWebBridge.PLUGIN_SHOP + "&keyword=" + keyword);
+            return httpClient.getResponseText();
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        return StringUtils.EMPTY;
+    }
 
     public void showRestartMessage(String message){
         int rv = JOptionPane.showOptionDialog(
