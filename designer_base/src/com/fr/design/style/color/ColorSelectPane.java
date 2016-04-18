@@ -46,6 +46,11 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
     	super(true);
     	initialCompents(true);
     }
+
+    public ColorSelectPane(boolean isSupportTransparent) {
+        super(isSupportTransparent);
+        initialCompents(isSupportTransparent);
+    }
     
     private void initialCompents(boolean isSupportTransparent) {
 
