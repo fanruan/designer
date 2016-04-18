@@ -9,11 +9,11 @@ import java.awt.*;
 /**
  * Created by vito on 16/4/18.
  */
-public class ShopDialog extends UIDialog{
-    private static final Dimension DEFAULT_SHOP = new Dimension(900, 760);
+public class PluginShopDialog extends UIDialog {
+    private static final Dimension DEFAULT_SHOP = new Dimension(900, 710);
 
-    public ShopDialog(Frame frame, BasicPane pane) {
-        super(frame, pane,false);
+    public PluginShopDialog(Frame frame, BasicPane pane) {
+        super(frame, pane, false);
         setSize(DEFAULT_SHOP);
         GUICoreUtils.centerWindow(this);
         setResizable(false);
@@ -21,6 +21,5 @@ public class ShopDialog extends UIDialog{
 
     @Override
     public void checkValid() throws Exception {
-
     }
 }

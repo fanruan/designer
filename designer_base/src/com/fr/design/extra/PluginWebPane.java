@@ -1,6 +1,9 @@
 package com.fr.design.extra;
 
+import com.fr.general.FRLogger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -36,11 +39,31 @@ public class PluginWebPane extends JFXPanel {
                         showAlert(event.getData());
                     }
                 });
+                webEngine.locationProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
+                        disableLink(webEngine);
+                        PluginWebBridge.getHelper().openUrlAtLocalWebBrowser(webEngine, newValue);
+                    }
+                });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
                 obj.setMember("PluginHelper", PluginWebBridge.getHelper(webEngine));
                 root.setCenter(webView);
             }
         });
+    }
+
+    private void disableLink(final WebEngine webEngine) {
+        try {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    webEngine.executeScript("history.go(0)");
+                }
+            });
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
     }
 
     private void showAlert(final String message) {
@@ -50,9 +73,5 @@ public class PluginWebPane extends JFXPanel {
                 JOptionPane.showMessageDialog(PluginWebPane.this, message);
             }
         });
-//        Dialog<Void> alert = new Dialog<>();
-//        alert.getDialogPane().setContentText(message);
-//        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        alert.showAndWait();
     }
 }

@@ -67,8 +67,8 @@ public abstract class PluginStatusCheckCompletePane extends PluginAbstractViewPa
 
     public void setProgress(double percent) {
         progressBar.setVisible(true);
-        progressBar.setValue((int)percent);
-        progressBar.setString((int)percent + "%");
+        progressBar.setValue((int) percent);
+        progressBar.setString((int) percent + "%");
         progressBar.repaint();
     }
 

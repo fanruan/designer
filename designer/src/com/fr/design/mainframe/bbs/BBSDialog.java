@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -19,8 +20,6 @@ import netscape.javascript.JSObject;
 import javax.swing.*;
 
 import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
 
 /**
  * @author richie
@@ -53,7 +52,7 @@ public class BBSDialog extends UIDialog {
     }
 
     private void disableLink(final WebEngine eng) {
-        try{
+        try {
             // webView端不跳转 虽然webView可以指定本地浏览器打开某个链接，但是当本地浏览器跳转到指定链接的同时，webView也做了跳转，
             // 为了避免出现在一个600*400的资讯框里加载整个网页的情况，webView不跳转到新网页
             Platform.runLater(new Runnable() {
@@ -62,16 +61,17 @@ public class BBSDialog extends UIDialog {
                     eng.executeScript("history.go(0)");
                 }
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
     }
 
     /**
      * 打开资讯框
+     *
      * @param url 资讯链接
      */
-    public void showWindow(final String url){
+    public void showWindow(final String url) {
         GUICoreUtils.centerWindow(this);
         this.setResizable(false);
         Platform.runLater(new Runnable() {
@@ -92,20 +92,19 @@ public class BBSDialog extends UIDialog {
                 root.getChildren().add(view);
                 eng.locationProperty().addListener(new ChangeListener<String>() {
                     @Override
-                    public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue)
-                    {
-                    	disableLink(eng);
-                    	// webView好像默认以手机版显示网页，浏览器里过滤掉这个跳转
-                		if(ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, BBSConstants.BBS_MOBILE_MOD)){
-                			return;
-                		}
-                		openUrlAtLocalWebBrowser(eng,newValue);
-					}
-				});
+                    public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
+                        disableLink(eng);
+                        // webView好像默认以手机版显示网页，浏览器里过滤掉这个跳转
+                        if (ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, BBSConstants.BBS_MOBILE_MOD)) {
+                            return;
+                        }
+                        PluginWebBridge.getHelper().openUrlAtLocalWebBrowser(eng, newValue);
+                    }
+                });
                 eng.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
                     @Override
                     public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
-                        if (newValue == Worker.State.SUCCEEDED){
+                        if (newValue == Worker.State.SUCCEEDED) {
                             JSObject obj = (JSObject) eng.executeScript("window");
                             obj.setMember("BBSWebBridge", BBSDialog.this);
                             setVisible(true);
@@ -116,29 +115,6 @@ public class BBSDialog extends UIDialog {
         });
     }
 
-    // 在本地浏览器里打开url
-    private void openUrlAtLocalWebBrowser(WebEngine eng,String url){
-        if(Desktop.isDesktopSupported()){
-            try{
-                //创建一个URI实例,注意不是URL
-                URI uri = URI.create(url);
-                //获取当前系统桌面扩展
-                Desktop desktop = Desktop.getDesktop();
-                //判断系统桌面是否支持要执行的功能
-                if(desktop.isSupported(Desktop.Action.BROWSE)){
-                    //获取系统默认浏览器打开链接
-                	desktop.browse(uri);
-                }
-            }catch(NullPointerException e){
-                //此为uri为空时抛出异常
-            	FRLogger.getLogger().error(e.getMessage());
-            }catch(IOException e){
-                //此为无法获取系统默认浏览器
-            	FRLogger.getLogger().error(e.getMessage());
-            }
-        }
-    }
-
     /**
      * 提供给web页面调用的关闭窗口
      */
@@ -146,6 +122,7 @@ public class BBSDialog extends UIDialog {
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setVisible(false);
     }
+
     /**
      * 略
      */

@@ -6,7 +6,6 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
@@ -18,7 +17,10 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
-    public static final String PLUGIN_SHOP = "http://127.0.0.1:8080/ShopServer?pg=plist";
+    public static final String PLUGIN_SHOP = "http://192.168.101.20/ShopServer?pg=plist";
 
     public static PluginWebBridge getHelper() {
         if (helper != null) {
@@ -56,13 +58,14 @@ public class PluginWebBridge {
     private PluginWebBridge() {
     }
 
-    public void setEngine(WebEngine webEngine){
+    public void setEngine(WebEngine webEngine) {
         this.webEngine = webEngine;
     }
 
-    public void setDialogHandle(UIDialog uiDialog){
+    public void setDialogHandle(UIDialog uiDialog) {
         this.uiDialog = uiDialog;
     }
+
     /**
      * 从插件服务器上安装插件
      *
@@ -196,45 +199,35 @@ public class PluginWebBridge {
         return list.toArray(new String[len]);
     }
 
-    public String getPluginFromStore(String category, String seller, String fee) {
-
-        StringBuilder url = new StringBuilder(PLUGIN_SHOP);
-        if (StringUtils.isNotBlank(category)) {
-            url.append("&cid=").append(category.split("-")[1]);
-        }
-        if (StringUtils.isNotBlank(seller)) {
-            url.append("&seller=").append(seller.split("-")[1]);
-        }
-        if (StringUtils.isNotBlank(fee)) {
-            url.append("&fee=").append(fee.split("-")[1]);
-        }
-        String resText = null;
-        try {
-            HttpClient httpClient = new HttpClient(url.toString());
-            httpClient.setTimeout(3000);
-            resText = httpClient.getResponseText();
-        } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        return resText == null ? StringUtils.EMPTY : resText;
-    }
-
     /**
      * 搜索在线插件
      *
      * @param keyword 关键字
      */
-    public String searchPlugin(String keyword) {
-        try {
-            HttpClient httpClient = new HttpClient(PluginWebBridge.PLUGIN_SHOP + "&keyword=" + keyword);
-            return httpClient.getResponseText();
-        } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        return StringUtils.EMPTY;
+    public void searchPlugin(String keyword, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchExecutor(keyword));
+        new Thread(task).start();
     }
 
-    public void showRestartMessage(String message){
+    /**
+     * 根据条件获取在线插件的
+     *
+     * @param category 分类
+     * @param seller   卖家性质
+     * @param fee      收费类型
+     * @param callback 回调函数
+     */
+    public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
+        new Thread(task).start();
+    }
+
+    /**
+     * 展示一个重启的对话框(少用,莫名其妙会有bug)
+     *
+     * @param message 展示的消息
+     */
+    public void showRestartMessage(String message) {
         int rv = JOptionPane.showOptionDialog(
                 null,
                 message,
@@ -250,6 +243,9 @@ public class PluginWebBridge {
         }
     }
 
+    /**
+     * 关闭窗口
+     */
     public void closeWindow() {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -257,7 +253,40 @@ public class PluginWebBridge {
         }
     }
 
-    public void updateFileFromDisk(File fileOnDisk){
+    /**
+     * 在本地浏览器里打开url
+     *
+     * @param eng web引擎
+     * @param url 要打开的地址
+     */
+    public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                //创建一个URI实例,注意不是URL
+                URI uri = URI.create(url);
+                //获取当前系统桌面扩展
+                Desktop desktop = Desktop.getDesktop();
+                //判断系统桌面是否支持要执行的功能
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    //获取系统默认浏览器打开链接
+                    desktop.browse(uri);
+                }
+            } catch (NullPointerException e) {
+                //此为uri为空时抛出异常
+                FRLogger.getLogger().error(e.getMessage());
+            } catch (IOException e) {
+                //此为无法获取系统默认浏览器
+                FRLogger.getLogger().error(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 从硬盘升级
+     *
+     * @param fileOnDisk 硬盘上的文件
+     */
+    public void updateFileFromDisk(File fileOnDisk) {
         try {
             Plugin plugin = PluginHelper.readPlugin(fileOnDisk);
             if (plugin == null) {
@@ -289,7 +318,6 @@ public class PluginWebBridge {
                             if (rv == JOptionPane.OK_OPTION) {
                                 RestartHelper.restart();
                             }
-
                             // 如果不是立即重启，就把要删除的文件存放起来
                             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                                 RestartHelper.saveFilesWhichToDelete(files);

@@ -34,6 +34,7 @@ public class ModifyStatusExecutor implements Executor {
                     public String getExecuteMessage() {
                         return StringUtils.EMPTY;
                     }
+
                     @Override
                     public void run(Process<String> process) {
                         plugin = PluginLoader.getLoader().getPluginById(pluginID);

@@ -81,7 +81,7 @@ public class UpdateOnlineExecutor implements Executor {
         };
     }
 
-    private void updateFileFromDisk(File fileOnDisk){
+    private void updateFileFromDisk(File fileOnDisk) {
         try {
             Plugin plugin = PluginHelper.readPlugin(fileOnDisk);
             if (plugin == null) {
@@ -92,10 +92,10 @@ public class UpdateOnlineExecutor implements Executor {
             if (oldPlugin != null) {
                 String[] files = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), oldPlugin);
                 PluginHelper.installPluginFromUnzippedTempDir(FRContext.getCurrentEnv(), plugin, new After() {
-                        @Override
-                        public void done() {
-                        }
-                    });
+                    @Override
+                    public void done() {
+                    }
+                });
             } else {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Cannot_Update_Not_Install"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
             }

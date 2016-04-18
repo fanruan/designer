@@ -27,7 +27,7 @@ public class PluginTask<T> extends Task<T> {
         messageProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                String fun = "(" + callback + ")('" + newValue + "')";
+                String fun = "(" + callback + ")(\"" + newValue + "\")";
                 try {
                     webEngine.executeScript(fun);
                 } catch (Exception e) {
@@ -49,7 +49,7 @@ public class PluginTask<T> extends Task<T> {
                 @Override
                 public void process(String s) {
                     if (StringUtils.isNotBlank(s)) {
-                        updateMessage(s);
+                        updateMessage(changText(s));
                     }
                 }
             });
@@ -59,6 +59,18 @@ public class PluginTask<T> extends Task<T> {
 
     @Override
     protected void done() {
-        updateMessage(executor.getTaskFinishMessage());
+        updateMessage(changText(executor.getTaskFinishMessage()));
+    }
+
+    /**
+     * 转换掉一些会造成错误的特殊字符
+     * 1 ""中的""必须转义
+     * 2 js字符串中的\n会导致js字符串变成多行,而js字符创不支持多行拼接
+     *
+     * @param old 原始字符串
+     * @return 处理之后的字符串
+     */
+    private String changText(String old) {
+        return old.replaceAll("\"", "\\\\\"").replaceAll("\n", "");
     }
 }
