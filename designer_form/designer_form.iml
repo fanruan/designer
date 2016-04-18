@@ -9,5 +9,13 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="designer_base" exported="" />
     <orderEntry type="library" scope="PROVIDED" name="lib" level="project" />
+    <orderEntry type="module" module-name="base" />
+    <orderEntry type="module" module-name="base-basic" />
+    <orderEntry type="module" module-name="base-calculate" />
+    <orderEntry type="module" module-name="base-data" />
+    <orderEntry type="module" module-name="base-file" />
+    <orderEntry type="module" module-name="base-performance" />
+    <orderEntry type="module" module-name="base-stable" />
+    <orderEntry type="module" module-name="form" />
   </component>
 </module>
