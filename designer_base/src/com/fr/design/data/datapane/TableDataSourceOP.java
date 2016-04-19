@@ -1,26 +1,22 @@
 package com.fr.design.data.datapane;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.fr.general.NameObject;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
-import com.fr.design.data.DesignTableDataManager;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
+import com.fr.design.DesignModelAdapter;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.wrapper.StoreProcedureDataWrapper;
 import com.fr.design.data.tabledata.wrapper.StoreProcedureNameWrapper;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.DesignModelAdapter;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.UserObjectOP;
 import com.fr.general.Inter;
+import com.fr.general.NameObject;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 数据集树的操作
@@ -34,7 +30,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     public static final int STORE_PRECEDURE_DATA = 2;
     public static int dataMode = -1;
 
-    private DesignModelAdapter<?, ?> tc;
+    protected DesignModelAdapter<?, ?> tc;
 
 
     public TableDataSourceOP(DesignModelAdapter<?, ?> tc) {

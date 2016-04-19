@@ -6,7 +6,6 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
@@ -19,7 +18,6 @@ import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.fun.TableDataSourceManagerProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
@@ -29,7 +27,10 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DockingView;
-import com.fr.design.menu.*;
+import com.fr.design.menu.LineSeparator;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.SeparatorDef;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -51,9 +52,9 @@ import java.util.Map;
 
 public class TableDataTreePane extends DockingView implements ResponseDataSourceChange {
 
-    private static final int PROCEDURE_NAME_INDEX = 4;
-    private static final int TEMPLATE_TABLE_DATA = 0;
-    private static final int SERVER_TABLE_DATA = 1;
+    protected static final int PROCEDURE_NAME_INDEX = 4;
+    protected static final int TEMPLATE_TABLE_DATA = 0;
+    protected static final int SERVER_TABLE_DATA = 1;
     private static final long serialVersionUID = -12168467370000617L;
     private static TableDataTreePane singleton = new TableDataTreePane();
     private String type = "";
@@ -76,8 +77,8 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         return singleton;
     }
 
-    private static TableDataTree dataTree;
-    private TableDataSourceOP op;
+    protected static TableDataTree dataTree;
+    protected TableDataSourceOP op;
 
     private MenuDef addMenuDef;
     private EditAction editAction;
@@ -91,7 +92,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
     private TableDataTreePane() {
         this.setLayout(new BorderLayout(4, 0));
         this.setBorder(null);
-        initTableDataTree();
+        dataTree = new TableDataTree();
         ToolTipManager.sharedInstance().registerComponent(dataTree);
         ToolTipManager.sharedInstance().setDismissDelay(3000);
         ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -107,21 +108,13 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
                 createAddMenuDef();
             }
         });
-        ToolBarDef toolbarDef = new ToolBarDef();
+
         editAction = new EditAction();
         removeAction = new RemoveAction();
         previewTableDataAction = new PreviewTableDataAction();
         connectionTableAction = new ConnectionTableAction();
-        ShortCut[] shortCuts = null;
-        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
-        if (opProcessor != null) {
-            shortCuts = opProcessor.getShortCuts(dataTree);
-        } else {
-            shortCuts = new ShortCut[]{addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction};
-        }
-        toolbarDef.addShortCut(shortCuts);
+        ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction);
-
         UIToolbar toolBar = ToolBarDef.createJToolBar();
         toolbarDef.updateToolBar(toolBar);
 
@@ -154,12 +147,52 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         checkButtonEnabled();
     }
 
-    private void initTableDataTree() {
-        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
-        if (opProcessor != null) {
-            dataTree = opProcessor.createUserObjectJtree();
-        }
-        dataTree = new TableDataTree();
+    public MenuDef getAddMenuDef() {
+        return addMenuDef;
+    }
+
+    public void setAddMenuDef(MenuDef addMenuDef) {
+        this.addMenuDef = addMenuDef;
+    }
+
+    public EditAction getEditAction() {
+        return editAction;
+    }
+
+    public void setEditAction(EditAction editAction) {
+        this.editAction = editAction;
+    }
+
+    public RemoveAction getRemoveAction() {
+        return removeAction;
+    }
+
+    public void setRemoveAction(RemoveAction removeAction) {
+        this.removeAction = removeAction;
+    }
+
+    public DesignModelAdapter<?, ?> getTc() {
+        return tc;
+    }
+
+    public void setTc(DesignModelAdapter<?, ?> tc) {
+        this.tc = tc;
+    }
+
+    public PreviewTableDataAction getPreviewTableDataAction() {
+        return previewTableDataAction;
+    }
+
+    public void setPreviewTableDataAction(PreviewTableDataAction previewTableDataAction) {
+        this.previewTableDataAction = previewTableDataAction;
+    }
+
+    public ConnectionTableAction getConnectionTableAction() {
+        return connectionTableAction;
+    }
+
+    public void setConnectionTableAction(ConnectionTableAction connectionTableAction) {
+        this.connectionTableAction = connectionTableAction;
     }
 
     private KeyAdapter getTableTreeNodeListener() {
@@ -246,7 +279,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         dataTree.refresh();
     }
 
-    private void checkButtonEnabled() {
+    protected void checkButtonEnabled() {
         // august:BUG 9344
         addMenuDef.setEnabled(true);
         connectionTableAction.setEnabled(FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot());
@@ -293,12 +326,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
      * 刷新
      */
     public void refreshDockingView() {
-        TableDataSourceOP tableDataSourceOP = null;
-        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
-        if (opProcessor != null) {
-            tableDataSourceOP = opProcessor.createTableDataSourceOP(tc);
-        }
-        populate(tableDataSourceOP == null ? new TableDataSourceOP(tc) : tableDataSourceOP);
+        populate(new TableDataSourceOP(tc));
         this.checkButtonEnabled();
     }
 
