@@ -2,3 +2,4 @@ designer/bin
 designer_base/bin
 designer_chart/bin
 designer_form/bin
+*.iml
