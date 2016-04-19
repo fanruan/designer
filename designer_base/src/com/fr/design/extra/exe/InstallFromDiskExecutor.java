@@ -1,5 +1,16 @@
 package com.fr.design.extra.exe;
 
+import com.fr.design.extra.After;
+import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.Process;
+import com.fr.general.FRLogger;
+import com.fr.general.Inter;
+import com.fr.plugin.PluginVerifyException;
+
+import javax.swing.*;
+import java.io.File;
+
 /**
  * Created by richie on 16/3/19.
  */
@@ -26,12 +37,8 @@ public class InstallFromDiskExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    public void run(Process<java.lang.String> process) {
+
                     }
                 },
                 new Command() {
@@ -41,11 +48,19 @@ public class InstallFromDiskExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            PluginHelper.installPluginFromDisk(new File(filePath), new After() {
+                                @Override
+                                public void done() {
+                                    FRLogger.getLogger().info("插件安装成功");
+                                    PluginWebBridge.getHelper().showRestartMessage(Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                                }
+                            });
+                        } catch (PluginVerifyException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception e) {
+                            FRLogger.getLogger().error(e.getMessage());
                         }
                     }
                 }

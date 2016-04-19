@@ -1,8 +1,11 @@
 package com.fr.design.extra;
 
+import com.fr.base.FRContext;
+import com.fr.design.RestartHelper;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
-import com.fr.json.JSONArray;
-import com.fr.json.JSONObject;
+import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
@@ -13,7 +16,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,22 +31,39 @@ public class PluginWebBridge {
 
     private static PluginWebBridge helper;
 
-    public static PluginWebBridge getHelper(WebEngine webEngine) {
+    private UIDialog uiDialog;
+
+    public static final String PLUGIN_SHOP = "http://192.168.101.20/ShopServer?pg=plist";
+
+    public static PluginWebBridge getHelper() {
         if (helper != null) {
             return helper;
         }
         synchronized (PluginWebBridge.class) {
             if (helper == null) {
-                helper = new PluginWebBridge(webEngine);
+                helper = new PluginWebBridge();
             }
             return helper;
         }
     }
 
+    public static PluginWebBridge getHelper(WebEngine webEngine) {
+        getHelper();
+        helper.setEngine(webEngine);
+        return helper;
+    }
+
     private WebEngine webEngine;
 
-    private PluginWebBridge(WebEngine webEngine) {
+    private PluginWebBridge() {
+    }
+
+    public void setEngine(WebEngine webEngine) {
         this.webEngine = webEngine;
+    }
+
+    public void setDialogHandle(UIDialog uiDialog) {
+        this.uiDialog = uiDialog;
     }
 
     /**
@@ -76,10 +100,10 @@ public class PluginWebBridge {
     /**
      * 从插件服务器上更新选中的插件
      *
-     * @param pluginID 插件的ID
+     * @param pluginIDs 插件集合
      */
-    public void updatePluginOnline(String pluginID, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(pluginID));
+    public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(jsObjectToStringArray(pluginIDs)));
         new Thread(task).start();
     }
 
@@ -97,10 +121,9 @@ public class PluginWebBridge {
      * 修改选中的插件的活跃状态
      *
      * @param pluginID 插件ID
-     * @param active   如果要把插件修改为激活状态,则为true,否则为false
      */
-    public void setPluginActive(String pluginID, boolean active, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID, active));
+    public void setPluginActive(String pluginID, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID));
         new Thread(task).start();
     }
 
@@ -157,6 +180,7 @@ public class PluginWebBridge {
 
     /**
      * 获取已经安装的插件的数组
+     *
      * @return 已安装的插件组成的数组
      */
     public Plugin[] getInstalledPlugins() {
@@ -173,5 +197,141 @@ public class PluginWebBridge {
             list.add(obj.getSlot(i).toString());
         }
         return list.toArray(new String[len]);
+    }
+
+    /**
+     * 搜索在线插件
+     *
+     * @param keyword 关键字
+     */
+    public void searchPlugin(String keyword, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
+        new Thread(task).start();
+    }
+
+    /**
+     * 根据条件获取在线插件的
+     *
+     * @param category 分类
+     * @param seller   卖家性质
+     * @param fee      收费类型
+     * @param callback 回调函数
+     */
+    public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
+        new Thread(task).start();
+    }
+
+    /**
+     * 展示一个重启的对话框(少用,莫名其妙会有bug)
+     *
+     * @param message 展示的消息
+     */
+    public void showRestartMessage(String message) {
+        int rv = JOptionPane.showOptionDialog(
+                null,
+                message,
+                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                null
+        );
+        if (rv == JOptionPane.OK_OPTION) {
+            RestartHelper.restart();
+        }
+    }
+
+    /**
+     * 关闭窗口
+     */
+    public void closeWindow() {
+        if (uiDialog != null) {
+            uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            uiDialog.setVisible(false);
+        }
+    }
+
+    /**
+     * 在本地浏览器里打开url
+     *
+     * @param eng web引擎
+     * @param url 要打开的地址
+     */
+    public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                //创建一个URI实例,注意不是URL
+                URI uri = URI.create(url);
+                //获取当前系统桌面扩展
+                Desktop desktop = Desktop.getDesktop();
+                //判断系统桌面是否支持要执行的功能
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    //获取系统默认浏览器打开链接
+                    desktop.browse(uri);
+                }
+            } catch (NullPointerException e) {
+                //此为uri为空时抛出异常
+                FRLogger.getLogger().error(e.getMessage());
+            } catch (IOException e) {
+                //此为无法获取系统默认浏览器
+                FRLogger.getLogger().error(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 从硬盘升级
+     *
+     * @param fileOnDisk 硬盘上的文件
+     */
+    public void updateFileFromDisk(File fileOnDisk) {
+        try {
+            Plugin plugin = PluginHelper.readPlugin(fileOnDisk);
+            if (plugin == null) {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Illegal_Plugin_Zip"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Plugin oldPlugin = PluginLoader.getLoader().getPluginById(plugin.getId());
+            if (oldPlugin != null) {
+                // 说明安装了同ID的插件，再比较两个插件的版本
+                if (PluginHelper.isNewThan(plugin, oldPlugin)) {
+                    // 说明是新的插件，删除老的然后安装新的
+                    final String[] files = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), oldPlugin);
+                    PluginHelper.installPluginFromUnzippedTempDir(FRContext.getCurrentEnv(), plugin, new After() {
+                        @Override
+                        public void done() {
+                            int rv = JOptionPane.showOptionDialog(
+                                    null,
+                                    Inter.getLocText("FR-Designer-Plugin_Update_Successful"),
+                                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.INFORMATION_MESSAGE,
+                                    null,
+                                    new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
+                                            Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")
+                                    },
+                                    null
+                            );
+
+                            if (rv == JOptionPane.OK_OPTION) {
+                                RestartHelper.restart();
+                            }
+                            // 如果不是立即重启，就把要删除的文件存放起来
+                            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+                                RestartHelper.saveFilesWhichToDelete(files);
+                            }
+                        }
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Version_Is_Lower_Than_Current"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Cannot_Update_Not_Install"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e1) {
+            JOptionPane.showMessageDialog(null, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
