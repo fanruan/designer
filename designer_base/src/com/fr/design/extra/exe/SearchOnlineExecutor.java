@@ -9,11 +9,11 @@ import com.fr.stable.StringUtils;
 /**
  * Created by vito on 16/4/18.
  */
-public class SearchExecutor implements Executor {
+public class SearchOnlineExecutor implements Executor {
     private String result;
     private String keyword;
 
-    public SearchExecutor(String keyword) {
+    public SearchOnlineExecutor(String keyword) {
         this.keyword = keyword;
     }
 
@@ -36,6 +36,7 @@ public class SearchExecutor implements Executor {
                         try {
                             HttpClient httpClient = new HttpClient(PluginWebBridge.PLUGIN_SHOP + "&keyword=" + keyword);
                             result = httpClient.getResponseText();
+
                         } catch (Exception e) {
                             FRLogger.getLogger().error(e.getMessage());
                         }

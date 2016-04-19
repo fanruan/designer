@@ -205,7 +205,7 @@ public class PluginWebBridge {
      * @param keyword 关键字
      */
     public void searchPlugin(String keyword, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchExecutor(keyword));
+        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
         new Thread(task).start();
     }
 

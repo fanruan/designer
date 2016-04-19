@@ -3,7 +3,6 @@ package com.fr.design.extra;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
-import com.fr.stable.StableUtils;
 
 import java.awt.*;
 import java.net.URL;
