@@ -1,7 +1,7 @@
 package com.fr.design.data.datapane;
 
 import com.fr.base.BaseUtils;
-import com.fr.general.NameObject;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ilable.UILabel;
@@ -9,6 +9,7 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.UserObjectRefreshJTree;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.NameObject;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -241,4 +242,34 @@ public class TableDataTree extends UserObjectRefreshJTree<TableDataSourceOP> {
 
         treeModel.reload(root);
     }
+    /**
+     * @param nameOfNewNode 新添加的节点名字
+     * @param insertMode 添加的节点的类型，模板、服务器、 存储过程、分组
+     * @param tc
+     */
+    public void insertNewNodeToSelectedNode(String nameOfNewNode, int insertMode, DesignModelAdapter<?, ?> tc){
+
+    }
+
+    /**
+     * 删除选中节点
+     * @param nodeName 节点名称
+     * @param removeMode 删除模式
+     * @param tc tc
+     */
+    public void removeSelectedNode(String nodeName, int removeMode, DesignModelAdapter<?, ?> tc) {
+
+    }
+
+    /**
+     * 更新节点
+     * @param newName 新名称
+     * @param oldName 原名称
+     * @param updateMode 更新模式
+     * @param tc tc
+     */
+    public void updateNameOfSelectedNode(String newName, String oldName, int updateMode, DesignModelAdapter<?, ?> tc){
+
+    }
+
 }

@@ -6,6 +6,7 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
@@ -18,6 +19,7 @@ import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.fun.TableDataSourceManagerProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
@@ -27,10 +29,7 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DockingView;
-import com.fr.design.menu.LineSeparator;
-import com.fr.design.menu.MenuDef;
-import com.fr.design.menu.SeparatorDef;
-import com.fr.design.menu.ToolBarDef;
+import com.fr.design.menu.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -92,7 +91,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
     private TableDataTreePane() {
         this.setLayout(new BorderLayout(4, 0));
         this.setBorder(null);
-        dataTree = new TableDataTree();
+        initTableDataTree();
         ToolTipManager.sharedInstance().registerComponent(dataTree);
         ToolTipManager.sharedInstance().setDismissDelay(3000);
         ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -108,13 +107,21 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
                 createAddMenuDef();
             }
         });
-
+        ToolBarDef toolbarDef = new ToolBarDef();
         editAction = new EditAction();
         removeAction = new RemoveAction();
         previewTableDataAction = new PreviewTableDataAction();
         connectionTableAction = new ConnectionTableAction();
-        ToolBarDef toolbarDef = new ToolBarDef();
+        ShortCut[] shortCuts = null;
+        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
+        if (opProcessor != null) {
+            shortCuts = opProcessor.getShortCuts(dataTree);
+        } else {
+            shortCuts = new ShortCut[]{addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction};
+        }
+        toolbarDef.addShortCut(shortCuts);
         toolbarDef.addShortCut(addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction);
+
         UIToolbar toolBar = ToolBarDef.createJToolBar();
         toolbarDef.updateToolBar(toolBar);
 
@@ -145,6 +152,14 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         dataTree.setCellEditor(treeCellEditor);
         new TableDataTreeDragSource(dataTree, DnDConstants.ACTION_COPY);
         checkButtonEnabled();
+    }
+
+    private void initTableDataTree() {
+        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
+        if (opProcessor != null) {
+            dataTree = opProcessor.createUserObjectJtree();
+        }
+        dataTree = new TableDataTree();
     }
 
     private KeyAdapter getTableTreeNodeListener() {
@@ -278,7 +293,12 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
      * 刷新
      */
     public void refreshDockingView() {
-        populate(new TableDataSourceOP(tc));
+        TableDataSourceOP tableDataSourceOP = null;
+        TableDataSourceManagerProcessor opProcessor = ExtraDesignClassManager.getInstance().getTableDataSourceManagerProcessor();
+        if (opProcessor != null) {
+            tableDataSourceOP = opProcessor.createTableDataSourceOP(tc);
+        }
+        populate(tableDataSourceOP == null ? new TableDataSourceOP(tc) : tableDataSourceOP);
         this.checkButtonEnabled();
     }
 

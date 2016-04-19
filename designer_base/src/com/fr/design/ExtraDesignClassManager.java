@@ -126,6 +126,16 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private DesignerEnvProcessor envProcessor;
 
+    private TableDataSourceManagerProcessor tableDataSourceManagerProcessor;
+
+    public TableDataSourceManagerProcessor getTableDataSourceManagerProcessor() {
+        return tableDataSourceManagerProcessor;
+    }
+
+    public void setTableDataSourceOPProcessor(Level level, PluginSimplify simplify) {
+        validAPILevel(level, TableDataSourceManagerProcessor.CURRENT_LEVEL, simplify.getPluginName());
+        tableDataSourceManagerProcessor = (TableDataSourceManagerProcessor) level;
+    }
 
     public DesignerEnvProcessor getEnvProcessor() {
         return envProcessor;
@@ -797,6 +807,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addSupportDesignApps(impl, simplify);
             } else if (tagName.equals(DesignerEnvProcessor.XML_TAG)) {
                 setEnvProcessor(impl, simplify);
+            } else if (tagName.equals(TableDataSourceManagerProcessor.XML_TAG)) {
+                setTableDataSourceOPProcessor(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
