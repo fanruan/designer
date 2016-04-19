@@ -14,20 +14,6 @@ import java.util.Properties;
  */
 public class BBSConstants {
 
-	//获取当前登陆用户未读取消息条数
-	public static final String GET_MESSAGE_URL = loadAttribute("GET_MESSAGE_URL", "http://feedback.finedevelop.com:3000/bbs/message/count");
-	//默认打开的论坛窗口
-	public static final String DEFAULT_URL = loadAttribute("DEFAULT_URL", "http://bbs.finereport.com/home.php?mod=space&do=pm");
-	//默认模板分享的url
-	public static final String SHARE_URL = loadAttribute("SHARE_URL", "http://bbs.finereport.com/");
-	//收集设计器的信息url
-	public static final String COLLECT_URL = loadAttribute("COLLECT_URL", "http://bbs.finereport.com/");
-	//在线验证激活码
-	public static final String VERIFY_URL = loadAttribute("VERIFY_URL", "http://bbs.finereport.com/");
-    //获取论坛更新信息, 判断是否需要弹窗
-    public static final String UPDATE_INFO_URL = loadAttribute("UPDATE_INFO_URL", "http://bbs.finereport.com/");
-    //论坛手机版
-    public static final String BBS_MOBILE_MOD = loadAttribute("BBS_MOBILE_MOD", "http://bbs.finereport.com/forum.php?mobile=1");
     //判断是否更新的关键字
     public static final String UPDATE_KEY = loadAttribute("UPDATE_KEY", "newIsPopup");
    

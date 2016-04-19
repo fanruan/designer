@@ -20,6 +20,11 @@ public class UIColorPickerPane4Map extends UIColorPickerPane {
   	}
 
     private class ColorSelectPane4Map extends ColorSelectPane {
+
+        public ColorSelectPane4Map(){
+            super(false);
+        }
+
    		public void initCenterPaneChildren(JPanel centerPane) {
    			JPanel menuColorPane1 = new JPanel();
    			centerPane.add(menuColorPane1);

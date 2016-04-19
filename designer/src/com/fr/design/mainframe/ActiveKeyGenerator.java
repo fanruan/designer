@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.bbs.BBSConstants;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
@@ -101,7 +102,7 @@ public class ActiveKeyGenerator {
 		para.put("uuid", envManager.getUUID());
 		para.put("key", key);
 		para.put("username", envManager.getBBSName());
-		HttpClient hc = new HttpClient(BBSConstants.VERIFY_URL, para);
+		HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("verify.code"), para);
 		if (timeout != -1) {
 			hc.setTimeout(timeout);
 		}

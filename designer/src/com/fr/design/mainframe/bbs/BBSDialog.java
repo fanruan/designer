@@ -6,6 +6,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 
+import com.fr.general.SiteCenter;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -95,7 +96,7 @@ public class BBSDialog extends UIDialog {
                     public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
                         disableLink(eng);
                         // webView好像默认以手机版显示网页，浏览器里过滤掉这个跳转
-                        if (ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, BBSConstants.BBS_MOBILE_MOD)) {
+                        if (ComparatorUtils.equals(newValue, url) || ComparatorUtils.equals(newValue, SiteCenter.getInstance().acquireUrlByKind("bbs.mobile"))) {
                             return;
                         }
                         PluginWebBridge.getHelper().openUrlAtLocalWebBrowser(eng, newValue);

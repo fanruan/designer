@@ -20,6 +20,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.general.SiteCenter;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.workbook.ResultWorkBook;
@@ -56,7 +57,7 @@ public class ShareButton extends UIButton{
 	//打开论坛, url可在bbs.properties中配置
 	private void openBBS(){
 		try {
-			Desktop.getDesktop().browse(new URI(BBSConstants.SHARE_URL));
+			Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.share")));
 		} catch (Exception e1) {
 			FRContext.getLogger().error(e1.getMessage());
 		}

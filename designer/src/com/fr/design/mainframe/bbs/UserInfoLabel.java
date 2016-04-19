@@ -11,6 +11,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
@@ -112,7 +113,7 @@ public class UserInfoLabel extends UILabel{
 					FRContext.getLogger().error(e.getMessage());
 				}
 
-                HttpClient hc = new HttpClient(BBSConstants.UPDATE_INFO_URL);
+                HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()){
                     return;
                 }
@@ -124,7 +125,7 @@ public class UserInfoLabel extends UILabel{
 
 				try {
 					BBSDialog bbsLabel = new BBSDialog(DesignerContext.getDesignerFrame());
-					bbsLabel.showWindow(BBSConstants.UPDATE_INFO_URL);
+					bbsLabel.showWindow(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
 					DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
 				} catch (Throwable e) {
 
@@ -181,7 +182,7 @@ public class UserInfoLabel extends UILabel{
 				while(StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
 					HashMap<String, String> para = new HashMap<String, String>();
 					para.put("username", encode(encode(userName)));
-					HttpClient getMessage = new HttpClient(BBSConstants.GET_MESSAGE_URL, para);
+					HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
 					getMessage.asGet();
 					if(getMessage.isServerAlive()){
 						try {
@@ -243,7 +244,7 @@ public class UserInfoLabel extends UILabel{
 		public void mouseClicked(MouseEvent e) {
 			if(StringUtils.isNotEmpty(userName)){
                 try {
-                    Desktop.getDesktop().browse(new URI(BBSConstants.DEFAULT_URL));
+                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
                 } catch (Exception exp) {
 
                 }
