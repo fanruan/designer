@@ -77,8 +77,8 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         return singleton;
     }
 
-    protected static TableDataTree dataTree;
-    protected TableDataSourceOP op;
+    private TableDataTree dataTree;
+    private TableDataSourceOP op;
 
     private MenuDef addMenuDef;
     private EditAction editAction;
@@ -145,6 +145,26 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         dataTree.setCellEditor(treeCellEditor);
         new TableDataTreeDragSource(dataTree, DnDConstants.ACTION_COPY);
         checkButtonEnabled();
+    }
+
+    public void setDataTree(TableDataTree dataTree) {
+        this.dataTree = dataTree;
+    }
+
+    public TableDataSourceOP getOp() {
+        return op;
+    }
+
+    public void setOp(TableDataSourceOP op) {
+        this.op = op;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public MenuDef getAddMenuDef() {
@@ -275,7 +295,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
     /**
      * 刷新
      */
-    public static void refresh() {
+    public void refresh() {
         dataTree.refresh();
     }
 

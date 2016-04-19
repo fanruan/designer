@@ -32,7 +32,7 @@ public class TableDataTree extends UserObjectRefreshJTree<TableDataSourceOP> {
         this.setEditable(false);
     }
     // CellRenderer
-    protected DefaultTreeCellRenderer tableDataTreeCellRenderer = new DefaultTreeCellRenderer() {
+    private DefaultTreeCellRenderer tableDataTreeCellRenderer = new DefaultTreeCellRenderer() {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -81,6 +81,13 @@ public class TableDataTree extends UserObjectRefreshJTree<TableDataSourceOP> {
         }
     };
 
+    public DefaultTreeCellRenderer getTableDataTreeCellRenderer() {
+        return tableDataTreeCellRenderer;
+    }
+
+    public void setTableDataTreeCellRenderer(DefaultTreeCellRenderer tableDataTreeCellRenderer) {
+        this.tableDataTreeCellRenderer = tableDataTreeCellRenderer;
+    }
 
     protected void refreshTreeNode(ExpandMutableTreeNode eTreeNode, String childName) {
         if (interceptRefresh(eTreeNode)) {

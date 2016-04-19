@@ -30,10 +30,18 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     public static final int STORE_PRECEDURE_DATA = 2;
     public static int dataMode = -1;
 
-    protected DesignModelAdapter<?, ?> tc;
+    private DesignModelAdapter<?, ?> tc;
 
 
     public TableDataSourceOP(DesignModelAdapter<?, ?> tc) {
+        this.tc = tc;
+    }
+
+    public DesignModelAdapter<?, ?> getTc() {
+        return tc;
+    }
+
+    public void setTc(DesignModelAdapter<?, ?> tc) {
         this.tc = tc;
     }
 
