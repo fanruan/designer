@@ -93,6 +93,8 @@ public class FRFitLayoutPainter extends AbstractPainter{
 		int containerHeight = container.getHeight();
 		// 当前坐标点
 		Rectangle currentXY = new Rectangle(x, y, 1, 1);
+		hot_rec = new int[]{0, 0, 0, 0};
+
 		// 上边缘
 		Rectangle upEdge = new Rectangle(containerX, containerY, containerWidth, BORDER_PROPORTION);
 		if(upEdge.intersects(currentXY)){
