@@ -128,6 +128,14 @@ public class PluginWebBridge {
     }
 
     /**
+     * 已安装插件检查更新
+     */
+    public void readUpdateOnline(final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new ReadUpdateOnlineExecutor());
+        new Thread(task).start();
+    }
+
+    /**
      * 选择文件对话框
      *
      * @return 选择的文件的路径
@@ -279,6 +287,10 @@ public class PluginWebBridge {
                 FRLogger.getLogger().error(e.getMessage());
             }
         }
+    }
+
+    public void openUrlAtLocalWebBrowser(String url) {
+        openUrlAtLocalWebBrowser(webEngine, url);
     }
 
     /**
