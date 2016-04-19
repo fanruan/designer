@@ -25,7 +25,6 @@ public class PluginManagerPane extends BasicPane {
     public PluginManagerPane() {
         setLayout(new BorderLayout());
         if (System.getProperty("java.version").startsWith("1.8")) {
-            System.out.println(System.getProperty("java.version"));
             URL url = ClassLoader.getSystemResource("");
             String installHome = url.getPath();
             PluginWebPane webPane = new PluginWebPane(installHome);
