@@ -48,6 +48,7 @@ public class PluginWebPane extends JFXPanel {
                 });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
                 obj.setMember("PluginHelper", PluginWebBridge.getHelper(webEngine));
+                webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }
         });
