@@ -263,6 +263,16 @@ public class PluginWebBridge {
 
     /**
      * 在本地浏览器里打开url
+     * tips:重载的时候,需要给js调用的方法需要放在前面,否则可能不会被调用(此乃坑)
+     *
+     * @param url 要打开的地址
+     */
+    public void openUrlAtLocalWebBrowser(String url) {
+        openUrlAtLocalWebBrowser(webEngine, url);
+    }
+
+    /**
+     * 在本地浏览器里打开url
      *
      * @param eng web引擎
      * @param url 要打开的地址
@@ -287,10 +297,6 @@ public class PluginWebBridge {
                 FRLogger.getLogger().error(e.getMessage());
             }
         }
-    }
-
-    public void openUrlAtLocalWebBrowser(String url) {
-        openUrlAtLocalWebBrowser(webEngine, url);
     }
 
     /**
