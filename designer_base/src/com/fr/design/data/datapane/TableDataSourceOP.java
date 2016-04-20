@@ -37,11 +37,11 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         this.tc = tc;
     }
 
-    public DesignModelAdapter<?, ?> getTc() {
+    public DesignModelAdapter<?, ?> getDesignModelAdapter() {
         return tc;
     }
 
-    public void setTc(DesignModelAdapter<?, ?> tc) {
+    public void setDesignModelAdapter(DesignModelAdapter<?, ?> tc) {
         this.tc = tc;
     }
 
