@@ -133,7 +133,7 @@ public abstract class UserObjectRefreshJTree<T extends UserObjectOP<?>> extends 
 		super.setSelectionPath(treePath);
 	}
 
-	private MouseListener treeMouseListener = new MouseAdapter() {
+	protected MouseListener treeMouseListener = new MouseAdapter() {
 		public void mousePressed(MouseEvent e) {
 			if (SwingUtilities.isLeftMouseButton(e)) {
 				TreePath path = getPathForLocation(e.getX(), e.getY());
