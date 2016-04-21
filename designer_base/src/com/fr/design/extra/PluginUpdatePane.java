@@ -25,7 +25,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
     private PluginControlPane controlPane;
     private JLabel errorMsgLabel;
     private UITabbedPane tabbedPane;
-    
+
     private static final int PERSENT = 100;
 
     public PluginUpdatePane(UITabbedPane tabbedPane) {
@@ -35,6 +35,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 更新pane
+     *
      * @return 同上
      */
     public JPanel createSuccessPane() {
@@ -54,7 +55,6 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
             public String textForInstallButton() {
                 return Inter.getLocText("FR-Designer_Plugin_Normal_Update");
             }
-
 
 
             @Override
@@ -79,6 +79,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 出错pane
+     *
      * @return 同上
      */
     @Override
@@ -104,7 +105,6 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
             }
 
 
-
             @Override
             public String textForInstallFromDiskButton() {
                 return Inter.getLocText("FR-Designer_Plugin_Normal_Update_From_Local");
@@ -119,6 +119,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 加载插件
+     *
      * @return 所有插件
      */
     public Plugin[] loadData() throws Exception {
@@ -127,7 +128,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 加载成功处理
-     * 
+     *
      * @param plugins 插件
      */
     public void loadOnSuccess(Plugin[] plugins) {
@@ -137,7 +138,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 加载失败处理
-     * 
+     *
      * @param e 异常
      */
     public void loadOnFailed(Exception e) {
@@ -146,6 +147,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 略
+     *
      * @return 略
      */
     @Override
@@ -165,11 +167,11 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (StringUtils.isEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
+        if (StringUtils.isEmpty(DesignerEnvManager.getEnvManager().getBBSName())) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
-            new SwingWorker<Void, Double>(){
+        if (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())) {
+            new SwingWorker<Void, Double>() {
 
                 @Override
                 protected Void doInBackground() throws Exception {
@@ -181,7 +183,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
                     String username = DesignerEnvManager.getEnvManager().getBBSName();
                     String password = DesignerEnvManager.getEnvManager().getBBSPassword();
                     try {
-                        PluginHelper.downloadPluginFile(id,username,password, new Process<Double>() {
+                        PluginHelper.downloadPluginFile(id, username, password, new Process<Double>() {
                             @Override
                             public void process(Double integer) {
                                 publish(integer);
@@ -264,12 +266,14 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<Plugin[], Vo
 
     /**
      * 从磁盘安装按钮的提示
+     *
      * @return 按钮标题字符串
      */
     @Override
     public String textForInstallFromDiskFileButton() {
         return Inter.getLocText("FR-Designer_Plugin_Normal_Update_From_Local");
     }
+
     @Override
     protected String title4PopupWindow() {
         return "Update";

@@ -1,5 +1,16 @@
 package com.fr.design.extra.exe;
 
+import com.fr.base.FRContext;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.RestartHelper;
+import com.fr.design.extra.After;
+import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.Process;
+import com.fr.general.Inter;
+import com.fr.plugin.PluginVerifyException;
+
+import javax.swing.*;
+
 /**
  * Created by richie on 16/3/19.
  */
@@ -13,7 +24,7 @@ public class InstallOnlineExecutor implements Executor {
 
     @Override
     public String getTaskFinishMessage() {
-        return "已成功安裝";
+        return "task succeed";
     }
 
     @Override
@@ -26,11 +37,18 @@ public class InstallOnlineExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(final Process<String> process) {
+                        String username = DesignerEnvManager.getEnvManager().getBBSName();
+                        String password = DesignerEnvManager.getEnvManager().getBBSPassword();
                         try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            PluginHelper.downloadPluginFile(pluginID, username, password, new Process<Double>() {
+                                @Override
+                                public void process(Double integer) {
+                                    process.process(Math.round(integer * 100) + "%");
+                                }
+                            });
+                        } catch (Exception e) {
+                            FRContext.getLogger().error(e.getMessage(), e);
                         }
                     }
                 },
@@ -41,10 +59,31 @@ public class InstallOnlineExecutor implements Executor {
                     }
 
                     @Override
-                    public void run() {
+                    public void run(Process<String> process) {
                         try {
-                            Thread.sleep(3000);
+                            PluginHelper.installPluginFromDisk(PluginHelper.getDownloadTempFile(), new After() {
+                                @Override
+                                public void done() {
+                                    int rv = JOptionPane.showOptionDialog(
+                                            null,
+                                            Inter.getLocText("FR-Designer-Plugin_Install_Successful"),
+                                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                            JOptionPane.YES_NO_OPTION,
+                                            JOptionPane.INFORMATION_MESSAGE,
+                                            null,
+                                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                                            null
+                                    );
+                                    if (rv == JOptionPane.OK_OPTION) {
+                                        RestartHelper.restart();
+                                    }
+                                }
+                            });
+                        } catch (PluginVerifyException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

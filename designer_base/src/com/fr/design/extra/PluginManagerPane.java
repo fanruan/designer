@@ -2,23 +2,9 @@ package com.fr.design.extra;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.stable.StableUtils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
-import javafx.scene.web.WebEngine;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
@@ -37,15 +23,14 @@ public class PluginManagerPane extends BasicPane {
 
     public PluginManagerPane() {
         setLayout(new BorderLayout());
-//        if (StableUtils.isDebug()) {
-//            URL url = ClassLoader.getSystemResource("");
-//            String installHome = url.getPath();
-//            PluginWebPane webPane = new PluginWebPane(installHome);
-//            add(webPane, BorderLayout.CENTER);
-//        } else {
-//
-//        }
-        initTraditionalStore();
+        if (System.getProperty("java.version").startsWith("1.8")) {
+            URL url = ClassLoader.getSystemResource("");
+            String installHome = url.getPath();
+            PluginWebPane webPane = new PluginWebPane(installHome);
+            add(webPane, BorderLayout.CENTER);
+        } else {
+            initTraditionalStore();
+        }
     }
 
     private void initTraditionalStore() {

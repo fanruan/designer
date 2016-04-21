@@ -9,6 +9,7 @@ import javax.swing.tree.*;
 import com.fr.general.NameObject;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.itooltip.UIToolTip;
+import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -16,7 +17,7 @@ import com.fr.stable.StringUtils;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public abstract class RefreshableJTree extends JTree {
+public abstract class RefreshableJTree extends CheckBoxTree {
     private static final int WIDTH_BETWEEN_NODES = 20; //tree父子节点之间最左侧横向像素的差
     private Icon icon;
 
@@ -31,7 +32,9 @@ public abstract class RefreshableJTree extends JTree {
     public RefreshableJTree() {
         this(null);
     }
-
+    public boolean isCheckBoxVisible(TreePath path) {
+        return false;
+    }
     public RefreshableJTree(Object rootObj) {
         super(new DefaultTreeModel(new ExpandMutableTreeNode(rootObj)));
         DefaultTreeModel model = (DefaultTreeModel) getModel();

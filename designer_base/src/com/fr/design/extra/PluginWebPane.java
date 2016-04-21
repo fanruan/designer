@@ -1,10 +1,13 @@
 package com.fr.design.extra;
 
+import com.fr.general.FRLogger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
@@ -24,7 +27,7 @@ public class PluginWebPane extends JFXPanel {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                Group root = new Group();
+                BorderPane root = new BorderPane();
                 Scene scene = new Scene(root);
                 PluginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
@@ -36,11 +39,31 @@ public class PluginWebPane extends JFXPanel {
                         showAlert(event.getData());
                     }
                 });
+                webEngine.locationProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
+                        disableLink(webEngine);
+                        PluginWebBridge.getHelper().openUrlAtLocalWebBrowser(webEngine, newValue);
+                    }
+                });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
                 obj.setMember("PluginHelper", PluginWebBridge.getHelper(webEngine));
-                root.getChildren().add(webView);
+                root.setCenter(webView);
             }
         });
+    }
+
+    private void disableLink(final WebEngine webEngine) {
+        try {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    webEngine.executeScript("history.go(0)");
+                }
+            });
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
     }
 
     private void showAlert(final String message) {
@@ -50,9 +73,5 @@ public class PluginWebPane extends JFXPanel {
                 JOptionPane.showMessageDialog(PluginWebPane.this, message);
             }
         });
-//        Dialog<Void> alert = new Dialog<>();
-//        alert.getDialogPane().setContentText(message);
-//        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        alert.showAndWait();
     }
 }
