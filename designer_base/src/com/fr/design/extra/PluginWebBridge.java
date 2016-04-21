@@ -6,6 +6,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
@@ -33,7 +34,7 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
-    public static final String PLUGIN_SHOP = "http://192.168.101.20/ShopServer?pg=plist";//http://shop.finereport.com/ShopServer?pg=plist(plugin.list)
+    public static final String PLUGIN_SHOP = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
 
     public static PluginWebBridge getHelper() {
         if (helper != null) {

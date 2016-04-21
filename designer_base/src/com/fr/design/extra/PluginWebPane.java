@@ -29,7 +29,7 @@ public class PluginWebPane extends JFXPanel {
                 PluginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
                 webEngine = webView.getEngine();
-                webEngine.load("file:///" + installHome + "/store/web/index.html");
+                webEngine.load("file:///" + installHome + "/scripts/store/web/index.html");
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                     @Override
                     public void handle(WebEvent<String> event) {

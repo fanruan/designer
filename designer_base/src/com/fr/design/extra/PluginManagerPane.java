@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
@@ -34,10 +35,10 @@ public class PluginManagerPane extends BasicPane {
             String installHome;
             if (StableUtils.isDebug()) {
                 URL url = ClassLoader.getSystemResource("");
-                installHome = url.getPath() + "scripts";
+                installHome = url.getPath();
             } else {
-                installHome = StableUtils.getInstallHome() + File.separator + "scripts";
-                File file = new File(installHome);
+                installHome = StableUtils.getInstallHome();
+                File file = new File(StableUtils.pathJoin(installHome, "scripts"));
                 if (!file.exists()) {
                     int rv = JOptionPane.showConfirmDialog(
                             null,
