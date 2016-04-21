@@ -1,9 +1,5 @@
 package com.fr.design;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.fr.base.Parameter;
 import com.fr.base.io.IOFile;
 import com.fr.data.TableDataSource;
@@ -12,6 +8,10 @@ import com.fr.design.mainframe.JTemplateProvider;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.js.WidgetName;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 当前的设计器模式
@@ -27,6 +27,14 @@ public abstract class DesignModelAdapter<T extends IOFile, S extends JTemplatePr
     public DesignModelAdapter(S jTemplate) {
         this.jTemplate = jTemplate;
         setCurrentModelAdapter(this);
+    }
+
+    public S getjTemplate() {
+        return jTemplate;
+    }
+
+    public void setjTemplate(S jTemplate) {
+        this.jTemplate = jTemplate;
     }
 
     public T getBook() {

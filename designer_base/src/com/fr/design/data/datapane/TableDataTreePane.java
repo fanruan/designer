@@ -52,9 +52,9 @@ import java.util.Map;
 
 public class TableDataTreePane extends DockingView implements ResponseDataSourceChange {
 
-    private static final int PROCEDURE_NAME_INDEX = 4;
-    private static final int TEMPLATE_TABLE_DATA = 0;
-    private static final int SERVER_TABLE_DATA = 1;
+    protected static final int PROCEDURE_NAME_INDEX = 4;
+    protected static final int TEMPLATE_TABLE_DATA = 0;
+    protected static final int SERVER_TABLE_DATA = 1;
     private static final long serialVersionUID = -12168467370000617L;
     private static TableDataTreePane singleton = new TableDataTreePane();
     private String type = "";
@@ -77,7 +77,7 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         return singleton;
     }
 
-    private static TableDataTree dataTree;
+    private TableDataTree dataTree;
     private TableDataSourceOP op;
 
     private MenuDef addMenuDef;
@@ -145,6 +145,74 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
         dataTree.setCellEditor(treeCellEditor);
         new TableDataTreeDragSource(dataTree, DnDConstants.ACTION_COPY);
         checkButtonEnabled();
+    }
+
+    public void setDataTree(TableDataTree dataTree) {
+        this.dataTree = dataTree;
+    }
+
+    public TableDataSourceOP getOp() {
+        return op;
+    }
+
+    public void setOp(TableDataSourceOP op) {
+        this.op = op;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public MenuDef getAddMenuDef() {
+        return addMenuDef;
+    }
+
+    public void setAddMenuDef(MenuDef addMenuDef) {
+        this.addMenuDef = addMenuDef;
+    }
+
+    public EditAction getEditAction() {
+        return editAction;
+    }
+
+    public void setEditAction(EditAction editAction) {
+        this.editAction = editAction;
+    }
+
+    public RemoveAction getRemoveAction() {
+        return removeAction;
+    }
+
+    public void setRemoveAction(RemoveAction removeAction) {
+        this.removeAction = removeAction;
+    }
+
+    public DesignModelAdapter<?, ?> getTc() {
+        return tc;
+    }
+
+    public void setTc(DesignModelAdapter<?, ?> tc) {
+        this.tc = tc;
+    }
+
+    public PreviewTableDataAction getPreviewTableDataAction() {
+        return previewTableDataAction;
+    }
+
+    public void setPreviewTableDataAction(PreviewTableDataAction previewTableDataAction) {
+        this.previewTableDataAction = previewTableDataAction;
+    }
+
+    public ConnectionTableAction getConnectionTableAction() {
+        return connectionTableAction;
+    }
+
+    public void setConnectionTableAction(ConnectionTableAction connectionTableAction) {
+        this.connectionTableAction = connectionTableAction;
     }
 
     private KeyAdapter getTableTreeNodeListener() {
@@ -227,11 +295,11 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
     /**
      * 刷新
      */
-    public static void refresh() {
+    public void refresh() {
         dataTree.refresh();
     }
 
-    private void checkButtonEnabled() {
+    protected void checkButtonEnabled() {
         // august:BUG 9344
         addMenuDef.setEnabled(true);
         connectionTableAction.setEnabled(FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot());
