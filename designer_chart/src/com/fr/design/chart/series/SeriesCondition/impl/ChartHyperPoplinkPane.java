@@ -5,16 +5,18 @@ import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.ChartFactory;
-import com.fr.design.chart.gui.ChartComponent;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chart.gui.ChartComponent;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
-import com.fr.general.Inter;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 
 import java.awt.*;
 
@@ -37,7 +39,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
             this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH);
         }
 
-		hyperEditPane = new ChartHyperEditPane(getChartParaType());
+		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(hyperEditPane, BorderLayout.CENTER);
 		
 		ChartCollection cc = new ChartCollection();
@@ -57,6 +59,10 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	
 	protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
+	}
+
+	protected ValueEditorPane getValueEditorPane() {
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
 	}
 
     /**

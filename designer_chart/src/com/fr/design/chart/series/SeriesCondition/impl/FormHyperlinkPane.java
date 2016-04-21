@@ -1,11 +1,9 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -15,6 +13,9 @@ import com.fr.general.Inter;
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
 
@@ -32,7 +33,7 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
         northPane = new FormHyperlinkNorthPane(needRenamePane());
         this.add(northPane, BorderLayout.NORTH);
 
-        parameterViewPane = new ReportletParameterViewPane(getChartParaType());
+        parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameters"), null));
     }
@@ -44,6 +45,10 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
 
     protected int getChartParaType() {
     	return ParameterTableModel.NO_CHART_USE;
+    }
+
+    protected ValueEditorPane getValueEditorPane() {
+        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
     }
 
     protected boolean needRenamePane(){

@@ -1,16 +1,9 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import com.fr.base.Parameter;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.web.ChartHyperPoplink;
+import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.itextfield.UINumberField;
@@ -19,10 +12,14 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  * 图表弹出超链, 悬浮窗属性设置界面.
@@ -40,9 +37,13 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
     public static final int DEFAULT_V_VALUE = 500;
 	
 	private int paraType;
+	private ValueEditorPane valueEditorPane;
+	private ValueEditorPane valueRenderPane;
 	
-	public ChartHyperPopAttrPane(int paraType) {
+	public ChartHyperPopAttrPane(int paraType, ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane) {
 		this.paraType = paraType;
+		this.valueEditorPane = valueEditorPane;
+		this.valueRenderPane = valueRenderPane;
 		
 		initAll();
 	}
@@ -81,7 +82,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
 		JPanel northPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 		pane.add(northPane, BorderLayout.NORTH);
 		
-		parameterViewPane = new ReportletParameterViewPane(paraType);
+		parameterViewPane = new ReportletParameterViewPane(paraType, valueEditorPane, valueRenderPane);
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter")));
 		parameterViewPane.setPreferredSize(new Dimension(200, 200));
 		pane.add(parameterViewPane, BorderLayout.CENTER);

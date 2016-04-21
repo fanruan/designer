@@ -1,10 +1,10 @@
 package com.fr.design.gui.itableeditorpane;
 
 import com.fr.base.Parameter;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.general.Inter;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
@@ -62,6 +62,14 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 		this.component = component;
 	}
 
+	public ParameterTableModel(ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane, Component component) {
+		super(new String[] { Inter.getLocText("Parameter"), Inter.getLocText("Value") });
+		this.setColumnClass(new Class[] { ParameterEditor.class, ParameterValueEditor.class });
+		this.setDefaultEditor(ParameterValueEditor.class, new ParameterValueEditor(valueEditorPane));
+		this.setDefaultEditor(ParameterEditor.class, new ParameterEditor());
+		this.setDefaultRenderer(ParameterValueEditor.class, new ParameterValueRenderer(valueRenderPane));
+		this.component = component;
+	}
 
     /**
      * 单元格是否可编辑
@@ -193,9 +201,13 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 		private ValueEditorPane editor;
 
 		public ParameterValueEditor(int paraUseType) {
-			
-			editor = ValueEditorPaneFactory.createVallueEditorPaneWithUseType(paraUseType);
-			
+			this(ValueEditorPaneFactory.createVallueEditorPaneWithUseType(paraUseType));
+		}
+
+		public ParameterValueEditor(ValueEditorPane valueEditorPane) {
+
+			editor = valueEditorPane;
+
 			this.addCellEditorListener(new CellEditorListener() {
 
 				@Override
@@ -234,11 +246,15 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 		private UILabel disableLable;
 
 		public ParameterValueRenderer(int paraUseType) {
+			this(ValueEditorPaneFactory.createVallueEditorPaneWithUseType(paraUseType));
+		}
+
+		public ParameterValueRenderer(ValueEditorPane valueEditorPane) {
 			disableLable = new UILabel(Inter.getLocText("Set-Parameter-Name"));
 			disableLable.setForeground(Color.pink);
 			disableLable.setHorizontalAlignment(SwingConstants.CENTER);
-			
-			editor = ValueEditorPaneFactory.createVallueEditorPaneWithUseType(paraUseType);
+
+			editor = valueEditorPane;
 		}
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
