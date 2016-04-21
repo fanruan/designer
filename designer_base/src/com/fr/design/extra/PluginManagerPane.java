@@ -32,16 +32,16 @@ public class PluginManagerPane extends BasicPane {
         setLayout(new BorderLayout());
         if (System.getProperty("java.version").startsWith("1.8")) {
             String installHome;
-            if(StableUtils.isDebug()){
+            if (StableUtils.isDebug()) {
                 URL url = ClassLoader.getSystemResource("");
-                 installHome = url.getPath() + "scripts";
-            }else{
+                installHome = url.getPath() + "scripts";
+            } else {
                 installHome = StableUtils.getInstallHome() + File.separator + "scripts";
                 File file = new File(installHome);
                 if (!file.exists()) {
                     int rv = JOptionPane.showConfirmDialog(
                             null,
-                            "您还没有插件商店的资源,是否下载?",
+                            Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
                             Inter.getLocText("FR-Designer-Plugin_Warning"),
                             JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.INFORMATION_MESSAGE
@@ -53,7 +53,6 @@ public class PluginManagerPane extends BasicPane {
             }
             PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
             add(webPane, BorderLayout.CENTER);
-
         } else {
             initTraditionalStore();
         }
@@ -92,7 +91,7 @@ public class PluginManagerPane extends BasicPane {
                 IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
                 int rv = JOptionPane.showOptionDialog(
                         null,
-                        "商店安装完毕,是否立刻启动?",
+                        Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
                         Inter.getLocText("FR-Designer-Plugin_Warning"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
