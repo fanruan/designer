@@ -7,7 +7,6 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.extra.PluginManagerPane;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -23,7 +22,10 @@ import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
 import com.fr.plugin.PluginCollector;
 import com.fr.stable.*;
 
@@ -81,7 +83,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
-        DesignerFrame df = createDesignerFrame();
+
 
         // 默认加载工作目录，用于读取License
         switch2LastEnv();
@@ -89,6 +91,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         initDefaultFont();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
+
+        //这个放在读插件的后面,数据集分组的插件用到
+        DesignerFrame df = createDesignerFrame();
 
         // 再次加载工作目录，用于读取工作目录下的各种插件
         switch2LastEnv();
