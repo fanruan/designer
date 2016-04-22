@@ -6,7 +6,9 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.data.tabledata.StoreProcedureWorkerListener;
@@ -18,6 +20,7 @@ import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.fun.TableDataTreePaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
@@ -26,7 +29,6 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DockingView;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -50,7 +52,7 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TableDataTreePane extends DockingView implements ResponseDataSourceChange {
+public class TableDataTreePane extends BasicTableDataTreePane implements ResponseDataSourceChange {
 
     protected static final int PROCEDURE_NAME_INDEX = 4;
     protected static final int TEMPLATE_TABLE_DATA = 0;
@@ -65,7 +67,12 @@ public class TableDataTreePane extends DockingView implements ResponseDataSource
      * @param tc
      * @return
      */
-    public synchronized static TableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
+    public synchronized static BasicTableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
+
+        TableDataTreePaneProcessor treePaneProcessor = ExtraDesignClassManager.getInstance().getTableDataTreePaneProcessor();
+        if (treePaneProcessor != null) {
+            return treePaneProcessor.createTableDataTreePane(tc);
+        }
         if (singleton.tc == null) {
             singleton.addMenuDef.clearShortCuts();
             singleton.createAddMenuDef();

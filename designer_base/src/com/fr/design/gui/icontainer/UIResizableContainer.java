@@ -86,6 +86,25 @@ public class UIResizableContainer extends JPanel {
         add(downPane);
         add(verticalToolPane);
     }
+    public UIResizableContainer(JComponent upPane, int direction) {
+        setBackground(UIConstants.NORMAL_BACKGROUND);
+
+        this.upPane = upPane;
+        this.direction = direction;
+
+        this.horizontToolPane = new HorizotalToolPane();
+        setLayout(containerLayout);
+        add(upPane);
+        add(horizontToolPane);
+
+    }
+
+    public void setDownPane(JComponent downPane) {
+        this.verticalToolPane = new VerticalToolPane();
+        this.downPane = downPane;
+        add(downPane);
+        add(verticalToolPane);
+    }
 
     /**
      * 将面板设置成最佳的宽度
