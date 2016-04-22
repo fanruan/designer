@@ -3,15 +3,17 @@ package com.fr.design.chart.series.SeriesCondition.impl;
 import com.fr.base.Utils;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.columnrow.ColumnRowVerticalPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.ParameterProvider;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +50,7 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 		colRowPane = new ColumnRowVerticalPane();
 		centerPane.add(colRowPane, BorderLayout.NORTH);
 		
-		parameterViewPane = new ReportletParameterViewPane(getChartParaType());
+		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
@@ -56,6 +58,10 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 	
 	protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
+	}
+
+	protected ValueEditorPane getValueEditorPane() {
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
 	}
 
     /**

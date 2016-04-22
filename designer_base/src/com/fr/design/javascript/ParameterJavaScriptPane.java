@@ -2,13 +2,15 @@ package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.ParameterJavaScript;
 import com.fr.stable.ParameterProvider;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import java.awt.*;
 import java.util.List;
@@ -19,7 +21,7 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
 	
 	public ParameterJavaScriptPane(){
 		this.setLayout(new  BorderLayout());		
-		parameterViewPane = new ReportletParameterViewPane(getChartParaType());
+		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);
         if(needRenamePane()){
             itemNameTextField = new UITextField();
@@ -30,6 +32,10 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
 	protected int getChartParaType() {
 		return ParameterTableModel.NO_CHART_USE;
 	}
+
+    protected ValueEditorPane getValueEditorPane() {
+        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+    }
 
     protected boolean needRenamePane(){
         return getChartParaType() != ParameterTableModel.NO_CHART_USE;

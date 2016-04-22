@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPopAttrPane;
+import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -22,10 +23,10 @@ public class ChartHyperEditPane  extends ChartEditPane {
 	private ChartComponent useChartComponent;
 	private ChartHyperPopAttrPane attrPane;
 	
-	public ChartHyperEditPane(int paraType) {
+	public ChartHyperEditPane(int paraType, ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane) {
 		paneList = new ArrayList<AbstractChartAttrPane>();
 		
-		paneList.add(attrPane = new ChartHyperPopAttrPane(paraType));
+		paneList.add(attrPane = new ChartHyperPopAttrPane(paraType, valueEditorPane, valueRenderPane));
 		paneList.add(new ChartTypePane());
 
         dataPane4SupportCell =  new ChartDataPane(listener);

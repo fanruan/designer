@@ -4,15 +4,17 @@ import com.fr.base.Utils;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ParameterProvider;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -63,7 +65,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 		
 		centerPane.add(pane, BorderLayout.NORTH);
 		
-		parameterViewPane = new ReportletParameterViewPane(getChartParaType());
+		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
@@ -71,6 +73,10 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 	
 	protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
+	}
+
+	protected ValueEditorPane getValueEditorPane() {
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
 	}
 
     /**

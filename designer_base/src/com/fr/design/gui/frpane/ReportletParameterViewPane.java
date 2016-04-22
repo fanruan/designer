@@ -3,21 +3,22 @@
  */
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.util.List;
-
-import javax.swing.event.TableModelListener;
-
 import com.fr.base.Parameter;
 import com.fr.base.core.KV;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditAction;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
+
+import javax.swing.event.TableModelListener;
+import java.awt.*;
+import java.util.List;
 
 /**
  * Defin hyperlink.
@@ -28,18 +29,26 @@ import com.fr.stable.ParameterProvider;
 public class ReportletParameterViewPane extends BasicPane {
 	private UITableEditorPane<ParameterProvider> editorPane;
 
-
 	public ReportletParameterViewPane() {
-		this.initComponent(null, ParameterTableModel.NO_CHART_USE);
+		this(null, ParameterTableModel.NO_CHART_USE);
 	}
 
 	// kunsnat: 控制是否用Chart的热点链接actions
 	public ReportletParameterViewPane(int useParaType) {
-		this.initComponent(null, useParaType);
+		this(null, useParaType);
 	}
 
 	public ReportletParameterViewPane(UITableEditAction[] actions, int useParaType) {
-		this.initComponent(actions, useParaType);
+		this(actions, useParaType, ValueEditorPaneFactory.createVallueEditorPaneWithUseType(useParaType),
+				ValueEditorPaneFactory.createVallueEditorPaneWithUseType(useParaType));
+	}
+
+	public ReportletParameterViewPane(int useParaType, ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane) {
+		this(null, useParaType, valueEditorPane, valueRenderPane);
+	}
+
+	public ReportletParameterViewPane(UITableEditAction[] actions, int useParaType, ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane) {
+		this.initComponent(actions, useParaType, valueEditorPane, valueRenderPane);
 	}
 
     /**
@@ -47,11 +56,11 @@ public class ReportletParameterViewPane extends BasicPane {
      * @param actions   Chart的热点链接actions
      * @param useParaType   类型
      */
-	public void initComponent(final UITableEditAction[] actions, int useParaType) {
+	public void initComponent(final UITableEditAction[] actions, int useParaType, ValueEditorPane valueEditorPane, ValueEditorPane valueRenderPane) {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
 		if (useParaType != ParameterTableModel.NO_CHART_USE) {
-			ParameterTableModel model = new ParameterTableModel(useParaType, this) {
+ 			ParameterTableModel model = new ParameterTableModel(valueEditorPane, valueRenderPane, this) {
 				@Override
 				public UITableEditAction[] createAction() {
 					UITableEditAction[] tableEditActions = new UITableEditAction[] { new AddChartParameterAction(), new DeleteAction(this.component),

@@ -2,14 +2,16 @@ package com.fr.design.hyperlink;
 
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ParameterProvider;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +38,7 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 		northPane = new WebHyperNorthPane(needRenamePane());
 		this.add(northPane, BorderLayout.NORTH);
 		
-		parameterViewPane = new ReportletParameterViewPane(getChartParaType());
+		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters"), null));
 		
@@ -52,6 +54,10 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 	
 	protected int getChartParaType() {
 		return ParameterTableModel.NO_CHART_USE;
+	}
+
+	protected ValueEditorPane getValueEditorPane() {
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
 	}
 
     protected boolean needRenamePane(){

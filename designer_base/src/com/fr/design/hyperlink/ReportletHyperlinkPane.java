@@ -3,6 +3,8 @@ package com.fr.design.hyperlink;
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -10,11 +12,11 @@ import com.fr.design.gui.itableeditorpane.UITableEditAction;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterReader;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +39,7 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
         northPane = new ReporletHyperNorthPane(needRenamePane());
         this.add(northPane, BorderLayout.NORTH);
 
-        parameterViewPane = new ReportletParameterViewPane(new UITableEditAction[]{new HyperlinkParametersAction()}, getChartParaType());
+        parameterViewPane = new ReportletParameterViewPane(new UITableEditAction[]{new HyperlinkParametersAction()}, getChartParaType(), getValueEditorPane(), getValueEditorPane());
 
         this.add(parameterViewPane, BorderLayout.CENTER);
 
@@ -54,6 +56,10 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
 
     protected int getChartParaType() {
         return ParameterTableModel.NO_CHART_USE;
+    }
+
+    protected ValueEditorPane getValueEditorPane() {
+        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
     }
 
     protected boolean needRenamePane() {

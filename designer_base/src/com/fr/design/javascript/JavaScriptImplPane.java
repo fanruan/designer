@@ -1,8 +1,10 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
-import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditAction;
@@ -10,11 +12,11 @@ import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.scrollruler.ModLineBorder;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.JavaScriptImpl;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -36,7 +38,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 
 	public JavaScriptImplPane(String[] args) {
 		this.defaultArgs = args;
-		parameterPane = new ReportletParameterViewPane(getChartParaType());
+		parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_Parameter")));
 		parameterPane.addTableEditorListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent e) {
@@ -91,6 +93,10 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 
 	protected int getChartParaType() {
 		return ParameterTableModel.NO_CHART_USE;
+	}
+
+	protected ValueEditorPane getValueEditorPane() {
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
 	}
 
     protected boolean needRenamePane(){
