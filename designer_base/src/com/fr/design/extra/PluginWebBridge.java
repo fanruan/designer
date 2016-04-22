@@ -6,6 +6,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
@@ -33,7 +34,7 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
-    public static final String PLUGIN_SHOP = "http://192.168.101.20/ShopServer?pg=plist";
+    public static final String PLUGIN_SHOP = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
 
     public static PluginWebBridge getHelper() {
         if (helper != null) {
@@ -263,6 +264,17 @@ public class PluginWebBridge {
 
     /**
      * 在本地浏览器里打开url
+     * tips:重载的时候,需要给js调用的方法需要放在前面,否则可能不会被调用(此乃坑)
+     *      所以最好的是不要重载在js可以访问的接口文件中
+     *
+     * @param url 要打开的地址
+     */
+    public void openShopUrlAtWebBrowser(String url) {
+        openUrlAtLocalWebBrowser(webEngine, url);
+    }
+
+    /**
+     * 在本地浏览器里打开url
      *
      * @param eng web引擎
      * @param url 要打开的地址
@@ -287,10 +299,6 @@ public class PluginWebBridge {
                 FRLogger.getLogger().error(e.getMessage());
             }
         }
-    }
-
-    public void openUrlAtLocalWebBrowser(String url) {
-        openUrlAtLocalWebBrowser(webEngine, url);
     }
 
     /**

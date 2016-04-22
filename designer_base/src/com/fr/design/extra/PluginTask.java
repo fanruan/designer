@@ -71,6 +71,9 @@ public class PluginTask<T> extends Task<T> {
      * @return 处理之后的字符串
      */
     private String changText(String old) {
-        return old.replaceAll("\"", "\\\\\"").replaceAll("\n", "");
+        if(StringUtils.isNotBlank(old)){
+            return old.replaceAll("\"", "\\\\\"").replaceAll("\n", "");
+        }
+        return StringUtils.EMPTY;
     }
 }
