@@ -8,6 +8,8 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginLicense;
+import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -194,6 +196,16 @@ public class PluginWebBridge {
      */
     public Plugin[] getInstalledPlugins() {
         return PluginLoader.getLoader().getInstalled();
+    }
+
+
+    /**
+     * 获取已经安装的插件的授权情况
+     *
+     * @return 已安装的插件授权对象
+     */
+    public PluginLicense getPluginLicenseByID(String pluginID ) {
+        return PluginLicenseManager.getInstance().getPluginLicenseByID(pluginID);
     }
 
     private String[] jsObjectToStringArray(JSObject obj) {
