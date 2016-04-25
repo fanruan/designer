@@ -15,10 +15,7 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -61,6 +58,8 @@ public class PluginHelper {
             reader.close();
             writer.flush();
             writer.close();
+        } else {
+            throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Connect_Server_Error"));
         }
     }
 

@@ -5,15 +5,20 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.general.GeneralUtils;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
+import com.fr.general.http.HttpClient;
+import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author richie
@@ -28,6 +33,7 @@ import java.net.URL;
  */
 public class PluginManagerPane extends BasicPane {
 
+    private static final String LATEST = "latest";
 
     public PluginManagerPane() {
         setLayout(new BorderLayout());
@@ -37,20 +43,22 @@ public class PluginManagerPane extends BasicPane {
                 URL url = ClassLoader.getSystemResource("");
                 installHome = url.getPath();
             } else {
-                installHome = StableUtils.getInstallHome();
-                File file = new File(StableUtils.pathJoin(installHome, "scripts"));
-                if (!file.exists()) {
-                    int rv = JOptionPane.showConfirmDialog(
-                            null,
-                            Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                            Inter.getLocText("FR-Designer-Plugin_Warning"),
-                            JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
-                    if (rv == JOptionPane.OK_OPTION) {
-                        downloadShopScripts();
-                    }
+            installHome = StableUtils.getInstallHome();
+            File file = new File(StableUtils.pathJoin(installHome, "scripts"));
+            if (!file.exists()) {
+                int rv = JOptionPane.showConfirmDialog(
+                        null,
+                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    downloadShopScripts();
                 }
+            } else {
+                updateShopScripts();
+            }
             }
             PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
             add(webPane, BorderLayout.CENTER);
@@ -69,9 +77,9 @@ public class PluginManagerPane extends BasicPane {
     }
 
     private void downloadShopScripts() {
-        new SwingWorker<Void, Void>() {
+        new SwingWorker<Boolean, Void>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Boolean doInBackground() throws Exception {
                 String id = "shop_scripts";
                 String username = DesignerEnvManager.getEnvManager().getBBSName();
                 String password = DesignerEnvManager.getEnvManager().getBBSPassword();
@@ -81,28 +89,64 @@ public class PluginManagerPane extends BasicPane {
                         public void process(Double integer) {
                         }
                     });
+                } catch (PluginVerifyException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    return false;
                 } catch (Exception e) {
                     FRContext.getLogger().error(e.getMessage(), e);
+                    return false;
                 }
-                return null;
+                return true;
             }
 
             @Override
             protected void done() {
-                IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
-                int rv = JOptionPane.showOptionDialog(
-                        null,
-                        Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null,
-                        new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                        null
-                );
-                if (rv == JOptionPane.OK_OPTION) {
-                    RestartHelper.restart();
+
+                try {
+                    if (get()) {
+                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
+                        int rv = JOptionPane.showOptionDialog(
+                                null,
+                                Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
+                                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE,
+                                null,
+                                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                                null
+                        );
+                        if (rv == JOptionPane.OK_OPTION) {
+                            RestartHelper.restart();
+                        }
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
+
+            }
+        }.execute();
+    }
+
+    private void updateShopScripts() {
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("store.version") + "&version=" + PluginStoreConstants.VERSION);
+                if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    if (!ComparatorUtils.equals(httpClient.getResponseText(), LATEST)) {
+                        int rv = JOptionPane.showConfirmDialog(
+                                null,
+                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
+                                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                        if (rv == JOptionPane.OK_OPTION) {
+                            downloadShopScripts();
+                        }
+                    }
+                }
+                return null;
             }
         }.execute();
     }

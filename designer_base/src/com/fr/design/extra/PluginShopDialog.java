@@ -10,7 +10,7 @@ import java.awt.*;
  * Created by vito on 16/4/18.
  */
 public class PluginShopDialog extends UIDialog {
-    private static final Dimension DEFAULT_SHOP = new Dimension(900, 710);
+    private static final Dimension DEFAULT_SHOP = new Dimension(900, 700);
 
     public PluginShopDialog(Frame frame, BasicPane pane) {
         super(frame, pane, false);
