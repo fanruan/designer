@@ -1,19 +1,18 @@
 package com.fr.design.gui.itree.refreshabletree;
 
-import javax.swing.*;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeExpansionListener;
-import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.*;
-
-import com.fr.general.NameObject;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.itooltip.UIToolTip;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.NameObject;
 import com.fr.stable.StringUtils;
 
+import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeWillExpandListener;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -249,7 +248,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
                                 isExpanded(selRow), getModel().isLeaf(lastPath), selRow,
                                 true);
 
-                if (rComponent instanceof JComponent && rComponent.getPreferredSize().getWidth() + i * WIDTH_BETWEEN_NODES > getVisibleRect().getWidth()) {
+                if (r instanceof DefaultTreeCellRenderer && rComponent instanceof JComponent && rComponent.getPreferredSize().getWidth() + i * WIDTH_BETWEEN_NODES > getVisibleRect().getWidth()) {
                     tip = ((DefaultTreeCellRenderer) r).getText();
                     icon = ((DefaultTreeCellRenderer) r).getIcon();
                 }

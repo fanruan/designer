@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
-import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.DesignModelAdapter;
+import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.stable.fun.Level;
 
 /**
@@ -17,6 +18,6 @@ public interface TableDataTreePaneProcessor extends Level {
      * 创建数据集面板
      * @return 数据集面板
      */
-    TableDataTreePane createTableDataTreePane();
+    BasicTableDataTreePane createTableDataTreePane(DesignModelAdapter<?, ?> tc);
 
 }

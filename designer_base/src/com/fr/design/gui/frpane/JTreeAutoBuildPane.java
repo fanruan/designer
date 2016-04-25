@@ -1,6 +1,7 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.base.Formula;
+import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.EditOrNewLabel;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -207,7 +208,7 @@ public class JTreeAutoBuildPane extends BasicPane implements PreviewLabel.Previe
     public void edit(JPanel jPanel) {
         RecursionTableData rtd = null;
         String name = "";
-        TableDataTreePane tdtp = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+        BasicTableDataTreePane tdtp = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
         if (treeTableDataComboBox.getSelectedItem() == null) {
             //新建
             rtd = new RecursionTableData();

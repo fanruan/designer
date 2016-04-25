@@ -2,13 +2,11 @@ package com.fr.design.mainframe;
 
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.fun.TableDataTreePaneProcessor;
 import com.fr.design.gui.icontainer.UIResizableContainer;
+import com.fr.general.GeneralContext;
 import com.fr.stable.Constants;
-
-import javax.swing.*;
+import com.fr.stable.plugin.PluginReadListener;
 
 public class WestRegionContainerPane extends UIResizableContainer {
 
@@ -20,23 +18,21 @@ public class WestRegionContainerPane extends UIResizableContainer {
      */
     public static final WestRegionContainerPane getInstance() {
         if (THIS == null) {
-            TableDataTreePane tableDataTreePane = null;
-            TableDataTreePaneProcessor treePaneProcessor = ExtraDesignClassManager.getInstance().getTableDataTreePaneProcessor();
-            if (treePaneProcessor != null) {
-                tableDataTreePane = treePaneProcessor.createTableDataTreePane();
-            } else {
-                tableDataTreePane = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
-            }
-            THIS = new WestRegionContainerPane(tableDataTreePane);
+            THIS = new WestRegionContainerPane();
             THIS.setLastToolPaneY(DesignerEnvManager.getEnvManager().getLastWestRegionToolPaneY());
             THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastWestRegionContainerWidth());
         }
         return THIS;
     }
 
-    public WestRegionContainerPane(JComponent pane) {
-        super(DesignerFrameFileDealerPane.getInstance(), pane, Constants.RIGHT);
+    public WestRegionContainerPane() {
+        super(DesignerFrameFileDealerPane.getInstance(), Constants.RIGHT);
+        GeneralContext.addPluginReadListener(new PluginReadListener() {
+            @Override
+            public void success() {
+                setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
+            }
+        });
         setContainerWidth(165);
     }
-
 }

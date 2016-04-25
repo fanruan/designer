@@ -1,41 +1,38 @@
 package com.fr.design.gui.xpane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.List;
-
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-
 import com.fr.base.Formula;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.data.datapane.EditOrNewLabel;
-import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.data.datapane.TreeTableDataComboBox;
-import com.fr.design.data.datapane.EditOrNewLabel.Editable;
 import com.fr.data.impl.NameTableData;
 import com.fr.data.impl.RecursionTableData;
 import com.fr.data.impl.TableDataDictionary;
+import com.fr.design.DesignModelAdapter;
+import com.fr.design.data.BasicTableDataTreePane;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.datapane.EditOrNewLabel;
+import com.fr.design.data.datapane.EditOrNewLabel.Editable;
+import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.data.datapane.TreeTableDataComboBox;
 import com.fr.design.data.datapane.preview.PreviewLabel;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
-import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.DesignModelAdapter;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
+import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.editor.editor.OldColumnIndexEditor;
 import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.OldColumnIndexEditor;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.List;
 
 public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editable {
     private TreeTableDataComboBox treeTableDataComboBox;
@@ -176,7 +173,7 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
     public void edit(JPanel jPanel) {
         RecursionTableData rtd = null;
         String name = "";
-        TableDataTreePane tdtp = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+        BasicTableDataTreePane tdtp = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
         if (treeTableDataComboBox.getSelectedItem() == null) {
             //新建
             rtd = new RecursionTableData();
