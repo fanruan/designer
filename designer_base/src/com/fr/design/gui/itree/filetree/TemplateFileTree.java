@@ -1,14 +1,14 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.tree.TreePath;
-
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.text.Position;
+import javax.swing.tree.TreePath;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 显示Env下的reportlets目录下面的所有cpt文件
@@ -65,5 +65,35 @@ public class TemplateFileTree extends EnvFileTree {
 
 
 		return selectedPathList.toArray(new String[0]);
+    }
+
+    public TreePath getNextMatch(String prefix, int startingRow,
+                                 Position.Bias bias) {
+
+        int max = getRowCount();
+        if (prefix == null) {
+            throw new IllegalArgumentException();
+        }
+        if (startingRow < 0 || startingRow >= max) {
+            throw new IllegalArgumentException();
+        }
+        prefix = prefix.toUpperCase();
+
+        // start search from the next/previous element froom the
+        // selected element
+        int increment = (bias == Position.Bias.Forward) ? 1 : -1;
+        int row = startingRow;
+        do {
+            TreePath path = getPathForRow(row);
+            String text = convertValueToText(
+                    path.getLastPathComponent(), isRowSelected(row),
+                    isExpanded(row), true, row, false);
+
+            if (text.toUpperCase().startsWith(prefix)) {
+                return path;
+            }
+            row = (row + increment + max) % max;
+        } while (row != startingRow);
+        return null;
     }
 }
