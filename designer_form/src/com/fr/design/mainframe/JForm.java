@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignState;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.constants.UIConstants;
@@ -742,4 +743,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return BaseUtils.readIcon("/com/fr/web/images/form/new_form3.png");
     }
 
+    @Override
+    public boolean acceptToolbarItem(Class clazz) {
+        return WorkBookSupportable.class.isAssignableFrom(clazz);
+    }
 }

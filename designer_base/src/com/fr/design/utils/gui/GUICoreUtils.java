@@ -8,7 +8,7 @@ import com.fr.base.Style;
 import com.fr.base.background.ColorBackground;
 import com.fr.data.util.function.*;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
@@ -214,7 +214,7 @@ public abstract class GUICoreUtils{
 			button.setText(StringUtils.EMPTY);
 			button.setEnabled(updateAction.isEnabled());
 
-			button.setToolTipText(ActionUtils.createButtonToolTipText(updateAction));
+			button.setToolTipText(ActionFactory.createButtonToolTipText(updateAction));
 			object = button;
 		}
 

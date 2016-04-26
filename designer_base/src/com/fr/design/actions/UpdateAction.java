@@ -7,7 +7,7 @@ import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -272,7 +272,7 @@ public abstract class UpdateAction extends ShortCut implements Action {
 			button.setEnabled(this.isEnabled());
 
 			//peter:产生tooltip
-			button.setToolTipText(ActionUtils.createButtonToolTipText(this));
+			button.setToolTipText(ActionFactory.createButtonToolTipText(this));
 			object = button;
 		}
 

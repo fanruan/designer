@@ -4,6 +4,7 @@
 package com.fr.design.actions.insert.cell;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -14,7 +15,7 @@ import java.awt.*;
 /**
  * Image
  */
-public class ImageCellAction extends AbstractCellAction {
+public class ImageCellAction extends AbstractCellAction implements WorkBookSupportable {
 	public ImageCellAction(ElementCasePane t) {
     	super(t);
         this.setMenuKeySet(INSERT_IMAGE);

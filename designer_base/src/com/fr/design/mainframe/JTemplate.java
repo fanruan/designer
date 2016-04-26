@@ -9,6 +9,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.TableDataSourceAction;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
@@ -951,5 +952,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             return new PagePreview();
         }
         return pp;
+    }
+
+    public boolean acceptToolbarItem(Class clazz) {
+        return true;
     }
 }

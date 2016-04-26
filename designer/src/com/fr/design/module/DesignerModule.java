@@ -1,31 +1,19 @@
 package com.fr.design.module;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
-import com.fr.base.FRContext;
-import com.fr.base.Formula;
-import com.fr.base.MultiFieldParameter;
-import com.fr.base.Style;
-import com.fr.base.TempNameStyle;
+import com.fr.base.*;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.base.process.ProcessOperator;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.actions.core.ActionUtils;
-import com.fr.design.actions.insert.cell.BiasCellAction;
-import com.fr.design.actions.insert.cell.ChartCellAction;
-import com.fr.design.actions.insert.cell.DSColumnCellAction;
-import com.fr.design.actions.insert.cell.FormulaCellAction;
-import com.fr.design.actions.insert.cell.GeneralCellAction;
-import com.fr.design.actions.insert.cell.ImageCellAction;
-import com.fr.design.actions.insert.cell.RichTextCellAction;
-import com.fr.design.actions.insert.cell.SubReportCellAction;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.*;
 import com.fr.design.actions.insert.flot.ChartFloatAction;
 import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.actions.server.StyleListAction;
+import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ibutton.UIButton;
@@ -36,11 +24,7 @@ import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
-import com.fr.design.mainframe.App;
-import com.fr.design.mainframe.DecodeDialog;
-import com.fr.design.mainframe.InformationCollector;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JWorkBook;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
@@ -50,28 +34,15 @@ import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.general.ModuleContext;
+import com.fr.general.*;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
-import com.fr.js.EmailJavaScript;
-import com.fr.js.JavaScriptImpl;
-import com.fr.js.ParameterJavaScript;
-import com.fr.js.ReportletHyperlink;
-import com.fr.js.WebHyperlink;
+import com.fr.js.*;
 import com.fr.main.impl.WorkBook;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.quickeditor.ChartQuickEditor;
-import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
-import com.fr.quickeditor.cellquick.CellDScolumnEditor;
-import com.fr.quickeditor.cellquick.CellImageQuickEditor;
-import com.fr.quickeditor.cellquick.CellRichTextEditor;
-import com.fr.quickeditor.cellquick.CellStringQuickEditor;
-import com.fr.quickeditor.cellquick.CellSubReportEditor;
+import com.fr.quickeditor.cellquick.*;
 import com.fr.quickeditor.floatquick.FloatImageQuickEditor;
 import com.fr.quickeditor.floatquick.FloatStringQuickEditor;
 import com.fr.report.cell.CellElementValueConverter;
@@ -79,6 +50,7 @@ import com.fr.report.cell.cellattr.core.RichText;
 import com.fr.report.cell.cellattr.core.SubReport;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.painter.BiasTextPainter;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -100,357 +72,327 @@ import java.util.Iterator;
 
 public class DesignerModule extends DesignModule {
 
-	/**
-	 * 启动设计器模块
-	 */
-	public void start() {
-		super.start();
-		
-		justStartModules4Engine(); 
-		justStartModules4Designer();
-		
-		CalculatorProviderContext.setValueConverter(valueConverter());
-		GeneralXMLTools.Object_Tokenizer = startXMLReadObjectTokenizer();
-		GeneralXMLTools.Object_XML_Writer_Finder = startObjectXMLWriterFinder();
-		addAdapterForPlate();
-		generateInsertActionClasses();
-		
-		registerHyperlink();
-		registerCellEditor();
-		registerFloatEditor();
-		registerData4Form();
-		registerOtherPane();
-		
-		InformationCollector.getInstance().collectStartTime();
+    /**
+     * 启动设计器模块
+     */
+    public void start() {
+        super.start();
 
-		ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
+        justStartModules4Engine();
+        justStartModules4Designer();
+
+        CalculatorProviderContext.setValueConverter(valueConverter());
+        GeneralXMLTools.Object_Tokenizer = startXMLReadObjectTokenizer();
+        GeneralXMLTools.Object_XML_Writer_Finder = startObjectXMLWriterFinder();
+        addAdapterForPlate();
+
+        registerCellEditor();
+        registerFloatEditor();
+        registerData4Form();
+        registerOtherPane();
+
+        InformationCollector.getInstance().collectStartTime();
+
+        ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
         ExtraClassManager.getInstance().addLogProvider(DesignerLogImpl.getInstance());
-	}
-	
-	private void registerOtherPane(){
-		StableFactory.registerMarkedClass(BBSGuestPaneProvider.XML_TAG, BBSGuestPane.class);
-	}
-	
-	/**
-	 * kunsnat:注册单元格选中Editor
-	 */
-	
-	private void registerCellEditor() {
-		ActionUtils.registerCellEditor(String.class, CellStringQuickEditor.getInstance());
-		ActionUtils.registerCellEditor(Number.class, CellStringQuickEditor.getInstance());
-		ActionUtils.registerCellEditor(Formula.class, CellStringQuickEditor.getInstance());
-		ActionUtils.registerCellEditor(SubReport.class, CellSubReportEditor.getInstance());
-		ActionUtils.registerCellEditor(RichText.class, CellRichTextEditor.getInstance());
-		ActionUtils.registerCellEditor(DSColumn.class, CellDScolumnEditor.getInstance());
-		ActionUtils.registerCellEditor(Image.class, CellImageQuickEditor.getInstance());
-		ActionUtils.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
-		ActionUtils.registerCellEditor(BufferedImage.class, CellImageQuickEditor.getInstance());
-		
-		if (ModuleContext.isModuleStarted(Module.CHART_MODULE)) {
-			ActionUtils.registerChartCellEditorInEditor(ChartQuickEditor.getInstance());
-		}
-	}
+    }
+
+    private void registerOtherPane() {
+        StableFactory.registerMarkedClass(BBSGuestPaneProvider.XML_TAG, BBSGuestPane.class);
+    }
+
+    /**
+     * kunsnat:注册单元格选中Editor
+     */
+
+    private void registerCellEditor() {
+        ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.getInstance());
+        ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.getInstance());
+        ActionFactory.registerCellEditor(Formula.class, CellStringQuickEditor.getInstance());
+        ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.getInstance());
+        ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.getInstance());
+        ActionFactory.registerCellEditor(DSColumn.class, CellDScolumnEditor.getInstance());
+        ActionFactory.registerCellEditor(Image.class, CellImageQuickEditor.getInstance());
+        ActionFactory.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
+        ActionFactory.registerCellEditor(BufferedImage.class, CellImageQuickEditor.getInstance());
+
+        ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.getInstance());
+
+        ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+        for (ElementUIProvider provider : providers) {
+            ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor());
+        }
+    }
 
 
-    public String getInterNationalName(){
+    public String getInterNationalName() {
         return Inter.getLocText("FR-Module_Designer");
     }
 
-	
-	/**
-	 * kunnat: 注册悬浮选中Editor
-	 */
-	private void registerFloatEditor() {
-		FloatStringQuickEditor floatStringQuickEditor = new FloatStringQuickEditor();
-		ActionUtils.registerFloatEditor(String.class, floatStringQuickEditor);
-		ActionUtils.registerFloatEditor(Formula.class, floatStringQuickEditor);
-		
-		FloatImageQuickEditor floatImageQuickEditor = new FloatImageQuickEditor();
-		ActionUtils.registerFloatEditor(Image.class, floatImageQuickEditor);
-		ActionUtils.registerFloatEditor(BufferedImage.class, floatImageQuickEditor);
-		if (ModuleContext.isModuleStarted(Module.CHART_MODULE)) {
-			ActionUtils.registerChartFloatEditorInEditor(ChartQuickEditor.getInstance());
-		}
-	}
 
-	/**
-	 * kunsnat: 一些模块信息 必须跟随设计器启动,
-	 * 比如 读取CC.XML, 设计器启动之后, 马上会读取XML, 需要Chart_Module中的注册信息
-	 */
-	private void justStartModules4Engine() {
-		ModuleContext.startModule(ENGINE_MODULE);
-	}
-	
-	private void justStartModules4Designer() {
-		ModuleContext.startModule(CHART_DESIGNER_MODULE);
-		ModuleContext.startModule(FORM_DESIGNER_MODULE);
-	}
+    /**
+     * kunnat: 注册悬浮选中Editor
+     */
+    private void registerFloatEditor() {
+        FloatStringQuickEditor floatStringQuickEditor = new FloatStringQuickEditor();
+        ActionFactory.registerFloatEditor(String.class, floatStringQuickEditor);
+        ActionFactory.registerFloatEditor(Formula.class, floatStringQuickEditor);
 
-	/**
-	 * CellElementValueConverter用来处理设计器格子里的值，将公式/数组/其他元素转换成对应的值。
-	 *
-	 * @return 返回处理格子值的转换器
-	 */
-	public ValueConverter valueConverter() {
-		return new CellElementValueConverter();
-	}
+        FloatImageQuickEditor floatImageQuickEditor = new FloatImageQuickEditor();
+        ActionFactory.registerFloatEditor(Image.class, floatImageQuickEditor);
+        ActionFactory.registerFloatEditor(BufferedImage.class, floatImageQuickEditor);
+        ActionFactory.registerChartFloatEditorInEditor(ChartQuickEditor.getInstance());
+    }
 
-	@Override
-	/**
-	 * 针对不同的对象，在读取Object对象的xml的时候需要使用不同的对象生成器
-	 * @return 返回对象生成器
-	 */
-	public ObjectTokenizer startXMLReadObjectTokenizer() {
-		return new ReportXMLUtils.ReportObjectTokenizer();
-	}
+    /**
+     * kunsnat: 一些模块信息 必须跟随设计器启动,
+     * 比如 读取CC.XML, 设计器启动之后, 马上会读取XML, 需要Chart_Module中的注册信息
+     */
+    private void justStartModules4Engine() {
+        ModuleContext.startModule(ENGINE_MODULE);
+    }
 
-	/**
-	 * 针对不同的对象，在写对象的XML时需要使用不同的XML生成器
-	 *
-	 * @return 返回xml生成器
-	 */
-	@Override
-	public ObjectXMLWriterFinder startObjectXMLWriterFinder() {
-		return new ReportXMLUtils.ReportObjectXMLWriterFinder();
-	}
+    private void justStartModules4Designer() {
+        ModuleContext.startModule(CHART_DESIGNER_MODULE);
+        ModuleContext.startModule(FORM_DESIGNER_MODULE);
+    }
 
-	//wei:fs的模块中可能有需要设计器界面做设置的地方，在这边添加
-	private void addAdapterForPlate() {
+    /**
+     * CellElementValueConverter用来处理设计器格子里的值，将公式/数组/其他元素转换成对应的值。
+     *
+     * @return 返回处理格子值的转换器
+     */
+    public ValueConverter valueConverter() {
+        return new CellElementValueConverter();
+    }
 
-		ProcessTransitionAdapter.setProcessTransitionAdapter(new ProcessTransitionAdapter() {
+    @Override
+    /**
+     * 针对不同的对象，在读取Object对象的xml的时候需要使用不同的对象生成器
+     * @return 返回对象生成器
+     */
+    public ObjectTokenizer startXMLReadObjectTokenizer() {
+        return new ReportXMLUtils.ReportObjectTokenizer();
+    }
 
-			@Override
-			protected String[] getTransitionNamesByBook(String book) {
-				return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getTransitionNamesByBook(book);
-			}
+    /**
+     * 针对不同的对象，在写对象的XML时需要使用不同的XML生成器
+     *
+     * @return 返回xml生成器
+     */
+    @Override
+    public ObjectXMLWriterFinder startObjectXMLWriterFinder() {
+        return new ReportXMLUtils.ReportObjectXMLWriterFinder();
+    }
 
-			@Override
-			protected String[] getParaNames(String book) {
-				return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParaNames(book);
-			}
+    //wei:fs的模块中可能有需要设计器界面做设置的地方，在这边添加
+    private void addAdapterForPlate() {
 
-			@Override
-			protected ParameterProvider[] getParas(String book) {
-				return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParas(book);
-			}
+        ProcessTransitionAdapter.setProcessTransitionAdapter(new ProcessTransitionAdapter() {
 
-			protected MultiFieldParameter[] getAllMultiFieldParas(String book) {
-				return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getAllMultiFieldParas(book);
-			}
-		});
-	}
+            @Override
+            protected String[] getTransitionNamesByBook(String book) {
+                return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getTransitionNamesByBook(book);
+            }
 
-	private static abstract class AbstractWorkBookApp implements App<WorkBook>{
+            @Override
+            protected String[] getParaNames(String book) {
+                return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParaNames(book);
+            }
 
-		@Override
-		public int currentAPILevel() {
-			return CURRENT_LEVEL;
-		}
+            @Override
+            protected ParameterProvider[] getParas(String book) {
+                return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParas(book);
+            }
 
-		@Override
-		public JTemplate<WorkBook, ?> openTemplate(FILE tplFile) {
-			return new JWorkBook(asIOFile(tplFile), tplFile);
-		}
-	}
+            protected MultiFieldParameter[] getAllMultiFieldParas(String book) {
+                return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getAllMultiFieldParas(book);
+            }
+        });
+    }
 
-	@Override
-	/**
-	 * 返回设计器能打开的模板类型的一个数组列表
-	 * @return 可以打开的模板类型的数组
-	 */
-	public App[] apps4TemplateOpener() {
-		return new App[]{getCptApp(), getXlsApp(), getXlsxApp()};
-	}
+    private static abstract class AbstractWorkBookApp implements App<WorkBook> {
 
-	private AbstractWorkBookApp getXlsxApp() {
-		return new AbstractWorkBookApp() {
-			@Override
-			public String[] defaultExtentions() {
-				return new String[]{"xlsx"};
-			}
-			@Override
-			public WorkBook asIOFile(FILE tplFile) {
-				WorkBook workbook = null;
-				try {
-					workbook = new Excel2007ReportImporter().generateWorkBookByStream(tplFile.asInputStream());
-				} catch (Exception exp) {
-					FRContext.getLogger().error("Failed to generate xlsx from " + tplFile, exp);
-				}
-				return workbook;
-			}
-		};
-	}
+        @Override
+        public int currentAPILevel() {
+            return CURRENT_LEVEL;
+        }
 
-	private AbstractWorkBookApp getXlsApp() {
-		return new AbstractWorkBookApp() {
-			@Override
-			public String[] defaultExtentions() {
-				return new String[]{"xls"};
-			}
-			@Override
-			public WorkBook asIOFile(FILE tplFile) {
-				WorkBook workbook = null;
-				try {
-					workbook = new ExcelReportImporter().generateWorkBookByStream(tplFile.asInputStream());
-				} catch (Exception exp) {
-					FRContext.getLogger().error("Failed to generate xls from " + tplFile, exp);
-				}
-				return workbook;
-			}
-		};
-	}
+        @Override
+        public JTemplate<WorkBook, ?> openTemplate(FILE tplFile) {
+            return new JWorkBook(asIOFile(tplFile), tplFile);
+        }
+    }
 
-	private AbstractWorkBookApp getCptApp() {
-		return new AbstractWorkBookApp() {
-			public String[] defaultExtentions() {
-				return new String[]{"cpt"};
-			}
-			public WorkBook asIOFile(FILE file) {
-				if(XMLEncryptUtils.isCptEncoded() &&
-						!XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())){
-					if(!new DecodeDialog(file).isPwdRight()){
-						FRContext.getLogger().error(Inter.getLocText("ECP-error_pwd"));
-						return new WorkBook();
-					}
-				}
+    @Override
+    /**
+     * 返回设计器能打开的模板类型的一个数组列表
+     * @return 可以打开的模板类型的数组
+     */
+    public App[] apps4TemplateOpener() {
+        return new App[]{getCptApp(), getXlsApp(), getXlsxApp()};
+    }
 
-				WorkBook tpl = new WorkBook();
-				// richer:打开报表通知
-				FRContext.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
-				TempNameStyle namestyle = TempNameStyle.getInstance();
-				namestyle.clear();
-				String checkStr = StringUtils.EMPTY;
-				try {
-					checkStr = IOUtils.inputStream2String(file.asInputStream());
-					tpl.readStream(file.asInputStream());
-				} catch (Exception exp) {
-					String errorMessage = StringUtils.EMPTY;
-					errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Inter.getLocText("FR-Designer_No-Privilege")
-							: Inter.getLocText("NS-exception_readError");
-					FRContext.getLogger().error(errorMessage + file, exp);
-				}
-				checkNameStyle(namestyle);
-				return tpl;
-			}
-		};
-	}
+    private AbstractWorkBookApp getXlsxApp() {
+        return new AbstractWorkBookApp() {
+            @Override
+            public String[] defaultExtentions() {
+                return new String[]{"xlsx"};
+            }
 
-	private static void checkNameStyle(TempNameStyle namestyle) {
-		Iterator it = namestyle.getIterator();
-		ArrayList<String> al = new ArrayList<String>();
-		while (it.hasNext()) {
-			al.add((String) it.next());
-		}
-		if (!al.isEmpty()) {
-			showConfirmDialog(al);
-		}
-	}
+            @Override
+            public WorkBook asIOFile(FILE tplFile) {
+                WorkBook workbook = null;
+                try {
+                    workbook = new Excel2007ReportImporter().generateWorkBookByStream(tplFile.asInputStream());
+                } catch (Exception exp) {
+                    FRContext.getLogger().error("Failed to generate xlsx from " + tplFile, exp);
+                }
+                return workbook;
+            }
+        };
+    }
 
-	private static void showConfirmDialog(final ArrayList<String> namelist) {
+    private AbstractWorkBookApp getXlsApp() {
+        return new AbstractWorkBookApp() {
+            @Override
+            public String[] defaultExtentions() {
+                return new String[]{"xls"};
+            }
 
-		final JDialog jd = new JDialog();
-		// 模态一下，因为可能会多个样式丢失
-		// jd.setModal(true);
-		jd.setAlwaysOnTop(true);
-		jd.setSize(450, 150);
-		jd.setResizable(false);
-		jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
-		String message = namelist.toString().replaceAll("\\[", "").replaceAll("\\]", "");
-		UILabel jl = new UILabel(Inter.getLocText(new String[]{"Current_custom_global", "Has_been_gone"}, new String[]{message}));
-		jl.setHorizontalAlignment(SwingConstants.CENTER);
-		jd.add(jl, BorderLayout.CENTER);
-		JPanel jp = new JPanel();
+            @Override
+            public WorkBook asIOFile(FILE tplFile) {
+                WorkBook workbook = null;
+                try {
+                    workbook = new ExcelReportImporter().generateWorkBookByStream(tplFile.asInputStream());
+                } catch (Exception exp) {
+                    FRContext.getLogger().error("Failed to generate xls from " + tplFile, exp);
+                }
+                return workbook;
+            }
+        };
+    }
 
-		// ”是“按钮，点击之后将生成一个全局样式，并写入xml
-		UIButton confirmButton = new UIButton(Inter.getLocText("FR-Designer_Yes"));
-		confirmButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					for (int i = 0; i < namelist.size(); i++) {
-						ConfigManager.getProviderInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
-						FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-					}
-				} catch (Exception ex) {
-					FRLogger.getLogger().error(ex.getMessage());
-				}
-				jd.dispose();
-				new StyleListAction().actionPerformed(e);// 弹窗
-			}
-		});
+    private AbstractWorkBookApp getCptApp() {
+        return new AbstractWorkBookApp() {
+            public String[] defaultExtentions() {
+                return new String[]{"cpt"};
+            }
 
-		UIButton noButton = new UIButton(Inter.getLocText("FR-Designer_No"));
-		noButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jd.dispose();
-			}
-		});
+            public WorkBook asIOFile(FILE file) {
+                if (XMLEncryptUtils.isCptEncoded() &&
+                        !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
+                    if (!new DecodeDialog(file).isPwdRight()) {
+                        FRContext.getLogger().error(Inter.getLocText("ECP-error_pwd"));
+                        return new WorkBook();
+                    }
+                }
 
-		jp.add(confirmButton);
-		jp.add(noButton);
-		jd.setTitle(Inter.getLocText("FR-Custom_styles_lost"));
-		jd.add(jp, BorderLayout.SOUTH);
-		GUICoreUtils.centerWindow(jd);
-		jd.setVisible(true);
-	}
+                WorkBook tpl = new WorkBook();
+                // richer:打开报表通知
+                FRContext.getLogger().info(Inter.getLocText(new String[]{"LOG-Is_Being_Openned", "LOG-Please_Wait"}, new String[]{"\"" + file.getName() + "\"" + ",", "..."}));
+                TempNameStyle namestyle = TempNameStyle.getInstance();
+                namestyle.clear();
+                String checkStr = StringUtils.EMPTY;
+                try {
+                    checkStr = IOUtils.inputStream2String(file.asInputStream());
+                    tpl.readStream(file.asInputStream());
+                } catch (Exception exp) {
+                    String errorMessage = StringUtils.EMPTY;
+                    errorMessage = ComparatorUtils.equals(RemoteDeziConstants.INVALID_USER, checkStr) ? Inter.getLocText("FR-Designer_No-Privilege")
+                            : Inter.getLocText("NS-exception_readError");
+                    FRContext.getLogger().error(errorMessage + file, exp);
+                }
+                checkNameStyle(namestyle);
+                return tpl;
+            }
+        };
+    }
 
-	private void generateInsertActionClasses() {
-		if (ModuleContext.isModuleStarted(CHART_MODULE)) {
-			ActionUtils.registerCellInsertActionClass(new Class[]{
-					DSColumnCellAction.class,
-					GeneralCellAction.class,
-					RichTextCellAction.class,
-					FormulaCellAction.class,
-					ChartCellAction.class,
-					ImageCellAction.class,
-					BiasCellAction.class,
-					SubReportCellAction.class
-			});
-			ActionUtils.registerFloatInsertActionClass(new Class[]{
-					TextBoxFloatAction.class,
-					FormulaFloatAction.class,
-					ChartFloatAction.class,
-					ImageFloatAction.class
-			});
-		} else {
-			ActionUtils.registerCellInsertActionClass(new Class[]{
-					DSColumnCellAction.class,
-					GeneralCellAction.class,
-					FormulaCellAction.class,
-					ImageCellAction.class,
-					BiasCellAction.class,
-					SubReportCellAction.class
-			});
-			ActionUtils.registerFloatInsertActionClass(new Class[]{
-					TextBoxFloatAction.class,
-					FormulaFloatAction.class,
-					ImageFloatAction.class
-			});
-		}
-	}
+    private static void checkNameStyle(TempNameStyle namestyle) {
+        Iterator it = namestyle.getIterator();
+        ArrayList<String> al = new ArrayList<String>();
+        while (it.hasNext()) {
+            al.add((String) it.next());
+        }
+        if (!al.isEmpty()) {
+            showConfirmDialog(al);
+        }
+    }
 
-	private void registerHyperlink() {
-		if (ModuleContext.isModuleStarted(Module.CHART_MODULE)) {
-			DesignModuleFactory.registerCreators4Hyperlink(new NameableCreator[]{
-					new NameObjectCreator(Inter.getLocText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.CHART_NO_RENAME.class),
-					new NameObjectCreator(Inter.getLocText("FR-Designer_Email"), EmailJavaScript.class, EmailPane.class),
-					new NameObjectCreator(Inter.getLocText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.CHART_NO_RENAME.class),
-					new NameObjectCreator(Inter.getLocText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.CHART_NO_RENAME.class),
-					new NameObjectCreator("JavaScript", JavaScriptImpl.class, JavaScriptImplPane.CHART_NO_RENAME.class)
-			});
-		} else {
-			DesignModuleFactory.registerCreators4Hyperlink(new NameableCreator[]{
-					new NameObjectCreator(Inter.getLocText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.class),
-					new NameObjectCreator(Inter.getLocText("FR-Designer_Email"), EmailJavaScript.class, EmailPane.class),
-					new NameObjectCreator(Inter.getLocText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.class),
-					new NameObjectCreator(Inter.getLocText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.class),
-					new NameObjectCreator("JavaScript", JavaScriptImpl.class, JavaScriptImplPane.class)
-			});
-		}
-	}
+    private static void showConfirmDialog(final ArrayList<String> namelist) {
 
-	private void registerData4Form() {
-		StableFactory.registerMarkedClass(FormECDesignerProvider.XML_TAG, FormElementCaseDesigner.class);
-		StableFactory.registerMarkedClass(FormECCompositeProvider.XML_TAG, FormReportComponentComposite.class);
+        final JDialog jd = new JDialog();
+        // 模态一下，因为可能会多个样式丢失
+        // jd.setModal(true);
+        jd.setAlwaysOnTop(true);
+        jd.setSize(450, 150);
+        jd.setResizable(false);
+        jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+        String message = namelist.toString().replaceAll("\\[", "").replaceAll("\\]", "");
+        UILabel jl = new UILabel(Inter.getLocText(new String[]{"Current_custom_global", "Has_been_gone"}, new String[]{message}));
+        jl.setHorizontalAlignment(SwingConstants.CENTER);
+        jd.add(jl, BorderLayout.CENTER);
+        JPanel jp = new JPanel();
+
+        // ”是“按钮，点击之后将生成一个全局样式，并写入xml
+        UIButton confirmButton = new UIButton(Inter.getLocText("FR-Designer_Yes"));
+        confirmButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    for (int i = 0; i < namelist.size(); i++) {
+                        ConfigManager.getProviderInstance().putStyle(namelist.get(i), Style.DEFAULT_STYLE);
+                        FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+                    }
+                } catch (Exception ex) {
+                    FRLogger.getLogger().error(ex.getMessage());
+                }
+                jd.dispose();
+                new StyleListAction().actionPerformed(e);// 弹窗
+            }
+        });
+
+        UIButton noButton = new UIButton(Inter.getLocText("FR-Designer_No"));
+        noButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jd.dispose();
+            }
+        });
+
+        jp.add(confirmButton);
+        jp.add(noButton);
+        jd.setTitle(Inter.getLocText("FR-Custom_styles_lost"));
+        jd.add(jp, BorderLayout.SOUTH);
+        GUICoreUtils.centerWindow(jd);
+        jd.setVisible(true);
+    }
+
+    public Class<?>[] actionsForInsertCellElement() {
+        return (Class<?>[])ArrayUtils.addAll(new Class<?>[]{
+                DSColumnCellAction.class,
+                GeneralCellAction.class,
+                RichTextCellAction.class,
+                FormulaCellAction.class,
+                ChartCellAction.class,
+                ImageCellAction.class,
+                BiasCellAction.class,
+                SubReportCellAction.class
+        }, super.actionsForInsertCellElement());
+    }
+
+    public Class<?>[] actionsForInsertFloatElement() {
+        return (Class<?>[]) ArrayUtils.addAll(new Class<?>[]{
+                TextBoxFloatAction.class,
+                FormulaFloatAction.class,
+                ChartFloatAction.class,
+                ImageFloatAction.class
+        }, super.actionsForInsertFloatElement());
+    }
+
+
+    private void registerData4Form() {
+        StableFactory.registerMarkedClass(FormECDesignerProvider.XML_TAG, FormElementCaseDesigner.class);
+        StableFactory.registerMarkedClass(FormECCompositeProvider.XML_TAG, FormReportComponentComposite.class);
         DesignModuleFactory.registerParameterReader(new WorkBookParameterReader());
-	}
+    }
 }
