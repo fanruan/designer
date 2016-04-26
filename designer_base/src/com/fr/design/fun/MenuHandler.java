@@ -10,7 +10,7 @@ import com.fr.stable.fun.Level;
  * @since 8.0
  * 设计器菜单栏插件接口
  */
-public interface MenuHandler extends Level{
+public interface MenuHandler extends Level {
 
     String MARK_STRING = "MenuHandler";
 
@@ -30,39 +30,42 @@ public interface MenuHandler extends Level{
      * 插入菜单的位置
      *
      * @param total 插入的位置
-     *
      * @return 插入位置，如果想放到最后，则返回-1
      */
     int insertPosition(int total);
 
     /**
      * 是否在插入的菜单前插入一个分割符
+     *
      * @return 是否插入分隔符
      */
     boolean insertSeparatorBefore();
 
     /**
      * 是否在插入的菜单后插入一个分割符
+     *
      * @return 是否插入分隔符
      */
     boolean insertSeparatorAfter();
 
     /**
      * 所属的分类菜单
+     *
      * @return 分类菜单名
      */
     String category();
 
     /**
      * 具体的菜单项内容
+     *
      * @return 菜单项内容
      */
     ShortCut shortcut();
 
     /**
      * 具体的菜单项内容
-     * @param plus 当前模板
      *
+     * @param plus 当前模板
      * @return 菜单项内容
      */
     ShortCut shortcut(ToolBarMenuDockPlus plus);

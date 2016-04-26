@@ -26,9 +26,8 @@ public abstract class AbstractMenuHandler extends AbstractProvider implements Me
      * 不需要选中对象, (文件, 服务器, 关于)
      *
      * @return 菜单Action
-     *
      */
-    public ShortCut shortcut(){
+    public ShortCut shortcut() {
         return null;
     }
 
@@ -36,11 +35,9 @@ public abstract class AbstractMenuHandler extends AbstractProvider implements Me
      * 获取当前菜单对应的Action
      *
      * @param plus 当前选中的对象(模板)
-     *
      * @return 菜单Action
-     *
      */
-    public ShortCut shortcut(ToolBarMenuDockPlus plus){
+    public ShortCut shortcut(ToolBarMenuDockPlus plus) {
         return null;
     }
 }
