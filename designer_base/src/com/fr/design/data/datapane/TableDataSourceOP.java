@@ -84,7 +84,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         }
     }
 
-    private ExpandMutableTreeNode[] getNodeArrayFromMap(Map<String, TableDataWrapper> map) {
+    protected ExpandMutableTreeNode[] getNodeArrayFromMap(Map<String, TableDataWrapper> map) {
         List<ExpandMutableTreeNode> dataList = new ArrayList<ExpandMutableTreeNode>();
         Iterator<Entry<String, TableDataWrapper>> entryIt = map.entrySet().iterator();
         while (entryIt.hasNext()) {
@@ -181,7 +181,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         }
     }
 
-    private void setStoreProcedureTree(TableData tableData, ExpandMutableTreeNode tmpNode) {
+    protected void setStoreProcedureTree(TableData tableData, ExpandMutableTreeNode tmpNode) {
         ArrayList<String> nodeName = new ArrayList<String>();
         StoreProcedure storeProcedure = (StoreProcedure) tableData;
         String name = ((NameObject) tmpNode.getUserObject()).getName();
@@ -229,11 +229,11 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
 
-    protected void setDataMode(int i) {
+    public void setDataMode(int i) {
         this.dataMode = i;
     }
 
-    protected int getDataMode() {
+    public int getDataMode() {
         return dataMode;
     }
 
