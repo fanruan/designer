@@ -3,39 +3,22 @@ package com.fr.design.fun.impl;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.ShortCut;
-import com.fr.general.ComparatorUtils;
+import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
  * @author richie
  * @date 2015-05-13
  * @since 8.0
  */
-public abstract class AbstractMenuHandler implements MenuHandler {
+public abstract class AbstractMenuHandler extends AbstractProvider implements MenuHandler {
 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
     }
 
-
-    public boolean equals(Object obj) {
-        return obj instanceof AbstractMenuHandler
-                && ComparatorUtils.equals(category(), ((AbstractMenuHandler) obj).category())
-                && shortCutEquals(this, (AbstractMenuHandler)obj);
-    }
-
-    private boolean shortCutEquals(AbstractMenuHandler target, AbstractMenuHandler self){
-        ShortCut targetShortCut = target.shortcut();
-        ShortCut selfShortCut = self.shortcut();
-
-        if (targetShortCut == null && selfShortCut == null){
-            return true;
-        }
-
-        if (targetShortCut != null && selfShortCut != null){
-            return ComparatorUtils.equals(targetShortCut.getClass(), selfShortCut.getClass());
-        }
-
-        return false;
+    @Override
+    public String mark4Provider() {
+        return this.getClass().getName();
     }
 
     /**

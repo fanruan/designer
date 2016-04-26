@@ -66,11 +66,4 @@ public interface MenuHandler extends Level{
      * @return 菜单项内容
      */
     ShortCut shortcut(ToolBarMenuDockPlus plus);
-
-    /**
-     * 两个菜单项相等等情况
-     * @param obj 比较对象
-     * @return 相等则返回true，否则返回false
-     */
-    boolean equals(Object obj);
 }
