@@ -8,7 +8,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.NewPresentAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.clear.*;
 import com.fr.design.actions.edit.order.BringFloatElementForwardAction;
 import com.fr.design.actions.edit.order.BringFloatElementToFrontAction;
@@ -92,10 +92,11 @@ public class DeprecatedActionManager {
         final MenuDef subMenuDef = new MenuDef(KeySetUtils.CELL_ELEMENT.getMenuName());
         subMenuDef.setIconPath("/com/fr/design/images/m_insert/cell.png");
 
-        UpdateAction[] actions = ActionUtils.createCellInsertAction(ElementCasePane.class, ePane);
-        for (int i = 0; i < actions.length; i++) {
-            subMenuDef.addShortCut(actions[i]);
+        UpdateAction[] actions = ActionFactory.createCellInsertAction(ElementCasePane.class, ePane);
+        for (UpdateAction action : actions) {
+            subMenuDef.addShortCut(action);
         }
+
         ePane.addSelectionChangeListener(new SelectionListener() {
 
             @Override

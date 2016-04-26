@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.form.FormECBackgroundAction;
 import com.fr.design.actions.form.FormECColumnsAction;
 import com.fr.design.actions.form.FormECFrozenAction;
@@ -108,7 +108,7 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
     }
 
     protected ToolBarDef createInsertToolBar() {
-        UpdateAction[] cellInsertActions = ActionUtils.createCellInsertAction(ElementCasePane.class, this);
+        UpdateAction[] cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, this);
         ShortCut[] shortCuts = new ShortCut[cellInsertActions.length];
         System.arraycopy(cellInsertActions, 0, shortCuts, 0, cellInsertActions.length);
         return ShortCut.asToolBarDef(shortCuts);

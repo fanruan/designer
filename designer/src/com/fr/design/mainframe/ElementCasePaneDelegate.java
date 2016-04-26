@@ -10,7 +10,7 @@ import com.fr.design.DesignState;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.*;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.actions.edit.merge.MergeCellAction;
 import com.fr.design.actions.edit.merge.UnmergeCellAction;
@@ -131,7 +131,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         MenuDef subMenuDef = new MenuDef(KeySetUtils.INSERT_FLOAT.getMenuName());
         subMenuDef.setIconPath("/com/fr/design/images/m_insert/float.png");
         menuDef.addShortCut(subMenuDef);
-        UpdateAction[] actions = ActionUtils.createFloatInsertAction(ElementCasePane.class, this);
+        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, this);
         for (int i = 0; i < actions.length; i++) {
             subMenuDef.addShortCut(actions[i]);
         }

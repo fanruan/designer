@@ -8,7 +8,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.DeleteAction;
@@ -226,7 +226,7 @@ public class FloatSelection extends Selection {
         Object value = selectedFloat.getValue();
         value = value == null ? "" : value;
         value = value instanceof Number ? value.toString() : value;
-        QuickEditor editor = ActionUtils.getFloatEditor(value.getClass());
+        QuickEditor editor = ActionFactory.getFloatEditor(value.getClass());
         editor.populate(tc);
         return editor;
     }

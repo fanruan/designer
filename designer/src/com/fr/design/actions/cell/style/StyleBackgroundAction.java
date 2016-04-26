@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ColorBackground;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
@@ -68,7 +68,7 @@ public class StyleBackgroundAction extends AbstractStyleAction implements Change
             tbButton.addColorChangeListener(this);
 
             //peter:产生tooltip
-            tbButton.setToolTipText(ActionUtils.createButtonToolTipText(this));
+            tbButton.setToolTipText(ActionFactory.createButtonToolTipText(this));
             return tbButton;
         }
 

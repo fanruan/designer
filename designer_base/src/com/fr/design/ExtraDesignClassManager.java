@@ -128,6 +128,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private TableDataTreePaneProcessor tableDataTreePaneProcessor;
 
+    private Set<ElementUIProvider> elementUIProviders;
+
     public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
         return tableDataTreePaneProcessor;
     }
@@ -719,6 +721,21 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         cellAttributeProvider = (CellAttributeProvider) level;
     }
 
+    public ElementUIProvider[] getElementUIProviders() {
+        if (elementUIProviders == null) {
+            return new ElementUIProvider[0];
+        }
+        return elementUIProviders.toArray(new ElementUIProvider[elementUIProviders.size()]);
+    }
+
+    public void addElementUIProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (elementUIProviders == null) {
+            elementUIProviders = new HashSet<ElementUIProvider>();
+        }
+        validAPILevel(level, ElementUIProvider.CURRENT_LEVEL, simplify.getPluginName());
+        elementUIProviders.add((ElementUIProvider) level);
+    }
+
     /**
      * 文件名
      *
@@ -809,6 +826,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 setEnvProcessor(impl, simplify);
             } else if (tagName.equals(TableDataTreePaneProcessor.XML_TAG)) {
                 setTableDataSourceOPProcessor(impl, simplify);
+            } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {
+                addElementUIProvider(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());

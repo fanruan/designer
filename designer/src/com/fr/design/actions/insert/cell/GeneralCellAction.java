@@ -4,6 +4,7 @@
 package com.fr.design.actions.insert.cell;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -13,7 +14,7 @@ import javax.swing.*;
 /**
  *
  */
-public class GeneralCellAction extends AbstractCellAction {
+public class GeneralCellAction extends AbstractCellAction implements WorkBookSupportable {
 	public GeneralCellAction(ElementCasePane t) {
     	super(t);
         this.setMenuKeySet(INSERT_TEXT);

@@ -5,13 +5,14 @@ package com.fr.design.actions.insert.cell;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Formula;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
 
 import javax.swing.*;
 
-public class FormulaCellAction extends AbstractCellAction {
+public class FormulaCellAction extends AbstractCellAction implements WorkBookSupportable {
 	public FormulaCellAction(ElementCasePane t) {
     	super(t);
         this.setMenuKeySet(INSERT_FORMULA);

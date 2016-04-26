@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 import com.fr.base.BaseUtils;
 import com.fr.base.CellBorderStyle;
 import com.fr.design.actions.ElementCaseAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.style.BorderUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
@@ -56,7 +56,7 @@ public class BorderAction extends ElementCaseAction implements ChangeListener {
             borderStylePane.setEnabled(this.isEnabled());
             borderStylePane.set4Toolbar();
             // peter:产生tooltip
-            borderStylePane.setToolTipText(ActionUtils.createButtonToolTipText(this));
+            borderStylePane.setToolTipText(ActionFactory.createButtonToolTipText(this));
             borderStylePane.setCellBorderStyle(new CellBorderStyle());
             borderStylePane.addStyleChangeListener(this);
             return borderStylePane;

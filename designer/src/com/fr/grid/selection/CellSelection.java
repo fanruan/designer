@@ -5,7 +5,7 @@ import com.fr.cache.list.IntList;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.*;
 import com.fr.design.actions.cell.GlobalStyleMenuDef.GlobalStyleSelection;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.HyperlinkAction;
@@ -669,7 +669,7 @@ public class CellSelection extends Selection {
         }
         value = value == null ? "" : value;
         //之前是少了个bigInteger,刚kunsnat又发现少了个bigDecimal，数字类型的都用stringEditor，没必要那个样子
-        QuickEditor editor = ActionUtils.getCellEditor((value instanceof Number) ? (Number.class) : (value.getClass()));
+        QuickEditor editor = ActionFactory.getCellEditor((value instanceof Number) ? (Number.class) : (value.getClass()));
         if (editor == null) {
             return null;
         }

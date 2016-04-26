@@ -7,6 +7,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.export.*;
 import com.fr.design.actions.report.ReportExportAttrAction;
@@ -896,5 +897,4 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         //产品想要重新设计下, 1现在的分享多列数据集很麻烦, 2想做成自动上传附件.
 //        return new UIButton[]{new ShareButton()};
     }
-
 }

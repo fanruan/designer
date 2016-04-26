@@ -3,7 +3,7 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
 import com.fr.design.actions.file.newReport.NewWorkBookAction;
@@ -111,8 +111,8 @@ public class Designer extends BaseDesigner {
 
             if (FRContext.getCurrentEnv().isRoot()) {
                 menuDef.addShortCut(new ServerConfigManagerAction(), new StyleListAction(), new WidgetManagerAction());
-                if (ActionUtils.getChartPreStyleAction() != null) {
-                    menuDef.addShortCut(ActionUtils.getChartPreStyleAction());
+                if (ActionFactory.getChartPreStyleAction() != null) {
+                    menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
                 }
             }
 

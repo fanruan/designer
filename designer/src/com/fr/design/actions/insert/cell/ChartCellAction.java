@@ -4,7 +4,8 @@
 package com.fr.design.actions.insert.cell;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -14,7 +15,7 @@ import javax.swing.*;
 /**
  * .
  */
-public class ChartCellAction extends AbstractCellAction {
+public class ChartCellAction extends AbstractCellAction implements WorkBookSupportable {
 	public ChartCellAction(ElementCasePane t) {
 		super(t);
         this.setMenuKeySet(INSERT_CHART);
@@ -43,6 +44,6 @@ public class ChartCellAction extends AbstractCellAction {
 
 	@Override
 	public Class getCellValueClass() {
-		return ActionUtils.getChartCollectionClass();
+		return ActionFactory.getChartCollectionClass();
 	}
 }

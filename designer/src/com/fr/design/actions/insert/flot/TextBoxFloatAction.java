@@ -15,11 +15,11 @@ import java.awt.event.ActionEvent;
 /**
  * Insert textbox.
  */
-public class TextBoxFloatAction extends AbstractShapeAction {
-	public TextBoxFloatAction(ElementCasePane t) {
-		super(t);
+public class TextBoxFloatAction extends AbstractShapeAction  {
+    public TextBoxFloatAction(ElementCasePane t) {
+        super(t);
         this.setMenuKeySet(FLOAT_INSERT_TEXT);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/text.png"));
     }
@@ -44,10 +44,11 @@ public class TextBoxFloatAction extends AbstractShapeAction {
 
     /**
      * 动作
+     *
      * @param e 动作
      */
-	public void actionPerformed(ActionEvent e) {
-    	ElementCasePane jws = getEditingComponent();
+    public void actionPerformed(ActionEvent e) {
+        ElementCasePane jws = getEditingComponent();
         if (jws == null) {
             return;
         }

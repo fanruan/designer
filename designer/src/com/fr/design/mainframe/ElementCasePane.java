@@ -17,6 +17,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Constructor;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -36,6 +37,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.actions.UpdateAction;
@@ -65,7 +67,7 @@ import com.fr.design.actions.columnrow.ResetColumnHideAction;
 import com.fr.design.actions.columnrow.ResetRowHideAction;
 import com.fr.design.actions.columnrow.RowHeightAction;
 import com.fr.design.actions.columnrow.RowHideAction;
-import com.fr.design.actions.core.ActionUtils;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.PasteAction;
@@ -75,20 +77,12 @@ import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
-import com.fr.design.cell.editor.BiasTextPainterCellEditor;
-import com.fr.design.cell.editor.ChartCellEditor;
-import com.fr.design.cell.editor.ChartFloatEditor;
-import com.fr.design.cell.editor.DSColumnCellEditor;
-import com.fr.design.cell.editor.FormulaCellEditor;
-import com.fr.design.cell.editor.FormulaFloatEditor;
-import com.fr.design.cell.editor.ImageCellEditor;
-import com.fr.design.cell.editor.ImageFloatEditor;
-import com.fr.design.cell.editor.RichTextCellEditor;
-import com.fr.design.cell.editor.SubReportCellEditor;
+import com.fr.design.cell.editor.*;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
@@ -103,6 +97,7 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
@@ -372,17 +367,43 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         grid.setDefaultCellEditor(Image.class, new ImageCellEditor(this));
         grid.setDefaultCellEditor(SubReport.class, new SubReportCellEditor(this));
 
-        Class chartClass = ActionUtils.getChartCollectionClass();
+        Class chartClass = ActionFactory.getChartCollectionClass();
         if (chartClass != null) {
             grid.setDefaultCellEditor(chartClass, new ChartCellEditor(this));
             grid.setDefaultFloatEditor(chartClass, new ChartFloatEditor());
         }
 
+        addExtraCellEditor(grid);
+
         grid.setDefaultFloatEditor(Formula.class, new FormulaFloatEditor());
         grid.setDefaultFloatEditor(Image.class, new ImageFloatEditor());
+
         DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
         grid.setGridLineColor(designerEnvManager.getGridLineColor());
         grid.setPaginationLineColor(designerEnvManager.getPaginationLineColor());
+    }
+
+    private void addExtraCellEditor(Grid grid) {
+        ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+        for (ElementUIProvider provider : providers) {
+            CellEditor editor = null;
+            Class<?> clazz = provider.targetCellEditorClass();
+            Constructor<?> c;
+            try {
+                c = clazz.getConstructor();
+                editor = (CellEditor) c.newInstance();
+            } catch (NoSuchMethodException e) {
+                try {
+                    c = clazz.getConstructor(ElementCase.class);
+                    editor = (CellEditor) c.newInstance(this);
+                } catch (Exception e1) {
+                    FRLogger.getLogger().error(e1.getMessage(), e1);
+                }
+            } catch (Exception e) {
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
+            grid.setDefaultCellEditor(provider.targetObjectClass(), editor);
+        }
     }
 
     /**
@@ -1263,11 +1284,11 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         insertFloatMenu.setTooltip(Inter.getLocText("T_Insert-Float"));
         insertFloatMenu.setIconPath("/com/fr/design/images/m_insert/floatPop.png");
 
-        UpdateAction[] actions = ActionUtils.createFloatInsertAction(ElementCasePane.class, this);
+        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, this);
         for (int i = 0; i < actions.length; i++) {
             insertFloatMenu.addShortCut(actions[i]);
         }
-        UpdateAction[] cellInsertActions = ActionUtils.createCellInsertAction(ElementCasePane.class, this);
+        UpdateAction[] cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, this);
         ShortCut[] shortCuts = new ShortCut[cellInsertActions.length];
         System.arraycopy(cellInsertActions, 0, shortCuts, 0, cellInsertActions.length);
         return ShortCut.asToolBarDef((ShortCut[]) ArrayUtils.add(shortCuts, insertFloatMenu));

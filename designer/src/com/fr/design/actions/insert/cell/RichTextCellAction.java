@@ -3,13 +3,14 @@ package com.fr.design.actions.insert.cell;
 import javax.swing.KeyStroke;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.cellattr.core.RichText;
 
-public class RichTextCellAction extends AbstractCellAction {
+public class RichTextCellAction extends AbstractCellAction implements WorkBookSupportable {
 
 	public RichTextCellAction(ElementCasePane t) {
     	super(t);
