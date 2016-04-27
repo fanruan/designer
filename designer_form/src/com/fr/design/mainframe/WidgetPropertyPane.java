@@ -1,12 +1,14 @@
 package com.fr.design.mainframe;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.WidgetCustomAttrProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -24,6 +26,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
     private WidgetPropertyTable propertyTable;
     private EventPropertyTable eventTable;
+    private List<AbstractPropertyTable> customPropertyTables;
+    private FormDesigner designer;
 
     public static WidgetPropertyPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -33,14 +37,14 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     }
 
     public static WidgetPropertyPane getInstance(FormDesigner formEditor) {
-    	HOLDER.singleton.setEditingFormDesigner(formEditor);
-    	HOLDER.singleton.refreshDockingView();
-		return HOLDER.singleton;
-	}
+        HOLDER.singleton.setEditingFormDesigner(formEditor);
+        HOLDER.singleton.refreshDockingView();
+        return HOLDER.singleton;
+    }
 
-    
+
     private static class HOLDER {
-    	private static WidgetPropertyPane singleton = new WidgetPropertyPane();
+        private static WidgetPropertyPane singleton = new WidgetPropertyPane();
     }
 
     private WidgetPropertyPane() {
@@ -58,13 +62,14 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     }
 
     @Override
-	public void refreshDockingView() {
-    	FormDesigner designer = this.getEditingFormDesigner();
-    	removeAll();
-    	if(designer == null){
-    		clearDockingView();
-    		return;
-    	}
+    public void refreshDockingView() {
+        designer = this.getEditingFormDesigner();
+        removeAll();
+        if (designer == null) {
+            clearDockingView();
+            return;
+        }
+        customPropertyTables = new ArrayList<AbstractPropertyTable>();
         propertyTable = new WidgetPropertyTable(designer);
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
         propertyTable.setBorder(null);
@@ -76,79 +81,97 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         UIScrollPane esp = new UIScrollPane(eventTable);
         esp.setBorder(null);
 //        JTabbedPane tabbedPane = new JTabbedPane();
-		UITabbedPane tabbedPane = new UITabbedPane();
+        UITabbedPane tabbedPane = new UITabbedPane();
         tabbedPane.setOpaque(true);
         tabbedPane.setBorder(null);
         tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
         tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
         tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
+
+        WidgetCustomAttrProvider[] customAttrProviders = ExtraDesignClassManager.getInstance().getWidgetCustomAttrProviders();
+        for (WidgetCustomAttrProvider customAttrProvider : customAttrProviders) {
+            AbstractPropertyTable propertyTable = customAttrProvider.createWidgetCustomAttrTable();
+            customPropertyTables.add(propertyTable);
+            designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
+            UIScrollPane uiScrollPane = new UIScrollPane(propertyTable);
+            uiScrollPane.setBorder(null);
+            tabbedPane.addTab(customAttrProvider.setTableTitle(), uiScrollPane);
+        }
         add(tabbedPane, BorderLayout.CENTER);
-        
-		propertyTable.initPropertyGroups(null);
-		eventTable.refresh();
+
+        propertyTable.initPropertyGroups(null);
+        eventTable.refresh();
+        if (customPropertyTables.size() > 0) {
+            for (AbstractPropertyTable propertyTable : customPropertyTables) {
+                propertyTable.initPropertyGroups(designer);
+            }
+        }
     }
 
-	public void setEditingFormDesigner(BaseFormDesigner  editor) {
-		FormDesigner fd = (FormDesigner)editor;
-		super.setEditingFormDesigner(fd);
-	}
+    public void setEditingFormDesigner(BaseFormDesigner editor) {
+        FormDesigner fd = (FormDesigner) editor;
+        super.setEditingFormDesigner(fd);
+    }
 
     public void clearDockingView() {
         propertyTable = null;
         eventTable = null;
+        if (customPropertyTables != null) {
+            customPropertyTables.clear();
+        }
         JScrollPane psp = new JScrollPane();
         psp.setBorder(null);
         this.add(psp, BorderLayout.CENTER);
     }
 
-	public class WidgetPropertyDesignerAdapter implements DesignerEditListener {
-		AbstractPropertyTable propertyTable;
+    public class WidgetPropertyDesignerAdapter implements DesignerEditListener {
+        AbstractPropertyTable propertyTable;
 
-		public WidgetPropertyDesignerAdapter(AbstractPropertyTable propertyTable) {
-			this.propertyTable = propertyTable;
-		}
+        public WidgetPropertyDesignerAdapter(AbstractPropertyTable propertyTable) {
+            this.propertyTable = propertyTable;
+        }
 
-		@Override
-		public void fireCreatorModified(DesignerEvent evt) {
-			if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-					|| evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
-					|| evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-				propertyTable.initPropertyGroups(null);
-			} else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
-				repaint();
-			}
-		}
+        @Override
+        public void fireCreatorModified(DesignerEvent evt) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
+                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
+                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+                propertyTable.initPropertyGroups(designer);
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
+                repaint();
+            }
+        }
 
-		@Override
-		public boolean equals(Object o) {
-			return o instanceof WidgetPropertyDesignerAdapter;
-		}
-	}
-    
-	public class EventPropertyDesignerAdapter implements DesignerEditListener {
-		EventPropertyTable propertyTable;
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof WidgetPropertyDesignerAdapter && ((WidgetPropertyDesignerAdapter) o).propertyTable == this.propertyTable;
+        }
+    }
 
-		public EventPropertyDesignerAdapter(EventPropertyTable eventTable) {
-			this.propertyTable = eventTable;
-		}
+    public class EventPropertyDesignerAdapter implements DesignerEditListener {
+        EventPropertyTable propertyTable;
 
-		@Override
-		public void fireCreatorModified(DesignerEvent evt) {
-			if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-					|| evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-					|| evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-				propertyTable.refresh();
-			}
-		}
+        public EventPropertyDesignerAdapter(EventPropertyTable eventTable) {
+            this.propertyTable = eventTable;
+        }
 
-		@Override
-		public boolean equals(Object o) {
-			return o instanceof EventPropertyDesignerAdapter;
-		}
-	}
-    
+        @Override
+        public void fireCreatorModified(DesignerEvent evt) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
+                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
+                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+                propertyTable.refresh();
+            }
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof EventPropertyDesignerAdapter;
+        }
+    }
+
     @Override
     public Location preferredLocation() {
-    	return Location.WEST_BELOW;
+        return Location.WEST_BELOW;
     }
 }
