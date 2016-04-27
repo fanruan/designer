@@ -45,7 +45,8 @@ public class BubbleSeriesPane extends AbstractPlotSeriesPane{
 		super.updateBean(plot);
 		BubblePlot bubblePlot = (BubblePlot) plot;
 		bubblePlot.setSeriesEqualsBubbleInWidthOrArea(bubbleMean.getSelectedItem());
-		bubblePlot.setMaxBubblePixel(Utils.string2Number(zoomTime.getText()).doubleValue());
+        Number result = Utils.string2Number(zoomTime.getText());
+        bubblePlot.setMaxBubblePixel(result == null ? 0 : result.doubleValue());
 		bubblePlot.setShowNegativeBubble(isMinus.isSelected());
 	}
 

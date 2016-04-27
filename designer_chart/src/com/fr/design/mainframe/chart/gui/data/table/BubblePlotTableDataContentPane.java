@@ -52,10 +52,10 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         double[] columnSize_north = {p, f};
         double[] rowSize_north = {p, p, p, p};
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel("   "+Inter.getLocText("Chart-Series_Name")+":"), seriesName},
-                new Component[]{new UILabel("   " +"x :"), xCombox},
-                new Component[]{new UILabel("   " +"y :"), yCombox},
-                new Component[]{new UILabel("   "+Inter.getLocText("FR-Chart_Bubble_Size")+":"), bubbleSize},
+                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")+":", SwingConstants.RIGHT), seriesName},
+                new Component[]{new UILabel("x :",SwingConstants.RIGHT), xCombox},
+                new Component[]{new UILabel("y :",SwingConstants.RIGHT), yCombox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")+":", SwingConstants.RIGHT), bubbleSize}
         };
         JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
         north.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
