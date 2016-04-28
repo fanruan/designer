@@ -7,8 +7,10 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.PluginManagerPane;
+import com.fr.design.extra.PluginShopDialog;
+import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
@@ -130,7 +132,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                         int r = JOptionPane.showConfirmDialog(null, text, Inter.getLocText("FR-Designer_Plugin_Should_Update_Title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (r == JOptionPane.OK_OPTION) {
                             final PluginManagerPane managerPane = new PluginManagerPane();
-                            BasicDialog dlg = managerPane.showLargeWindow(DesignerContext.getDesignerFrame(),null);
+                            UIDialog dlg = new PluginShopDialog(DesignerContext.getDesignerFrame(),managerPane);
+                            PluginWebBridge.getHelper().setDialogHandle(dlg);
                             dlg.setVisible(true);
                         }
                     }
