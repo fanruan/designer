@@ -14,5 +14,5 @@ public interface WidgetAttrProvider extends Level {
 
     AbstractPropertyTable createWidgetAttrTable();
 
-    String setTableTitle();
+    String tableTitle();
 }

@@ -95,7 +95,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
             UIScrollPane uiScrollPane = new UIScrollPane(propertyTable);
             uiScrollPane.setBorder(null);
-            tabbedPane.addTab(widgetAttrProvider.setTableTitle(), uiScrollPane);
+            tabbedPane.addTab(widgetAttrProvider.tableTitle(), uiScrollPane);
         }
         add(tabbedPane, BorderLayout.CENTER);
 
