@@ -101,10 +101,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
         propertyTable.initPropertyGroups(null);
         eventTable.refresh();
-        if (widgetPropertyTables.size() > 0) {
-            for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
-                propertyTable.initPropertyGroups(designer);
-            }
+        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
+            propertyTable.initPropertyGroups(designer);
         }
     }
 
