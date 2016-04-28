@@ -269,23 +269,6 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         }
     }
 
-    protected void initbuttonGroup(final TableDataSourceOP op) {
-        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
-        final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
-        String[] textArray = {Inter.getLocText(new String[]{"Template", "DS-TableData"}), Inter.getLocText("DS-Server_TableData")};
-        buttonGroup = new UIHeadGroup(iconArray, textArray) {
-            public void tabChanged(int index) {
-                if (op != null) {
-                    op.setDataMode(modeArray[buttonGroup.getSelectedIndex()]);
-                    addMenuDef.setEnabled(modeArray[buttonGroup.getSelectedIndex()] == TEMPLATE_TABLE_DATA ? true : false);
-                    refreshDockingView();
-                }
-
-            }
-        };
-        buttonGroup.setNeedLeftRightOutLine(false);
-    }
-
     protected void createAddMenuDef() {
         TableDataNameObjectCreator[] creators = TableDataCreatorProducer.getInstance().createReportTableDataCreator();
         for (final TableDataNameObjectCreator creator : creators) {
