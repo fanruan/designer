@@ -12,6 +12,8 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.StableUtils;
+import com.fr.third.org.apache.poi.hssf.record.formula.functions.T;
+import org.easymock.internal.matchers.Null;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,22 +45,22 @@ public class PluginManagerPane extends BasicPane {
                 URL url = ClassLoader.getSystemResource("");
                 installHome = url.getPath();
             } else {
-            installHome = StableUtils.getInstallHome();
-            File file = new File(StableUtils.pathJoin(installHome, "scripts"));
-            if (!file.exists()) {
-                int rv = JOptionPane.showConfirmDialog(
-                        null,
-                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                if (rv == JOptionPane.OK_OPTION) {
-                    downloadShopScripts();
+                installHome = StableUtils.getInstallHome();
+                File file = new File(StableUtils.pathJoin(installHome, "scripts"));
+                if (!file.exists()) {
+                    int rv = JOptionPane.showConfirmDialog(
+                            this,
+                            Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    if (rv == JOptionPane.OK_OPTION) {
+                        downloadShopScripts();
+                    }
+                } else {
+                    updateShopScripts();
                 }
-            } else {
-                updateShopScripts();
-            }
             }
             PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
             add(webPane, BorderLayout.CENTER);
@@ -90,7 +92,7 @@ public class PluginManagerPane extends BasicPane {
                         }
                     });
                 } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(PluginManagerPane.this, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return false;
                 } catch (Exception e) {
                     FRContext.getLogger().error(e.getMessage(), e);
@@ -106,7 +108,7 @@ public class PluginManagerPane extends BasicPane {
                     if (get()) {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
                         int rv = JOptionPane.showOptionDialog(
-                                null,
+                                PluginManagerPane.this,
                                 Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
                                 Inter.getLocText("FR-Designer-Plugin_Warning"),
                                 JOptionPane.YES_NO_OPTION,
@@ -135,7 +137,7 @@ public class PluginManagerPane extends BasicPane {
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     if (!ComparatorUtils.equals(httpClient.getResponseText(), LATEST)) {
                         int rv = JOptionPane.showConfirmDialog(
-                                null,
+                                PluginManagerPane.this,
                                 Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
                                 Inter.getLocText("FR-Designer-Plugin_Warning"),
                                 JOptionPane.OK_CANCEL_OPTION,
