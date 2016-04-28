@@ -56,7 +56,8 @@ public class CombinedBubbleSeriesPane extends BubbleSeriesPane{
 
     public void updateBean(Plot plot) {
         super.updateBean(plot);
-        plot.setCombinedSize(Utils.string2Number(zoomTime.getText()).doubleValue());
+        Number result = Utils.string2Number(zoomTime.getText());
+        plot.setCombinedSize(result == null ? 0 : result.doubleValue());
         plot.setPlotFillStyle(fillColorPane.updateBean());
     }
 }
