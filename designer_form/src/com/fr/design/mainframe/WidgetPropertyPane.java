@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.WidgetCustomAttrProvider;
+import com.fr.design.fun.WidgetAttrProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -26,7 +26,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
     private WidgetPropertyTable propertyTable;
     private EventPropertyTable eventTable;
-    private List<AbstractPropertyTable> customPropertyTables;
+    private List<AbstractPropertyTable> widgetPropertyTables;
     private FormDesigner designer;
 
     public static WidgetPropertyPane getInstance() {
@@ -69,7 +69,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             clearDockingView();
             return;
         }
-        customPropertyTables = new ArrayList<AbstractPropertyTable>();
+        widgetPropertyTables = new ArrayList<AbstractPropertyTable>();
         propertyTable = new WidgetPropertyTable(designer);
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
         propertyTable.setBorder(null);
@@ -88,21 +88,21 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
         tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
 
-        WidgetCustomAttrProvider[] customAttrProviders = ExtraDesignClassManager.getInstance().getWidgetCustomAttrProviders();
-        for (WidgetCustomAttrProvider customAttrProvider : customAttrProviders) {
-            AbstractPropertyTable propertyTable = customAttrProvider.createWidgetCustomAttrTable();
-            customPropertyTables.add(propertyTable);
+        WidgetAttrProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
+        for (WidgetAttrProvider widgetAttrProvider : widgetAttrProviders) {
+            AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
+            widgetPropertyTables.add(propertyTable);
             designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
             UIScrollPane uiScrollPane = new UIScrollPane(propertyTable);
             uiScrollPane.setBorder(null);
-            tabbedPane.addTab(customAttrProvider.setTableTitle(), uiScrollPane);
+            tabbedPane.addTab(widgetAttrProvider.setTableTitle(), uiScrollPane);
         }
         add(tabbedPane, BorderLayout.CENTER);
 
         propertyTable.initPropertyGroups(null);
         eventTable.refresh();
-        if (customPropertyTables.size() > 0) {
-            for (AbstractPropertyTable propertyTable : customPropertyTables) {
+        if (widgetPropertyTables.size() > 0) {
+            for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
                 propertyTable.initPropertyGroups(designer);
             }
         }
@@ -116,8 +116,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     public void clearDockingView() {
         propertyTable = null;
         eventTable = null;
-        if (customPropertyTables != null) {
-            customPropertyTables.clear();
+        if (widgetPropertyTables != null) {
+            widgetPropertyTables.clear();
         }
         JScrollPane psp = new JScrollPane();
         psp.setBorder(null);

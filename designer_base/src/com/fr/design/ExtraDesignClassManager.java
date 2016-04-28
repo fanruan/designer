@@ -130,7 +130,7 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ElementUIProvider> elementUIProviders;
 
-    private Set<WidgetCustomAttrProvider> widgetCustomAttrProviders;
+    private Set<WidgetAttrProvider> widgetAttrProviders;
 
     public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
         return tableDataTreePaneProcessor;
@@ -738,19 +738,19 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         elementUIProviders.add((ElementUIProvider) level);
     }
 
-    public WidgetCustomAttrProvider[] getWidgetCustomAttrProviders() {
-        if (widgetCustomAttrProviders == null) {
-            return new WidgetCustomAttrProvider[0];
+    public WidgetAttrProvider[] getWidgetAttrProviders() {
+        if (widgetAttrProviders == null) {
+            return new WidgetAttrProvider[0];
         }
-        return widgetCustomAttrProviders.toArray(new WidgetCustomAttrProvider[widgetCustomAttrProviders.size()]);
+        return widgetAttrProviders.toArray(new WidgetAttrProvider[widgetAttrProviders.size()]);
     }
 
-    public void addWidgetCustomAttrProvider(Level level, PluginSimplify simplify) throws Exception {
-        if (widgetCustomAttrProviders == null) {
-            widgetCustomAttrProviders = new HashSet<WidgetCustomAttrProvider>();
+    public void addWidgetAttrProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (widgetAttrProviders == null) {
+            widgetAttrProviders = new HashSet<WidgetAttrProvider>();
         }
-        validAPILevel(level, WidgetCustomAttrProvider.CURRENT_LEVEL, simplify.getPluginName());
-        widgetCustomAttrProviders.add((WidgetCustomAttrProvider) level);
+        validAPILevel(level, WidgetAttrProvider.CURRENT_LEVEL, simplify.getPluginName());
+        widgetAttrProviders.add((WidgetAttrProvider) level);
     }
 
     /**
@@ -845,8 +845,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 setTableDataSourceOPProcessor(impl, simplify);
             } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {
                 addElementUIProvider(impl, simplify);
-            } else if (tagName.equals(WidgetCustomAttrProvider.XML_TAG)) {
-                addWidgetCustomAttrProvider(impl, simplify);
+            } else if (tagName.equals(WidgetAttrProvider.XML_TAG)) {
+                addWidgetAttrProvider(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());

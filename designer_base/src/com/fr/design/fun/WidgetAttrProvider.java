@@ -7,12 +7,12 @@ import com.fr.stable.fun.Level;
 /**
  * Created by vito on 16/4/27.
  */
-public interface WidgetCustomAttrProvider extends Level {
-    String XML_TAG = "WidgetCustomAttrProvider";
+public interface WidgetAttrProvider extends Level {
+    String XML_TAG = "WidgetAttrProvider";
 
     int CURRENT_LEVEL = 1;
 
-    AbstractPropertyTable createWidgetCustomAttrTable();
+    AbstractPropertyTable createWidgetAttrTable();
 
     String setTableTitle();
 }
