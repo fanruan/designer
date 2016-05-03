@@ -4,11 +4,13 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.extra.After;
+import com.fr.design.extra.LoginCheckContext;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.Process;
 import com.fr.general.Inter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.io.File;
@@ -41,40 +43,45 @@ public class UpdateOnlineExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        for (int i = 0; i < pluginIDs.length; i++) {
-                            Plugin plugin = PluginLoader.getLoader().getPluginById(pluginIDs[i]);
-                            String id = null;
-                            if (plugin != null) {
-                                id = plugin.getId();
-                            }
-                            String username = DesignerEnvManager.getEnvManager().getBBSName();
-                            String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-                            try {
-                                PluginHelper.downloadPluginFile(id, username, password, new Process<Double>() {
-                                    @Override
-                                    public void process(Double integer) {
-                                    }
-                                });
-                                updateFileFromDisk(PluginHelper.getDownloadTempFile());
-                                process.process(PERCENT_100 / pluginIDs.length * (i + 1) + "%");
-                            } catch (Exception e) {
-                                FRContext.getLogger().error(e.getMessage(), e);
-                            }
+                        if(StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())){
+                            LoginCheckContext.fireLoginCheckListener();
                         }
-                        int rv = JOptionPane.showOptionDialog(
-                                null,
-                                Inter.getLocText("FR-Designer-Plugin_Update_Successful"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE,
-                                null,
-                                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
-                                        Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")
-                                },
-                                null
-                        );
-                        if (rv == JOptionPane.OK_OPTION) {
-                            RestartHelper.restart();
+                        if(StringUtils.isNotBlank(DesignerEnvManager.getEnvManager().getBBSName())){
+                            for (int i = 0; i < pluginIDs.length; i++) {
+                                Plugin plugin = PluginLoader.getLoader().getPluginById(pluginIDs[i]);
+                                String id = null;
+                                if (plugin != null) {
+                                    id = plugin.getId();
+                                }
+                                String username = DesignerEnvManager.getEnvManager().getBBSName();
+                                String password = DesignerEnvManager.getEnvManager().getBBSPassword();
+                                try {
+                                    PluginHelper.downloadPluginFile(id, username, password, new Process<Double>() {
+                                        @Override
+                                        public void process(Double integer) {
+                                        }
+                                    });
+                                    updateFileFromDisk(PluginHelper.getDownloadTempFile());
+                                    process.process(PERCENT_100 / pluginIDs.length * (i + 1) + "%");
+                                } catch (Exception e) {
+                                    FRContext.getLogger().error(e.getMessage(), e);
+                                }
+                            }
+                            int rv = JOptionPane.showOptionDialog(
+                                    null,
+                                    Inter.getLocText("FR-Designer-Plugin_Update_Successful"),
+                                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.INFORMATION_MESSAGE,
+                                    null,
+                                    new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
+                                            Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")
+                                    },
+                                    null
+                            );
+                            if (rv == JOptionPane.OK_OPTION) {
+                                RestartHelper.restart();
+                            }
                         }
                     }
                 }
