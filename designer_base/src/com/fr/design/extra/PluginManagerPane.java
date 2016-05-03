@@ -42,6 +42,7 @@ public class PluginManagerPane extends BasicPane {
             if (StableUtils.isDebug()) {
                 URL url = ClassLoader.getSystemResource("");
                 installHome = url.getPath();
+                addPane(installHome);
             } else {
                 installHome = StableUtils.getInstallHome();
                 File file = new File(StableUtils.pathJoin(installHome, "scripts"));
@@ -57,15 +58,20 @@ public class PluginManagerPane extends BasicPane {
                         downloadShopScripts();
                     }
                 } else {
+                    addPane(installHome);
                     updateShopScripts();
                 }
             }
-            PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
-            add(webPane, BorderLayout.CENTER);
         } else {
             initTraditionalStore();
         }
     }
+
+    private void addPane(String installHome) {
+        PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
+        add(webPane, BorderLayout.CENTER);
+    }
+
 
     private void initTraditionalStore() {
         UITabbedPane tabbedPane = new UITabbedPane();
