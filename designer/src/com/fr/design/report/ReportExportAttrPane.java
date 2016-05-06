@@ -82,10 +82,7 @@ public class ReportExportAttrPane extends BasicPane {
         }
 
         for (AbstractExportPane exportPane : paneList) {
-            ReportExportAttr exportAttr = exportPane.update(reportExportAttr, ReportExportAttr.class);
-            if (exportAttr != null) {
-                reportExportAttr = exportAttr;
-            }
+            exportPane.update(reportExportAttr);
         }
         return reportExportAttr;
     }
