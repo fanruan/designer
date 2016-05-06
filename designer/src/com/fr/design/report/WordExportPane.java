@@ -4,7 +4,7 @@ package com.fr.design.report;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
@@ -23,7 +23,7 @@ public class WordExportPane extends BasicPane {
 
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Word" + Inter.getLocText("ReportD-Excel_Export"));
 		this.add(outnorthPane);
 		

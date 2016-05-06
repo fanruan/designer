@@ -132,6 +132,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<WidgetAttrProvider> widgetAttrProviders;
 
+    private Set<ExportAttrTabProvider> exportAttrTabProviders;
+
     public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
         return tableDataTreePaneProcessor;
     }
@@ -753,6 +755,21 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         widgetAttrProviders.add((WidgetAttrProvider) level);
     }
 
+    public ExportAttrTabProvider[] getExportAttrTabProviders() {
+        if (exportAttrTabProviders == null) {
+            return new ExportAttrTabProvider[0];
+        }
+        return exportAttrTabProviders.toArray(new ExportAttrTabProvider[exportAttrTabProviders.size()]);
+    }
+
+    public void addExportAttrTabProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (exportAttrTabProviders == null) {
+            exportAttrTabProviders = new HashSet<ExportAttrTabProvider>();
+        }
+        validAPILevel(level, ExportAttrTabProvider.CURRENT_LEVEL, simplify.getPluginName());
+        exportAttrTabProviders.add((ExportAttrTabProvider) level);
+    }
+
     /**
      * 文件名
      *
@@ -847,6 +864,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addElementUIProvider(impl, simplify);
             } else if (tagName.equals(WidgetAttrProvider.XML_TAG)) {
                 addWidgetAttrProvider(impl, simplify);
+            } else if (tagName.equals(ExportAttrTabProvider.XML_TAG)) {
+                addExportAttrTabProvider(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
