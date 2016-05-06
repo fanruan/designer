@@ -15,6 +15,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.fun.TableDataTreePaneProcessor;
+import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -102,7 +103,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
         UIScrollPane scrollPane = new UIScrollPane(dataTree);
         scrollPane.setBorder(null);
-        initbuttonGroup(op);
+        initbuttonGroup();
         JPanel jPanel = new JPanel(new BorderLayout(4, 4));
         JPanel buttonPane = new JPanel(new GridLayout());
         buttonPane.add(buttonGroup, BorderLayout.CENTER);
@@ -136,6 +137,21 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     public void refreshDockingView() {
         populate(new TableDataSourceOP(tc));
         this.checkButtonEnabled();
+    }
+    protected void initbuttonGroup() {
+        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
+        final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
+        String[] textArray = {Inter.getLocText(new String[]{"Template", "DS-TableData"}), Inter.getLocText("DS-Server_TableData")};
+        buttonGroup = new UIHeadGroup(iconArray, textArray) {
+            public void tabChanged(int index) {
+                if (op != null) {
+                    op.setDataMode(modeArray[buttonGroup.getSelectedIndex()]);
+                    addMenuDef.setEnabled(modeArray[buttonGroup.getSelectedIndex()] == TEMPLATE_TABLE_DATA ? true : false);
+                    refreshDockingView();
+                }
+            }
+        };
+        buttonGroup.setNeedLeftRightOutLine(false);
     }
 
     /**
