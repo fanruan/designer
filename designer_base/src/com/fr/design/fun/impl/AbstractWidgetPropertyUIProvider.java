@@ -7,7 +7,7 @@ import com.fr.stable.fun.impl.AbstractProvider;
 /**
  * Created by vito on 16/4/27.
  */
-public abstract class AbstractWidgetAttrProvider extends AbstractProvider implements WidgetPropertyUIProvider {
+public abstract class AbstractWidgetPropertyUIProvider extends AbstractProvider implements WidgetPropertyUIProvider {
 
     @Override
     public int currentAPILevel() {
