@@ -4,8 +4,10 @@ package com.fr.design.report;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.fr.design.fun.AbstractExportPane;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itextfield.UITextField;
@@ -32,7 +34,7 @@ public class ExcelExportPane extends BasicPane {
 
 	protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		JPanel outnorthPane =FRGUIPaneFactory.createTitledBorderPane("Excel" + Inter.getLocText("ReportD-Excel_Export"));
 		JPanel northPane=FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		this.add(outnorthPane);
