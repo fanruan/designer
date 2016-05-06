@@ -8,18 +8,17 @@ import com.fr.design.fun.AbstractExportPane;
 import com.fr.design.fun.ExportAttrTabProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
-import com.fr.io.attr.ImageExportAttr;
 import com.fr.io.attr.ReportExportAttr;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReportExportAttrPane extends BasicPane {
     private ExcelExportPane excelExportPane;
     private PDFExportPane pdfExportPane;
     private WordExportPane wordExportPane;
-    Map<String, AbstractExportPane> paneMap;
+    List<AbstractExportPane> paneList;
 
     public ReportExportAttrPane() {
         UITabbedPane uiTabbedPane = new UITabbedPane();
@@ -32,10 +31,10 @@ public class ReportExportAttrPane extends BasicPane {
         wordExportPane = new WordExportPane();
         uiTabbedPane.addTab("Word", wordExportPane);
         ExportAttrTabProvider[] providers = ExtraDesignClassManager.getInstance().getExportAttrTabProviders();
-        paneMap = new HashMap<String, AbstractExportPane>();
+        paneList = new ArrayList<AbstractExportPane>();
         for (ExportAttrTabProvider provider : providers) {
             uiTabbedPane.addTab(provider.title(), provider.toSwingComponent());
-            paneMap.put(provider.tag(),  provider.toExportPane());
+            paneList.add(provider.toExportPane());
         }
         this.add(uiTabbedPane);
     }
@@ -62,9 +61,8 @@ public class ReportExportAttrPane extends BasicPane {
             this.wordExportPane.populate(reportExportAttr.getWordExportAttr());
         }
 
-        AbstractExportPane  exportPane = paneMap.get("Image");
-        if(exportPane != null){
-            exportPane.populate(reportExportAttr.getImageExportAttr());
+        for (AbstractExportPane exportpane : paneList) {
+            exportpane.populate(reportExportAttr);
         }
     }
 
@@ -83,9 +81,11 @@ public class ReportExportAttrPane extends BasicPane {
             reportExportAttr.setWordExportAttr(this.wordExportPane.update());
         }
 
-        AbstractExportPane exportPane = paneMap.get("Image");
-        if(exportPane != null){
-            reportExportAttr.setImageExportAttr(exportPane.update(ImageExportAttr.class));
+        for (AbstractExportPane exportPane : paneList) {
+            ReportExportAttr exportAttr = exportPane.update(reportExportAttr, ReportExportAttr.class);
+            if (exportAttr != null) {
+                reportExportAttr = exportAttr;
+            }
         }
         return reportExportAttr;
     }

@@ -9,16 +9,10 @@ public abstract class AbstractExportPane extends BasicPane {
 
     public abstract void populate(Object t);
 
-    public abstract Object update();
+    public abstract Object update(Object t);
 
-//    public <T> void populate(Object object,Class<? extends T> clazz){
-//        if(object.getClass().isAssignableFrom(clazz)){
-//            this.populate(clazz.cast(object));
-//        }
-//    }
-
-    public <T> T update(Class<? extends T> clazz){
-        Object object = this.update();
+    public <T> T update(Object t,Class<? extends T> clazz){
+        Object object = this.update(t);
         if(object == null){
             return null;
         }
