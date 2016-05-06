@@ -18,7 +18,7 @@ public class ReportExportAttrPane extends BasicPane {
     private ExcelExportPane excelExportPane;
     private PDFExportPane pdfExportPane;
     private WordExportPane wordExportPane;
-    List<AbstractExportPane> paneList;
+    private List<AbstractExportPane> paneList;
 
     public ReportExportAttrPane() {
         UITabbedPane uiTabbedPane = new UITabbedPane();
