@@ -130,7 +130,7 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ElementUIProvider> elementUIProviders;
 
-    private Set<WidgetAttrProvider> widgetAttrProviders;
+    private Set<WidgetPropertyUIProvider> widgetAttrProviders;
 
     private Set<ExportAttrTabProvider> exportAttrTabProviders;
 
@@ -740,19 +740,19 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         elementUIProviders.add((ElementUIProvider) level);
     }
 
-    public WidgetAttrProvider[] getWidgetAttrProviders() {
+    public WidgetPropertyUIProvider[] getWidgetAttrProviders() {
         if (widgetAttrProviders == null) {
-            return new WidgetAttrProvider[0];
+            return new WidgetPropertyUIProvider[0];
         }
-        return widgetAttrProviders.toArray(new WidgetAttrProvider[widgetAttrProviders.size()]);
+        return widgetAttrProviders.toArray(new WidgetPropertyUIProvider[widgetAttrProviders.size()]);
     }
 
     public void addWidgetAttrProvider(Level level, PluginSimplify simplify) throws Exception {
         if (widgetAttrProviders == null) {
-            widgetAttrProviders = new HashSet<WidgetAttrProvider>();
+            widgetAttrProviders = new HashSet<WidgetPropertyUIProvider>();
         }
-        validAPILevel(level, WidgetAttrProvider.CURRENT_LEVEL, simplify.getPluginName());
-        widgetAttrProviders.add((WidgetAttrProvider) level);
+        validAPILevel(level, WidgetPropertyUIProvider.CURRENT_LEVEL, simplify.getPluginName());
+        widgetAttrProviders.add((WidgetPropertyUIProvider) level);
     }
 
     public ExportAttrTabProvider[] getExportAttrTabProviders() {
@@ -862,7 +862,7 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 setTableDataSourceOPProcessor(impl, simplify);
             } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {
                 addElementUIProvider(impl, simplify);
-            } else if (tagName.equals(WidgetAttrProvider.XML_TAG)) {
+            } else if (tagName.equals(WidgetPropertyUIProvider.XML_TAG)) {
                 addWidgetAttrProvider(impl, simplify);
             } else if (tagName.equals(ExportAttrTabProvider.XML_TAG)) {
                 addExportAttrTabProvider(impl, simplify);

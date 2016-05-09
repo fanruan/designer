@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.WidgetAttrProvider;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -88,8 +88,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
         tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
 
-        WidgetAttrProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
-        for (WidgetAttrProvider widgetAttrProvider : widgetAttrProviders) {
+        WidgetPropertyUIProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
+        for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
             AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
             widgetPropertyTables.add(propertyTable);
             designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
