@@ -68,6 +68,8 @@ public interface IndependentChartUIProvider extends Level {
      */
     AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener);
 
+    ChartDataPane getChartDataPane(AttributeChangeListener listener);
+
     /**
      * 是否使用默认的界面，为了避免界面来回切换
      *
