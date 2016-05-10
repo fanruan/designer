@@ -139,7 +139,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             this.removeAll();
             this.setLayout(new BorderLayout());
             paneList = new ArrayList<AbstractChartAttrPane>();
-            addTypeAndDataPane();
+            addTypePane();
 
             boolean isDefault = true;
             String plotID = "";
@@ -149,6 +149,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             }
 
             if(isDefault){
+                paneList.add(dataPane4SupportCell);
                 paneList.add(stylePane);
                 paneList.add(otherPane);
                 this.isDefaultPane = true;
@@ -165,10 +166,8 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     }
 
-    protected void addTypeAndDataPane() {
+    protected void addTypePane() {
         paneList.add(typePane);
-        paneList.add(dataPane4SupportCell);
-
     }
 
     protected void setSelectedTab() {
