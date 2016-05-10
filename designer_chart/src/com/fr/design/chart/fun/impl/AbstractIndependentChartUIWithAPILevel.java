@@ -25,7 +25,7 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
     }
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
-        return null;
+        return new ChartDataPane(listener);
     }
 
     /**
