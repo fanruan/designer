@@ -39,11 +39,9 @@ public class ChartHyperEditPane  extends ChartEditPane {
 	}
 
 
-    protected void addTypeAndDataPane() {
+    protected void addTypePane() {
         paneList.add(attrPane);
         paneList.add(typePane);
-        paneList.add(dataPane4SupportCell);
-
     }
 
 
