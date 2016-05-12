@@ -1,6 +1,7 @@
 package com.fr.design.widget;
 
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.WidgetDesignHandler;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -8,13 +9,12 @@ import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.dialog.BasicPane;
+import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-import com.fr.design.widget.btn.ButtonConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +62,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
 
     /**
      * 状态改变
+     *
      * @param e 事件对象
      */
     public void itemStateChanged(ItemEvent e) {
@@ -115,9 +116,9 @@ public class WidgetPane extends BasicPane implements ItemListener {
     public Widget update() {
         return cellEditorCardPane.update();
     }
-    
+
     protected void populateWidgetConfig(Widget widget) {
-    	cellEditorCardPane.populate(widget);
+        cellEditorCardPane.populate(widget);
     }
 
 
@@ -196,12 +197,13 @@ public class WidgetPane extends BasicPane implements ItemListener {
         }
 
         private WidgetOption[] getWidgetOptions() {
-           return (WidgetOption[])ArrayUtils.addAll(WidgetOption.getReportWidgetInstance(), ExtraDesignClassManager.getInstance().getCellWidgetOptions());
+            return (WidgetOption[]) ArrayUtils.addAll(WidgetOption.getReportWidgetInstance(), ExtraDesignClassManager.getInstance().getCellWidgetOptions());
         }
     }
 
     /**
      * 校验
+     *
      * @throws Exception 抛出异常
      */
     public void checkValid() throws Exception {
@@ -228,6 +230,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
 
         /**
          * 转化成字符串形式
+         *
          * @return 返回字符串
          */
         public String toString() {
