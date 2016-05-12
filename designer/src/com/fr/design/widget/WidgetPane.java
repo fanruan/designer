@@ -71,7 +71,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
             Widget selectedItem = editorTypeComboBox.getCellWidget();
             WidgetDesignHandler handler = ExtraDesignClassManager.getInstance().getWidgetDesignHandler();
             if (handler != null) {
-                handler.dealWithWidget(oldWidget, selectedItem);
+                handler.transferWidgetProperties(oldWidget, selectedItem);
             }
             if (e.getItem() instanceof Item && ((Item) e.getItem()).getValue() instanceof WidgetConfig) {
                 populate(selectedItem);

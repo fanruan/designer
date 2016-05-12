@@ -11,12 +11,12 @@ import com.fr.stable.fun.Level;
 public interface WidgetDesignHandler extends Level {
     String XML_TAG = "WidgetDesignHandler";
     int CURRENT_LEVEL = 1;
+
     /**
-     * 控件设置的时候对原控件和新控件的一些特殊处理（比如属性的传递，默认属性的设置等）
+     * 传递控件共有属性
      *
      * @param oldWidget 老控件
      * @param newWidget 新控件
-     * @return 处理后的控件
      */
-    void dealWithWidget(Widget oldWidget, Widget newWidget);
+    void transferWidgetProperties(Widget oldWidget, Widget newWidget);
 }
