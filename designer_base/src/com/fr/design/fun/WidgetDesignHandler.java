@@ -18,5 +18,5 @@ public interface WidgetDesignHandler extends Level {
      * @param newWidget 新控件
      * @return 处理后的控件
      */
-    Widget dealWithWidget(Widget oldWidget, Widget newWidget);
+    void dealWithWidget(Widget oldWidget, Widget newWidget);
 }
