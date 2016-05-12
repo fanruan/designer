@@ -31,7 +31,6 @@ public class WidgetPane extends BasicPane implements ItemListener {
     private CellWidgetCardPane cellEditorCardPane;
     private boolean shouldFireSelectedEvent;
     protected JPanel northPane;
-    private Widget oldWidget;//记录一下上次编辑的插件
 
     public WidgetPane() {
         this(null);
@@ -42,14 +41,6 @@ public class WidgetPane extends BasicPane implements ItemListener {
      */
     public WidgetPane(ElementCasePane pane) {
         this.initComponents(pane);
-    }
-
-    public Widget getOldWidget() {
-        return oldWidget;
-    }
-
-    public void setOldWidget(Widget oldWidget) {
-        this.oldWidget = oldWidget;
     }
 
     protected void initComponents(ElementCasePane pane) {
@@ -75,11 +66,11 @@ public class WidgetPane extends BasicPane implements ItemListener {
      */
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            setOldWidget(update());
+            Widget oldWidget = update();
             Widget selectedItem = editorTypeComboBox.getCellWidget();
             WidgetDesignHandler handler = ExtraDesignClassManager.getInstance().getWidgetDesignHandler();
             if (handler != null) {
-                selectedItem = handler.dealWithWidget(getOldWidget(), selectedItem);
+                selectedItem = handler.dealWithWidget(oldWidget, selectedItem);
             }
             if (e.getItem() instanceof Item && ((Item) e.getItem()).getValue() instanceof WidgetConfig) {
                 populate(selectedItem);
@@ -97,7 +88,6 @@ public class WidgetPane extends BasicPane implements ItemListener {
     }
 
     public void populate(Widget widget) {
-        setOldWidget(widget);
         if (widget == null) {
             widget = new TextEditor();
         }
