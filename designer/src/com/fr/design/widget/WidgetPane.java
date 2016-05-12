@@ -1,6 +1,7 @@
 package com.fr.design.widget;
 
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.WidgetDesignHandler;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
@@ -30,6 +31,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
     private CellWidgetCardPane cellEditorCardPane;
     private boolean shouldFireSelectedEvent;
     protected JPanel northPane;
+    private Widget oldWidget;//记录一下上次编辑的插件
 
     public WidgetPane() {
         this(null);
@@ -40,6 +42,14 @@ public class WidgetPane extends BasicPane implements ItemListener {
      */
     public WidgetPane(ElementCasePane pane) {
         this.initComponents(pane);
+    }
+
+    public Widget getOldWidget() {
+        return oldWidget;
+    }
+
+    public void setOldWidget(Widget oldWidget) {
+        this.oldWidget = oldWidget;
     }
 
     protected void initComponents(ElementCasePane pane) {
@@ -66,11 +76,17 @@ public class WidgetPane extends BasicPane implements ItemListener {
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             if (e.getItem() instanceof Item && ((Item) e.getItem()).getValue() instanceof WidgetConfig) {
+                Widget newWidget = editorTypeComboBox.getCellWidget();
+
                 populate(editorTypeComboBox.getCellWidget());
                 return;
             }
             if (shouldFireSelectedEvent) {
                 Widget selectedItem = editorTypeComboBox.getCellWidget();
+                WidgetDesignHandler handler = ExtraDesignClassManager.getInstance().getWidgetDesignHandler();
+                if (handler != null) {
+                    selectedItem = handler.dealWithWidget(getOldWidget(), selectedItem);
+                }
                 populateWidgetConfig(selectedItem);
             }
         }
@@ -82,6 +98,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
     }
 
     public void populate(Widget widget) {
+        setOldWidget(widget);
         if (widget == null) {
             widget = new TextEditor();
         }
