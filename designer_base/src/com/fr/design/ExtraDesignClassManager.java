@@ -132,6 +132,16 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<WidgetAttrProvider> widgetAttrProviders;
 
+    private WidgetDesignHandler widgetDesignHandler;
+
+    public WidgetDesignHandler getWidgetDesignHandler() {
+        return widgetDesignHandler;
+    }
+
+    public void setWidgetDesignHandler(Level level, PluginSimplify simplify) throws Exception {
+        widgetDesignHandler = (WidgetDesignHandler) level;
+    }
+
     public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
         return tableDataTreePaneProcessor;
     }
@@ -847,6 +857,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addElementUIProvider(impl, simplify);
             } else if (tagName.equals(WidgetAttrProvider.XML_TAG)) {
                 addWidgetAttrProvider(impl, simplify);
+            } else if (tagName.equals(WidgetDesignHandler.XML_TAG)) {
+                setWidgetDesignHandler(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
