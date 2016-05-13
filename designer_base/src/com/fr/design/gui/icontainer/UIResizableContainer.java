@@ -100,6 +100,9 @@ public class UIResizableContainer extends JPanel {
     }
 
     public void setDownPane(JComponent downPane) {
+        if (this.downPane != null){
+            return;
+        }
         this.verticalToolPane = new VerticalToolPane();
         this.downPane = downPane;
         add(downPane);

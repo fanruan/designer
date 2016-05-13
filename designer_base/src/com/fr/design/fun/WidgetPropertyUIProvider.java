@@ -7,8 +7,8 @@ import com.fr.stable.fun.Level;
 /**
  * Created by vito on 16/4/27.
  */
-public interface WidgetAttrProvider extends Level {
-    String XML_TAG = "WidgetAttrProvider";
+public interface WidgetPropertyUIProvider extends Level {
+    String XML_TAG = "WidgetPropertyUIProvider";
 
     int CURRENT_LEVEL = 1;
 

@@ -143,6 +143,10 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     }
 
+    public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
+        return chartTypeInterfaces.get(plotID).getChartDataPane(listener);
+    }
+
     public AbstractChartAttrPane[] getAttrPaneArray(String plotID, AttributeChangeListener listener) {
         return chartTypeInterfaces.get(plotID).getAttrPaneArray(listener);
     }

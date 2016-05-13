@@ -4,10 +4,12 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.extra.After;
+import com.fr.design.extra.LoginCheckContext;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.Process;
 import com.fr.general.Inter;
 import com.fr.plugin.PluginVerifyException;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 
@@ -38,17 +40,22 @@ public class InstallOnlineExecutor implements Executor {
 
                     @Override
                     public void run(final Process<String> process) {
-                        String username = DesignerEnvManager.getEnvManager().getBBSName();
-                        String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-                        try {
-                            PluginHelper.downloadPluginFile(pluginID, username, password, new Process<Double>() {
-                                @Override
-                                public void process(Double integer) {
-                                    process.process(Math.round(integer * 100) + "%");
-                                }
-                            });
-                        } catch (Exception e) {
-                            FRContext.getLogger().error(e.getMessage(), e);
+                        if(StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())){
+                            LoginCheckContext.fireLoginCheckListener();
+                        }
+                        if(StringUtils.isNotBlank(DesignerEnvManager.getEnvManager().getBBSName())) {
+                            String username = DesignerEnvManager.getEnvManager().getBBSName();
+                            String password = DesignerEnvManager.getEnvManager().getBBSPassword();
+                            try {
+                                PluginHelper.downloadPluginFile(pluginID, username, password, new Process<Double>() {
+                                    @Override
+                                    public void process(Double integer) {
+                                        process.process(Math.round(integer * 100) + "%");
+                                    }
+                                });
+                            } catch (Exception e) {
+                                FRContext.getLogger().error(e.getMessage(), e);
+                            }
                         }
                     }
                 },

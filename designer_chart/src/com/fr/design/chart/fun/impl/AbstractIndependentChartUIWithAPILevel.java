@@ -7,6 +7,7 @@ import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
 
@@ -21,6 +22,10 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
 
     public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
         return new AbstractChartAttrPane[0];
+    }
+
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener){
+        return new ChartDataPane(listener);
     }
 
     /**
