@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2014,FineReport Inc, All Rights Reserved.
+ * Copyright (c) 2001-2014,FineReport Inc, All Rights Reserved.
  */
 
 package com.fr.design;
