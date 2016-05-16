@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.design.fun.impl.AbstractExportPane;
+import com.fr.design.report.AbstractExportPane;
 import com.fr.stable.fun.Level;
 
 import javax.swing.*;

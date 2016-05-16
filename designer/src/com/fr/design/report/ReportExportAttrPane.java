@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.fun.impl.AbstractExportPane;
 import com.fr.design.fun.ExportAttrTabProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.Inter;
