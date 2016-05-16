@@ -1,4 +1,4 @@
-package com.fr.design.fun;
+package com.fr.design.fun.impl;
 
 import com.fr.design.dialog.BasicPane;
 
