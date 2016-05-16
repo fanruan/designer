@@ -4,7 +4,6 @@ package com.fr.design.report;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.fr.design.fun.AbstractExportPane;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.*;
