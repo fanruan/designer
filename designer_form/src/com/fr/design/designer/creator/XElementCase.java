@@ -7,9 +7,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.widget.editors.BooleanEditor;
-import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
-import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
+import com.fr.design.mainframe.widget.editors.*;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
@@ -25,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
@@ -53,37 +53,66 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
      * @return 返回组件属性值
      * @throws IntrospectionException 异常
      */
-    public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = ((ElementCaseEditor) data).isHeightRestrict() ? revealHeightLimit() : getDefault();
+		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
+		if (processor == null) {
+			return crp;
+		}
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+		return (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, extraEditor);
+	}
 
-        CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("widgetName", this.data.getClass())
-                        .setI18NName(Inter.getLocText("Form-Widget_Name")),
-                new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-                        WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
-                        Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
-                        .setPropertyChangeListener(new PropertyChangeAdapter() {
+	protected List<CRPropertyDescriptor> createNonListenerProperties() throws IntrospectionException {
+		CRPropertyDescriptor[] propertyTableEditor = {
+				new CRPropertyDescriptor("widgetName", this.data.getClass())
+						.setI18NName(Inter.getLocText("Form-Widget_Name")),
+				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
+						WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").
+						setPropertyChangeListener(new PropertyChangeAdapter() {
 
-                            @Override
-                            public void propertyChange() {
-                            	initStyle();
-                            }
-                        }),
-                new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                        .setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Layout_Padding"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(Inter.getLocText("Form-EC_toolbar"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+					@Override
+					public void propertyChange() {
+						initStyle();
+					}
+				}),
+				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
+						.setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Layout_Padding"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
+						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("heightRestrict", this.data.getClass()).setEditorClass(InChangeBooleanEditor.class)
+						.setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+		};
 
-                      };
+		List<CRPropertyDescriptor> defaultList = new ArrayList<>();
 
-        FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
-        if (processor == null){
-            return propertyTableEditor;
-        }
-        PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
-        return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
-    }
+		for (CRPropertyDescriptor propertyDescriptor : propertyTableEditor) {
+			defaultList.add(propertyDescriptor);
+		}
+		return defaultList;
+	}
+
+	protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
+		CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.data.getClass())
+															.setEditorClass(DoubleEditor.class)
+															.setI18NName(Inter.getLocText("Form-EC_heightpercent"))
+															.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+
+		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
+		defaultList.add(heightLimitProperty);
+
+		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
+	}
+
+	protected CRPropertyDescriptor[] getDefault() throws IntrospectionException {
+		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
+		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
+	}
+
 
 	@Override
 	protected String getIconName() {
