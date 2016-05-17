@@ -93,12 +93,20 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
 
     @Override
     protected List<FurtherBasicBeanPane<? extends ChartCollection>> initPaneList() {
-        nameFieldValuePane = new SeriesNameUseFieldValuePane();
-        nameFieldNamePane = new SeriesNameUseFieldNamePane();
+        nameFieldValuePane = createValuePane();
+        nameFieldNamePane = createNamePane();
         List<FurtherBasicBeanPane<? extends ChartCollection>> paneList = new ArrayList<FurtherBasicBeanPane<? extends ChartCollection>>();
         paneList.add(nameFieldValuePane);
         paneList.add(nameFieldNamePane);
         return paneList;
+    }
+
+    protected SeriesNameUseFieldValuePane createValuePane() {
+        return new SeriesNameUseFieldValuePane();
+    }
+
+    protected SeriesNameUseFieldNamePane createNamePane() {
+        return new SeriesNameUseFieldNamePane();
     }
 
     public void populateBean(ChartCollection ob, boolean isNeedSummary) {
