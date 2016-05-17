@@ -3,19 +3,19 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.event.ContainerEvent;
-
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTitleLayoutAdapter;
 import com.fr.design.form.layout.FRTitleLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.form.ui.Label;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+
+import java.awt.*;
+import java.awt.event.ContainerEvent;
 
 /**
  * 一些控件 如图表、报表块，有标题设置，且标题的高度字体等不变
@@ -164,4 +164,9 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 		wlayout.removeWidget(wgt);
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		XCreator creator = getPropertyDescriptorCreator();
+		return creator.getWidgetPropertyUIProviders();
+	}
 }
