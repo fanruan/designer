@@ -4,7 +4,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.HyperlinkPluginAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.fun.HyperlinkProvider;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
@@ -25,7 +25,7 @@ import java.util.List;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-6-25 上午11:17:57
  */
-public class HyperlinkGroupPane extends JControlPane {
+public class HyperlinkGroupPane extends JListControlPane {
 
     /**
      * 生成添加按钮的NameableCreator

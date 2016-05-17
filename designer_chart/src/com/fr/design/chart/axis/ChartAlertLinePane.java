@@ -4,14 +4,14 @@ import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.chart.chartattr.ChartAlertValue;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChartAlertLinePane extends JControlPane {
+public class ChartAlertLinePane extends JListControlPane {
 
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{

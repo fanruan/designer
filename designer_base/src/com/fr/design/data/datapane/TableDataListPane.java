@@ -4,7 +4,7 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.file.DatasourceManagerProvider;
@@ -21,9 +21,7 @@ import java.util.*;
 /**
  * TableDataList Pane.
  */
-public class TableDataListPane extends JControlPane {
-    private Map<String, String> dsNameChangedMap = new HashMap<String, String>();
-    private boolean isNamePermitted = true;
+public class TableDataListPane extends JListControlPane {
 
     public TableDataListPane() {
         super();
