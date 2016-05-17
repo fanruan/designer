@@ -126,7 +126,7 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private DesignerEnvProcessor envProcessor;
 
-    private TableDataTreePaneProcessor tableDataTreePaneProcessor;
+    private TableDataPaneProcessor tableDataPaneProcessor;
 
     private Set<ElementUIProvider> elementUIProviders;
 
@@ -134,13 +134,13 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ExportAttrTabProvider> exportAttrTabProviders;
 
-    public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
-        return tableDataTreePaneProcessor;
+    public TableDataPaneProcessor getTableDataPaneProcessor() {
+        return tableDataPaneProcessor;
     }
 
-    public void setTableDataSourceOPProcessor(Level level, PluginSimplify simplify) {
-        validAPILevel(level, TableDataTreePaneProcessor.CURRENT_LEVEL, simplify.getPluginName());
-        tableDataTreePaneProcessor = (TableDataTreePaneProcessor) level;
+    public void setTableDataPaneProcessor(Level level, PluginSimplify simplify) {
+        validAPILevel(level, TableDataPaneProcessor.CURRENT_LEVEL, simplify.getPluginName());
+        tableDataPaneProcessor = (TableDataPaneProcessor) level;
     }
 
     public DesignerEnvProcessor getEnvProcessor() {
@@ -858,8 +858,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addSupportDesignApps(impl, simplify);
             } else if (tagName.equals(DesignerEnvProcessor.XML_TAG)) {
                 setEnvProcessor(impl, simplify);
-            } else if (tagName.equals(TableDataTreePaneProcessor.XML_TAG)) {
-                setTableDataSourceOPProcessor(impl, simplify);
+            } else if (tagName.equals(TableDataPaneProcessor.XML_TAG)) {
+                setTableDataPaneProcessor(impl, simplify);
             } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {
                 addElementUIProvider(impl, simplify);
             } else if (tagName.equals(WidgetPropertyUIProvider.XML_TAG)) {

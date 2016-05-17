@@ -10,7 +10,7 @@ import java.util.List;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
@@ -23,7 +23,7 @@ import com.fr.general.NameObject;
  *
  * @date: 2015-3-9-上午9:10:20
  */
-public class ConfusionManagerPane extends JControlPane {
+public class ConfusionManagerPane extends JListControlPane {
 
 	/**
 	 * 获取当前面板的编辑对象

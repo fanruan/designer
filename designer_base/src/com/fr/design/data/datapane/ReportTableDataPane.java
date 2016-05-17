@@ -4,6 +4,9 @@
 package com.fr.design.data.datapane;
 
 import com.fr.data.TableDataSource;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.TableDataPaneProcessor;
+import com.fr.design.gui.controlpane.JControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -19,19 +22,24 @@ import java.util.Map;
  * 创建于2011-6-14
  */
 public class ReportTableDataPane extends LoadingBasicPane {
-    private TableDataListPane tdListPane;
+    private JControlPane tdPane;
 
     @Override
     protected void initComponents(JPanel container) {
         container.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.tdListPane = new TableDataListPane() {
+        TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+        JControlPane pane = null;
+        if (paneProcessor != null) {
+            pane = paneProcessor.createServerTableDataPane();
+        }
+        tdPane = pane == null ? new TableDataListPane() {
             @Override
             public NameableCreator[] createNameableCreators() {
 
                 return TableDataCreatorProducer.getInstance().createReportTableDataCreator();
             }
-        };
-        container.add(tdListPane, BorderLayout.CENTER);
+        } : pane;
+        container.add(tdPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -40,11 +48,11 @@ public class ReportTableDataPane extends LoadingBasicPane {
     }
 
     public void populate(TableDataSource tds) {
-        tdListPane.populate(tds);
+        tdPane.populate(tds);
     }
 
     public void update(TableDataSource tds) {
-        tdListPane.update(tds);
+        tdPane.update(tds);
     }
 
     /**
@@ -53,10 +61,10 @@ public class ReportTableDataPane extends LoadingBasicPane {
      * @throws Exception 异常
      */
     public void checkValid() throws Exception {
-        this.tdListPane.checkValid();
+        this.tdPane.checkValid();
     }
 
     public Map<String, String> getDsNameChangedMap() {
-        return tdListPane.getDsNameChangedMap();
+        return tdPane.getDsNameChangedMap();
     }
 }

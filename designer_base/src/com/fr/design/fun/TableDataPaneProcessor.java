@@ -2,6 +2,7 @@ package com.fr.design.fun;
 
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.BasicTableDataTreePane;
+import com.fr.design.gui.controlpane.JControlPane;
 import com.fr.stable.fun.Level;
 
 /**
@@ -10,8 +11,8 @@ import com.fr.stable.fun.Level;
  * Date: 2016/4/18
  * Time: 9:04
  */
-public interface TableDataTreePaneProcessor extends Level {
-    String XML_TAG = "TableDataTreePaneProcessor";
+public interface TableDataPaneProcessor extends Level {
+    String XML_TAG = "TableDataPaneProcessor";
 
     int CURRENT_LEVEL = 1;
     /**
@@ -19,5 +20,11 @@ public interface TableDataTreePaneProcessor extends Level {
      * @return 数据集面板
      */
     BasicTableDataTreePane createTableDataTreePane(DesignModelAdapter<?, ?> tc);
+
+    /**
+     * 服务器数据集面板(模板数据集面板)
+     * @return 服务器数据集面板
+     */
+    JControlPane createServerTableDataPane();
 
 }

@@ -3,7 +3,7 @@ package com.fr.design.chart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * 管理图表类型Pane 
  * @author kunsnat: ChartComponent移出.
  */
-public class ChartControlPane extends JControlPane {
+public class ChartControlPane extends JListControlPane {
 	private static final long serialVersionUID = 7336270815128413184L;
 
 	public ChartControlPane() {

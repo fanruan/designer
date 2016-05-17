@@ -1,7 +1,10 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
 import com.fr.base.FRContext;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.datapane.TableDataListPane;
+import com.fr.design.fun.TableDataPaneProcessor;
+import com.fr.design.gui.controlpane.JControlPane;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -18,7 +21,7 @@ import java.util.Map;
 public class TableDataManagerPane extends LoadingBasicPane {
 
 	private UITextField tableDataTextField;
-	private TableDataListPane tableDataListPane;
+	private JControlPane tableDataPane;
 
 	@Override
 	protected void initComponents(JPanel container) {
@@ -36,13 +39,18 @@ public class TableDataManagerPane extends LoadingBasicPane {
 		this.tableDataTextField = new UITextField();
 		tableDataPathPane.add(tableDataTextField, BorderLayout.CENTER);
 		this.tableDataTextField.setEditable(false);
-		tableDataListPane = new TableDataListPane(){
-            protected void rename(String oldName,String newName){
-                super.rename(oldName,newName);
-                renameConnection(oldName, newName);
-            }
-        };
-		container.add(tableDataListPane, BorderLayout.CENTER);
+		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+		JControlPane pane = null;
+		if (paneProcessor != null) {
+			pane = paneProcessor.createServerTableDataPane();
+		}
+		tableDataPane = pane == null ? new TableDataListPane() {
+			protected void rename(String oldName, String newName) {
+				super.rename(oldName, newName);
+				renameConnection(oldName, newName);
+			}
+		} : pane;
+		container.add(tableDataPane, BorderLayout.CENTER);
 	}
 
 
@@ -51,7 +59,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
      * @return 是则返回true
      */
     public  boolean isNamePermitted(){
-        return tableDataListPane.isNamePermitted();
+        return tableDataPane.isNamePermitted();
     }
 
     /**
@@ -59,7 +67,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
      * @throws Exception 异常
      */
 	public void checkValid() throws Exception {
-		tableDataListPane.checkValid();
+		tableDataPane.checkValid();
 	}
 	
 	@Override
@@ -70,15 +78,15 @@ public class TableDataManagerPane extends LoadingBasicPane {
 	public void populate(DatasourceManagerProvider datasourceManager) {
 		this.tableDataTextField.setText(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.RESOURCES_NAME
 				+ File.separator + datasourceManager.fileName());
-		this.tableDataListPane.populate(datasourceManager);
+		this.tableDataPane.populate(datasourceManager);
 	}
 
 	public void update(DatasourceManagerProvider datasourceManager) {
-		this.tableDataListPane.update(datasourceManager);
+		this.tableDataPane.update(datasourceManager);
 	}
 
     public Map<String, String> getDsChangedNameMap () {
-        return this.tableDataListPane.getDsNameChangedMap();
+        return this.tableDataPane.getDsNameChangedMap();
     }
 
     /**
@@ -87,6 +95,6 @@ public class TableDataManagerPane extends LoadingBasicPane {
      * @param index 选中项的序列号
      */
     public void setSelectedIndex(int index) {
-        this.tableDataListPane.setSelectedIndex(index);
+        this.tableDataPane.setSelectedIndex(index);
     }
 }
