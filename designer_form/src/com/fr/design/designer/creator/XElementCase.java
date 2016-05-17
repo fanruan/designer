@@ -1,8 +1,10 @@
 package com.fr.design.designer.creator;
 
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.FormElementCaseEditorProcessor;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -260,5 +262,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
             designer.switchTab(component);
         }
      }
-     
+
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[]{ new ElementCasePropertyUI(this)};
+	}
 }
