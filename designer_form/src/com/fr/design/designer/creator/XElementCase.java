@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
@@ -61,13 +63,20 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, extraEditor);
 	}
 
-	protected CRPropertyDescriptor createNonListenerProperties(int i) throws IntrospectionException {
+	protected List<CRPropertyDescriptor> createNonListenerProperties() throws IntrospectionException {
 		CRPropertyDescriptor[] propertyTableEditor = {
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
 						.setI18NName(Inter.getLocText("Form-Widget_Name")),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
-						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").
+						setPropertyChangeListener(new PropertyChangeAdapter() {
+
+					@Override
+					public void propertyChange() {
+						initStyle();
+					}
+				}),
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
 						.setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
@@ -76,47 +85,32 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("heightRestrict", this.data.getClass()).setEditorClass(InChangeBooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("heightPercent", this.data.getClass()).setEditorClass(DoubleEditor.class)
-						.setI18NName(Inter.getLocText("Form-EC_heightpercent"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
-		return propertyTableEditor[i];
+
+		List<CRPropertyDescriptor> defaultList = new ArrayList<>();
+
+		for (CRPropertyDescriptor propertyDescriptor : propertyTableEditor) {
+			defaultList.add(propertyDescriptor);
+		}
+		return defaultList;
 	}
 
 	protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
-		return new CRPropertyDescriptor[] {
-				createNonListenerProperties(0),
-				createNonListenerProperties(1).
-						setPropertyChangeListener(new PropertyChangeAdapter() {
+		CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.data.getClass())
+															.setEditorClass(DoubleEditor.class)
+															.setI18NName(Inter.getLocText("Form-EC_heightpercent"))
+															.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
 
-					@Override
-					public void propertyChange() {
-						initStyle();
-					}
-				}),
-				createNonListenerProperties(2),
-				createNonListenerProperties(3),
-				createNonListenerProperties(4),
-				createNonListenerProperties(5)
-		};
+		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
+		defaultList.add(heightLimitProperty);
+
+		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
 	}
 
 	protected CRPropertyDescriptor[] getDefault() throws IntrospectionException {
-		return new CRPropertyDescriptor[] {
-				createNonListenerProperties(0),
-				createNonListenerProperties(1).
-						setPropertyChangeListener(new PropertyChangeAdapter() {
-
-					@Override
-					public void propertyChange() {
-						initStyle();
-					}
-				}),
-				createNonListenerProperties(2),
-				createNonListenerProperties(3),
-				createNonListenerProperties(4)
-		};
+		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
+		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
 	}
 
 
