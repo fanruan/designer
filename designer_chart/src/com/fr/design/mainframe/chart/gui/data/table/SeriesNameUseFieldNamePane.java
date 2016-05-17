@@ -89,13 +89,23 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{seriesDataPane},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter"))},
-        };
+        Component[][] components = getUseComponent();
         centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    protected Component[][] getUseComponent() {
+        return new Component[][]{
+                new Component[]{seriesDataPane},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter"))},
+        };
+    }
+
+    protected Component[][] getUseComponentWithOutFilter() {
+        return new Component[][]{
+                new Component[]{seriesDataPane}
+        };
     }
 
     /**

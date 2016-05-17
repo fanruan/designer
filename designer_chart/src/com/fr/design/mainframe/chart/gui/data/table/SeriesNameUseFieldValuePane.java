@@ -82,13 +82,7 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         Label2.setPreferredSize(new Dimension(75, 20));
         UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method") + ":", SwingConstants.RIGHT);
         Label3.setPreferredSize(new Dimension(75, 20));
-        Component[][] components = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
-                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
-                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{calculateCombox, null, null, Label3, null})},
-                new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-        };
+        Component[][] components = getUseComponent(Label1, Label2, Label3);
 
         centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 4, 6);
         centerPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
@@ -107,17 +101,46 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         Label2.setPreferredSize(new Dimension(75, 20));
         UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method") + ":", SwingConstants.RIGHT);
         Label3.setPreferredSize(new Dimension(75, 20));
-        Component[][] components = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
-                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
-                new Component[]{new JSeparator()},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-        };
+        Component[][] components = getUseComponentWithOutSummary(Label1, Label2, Label3);
 
         centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 4, 6);
         centerPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
         this.setLayout(new BorderLayout());
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    protected Component[][] getUseComponent(UILabel Label1, UILabel Label2, UILabel Label3) {
+        return new Component[][]{
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{calculateCombox, null, null, Label3, null})},
+                new Component[]{new JSeparator()},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
+        };
+    }
+
+    protected Component[][] getUseComponentWithOutFilter(UILabel Label1, UILabel Label2, UILabel Label3) {
+        return new Component[][]{
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{calculateCombox, null, null, Label3, null})}
+        };
+    }
+
+    protected Component[][] getUseComponentWithOutSummary(UILabel Label1, UILabel Label2, UILabel Label3) {
+        return new Component[][]{
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})},
+                new Component[]{new JSeparator()},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
+        };
+    }
+
+    protected Component[][] getUseComponentWithOutFilterAndSummary(UILabel Label1, UILabel Label2, UILabel Label3) {
+        return new Component[][]{
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesName, null, null, Label1, null})},
+                new Component[]{GUICoreUtils.createBorderLayoutPane(new Component[]{seriesValue, null, null, Label2, null})}
+        };
     }
 
     /**
