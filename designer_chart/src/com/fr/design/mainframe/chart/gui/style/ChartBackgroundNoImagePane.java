@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import com.fr.design.gui.style.GradientQuickPane;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.GradientBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 
 /**
@@ -18,6 +18,6 @@ public class ChartBackgroundNoImagePane extends ChartBackgroundPane {
 	protected void initList() {
 		paneList.add(new NullBackgroundQuickPane());
 		paneList.add(new ColorBackgroundQuickPane());
-		paneList.add(new GradientQuickPane(CHART_GRADIENT_WIDTH));
+		paneList.add(new GradientBackgroundQuickPane(CHART_GRADIENT_WIDTH));
 	}
 }
