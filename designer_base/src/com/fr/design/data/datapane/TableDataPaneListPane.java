@@ -224,6 +224,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     /**
      * 判断数据集是否重名
      */
+    @Override
     public void checkValid() throws Exception {
         List<String> exsitTableDataNameList = new ArrayList<String>();
         // _denny: 判断是否有重复的数据集名
@@ -261,5 +262,14 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
 
     public JPanel getPanel() {
         return this;
+    }
+
+    /**
+     * 设置选中项
+     *
+     * @param index 选中项的序列号
+     */
+    public void setSelectedIndex(int index) {
+        nameableList.setSelectedIndex(index);
     }
 }

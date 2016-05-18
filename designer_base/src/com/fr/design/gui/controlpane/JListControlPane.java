@@ -63,6 +63,7 @@ public abstract class JListControlPane extends JControlPane {
     public abstract NameableCreator[] createNameableCreators();
 
 
+    @Override
     protected void initLeftPane(JPanel leftPane) {
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
@@ -89,6 +90,7 @@ public abstract class JListControlPane extends JControlPane {
 
     public JNameEdList createJNameList() {
         JNameEdList nameEdList = new JNameEdList(new DefaultListModel()) {
+            @Override
             protected void doAfterLostFocus() {
                 JListControlPane.this.updateControlUpdatePane();
             }
@@ -151,6 +153,7 @@ public abstract class JListControlPane extends JControlPane {
         return res.toArray(new Nameable[res.size()]);
     }
 
+    @Override
     public void populate(Nameable[] nameableArray) {
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
@@ -602,6 +605,7 @@ public abstract class JListControlPane extends JControlPane {
      * JNameEdList的鼠标事件
      */
     private MouseListener listMouseListener = new MouseAdapter() {
+        @Override
         public void mouseReleased(MouseEvent evt) {
             nameableList.stopEditing();
             if (evt.getClickCount() >= 2
@@ -638,6 +642,7 @@ public abstract class JListControlPane extends JControlPane {
     /**
      * 检查按钮可用状态 Check button enabled.
      */
+    @Override
     public void checkButtonEnabled() {
 
         int selectedIndex = nameableList.getSelectedIndex();
@@ -651,19 +656,12 @@ public abstract class JListControlPane extends JControlPane {
         }
     }
 
-    protected void doBeforeRemove() {
-
-    }
-
-    protected void doAfterRemove() {
-
-    }
-
     /*
      * Nameable的ListCellRenerer
      */
     private class NameableListCellRenderer extends
             DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList list, Object value,
                                                       int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected,
@@ -899,6 +897,7 @@ public abstract class JListControlPane extends JControlPane {
      *
      * @throws Exception
      */
+    @Override
     public void checkValid() throws Exception {
         ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
@@ -933,13 +932,4 @@ public abstract class JListControlPane extends JControlPane {
         return false;
     }
 
-
-    /**
-     * 设置选中项
-     *
-     * @param index 选中项的序列号
-     */
-    public void setSelectedIndex(int index) {
-        nameableList.setSelectedIndex(index);
-    }
 }
