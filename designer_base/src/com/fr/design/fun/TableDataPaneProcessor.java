@@ -2,7 +2,7 @@ package com.fr.design.fun;
 
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.BasicTableDataTreePane;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.data.datapane.TableDataPaneController;
 import com.fr.stable.fun.Level;
 
 /**
@@ -25,6 +25,6 @@ public interface TableDataPaneProcessor extends Level {
      * 服务器数据集面板(模板数据集面板)
      * @return 服务器数据集面板
      */
-    JControlPane createServerTableDataPane();
+    TableDataPaneController createServerTableDataPane();
 
 }

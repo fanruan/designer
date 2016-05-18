@@ -51,6 +51,7 @@ public abstract class JListControlPane extends JControlPane {
         this.initComponentPane();
     }
 
+    @Override
     protected JPanel createControlUpdatePane() {
         return new JControlUpdatePane();
     }
@@ -60,32 +61,12 @@ public abstract class JListControlPane extends JControlPane {
      *
      * @return 按钮的NameableCreator
      */
+    @Override
     public abstract NameableCreator[] createNameableCreators();
 
 
-    protected JPanel getLeftPane() {
-        // LeftPane
-        JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-        initNameList(leftPane);
-
-        shorts = this.createShortcuts();
-        if (ArrayUtils.isEmpty(shorts)) {
-            return leftPane;
-        }
-
-        toolbarDef = new ToolBarDef();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-        toolBar = ToolBarDef.createJToolBar();
-        toolbarDef.updateToolBar(toolBar);
-        leftPane.add(toolBar, BorderLayout.NORTH);
-        return leftPane;
-    }
-
-
-    private void initNameList(JPanel leftPane) {
+    @Override
+    protected void initLeftPane(JPanel leftPane) {
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
         leftPane.add(new UIScrollPane(nameableList), BorderLayout.CENTER);
@@ -111,6 +92,7 @@ public abstract class JListControlPane extends JControlPane {
 
     public JNameEdList createJNameList() {
         JNameEdList nameEdList = new JNameEdList(new DefaultListModel()) {
+            @Override
             protected void doAfterLostFocus() {
                 JListControlPane.this.updateControlUpdatePane();
             }
@@ -127,23 +109,10 @@ public abstract class JListControlPane extends JControlPane {
 
     }
 
-    protected int getLeftPreferredSize() {
-        return shorts.length * JControlPane.SHORT_WIDTH;
-    }
-
-    protected ShortCut4JControlPane[] createShortcuts() {
-        return new ShortCut4JControlPane[]{
-                addItemShortCut(),
-                removeItemShortCut(),
-                copyItemShortCut(),
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                sortItemShortCut()
-        };
-    }
-
+    @Override
     protected ShortCut4JControlPane addItemShortCut() {
         ShortCut addItemShortCut;
+        NameableCreator[] creators = creators();
         if (creators.length == 1) {
             addItemShortCut = new AddItemUpdateAction(creators);
         } else {
@@ -152,22 +121,27 @@ public abstract class JListControlPane extends JControlPane {
         return new AbsoluteEnableShortCut(addItemShortCut);
     }
 
+    @Override
     protected ShortCut4JControlPane removeItemShortCut() {
         return new NormalEnableShortCut(new RemoveItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane copyItemShortCut() {
         return new NormalEnableShortCut(new CopyItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane moveUpItemShortCut() {
         return new NormalEnableShortCut(new MoveUpItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane moveDownItemShortCut() {
         return new NormalEnableShortCut(new MoveDownItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane sortItemShortCut() {
         return new NormalEnableShortCut(new SortItemAction());
     }
@@ -176,6 +150,7 @@ public abstract class JListControlPane extends JControlPane {
         this.nameableList.setEditable(editable);
     }
 
+    @Override
     public Nameable[] update() {
         java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
         ((JControlUpdatePane) this.controlUpdatePane).update();
@@ -187,6 +162,7 @@ public abstract class JListControlPane extends JControlPane {
         return res.toArray(new Nameable[res.size()]);
     }
 
+    @Override
     public void populate(Nameable[] nameableArray) {
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
@@ -262,25 +238,6 @@ public abstract class JListControlPane extends JControlPane {
         ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
 
         return el == null ? null : el.wrapper.getName();
-    }
-
-    /**
-     * 刷新 NameableCreator
-     *
-     * @param creators 生成器
-     */
-    public void refreshNameableCreator(NameableCreator[] creators) {
-        this.creators = creators;
-        shorts = this.createShortcuts();
-        toolbarDef.clearShortCuts();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-
-        toolbarDef.updateToolBar(toolBar);
-        toolBar.validate();
-        toolBar.repaint();
-        this.repaint();
     }
 
     protected boolean isNameRepeted(java.util.List[] list, String name) {
@@ -361,6 +318,7 @@ public abstract class JListControlPane extends JControlPane {
      * @param prefix 名字前缀
      * @return 名字
      */
+    @Override
     public String createUnrepeatedName(String prefix) {
         DefaultListModel model = this.getModel();
         Nameable[] all = new Nameable[model.getSize()];
@@ -401,6 +359,7 @@ public abstract class JListControlPane extends JControlPane {
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Nameable nameable = creator.createNameable(JListControlPane.this);
 
@@ -438,6 +397,7 @@ public abstract class JListControlPane extends JControlPane {
                         }
                     }
 
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         if (hasInvalid(true)) {
                             return;
@@ -479,6 +439,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 JListControlPane.this.nameableList.getCellEditor()
@@ -506,6 +467,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/base/images/cell/control/copy.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             // p:选中的值.
             ListModelElement selectedValue = (ListModelElement) nameableList.getSelectedValue();
@@ -540,6 +502,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/up.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int selectedIndex = nameableList.getSelectedIndex();
             if (selectedIndex == -1) {
@@ -572,6 +535,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/down.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int selectedIndex = nameableList.getSelectedIndex();
             if (selectedIndex == -1) {
@@ -602,6 +566,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             // p:选中的值.
             Object selectedValue = nameableList.getSelectedValue();
@@ -620,6 +585,7 @@ public abstract class JListControlPane extends JControlPane {
             // p:排序.
             if (isAtoZ) {
                 Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
+                    @Override
                     public int compare(Nameable o1, Nameable o2) {
                         return -ComparatorUtils.compare(o1.getName(), o2
                                 .getName());
@@ -629,6 +595,7 @@ public abstract class JListControlPane extends JControlPane {
                 Arrays.sort(nameableArray, nameableComparator);
             } else {
                 Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
+                    @Override
                     public int compare(Nameable o1, Nameable o2) {
                         return ComparatorUtils.compare(o1.getName(), o2
                                 .getName());
@@ -657,6 +624,7 @@ public abstract class JListControlPane extends JControlPane {
      * JNameEdList的鼠标事件
      */
     private MouseListener listMouseListener = new MouseAdapter() {
+        @Override
         public void mouseReleased(MouseEvent evt) {
             nameableList.stopEditing();
             if (evt.getClickCount() >= 2
@@ -676,7 +644,7 @@ public abstract class JListControlPane extends JControlPane {
             // p:右键菜单.
             JPopupMenu popupMenu = new JPopupMenu();
 
-            for (ShortCut4JControlPane sj : shorts) {
+            for (ShortCut4JControlPane sj : getShorts()) {
                 sj.getShortCut().intoJPopupMenu(popupMenu);
             }
 
@@ -685,6 +653,7 @@ public abstract class JListControlPane extends JControlPane {
                     evt.getY() - 1);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
 
         }
@@ -693,28 +662,18 @@ public abstract class JListControlPane extends JControlPane {
     /**
      * 检查按钮可用状态 Check button enabled.
      */
+    @Override
     public void checkButtonEnabled() {
+
         int selectedIndex = nameableList.getSelectedIndex();
         if (selectedIndex == -1) {
             this.cardLayout.show(cardPane, "SELECT");
         } else {
             this.cardLayout.show(cardPane, "EDIT");
         }
-        for (ShortCut4JControlPane sj : this.shorts) {
+        for (ShortCut4JControlPane sj : getShorts()) {
             sj.checkEnable();
         }
-    }
-
-    protected void doBeforeRemove() {
-
-    }
-
-    protected void doAfterRemove() {
-
-    }
-
-    public NameableCreator[] creators() {
-        return creators == null ? new NameableCreator[0] : creators;
     }
 
     /*
@@ -722,6 +681,7 @@ public abstract class JListControlPane extends JControlPane {
      */
     private class NameableListCellRenderer extends
             DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList list, Object value,
                                                       int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected,
@@ -732,7 +692,7 @@ public abstract class JListControlPane extends JControlPane {
                 this.setText(((ListModelElement) value).wrapper.getName());
 
                 boolean iconSet = false;
-                for (NameableCreator creator : JListControlPane.this.creators) {
+                for (NameableCreator creator : JListControlPane.this.creators()) {
                     if (creator.menuIcon() != null && creator.acceptObject2Populate(wrappee) != null) {
                         this.setIcon(creator.menuIcon());
                         this.setToolTipText(creator.createTooltip());
@@ -757,6 +717,7 @@ public abstract class JListControlPane extends JControlPane {
         /**
          * 检查是否可用
          */
+        @Override
         public void checkEnable() {
             this.shortCut.setEnabled(true);
         }
@@ -770,6 +731,7 @@ public abstract class JListControlPane extends JControlPane {
         /**
          * 检查是否可用
          */
+        @Override
         public void checkEnable() {
             this.shortCut.setEnabled(getModel()
                     .getSize() > 0
@@ -836,6 +798,7 @@ public abstract class JListControlPane extends JControlPane {
         }
 
         private void initUpdatePane() {
+            NameableCreator[] creators = creators();
             if (creators == null) {
                 return;
             }
@@ -855,6 +818,7 @@ public abstract class JListControlPane extends JControlPane {
             }
 
             elEditing = el;
+            NameableCreator[] creators = creators();
 
             for (int i = 0, len = updatePanes.length; i < len; i++) {
                 Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
@@ -884,13 +848,14 @@ public abstract class JListControlPane extends JControlPane {
         }
 
         public void update() {
+            NameableCreator[] creators = creators();
             for (int i = 0; i < updatePanes.length; i++) {
                 BasicBeanPane pane = updatePanes[i];
 
                 if (pane != null && pane.isVisible()) {
                     Object bean = pane.updateBean();
-                    if (i < JListControlPane.this.creators.length) {
-                        JListControlPane.this.creators[i].saveUpdatedBean(elEditing, bean);
+                    if (i < creators.length) {
+                        creators[i].saveUpdatedBean(elEditing, bean);
                     }
                 }
             }
@@ -937,8 +902,9 @@ public abstract class JListControlPane extends JControlPane {
 
     // 选项添加个数有限制等情况下 要求能控制快捷按钮的状态
     protected void setToolbarDefEnable(int shortCutIndex, int itemIndex, boolean enabled) {
-        if (this.toolbarDef.getShortCutCount() > shortCutIndex) {
-            ShortCut sc = this.toolbarDef.getShortCut(shortCutIndex);
+        ToolBarDef toolbarDef = getToolbarDef();
+        if (toolbarDef.getShortCutCount() > shortCutIndex) {
+            ShortCut sc = toolbarDef.getShortCut(shortCutIndex);
             if (sc instanceof AddItemMenuDef) {
                 AddItemMenuDef am = (AddItemMenuDef) sc;
                 if (am.getShortCutCount() > itemIndex) {
@@ -953,6 +919,7 @@ public abstract class JListControlPane extends JControlPane {
      *
      * @throws Exception
      */
+    @Override
     public void checkValid() throws Exception {
         ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
@@ -973,6 +940,7 @@ public abstract class JListControlPane extends JControlPane {
         return -1;
     }
 
+    @Override
     protected boolean hasInvalid(boolean isAdd) {
         int idx = JListControlPane.this.getInValidIndex();
         if (isAdd || nameableList.getSelectedIndex() != idx) {
@@ -987,13 +955,4 @@ public abstract class JListControlPane extends JControlPane {
         return false;
     }
 
-
-    /**
-     * 设置选中项
-     *
-     * @param index 选中项的序列号
-     */
-    public void setSelectedIndex(int index) {
-        nameableList.setSelectedIndex(index);
-    }
 }
