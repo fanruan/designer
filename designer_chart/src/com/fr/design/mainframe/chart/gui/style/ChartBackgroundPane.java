@@ -4,13 +4,13 @@ import com.fr.chart.chartglyph.GeneralInfo;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.style.GradientPane;
+import com.fr.design.gui.style.GradientQuickPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.backgroundpane.BackgroundSettingPane;
-import com.fr.design.mainframe.backgroundpane.ColorBackgroundPane;
-import com.fr.design.mainframe.backgroundpane.ImageBackgroundPane;
-import com.fr.design.mainframe.backgroundpane.NullBackgroundPane;
+import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -33,7 +33,7 @@ public class ChartBackgroundPane extends BasicPane{
 	private static final long serialVersionUID = 6955952013135176051L;
 	private static final double ALPHA_V = 100.0;
 	protected static final int CHART_GRADIENT_WIDTH = 150;
-	protected List<BackgroundSettingPane> paneList;
+	protected List<BackgroundQuickPane> paneList;
 	
 	private UIComboBox typeComboBox;
 	private UINumberDragPane transparent;
@@ -41,7 +41,7 @@ public class ChartBackgroundPane extends BasicPane{
 	public ChartBackgroundPane() {
 		typeComboBox = new UIComboBox();
 		final CardLayout cardlayout = new CardLayout();
-		paneList = new ArrayList<BackgroundSettingPane>();
+		paneList = new ArrayList<BackgroundQuickPane>();
 		
 		initList();
 		
@@ -54,7 +54,7 @@ public class ChartBackgroundPane extends BasicPane{
 			}
 		};
 		for (int i = 0; i < paneList.size(); i++) {
-			BackgroundSettingPane pane = paneList.get(i);
+			BackgroundQuickPane pane = paneList.get(i);
 			typeComboBox.addItem(pane.title4PopupWindow());
 			centerPane.add(pane, pane.title4PopupWindow());
 		}
@@ -89,10 +89,10 @@ public class ChartBackgroundPane extends BasicPane{
 	}
 	
 	protected void initList() {
-		paneList.add(new NullBackgroundPane());
-		paneList.add(new ColorBackgroundPane());
-		paneList.add(new ImageBackgroundPane());
-		paneList.add(new GradientPane(CHART_GRADIENT_WIDTH));
+		paneList.add(new NullBackgroundQuickPane());
+		paneList.add(new ColorBackgroundQuickPane());
+		paneList.add(new ImageBackgroundQuickPane());
+		paneList.add(new GradientQuickPane(CHART_GRADIENT_WIDTH));
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class ChartBackgroundPane extends BasicPane{
 		double alpha = attr.getAlpha() * ALPHA_V;
 		transparent.populateBean(alpha);
 		for (int i = 0; i < paneList.size(); i++) {
-			BackgroundSettingPane pane = paneList.get(i);
+			BackgroundQuickPane pane = paneList.get(i);
 			if (pane.accept(background)) {
 				pane.populateBean(background);
 				typeComboBox.setSelectedIndex(i);

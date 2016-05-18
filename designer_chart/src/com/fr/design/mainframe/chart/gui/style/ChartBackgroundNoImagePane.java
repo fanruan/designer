@@ -1,8 +1,8 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import com.fr.design.gui.style.GradientPane;
-import com.fr.design.mainframe.backgroundpane.ColorBackgroundPane;
-import com.fr.design.mainframe.backgroundpane.NullBackgroundPane;
+import com.fr.design.gui.style.GradientQuickPane;
+import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 
 /**
  * 背景界面, 无图片和纹理选项.
@@ -16,8 +16,8 @@ public class ChartBackgroundNoImagePane extends ChartBackgroundPane {
 	}
 	
 	protected void initList() {
-		paneList.add(new NullBackgroundPane());
-		paneList.add(new ColorBackgroundPane());
-		paneList.add(new GradientPane(CHART_GRADIENT_WIDTH));
+		paneList.add(new NullBackgroundQuickPane());
+		paneList.add(new ColorBackgroundQuickPane());
+		paneList.add(new GradientQuickPane(CHART_GRADIENT_WIDTH));
 	}
 }
