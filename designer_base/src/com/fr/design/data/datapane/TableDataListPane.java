@@ -22,6 +22,7 @@ import java.util.*;
  * TableDataList Pane.
  */
 public class TableDataListPane extends JListControlPane {
+    private boolean isNamePermitted = true;
 
     public TableDataListPane() {
         super();

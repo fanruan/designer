@@ -10,11 +10,9 @@ import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
-import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
@@ -43,19 +41,8 @@ import java.util.Comparator;
 
 public abstract class JListControlPane extends JControlPane {
     public static final String LIST_NAME = "JControl_List";
-    private static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
 
-    private ShortCut4JControlPane[] shorts;
-    private NameableCreator[] creators;
     protected JNameEdList nameableList;
-    protected JControlUpdatePane controlUpdatePane;
-
-    private ToolBarDef toolbarDef;
-    private UIToolbar toolBar;
-
-    // peter:这是整体的一个cardLayout Pane
-    private CardLayout cardLayout;
-    private JPanel cardPane;
     protected int editingIndex;
     protected String selectedName;
     private boolean isNameRepeated = false;
@@ -64,38 +51,20 @@ public abstract class JListControlPane extends JControlPane {
         this.initComponentPane();
     }
 
+    protected JPanel createControlUpdatePane() {
+        return new JControlUpdatePane();
+    }
+
     /**
      * 生成添加按钮的NameableCreator
+     *
      * @return 按钮的NameableCreator
      */
     public abstract NameableCreator[] createNameableCreators();
 
-    protected void initComponentPane() {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.creators = this.createNameableCreators();
-        this.controlUpdatePane = new JControlUpdatePane();
 
-        // p: edit card layout
-        this.cardLayout = new CardLayout();
-        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        cardPane.setLayout(this.cardLayout);
-        // p:选择的Label
-        UILabel selectLabel = new UILabel();
-        cardPane.add(selectLabel, "SELECT");
-        cardPane.add(controlUpdatePane, "EDIT");
-        // SplitPane
-        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
-        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
-        mainSplitPane.setOneTouchExpandable(true);
-
-        this.add(mainSplitPane, BorderLayout.CENTER);
-        mainSplitPane.setDividerLocation(getLeftPreferredSize());
-        this.checkButtonEnabled();
-    }
-
-
-    protected JPanel getLeftPane(){
-               // LeftPane
+    protected JPanel getLeftPane() {
+        // LeftPane
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         initNameList(leftPane);
@@ -132,8 +101,8 @@ public abstract class JListControlPane extends JControlPane {
                     if (hasInvalid(false)) {
                         return;
                     }
-                    JListControlPane.this.controlUpdatePane.update();
-                    JListControlPane.this.controlUpdatePane.populate();
+                    ((JControlUpdatePane) JListControlPane.this.controlUpdatePane).update();
+                    ((JControlUpdatePane) JListControlPane.this.controlUpdatePane).populate();
                     JListControlPane.this.checkButtonEnabled();
                 }
             }
@@ -151,15 +120,15 @@ public abstract class JListControlPane extends JControlPane {
     }
 
     public void updateControlUpdatePane() {
-        controlUpdatePane.update();
+        ((JControlUpdatePane) controlUpdatePane).update();
     }
 
-    protected void doWhenPopulate(BasicBeanPane beanPane){
+    protected void doWhenPopulate(BasicBeanPane beanPane) {
 
     }
 
     protected int getLeftPreferredSize() {
-        return shorts.length * SHORT_WIDTH;
+        return shorts.length * JControlPane.SHORT_WIDTH;
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {
@@ -209,7 +178,7 @@ public abstract class JListControlPane extends JControlPane {
 
     public Nameable[] update() {
         java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
-        this.controlUpdatePane.update();
+        ((JControlUpdatePane) this.controlUpdatePane).update();
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
             res.add(((ListModelElement) listModel.getElementAt(i)).wrapper);
@@ -257,7 +226,7 @@ public abstract class JListControlPane extends JControlPane {
      * 刷新当前的选中的UpdatePane
      */
     protected void populateSelectedValue() {
-        JListControlPane.this.controlUpdatePane.populate();
+        ((JControlUpdatePane) JListControlPane.this.controlUpdatePane).populate();
     }
 
     /**
@@ -327,7 +296,8 @@ public abstract class JListControlPane extends JControlPane {
 
     /**
      * 名字是否重复
-     * @return    重复则返回true
+     *
+     * @return 重复则返回true
      */
     public boolean isNameRepeated() {
         return isNameRepeated;
@@ -353,6 +323,7 @@ public abstract class JListControlPane extends JControlPane {
 
     /**
      * 是否重命名
+     *
      * @return 是则true
      */
     public boolean isContainsRename() {
@@ -450,7 +421,7 @@ public abstract class JListControlPane extends JControlPane {
 
         private void wrapActionListener(NameableCreator[] creators) {
             for (final NameableCreator creator : creators) {
-                if (!whetherAdd(creator.menuName())){
+                if (!whetherAdd(creator.menuName())) {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||
@@ -480,15 +451,15 @@ public abstract class JListControlPane extends JControlPane {
             }
         }
 
-        private boolean whetherAdd(String itemName){
+        private boolean whetherAdd(String itemName) {
             JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             if (jTemplate == null) {
-                return  false;
+                return false;
             }
             //先屏蔽掉这个，之后还有别的
             String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float")};
-            for (String name : names){
-                if(!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)){
+            for (String name : names) {
+                if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
                     return false;
                 }
             }
@@ -542,7 +513,7 @@ public abstract class JListControlPane extends JControlPane {
                 return;
             }
 
-            controlUpdatePane.update();
+            ((JControlUpdatePane) controlUpdatePane).update();
 
             Nameable selectedNameable = selectedValue.wrapper;
 
@@ -734,11 +705,11 @@ public abstract class JListControlPane extends JControlPane {
         }
     }
 
-    protected void doBeforeRemove(){
+    protected void doBeforeRemove() {
 
     }
 
-    protected void doAfterRemove(){
+    protected void doAfterRemove() {
 
     }
 
@@ -904,11 +875,11 @@ public abstract class JListControlPane extends JControlPane {
             }
         }
 
-        public boolean isMulti(Class _class){
+        public boolean isMulti(Class _class) {
             return ComparatorUtils.equals(_class, GlobalMultiTDTableDataPane.class) || ComparatorUtils.equals(_class, MultiTDTableDataPane.class);
         }
 
-        public boolean isTree(Class _class){
+        public boolean isTree(Class _class) {
             return ComparatorUtils.equals(_class, GlobalTreeTableDataPane.class) || ComparatorUtils.equals(_class, TreeTableDataPane.class);
         }
 
@@ -983,11 +954,11 @@ public abstract class JListControlPane extends JControlPane {
      * @throws Exception
      */
     public void checkValid() throws Exception {
-        this.controlUpdatePane.checkValid();
+        ((JControlUpdatePane) this.controlUpdatePane).checkValid();
     }
 
     private int getInValidIndex() {
-        BasicBeanPane[] p = controlUpdatePane.updatePanes;
+        BasicBeanPane[] p = ((JControlUpdatePane) controlUpdatePane).updatePanes;
         if (p != null) {
             for (int i = 0; i < p.length; i++) {
                 if (p[i] != null) {

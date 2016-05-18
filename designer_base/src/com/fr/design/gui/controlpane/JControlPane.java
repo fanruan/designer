@@ -22,22 +22,18 @@ import java.util.Map;
  * Time: 15:07
  */
 public abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper {
-    private static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
-
-    private ShortCut4JControlPane[] shorts;
-    private NameableCreator[] creators;
+    protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
     protected JPanel controlUpdatePane;
-
-    private ToolBarDef toolbarDef;
-    private UIToolbar toolBar;
-
-    // peter:这是整体的一个cardLayout Pane
-    private CardLayout cardLayout;
-    private JPanel cardPane;
-    protected String selectedName;
-    protected boolean isNamePermitted = true;
     protected Map<String, String> dsNameChangedMap = new HashMap<String, String>();
-    private boolean isNameRepeated = false;
+    protected ShortCut4JControlPane[] shorts;
+    protected NameableCreator[] creators;
+    protected ToolBarDef toolbarDef;
+
+    protected UIToolbar toolBar;
+    // peter:这是整体的一个cardLayout Pane
+    protected CardLayout cardLayout;
+
+    protected JPanel cardPane;
 
     public JControlPane() {
         this.initComponentPane();
@@ -53,7 +49,7 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
-        this.controlUpdatePane = new JPanel();
+        this.controlUpdatePane = createControlUpdatePane();
 
         // p: edit card layout
         this.cardLayout = new CardLayout();
@@ -73,6 +69,7 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
         this.checkButtonEnabled();
     }
 
+    protected abstract JPanel createControlUpdatePane();
 
     protected JPanel getLeftPane() {
         // LeftPane
@@ -93,6 +90,55 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
         toolbarDef.updateToolBar(toolBar);
         leftPane.add(toolBar, BorderLayout.NORTH);
         return leftPane;
+    }
+
+
+    public ShortCut4JControlPane[] getShorts() {
+        return shorts;
+    }
+
+    public void setShorts(ShortCut4JControlPane[] shorts) {
+        this.shorts = shorts;
+    }
+
+    public NameableCreator[] getCreators() {
+        return creators;
+    }
+
+    public void setCreators(NameableCreator[] creators) {
+        this.creators = creators;
+    }
+
+    public ToolBarDef getToolbarDef() {
+        return toolbarDef;
+    }
+
+    public void setToolbarDef(ToolBarDef toolbarDef) {
+        this.toolbarDef = toolbarDef;
+    }
+
+    public UIToolbar getToolBar() {
+        return toolBar;
+    }
+
+    public void setToolBar(UIToolbar toolBar) {
+        this.toolBar = toolBar;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public void setCardLayout(CardLayout cardLayout) {
+        this.cardLayout = cardLayout;
+    }
+
+    public JPanel getCardPane() {
+        return cardPane;
+    }
+
+    public void setCardPane(JPanel cardPane) {
+        this.cardPane = cardPane;
     }
 
     /**
@@ -158,51 +204,14 @@ public abstract class JControlPane extends BasicPane implements UnrepeatedNameHe
     public void update(TableDataSource tds) {
     }
 
-
-    /**
-     * 根据name,选中JNameEdList中的item
-     */
-    public void setSelectedName(String name) {
-    }
-
-    /**
-     * 获取选中的名字
-     */
-    public abstract String getSelectedName();
-
-    /**
-     * 名字是否重复
-     *
-     * @return 重复则返回true
-     */
-    public boolean isNameRepeated() {
-        return isNameRepeated;
-    }
-
     /**
      * 名字是否允许
      *
-     * @return 是则返回true
+     * @return 默认返回true
      */
     public boolean isNamePermitted() {
-        return isNamePermitted;
+        return true;
     }
-
-    /**
-     * 是否重命名
-     *
-     * @return 是则true
-     */
-    public abstract boolean isContainsRename();
-
-    /**
-     * 生成不重复的名字
-     *
-     * @param prefix 名字前缀
-     * @return 名字
-     */
-    public abstract String createUnrepeatedName(String prefix);
-
 
     /**
      * 检查按钮可用状态 Check button enabled.
