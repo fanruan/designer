@@ -17,16 +17,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class PropertyGroupModel extends AbstractPropertyGroupModel {
-	
-	private FormDesigner designer;
+
+    private FormDesigner designer;
 
     public PropertyGroupModel(String name, XCreator creator, CRPropertyDescriptor[] propArray,
-			FormDesigner designer) {
-		super(name, creator, propArray);
-		this.designer = designer;
-	}
+                              FormDesigner designer) {
+        super(name, creator, propArray);
+        this.designer = designer;
+    }
 
-	@Override
+    @Override
     public Object getValue(int row, int column) {
         if (column == 0) {
             return properties[row].getDisplayName();
@@ -49,9 +49,9 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
         try {
             Method m = properties[row].getWriteMethod();
             m.invoke(dealCreatorData(), value);
-        	//属性名称为控件名时，单独处理下
+            //属性名称为控件名时，单独处理下
             if(ComparatorUtils.equals(FormConstants.NAME, properties[row].getName())){
-            	creator.resetCreatorName(value.toString());
+                creator.resetCreatorName(value.toString());
             }
             properties[row].firePropertyChanged();
             return true;
@@ -103,45 +103,49 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
         PROPERTIES.add("Properties");
         PROPERTIES.add("Others");
     }
-    
+
     /**
      * 控件属性赋值和取值时，针对scale和title做下处理
      * @return
      */
     private Object dealCreatorData() {
-    	return creator.getPropertyDescriptorCreator().toData();
+        return creator.getPropertyDescriptorCreator().toData();
     }
-    
-	@Override
-	protected void initEditor(final int row) throws Exception {
-		ExtendedPropertyEditor editor = (ExtendedPropertyEditor) properties[row].createPropertyEditor(dealCreatorData());
-		if (editor == null) {
-			Class propType = properties[row].getPropertyType();
-			editor = TableUtils.getPropertyEditorClass(propType).newInstance();
-		}
-		if (editor != null) {
-			final ExtendedPropertyEditor extendEditor = editor;
-			editors[row] = new PropertyCellEditor(editor);
-			extendEditor.addPropertyChangeListener(new PropertyChangeListener() {
 
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					if(ComparatorUtils.equals(extendEditor.getValue(),getValue(row,1))) {
-						return;
-					}
-					if (extendEditor.refreshInTime()) {
-						editors[row].stopCellEditing();
-					} else {
-						setValue(extendEditor.getValue(), row, 1);
-						if ("widgetName".equals(properties[row].getName())) {
-							designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_RENAMED);
-						} else {
-							designer.fireTargetModified();
-						}
-						designer.refreshDesignerUI();
-					}
-				}
-			});
-		}
-	}
+    @Override
+    protected void initEditor(final int row) throws Exception {
+        ExtendedPropertyEditor editor = (ExtendedPropertyEditor) properties[row].createPropertyEditor(dealCreatorData());
+        if (editor == null) {
+            Class propType = properties[row].getPropertyType();
+            editor = TableUtils.getPropertyEditorClass(propType).newInstance();
+        }
+        if (editor != null) {
+            final ExtendedPropertyEditor extendEditor = editor;
+            editors[row] = new PropertyCellEditor(editor);
+            extendEditor.addPropertyChangeListener(new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if(ComparatorUtils.equals(extendEditor.getValue(),getValue(row,1))) {
+                        return;
+                    }
+                    if (extendEditor.refreshInTime()) {
+                        editors[row].stopCellEditing();
+                    } else {
+                        setValue(extendEditor.getValue(), row, 1);
+
+                        if (designer == null) {
+                            return;
+                        }
+                        if ("widgetName".equals(properties[row].getName())) {
+                            designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_RENAMED);
+                        } else {
+                            designer.fireTargetModified();
+                        }
+                        designer.refreshDesignerUI();
+                    }
+                }
+            });
+        }
+    }
 }

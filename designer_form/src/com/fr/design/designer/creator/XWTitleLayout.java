@@ -1,21 +1,21 @@
 /**
- * 
+ *
  */
 package com.fr.design.designer.creator;
-
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.event.ContainerEvent;
 
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTitleLayoutAdapter;
 import com.fr.design.form.layout.FRTitleLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.form.ui.Label;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+
+import java.awt.*;
+import java.awt.event.ContainerEvent;
 
 /**
  * 一些控件 如图表、报表块，有标题设置，且标题的高度字体等不变
@@ -25,17 +25,17 @@ import com.fr.general.ComparatorUtils;
 public class XWTitleLayout extends DedicateLayoutContainer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5274572473978467325L;
-	
+
 	public XWTitleLayout() {
 		super(new WTitleLayout("titlePane"), new Dimension());
 	}
 
 	/**
 	 * 容器构造函数
-	 * 
+	 *
 	 * @param widget 控件widget
 	 * @param initSize 尺寸大小
 	 */
@@ -58,17 +58,17 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 	public LayoutAdapter getLayoutAdapter() {
 		return new FRTitleLayoutAdapter(this);
 	}
-	
+
 	/**
 	 * 返回容器对应的wlayout
-	 * 
+	 *
 	 * @return 同上
 	 */
 	@Override
 	public WTitleLayout toData() {
 		return (WTitleLayout) data;
 	}
-	
+
 	/**
 	 * 重置组件的名称
 	 * @param name 名称
@@ -77,20 +77,20 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 		super.resetCreatorName(name);
 		// 有标题的话，标题的名字也要重置下
 		if (getXCreatorCount() > 1) {
-        	getTitleCreator().toData().setWidgetName(WidgetTitle.TITLE_NAME_INDEX + name);
-        }
+			getTitleCreator().toData().setWidgetName(WidgetTitle.TITLE_NAME_INDEX + name);
+		}
 	}
-	
+
 	/**
 	 * 返回默认组件name
-	 * 
+	 *
 	 * @return 容器名
 	 */
 	@Override
 	public String createDefaultName() {
 		return "titlePanel";
 	}
-	
+
 	/**
 	 * 返回标题组件
 	 * @return 标题组件
@@ -104,7 +104,7 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 将WLayout转换为XLayoutContainer
 	 */
@@ -128,7 +128,7 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 
 	/**
 	 * 组件增加
-	 * 
+	 *
 	 * @param e 容器事件
 	 */
 	@Override
@@ -139,17 +139,17 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 		WTitleLayout layout = this.toData();
 		XWidgetCreator creator = (XWidgetCreator) e.getChild();
 		FRTitleLayout lay = (FRTitleLayout) getLayout();
-        Object constraints = lay.getConstraints(creator);
-        if (ComparatorUtils.equals(WTitleLayout.TITLE,constraints)) {
-            layout.addTitle(creator.toData(), creator.getBounds());
-        } else if (ComparatorUtils.equals(WTitleLayout.BODY,constraints)) {
-            layout.addBody(creator.toData(), creator.getBounds());
-        } 
+		Object constraints = lay.getConstraints(creator);
+		if (ComparatorUtils.equals(WTitleLayout.TITLE,constraints)) {
+			layout.addTitle(creator.toData(), creator.getBounds());
+		} else if (ComparatorUtils.equals(WTitleLayout.BODY,constraints)) {
+			layout.addBody(creator.toData(), creator.getBounds());
+		}
 	}
 
 	/**
 	 * 组件删除
-	 * 
+	 *
 	 * @param e
 	 *            容器事件
 	 */
@@ -164,4 +164,9 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 		wlayout.removeWidget(wgt);
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		XCreator creator = getPropertyDescriptorCreator();
+		return creator.getWidgetPropertyUIProviders();
+	}
 }
