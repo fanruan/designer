@@ -273,14 +273,4 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     public JPanel getPanel() {
         return this;
     }
-
-    /**
-     * 设置选中项
-     *
-     * @param index 选中项的序列号
-     */
-    @Override
-    public void setSelectedIndex(int index) {
-        nameableList.setSelectedIndex(index);
-    }
 }
