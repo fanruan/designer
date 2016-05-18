@@ -8,6 +8,7 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.*;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -517,5 +518,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	public void recalculateChildHeight(int height){
 		return;
+	}
+
+	/**
+	 * 获取当前组件自定义的属性表tab
+	 *
+	 * @return 属性表tab数组
+	 */
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[0];
 	}
 }
