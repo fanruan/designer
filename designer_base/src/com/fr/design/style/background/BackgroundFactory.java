@@ -96,7 +96,7 @@ public class BackgroundFactory {
         return createByWrapper(wrapper);
     }
 
-    public static BackgroundDetailPane createBrowerIfAbsent(int index) {
+    public static BackgroundDetailPane createBrowserIfAbsent(int index) {
         for (BackgroundUIWrapper wrapper : browser.values()) {
             if (wrapper.getIndex() == index) {
                 return createByWrapper(wrapper);

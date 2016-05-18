@@ -16,7 +16,7 @@ public class BackgroundPane4Browser extends BackgroundPane {
     protected void initTabPane() {
         int index = 0;
         for (Class<? extends Background> key : BackgroundFactory.browserKindsOfKey()) {
-            BackgroundUIWrapper wrapper = BackgroundFactory.getWrapper(key);
+            BackgroundUIWrapper wrapper = BackgroundFactory.getBrosweWrapper(key);
             wrapper.setIndex(index++);
             tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
@@ -37,7 +37,7 @@ public class BackgroundPane4Browser extends BackgroundPane {
     protected BackgroundDetailPane getTabItemPaneByIndex(int index) {
         BackgroundDetailPane quickPane = cacheMap.get(index);
         if (quickPane == null) {
-            quickPane = BackgroundFactory.createBrowerIfAbsent(index);
+            quickPane = BackgroundFactory.createBrowserIfAbsent(index);
             tabbedPane.setComponentAt(index, quickPane);
             cacheMap.put(index, quickPane);
             quickPane.addChangeListener(backgroundChangeListener);
