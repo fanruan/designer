@@ -2,9 +2,9 @@ package com.fr.design.data.tabledata.tabledatapane;
 
 import com.fr.base.FRContext;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.data.datapane.TableDataListPane;
+import com.fr.design.data.datapane.TableDataPaneController;
+import com.fr.design.data.datapane.TableDataPaneListPane;
 import com.fr.design.fun.TableDataPaneProcessor;
-import com.fr.design.gui.controlpane.JControlPane;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class TableDataManagerPane extends LoadingBasicPane {
 
 	private UITextField tableDataTextField;
-	private JControlPane tableDataPane;
+	private TableDataPaneController tableDataPane;
 
 	@Override
 	protected void initComponents(JPanel container) {
@@ -40,17 +40,17 @@ public class TableDataManagerPane extends LoadingBasicPane {
 		tableDataPathPane.add(tableDataTextField, BorderLayout.CENTER);
 		this.tableDataTextField.setEditable(false);
 		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
-		JControlPane pane = null;
+		TableDataPaneController pane = null;
 		if (paneProcessor != null) {
 			pane = paneProcessor.createServerTableDataPane();
 		}
-		tableDataPane = pane == null ? new TableDataListPane() {
-			protected void rename(String oldName, String newName) {
+		tableDataPane = pane == null ? new TableDataPaneListPane() {
+			public void rename(String oldName, String newName) {
 				super.rename(oldName, newName);
 				renameConnection(oldName, newName);
 			}
 		} : pane;
-		container.add(tableDataPane, BorderLayout.CENTER);
+		container.add(tableDataPane.getPanel(), BorderLayout.CENTER);
 	}
 
 

@@ -63,29 +63,7 @@ public abstract class JListControlPane extends JControlPane {
     public abstract NameableCreator[] createNameableCreators();
 
 
-    protected JPanel getLeftPane() {
-        // LeftPane
-        JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-        initNameList(leftPane);
-
-        shorts = this.createShortcuts();
-        if (ArrayUtils.isEmpty(shorts)) {
-            return leftPane;
-        }
-
-        toolbarDef = new ToolBarDef();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-        toolBar = ToolBarDef.createJToolBar();
-        toolbarDef.updateToolBar(toolBar);
-        leftPane.add(toolBar, BorderLayout.NORTH);
-        return leftPane;
-    }
-
-
-    private void initNameList(JPanel leftPane) {
+    protected void initLeftPane(JPanel leftPane) {
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
         leftPane.add(new UIScrollPane(nameableList), BorderLayout.CENTER);
@@ -127,23 +105,9 @@ public abstract class JListControlPane extends JControlPane {
 
     }
 
-    protected int getLeftPreferredSize() {
-        return shorts.length * JControlPane.SHORT_WIDTH;
-    }
-
-    protected ShortCut4JControlPane[] createShortcuts() {
-        return new ShortCut4JControlPane[]{
-                addItemShortCut(),
-                removeItemShortCut(),
-                copyItemShortCut(),
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                sortItemShortCut()
-        };
-    }
-
     protected ShortCut4JControlPane addItemShortCut() {
         ShortCut addItemShortCut;
+        NameableCreator[] creators = creators();
         if (creators.length == 1) {
             addItemShortCut = new AddItemUpdateAction(creators);
         } else {
@@ -262,25 +226,6 @@ public abstract class JListControlPane extends JControlPane {
         ListModelElement el = (ListModelElement) this.nameableList.getSelectedValue();
 
         return el == null ? null : el.wrapper.getName();
-    }
-
-    /**
-     * 刷新 NameableCreator
-     *
-     * @param creators 生成器
-     */
-    public void refreshNameableCreator(NameableCreator[] creators) {
-        this.creators = creators;
-        shorts = this.createShortcuts();
-        toolbarDef.clearShortCuts();
-        for (ShortCut4JControlPane sj : shorts) {
-            toolbarDef.addShortCut(sj.getShortCut());
-        }
-
-        toolbarDef.updateToolBar(toolBar);
-        toolBar.validate();
-        toolBar.repaint();
-        this.repaint();
     }
 
     protected boolean isNameRepeted(java.util.List[] list, String name) {
@@ -676,7 +621,7 @@ public abstract class JListControlPane extends JControlPane {
             // p:右键菜单.
             JPopupMenu popupMenu = new JPopupMenu();
 
-            for (ShortCut4JControlPane sj : shorts) {
+            for (ShortCut4JControlPane sj : getShorts()) {
                 sj.getShortCut().intoJPopupMenu(popupMenu);
             }
 
@@ -694,13 +639,14 @@ public abstract class JListControlPane extends JControlPane {
      * 检查按钮可用状态 Check button enabled.
      */
     public void checkButtonEnabled() {
+
         int selectedIndex = nameableList.getSelectedIndex();
         if (selectedIndex == -1) {
             this.cardLayout.show(cardPane, "SELECT");
         } else {
             this.cardLayout.show(cardPane, "EDIT");
         }
-        for (ShortCut4JControlPane sj : this.shorts) {
+        for (ShortCut4JControlPane sj : getShorts()) {
             sj.checkEnable();
         }
     }
@@ -711,10 +657,6 @@ public abstract class JListControlPane extends JControlPane {
 
     protected void doAfterRemove() {
 
-    }
-
-    public NameableCreator[] creators() {
-        return creators == null ? new NameableCreator[0] : creators;
     }
 
     /*
@@ -732,7 +674,7 @@ public abstract class JListControlPane extends JControlPane {
                 this.setText(((ListModelElement) value).wrapper.getName());
 
                 boolean iconSet = false;
-                for (NameableCreator creator : JListControlPane.this.creators) {
+                for (NameableCreator creator : JListControlPane.this.creators()) {
                     if (creator.menuIcon() != null && creator.acceptObject2Populate(wrappee) != null) {
                         this.setIcon(creator.menuIcon());
                         this.setToolTipText(creator.createTooltip());
@@ -836,6 +778,7 @@ public abstract class JListControlPane extends JControlPane {
         }
 
         private void initUpdatePane() {
+            NameableCreator[] creators = creators();
             if (creators == null) {
                 return;
             }
@@ -855,6 +798,7 @@ public abstract class JListControlPane extends JControlPane {
             }
 
             elEditing = el;
+            NameableCreator[] creators = creators();
 
             for (int i = 0, len = updatePanes.length; i < len; i++) {
                 Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
@@ -884,13 +828,14 @@ public abstract class JListControlPane extends JControlPane {
         }
 
         public void update() {
+            NameableCreator[] creators = creators();
             for (int i = 0; i < updatePanes.length; i++) {
                 BasicBeanPane pane = updatePanes[i];
 
                 if (pane != null && pane.isVisible()) {
                     Object bean = pane.updateBean();
-                    if (i < JListControlPane.this.creators.length) {
-                        JListControlPane.this.creators[i].saveUpdatedBean(elEditing, bean);
+                    if (i < creators.length) {
+                        creators[i].saveUpdatedBean(elEditing, bean);
                     }
                 }
             }
@@ -937,8 +882,9 @@ public abstract class JListControlPane extends JControlPane {
 
     // 选项添加个数有限制等情况下 要求能控制快捷按钮的状态
     protected void setToolbarDefEnable(int shortCutIndex, int itemIndex, boolean enabled) {
-        if (this.toolbarDef.getShortCutCount() > shortCutIndex) {
-            ShortCut sc = this.toolbarDef.getShortCut(shortCutIndex);
+        ToolBarDef toolbarDef = getToolbarDef();
+        if (toolbarDef.getShortCutCount() > shortCutIndex) {
+            ShortCut sc = toolbarDef.getShortCut(shortCutIndex);
             if (sc instanceof AddItemMenuDef) {
                 AddItemMenuDef am = (AddItemMenuDef) sc;
                 if (am.getShortCutCount() > itemIndex) {

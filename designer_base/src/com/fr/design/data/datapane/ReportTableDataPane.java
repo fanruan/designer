@@ -6,7 +6,6 @@ package com.fr.design.data.datapane;
 import com.fr.data.TableDataSource;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.TableDataPaneProcessor;
-import com.fr.design.gui.controlpane.JControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -22,24 +21,24 @@ import java.util.Map;
  * 创建于2011-6-14
  */
 public class ReportTableDataPane extends LoadingBasicPane {
-    private JControlPane tdPane;
+    private TableDataPaneController tdPane;
 
     @Override
     protected void initComponents(JPanel container) {
         container.setLayout(FRGUIPaneFactory.createBorderLayout());
         TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
-        JControlPane pane = null;
+        TableDataPaneController pane = null;
         if (paneProcessor != null) {
             pane = paneProcessor.createServerTableDataPane();
         }
-        tdPane = pane == null ? new TableDataListPane() {
+        tdPane = pane == null ? new TableDataPaneListPane() {
             @Override
             public NameableCreator[] createNameableCreators() {
 
                 return TableDataCreatorProducer.getInstance().createReportTableDataCreator();
             }
         } : pane;
-        container.add(tdPane, BorderLayout.CENTER);
+        container.add(tdPane.getPanel(), BorderLayout.CENTER);
     }
 
     @Override
