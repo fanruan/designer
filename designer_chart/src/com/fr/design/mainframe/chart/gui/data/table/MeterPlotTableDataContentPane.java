@@ -49,14 +49,7 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		double[] columnSize = { p,f};
 		double[] rowSize = { p, p,p,p,p,p,p,p, p};
 
-		Component[][] components = new Component[][]{
-				new Component[]{new BoldFontTextLabel(METER_NAME, SwingConstants.RIGHT), nameBox},
-				new Component[]{new BoldFontTextLabel(METER_VALUE, SwingConstants.RIGHT), valueBox},
-				new Component[]{new JSeparator(), null},
-				new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-				new Component[]{filterPane,	null}
-				
-		} ;
+        Component[][] components = createComponents();
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.add(panel,BorderLayout.CENTER);
@@ -65,7 +58,17 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
         valueBox.addItemListener(tooltipListener);
 	}
 
-	protected void refreshBoxListWithSelectTableData(List list) {
+    private Component[][] createComponents() {
+        return new Component[][]{
+                new Component[]{new BoldFontTextLabel(METER_NAME, SwingConstants.RIGHT), getNameComponent()},
+                new Component[]{new BoldFontTextLabel(METER_VALUE, SwingConstants.RIGHT), valueBox},
+                new Component[]{new JSeparator(), null},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
+                new Component[]{filterPane, null}
+        };
+    }
+
+    protected void refreshBoxListWithSelectTableData(List list) {
 		refreshBoxItems(nameBox, list);
 		refreshBoxItems(valueBox, list);
 	}
@@ -84,14 +87,19 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 	public void populateBean(ChartCollection ob) {
 		if(ob != null && ob.getSelectedChart().getFilterDefinition() instanceof MeterTableDefinition) {
 			MeterTableDefinition meter = (MeterTableDefinition)ob.getSelectedChart().getFilterDefinition();
-			
-			nameBox.setSelectedItem(meter.getName());
+            
+            populateNameComponent(meter.getName());
+            
 			valueBox.setSelectedItem(meter.getValue());
 			filterPane.populateBean(ob);
 		}
 	}
 
-	/**
+    protected void populateNameComponent(String name) {
+        nameBox.setSelectedItem(name);
+    }
+
+    /**
 	 * 保存界面属性.
 	 */
 	public void updateBean(ChartCollection ob) {
@@ -99,13 +107,18 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 			MeterTableDefinition meter = new MeterTableDefinition();
 			ob.getSelectedChart().setFilterDefinition(meter);
 			
-			meter.setName(Utils.objectToString(nameBox.getSelectedItem()));
+            updateNameComponent(meter);
+
 			meter.setValue(Utils.objectToString(valueBox.getSelectedItem()));
 			filterPane.updateBean(ob);
 		}
 	}
 
-	/**
+    protected void updateNameComponent(MeterTableDefinition meter) {
+        meter.setName(Utils.objectToString(nameBox.getSelectedItem()));
+    }
+
+    /**
      * 重新布局整个面板
      */
 	public void redoLayoutPane(){
@@ -113,4 +126,7 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 	}
 
 
+    protected Component getNameComponent() {
+        return nameBox;
+    }
 }
