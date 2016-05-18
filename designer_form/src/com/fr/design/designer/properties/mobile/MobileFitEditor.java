@@ -40,8 +40,8 @@ public class MobileFitEditor extends ComboEditor {
     }
 
     /**
-     * 是否立即刷新
-     * @return 是或者否
+     * 鏄惁绔嬪嵆鍒锋柊
+     * @return 鏄垨鑰呭惁
      */
     @Override
     public boolean refreshInTime() {
