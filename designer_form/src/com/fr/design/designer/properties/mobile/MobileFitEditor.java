@@ -40,7 +40,7 @@ public class MobileFitEditor extends ComboEditor {
     }
 
     /**
-     *  是否立即刷新
+     * 是否立即刷新
      * @return 是或者否
      */
     @Override
