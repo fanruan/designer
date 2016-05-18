@@ -9,7 +9,7 @@ import com.fr.design.style.background.impl.*;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,8 +18,8 @@ import java.util.Set;
  */
 public class BackgroundFactory {
 
-    private static Map<Class<? extends Background>, BackgroundUIWrapper> map = new HashMap<>();
-    private static Map<Class<? extends Background>, BackgroundUIWrapper> browser = new HashMap<>();
+    private static Map<Class<? extends Background>, BackgroundUIWrapper> map = new LinkedHashMap<>();
+    private static Map<Class<? extends Background>, BackgroundUIWrapper> browser = new LinkedHashMap<>();
 
     static {
         registerUniversal(map);
