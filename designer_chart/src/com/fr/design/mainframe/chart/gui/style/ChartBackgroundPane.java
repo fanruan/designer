@@ -4,13 +4,9 @@ import com.fr.chart.chartglyph.GeneralInfo;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.style.GradientQuickPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
-import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
-import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
-import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.*;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -92,7 +88,7 @@ public class ChartBackgroundPane extends BasicPane{
 		paneList.add(new NullBackgroundQuickPane());
 		paneList.add(new ColorBackgroundQuickPane());
 		paneList.add(new ImageBackgroundQuickPane());
-		paneList.add(new GradientQuickPane(CHART_GRADIENT_WIDTH));
+		paneList.add(new GradientBackgroundQuickPane(CHART_GRADIENT_WIDTH));
 	}
 	
 	/**
