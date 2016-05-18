@@ -954,5 +954,13 @@ public abstract class JListControlPane extends JControlPane {
         }
         return false;
     }
+    /**
+     * 设置选中项
+     *
+     * @param index 选中项的序列号
+     */
+    public void setSelectedIndex(int index) {
+        nameableList.setSelectedIndex(index);
+    }
 
 }
