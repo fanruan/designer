@@ -150,4 +150,12 @@ public class ConnectionListPane extends JListControlPane {
             datasourceManager.putConnection(nameObject.getName(), (Connection) nameObject.getObject());
         }
     }
+    /**
+     * 设置选中项
+     *
+     * @param index 选中项的序列号
+     */
+    public void setSelectedIndex(int index) {
+        nameableList.setSelectedIndex(index);
+    }
 }
