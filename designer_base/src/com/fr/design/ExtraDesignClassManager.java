@@ -134,6 +134,10 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ExportAttrTabProvider> exportAttrTabProviders;
 
+    private Set<BackgroundQuickUIProvider> backgroundQuickUIProviders;
+
+    private Set<BackgroundUIProvider> backgroundUIProviders;
+
     public TableDataPaneProcessor getTableDataPaneProcessor() {
         return tableDataPaneProcessor;
     }
@@ -770,6 +774,36 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         exportAttrTabProviders.add((ExportAttrTabProvider) level);
     }
 
+    public BackgroundQuickUIProvider[] getBackgroundQuickUIProviders() {
+        if (backgroundQuickUIProviders == null) {
+            return new BackgroundQuickUIProvider[0];
+        }
+        return backgroundQuickUIProviders.toArray(new BackgroundQuickUIProvider[backgroundQuickUIProviders.size()]);
+    }
+
+    public void addBackgroundQuickUIProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (backgroundQuickUIProviders == null) {
+            backgroundQuickUIProviders = new HashSet<>();
+        }
+        validAPILevel(level, BackgroundQuickUIProvider.CURRENT_LEVEL, simplify.getPluginName());
+        backgroundQuickUIProviders.add((BackgroundQuickUIProvider) level);
+    }
+
+    public BackgroundUIProvider[] getBackgroundUIProviders() {
+        if (backgroundUIProviders == null) {
+            return new BackgroundUIProvider[0];
+        }
+        return backgroundUIProviders.toArray(new BackgroundUIProvider[backgroundUIProviders.size()]);
+    }
+
+    public void addBackgroundUIProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (backgroundUIProviders == null) {
+            backgroundUIProviders = new HashSet<>();
+        }
+        validAPILevel(level, BackgroundUIProvider.CURRENT_LEVEL, simplify.getPluginName());
+        backgroundUIProviders.add((BackgroundUIProvider) level);
+    }
+
     /**
      * 文件名
      *
@@ -824,6 +858,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
             readWidgetRelated(tagName, impl, simplify);
             //数据集, 数据连接
             readTableDataRelated(tagName, className, simplify);
+            // 样式相关的
+            readStyleRelated(tagName, impl, simplify);
             if (tagName.equals(ParameterWidgetOptionProvider.XML_TAG)) {
                 addParameterWidgetOption(impl, simplify);
             } else if (tagName.equals(PreviewProvider.MARK_STRING)) {
@@ -895,6 +931,14 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
             addExportToolBarProvider(impl, simplify);
         } else if (tagName.equals(CellWidgetOptionProvider.XML_TAG)) {
             addCellWidgetOption(impl, simplify);
+        }
+    }
+
+    private void readStyleRelated(String tagName, Level impl, PluginSimplify simplify) throws Exception {
+        if (tagName.equals(BackgroundQuickUIProvider.MARK_STRING)) {
+            addBackgroundQuickUIProvider(impl, simplify);
+        } else if (tagName.equals(BackgroundUIProvider.MARK_STRING)) {
+            addBackgroundUIProvider(impl, simplify);
         }
     }
 
