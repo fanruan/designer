@@ -51,6 +51,7 @@ public abstract class JListControlPane extends JControlPane {
         this.initComponentPane();
     }
 
+    @Override
     protected JPanel createControlUpdatePane() {
         return new JControlUpdatePane();
     }
@@ -60,6 +61,7 @@ public abstract class JListControlPane extends JControlPane {
      *
      * @return 按钮的NameableCreator
      */
+    @Override
     public abstract NameableCreator[] createNameableCreators();
 
 
@@ -107,6 +109,7 @@ public abstract class JListControlPane extends JControlPane {
 
     }
 
+    @Override
     protected ShortCut4JControlPane addItemShortCut() {
         ShortCut addItemShortCut;
         NameableCreator[] creators = creators();
@@ -118,22 +121,27 @@ public abstract class JListControlPane extends JControlPane {
         return new AbsoluteEnableShortCut(addItemShortCut);
     }
 
+    @Override
     protected ShortCut4JControlPane removeItemShortCut() {
         return new NormalEnableShortCut(new RemoveItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane copyItemShortCut() {
         return new NormalEnableShortCut(new CopyItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane moveUpItemShortCut() {
         return new NormalEnableShortCut(new MoveUpItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane moveDownItemShortCut() {
         return new NormalEnableShortCut(new MoveDownItemAction());
     }
 
+    @Override
     protected ShortCut4JControlPane sortItemShortCut() {
         return new NormalEnableShortCut(new SortItemAction());
     }
@@ -142,6 +150,7 @@ public abstract class JListControlPane extends JControlPane {
         this.nameableList.setEditable(editable);
     }
 
+    @Override
     public Nameable[] update() {
         java.util.List<Nameable> res = new java.util.ArrayList<Nameable>();
         ((JControlUpdatePane) this.controlUpdatePane).update();
@@ -309,6 +318,7 @@ public abstract class JListControlPane extends JControlPane {
      * @param prefix 名字前缀
      * @return 名字
      */
+    @Override
     public String createUnrepeatedName(String prefix) {
         DefaultListModel model = this.getModel();
         Nameable[] all = new Nameable[model.getSize()];
@@ -349,6 +359,7 @@ public abstract class JListControlPane extends JControlPane {
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Nameable nameable = creator.createNameable(JListControlPane.this);
 
@@ -386,6 +397,7 @@ public abstract class JListControlPane extends JControlPane {
                         }
                     }
 
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         if (hasInvalid(true)) {
                             return;
@@ -427,6 +439,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 JListControlPane.this.nameableList.getCellEditor()
@@ -454,6 +467,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/base/images/cell/control/copy.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             // p:选中的值.
             ListModelElement selectedValue = (ListModelElement) nameableList.getSelectedValue();
@@ -488,6 +502,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/up.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int selectedIndex = nameableList.getSelectedIndex();
             if (selectedIndex == -1) {
@@ -520,6 +535,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/down.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             int selectedIndex = nameableList.getSelectedIndex();
             if (selectedIndex == -1) {
@@ -550,6 +566,7 @@ public abstract class JListControlPane extends JControlPane {
                     .readIcon("/com/fr/design/images/control/sortAsc.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             // p:选中的值.
             Object selectedValue = nameableList.getSelectedValue();
@@ -568,6 +585,7 @@ public abstract class JListControlPane extends JControlPane {
             // p:排序.
             if (isAtoZ) {
                 Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
+                    @Override
                     public int compare(Nameable o1, Nameable o2) {
                         return -ComparatorUtils.compare(o1.getName(), o2
                                 .getName());
@@ -577,6 +595,7 @@ public abstract class JListControlPane extends JControlPane {
                 Arrays.sort(nameableArray, nameableComparator);
             } else {
                 Comparator<Nameable> nameableComparator = new Comparator<Nameable>() {
+                    @Override
                     public int compare(Nameable o1, Nameable o2) {
                         return ComparatorUtils.compare(o1.getName(), o2
                                 .getName());
@@ -634,6 +653,7 @@ public abstract class JListControlPane extends JControlPane {
                     evt.getY() - 1);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
 
         }
@@ -697,6 +717,7 @@ public abstract class JListControlPane extends JControlPane {
         /**
          * 检查是否可用
          */
+        @Override
         public void checkEnable() {
             this.shortCut.setEnabled(true);
         }
@@ -710,6 +731,7 @@ public abstract class JListControlPane extends JControlPane {
         /**
          * 检查是否可用
          */
+        @Override
         public void checkEnable() {
             this.shortCut.setEnabled(getModel()
                     .getSize() > 0
@@ -918,6 +940,7 @@ public abstract class JListControlPane extends JControlPane {
         return -1;
     }
 
+    @Override
     protected boolean hasInvalid(boolean isAdd) {
         int idx = JListControlPane.this.getInValidIndex();
         if (isAdd || nameableList.getSelectedIndex() != idx) {
