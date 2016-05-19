@@ -278,7 +278,7 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
      * 保存界面内容 字段值
      */
     public void updateBean(ChartCollection collection) {
-        OneValueCDDefinition oneDefinition = new OneValueCDDefinition();
+        OneValueCDDefinition oneDefinition = createOneValueCDDefinition();
 
         String seriesName = (String) this.seriesName.getSelectedItem();
         oneDefinition.setSeriesColumnName(seriesName);
@@ -290,6 +290,10 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
             oneDefinition.setDataFunction(new NoneFunction());
         }
         collection.getSelectedChart().setFilterDefinition(oneDefinition);
+    }
+
+    protected OneValueCDDefinition createOneValueCDDefinition(){
+        return new OneValueCDDefinition();
     }
 
     /**
