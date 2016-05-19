@@ -25,6 +25,6 @@ public interface TableDataPaneProcessor extends Level {
      * 服务器数据集面板(模板数据集面板)
      * @return 服务器数据集面板
      */
-    TableDataPaneController createServerTableDataPane();
+    TableDataPaneController createServerTableDataPane(DesignModelAdapter<?, ?> tc);
 
 }
