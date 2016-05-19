@@ -17,6 +17,5 @@
     <orderEntry type="module" module-name="designer_base" />
     <orderEntry type="module" module-name="engine" />
     <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="module" module-name="plugins-free" />
   </component>
 </module>
