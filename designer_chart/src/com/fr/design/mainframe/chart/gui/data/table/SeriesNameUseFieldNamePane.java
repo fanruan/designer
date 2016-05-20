@@ -224,6 +224,10 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         return CalculateComboBox.CALCULATE_ARRAY[0];
     }
 
+    protected MoreNameCDDefinition createMoreNameCDDefinition() {
+        return new MoreNameCDDefinition();
+    }
+
     /**
      * 保存界面属性到ChartCollection
      */
@@ -233,7 +237,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         if (normalDefinition instanceof MoreNameCDDefinition) {
             moreDefinition = (MoreNameCDDefinition) normalDefinition;
         } else {
-            moreDefinition = new MoreNameCDDefinition();
+            moreDefinition = createMoreNameCDDefinition();
         }
 
         List<Object[]> data = seriesDataPane.updateBean();

@@ -244,6 +244,16 @@ public class PluginWebBridge {
     }
 
     /**
+     * 在线获取插件分类
+     *
+     * @param callback 回调函数
+     */
+    public void getPluginCategories(final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
+        new Thread(task).start();
+    }
+
+    /**
      * 展示一个重启的对话框(少用,莫名其妙会有bug)
      *
      * @param message 展示的消息

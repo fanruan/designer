@@ -3,6 +3,7 @@ package com.fr.design.fun;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.datapane.TableDataPaneController;
+import com.fr.design.menu.ShortCut;
 import com.fr.stable.fun.Level;
 
 /**
@@ -25,6 +26,11 @@ public interface TableDataPaneProcessor extends Level {
      * 服务器数据集面板(模板数据集面板)
      * @return 服务器数据集面板
      */
-    TableDataPaneController createServerTableDataPane();
+    TableDataPaneController createServerTableDataPane(DesignModelAdapter<?, ?> tc);
 
+    /**
+     * 自定义服务器数据集菜单项
+     * @return
+     */
+    ShortCut createServerTDAction();
 }
