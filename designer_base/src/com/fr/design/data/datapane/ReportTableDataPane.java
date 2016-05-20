@@ -31,7 +31,7 @@ public class ReportTableDataPane extends LoadingBasicPane {
                 return TableDataCreatorProducer.getInstance().createReportTableDataCreator();
             }
         };
-        container.add(tdPane.getPanel(), BorderLayout.CENTER);
+        container.add(tdPane.getPanel(), BorderLayout.CENTER); 
     }
 
     @Override
