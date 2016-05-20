@@ -4,9 +4,6 @@
 package com.fr.design.data.datapane;
 
 import com.fr.data.TableDataSource;
-import com.fr.design.DesignModelAdapter;
-import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -27,19 +24,13 @@ public class ReportTableDataPane extends LoadingBasicPane {
     @Override
     protected void initComponents(JPanel container) {
         container.setLayout(FRGUIPaneFactory.createBorderLayout());
-        TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
-        TableDataPaneController pane = null;
-        if (paneProcessor != null) {
-            pane = paneProcessor.createServerTableDataPane(DesignModelAdapter.getCurrentModelAdapter()
-            );
-        }
-        tdPane = pane == null ? new TableDataPaneListPane() {
+        tdPane = new TableDataPaneListPane() {
             @Override
             public NameableCreator[] createNameableCreators() {
 
                 return TableDataCreatorProducer.getInstance().createReportTableDataCreator();
             }
-        } : pane;
+        };
         container.add(tdPane.getPanel(), BorderLayout.CENTER);
     }
 
