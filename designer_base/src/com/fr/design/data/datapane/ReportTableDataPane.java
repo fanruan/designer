@@ -4,6 +4,7 @@
 package com.fr.design.data.datapane;
 
 import com.fr.data.TableDataSource;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -29,7 +30,8 @@ public class ReportTableDataPane extends LoadingBasicPane {
         TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
         TableDataPaneController pane = null;
         if (paneProcessor != null) {
-            pane = paneProcessor.createServerTableDataPane();
+            pane = paneProcessor.createServerTableDataPane(DesignModelAdapter.getCurrentModelAdapter()
+            );
         }
         tdPane = pane == null ? new TableDataPaneListPane() {
             @Override

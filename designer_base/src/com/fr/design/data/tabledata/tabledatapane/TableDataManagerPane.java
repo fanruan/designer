@@ -1,6 +1,7 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
 import com.fr.base.FRContext;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.datapane.TableDataPaneController;
 import com.fr.design.data.datapane.TableDataPaneListPane;
@@ -42,7 +43,8 @@ public class TableDataManagerPane extends LoadingBasicPane {
 		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
 		TableDataPaneController pane = null;
 		if (paneProcessor != null) {
-			pane = paneProcessor.createServerTableDataPane();
+			pane = paneProcessor.createServerTableDataPane(DesignModelAdapter.getCurrentModelAdapter()
+			);
 		}
 		tableDataPane = pane == null ? new TableDataPaneListPane() {
 			public void rename(String oldName, String newName) {
