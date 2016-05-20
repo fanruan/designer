@@ -21,6 +21,13 @@ public class BackgroundFactory {
     private static Map<Class<? extends Background>, BackgroundUIWrapper> map = new LinkedHashMap<>();
     private static Map<Class<? extends Background>, BackgroundUIWrapper> browser = new LinkedHashMap<>();
 
+    private static final int NULL_BACKGROUND_INDEX = 0;
+    private static final int COLOR_BACKGROUND_INDEX = 1;
+    private static final int TEXTURE_BACKGROUND_INDEX = 2;
+    private static final int PATTERN_BACKGROUND_INDEX = 3;
+    private static final int GRADIENT_BACKGROUND_INDEX = 4;
+    private static final int IMAGE_BACKGROUND_INDEX = 5;
+
     static {
         registerUniversal(map);
         registerImageBackground(map);
@@ -32,25 +39,25 @@ public class BackgroundFactory {
 
     private static void registerUniversal(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
-                .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("Background-Null")));
+                .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("Background-Null")).setIndex(NULL_BACKGROUND_INDEX));
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("Color")));
+                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("Color")).setIndex(COLOR_BACKGROUND_INDEX));
         map.put(TextureBackground.class, BackgroundUIWrapper.create()
-                .setType(TextureBackgroundPane.class).setTitle(Inter.getLocText("Background-Texture")));
+                .setType(TextureBackgroundPane.class).setTitle(Inter.getLocText("Background-Texture")).setIndex(TEXTURE_BACKGROUND_INDEX));
         map.put(PatternBackground.class, BackgroundUIWrapper.create()
-                .setType(PatternBackgroundPane.class).setTitle(Inter.getLocText("Background-Pattern")));
+                .setType(PatternBackgroundPane.class).setTitle(Inter.getLocText("Background-Pattern")).setIndex(PATTERN_BACKGROUND_INDEX));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("Gradient-Color")));
+                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("Gradient-Color")).setIndex(GRADIENT_BACKGROUND_INDEX));
     }
 
     private static void registerImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("Image")));
+                .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("Image")).setIndex(IMAGE_BACKGROUND_INDEX));
     }
 
     private static void registerBrowserImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("Image")));
+                .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("Image")).setIndex(IMAGE_BACKGROUND_INDEX));
     }
 
     private static void registerExtra(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
