@@ -16,10 +16,14 @@ public class BackgroundPane4Browser extends BackgroundPane {
     protected void initTabPane() {
         int index = 0;
         for (Class<? extends Background> key : BackgroundFactory.browserKindsOfKey()) {
-            BackgroundUIWrapper wrapper = BackgroundFactory.getBrosweWrapper(key);
+            BackgroundUIWrapper wrapper = BackgroundFactory.getBrowserWrapper(key);
             wrapper.setIndex(index++);
             tabbedPane.addTab(Inter.getLocText(wrapper.getTitle()), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
         }
+    }
+
+    protected BackgroundUIWrapper getBackgroundUIWrapper(Background background) {
+        return BackgroundFactory.getBrowserWrapper(background == null ? null : background.getClass());
     }
 
     protected BackgroundDetailPane getTabItemPane(Background background, int index) {
