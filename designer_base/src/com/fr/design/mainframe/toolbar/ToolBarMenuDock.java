@@ -156,7 +156,7 @@ public abstract class ToolBarMenuDock {
         menuList.add(createHelpMenuDef());
 
      // 添加社区菜单
-        menuList.add(CreateCommunityMenuDef());
+        menuList.add(createCommunityMenuDef());
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
@@ -349,7 +349,7 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
-    private MenuDef CreateCommunityMenuDef() {
+    private MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {
