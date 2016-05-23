@@ -88,15 +88,15 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		if(ob != null && ob.getSelectedChart().getFilterDefinition() instanceof MeterTableDefinition) {
 			MeterTableDefinition meter = (MeterTableDefinition)ob.getSelectedChart().getFilterDefinition();
             
-            populateNameComponent(meter.getName());
+            populateNameComponent(meter);
             
 			valueBox.setSelectedItem(meter.getValue());
 			filterPane.populateBean(ob);
 		}
 	}
 
-    protected void populateNameComponent(String name) {
-        nameBox.setSelectedItem(name);
+    protected void populateNameComponent(MeterTableDefinition meter) {
+        nameBox.setSelectedItem(meter.getName());
     }
 
     /**
@@ -104,7 +104,7 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 	 */
 	public void updateBean(ChartCollection ob) {
 		if(ob != null) {
-			MeterTableDefinition meter = new MeterTableDefinition();
+			MeterTableDefinition meter = getMeterTableDefinition();
 			ob.getSelectedChart().setFilterDefinition(meter);
 			
             updateNameComponent(meter);
@@ -113,6 +113,10 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 			filterPane.updateBean(ob);
 		}
 	}
+
+    protected MeterTableDefinition getMeterTableDefinition(){
+        return new MeterTableDefinition();
+    }
 
     protected void updateNameComponent(MeterTableDefinition meter) {
         meter.setName(Utils.objectToString(nameBox.getSelectedItem()));

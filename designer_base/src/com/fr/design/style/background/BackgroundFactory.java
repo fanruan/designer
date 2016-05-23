@@ -87,7 +87,7 @@ public class BackgroundFactory {
         return browser.keySet();
     }
 
-    public static BackgroundUIWrapper getBrosweWrapper(Class<? extends Background> category) {
+    public static BackgroundUIWrapper getBrowserWrapper(Class<? extends Background> category) {
         return browser.get(category);
     }
 
