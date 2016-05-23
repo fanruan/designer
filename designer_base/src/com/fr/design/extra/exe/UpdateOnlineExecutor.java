@@ -65,11 +65,10 @@ public class UpdateOnlineExecutor implements Executor {
                                         });
                                         updateFileFromDisk(PluginHelper.getDownloadTempFile());
                                         process.process(PERCENT_100 / pluginIDs.length * (i + 1) + "%");
+                                    } catch (PluginVerifyException e) {
+                                        throw e;
                                     } catch (Exception e) {
-                                        if (e instanceof PluginVerifyException) {
-                                            throw (PluginVerifyException) e;
-                                        }
-                                        FRContext.getLogger().error(e.getMessage());
+                                        FRContext.getLogger().error(e.getMessage(), e);
                                     }
                                 }
                                 int rv = JOptionPane.showOptionDialog(
