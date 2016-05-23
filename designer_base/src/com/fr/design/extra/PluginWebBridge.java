@@ -153,6 +153,7 @@ public class PluginWebBridge {
      * @param des    过滤文件描述
      * @param filter 文件的后缀
      * @return 选择的文件的路径
+     * 这里换用JFileChooser会卡死,不知道为什么
      */
     public String showFileChooserWithFilter(String des, String filter) {
         FileChooser fileChooser = new FileChooser();
