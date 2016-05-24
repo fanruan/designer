@@ -26,7 +26,7 @@ public class NeedAction extends UpdateAction
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
 	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/need.png"));
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

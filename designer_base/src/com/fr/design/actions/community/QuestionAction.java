@@ -25,7 +25,7 @@ public class QuestionAction extends UpdateAction
     this.setName(getMenuKeySet().getMenuName());
     this.setMnemonic(getMenuKeySet().getMnemonic());
     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/questions.png"));
-	// TODO Auto-generated constructor stub
+	
 }
 
 @Override

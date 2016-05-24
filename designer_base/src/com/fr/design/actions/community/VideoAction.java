@@ -26,7 +26,7 @@ public class VideoAction extends UpdateAction
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
 	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/video.png"));
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

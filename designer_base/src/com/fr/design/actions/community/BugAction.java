@@ -25,7 +25,7 @@ public class BugAction extends UpdateAction
     this.setName(getMenuKeySet().getMenuName());
     this.setMnemonic(getMenuKeySet().getMnemonic());
     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bug.png"));
-	// TODO Auto-generated constructor stub
+	
 }
 
 @Override
@@ -64,7 +64,7 @@ public void actionPerformed(ActionEvent arg0)
 	@Override
 	public char getMnemonic()
 	{
-		// TODO Auto-generated method stub
+		
 		return 'U';
 	}
    };

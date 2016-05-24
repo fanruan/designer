@@ -26,7 +26,7 @@ public class UpAction extends UpdateAction
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
 	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/update.png"));
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

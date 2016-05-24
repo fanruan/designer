@@ -27,7 +27,7 @@ public class BBSAction extends UpdateAction
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
 	     this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs.png"));
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	 /**
