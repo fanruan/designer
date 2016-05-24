@@ -286,6 +286,16 @@ public class PluginWebBridge {
     }
 
     /**
+     * 窗口是否无装饰(判断是否使用系统标题栏)
+     */
+    public boolean isCustomTitleBar() {
+        if (uiDialog != null) {
+            return uiDialog.isUndecorated();
+        }
+        return false;
+    }
+
+    /**
      * 在本地浏览器里打开url
      * tips:重载的时候,需要给js调用的方法需要放在前面,否则可能不会被调用(此乃坑)
      *      所以最好的是不要重载在js可以访问的接口文件中
