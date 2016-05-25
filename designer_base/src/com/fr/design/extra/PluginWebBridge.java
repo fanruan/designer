@@ -36,8 +36,6 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
-    public static final String PLUGIN_SHOP = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
-
     public static PluginWebBridge getHelper() {
         if (helper != null) {
             return helper;
