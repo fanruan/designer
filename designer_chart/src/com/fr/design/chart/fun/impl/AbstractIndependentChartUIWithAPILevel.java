@@ -15,9 +15,13 @@ import com.fr.general.ComparatorUtils;
  * Created by Mitisky on 16/3/7.
  */
 public abstract class AbstractIndependentChartUIWithAPILevel implements IndependentChartUIProvider {
+    private static final int OLD_PLUGIN_LEVEL = -2;
+
     @Override
+    //以前的插件没有覆写这个方法,所以始终获取到-2,比当前level低,提示更新.
+    //新的插件编译进去的是当前LEVEL,当之后LEVEL增加,会比编译进去的LEVEL大,提示更新.
     public int currentAPILevel() {
-        return CURRENT_API_LEVEL;
+        return OLD_PLUGIN_LEVEL;
     }
 
     public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
