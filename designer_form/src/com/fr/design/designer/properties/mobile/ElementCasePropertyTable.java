@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/5/16/0016.
  */
-public class ElementCasePropertyTable extends AbstractPropertyTable{
+public class ElementCasePropertyTable extends AbstractPropertyTable {
 
     private XCreator xCreator;
     private FormDesigner designer;

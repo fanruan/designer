@@ -6,7 +6,7 @@ import com.fr.design.mainframe.widget.editors.ComboEditor;
 
 import java.util.Vector;
 
-public class MobileFitEditor extends ComboEditor{
+public class MobileFitEditor extends ComboEditor {
     public MobileFitEditor() {
         this(new MobileFitAlignmentItems());
     }
