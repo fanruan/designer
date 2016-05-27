@@ -105,7 +105,7 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
     }
 
     /**
-     *  控件属性赋值和取值时，针对scale和title做下处理
+     * 控件属性赋值和取值时，针对scale和title做下处理
      * @return
      */
     private Object dealCreatorData() {
