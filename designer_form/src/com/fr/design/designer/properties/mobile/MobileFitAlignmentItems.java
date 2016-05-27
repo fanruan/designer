@@ -4,7 +4,7 @@ import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.designer.properties.items.ItemProvider;
 
-public class MobileFitAlignmentItems implements ItemProvider{
+public class MobileFitAlignmentItems implements ItemProvider {
 
     private static Item[] VALUE_ITEMS;
 

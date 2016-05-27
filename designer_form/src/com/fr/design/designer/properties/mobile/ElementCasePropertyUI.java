@@ -9,7 +9,7 @@ import com.fr.general.Inter;
 /**
  * Created by Administrator on 2016/5/16/0016.
  */
-public class ElementCasePropertyUI extends AbstractWidgetPropertyUIProvider{
+public class ElementCasePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     private XCreator xCreator;
 

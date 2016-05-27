@@ -126,11 +126,13 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private DesignerEnvProcessor envProcessor;
 
-    private TableDataPaneProcessor tableDataPaneProcessor;
+    private TableDataTreePaneProcessor tableDataTreePaneProcessor;
 
     private Set<ElementUIProvider> elementUIProviders;
 
-    private Set<WidgetAttrProvider> widgetAttrProviders;
+    private Set<WidgetPropertyUIProvider> widgetAttrProviders;
+
+    private Set<ExportAttrTabProvider> exportAttrTabProviders;
 
     private WidgetDesignHandler widgetDesignHandler;
 
@@ -142,17 +144,13 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         widgetDesignHandler = (WidgetDesignHandler) level;
     }
 
-    private Set<BackgroundQuickUIProvider> backgroundQuickUIProviders;
-
-    private Set<BackgroundUIProvider> backgroundUIProviders;
-
-    public TableDataPaneProcessor getTableDataPaneProcessor() {
-        return tableDataPaneProcessor;
+    public TableDataTreePaneProcessor getTableDataTreePaneProcessor() {
+        return tableDataTreePaneProcessor;
     }
 
-    public void setTableDataPaneProcessor(Level level, PluginSimplify simplify) {
-        validAPILevel(level, TableDataPaneProcessor.CURRENT_LEVEL, simplify.getPluginName());
-        tableDataPaneProcessor = (TableDataPaneProcessor) level;
+    public void setTableDataSourceOPProcessor(Level level, PluginSimplify simplify) {
+        validAPILevel(level, TableDataTreePaneProcessor.CURRENT_LEVEL, simplify.getPluginName());
+        tableDataTreePaneProcessor = (TableDataTreePaneProcessor) level;
     }
 
     public DesignerEnvProcessor getEnvProcessor() {
@@ -752,49 +750,19 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         elementUIProviders.add((ElementUIProvider) level);
     }
 
-    public WidgetAttrProvider[] getWidgetAttrProviders() {
+    public WidgetPropertyUIProvider[] getWidgetAttrProviders() {
         if (widgetAttrProviders == null) {
-            return new WidgetAttrProvider[0];
+            return new WidgetPropertyUIProvider[0];
         }
-        return widgetAttrProviders.toArray(new WidgetAttrProvider[widgetAttrProviders.size()]);
+        return widgetAttrProviders.toArray(new WidgetPropertyUIProvider[widgetAttrProviders.size()]);
     }
 
     public void addWidgetAttrProvider(Level level, PluginSimplify simplify) throws Exception {
         if (widgetAttrProviders == null) {
-            widgetAttrProviders = new HashSet<WidgetAttrProvider>();
+            widgetAttrProviders = new HashSet<WidgetPropertyUIProvider>();
         }
-        validAPILevel(level, WidgetAttrProvider.CURRENT_LEVEL, simplify.getPluginName());
-        widgetAttrProviders.add((WidgetAttrProvider) level);
-    }
-
-    public BackgroundQuickUIProvider[] getBackgroundQuickUIProviders() {
-        if (backgroundQuickUIProviders == null) {
-            return new BackgroundQuickUIProvider[0];
-        }
-        return backgroundQuickUIProviders.toArray(new BackgroundQuickUIProvider[backgroundQuickUIProviders.size()]);
-    }
-
-    public void addBackgroundQuickUIProvider(Level level, PluginSimplify simplify) throws Exception {
-        if (backgroundQuickUIProviders == null) {
-            backgroundQuickUIProviders = new HashSet<>();
-        }
-        validAPILevel(level, BackgroundQuickUIProvider.CURRENT_LEVEL, simplify.getPluginName());
-        backgroundQuickUIProviders.add((BackgroundQuickUIProvider) level);
-    }
-
-    public BackgroundUIProvider[] getBackgroundUIProviders() {
-        if (backgroundUIProviders == null) {
-            return new BackgroundUIProvider[0];
-        }
-        return backgroundUIProviders.toArray(new BackgroundUIProvider[backgroundUIProviders.size()]);
-    }
-
-    public void addBackgroundUIProvider(Level level, PluginSimplify simplify) throws Exception {
-        if (backgroundUIProviders == null) {
-            backgroundUIProviders = new HashSet<>();
-        }
-        validAPILevel(level, BackgroundUIProvider.CURRENT_LEVEL, simplify.getPluginName());
-        backgroundUIProviders.add((BackgroundUIProvider) level);
+        validAPILevel(level, WidgetPropertyUIProvider.CURRENT_LEVEL, simplify.getPluginName());
+        widgetAttrProviders.add((WidgetPropertyUIProvider) level);
     }
 
     /**
@@ -851,8 +819,6 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
             readWidgetRelated(tagName, impl, simplify);
             //数据集, 数据连接
             readTableDataRelated(tagName, className, simplify);
-            // 样式相关的
-            readStyleRelated(tagName, impl, simplify);
             if (tagName.equals(ParameterWidgetOptionProvider.XML_TAG)) {
                 addParameterWidgetOption(impl, simplify);
             } else if (tagName.equals(PreviewProvider.MARK_STRING)) {
@@ -887,20 +853,37 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addSupportDesignApps(impl, simplify);
             } else if (tagName.equals(DesignerEnvProcessor.XML_TAG)) {
                 setEnvProcessor(impl, simplify);
-            } else if (tagName.equals(TableDataPaneProcessor.XML_TAG)) {
-                setTableDataPaneProcessor(impl, simplify);
+            } else if (tagName.equals(TableDataTreePaneProcessor.XML_TAG)) {
+                setTableDataSourceOPProcessor(impl, simplify);
             } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {
                 addElementUIProvider(impl, simplify);
-            } else if (tagName.equals(WidgetAttrProvider.XML_TAG)) {
-                addWidgetAttrProvider(impl, simplify);
             } else if (tagName.equals(WidgetDesignHandler.XML_TAG)) {
                 setWidgetDesignHandler(impl, simplify);
+            }else if (tagName.equals(WidgetPropertyUIProvider.XML_TAG)) {
+                addWidgetAttrProvider(impl, simplify);
+            } else if (tagName.equals(ExportAttrTabProvider.XML_TAG)) {
+                addExportAttrTabProvider(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
+    }
+
+    public ExportAttrTabProvider[] getExportAttrTabProviders() {
+        if (exportAttrTabProviders == null) {
+            return new ExportAttrTabProvider[0];
+        }
+        return exportAttrTabProviders.toArray(new ExportAttrTabProvider[exportAttrTabProviders.size()]);
+    }
+
+    public void addExportAttrTabProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (exportAttrTabProviders == null) {
+            exportAttrTabProviders = new HashSet<ExportAttrTabProvider>();
+        }
+        validAPILevel(level, ExportAttrTabProvider.CURRENT_LEVEL, simplify.getPluginName());
+        exportAttrTabProviders.add((ExportAttrTabProvider) level);
     }
 
     private void readTableDataRelated(String tagName, String className, PluginSimplify simplify) {
@@ -924,14 +907,6 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
             addExportToolBarProvider(impl, simplify);
         } else if (tagName.equals(CellWidgetOptionProvider.XML_TAG)) {
             addCellWidgetOption(impl, simplify);
-        }
-    }
-
-    private void readStyleRelated(String tagName, Level impl, PluginSimplify simplify) throws Exception {
-        if (tagName.equals(BackgroundQuickUIProvider.MARK_STRING)) {
-            addBackgroundQuickUIProvider(impl, simplify);
-        } else if (tagName.equals(BackgroundUIProvider.MARK_STRING)) {
-            addBackgroundUIProvider(impl, simplify);
         }
     }
 
