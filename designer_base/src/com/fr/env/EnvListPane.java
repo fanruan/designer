@@ -41,7 +41,7 @@ import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.InformationWarnPane;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ipasswordfield.UIPassWordField;
@@ -63,7 +63,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-public class EnvListPane extends JControlPane {
+public class EnvListPane extends JListControlPane {
     public EnvListPane() {
         super();
         addEditingListner(new PropertyChangeAdapter() {

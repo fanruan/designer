@@ -1,10 +1,10 @@
 package com.fr.design.gui.style;
 
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.mainframe.backgroundpane.BackgroundSettingPane;
-import com.fr.design.mainframe.backgroundpane.ColorBackgroundPane;
-import com.fr.design.mainframe.backgroundpane.NullBackgroundPane;
-import java.util.ArrayList;
+import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.GradientBackgroundQuickPane;
+import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,8 +18,9 @@ public class BackgroundNoImagePane extends BackgroundPane{
         super();
     }
 
-    protected void initPaneList(){
-        ColorBackgroundPane colorBackgroundPane = new ColorBackgroundPane();
+    @Override
+    protected BackgroundQuickPane[] supportKindsOfBackgroundUI() {
+        ColorBackgroundQuickPane colorBackgroundPane = new ColorBackgroundQuickPane();
 
         colorBackgroundPane.registerChangeListener(new UIObserverListener() {
             @Override
@@ -27,7 +28,7 @@ public class BackgroundNoImagePane extends BackgroundPane{
                 fireStateChanged();
             }
         });
-        GradientPane gradientPane = new GradientPane();
+        GradientBackgroundQuickPane gradientPane = new GradientBackgroundQuickPane();
 
         gradientPane.registerChangeListener(new UIObserverListener() {
             @Override
@@ -35,10 +36,10 @@ public class BackgroundNoImagePane extends BackgroundPane{
                 fireStateChanged();
             }
         });
-        paneList = new ArrayList<BackgroundSettingPane>();
-        paneList.add(new NullBackgroundPane());
-        paneList.add(colorBackgroundPane);
-        paneList.add(gradientPane);
-
+        return new BackgroundQuickPane[]{
+                new NullBackgroundQuickPane(),
+                colorBackgroundPane,
+                gradientPane
+        };
     }
 }

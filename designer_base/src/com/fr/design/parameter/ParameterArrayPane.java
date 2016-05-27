@@ -2,7 +2,7 @@ package com.fr.design.parameter;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.Parameter;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.NameableSelfCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
@@ -18,7 +18,7 @@ import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParameterArrayPane extends JControlPane {
+public class ParameterArrayPane extends JListControlPane {
 	/**
 	 * Constructor.
 	 */

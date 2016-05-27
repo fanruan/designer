@@ -46,7 +46,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] rowSize = { p, p, p};
 		
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(CATENAME), singCatePane = new TinyFormulaPane()},
+				new Component[]{new UILabel(CATENAME), getSingCatePane()},
 				new Component[]{new UILabel(NVALUE), singValuePane = new TinyFormulaPane()},
 				new Component[]{null, null}
 		};
@@ -73,7 +73,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 			MeterReportDefinition meterDefinition = (MeterReportDefinition)definition;
 			
 			if (meterDefinition.getName() != null) {
-				singCatePane.getUITextField().setText(meterDefinition.getName().toString());
+                populateSingCatePane(meterDefinition.getName().toString());
 			}
 			if (meterDefinition.getValue() != null) {
 				singValuePane.getUITextField().setText(meterDefinition.getValue().toString());
@@ -82,13 +82,18 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		
 		filterPane.populateBean(collection);
 	}
-	
-	public void updateBean(ChartCollection collection) {
+
+    protected void populateSingCatePane(String name) {
+        singCatePane.getUITextField().setText(name);
+    }
+
+    public void updateBean(ChartCollection collection) {
 		
 		if (collection != null) {
 			MeterReportDefinition meterDefinition = new MeterReportDefinition();
-			
-			meterDefinition.setName(canBeFormula(singCatePane.getUITextField().getText()));
+
+            updateSingCatePane(meterDefinition);
+
 			meterDefinition.setValue(canBeFormula(singValuePane.getUITextField().getText()));
 			
 			collection.getSelectedChart().setFilterDefinition(meterDefinition);
@@ -96,10 +101,19 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 			filterPane.updateBean(collection);
 		}
 	}
-	
-	@Override
+
+    protected void updateSingCatePane(MeterReportDefinition meterDefinition) {
+
+        meterDefinition.setName(canBeFormula(singCatePane.getUITextField().getText()));
+
+    }
+
+    @Override
 	protected String[] columnNames() {
 		return new String[]{"", ""};
 	}
 
+    protected Component getSingCatePane() {
+        return singCatePane = new TinyFormulaPane();
+    }
 }

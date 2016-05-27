@@ -133,6 +133,10 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
 						editors[row].stopCellEditing();
 					} else {
 						setValue(extendEditor.getValue(), row, 1);
+
+                        if (designer == null) {
+                            return;
+                        }
 						if ("widgetName".equals(properties[row].getName())) {
 							designer.getEditListenerTable().fireCreatorModified(creator, DesignerEvent.CREATOR_RENAMED);
 						} else {

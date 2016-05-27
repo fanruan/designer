@@ -1,23 +1,23 @@
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.WidgetPropertyUIProvider;
-import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.general.Inter;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.itable.AbstractPropertyTable;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.properties.EventPropertyTable;
 import com.fr.design.designer.properties.WidgetPropertyTable;
+import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.itable.AbstractPropertyTable;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.Inter;
+import com.fr.stable.ArrayUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 控件属性表Docking
@@ -88,7 +88,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
         tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
 
-        WidgetPropertyUIProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
+        WidgetPropertyUIProvider[] widgetAttrProviders = getExtraPropertyUIProviders();
         for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
             AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
             widgetPropertyTables.add(propertyTable);
@@ -104,6 +104,25 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
             propertyTable.initPropertyGroups(designer);
         }
+    }
+
+    /**
+     * 获取当前控件扩展的属性tab
+     * 来源有两个:
+     * 1, 各个控件从各自的Xcreator里扩展;
+     * 2, 所有的控件从插件里扩展.
+     *
+     * @return 扩展的tab
+     */
+    private WidgetPropertyUIProvider[] getExtraPropertyUIProviders() {
+        FormSelection selection = designer.getSelectionModel().getSelection();
+        WidgetPropertyUIProvider[] embeddedPropertyUIProviders = null;
+        if (selection != null && selection.getSelectedCreator() != null) {
+            embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
+        }
+        WidgetPropertyUIProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
+        widgetAttrProviders = (WidgetPropertyUIProvider[]) ArrayUtils.addAll(embeddedPropertyUIProviders, widgetAttrProviders);
+        return widgetAttrProviders;
     }
 
     public void setEditingFormDesigner(BaseFormDesigner editor) {

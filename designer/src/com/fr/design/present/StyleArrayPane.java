@@ -2,7 +2,7 @@ package com.fr.design.present;
 
 import com.fr.base.Style;
 import com.fr.design.gui.controlpane.AbstractNameableCreator;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class StyleArrayPane extends JControlPane {
+public class StyleArrayPane extends JListControlPane {
 	
 	/**
 	 * Constructor.
