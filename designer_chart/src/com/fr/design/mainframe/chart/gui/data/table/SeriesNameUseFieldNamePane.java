@@ -89,13 +89,23 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{seriesDataPane},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter"))},
-        };
+        Component[][] components = getUseComponent();
         centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    protected Component[][] getUseComponent() {
+        return new Component[][]{
+                new Component[]{seriesDataPane},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter"))},
+        };
+    }
+
+    protected Component[][] getUseComponentWithOutFilter() {
+        return new Component[][]{
+                new Component[]{seriesDataPane}
+        };
     }
 
     /**
@@ -214,6 +224,10 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         return CalculateComboBox.CALCULATE_ARRAY[0];
     }
 
+    protected MoreNameCDDefinition createMoreNameCDDefinition() {
+        return new MoreNameCDDefinition();
+    }
+
     /**
      * 保存界面属性到ChartCollection
      */
@@ -223,7 +237,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         if (normalDefinition instanceof MoreNameCDDefinition) {
             moreDefinition = (MoreNameCDDefinition) normalDefinition;
         } else {
-            moreDefinition = new MoreNameCDDefinition();
+            moreDefinition = createMoreNameCDDefinition();
         }
 
         List<Object[]> data = seriesDataPane.updateBean();

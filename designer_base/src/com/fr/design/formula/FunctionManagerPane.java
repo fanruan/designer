@@ -6,7 +6,7 @@ import com.fr.design.data.tabledata.tabledatapane.ClassNameSelectPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ibutton.UIButton;
@@ -97,7 +97,7 @@ public class FunctionManagerPane extends BasicPane {
     /**
      * CellRenderer.
      */
-    class FunctionControlPane extends JControlPane {
+    class FunctionControlPane extends JListControlPane {
 
         public FunctionControlPane() {
             super();

@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.chart.series.SeriesCondition.impl.DataSeriesConditionPaneFactory;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @see DataSeriesConditionPane
  */
-public class DataSeriesAttrPane extends JControlPane {
+public class DataSeriesAttrPane extends JListControlPane {
     private static final long serialVersionUID = -7265389532959632525L;
 
     private Plot plot;

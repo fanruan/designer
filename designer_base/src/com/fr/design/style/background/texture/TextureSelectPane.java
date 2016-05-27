@@ -1,8 +1,8 @@
 package com.fr.design.style.background.texture;
 
 import com.fr.general.Inter;
-import com.fr.design.style.background.BackgroundPane.BackgroundSettingPane;
-import com.fr.design.style.background.BackgroundPane.TextureBackgroundPane;
+import com.fr.design.style.background.BackgroundDetailPane;
+import com.fr.design.style.background.impl.TextureBackgroundPane;
 import com.fr.design.style.background.BackgroundSelectPane;
 
 
@@ -19,7 +19,7 @@ public class TextureSelectPane extends BackgroundSelectPane {
 		initBackgroundShowPane(getShowPane(preWidth));
 	}
 	
-	public BackgroundSettingPane getShowPane(double preWidth) {
+	public BackgroundDetailPane getShowPane(double preWidth) {
 		// 计算合适的列. 至少4个. 最多8个. 
 		int column = Math.max((int)preWidth / 40, 4);
 		return new TextureBackgroundPane(column);

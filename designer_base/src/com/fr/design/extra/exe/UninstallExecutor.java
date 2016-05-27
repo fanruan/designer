@@ -16,6 +16,7 @@ import javax.swing.*;
 public class UninstallExecutor implements Executor {
 
     private String[] pluginIDs;
+    private String result = "undo";
 
     public UninstallExecutor(String[] pluginIDs) {
         this.pluginIDs = pluginIDs;
@@ -23,7 +24,7 @@ public class UninstallExecutor implements Executor {
 
     @Override
     public String getTaskFinishMessage() {
-        return "插件已卸载完毕,重启后生效";
+        return result;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class UninstallExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "删除成功";
+                        return null;
                     }
 
                     @Override
@@ -62,6 +63,7 @@ public class UninstallExecutor implements Executor {
                                 JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                             }
                         }
+                        result = "done";
                         if (rv == JOptionPane.OK_OPTION) {
                             RestartHelper.restart();
                         }

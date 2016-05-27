@@ -35,6 +35,7 @@ import com.fr.design.actions.server.PlatformManagerAction;
 import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenu;
@@ -272,7 +273,7 @@ public abstract class ToolBarMenuDock {
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(
                     new ConnectionListAction(),
-                    new GlobalTableDataAction()
+                    createGlobalTDAction()
             );
         }
 
@@ -295,6 +296,11 @@ public abstract class ToolBarMenuDock {
 
 
         return menuDef;
+    }
+
+    private ShortCut createGlobalTDAction() {
+        TableDataPaneProcessor processor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+        return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
     private boolean shouldShowPlugin() {

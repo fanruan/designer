@@ -4,7 +4,7 @@ import com.fr.base.ChartPreStyleManagerProvider;
 import com.fr.base.ChartPreStyleServerManager;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartPreStyle;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.mainframe.DesignerContext;
@@ -22,7 +22,7 @@ import java.util.Iterator;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-8-21 下午02:33:48
  */
-public class ChartPreStyleManagerPane extends JControlPane {
+public class ChartPreStyleManagerPane extends JListControlPane {
 
 	@Override
     /**
