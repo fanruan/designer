@@ -1,11 +1,11 @@
 package com.fr.design.report.mobile;
 
+import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/16/0016.
  */
-public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
+public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState> {
 
     private List<UIRadioButton> radioButtons = new ArrayList<UIRadioButton>();
 

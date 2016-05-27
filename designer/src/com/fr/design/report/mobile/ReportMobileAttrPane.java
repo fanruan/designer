@@ -1,10 +1,10 @@
 package com.fr.design.report.mobile;
 
+import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.report.mobile.ElementCaseMobileAttr;
-import com.fr.base.mobile.MobileFitAttrState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * Created by Administrator on 2016/5/12/0012.
  */
-public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
+public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     //横屏设置面板
     private MobileRadioGroupPane horizionPane;
