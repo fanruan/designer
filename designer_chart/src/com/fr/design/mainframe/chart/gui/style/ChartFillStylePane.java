@@ -199,6 +199,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
                 condition.setColorStyle(ChartConstants.COLOR_DEFAULT);
             }
         } else {
+			condition.setCustomFillStyle(true);
 			if(gradientButton.isSelected()) {
 				condition.setColorStyle(ChartConstants.COLOR_GRADIENT);
 				Color start = colorGradient.getSelectColorPointBtnP1().getColorInner();
