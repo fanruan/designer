@@ -62,7 +62,7 @@ public class Designer extends BaseDesigner {
     
 
     /**
-     *  设计器启动的Main方法
+     * 设计器启动的Main方法
      *
      * @param args 参数
      */
