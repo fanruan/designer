@@ -1,40 +1,33 @@
 package com.fr.design.report.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.report.mobile.ElementCaseMobileAttr;
-import com.fr.base.mobile.MobileFitAttrState;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by Administrator on 2016/5/12/0012.
  */
 public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
-    //横屏设置面板
-    private MobileRadioGroupPane horizionPane;
-    //竖屏设置面板
-    private MobileRadioGroupPane verticalPane;
+
+    private AppFitBrowserPane appFitBrowserPane;
 
     public ReportMobileAttrPane() {
         initComponents();
     }
 
     private void initComponents() {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel borderPane = FRGUIPaneFactory.createTitledBorderPane(this.title4PopupWindow());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        AppFitPreviewPane appFitPreviewPane = new AppFitPreviewPane();
 
-        JPanel fitOpsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        horizionPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Horizontal"));
-        verticalPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Vertical"));
-        fitOpsPane.add(horizionPane, BorderLayout.NORTH);
-        fitOpsPane.add(verticalPane, BorderLayout.SOUTH);
+        appFitBrowserPane = new AppFitBrowserPane();
+        appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
+        this.add(appFitBrowserPane);
 
-        borderPane.add(fitOpsPane);
-        this.add(borderPane);
+        this.add(appFitPreviewPane);
     }
 
     @Override
@@ -42,17 +35,13 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         if (ob == null) {
             ob = new ElementCaseMobileAttr();
         }
+        appFitBrowserPane.populateBean(ob);
 
-        horizionPane.populateBean(ob.getHorziontalAttr());
-        verticalPane.populateBean(ob.getVerticalAttr());
     }
 
     @Override
     public ElementCaseMobileAttr updateBean() {
-        MobileFitAttrState horizonState = horizionPane.updateBean();
-        MobileFitAttrState verticalState = verticalPane.updateBean();
-
-        return new ElementCaseMobileAttr(horizonState, verticalState);
+        return appFitBrowserPane.updateBean();
     }
 
     @Override
