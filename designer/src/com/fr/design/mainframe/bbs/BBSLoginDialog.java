@@ -9,10 +9,7 @@ import com.fr.design.gui.ipasswordfield.UIPassWordField;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRFont;
-import com.fr.general.FRLogger;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
@@ -39,12 +36,8 @@ public class BBSLoginDialog extends UIDialog {
 
     private static final int DIALOG_WIDTH = 400;
     private static final int DIALOG_HEIGHT = 200;
-    private static final String URL = "http://bbs.finereport.com/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1";
-    private static final String PASSWORD_RESET_URL = "http://bbs.finereport.com/portal.php?mod=topic&topicid=2";
-    private static final String REGISTER_URL = "http://bbs.finereport.com/member.php?mod=register";
     private static final String LOGIN_SUCCESS_FLAG = "http://bbs.finereport.com";
     private static final Font DEFAULT_FONT = FRFont.getInstance(FRFont.DEFAULT_FONTNAME, 0, 14);
-    private static final String TEST_CONNECTION_URL = "http://bbs.finereport.com/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1&username=test&password=123456";
     private static final int TIME_OUT = 10000;
 
     private static final int BUTTON_WIDTH = 90;
@@ -114,8 +107,8 @@ public class BBSLoginDialog extends UIDialog {
         nameField = new UITextField();
         passField = new UIPassWordField();
         loginButton = new UIButton(Inter.getLocText("FR-Designer-BBSLogin_Login"));
-        passwordReset = getURLActionLabel(PASSWORD_RESET_URL);
-        registerLabel = getURLActionLabel(REGISTER_URL);
+        passwordReset = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("bbs.reset"));
+        registerLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("bbs.register"));
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -172,7 +165,7 @@ public class BBSLoginDialog extends UIDialog {
     }
 
     private boolean testConnection() {
-        HttpClient client = new HttpClient(TEST_CONNECTION_URL);
+        HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
     }
 
@@ -291,7 +284,7 @@ public class BBSLoginDialog extends UIDialog {
         } catch (UnsupportedEncodingException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
-        String url = URL + "&username=" + username + "&password=" + password;
+        String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
         HttpClient client = new HttpClient(url);
         client.setTimeout(TIME_OUT);
         if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
@@ -309,7 +302,7 @@ public class BBSLoginDialog extends UIDialog {
 
     private BoxCenterAligmentPane getURLActionLabel(final String url) {
         ActionLabel actionLabel = new ActionLabel(url);
-        if (ComparatorUtils.equals(url, PASSWORD_RESET_URL)) {
+        if (ComparatorUtils.equals(url, SiteCenter.getInstance().acquireUrlByKind("bbs.reset"))) {
             actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Forgot-Password"));
         } else {
             actionLabel.setText(Inter.getLocText("FR-Designer-BBSLogin_Register-Account"));
