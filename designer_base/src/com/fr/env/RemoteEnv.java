@@ -2054,7 +2054,7 @@ public class RemoteEnv implements Env {
 
         InputStream inputStream = postBytes2ServerB(out.toByteArray(), para);
         String pluginsStr = IOUtils.inputStream2String(inputStream, EncodeConstants.ENCODING_UTF_8);
-        if(StringUtils.isNotBlank(pluginsStr) && pluginsStr.startsWith("[")){
+        if (StringUtils.isNotBlank(pluginsStr) && pluginsStr.startsWith("[")) {
             JSONArray jsonArray = new JSONArray(pluginsStr);
             for (int i = 0; i < jsonArray.length(); i++) {
                 Plugin plugin = new Plugin();
@@ -2072,7 +2072,7 @@ public class RemoteEnv implements Env {
 
         InputStream inputStream = postBytes2ServerB(out.toByteArray(), para);
         String pluginsLicensesStr = IOUtils.inputStream2String(inputStream, EncodeConstants.ENCODING_UTF_8);
-        if(StringUtils.isNotBlank(pluginsLicensesStr) && pluginsLicensesStr.startsWith("[")) {
+        if (StringUtils.isNotBlank(pluginsLicensesStr) && pluginsLicensesStr.startsWith("[")) {
             JSONArray jsonArray = new JSONArray(pluginsLicensesStr);
             for (int i = 0; i < jsonArray.length(); i++) {
                 PluginLicense pluginLicense = new PluginLicense();
