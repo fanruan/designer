@@ -3,7 +3,7 @@ package com.fr.design.data.tabledata.tabledatapane;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ProcedureListPane extends JControlPane {
+public class ProcedureListPane extends JListControlPane {
 	public ProcedureListPane() {
 		super();
 		this.addEditingListner(new PropertyChangeAdapter() {

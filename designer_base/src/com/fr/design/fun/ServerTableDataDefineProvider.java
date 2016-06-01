@@ -7,6 +7,5 @@ package com.fr.design.fun;
  */
 public interface ServerTableDataDefineProvider extends TableDataDefineProvider {
 
-    public static final String XML_TAG = "ServerTableDataDefineProvider";
-
+    String XML_TAG = "ServerTableDataDefineProvider";
 }

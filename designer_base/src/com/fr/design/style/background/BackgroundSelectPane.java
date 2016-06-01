@@ -13,7 +13,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.design.style.background.BackgroundPane.BackgroundSettingPane;
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -26,9 +25,9 @@ public abstract class BackgroundSelectPane extends BasicPane {
 	private Background background;
 	private ArrayList<ChangeListener> listenerList = new ArrayList<ChangeListener>();
 	
-	public abstract BackgroundSettingPane getShowPane(double preWidth);
+	public abstract BackgroundDetailPane getShowPane(double preWidth);
 	
-	protected void initBackgroundShowPane(final BackgroundSettingPane backgroundPane) {
+	protected void initBackgroundShowPane(final BackgroundDetailPane backgroundPane) {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		
 		backgroundPane.addChangeListener(new ChangeListener() {

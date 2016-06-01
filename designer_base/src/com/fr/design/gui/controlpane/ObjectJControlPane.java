@@ -11,7 +11,7 @@ import com.fr.design.beans.BasicBeanPane;
  * @author zhou
  * @since 2012-4-5上午9:29:20
  */
-public abstract class ObjectJControlPane extends JControlPane {
+public abstract class ObjectJControlPane extends JListControlPane {
 	private Object object;
 
 	public ObjectJControlPane() {

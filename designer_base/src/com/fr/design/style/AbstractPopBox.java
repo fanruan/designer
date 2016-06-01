@@ -2,7 +2,7 @@ package com.fr.design.style;
 
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundJComponent;
-import com.fr.design.style.background.gradient.GradientPane;
+import com.fr.design.style.background.gradient.GradientBackgroundPane;
 import com.fr.general.Background;
 
 import javax.swing.*;
@@ -96,8 +96,8 @@ public abstract class AbstractPopBox extends JPanel {
 				mouseClick(evt);
 			}
 		};
-		if (!this.isWindowEventInit && SwingUtilities.getAncestorOfClass(GradientPane.class, this) != null) {
-			SwingUtilities.getAncestorOfClass(GradientPane.class, this).addMouseListener(parentMouseListener);
+		if (!this.isWindowEventInit && SwingUtilities.getAncestorOfClass(GradientBackgroundPane.class, this) != null) {
+			SwingUtilities.getAncestorOfClass(GradientBackgroundPane.class, this).addMouseListener(parentMouseListener);
 			this.isWindowEventInit = true;
 		}
 	}

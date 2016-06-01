@@ -6,7 +6,7 @@ import java.util.List;
 import com.fr.base.FRContext;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
@@ -15,7 +15,7 @@ import com.fr.report.cell.cellattr.highlight.Highlight;
 import com.fr.report.cell.cellattr.highlight.HighlightGroup;
 import com.fr.stable.Nameable;
 
-public class ConditionAttributesGroupPane extends JControlPane {
+public class ConditionAttributesGroupPane extends JListControlPane {
 
 	@Override
 	public NameableCreator[] createNameableCreators() {

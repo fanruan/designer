@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.BackgroundPane4Browser;
 import com.fr.general.Inter;
 import com.fr.design.style.background.BackgroundPane;
 import com.fr.web.attr.ReportWebAttr;
@@ -50,7 +51,7 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         tabbedPane.add(Inter.getLocText("WEB-Write_Setting"), writeWeb = new WriteWebSettingPane());
         tabbedPane.add(Inter.getLocText("M-Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
         
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Browser_Background"), backgroundPane = new BackgroundPane(true));
+        tabbedPane.addTab(Inter.getLocText("ReportServerP-Browser_Background"), backgroundPane = new BackgroundPane4Browser());
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
     }

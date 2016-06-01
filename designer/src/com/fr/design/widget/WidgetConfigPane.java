@@ -1,6 +1,6 @@
 package com.fr.design.widget;
 
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.core.WidgetConstants;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Widget配置面板
  */
-public class WidgetConfigPane extends JControlPane {
+public class WidgetConfigPane extends JListControlPane {
 
     /**
      * 创建用户自定义widget组件

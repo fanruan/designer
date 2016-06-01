@@ -32,7 +32,7 @@ import java.util.List;
  * Date: 14/12/3
  * Time: 上午10:00
  */
-public class MapArrayPane extends JControlPane {
+public class MapArrayPane extends JListControlPane {
     private static final int LEFT_WIDTH = 180;
     private static final Color LINE_COLOR = new Color(176, 176, 176);
     private static final int TOP_GAP = 5;

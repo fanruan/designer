@@ -5,14 +5,14 @@ import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 import com.fr.chart.base.AttrTrendLine;
 import com.fr.chart.base.ConditionTrendLine;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrendLineControlPane extends JControlPane {
+public class TrendLineControlPane extends JListControlPane {
 
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
