@@ -31,14 +31,14 @@ public class AppFitPreviewPane extends BasicPane{
     }
 
     private void initCacheImage() {
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "V0.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "V1.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "V2.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "V3.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "H0.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "H1.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "H2.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/" + "H3.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png")));
+        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png")));
+        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png")));
+        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png")));
+        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png")));
     }
 
     private void initComponents() {
