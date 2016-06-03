@@ -203,8 +203,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         //服务器返回true, 说明已经获取成功, 清空当前记录的信息
         if (success) {
             deleteLogDB(conn, table);
-            //收集设计器信息的服务器下线了, 目测还要一段时间, 不在那边一起setLastTime了.
-            this.lastTime = dateToString();
         }
 
     }
