@@ -45,6 +45,6 @@ public class MobileFitEditor extends ComboEditor{
      */
     @Override
     public boolean refreshInTime() {
-        return false;
+        return true;
     }
 }
