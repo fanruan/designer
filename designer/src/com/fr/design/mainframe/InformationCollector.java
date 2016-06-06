@@ -35,8 +35,8 @@ import java.util.*;
  */
 public class InformationCollector implements XMLReadable, XMLWriter {
 	
-	//3天上传一次
-	private static final long DELTA = 3 * 24 * 3600 * 1000L;
+	// 24小时上传一次
+	private static final long DELTA = 24 * 3600 * 1000L;
 	private static final long SEND_DELAY = 30 * 1000L;
 	private static final String FILE_NAME = "fr.info";
 	private static final String XML_START_STOP_LIST = "StartStopList";
