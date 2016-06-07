@@ -10,7 +10,6 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class MobileRadioCheckPane extends BasicBeanPane<Boolean> {
 		double[] rowSize = {p};
 		double[] columnSize = {p,p};
 
-		UICheckBox checkBox = new UICheckBox(Inter.getLocText("FS-CPT_ZOOM"));
+		UICheckBox checkBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Open"));
 		checkBox.setSelected(true);
 		
 		checkBoxes.add(checkBox);
