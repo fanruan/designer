@@ -19,6 +19,8 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
     private MobileRadioGroupPane horizionPane;
     //竖屏设置面板
     private MobileRadioGroupPane verticalPane;
+    //缩放选项面板
+    private MobileRadioCheckPane radioCheckPane;
     //效果预览面板
     private AppFitPreviewPane appFitPreviewPane;
 
@@ -34,11 +36,13 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
         JPanel fitOpsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         horizionPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Horizontal"));
         verticalPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Vertical"));
+        radioCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-ZOOM"));
         ActionListener actionListener = getAppPreviewActionListener();
         horizionPane.addActionListener(actionListener);
         verticalPane.addActionListener(actionListener);
         fitOpsPane.add(horizionPane, BorderLayout.NORTH);
-        fitOpsPane.add(verticalPane, BorderLayout.SOUTH);
+        fitOpsPane.add(verticalPane, BorderLayout.CENTER);
+        fitOpsPane.add(radioCheckPane, BorderLayout.SOUTH);
         borderPane.add(fitOpsPane);
         this.add(borderPane);
 
@@ -50,7 +54,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     //纵向和横向独立设置
     public int[] getCurrentFitOptions() {
-        return new int[]{horizionPane.getSelectRadioIndex(), verticalPane.getSelectRadioIndex()};
+        return new int[]{horizionPane.getSelectRadioIndex(), verticalPane.getSelectRadioIndex(), radioCheckPane.getCurrentState()};
     }
 
     @Override
@@ -60,6 +64,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
         }
         horizionPane.populateBean(ob.getHorziontalAttr());
         verticalPane.populateBean(ob.getVerticalAttr());
+        radioCheckPane.populateBean(ob.getZoom());
         appFitPreviewPane.refreshPreview(getCurrentFitOptions());
 
     }
@@ -68,8 +73,8 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
     public ElementCaseMobileAttr updateBean() {
         MobileFitAttrState horizonState = horizionPane.updateBean();
         MobileFitAttrState verticalState = verticalPane.updateBean();
-
-        return new ElementCaseMobileAttr(horizonState, verticalState);
+        boolean isZoom = radioCheckPane.updateBean();
+        return new ElementCaseMobileAttr(horizonState, verticalState, isZoom);
     }
 
     @Override
