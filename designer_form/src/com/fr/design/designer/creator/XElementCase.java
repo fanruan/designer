@@ -25,8 +25,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.List;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
@@ -56,23 +54,14 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
      * @throws IntrospectionException 异常
      */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = ((ElementCaseEditor) data).isHeightRestrict() ? revealHeightLimit() : getDefault();
-		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
-		if (processor == null) {
-			return crp;
-		}
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, extraEditor);
-	}
 
-	protected List<CRPropertyDescriptor> createNonListenerProperties() throws IntrospectionException {
-		CRPropertyDescriptor[] propertyTableEditor = {
+		CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
 						.setI18NName(Inter.getLocText("Form-Widget_Name")),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
-						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").
-						setPropertyChangeListener(new PropertyChangeAdapter() {
+						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
 					public void propertyChange() {
@@ -85,34 +74,15 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("heightRestrict", this.data.getClass()).setEditorClass(InChangeBooleanEditor.class)
-						.setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+
 		};
 
-		List<CRPropertyDescriptor> defaultList = new ArrayList<>();
-
-		for (CRPropertyDescriptor propertyDescriptor : propertyTableEditor) {
-			defaultList.add(propertyDescriptor);
+		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
+		if (processor == null){
+			return propertyTableEditor;
 		}
-		return defaultList;
-	}
-
-	protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
-		CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.data.getClass())
-															.setEditorClass(DoubleEditor.class)
-															.setI18NName(Inter.getLocText("Form-EC_heightpercent"))
-															.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
-
-		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
-		defaultList.add(heightLimitProperty);
-
-		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
-	}
-
-	protected CRPropertyDescriptor[] getDefault() throws IntrospectionException {
-		ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
-		return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
 
 
