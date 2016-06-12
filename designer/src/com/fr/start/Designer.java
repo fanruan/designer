@@ -35,6 +35,7 @@ import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.web.ServletContext;
 import com.fr.stable.xml.XMLTools;
 
 import javax.swing.*;
@@ -431,6 +432,7 @@ public class Designer extends BaseDesigner {
     	InformationCollector collector = InformationCollector.getInstance();
     	collector.collectStopTime();
     	collector.saveXMLFile();
+        ServletContext.fireServletStopListener();
     }
 
 }

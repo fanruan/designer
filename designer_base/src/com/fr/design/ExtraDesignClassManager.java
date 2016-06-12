@@ -138,6 +138,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<BackgroundUIProvider> backgroundUIProviders;
 
+    private Set<VerifyDefineProvider> verifyDefineProviders;
+
     public TableDataPaneProcessor getTableDataPaneProcessor() {
         return tableDataPaneProcessor;
     }
@@ -804,6 +806,21 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         backgroundUIProviders.add((BackgroundUIProvider) level);
     }
 
+    public VerifyDefineProvider[] getVerifyDefineProviders() {
+        if (verifyDefineProviders == null) {
+            return new VerifyDefineProvider[0];
+        }
+        return verifyDefineProviders.toArray(new VerifyDefineProvider[verifyDefineProviders.size()]);
+    }
+
+    private void addVerifyDefineProvider(Level level, PluginSimplify simplify) throws Exception {
+        if (verifyDefineProviders == null) {
+            verifyDefineProviders = new HashSet<>();
+        }
+        validAPILevel(level, VerifyDefineProvider.CURRENT_LEVEL, simplify.getPluginName());
+        verifyDefineProviders.add((VerifyDefineProvider) level);
+    }
+
     /**
      * 文件名
      *
@@ -902,6 +919,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addWidgetAttrProvider(impl, simplify);
             } else if (tagName.equals(ExportAttrTabProvider.XML_TAG)) {
                 addExportAttrTabProvider(impl, simplify);
+            } else if (tagName.equals(VerifyDefineProvider.MARK_STRING)) {
+                addVerifyDefineProvider(impl, simplify);
             }
         } catch (PluginInvalidLevelException e) {
             PluginMessage.remindUpdate(e.getMessage());
