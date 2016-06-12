@@ -13,7 +13,7 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
-import com.fr.design.designer.properties.mobile.BodyElementCasePropertyUI;
+import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.layout.FRFitLayout;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.FormArea;
@@ -1160,7 +1160,7 @@ public class XWFitLayout extends XLayoutContainer {
 
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		return new WidgetPropertyUIProvider[]{ new BodyElementCasePropertyUI(new XWBodyFitLayout())};
+		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(new XWBodyFitLayout())};
 	}
 	
 }

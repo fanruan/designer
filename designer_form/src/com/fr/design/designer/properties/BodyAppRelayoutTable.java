@@ -14,11 +14,11 @@ import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.designer.beans.LayoutAdapter;
 
 
-public class WidgetLayoutTable extends AbstractPropertyTable {
+public class BodyAppRelayoutTable extends AbstractPropertyTable {
 
 	private XWBodyFitLayout xwBodyFitLayout;
 
-	public WidgetLayoutTable(XWBodyFitLayout xwBodyFitLayout) {
+	public BodyAppRelayoutTable(XWBodyFitLayout xwBodyFitLayout) {
 		super();
 		setDesigner(xwBodyFitLayout);
 	}
@@ -66,8 +66,8 @@ public class WidgetLayoutTable extends AbstractPropertyTable {
 	 * @return 单元格tooltip
 	 */
 	public String getToolTipText(MouseEvent event) {
-		int row = WidgetLayoutTable.super.rowAtPoint(event.getPoint());
-		int column = WidgetLayoutTable.super.columnAtPoint(event.getPoint());
+		int row = BodyAppRelayoutTable.super.rowAtPoint(event.getPoint());
+		int column = BodyAppRelayoutTable.super.columnAtPoint(event.getPoint());
 		if(row != -1 && column == 0){
 			return String.valueOf(this.getValueAt(row, column));
 		}
