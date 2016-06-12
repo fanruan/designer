@@ -36,7 +36,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
         JPanel fitOpsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         horizionPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Horizontal"));
         verticalPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Vertical"));
-        radioCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-ZOOM"));
+        radioCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-Zoom"));
         ActionListener actionListener = getAppPreviewActionListener();
         horizionPane.addActionListener(actionListener);
         verticalPane.addActionListener(actionListener);
@@ -64,7 +64,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
         }
         horizionPane.populateBean(ob.getHorziontalAttr());
         verticalPane.populateBean(ob.getVerticalAttr());
-        radioCheckPane.populateBean(ob.getZoom());
+        radioCheckPane.populateBean(ob.isZoom());
         appFitPreviewPane.refreshPreview(getCurrentFitOptions());
 
     }
