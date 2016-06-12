@@ -9,8 +9,7 @@ import com.fr.design.report.WriteShortCutsPane;
 import com.fr.design.write.submit.SubmitVisitorListPane;
 import com.fr.general.Inter;
 import com.fr.report.worksheet.WorkSheet;
-import com.fr.stable.bridge.StableFactory;
-import com.fr.write.ReportWriteAttrProvider;
+import com.fr.report.write.ReportWriteAttr;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,9 +55,9 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 			return;
 		}
 
-		ReportWriteAttrProvider reportWriteAttr = report.getReportWriteAttr();
+		ReportWriteAttr reportWriteAttr = report.getAttributeTarget(ReportWriteAttr.XML_TAG);
 		if (reportWriteAttr == null) {
-			reportWriteAttr =  StableFactory.getMarkedInstanceObjectFromClass(ReportWriteAttrProvider.XML_TAG, ReportWriteAttrProvider.class);
+			reportWriteAttr =  new ReportWriteAttr();
 		}
 
 		this.submiterListPane.populate(reportWriteAttr);
@@ -66,8 +65,8 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 
 	}
 
-    public ReportWriteAttrProvider update() {
-        ReportWriteAttrProvider reportWriteAttr = StableFactory.getMarkedInstanceObjectFromClass(ReportWriteAttrProvider.XML_TAG, ReportWriteAttrProvider.class);
+    public ReportWriteAttr update() {
+        ReportWriteAttr reportWriteAttr = new ReportWriteAttr();
 
         this.submiterListPane.updateReportWriteAttr(reportWriteAttr);
         this.verifierListPane.updateReportWriteAttr(reportWriteAttr);

@@ -18,13 +18,13 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.report.write.BuiltInSQLSubmiter;
+import com.fr.report.write.ReportWriteAttr;
 import com.fr.report.write.SubmitVisitor;
 import com.fr.report.write.WClassSubmiter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.write.BuiltInSQLSubmiterProvider;
 import com.fr.write.DBManipulation;
-import com.fr.write.ReportWriteAttrProvider;
 import com.fr.write.WClassSubmiterProvider;
 
 import javax.swing.*;
@@ -66,7 +66,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
         return "write";
     }
 
-    public void populate(ReportWriteAttrProvider reportWriteAttr) {
+    public void populate(ReportWriteAttr reportWriteAttr) {
         if (reportWriteAttr == null) {
             return;
         }
@@ -87,7 +87,7 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
      *
      * @param reportWriteAttr 报表填报属性
      */
-    public void updateReportWriteAttr(ReportWriteAttrProvider reportWriteAttr) {
+    public void updateReportWriteAttr(ReportWriteAttr reportWriteAttr) {
         // Nameable[]居然不能强转成NameObject[],一定要这么写...
         Nameable[] res = this.update();
         NameObject[] res_array = new NameObject[res.length];

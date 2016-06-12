@@ -51,7 +51,7 @@ public class ReportWriteAttrAction extends ReportComponentAction<WorkSheetDesign
             @Override
             public void doOk() {
                 isChange = true;
-                tplEC.setReportWriteAttr(reportWritePane.update());
+                tplEC.addAttributeTarget(reportWritePane.update());
                 if (hasActionPerformed) {
                     final JTemplate targetComponent = DesignerContext.getDesignerFrame().getSelectedJTemplate();
                     if (targetComponent != null) {
