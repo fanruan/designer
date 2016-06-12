@@ -13,6 +13,8 @@ import com.fr.stable.StringUtils;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.*;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -35,6 +37,9 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+                //這邊需要重新初始化columnNames, 否則nameList長度和columnNames長度不同導致出錯。
+                List<String> nameList = tableDataComboBox.getSelectedItem().calculateColumnNameList();
+                columnNames = new String[nameList.size()];
 				columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
 				columnNameComboBox.removeAllItems();
 				for (int i = 0; i < columnNames.length; i++) {
