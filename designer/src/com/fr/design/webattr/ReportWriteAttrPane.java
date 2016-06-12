@@ -6,7 +6,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.report.VerifierListPane;
 import com.fr.design.report.WriteShortCutsPane;
-import com.fr.design.write.submit.SubmiterListPane;
+import com.fr.design.write.submit.SubmitVisitorListPane;
 import com.fr.general.Inter;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.bridge.StableFactory;
@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ReportWriteAttrPane extends LoadingBasicPane {
-	private SubmiterListPane submiterListPane;
+	private SubmitVisitorListPane submiterListPane;
 //	private ValueVerifierEditPane valueVerifierEditPane;
 	private VerifierListPane verifierListPane;
 	private WriteShortCutsPane writeShortCutsPane;
@@ -33,7 +33,7 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 
 		// peter: writeSQLAttrList的编辑.
 		if (submiterListPane == null) {
-			submiterListPane = new SubmiterListPane(ePane);
+			submiterListPane = new SubmitVisitorListPane(ePane);
 		}
 //		valueVerifierEditPane = new ValueVerifierEditPane();
 		if (verifierListPane == null) {
@@ -44,27 +44,6 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 		tabbedPane.addTab(Inter.getLocText("FR-Utils_Submit"), submiterListPane);
 		tabbedPane.addTab(Inter.getLocText("Verify-Data_Verify"), verifierListPane);
 		tabbedPane.addTab(Inter.getLocText("Writer-ShortCuts_Setting"), writeShortCutsPane);
-
-//		tabbedPane.addChangeListener(new ChangeListener() {
-//			@Override
-//			public void stateChanged(ChangeEvent e) {
-//				// 切换的时候这里会先于UITabbedPaneUI的MousePressed事件
-//				// 会导致弹窗两次
-//				int idx = ReportWriteAttrPane.this.getInvalidIndex();
-//				if (idx >= 0 && idx != tabbedPane.getSelectedIndex()) {
-//					try {
-//	                    if (idx == 0) {
-//							ReportWriteAttrPane.this.submiterListPane.checkValid();
-//						} else {
-//							ReportWriteAttrPane.this.verifierListPane.checkValid();
-//						}
-//					} catch (Exception exp) {
-//						JOptionPane.showMessageDialog(ReportWriteAttrPane.this, exp.getMessage());
-//						tabbedPane.setSelectedIndex(idx);
-//					}
-//				}
-//			}
-//		});
 	}
 
 	@Override
