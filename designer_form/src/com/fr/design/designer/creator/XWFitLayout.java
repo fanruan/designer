@@ -13,7 +13,9 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
+import com.fr.design.designer.properties.mobile.BodyElementCasePropertyUI;
 import com.fr.design.form.layout.FRFitLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.FormArea;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.PaddingMargin;
@@ -1154,6 +1156,11 @@ public class XWFitLayout extends XLayoutContainer {
 	 */
 	public XLayoutContainer findNearestFit() {
 		return this;
+	}
+
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[]{ new BodyElementCasePropertyUI(new XWBodyFitLayout())};
 	}
 	
 }
