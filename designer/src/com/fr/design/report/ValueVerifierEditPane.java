@@ -1,7 +1,6 @@
 package com.fr.design.report;
 
 import com.fr.base.Formula;
-import com.fr.data.Verifier;
 import com.fr.data.VerifyItem;
 import com.fr.design.gui.itableeditorpane.ActionStyle;
 import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
@@ -11,9 +10,6 @@ import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.report.write.ValueVerifier;
 import com.fr.stable.FormulaProvider;
-import com.fr.stable.bridge.StableFactory;
-import com.fr.write.ReportWriteAttrProvider;
-import com.fr.write.ValueVerifierProvider;
 
 import javax.swing.*;
 import java.awt.*;
