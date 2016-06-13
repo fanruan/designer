@@ -36,11 +36,11 @@ public class FormattedEditor extends AbstractPropertyEditor {
 
 			public void keyReleased(KeyEvent e) {
 				try {
-					textField.commitEdit();
+                    textField.commitEdit();
+                    return;
 				} catch (ParseException e1) {
 					return;
 				}
-				firePropertyChanged();
 			}
         });
     }
