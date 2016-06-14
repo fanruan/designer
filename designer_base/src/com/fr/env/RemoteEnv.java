@@ -2046,7 +2046,7 @@ public class RemoteEnv implements Env {
 
     }
 
-    private void readPluginLicenses() throws Exception {
+    public void readPluginLicenses() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
@@ -2065,8 +2065,6 @@ public class RemoteEnv implements Env {
     }
 
     @Override
-    public void readPluginConfig() throws Exception {
-        PluginLoader.getLoader().readFromRemoteEnv();
-        readPluginLicenses();
+    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
     }
 }
