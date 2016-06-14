@@ -81,7 +81,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 				BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png")};
 		Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
 		hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-		hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Left"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("StyleAlignment-Tooltips_Right"),
+		hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Left"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Right"),
 		Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Distributed"),Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_DEFAULT")});
 		hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		vPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
