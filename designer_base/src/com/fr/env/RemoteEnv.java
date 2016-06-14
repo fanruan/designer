@@ -2046,24 +2046,6 @@ public class RemoteEnv implements Env {
 
     }
 
-    private void readPlugins() throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_plugins");
-
-        InputStream inputStream = postBytes2ServerB(out.toByteArray(), para);
-        String pluginsStr = IOUtils.inputStream2String(inputStream, EncodeConstants.ENCODING_UTF_8);
-        if (StringUtils.isNotBlank(pluginsStr) && pluginsStr.startsWith("[")) {
-            JSONArray jsonArray = new JSONArray(pluginsStr);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Plugin plugin = new Plugin();
-                plugin.parseJSON(jsonArray.getJSONObject(i));
-                PluginLoader.getLoader().addRemotePlugin(plugin);
-            }
-        }
-    }
-
     private void readPluginLicenses() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();
@@ -2084,7 +2066,7 @@ public class RemoteEnv implements Env {
 
     @Override
     public void readPluginConfig() throws Exception {
-        readPlugins();
+        PluginLoader.getLoader().readFromRemoteEnv();
         readPluginLicenses();
     }
 }
