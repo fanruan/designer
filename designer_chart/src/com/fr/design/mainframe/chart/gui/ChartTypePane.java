@@ -7,6 +7,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
@@ -37,8 +38,28 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		content.add(buttonPane, BorderLayout.NORTH);
 		
 		chartTypePane = new ComboBoxPane();
-		chartTypePane.setBorder(BorderFactory.createEmptyBorder(0,0, 0, 10));
-		content.add(chartTypePane, BorderLayout.CENTER);
+		BasicScrollPane scrollPane = new BasicScrollPane() {
+			@Override
+			protected JPanel createContentPane() {
+				return chartTypePane;
+			}
+
+			@Override
+			protected void layoutContentPane() {
+				leftcontentPane = createContentPane();
+				this.add(leftcontentPane);
+			}
+
+			@Override
+			public void populateBean(Object ob) {
+			}
+
+			@Override
+			protected String title4PopupWindow() {
+				return null;
+			}
+		};
+		content.add(scrollPane, BorderLayout.CENTER);
 		
 		buttonPane.setEditingChartPane(chartTypePane);
 		
