@@ -34,19 +34,11 @@ public class ReportAppPropertyGroupModel extends PropertyGroupModel {
             Method m = properties[row].getWriteMethod();
             if (state > MAX_HEIGHT) {
             	//弹窗提示
-            	Object[] options = {Inter.getLocText("FR-Designer_Button-OK"), Inter.getLocText("FR-Designer_Button-Cancel")};
-            	int choice = JOptionPane.showOptionDialog(null,
-                    	Inter.getLocText("FR-Designer_Mobile-Warning"),
-                    	Inter.getLocText("FR-Designer_Tooltips"),
-                    	JOptionPane.OK_CANCEL_OPTION,
-                    	JOptionPane.INFORMATION_MESSAGE,
-                    	null,
-                    	options,
-                    	options[0]);
-            	if (choice == JOptionPane.OK_OPTION || choice == JOptionPane.NO_OPTION) {
-            		return false;
-            	}
-            	return false;
+                JOptionPane.showMessageDialog(null,
+                        Inter.getLocText("FR-Designer_Mobile-Warning"),
+                        Inter.getLocText("FR-Designer_Tooltips"),
+                        JOptionPane.PLAIN_MESSAGE);
+                return false;
             }
             m.invoke(dealCreatorData(), value);
             //属性名称为控件名时，单独处理下
