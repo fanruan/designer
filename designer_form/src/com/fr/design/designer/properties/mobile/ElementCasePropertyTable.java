@@ -7,11 +7,11 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
-import com.fr.design.gui.xtable.PropertyGroupModel;
+import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.design.mainframe.widget.editors.DoubleEditor;
+import com.fr.design.mainframe.WidgetPropertyPane;;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
+import com.fr.design.mainframe.widget.editors.RefinedDoubleEditor;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 
@@ -65,7 +65,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
 
     protected CRPropertyDescriptor[] revealHeightLimit() throws IntrospectionException {
         CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.xCreator.toData().getClass())
-                                                                .setEditorClass(DoubleEditor.class)
+                                                                .setEditorClass(RefinedDoubleEditor.class)
                                                                 .setI18NName(Inter.getLocText("Form-EC_heightpercent"))
                                                                 .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
         ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
@@ -91,7 +91,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         }
 
 
-        groups.add(new PropertyGroup(new PropertyGroupModel(Inter.getLocText("FR-Designer_Fit-App"), xCreator, propertyTableEditor, designer)));
+        groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Fit-App"), xCreator, propertyTableEditor, designer)));
 
         TableModel model = new BeanTableModel();
         setModel(model);
