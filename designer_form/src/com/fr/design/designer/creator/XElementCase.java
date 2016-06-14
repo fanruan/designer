@@ -94,11 +94,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		//新建报表块的自适应属性和表单所设置的自适应属性保持一致
 		if (this.toData().getReportFitAttr() == null) {
-			if (getFitAttrProvider().fitStateInPC() != 0) {
-				this.toData().setFitStateInPC(getFitAttrProvider().fitStateInPC());
-			} else {
+			if (getFitAttrProvider().fitStateInPC() == 0) {
 				return propertyTableEditor;
 			}
+			this.toData().setFitStateInPC(getFitAttrProvider().fitStateInPC());
 		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
