@@ -101,8 +101,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
-
-	//获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
+	
+	/**
+	 * 获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
+	 * @return 返回自适应属性
+	 */
 	private ReportFitAttrProvider getFitAttrProvider () {
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
 		ReportFitAttrProvider globalFitAttr = ConfigManager.getProviderInstance().getFitAttrProvider();
