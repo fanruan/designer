@@ -18,6 +18,8 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr> {
     private MobileRadioGroupPane horizionPane;
     //竖屏设置面板
     private MobileRadioGroupPane verticalPane;
+    //缩放设置面板
+    private MobileRadioCheckPane radioCheckPane;
 
     public ReportMobileAttrPane() {
         initComponents();
@@ -30,9 +32,10 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr> {
         JPanel fitOpsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         horizionPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Horizontal"));
         verticalPane = new MobileRadioGroupPane(Inter.getLocText("FR-Designer_Mobile-Vertical"));
+        radioCheckPane = new MobileRadioCheckPane(Inter.getLocText("FR-Designer_Mobile-Zoom"));
         fitOpsPane.add(horizionPane, BorderLayout.NORTH);
-        fitOpsPane.add(verticalPane, BorderLayout.SOUTH);
-
+        fitOpsPane.add(verticalPane, BorderLayout.CENTER);
+        fitOpsPane.add(radioCheckPane, BorderLayout.SOUTH);
         borderPane.add(fitOpsPane);
         this.add(borderPane);
     }
@@ -45,14 +48,15 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
         horizionPane.populateBean(ob.getHorziontalAttr());
         verticalPane.populateBean(ob.getVerticalAttr());
+        radioCheckPane.populateBean(ob.isZoom());
     }
 
     @Override
     public ElementCaseMobileAttr updateBean() {
         MobileFitAttrState horizonState = horizionPane.updateBean();
         MobileFitAttrState verticalState = verticalPane.updateBean();
-
-        return new ElementCaseMobileAttr(horizonState, verticalState);
+        boolean isZoom = radioCheckPane.updateBean();
+        return new ElementCaseMobileAttr(horizonState, verticalState, isZoom);
     }
 
     @Override

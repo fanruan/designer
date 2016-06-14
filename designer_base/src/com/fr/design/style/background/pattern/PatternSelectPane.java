@@ -1,8 +1,8 @@
 package com.fr.design.style.background.pattern;
 
 import com.fr.general.Inter;
-import com.fr.design.style.background.BackgroundPane.BackgroundSettingPane;
-import com.fr.design.style.background.BackgroundPane.PatternBackgroundPaneNoFore;
+import com.fr.design.style.background.BackgroundDetailPane;
+import com.fr.design.style.background.impl.PatternBackgroundPaneNoFore;
 import com.fr.design.style.background.BackgroundSelectPane;
 
 
@@ -20,7 +20,7 @@ public class PatternSelectPane extends BackgroundSelectPane {
 	}
 
 	@Override
-	public BackgroundSettingPane getShowPane(double preWidth) {
+	public BackgroundDetailPane getShowPane(double preWidth) {
 		// 最少6个. 因为项目太多了. 会拉的很长
 		int column = Math.max((int)preWidth / 25, 6);
 		return new PatternBackgroundPaneNoFore(column); 

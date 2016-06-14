@@ -4,7 +4,7 @@ import com.fr.data.impl.Connection;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.impl.JNDIDatabaseConnection;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.gui.controlpane.JControlPane;
+import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.file.DatasourceManagerProvider;
@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * Connection List Pane.
  */
-public class ConnectionListPane extends JControlPane {
+public class ConnectionListPane extends JListControlPane {
     public static final String TITLE_NAME = Inter.getLocText("Server-Define_Data_Connection");
     private boolean isNamePermitted = true;
     private HashMap<String, String> renameMap = new HashMap<String, String>();

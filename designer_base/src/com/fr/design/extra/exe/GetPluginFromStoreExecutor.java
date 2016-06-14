@@ -1,8 +1,8 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.StringUtils;
 
@@ -38,7 +38,7 @@ public class GetPluginFromStoreExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        StringBuilder url = new StringBuilder(PluginWebBridge.PLUGIN_SHOP);
+                        StringBuilder url = new StringBuilder(SiteCenter.getInstance().acquireUrlByKind("plugin.plist"));
                         if (StringUtils.isNotBlank(category)) {
                             url.append("&cid=").append(category.split("-")[1]);
                         }

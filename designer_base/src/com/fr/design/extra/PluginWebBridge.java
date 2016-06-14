@@ -36,8 +36,6 @@ public class PluginWebBridge {
 
     private UIDialog uiDialog;
 
-    public static final String PLUGIN_SHOP = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
-
     public static PluginWebBridge getHelper() {
         if (helper != null) {
             return helper;
@@ -153,6 +151,7 @@ public class PluginWebBridge {
      * @param des    过滤文件描述
      * @param filter 文件的后缀
      * @return 选择的文件的路径
+     * 这里换用JFileChooser会卡死,不知道为什么
      */
     public String showFileChooserWithFilter(String des, String filter) {
         FileChooser fileChooser = new FileChooser();
@@ -244,6 +243,16 @@ public class PluginWebBridge {
     }
 
     /**
+     * 在线获取插件分类
+     *
+     * @param callback 回调函数
+     */
+    public void getPluginCategories(final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
+        new Thread(task).start();
+    }
+
+    /**
      * 展示一个重启的对话框(少用,莫名其妙会有bug)
      *
      * @param message 展示的消息
@@ -272,6 +281,16 @@ public class PluginWebBridge {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
         }
+    }
+
+    /**
+     * 窗口是否无装饰(判断是否使用系统标题栏)
+     */
+    public boolean isCustomTitleBar() {
+        if (uiDialog != null) {
+            return uiDialog.isUndecorated();
+        }
+        return false;
     }
 
     /**

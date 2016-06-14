@@ -35,8 +35,8 @@ import java.util.*;
  */
 public class InformationCollector implements XMLReadable, XMLWriter {
 	
-	//3天上传一次
-	private static final long DELTA = 3 * 24 * 3600 * 1000L;
+	// 24小时上传一次
+	private static final long DELTA = 24 * 3600 * 1000L;
 	private static final long SEND_DELAY = 30 * 1000L;
 	private static final String FILE_NAME = "fr.info";
 	private static final String XML_START_STOP_LIST = "StartStopList";
@@ -203,8 +203,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         //服务器返回true, 说明已经获取成功, 清空当前记录的信息
         if (success) {
             deleteLogDB(conn, table);
-            //收集设计器信息的服务器下线了, 目测还要一段时间, 不在那边一起setLastTime了.
-            this.lastTime = dateToString();
         }
 
     }
