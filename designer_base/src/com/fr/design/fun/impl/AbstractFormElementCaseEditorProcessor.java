@@ -16,7 +16,7 @@ public abstract class AbstractFormElementCaseEditorProcessor implements FormElem
 
 
     /**
-     * 返回pc自适应属性值
+     * 生成属性表
      * @param temp 传入当前操作的class
      * @param formFitAttr 表单自适应属性
      * @param elementcaseFitAttr 报表块自适应属性
@@ -28,7 +28,7 @@ public abstract class AbstractFormElementCaseEditorProcessor implements FormElem
     }
 
     /**
-     * 生成属性表
+     * 返回pc自适应属性值
      * @param fitAttrProvider 传入的自适应属性
      * @return 返回pc自适应属性值
      */
