@@ -27,6 +27,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
 
     private XCreator xCreator;
     private FormDesigner designer;
+    private boolean cascade = false;
 
     public ElementCasePropertyTable(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -35,9 +36,11 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         if (((ElementCaseEditor ) xCreator.toData()).getVerticalAttr().getState() == 2 && !((ElementCaseEditor ) xCreator.toData()).isHeightRestrict()) {
             ((ElementCaseEditor ) xCreator.toData()).setHeightRestrict(true);
+            cascade = true;
             return revealHeightLimit();
         }
         CRPropertyDescriptor[] crp = ((ElementCaseEditor) xCreator.toData()).isHeightRestrict() ? revealHeightLimit() : getDefault();
+        cascade = ((ElementCaseEditor ) xCreator.toData()).getVerticalAttr().getState() == 2 ? true : false;
         return crp;
     }
 
@@ -53,6 +56,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit-App")),
                 new CRPropertyDescriptor("heightRestrict", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
                         .setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
+                        .setRendererClass(BooleanRender.class)
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit-App"))
         };
         List<CRPropertyDescriptor> defaultList = new ArrayList<>();
@@ -101,6 +105,14 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     @Override
     public void firePropertyEdit() {
         designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        if (cascade && row ==3 ) {
+            return false;
+        }
+        return super.isCellEditable(row, column);
     }
 
     public void populate(FormDesigner designer) {
