@@ -37,7 +37,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Locale;
 /**
- *  公式编辑面板
+ * 公式编辑面板
  * @editor zhou
  * @since 2012-3-29下午1:50:53
  */
