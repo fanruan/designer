@@ -39,7 +39,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	public XElementCase(ElementCaseEditor widget, Dimension initSize) {
 		super(widget, initSize);
-		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+
 
 	}
 
@@ -88,20 +88,16 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		};
 
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+		FitProvider wbTpl = (FitProvider) designer.getTarget();
+		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), fitAttr, this.toData());
 		if (processor == null) {
 			return propertyTableEditor;
 		}
-		//新建报表块的自适应属性和表单所设置的自适应属性保持一致
-		if (this.toData().getReportFitAttr() == null) {
-			if (getFitAttrProvider().fitStateInPC() == 0) {
-				return propertyTableEditor;
-			}
-			this.toData().setFitStateInPC(getFitAttrProvider().fitStateInPC());
-		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
-	
+
 	/**
 	 * 获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
 	 * @return 返回自适应属性
