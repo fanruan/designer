@@ -91,9 +91,12 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
 		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), fitAttr, this.toData());
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), fitAttr, this.toData().getReportFitAttr());
 		if (processor == null) {
 			return propertyTableEditor;
+		}
+		if (toData().getReportFitAttr() == null && processor.getFitStateInPC(fitAttr) != 0) {
+			toData().setFormFitAttr(getFitAttrProvider(fitAttr));
 		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
@@ -102,16 +105,12 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 * 获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
 	 * @return 返回自适应属性
 	 */
-	private ReportFitAttrProvider getFitAttrProvider () {
-		FitProvider wbTpl = (FitProvider) designer.getTarget();
+	private ReportFitAttrProvider getFitAttrProvider (ReportFitAttrProvider fitAttr) {
 		ReportFitAttrProvider globalFitAttr = ConfigManager.getProviderInstance().getFitAttrProvider();
-		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
 		if (fitAttr != null) {
 			return fitAttr;
 		}
 		return globalFitAttr;
-
-
 	}
 
 	@Override

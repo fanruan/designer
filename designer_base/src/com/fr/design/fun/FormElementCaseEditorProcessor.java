@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.stable.fun.Level;
+import com.fr.stable.fun.ReportFitAttrProvider;
 
 import java.beans.PropertyDescriptor;
 
@@ -19,6 +20,9 @@ public interface FormElementCaseEditorProcessor extends Level{
      * @param temp 传入当前操作的class
      * @return 返回属性表
      */
-    PropertyDescriptor[] createPropertyDescriptor(Class<?> temp);
+    PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, ReportFitAttrProvider formFitAttr, ReportFitAttrProvider elementcaseFitAttr);
+
+    int getFitStateInPC(ReportFitAttrProvider fitAttrProvider);
+
 
 }
