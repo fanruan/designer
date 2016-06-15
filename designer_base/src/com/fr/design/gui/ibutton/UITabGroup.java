@@ -1,9 +1,6 @@
 package com.fr.design.gui.ibutton;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.RenderingHints;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -38,7 +35,7 @@ public class UITabGroup extends UIButtonGroup<Integer> {
     }
 
     @Override
-    protected GridLayout getGridLayout(int number) {
+    protected LayoutManager getGridLayout(int number) {
         if (number < BUTTON_NUMBER || isOneLineTab) {
             return super.getGridLayout(number);
         } else if (number == BUTTON_NUMBER || number == SEVEN_NUMBER) {

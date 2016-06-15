@@ -1,12 +1,6 @@
 package com.fr.design.gui.ibutton;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -174,7 +168,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 		return BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	}
 
-	protected GridLayout getGridLayout(int number) {
+	protected LayoutManager getGridLayout(int number) {
 		return new GridLayout(0, number, 1, 0);
 	}
 
