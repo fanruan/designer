@@ -103,6 +103,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	/**
 	 * 获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
+	 * @param fitAttr 表单的自适应属性
 	 * @return 返回自适应属性
 	 */
 	private ReportFitAttrProvider getFitAttrProvider (ReportFitAttrProvider fitAttr) {
