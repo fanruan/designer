@@ -1,6 +1,7 @@
 package com.fr.design.designer.properties.mobile;
 
 import com.fr.base.FRContext;
+import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
@@ -34,13 +35,13 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     }
 
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-        if (((ElementCaseEditor ) xCreator.toData()).getVerticalAttr().getState() == 2 && !((ElementCaseEditor ) xCreator.toData()).isHeightRestrict()) {
+        if (((ElementCaseEditor ) xCreator.toData()).getVerticalAttr() == MobileFitAttrState.VERTICAL && !((ElementCaseEditor ) xCreator.toData()).isHeightRestrict()) {
             ((ElementCaseEditor ) xCreator.toData()).setHeightRestrict(true);
             cascade = true;
             return revealHeightLimit();
         }
         CRPropertyDescriptor[] crp = ((ElementCaseEditor) xCreator.toData()).isHeightRestrict() ? revealHeightLimit() : getDefault();
-        cascade = ((ElementCaseEditor ) xCreator.toData()).getVerticalAttr().getState() == 2 ? true : false;
+        cascade = ((ElementCaseEditor ) xCreator.toData()).getVerticalAttr() == MobileFitAttrState.VERTICAL;
         return crp;
     }
 
