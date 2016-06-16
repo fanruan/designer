@@ -1,6 +1,5 @@
 package com.fr.design.designer.creator;
 
-import com.fr.base.ConfigManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
@@ -92,28 +91,15 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
 		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
 		ElementCaseEditor editor = this.toData();
-		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? getFitAttrProvider(fitAttr) : editor.getReportFitAttr();
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (processor == null) {
 			return propertyTableEditor;
 		}
 		if (editor.getReportFitAttr() == null) {
-			editor.setFormFitAttr(getFitAttrProvider(fitAttr));
+			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
 		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
-	}
-
-	/**
-	 * 获取表单保存的自适应属性，如果没有，就用全局保存的自适应属性
-	 * @param fitAttr 表单的自适应属性
-	 * @return 返回自适应属性
-	 */
-	private ReportFitAttrProvider getFitAttrProvider (ReportFitAttrProvider fitAttr) {
-		ReportFitAttrProvider globalFitAttr = ConfigManager.getProviderInstance().getFitAttrProvider();
-		if (fitAttr != null) {
-			return fitAttr;
-		}
-		return globalFitAttr;
 	}
 
 	@Override
