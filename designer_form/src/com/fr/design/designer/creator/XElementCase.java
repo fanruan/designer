@@ -9,7 +9,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.widget.editors.*;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.editors.BooleanEditor;
+import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
+import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
@@ -18,6 +21,8 @@ import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.stable.fun.FitProvider;
+import com.fr.stable.fun.ReportFitAttrProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,17 +34,21 @@ import java.beans.PropertyDescriptor;
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
     private JPanel coverPanel;
+	private FormDesigner designer;
 
 	public XElementCase(ElementCaseEditor widget, Dimension initSize) {
 		super(widget, initSize);
+
+
 	}
-	
+
 	protected void initXCreatorProperties() {
 		super.initXCreatorProperties();
+
 		// 报表块初始化时要加载对应的borderStyle
 		initBorderStyle();
 	}
-	
+
 	/**
      * 是否支持设置标题
      * @return 是返回true
@@ -78,13 +87,20 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		};
 
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
-		if (processor == null){
+		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+		FitProvider wbTpl = (FitProvider) designer.getTarget();
+		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+		ElementCaseEditor editor = this.toData();
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
+		if (processor == null) {
 			return propertyTableEditor;
 		}
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+		if (editor.getReportFitAttr() == null) {
+			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
+		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
-
 
 	@Override
 	protected String getIconName() {
@@ -118,7 +134,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		return editor;
 	}
-	
+
 	/**
 	 * 从data中获取到图片背景, 并设置到Label上
 	 */
@@ -126,10 +142,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		UILabel imageLable = new UILabel();
 		BufferedImage image = toData().getECImage();
 		setLabelBackground(image, imageLable);
-        
+
         return imageLable;
 	}
-	
+
 	/**
 	 * 设置指定Label的背景
 	 */
@@ -179,7 +195,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
     public boolean canEnterIntoParaPane(){
         return false;
     }
-    
+
     /**
      * 返回报表块对应的widget
      * @return 返回ElementCaseEditor
@@ -187,11 +203,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
     public ElementCaseEditor toData() {
     	return ((ElementCaseEditor) data);
     }
-    
+
 	public FormElementCaseProvider getElementCase() {
 		return toData().getElementCase();
 	}
-	
+
 	public String getElementCaseContainerName() {
 		return toData().getWidgetName();
 	}
@@ -199,20 +215,20 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	public void setElementCase(FormElementCaseProvider el) {
 		toData().setElementCase(el);
 	}
-	
+
 	public void setBackground(BufferedImage image){
 		toData().setECImage(image);
 		setEditorIcon(image);
 	}
-	
+
 	private void setEditorIcon(BufferedImage image){
 		setLabelBackground(image, imageLable);
 	}
-	
+
 	public Dimension getSize(){
 		return new Dimension(this.getWidth(), this.getHeight());
 	}
-	
+
 	/**
 	 * 响应点击事件
 	 * @param editingMouseListener 事件处理器
@@ -222,8 +238,8 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		super.respondClick(editingMouseListener, e);
 		switchTab(e,editingMouseListener);
 	}
-	
-	
+
+
     private void switchTab(MouseEvent e,EditingMouseListener editingMouseListener){
     	FormDesigner designer = editingMouseListener.getDesigner();
         if (e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR){
