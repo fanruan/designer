@@ -18,12 +18,11 @@ public abstract class AbstractFormElementCaseEditorProcessor implements FormElem
     /**
      * 生成属性表
      * @param temp 传入当前操作的class
-     * @param formFitAttr 表单自适应属性
-     * @param elementcaseFitAttr 报表块自适应属性
+     * @param reportFitAttr 传入的自适应属性
      * @return 返回属性表
      */
     @Override
-    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, ReportFitAttrProvider formFitAttr, ReportFitAttrProvider elementcaseFitAttr) {
+    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, ReportFitAttrProvider reportFitAttr) {
         return new PropertyDescriptor[0];
     }
 
