@@ -9,19 +9,16 @@ import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.WidgetPropertyPane;;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.design.mainframe.widget.editors.RefinedDoubleEditor;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
-import com.fr.stable.fun.ReportFitAttrProvider;
 
 import javax.swing.table.TableModel;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.List;
-
-;
 
 /**
  * Created by Administrator on 2016/5/16/0016.
@@ -45,8 +42,6 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     }
 
     protected List<CRPropertyDescriptor> createNonListenerProperties() throws IntrospectionException {
-        ReportFitAttrProvider attr = designer.getTarget().getFitAttr();
-
         CRPropertyDescriptor[] propertyTableEditor = {
                 new CRPropertyDescriptor("horziontalAttr", this.xCreator.toData().getClass()).setEditorClass(MobileFitEditor.class)
                         .setRendererClass(MobileFitRender.class)
@@ -111,10 +106,5 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
     public void populate(FormDesigner designer) {
         this.designer = designer;
         initPropertyGroups(this.designer.getTarget());
-    }
-
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return false;
     }
 }
