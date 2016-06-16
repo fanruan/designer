@@ -9,7 +9,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.widget.editors.*;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.editors.BooleanEditor;
+import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
+import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
@@ -18,6 +21,8 @@ import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.stable.fun.FitProvider;
+import com.fr.stable.fun.ReportFitAttrProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +34,7 @@ import java.beans.PropertyDescriptor;
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
     private JPanel coverPanel;
+	private FormDesigner designer;
 
 	public XElementCase(ElementCaseEditor widget, Dimension initSize) {
 		super(widget, initSize);
@@ -78,10 +84,18 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		};
 
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
-		if (processor == null){
+		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+		FitProvider wbTpl = (FitProvider) designer.getTarget();
+		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+		ElementCaseEditor editor = this.toData();
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
+		if (processor == null) {
 			return propertyTableEditor;
 		}
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+		if (editor.getReportFitAttr() == null) {
+			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
+		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
 
