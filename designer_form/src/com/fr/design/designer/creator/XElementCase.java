@@ -91,12 +91,14 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
 		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), fitAttr, this.toData().getReportFitAttr());
+		ElementCaseEditor editor = this.toData();
+		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? getFitAttrProvider(fitAttr) : editor.getReportFitAttr();
+		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (processor == null) {
 			return propertyTableEditor;
 		}
-		if (toData().getReportFitAttr() == null && processor.getFitStateInPC(fitAttr) != 0) {
-			toData().setFormFitAttr(getFitAttrProvider(fitAttr));
+		if (editor.getReportFitAttr() == null) {
+			editor.setFormFitAttr(getFitAttrProvider(fitAttr));
 		}
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
