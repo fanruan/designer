@@ -134,11 +134,11 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ExportAttrTabProvider> exportAttrTabProviders;
 
+    private Set<VerifyDefineProvider> verifyDefineProviders;
+
     private Set<BackgroundQuickUIProvider> backgroundQuickUIProviders;
 
     private Set<BackgroundUIProvider> backgroundUIProviders;
-
-    private Set<VerifyDefineProvider> verifyDefineProviders;
 
     public TableDataPaneProcessor getTableDataPaneProcessor() {
         return tableDataPaneProcessor;
@@ -970,4 +970,5 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
         writer.startTAG(XML_TAG);
         writer.end();
     }
+
 }

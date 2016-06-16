@@ -154,8 +154,8 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 				scrollBar.setVisible(false);
 			} else {
                 boolean show = isShowScrollBar();
-				scrollBar.setEnabled(show);
-				scrollBar.setVisible(show);
+                scrollBar.setEnabled(show);
+                scrollBar.setVisible(show);
 			}
 			maxheight = getHeight() - DET_HEIGHT;
 			if ((MAXVALUE - scrollBar.getVisibleAmount()) == 0) {
@@ -180,7 +180,8 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 			}
 			leftcontentPane.validate();
 		}
-    }
+
+	}
 
     protected boolean isShowScrollBar() {
         return true;
