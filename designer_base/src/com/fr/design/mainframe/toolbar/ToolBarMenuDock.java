@@ -8,6 +8,13 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.actions.community.BBSAction;
+import com.fr.design.actions.community.BugAction;
+import com.fr.design.actions.community.NeedAction;
+import com.fr.design.actions.community.QuestionAction;
+import com.fr.design.actions.community.SignAction;
+import com.fr.design.actions.community.UpAction;
+import com.fr.design.actions.community.VideoAction;
 import com.fr.design.actions.file.CloseCurrentTemplateAction;
 import com.fr.design.actions.file.ExitDesignerAction;
 import com.fr.design.actions.file.OpenRecentReportMenuDef;
@@ -149,6 +156,8 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
+     // 添加社区菜单
+        menuList.add(createCommunityMenuDef());
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
@@ -306,14 +315,14 @@ public abstract class ToolBarMenuDock {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
         shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(new TutorialAction());
+        //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
         if (ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)) {
             shortCuts.add(new FeedBackAction());
             shortCuts.add(SeparatorDef.DEFAULT);
             shortCuts.add(new SupportQQAction());
             shortCuts.add(SeparatorDef.DEFAULT);
-            shortCuts.add(new ForumAction());
+          //  shortCuts.add(new ForumAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
@@ -321,7 +330,22 @@ public abstract class ToolBarMenuDock {
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 
-
+    /**
+     * 创建社区子菜单
+     * @return 社区菜单的子菜单
+     */
+    public ShortCut[] createCommunityShortCuts() {
+        java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        shortCuts.add(new BBSAction());
+        shortCuts.add(new VideoAction());
+        shortCuts.add(new TutorialAction());
+        shortCuts.add(new QuestionAction());
+        shortCuts.add(new UpAction());
+        shortCuts.add(new NeedAction());
+        shortCuts.add(new BugAction());
+        shortCuts.add(new SignAction());
+        return shortCuts.toArray(new ShortCut[shortCuts.size()]);
+    }
     private MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
@@ -331,7 +355,15 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
-
+    private MenuDef createCommunityMenuDef() {
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
+        ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
+        for (ShortCut shortCut : otherCommunityShortCuts) {
+            menuDef.addShortCut(shortCut);
+        }
+        insertMenu(menuDef, MenuHandler.HELP);
+        return menuDef;
+    }
     /**
      * 生成工具栏
      *

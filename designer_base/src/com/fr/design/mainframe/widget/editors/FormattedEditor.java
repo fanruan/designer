@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.Format;
 import java.text.ParseException;
 
@@ -32,17 +33,21 @@ public class FormattedEditor extends AbstractPropertyEditor {
         textField = new JFormattedTextField(format);
         panel.add(textField, BorderLayout.CENTER);
         textField.setBorder(null);
-        textField.addKeyListener(new KeyAdapter() {
+        textField.addKeyListener(createKeyListener());
+    }
 
-			public void keyReleased(KeyEvent e) {
-				try {
-					textField.commitEdit();
-				} catch (ParseException e1) {
-					return;
-				}
-				firePropertyChanged();
-			}
-        });
+    protected KeyListener createKeyListener() {
+        return new KeyAdapter() {
+
+            public void keyReleased(KeyEvent e) {
+                try {
+                    textField.commitEdit();
+                } catch (ParseException e1) {
+                    return;
+                }
+                firePropertyChanged();
+            }
+        };
     }
 
     @Override

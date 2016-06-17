@@ -130,15 +130,25 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
 
     private Set<ElementUIProvider> elementUIProviders;
 
+    private Set<VerifyDefineProvider> verifyDefineProviders;
+
     private Set<WidgetPropertyUIProvider> widgetAttrProviders;
 
     private Set<ExportAttrTabProvider> exportAttrTabProviders;
+
+    private WidgetDesignHandler widgetDesignHandler;
 
     private Set<BackgroundQuickUIProvider> backgroundQuickUIProviders;
 
     private Set<BackgroundUIProvider> backgroundUIProviders;
 
-    private Set<VerifyDefineProvider> verifyDefineProviders;
+    public WidgetDesignHandler getWidgetDesignHandler() {
+        return widgetDesignHandler;
+    }
+
+    public void setWidgetDesignHandler(Level level, PluginSimplify simplify) throws Exception {
+        widgetDesignHandler = (WidgetDesignHandler) level;
+    }
 
     public TableDataPaneProcessor getTableDataPaneProcessor() {
         return tableDataPaneProcessor;
@@ -911,6 +921,8 @@ public class ExtraDesignClassManager extends XMLFileManager implements ExtraDesi
                 addSupportDesignApps(impl, simplify);
             } else if (tagName.equals(DesignerEnvProcessor.XML_TAG)) {
                 setEnvProcessor(impl, simplify);
+            } else if (tagName.equals(WidgetDesignHandler.XML_TAG)) {
+                setWidgetDesignHandler(impl, simplify);
             } else if (tagName.equals(TableDataPaneProcessor.XML_TAG)) {
                 setTableDataPaneProcessor(impl, simplify);
             } else if (tagName.equals(ElementUIProvider.MARK_STRING)) {

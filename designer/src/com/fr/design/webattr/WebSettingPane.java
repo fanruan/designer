@@ -4,6 +4,7 @@ import com.fr.base.ConfigManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -81,9 +82,9 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 		}
 
         this.setLayout(new BorderLayout());
-        JPanel allPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        allPanel.add(panel,BorderLayout.CENTER);
-        this.add(allPanel,BorderLayout.CENTER);
+
+		UIScrollPane scrollPane = new UIScrollPane(panel);
+        this.add(scrollPane, BorderLayout.CENTER);
 	}
 
 	ItemListener itemListener = new ItemListener() {
