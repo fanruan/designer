@@ -17,6 +17,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -28,7 +29,7 @@ public class TutorialAction extends UpdateAction {
         this.setMenuKeySet(HELP_TUTORIAL);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_help/help.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/help.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
@@ -60,10 +61,10 @@ public class TutorialAction extends UpdateAction {
     public void actionPerformed(ActionEvent evt) {
         Locale locale = FRContext.getLocale();
         if (ComparatorUtils.equals(locale, Locale.CHINA) || ComparatorUtils.equals(locale, Locale.TAIWAN)){
-            HttpClient client = new HttpClient(ProductConstants.HELP_URL);
+            HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("help"));
             if(client.getResponseCode() != -1) {
                 try {
-                    Desktop.getDesktop().browse(new URI(ProductConstants.HELP_URL));
+                	 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("help")));
                     return;
                 } catch (Exception e) {
                     //出了异常的话, 依然打开本地教程
@@ -86,7 +87,7 @@ public class TutorialAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Help-Tutorial");
+            return Inter.getLocText("FR-Designer_COMMUNITY_HELP");
         }
 
         @Override

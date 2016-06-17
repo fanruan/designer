@@ -175,6 +175,10 @@ public class UIResizableContainer extends JPanel {
 
         @Override
         public void layoutContainer(Container parent) {
+            if (verticalToolPane == null || downPane == null) {
+                return;
+            }
+
             if (direction == Constants.RIGHT) {
                 if(isDownPaneVisible){
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, toolPaneY);

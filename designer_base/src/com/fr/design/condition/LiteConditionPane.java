@@ -517,6 +517,8 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         // formulaPane
         JPanel formulaPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        // 95106 公式区域限定宽高, 显示两行即可, 在新窗口编辑.
+        formulaPane.setPreferredSize(new Dimension(450, 40));
         formulaConditionPane.add(formulaPane, BorderLayout.CENTER);
         formulaPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
         formulaPane.add(GUICoreUtils.createBorderPane(new UILabel(Inter.getLocText("FR-Designer_LiteCondition_Formula") + "="), BorderLayout.NORTH), BorderLayout.WEST);

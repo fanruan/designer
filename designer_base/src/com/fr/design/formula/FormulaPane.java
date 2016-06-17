@@ -166,6 +166,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
         checkValidButton.addActionListener(checkValidActionListener);
 
         JPanel checkBoxPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        checkBoxPane.setPreferredSize(new Dimension(450, 30));
         checkBoxandbuttonPane.add(checkBoxPane, BorderLayout.WEST);
         checkBoxandbuttonPane.add(checkValidButton, BorderLayout.EAST);
 

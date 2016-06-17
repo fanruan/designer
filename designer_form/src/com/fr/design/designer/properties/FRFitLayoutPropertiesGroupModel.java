@@ -5,19 +5,15 @@ package com.fr.design.designer.properties;
 
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.FitLayoutDirectionEditor;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
 
 /**
  * 自适应布局自身的属性表
@@ -32,8 +28,6 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	private DefaultTableCellRenderer renderer;
 	private FitLayoutDirectionEditor stateEditor;
 	private FitStateRenderer stateRenderer;
-	private PropertyCellEditor reLayoutEditor;
-	private CheckBoxCellRenderer reLayoutrenderer;
 	private WFitLayout layout;
 	private XWFitLayout xfl;
 	
@@ -44,8 +38,6 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		editor = new PropertyCellEditor(new IntegerPropertyEditor());
 	    stateEditor = new FitLayoutDirectionEditor();
 	    stateRenderer = new FitStateRenderer();
-		reLayoutrenderer = new CheckBoxCellRenderer();
-		reLayoutEditor = new PropertyCellEditor(new BooleanEditor());
 	}
 
 	/** 
@@ -58,7 +50,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 
 	@Override
 	public int getRowCount() {
-		return 3;
+		return 2;
 	}
 
 	@Override
@@ -66,11 +58,8 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		switch (row) {
 	        case 0:
 	            return renderer;
-	        case 1:
-	            return stateRenderer;
 			default:
-				return reLayoutrenderer;
-
+	            return stateRenderer;
 		}
 	}
 
@@ -79,10 +68,8 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		switch (row) {
 	        case 0:
 	            return editor;
-	        case 1:
-	            return stateEditor;
 			default:
-				return reLayoutEditor;
+	            return stateEditor;
 		}
 	}
 
@@ -92,19 +79,15 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
             switch (row) {
                 case 0:
                     return Inter.getLocText("FR-Designer_Component_Interval");
-                case 1 :
-                    return Inter.getLocText("FR-Designer_Component_Scale");
 				default:
-					return Inter.getLocText("FR-Designer-App_ReLayout");
+                    return Inter.getLocText("FR-Designer_Component_Scale");
             }
         } else {
             switch (row) {
                 case 0:
                     return layout.getCompInterval();
-                case 1 :
-                	return layout.getCompState();
 				default:
-					return layout.getAppRelayout();
+                	return layout.getCompState();
             }
         }
 	}
@@ -112,11 +95,8 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	@Override
 	public boolean setValue(Object value, int row, int column) {
 		int state = 0;
-		boolean appRelayoutState = true;
 		if(value instanceof Integer) {
 			state = (Integer)value;
-		} else if (value instanceof Boolean) {
-			appRelayoutState = (boolean) value;
 		}
 		if (column == 0 || state < 0) {
 			return false;
@@ -128,10 +108,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 			}else if (row == 1) {
 				layout.setCompState(state);
 				return true;
-			} else if (row == 2) {
-				layout.setAppRelayout(appRelayoutState);
-				return true;
-			} 
+			}
 			return false;
 		}
 	}
@@ -155,33 +132,4 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	public boolean isEditable(int row) {
 		return true;
 	}
-
-
-	private class CheckBoxCellRenderer extends UICheckBox implements TableCellRenderer {
-
-
-		public CheckBoxCellRenderer() {
-			super();
-			setOpaque(true);
-
-		}
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (value instanceof Boolean) {
-				setSelected(((Boolean) value).booleanValue());
-				setEnabled(table.isCellEditable(row, column));
-				if (isSelected) {
-					setBackground(table.getSelectionBackground());
-					setForeground(table.getSelectionForeground());
-				} else {
-					setForeground(table.getForeground());
-					setBackground(table.getBackground());
-				}
-			} else {
-				return null;
-			}
-			return this;
-		}
-	}
-
 }
