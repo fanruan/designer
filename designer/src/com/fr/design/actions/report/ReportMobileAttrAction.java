@@ -45,7 +45,7 @@ public class ReportMobileAttrAction extends JWorkBookAction{
 
         final ReportMobileAttrPane mobileAttrPane = new ReportMobileAttrPane();
         mobileAttrPane.populateBean(mobileAttr);
-        BasicDialog dialog = mobileAttrPane.showMediumWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+        BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
                 wbTpl.setReportMobileAttr(mobileAttrPane.updateBean());

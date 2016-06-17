@@ -28,6 +28,8 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginLicense;
+import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
@@ -2044,25 +2046,25 @@ public class RemoteEnv implements Env {
 
     }
 
-    public InputStream readPluginConfig() throws Exception {
+    public void readPluginLicenses() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
-        para.put("cmd", "design_get_plugin_info");
+        para.put("cmd", "design_plugin_licenses");
 
-        return postBytes2ServerB(out.toByteArray(), para);
+        InputStream inputStream = postBytes2ServerB(out.toByteArray(), para);
+        String pluginsLicensesStr = IOUtils.inputStream2String(inputStream, EncodeConstants.ENCODING_UTF_8);
+        if (StringUtils.isNotBlank(pluginsLicensesStr) && pluginsLicensesStr.startsWith("[")) {
+            JSONArray jsonArray = new JSONArray(pluginsLicensesStr);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                PluginLicense pluginLicense = new PluginLicense();
+                pluginLicense.parseJSON(jsonArray.getJSONObject(i));
+                PluginLicenseManager.getInstance().addRemotePluginLicense(pluginLicense);
+            }
+        }
     }
 
-    /**
-     * 远程设计先不需要检测MD5
-     *
-     * @return 是否正确
-     * @throws Exception MD5算法异常
-     */
     @Override
-    public boolean isTruePluginMD5(Plugin plugin, File file) throws Exception {
-        return true;
+    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
     }
-
-
 }
