@@ -37,8 +37,8 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
         BasicDialog parameterArrayDialog = parameterArrayPane.showWindow(SwingUtilities.getWindowAncestor(jwb));
         parameterArrayDialog.setModal(true);
 
-        final Parameter[] copyTemplateParameterAttr = (Parameter[]) wbTpl.getTemplateParameters();
-        parameterArrayPane.populate(copyTemplateParameterAttr);
+        final Parameter[] copyTemplateParameters = (Parameter[]) wbTpl.getTemplateParameters();
+        parameterArrayPane.populate(copyTemplateParameters);
         parameterArrayDialog.addDialogActionListener(new DialogActionAdapter() {
 
             @Override
