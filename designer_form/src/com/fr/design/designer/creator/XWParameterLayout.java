@@ -56,9 +56,6 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
                         .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),        
-                new CRPropertyDescriptor("display", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(Inter.getLocText("ParameterD-Show_Parameter_Window"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
                         .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
