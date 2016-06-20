@@ -49,6 +49,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
                     wbTpl.addParameter(parameters[i]);
                 }
                 jwb.fireTargetModified();
+                jwb.test(parameters);
             }
         });
         parameterArrayDialog.setVisible(true);
