@@ -11,7 +11,6 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
-import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 
@@ -61,7 +60,7 @@ public class ReportParameterAction extends JWorkBookAction {
                 }
                 jwb.fireTargetModified();
                 jwb.updateReportParameterAttr();
-                ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
+                jwb.populateReportParameterAttr();
             }
         });
         parameterArrayDialog.setVisible(true);
