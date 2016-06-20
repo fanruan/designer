@@ -50,6 +50,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
                     wbTpl.addParameter(parameters[i]);
                 }
                 jwb.fireTargetModified();
+                jwb.getFormDesign().setParameterArray(parameters);
                 ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
             }
         });
