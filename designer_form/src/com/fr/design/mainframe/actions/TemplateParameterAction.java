@@ -38,7 +38,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
         BasicDialog parameterArrayDialog = parameterArrayPane.showWindow(SwingUtilities.getWindowAncestor(jwb));
         parameterArrayDialog.setModal(true);
 
-        final Parameter[] copyTemplateParameters = (Parameter[]) wbTpl.getTemplateParameters();
+        final Parameter[] copyTemplateParameters = wbTpl.getTemplateParameters();
         parameterArrayPane.populate(copyTemplateParameters);
         parameterArrayDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -50,6 +50,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
                     wbTpl.addParameter(parameters[i]);
                 }
                 jwb.fireTargetModified();
+                jwb.getFormDesign().setParameterArray(parameters);
                 ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
             }
         });
