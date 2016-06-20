@@ -8,6 +8,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
+import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.form.main.Form;
 
 import javax.swing.*;
@@ -49,6 +50,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
                     wbTpl.addParameter(parameters[i]);
                 }
                 jwb.fireTargetModified();
+                ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
             }
         });
         parameterArrayDialog.setVisible(true);
