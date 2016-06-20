@@ -3,20 +3,20 @@
  */
 package com.fr.design.actions.report;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.SwingUtilities;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Report Parameter
@@ -61,7 +61,7 @@ public class ReportParameterAction extends JWorkBookAction {
                 }
                 jwb.fireTargetModified();
                 jwb.updateReportParameterAttr();
-                jwb.populateReportParameterAttr();
+                ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
             }
         });
         parameterArrayDialog.setVisible(true);
