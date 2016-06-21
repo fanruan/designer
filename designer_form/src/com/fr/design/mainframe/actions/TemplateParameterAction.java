@@ -8,6 +8,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
+import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.form.main.Form;
 
 import javax.swing.*;
@@ -37,7 +38,7 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
         BasicDialog parameterArrayDialog = parameterArrayPane.showWindow(SwingUtilities.getWindowAncestor(jwb));
         parameterArrayDialog.setModal(true);
 
-        final Parameter[] copyTemplateParameters = (Parameter[]) wbTpl.getTemplateParameters();
+        final Parameter[] copyTemplateParameters = wbTpl.getTemplateParameters();
         parameterArrayPane.populate(copyTemplateParameters);
         parameterArrayDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -49,6 +50,8 @@ public class TemplateParameterAction extends JTemplateAction<JForm> {
                     wbTpl.addParameter(parameters[i]);
                 }
                 jwb.fireTargetModified();
+                jwb.getFormDesign().setParameterArray(parameters);
+                ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(parameters);
             }
         });
         parameterArrayDialog.setVisible(true);
