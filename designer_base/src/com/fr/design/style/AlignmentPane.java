@@ -17,6 +17,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
+import com.fr.report.fun.VerticalTextProcessor;
 import com.fr.stable.CoreConstants;
 
 import javax.swing.*;
@@ -125,7 +126,7 @@ public class AlignmentPane extends BasicPane {
         directionBG.add(rightToLeftRB);
         rightToLeftRB.setSelected(true);
 
-        if (ExtraClassManager.getInstance().getVerticalTextProcessor() == null){
+        if (ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG) == null){
             return;
         }
         isVerticalTextPanel.add(isVerticalTextCheckBox);
@@ -301,7 +302,7 @@ public class AlignmentPane extends BasicPane {
     }
 
     private void populateVertical(Style style){
-        if (ExtraClassManager.getInstance().getVerticalTextProcessor() == null){
+        if (ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG) == null){
             return;
         }
         this.isVerticalTextCheckBox.setSelected(true);

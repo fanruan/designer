@@ -54,7 +54,9 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.fun.LogProvider;
 import com.fr.stable.module.Module;
+import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
@@ -94,7 +96,7 @@ public class DesignerModule extends DesignModule {
         InformationCollector.getInstance().collectStartTime();
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
-        ExtraClassManager.getInstance().addLogProvider(DesignerLogImpl.getInstance());
+        ExtraClassManager.getInstance().addMutable(LogProvider.MARK_STRING, DesignerLogImpl.getInstance(), PluginSimplify.NULL);
     }
 
     private void registerOtherPane() {
