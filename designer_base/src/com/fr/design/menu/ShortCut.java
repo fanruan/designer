@@ -1,16 +1,20 @@
 package com.fr.design.menu;
 
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
+import com.fr.stable.fun.mark.Mutable;
 
-import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
+import javax.swing.*;
 
 /**
  * 用来往MenuDef或是ToolBarDef里面加东西时用的接口
  * august:ShortCut没有必要序列化和XMLabled
  * 原来那么多Menudef都提供持久化操作，太浪费资源
  */
-public abstract class ShortCut implements Level{
+@API(level = ShortCut.CURRENT_LEVEL)
+public abstract class ShortCut extends AbstractProvider implements Mutable {
+
+    public static final String TEMPLATE_TREE = "TemplateTreeShortCut";
 
     public static final int CURRENT_LEVEL = 1;
 
@@ -18,6 +22,10 @@ public abstract class ShortCut implements Level{
         return CURRENT_LEVEL;
     }
 
+    @Override
+    public String mark4Provider() {
+        return getClass().getName();
+    }
 
     private MenuKeySet menuKeySet = null;
 

@@ -25,7 +25,7 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
     @Override
     protected void extendCheckBoxPane(JPanel checkBoxPane) {
         // peter:添加公式是否兼容Excel的属性
-        reserveCheckBox4Result = new UICheckBox(Inter.getLocText("FormulaD-Reserve_when_export-edit_result"));
+        reserveCheckBox4Result = new UICheckBox(Inter.getLocText("FR-Designer_Export-Save-Formula"));
         reserveCheckBox4Result.setSelected(false);
         reserveCheckBox4Result.addChangeListener(new ChangeListener() {
 
@@ -38,7 +38,7 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
                 }
             }
         });
-        reserveCheckBox4Write = new UICheckBox(Inter.getLocText("FormulaD-Reserve_when_bs-write_or_analy"));
+        reserveCheckBox4Write = new UICheckBox(Inter.getLocText("FR-Designer_Write-Save-Formula"));
         reserveCheckBox4Write.setSelected(false);
 
         checkBoxPane.add(reserveCheckBox4Result, BorderLayout.CENTER);

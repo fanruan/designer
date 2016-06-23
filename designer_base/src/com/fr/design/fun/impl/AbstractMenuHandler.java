@@ -4,12 +4,14 @@ import com.fr.design.fun.MenuHandler;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.ShortCut;
 import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
 
 /**
  * @author richie
  * @date 2015-05-13
  * @since 8.0
  */
+@API(level = MenuHandler.CURRENT_LEVEL)
 public abstract class AbstractMenuHandler extends AbstractProvider implements MenuHandler {
 
     public int currentAPILevel() {

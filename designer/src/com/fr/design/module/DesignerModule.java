@@ -54,7 +54,9 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.fun.LogProvider;
 import com.fr.stable.module.Module;
+import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
@@ -69,6 +71,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 public class DesignerModule extends DesignModule {
 
@@ -94,7 +97,7 @@ public class DesignerModule extends DesignModule {
         InformationCollector.getInstance().collectStartTime();
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
-        ExtraClassManager.getInstance().addLogProvider(DesignerLogImpl.getInstance());
+        ExtraClassManager.getInstance().addMutable(LogProvider.MARK_STRING, DesignerLogImpl.getInstance(), PluginSimplify.NULL);
     }
 
     private void registerOtherPane() {
@@ -118,7 +121,7 @@ public class DesignerModule extends DesignModule {
 
         ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.getInstance());
 
-        ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+        Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor());
         }
@@ -221,6 +224,16 @@ public class DesignerModule extends DesignModule {
         @Override
         public JTemplate<WorkBook, ?> openTemplate(FILE tplFile) {
             return new JWorkBook(asIOFile(tplFile), tplFile);
+        }
+
+        @Override
+        public String mark4Provider() {
+            return getClass().getName();
+        }
+
+        @Override
+        public void process() {
+
         }
     }
 

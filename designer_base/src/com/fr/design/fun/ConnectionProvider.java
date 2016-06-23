@@ -2,13 +2,13 @@ package com.fr.design.fun;
 
 import com.fr.data.impl.Connection;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * @author : richie
  * @since : 8.0
  */
-public interface ConnectionProvider extends Level {
+public interface ConnectionProvider extends Mutable {
 
     public static final String XML_TAG = "ConnectionProvider";
 

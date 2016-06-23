@@ -81,7 +81,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 				BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png")};
 		Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
 		hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
-		hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Left"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("StyleAlignment-Tooltips_Right"),
+		hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Left"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Right"),
 		Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Distributed"),Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_DEFAULT")});
 		hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		vPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -95,7 +95,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		initOtherComponent();
 		initAllNames();
 
-		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getIndentationUnitEditor();
+		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
 		if (null == indentationUnitProcessor){
 			indentationUnitProcessor = new DefaultIndentationUnitProcessor();
 		}
@@ -134,7 +134,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private void initTextRotationCombox(){
         ArrayList<String> selectOption = new ArrayList<String>();
         selectOption.add(Inter.getLocText("FR-Designer_Custom-Angle"));
-        VerticalTextProcessor processor = ExtraClassManager.getInstance().getVerticalTextProcessor();
+        VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG);
         if (processor != null){
             selectOption.addAll(Arrays.asList(processor.getComboxOption()));
         }
@@ -241,7 +241,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		} else {
 			this.textComboBox.setSelectedIndex(0);
 		}
-		if (style.getVerticalText() == Style.VERTICALTEXT && ExtraClassManager.getInstance().getVerticalTextProcessor() != null) {
+		if (style.getVerticalText() == Style.VERTICALTEXT && ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG) != null) {
 			textRotationComboBox.setSelectedIndex(style.getTextDirection() == Style.LEFT_TO_RIGHT ? 1 : 2);
 		} else {
 			textRotationComboBox.setSelectedIndex(0);

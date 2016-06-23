@@ -11,6 +11,7 @@ import com.fr.io.attr.ReportExportAttr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class ReportExportAttrPane extends BasicPane {
@@ -29,8 +30,8 @@ public class ReportExportAttrPane extends BasicPane {
         uiTabbedPane.addTab("PDF", pdfExportPane);
         wordExportPane = new WordExportPane();
         uiTabbedPane.addTab("Word", wordExportPane);
-        ExportAttrTabProvider[] providers = ExtraDesignClassManager.getInstance().getExportAttrTabProviders();
-        paneList = new ArrayList<AbstractExportPane>();
+        Set<ExportAttrTabProvider> providers = ExtraDesignClassManager.getInstance().getArray(ExportAttrTabProvider.XML_TAG);
+        paneList = new ArrayList<>();
         for (ExportAttrTabProvider provider : providers) {
             uiTabbedPane.addTab(provider.title(), provider.toSwingComponent());
             paneList.add(provider.toExportPane());

@@ -180,7 +180,7 @@ public class CellElementEditPane extends BasicPane {
         paneList.add(new CellPresentPane());
         paneList.add(new CellOtherSetPane());
 
-        cellAttributeProvider = ExtraDesignClassManager.getInstance().getCelllAttributeProvider();
+        cellAttributeProvider = ExtraDesignClassManager.getInstance().getSingle(CellAttributeProvider.MARK_STRING);
         if (cellAttributeProvider != null){
             paneList.add((AbstractCellAttrPane) cellAttributeProvider.createCellAttributePane());
         }

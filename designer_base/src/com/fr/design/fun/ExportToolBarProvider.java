@@ -1,13 +1,13 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 import javax.swing.*;
 
 /**
  * 导出菜单设计器端拓展，用于控制该菜单是否在web端显示
  */
-public interface ExportToolBarProvider extends Level{
+public interface ExportToolBarProvider extends Mutable{
 	
 	String XML_TAG = "ExportToolBarProvider";
 

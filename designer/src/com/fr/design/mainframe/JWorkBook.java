@@ -69,6 +69,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -660,9 +661,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      *
      */
     public PreviewProvider[] supportPreview() {
-        return (PreviewProvider[])ArrayUtils.addAll(new PreviewProvider[]{
+        Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
+        return ArrayUtils.addAll(new PreviewProvider[]{
                 new PagePreview(), new WritePreview(), new ViewPreview()
-        }, ExtraDesignClassManager.getInstance().getPreviewProviders());
+        }, set.toArray(new PreviewProvider[set.size()]));
     }
 
     /**

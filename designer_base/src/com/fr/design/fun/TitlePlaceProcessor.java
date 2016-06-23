@@ -1,10 +1,10 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Immutable;
 
 import java.awt.*;
 
-public interface TitlePlaceProcessor extends Level{
+public interface TitlePlaceProcessor extends Immutable {
 
     String MARK_STRING = "TitlePlaceProcessor";
 

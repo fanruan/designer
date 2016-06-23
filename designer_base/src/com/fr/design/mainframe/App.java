@@ -2,12 +2,13 @@ package com.fr.design.mainframe;
 
 import com.fr.base.io.IOFile;
 import com.fr.file.FILE;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
+import com.fr.stable.fun.mark.Aftermath;
 
 /**
  * Created by Administrator on 2016/3/17/0017.
  */
-public interface App<T extends IOFile> extends Level{
+public interface App<T extends IOFile> extends Mutable, Aftermath {
 
     String MARK_STRING = "DesignerApp";
 

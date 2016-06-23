@@ -2,14 +2,14 @@ package com.fr.design.fun;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.selection.QuickEditor;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 
 /**
  * Created by richie on 16/4/25.
  * 单元格元素和悬浮元素扩展,通过实现这个接口,可以在单元格中添加更多类型的元素.
  */
-public interface ElementUIProvider extends Level {
+public interface ElementUIProvider extends Mutable {
 
     String MARK_STRING = "ElementUIProvider";
 

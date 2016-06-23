@@ -324,7 +324,7 @@ public class DesignUtils {
 
     private static String getWebBrowserPath() {
         String urlPath = FRContext.getCurrentEnv().getPath();
-        DesignerEnvProcessor processor = ExtraDesignClassManager.getInstance().getEnvProcessor();
+        DesignerEnvProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (processor != null) {
             //cas访问的时候, url要处理下.
             urlPath = processor.getWebBrowserURL(urlPath);

@@ -3,8 +3,11 @@ package com.fr.design.extra.exe;
 import com.fr.design.extra.PluginsReaderFromStore;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
+
 import com.fr.plugin.Plugin;
 import com.fr.stable.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by vito on 16/4/19.
@@ -31,15 +34,13 @@ public class ReadUpdateOnlineExecutor implements Executor {
                     public void run(Process<String> process) {
                         try {
                             plugins = PluginsReaderFromStore.readPluginsForUpdate();
-                            StringBuilder sb = new StringBuilder();
-                            if (plugins != null) {
-                                sb.append("[");
-                                for (Plugin plugin : plugins) {
-                                    sb.append("{pluginid:'").append(plugin.getId()).append("'}");
-                                }
-                                sb.append("]");
+                            JSONArray jsonArray = new JSONArray();
+                            for (Plugin plugin : plugins) {
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("pluginid", plugin.getId());
+                                jsonArray.put(jsonObject);
                             }
-                            result = sb.toString();
+                            result = jsonArray.toString();
                         } catch (Exception e) {
                             FRLogger.getLogger().error(e.getMessage());
                         }

@@ -1,8 +1,8 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.StringUtils;
 
@@ -34,7 +34,7 @@ public class SearchOnlineExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         try {
-                            HttpClient httpClient = new HttpClient(PluginWebBridge.PLUGIN_SHOP + "&keyword=" + keyword);
+                            HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
                             result = httpClient.getResponseText();
 
                         } catch (Exception e) {
