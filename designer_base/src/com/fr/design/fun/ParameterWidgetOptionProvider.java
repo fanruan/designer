@@ -1,14 +1,14 @@
 package com.fr.design.fun;
 
 import com.fr.form.ui.Widget;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * @author : richie
  * @since : 8.0
  * 自定义参数界面控件
  */
-public interface ParameterWidgetOptionProvider extends Level{
+public interface ParameterWidgetOptionProvider extends Mutable {
 
     String XML_TAG = "ParameterWidgetOptionProvider";
 

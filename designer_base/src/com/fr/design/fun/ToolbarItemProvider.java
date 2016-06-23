@@ -1,14 +1,14 @@
 package com.fr.design.fun;
 
 import com.fr.form.ui.Widget;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * @author : focus
  * @since : 8.0
  * 自定义web工具栏菜单
  */
-public interface ToolbarItemProvider extends Level{
+public interface ToolbarItemProvider extends Mutable {
 
     String XML_TAG = "ToolbarItemProvider";
 

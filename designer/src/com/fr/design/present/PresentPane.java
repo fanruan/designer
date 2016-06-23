@@ -16,6 +16,7 @@ import com.fr.report.cell.cellattr.CurrencyLinePresent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zhou
@@ -86,7 +87,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 		keys.add(CurrencyLinePresent.class.getName());
 		displays.add(currency.title4PopupWindow());
 
-		PresentKindProvider[] providers = ExtraDesignClassManager.getInstance().getPresentKindProviders();
+		Set<PresentKindProvider> providers = ExtraDesignClassManager.getInstance().getArray(PresentKindProvider.MARK_STRING);
 		for (PresentKindProvider provider : providers) {
 			FurtherBasicBeanPane<? extends Present> extra = provider.appearanceForPresent();
 			paneList.add(extra);

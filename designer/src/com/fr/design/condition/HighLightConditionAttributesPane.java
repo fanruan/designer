@@ -9,6 +9,7 @@ import com.fr.report.cell.cellattr.highlight.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
+import java.util.Set;
 
 public class HighLightConditionAttributesPane extends ConditionAttributesPane<DefaultHighlight> {
 
@@ -48,7 +49,7 @@ public class HighLightConditionAttributesPane extends ConditionAttributesPane<De
         classPaneMap.put(BorderHighlightAction.class, new BorderHighlightPane(this));
         classPaneMap.put(WidgetHighlightAction.class, new WidgetHighlightPane(this));
         classPaneMap.put(ValueHighlightAction.class, new NewRealValuePane(this));
-        HighlightProvider[] providers = ExtraDesignClassManager.getInstance().getHighlightProviders();
+        Set<HighlightProvider> providers = ExtraDesignClassManager.getInstance().getArray(HighlightProvider.MARK_STRING);
         for (HighlightProvider provider : providers) {
             classPaneMap.put(provider.classForHighlightAction(), provider.appearanceForCondition(this));
         }

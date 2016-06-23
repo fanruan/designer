@@ -18,6 +18,7 @@ import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 超级链接 界面.
@@ -43,13 +44,13 @@ public class HyperlinkGroupPane extends JListControlPane {
         for (int i = 0; i < templateArrayLisy.size(); i++) {
             pluginCreators[i] = ((HyperlinkPluginAction) templateArrayLisy.get(i)).getHyperlinkCreator();
         }
-        HyperlinkProvider[] providers = ExtraDesignClassManager.getInstance().getHyperlinkProvider();
+        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         List<NameableCreator> creatorList = new ArrayList<NameableCreator>();
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
             creatorList.add(nc);
         }
-        return (NameableCreator[]) ArrayUtils.addAll(creatorList.toArray(new NameableCreator[creatorList.size()]), ArrayUtils.addAll(creators, pluginCreators));
+        return ArrayUtils.addAll(creatorList.toArray(new NameableCreator[creatorList.size()]), ArrayUtils.addAll(creators, pluginCreators));
     }
 
     /**

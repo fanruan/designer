@@ -95,7 +95,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		initOtherComponent();
 		initAllNames();
 
-		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getIndentationUnitEditor();
+		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
 		if (null == indentationUnitProcessor){
 			indentationUnitProcessor = new DefaultIndentationUnitProcessor();
 		}

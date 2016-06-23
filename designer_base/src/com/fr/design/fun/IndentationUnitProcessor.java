@@ -1,11 +1,11 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Immutable;
 
 /**
  * Created by zhouping on 2015/9/20.
  */
-public interface IndentationUnitProcessor extends Level{
+public interface IndentationUnitProcessor extends Immutable {
     String MARK_STRING = "IndentationProcessor";
 
     int CURRENT_LEVEL = 1;

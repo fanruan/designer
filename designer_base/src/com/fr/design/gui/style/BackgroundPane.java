@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * @author zhou
@@ -68,7 +69,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         kinds.add(new PatternBackgroundQuickPane());
         kinds.add(new ImageBackgroundQuickPane());
         kinds.add(new GradientBackgroundQuickPane());
-        BackgroundQuickUIProvider[] providers = ExtraDesignClassManager.getInstance().getBackgroundQuickUIProviders();
+        Set<BackgroundQuickUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(BackgroundQuickUIProvider.MARK_STRING);
         for (BackgroundQuickUIProvider provider : providers) {
             kinds.add(provider.appearanceForBackground());
 

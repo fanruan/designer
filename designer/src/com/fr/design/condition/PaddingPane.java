@@ -46,7 +46,7 @@ public class PaddingPane extends ConditionAttrSingleConditionPane<HighlightActio
         this.paddingLeftSpinner.setValue(new Integer(0));
         this.paddingRightSpinner.setValue(new Integer(0));
 
-        this.indentationUnitProcessor = ExtraDesignClassManager.getInstance().getIndentationUnitEditor();
+        this.indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
         if (null == this.indentationUnitProcessor) {
             this.indentationUnitProcessor = new DefaultIndentationUnitProcessor();
         }

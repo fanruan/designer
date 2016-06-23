@@ -34,6 +34,7 @@ import com.fr.report.cell.cellattr.BarcodePresent;
 import com.fr.report.cell.cellattr.CurrencyLinePresent;
 
 import javax.swing.*;
+import java.util.Set;
 
 /**
  * peter: 这个方法只是临时放在这边的, 等插件系统全部完善后,立刻删除.
@@ -131,7 +132,7 @@ public class DeprecatedActionManager {
         presentMenu.addShortCut(barcodeAction);
         presentMenu.addShortCut(currencyLineAction);
 
-        PresentKindProvider[] providers = ExtraDesignClassManager.getInstance().getPresentKindProviders();
+        Set<PresentKindProvider> providers = ExtraDesignClassManager.getInstance().getArray(PresentKindProvider.MARK_STRING);
         for (PresentKindProvider provider : providers) {
             NewPresentAction action = new NewPresentAction(ePane, provider.title(), provider.kindOfPresent().getName());
             action.setMnemonic(provider.mnemonic());

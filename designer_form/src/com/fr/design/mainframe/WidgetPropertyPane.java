@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 控件属性表Docking
@@ -120,8 +121,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         if (selection != null && selection.getSelectedCreator() != null) {
             embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
         }
-        WidgetPropertyUIProvider[] widgetAttrProviders = ExtraDesignClassManager.getInstance().getWidgetAttrProviders();
-        widgetAttrProviders = (WidgetPropertyUIProvider[]) ArrayUtils.addAll(embeddedPropertyUIProviders, widgetAttrProviders);
+        Set<WidgetPropertyUIProvider> set = ExtraDesignClassManager.getInstance().getArray(WidgetPropertyUIProvider.XML_TAG);
+        WidgetPropertyUIProvider[] widgetAttrProviders = ArrayUtils.addAll(embeddedPropertyUIProviders, set.toArray(new WidgetPropertyUIProvider[set.size()]));
         return widgetAttrProviders;
     }
 

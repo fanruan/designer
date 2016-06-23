@@ -1,12 +1,12 @@
 package com.fr.design.fun;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * 自定义提交接口
  */
-public interface SubmitProvider extends Level{
+public interface SubmitProvider extends Mutable{
 
     String MARK_STRING = "SubmitProvider";
 

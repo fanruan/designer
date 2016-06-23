@@ -263,7 +263,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
             public void success() {
-                TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getTitlePlaceProcessor();
+                TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
                 if (processor == null) {
                     processor = new DefaultTitlePlace();
                 }
