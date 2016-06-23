@@ -1,5 +1,6 @@
 package com.fr.design;
 
+import com.fr.base.Utils;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
@@ -29,15 +30,14 @@ import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
+
+    private static final String OLD_CHART_PREFIX = "FineReport";
 
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
@@ -133,14 +133,32 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
-
+        //先构建新旧图表数组
+        List<IndependentChartUIProvider> newChartList = new ArrayList<IndependentChartUIProvider>();
+        List<IndependentChartUIProvider> oldChartList = new ArrayList<IndependentChartUIProvider>();
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
-            IndependentChartUIProvider creator = (IndependentChartUIProvider) entry.getValue();
-            paneList.add(creator.getPlotTypePane());
+            if (isNewChart(entry.getKey())){
+                newChartList.add((IndependentChartUIProvider) entry.getValue());
+            }else {
+                oldChartList.add((IndependentChartUIProvider) entry.getValue());
+            }
+        }
+        //新图表
+        for (int i = 0; i < newChartList.size(); i++) {
+            paneList.add(newChartList.get(i).getPlotTypePane());
+        }
+        //老图表
+        for (int i = 0; i < oldChartList.size(); i++) {
+            paneList.add(oldChartList.get(i).getPlotTypePane());
         }
 
+
+    }
+
+    private boolean isNewChart(Object key) {
+        return !Utils.objectToString(key).startsWith(OLD_CHART_PREFIX);
     }
 
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
