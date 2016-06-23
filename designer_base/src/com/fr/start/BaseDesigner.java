@@ -39,6 +39,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * The main class of Report Designer.
@@ -113,11 +114,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void bindGlobalListener() {
-        GlobalListenerProvider[] providers = ExtraDesignClassManager.getInstance().getGlobalListenerProvider();
-        if (ArrayUtils.isNotEmpty(providers)) {
-            for (GlobalListenerProvider provider : providers) {
-                Toolkit.getDefaultToolkit().addAWTEventListener(provider.listener(), AWTEvent.KEY_EVENT_MASK);
-            }
+        Set<GlobalListenerProvider> providers = ExtraDesignClassManager.getInstance().getArray(GlobalListenerProvider.XML_TAG);
+        for (GlobalListenerProvider provider : providers) {
+            Toolkit.getDefaultToolkit().addAWTEventListener(provider.listener(), AWTEvent.KEY_EVENT_MASK);
         }
     }
 

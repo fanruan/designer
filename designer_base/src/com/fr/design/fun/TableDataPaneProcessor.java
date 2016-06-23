@@ -4,7 +4,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.datapane.TableDataPaneController;
 import com.fr.design.menu.ShortCut;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Immutable;
 
 /**
  * 自定义的模板（服务器）数据集的树样式接口  el:分组样式
@@ -12,7 +12,7 @@ import com.fr.stable.fun.Level;
  * Date: 2016/4/18
  * Time: 9:04
  */
-public interface TableDataPaneProcessor extends Level {
+public interface TableDataPaneProcessor extends Immutable {
     String XML_TAG = "TableDataPaneProcessor";
 
     int CURRENT_LEVEL = 1;

@@ -20,7 +20,7 @@ public class FormulaFactory {
     }
 
     private static UIFormulaProcessor get() {
-        UIFormulaProcessor processor = ExtraDesignClassManager.getInstance().getUIFormulaProcessor();
+        UIFormulaProcessor processor = ExtraDesignClassManager.getInstance().getSingle(UIFormulaProcessor.MARK_STRING);
         if (processor == null) {
             processor = new DefaultUIFormulaProcessor();
         }

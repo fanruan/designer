@@ -55,9 +55,7 @@ import com.fr.stable.ProductConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @author richer
@@ -299,7 +297,7 @@ public abstract class ToolBarMenuDock {
     }
 
     private ShortCut createGlobalTDAction() {
-        TableDataPaneProcessor processor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+        TableDataPaneProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TableDataPaneProcessor.XML_TAG);
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
@@ -528,8 +526,15 @@ public abstract class ToolBarMenuDock {
 
     protected void insertMenu(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
         // 下面是插件接口接入点
-        MenuHandler[] menuHandlers = ExtraDesignClassManager.getInstance().getMenuHandlers(anchor);
-        for (MenuHandler handler : menuHandlers) {
+        Set<MenuHandler> set = ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING);
+        java.util.List<MenuHandler> target = new ArrayList<>();
+        for (MenuHandler handler : set) {
+            if (ComparatorUtils.equals(handler.category(), anchor)) {
+                target.add(handler);
+            }
+        }
+
+        for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
             ShortCut shortCut = action.methodAction(handler);
             if (shortCut == null){

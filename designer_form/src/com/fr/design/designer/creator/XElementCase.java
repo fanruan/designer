@@ -86,7 +86,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 		};
 
-		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getPropertyTableEditor();
+		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
 			return propertyTableEditor;
 		}
