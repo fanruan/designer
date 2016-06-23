@@ -59,10 +59,6 @@ public abstract class TableDataFactory {
     }
 
     private static TableDataNameObjectCreator getTableDataNameObjectCreator(TableData tabledata) {
-        TableDataCreatorProvider creatorProvider = ExtraDesignClassManager.getInstance().getTableDataCreatorProvider();
-        if (creatorProvider != null) {
-            map.putAll(creatorProvider.registerMap());
-        }
         TableDataNameObjectCreator tableDataNameObjectCreator = map.get(tabledata.getClass().getName());
         if (tableDataNameObjectCreator == null) {
             tableDataNameObjectCreator = map.get(tabledata.getClass().getSuperclass().getName());

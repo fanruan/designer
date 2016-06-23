@@ -3,6 +3,7 @@ package com.fr.design.style.background;
 
 import com.fr.base.background.*;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.BackgroundQuickUIProvider;
 import com.fr.design.fun.BackgroundUIProvider;
 import com.fr.design.style.background.gradient.GradientBackgroundPane;
 import com.fr.design.style.background.impl.*;
@@ -54,7 +55,8 @@ public class BackgroundFactory {
     }
 
     private static void registerExtra(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
-        for (BackgroundUIProvider provider : ExtraDesignClassManager.getInstance().getBackgroundUIProviders()) {
+        Set<BackgroundUIProvider> set = ExtraDesignClassManager.getInstance().getArray(BackgroundUIProvider.MARK_STRING);
+        for (BackgroundUIProvider provider : set) {
             map.put(provider.targetClass(), BackgroundUIWrapper.create()
                     .setType(provider.targetUIClass()).setTitle(provider.targetTitle()));
         }

@@ -22,6 +22,7 @@ import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -66,7 +67,7 @@ public abstract class DesignModule extends TopModule {
 
 	public Class<?>[] actionsForInsertCellElement() {
 		List<Class<?>> classes = new ArrayList<>();
-		ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+		Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
 		for (ElementUIProvider provider : providers) {
 			classes.add(provider.actionForInsertCellElement());
 		}
@@ -75,7 +76,7 @@ public abstract class DesignModule extends TopModule {
 
 	public Class<?>[] actionsForInsertFloatElement() {
 		List<Class<?>> classes = new ArrayList<>();
-		ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+		Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
 		for (ElementUIProvider provider : providers) {
 			classes.add(provider.actionForInsertFloatElement());
 		}

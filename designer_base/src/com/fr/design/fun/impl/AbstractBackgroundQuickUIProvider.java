@@ -2,10 +2,12 @@ package com.fr.design.fun.impl;
 
 import com.fr.design.fun.BackgroundQuickUIProvider;
 import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
 
 /**
  * Created by richie on 16/5/18.
  */
+@API(level = BackgroundQuickUIProvider.CURRENT_LEVEL)
 public abstract class AbstractBackgroundQuickUIProvider extends AbstractProvider implements BackgroundQuickUIProvider {
 
     @Override

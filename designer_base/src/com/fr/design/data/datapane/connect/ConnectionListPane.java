@@ -4,6 +4,7 @@ import com.fr.data.impl.Connection;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.impl.JNDIDatabaseConnection;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.ConnectionProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -107,9 +108,18 @@ public class ConnectionListPane extends JListControlPane {
                 JNDIDatabaseConnection.class,
                 DatabaseConnectionPane.JNDI.class
         )};
-        NameObjectCreator[] pluginCreators = ExtraDesignClassManager.getInstance().getConnections();
+        Set<ConnectionProvider> pluginCreators = ExtraDesignClassManager.getInstance().getArray(ConnectionProvider.XML_TAG);
+        for (ConnectionProvider provider : pluginCreators) {
+            NameObjectCreator creator = new NameObjectCreator(
+                    provider.nameForConnection(),
+                    provider.iconPathForConnection(),
+                    provider.classForConnection(),
+                    provider.appearanceForConnection()
+            );
+            creators = ArrayUtils.add(creators, creator);
+        }
 
-        return (NameableCreator[]) ArrayUtils.addAll(creators, pluginCreators);
+        return creators;
     }
 
     @Override

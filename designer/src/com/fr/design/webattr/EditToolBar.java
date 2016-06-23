@@ -47,6 +47,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class EditToolBar extends BasicPane {
 
@@ -354,7 +355,8 @@ public class EditToolBar extends BasicPane {
 		 * 初始化元素
 		 */
 		public void initComponents() {
-			exportToolBarProviders = ExtraDesignClassManager.getInstance().getExportToolBarProviders();
+			Set<ExportToolBarProvider> set = ExtraDesignClassManager.getInstance().getArray(ExportToolBarProvider.XML_TAG);
+			exportToolBarProviders = set.toArray(new ExportToolBarProvider[set.size()]);
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
 			icon = new UICheckBox(Inter.getLocText("FR-Designer_Show_Icon"));

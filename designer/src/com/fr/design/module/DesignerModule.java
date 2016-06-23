@@ -71,6 +71,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 public class DesignerModule extends DesignModule {
 
@@ -120,7 +121,7 @@ public class DesignerModule extends DesignModule {
 
         ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.getInstance());
 
-        ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+        Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             ActionFactory.registerCellEditor(provider.targetObjectClass(), provider.quickEditor());
         }
@@ -223,6 +224,16 @@ public class DesignerModule extends DesignModule {
         @Override
         public JTemplate<WorkBook, ?> openTemplate(FILE tplFile) {
             return new JWorkBook(asIOFile(tplFile), tplFile);
+        }
+
+        @Override
+        public String mark4Provider() {
+            return getClass().getName();
+        }
+
+        @Override
+        public void process() {
+
         }
     }
 

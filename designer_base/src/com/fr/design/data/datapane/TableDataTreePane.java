@@ -47,7 +47,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
     public synchronized static BasicTableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
 
-        TableDataPaneProcessor treePaneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+        TableDataPaneProcessor treePaneProcessor = ExtraDesignClassManager.getInstance().getSingle(TableDataPaneProcessor.XML_TAG);
         if (treePaneProcessor != null) {
             return treePaneProcessor.createTableDataTreePane(tc);
         }

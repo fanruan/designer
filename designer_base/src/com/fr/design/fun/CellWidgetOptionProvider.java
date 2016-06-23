@@ -10,7 +10,7 @@ import com.fr.stable.fun.Level;
  * @since 8.0
  * 格子中的自定义控件接口
  */
-public interface CellWidgetOptionProvider extends ParameterWidgetOptionProvider, Level {
+public interface CellWidgetOptionProvider extends ParameterWidgetOptionProvider {
 
     String XML_TAG = "CellWidgetOptionProvider";
 

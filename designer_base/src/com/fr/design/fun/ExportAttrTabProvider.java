@@ -1,7 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.design.report.AbstractExportPane;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 import javax.swing.*;
 
@@ -12,7 +12,7 @@ import javax.swing.*;
 /**
  * 导出属性Tab页的接口
  */
-public interface ExportAttrTabProvider extends Level{
+public interface ExportAttrTabProvider extends Mutable {
     String XML_TAG = "ExportAttrTabProvider";
 
     int CURRENT_LEVEL = 1;

@@ -1,10 +1,12 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.IndentationUnitProcessor;
+import com.fr.stable.fun.mark.API;
 
 /**
  * Created by zhouping on 2015/9/20.
  */
+@API(level = IndentationUnitProcessor.CURRENT_LEVEL)
 public class AbstractIndentationUnitProcessor implements IndentationUnitProcessor {
     private int indentationUnit = 1;
 

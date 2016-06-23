@@ -388,7 +388,7 @@ public class RemoteEnv implements Env {
     private void extraChangeEnvPara() {
         //在env连接之前, 加载一下不依赖env的插件. 看看需不需要改变参数.
         PluginLoader.init();
-        DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getEnvProcessor();
+        DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (envProcessor != null) {
             this.path = envProcessor.changeEnvPathBeforeConnect(user, password, path);
         }

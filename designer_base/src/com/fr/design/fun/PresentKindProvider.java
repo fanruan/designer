@@ -2,7 +2,7 @@ package com.fr.design.fun;
 
 import com.fr.base.present.Present;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * @author richie
@@ -10,7 +10,7 @@ import com.fr.stable.fun.Level;
  * @since 8.0
  * 形态类型接口
  */
-public interface PresentKindProvider extends Level{
+public interface PresentKindProvider extends Mutable{
 
     int CURRENT_LEVEL = 1;
 
