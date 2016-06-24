@@ -13,6 +13,10 @@ public abstract class AbstractDesignerEnvProcessor implements DesignerEnvProcess
         return CURRENT_LEVEL;
     }
 
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
+
     public String changeEnvPathBeforeConnect(String userName, String password, String path){
         return path;
     }

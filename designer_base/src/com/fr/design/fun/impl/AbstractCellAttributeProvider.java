@@ -13,4 +13,8 @@ public abstract class AbstractCellAttributeProvider implements CellAttributeProv
         return CURRENT_LEVEL;
     }
 
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
+
 }
