@@ -15,4 +15,8 @@ public abstract class AbstractUIFormulaProcessor implements UIFormulaProcessor {
         return CURRENT_LEVEL;
     }
 
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
+
 }
