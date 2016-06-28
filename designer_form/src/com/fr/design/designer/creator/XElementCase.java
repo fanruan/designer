@@ -94,6 +94,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		FitProvider wbTpl = (FitProvider) designer.getTarget();
 		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
 		ElementCaseEditor editor = this.toData();
+		//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
+		if (editor.getFitStateInPC() == 0) {
+			editor.setReportFitAttr(null);
+		}
 		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 
