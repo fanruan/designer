@@ -1,19 +1,15 @@
 package com.fr.design.mainframe;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.fr.base.Parameter;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.form.main.Form;
 import com.fr.form.main.WidgetGatherAdapter;
-import com.fr.form.ui.ChartEditorProvider;
-import com.fr.form.ui.DataControl;
-import com.fr.form.ui.ElementCaseEditor;
-import com.fr.form.ui.MultiFileEditor;
-import com.fr.form.ui.Widget;
-import com.fr.general.ComparatorUtils;
+import com.fr.form.ui.*;
 import com.fr.stable.js.WidgetName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 
@@ -99,5 +95,10 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm> {
 		}, Widget.class);
 		
 		return linkAbleList.toArray(new Widget[linkAbleList.size()]);
+	}
+
+	@Override
+	public Parameter[] getParameters() {
+		return this.getBook().getParameters();
 	}
 }
