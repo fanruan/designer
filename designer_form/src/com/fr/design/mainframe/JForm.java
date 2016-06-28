@@ -20,14 +20,12 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
+import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.KeySetUtils;
-import com.fr.design.menu.MenuDef;
-import com.fr.design.menu.ShortCut;
-import com.fr.design.menu.ToolBarDef;
+import com.fr.design.menu.*;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -378,8 +376,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 返回菜单
      */
     public ShortCut[] shortcut4TemplateMenu() {
-        return this.index == FORM_TAB ? new ShortCut[0] :
-                this.elementCaseDesign.shortcut4TemplateMenu();
+        if (this.index == FORM_TAB) {
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
+                    new TemplateParameterAction(this)
+            }, new ShortCut[0]);
+        } else {
+            return this.elementCaseDesign.shortcut4TemplateMenu();
+        }
     }
 
     /**
