@@ -5,7 +5,7 @@ import com.fr.stable.fun.mark.Immutable;
 import javax.swing.plaf.ComponentUI;
 
 /**
- * ×Ô¶¨Òåµ¥Ôª¸ñui½Ó¿Ú
+ * è‡ªå®šä¹‰å•å…ƒæ ¼uiæ¥å£
  *
  * @return
  */
@@ -15,9 +15,9 @@ public interface GridUIProcessor extends Immutable {
 	int CURRENT_LEVEL = 1;
 
 	/**
-	 * ×Ô¶¨Òågridui, ÓÃÓÚÊµÏÖÒ»Ğ©×Ô¶¨ÒåµÄ¸ñ×Ó»æÖÆ.
+	 * è‡ªå®šä¹‰gridui, ç”¨äºå®ç°ä¸€äº›è‡ªå®šä¹‰çš„æ ¼å­ç»˜åˆ¶.
 	 *
-	 * @return ×Ô¶¨Òågridui
+	 * @return è‡ªå®šä¹‰gridui
 	 */
 	ComponentUI appearanceForGrid(int paramInt);
 }
