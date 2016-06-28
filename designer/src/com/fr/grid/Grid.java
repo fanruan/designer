@@ -3,20 +3,11 @@
  */
 package com.fr.grid;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.util.Hashtable;
-import java.util.Iterator;
-
 import com.fr.base.DynamicUnitList;
-import com.fr.design.cell.editor.CellEditor;
-import com.fr.design.cell.editor.FloatEditor;
-import com.fr.design.cell.editor.FormulaCellEditor;
-import com.fr.design.cell.editor.GeneralCellEditor;
-import com.fr.design.cell.editor.GeneralFloatEditor;
-import com.fr.design.cell.editor.TextCellEditor;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.cell.editor.*;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -39,6 +30,13 @@ import com.fr.report.cell.cellattr.core.RichText;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StringUtils;
+
+import javax.swing.plaf.ComponentUI;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * Grid used to paint and edit grid.
@@ -144,7 +142,9 @@ public class Grid extends BaseGridComponent {
 	 * 
 	 */
     public void updateUI() {
-        this.setUI(new GridUI(resolution));
+        GridUIProcessor localGridUIProcessor = ExtraDesignClassManager.getInstance().getSingle(GridUIProcessor.MARK_STRING, new DefaultGridUIProcessor());
+        ComponentUI localComponentUI = localGridUIProcessor.appearanceForGrid(this.resolution);
+        setUI(localComponentUI);
     }
 
     /**
