@@ -16,6 +16,10 @@ public abstract class AbstractFormElementCaseEditorProcessor implements FormElem
         return CURRENT_LEVEL;
     }
 
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
+
 
     /**
      * 生成属性表

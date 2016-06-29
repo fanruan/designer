@@ -14,4 +14,8 @@ public abstract class AbstractTDPaneProcessor implements TableDataPaneProcessor 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
     }
+
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
 }

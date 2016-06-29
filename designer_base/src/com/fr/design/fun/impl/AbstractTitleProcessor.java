@@ -10,5 +10,9 @@ public abstract class AbstractTitleProcessor implements TitlePlaceProcessor {
         return CURRENT_LEVEL;
     }
 
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
+
 
 }

@@ -15,4 +15,8 @@ public abstract class AbstractWidgetDesignHandler implements WidgetDesignHandler
     public int currentAPILevel() {
         return CURRENT_LEVEL;
     }
+
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
+    }
 }
