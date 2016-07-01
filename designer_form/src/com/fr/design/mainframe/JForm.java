@@ -25,7 +25,10 @@ import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.*;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -381,7 +384,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                     new TemplateParameterAction(this)
             }, new ShortCut[0]);
         } else {
-            return this.elementCaseDesign.shortcut4TemplateMenu();
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
+                    new TemplateParameterAction(this)
+            }, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
@@ -750,4 +755,5 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public boolean acceptToolbarItem(Class clazz) {
         return WorkBookSupportable.class.isAssignableFrom(clazz);
     }
+
 }
