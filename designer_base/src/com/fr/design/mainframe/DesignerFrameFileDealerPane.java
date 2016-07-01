@@ -43,6 +43,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarStateChangeListener, ResponseDataSourceChange {
     private static final String FILE = "file";
@@ -127,7 +128,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             toolbarDef.addShortCut(openFolderAction, renameAction);
         }
         toolbarDef.addShortCut(delFileAction);
-        ShortCut[] extraShortCuts = ExtraDesignClassManager.getInstance().getTemplateTreeShortCutProviders();
+        Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getArray(ShortCut.TEMPLATE_TREE);
         for (ShortCut shortCut : extraShortCuts){
             toolbarDef.addShortCut(shortCut);
         }

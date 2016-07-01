@@ -1,7 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.design.formula.UIFormula;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Immutable;
 
 /**
  * @author richie
@@ -9,7 +9,7 @@ import com.fr.stable.fun.Level;
  * @since 8.0
  * 公式编辑器界面处理接口
  */
-public interface UIFormulaProcessor extends Level{
+public interface UIFormulaProcessor extends Immutable{
     String MARK_STRING = "UIFormulaProcessor";
 
     int CURRENT_LEVEL = 1;

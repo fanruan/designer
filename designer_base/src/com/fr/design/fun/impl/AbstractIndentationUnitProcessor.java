@@ -1,15 +1,21 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.IndentationUnitProcessor;
+import com.fr.stable.fun.mark.API;
 
 /**
  * Created by zhouping on 2015/9/20.
  */
-public class AbstractIndentationUnitProcessor implements IndentationUnitProcessor {
+@API(level = IndentationUnitProcessor.CURRENT_LEVEL)
+public abstract class AbstractIndentationUnitProcessor implements IndentationUnitProcessor {
     private int indentationUnit = 1;
 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
+    }
+
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
     }
 
 

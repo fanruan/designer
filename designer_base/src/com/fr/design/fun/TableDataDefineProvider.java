@@ -2,14 +2,15 @@ package com.fr.design.fun;
 
 import com.fr.base.TableData;
 import com.fr.design.data.tabledata.tabledatapane.AbstractTableDataPane;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
+import com.fr.stable.fun.mark.Aftermath;
 
 /**
  * @author : richie
  * @since : 7.1.1
  * 自定义报表数据集界面接口，单独存在的一个个数据集
  */
-public interface TableDataDefineProvider extends Level {
+public interface TableDataDefineProvider extends Mutable, Aftermath {
 
     String XML_TAG = "TableDataDefineProvider";
 

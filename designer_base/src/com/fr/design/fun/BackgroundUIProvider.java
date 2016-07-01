@@ -2,13 +2,12 @@ package com.fr.design.fun;
 
 import com.fr.design.style.background.BackgroundDetailPane;
 import com.fr.general.Background;
-import com.fr.stable.fun.Level;
-import com.fr.stable.fun.Provider;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * Created by richie on 16/5/18.
  */
-public interface BackgroundUIProvider extends Level, Provider {
+public interface BackgroundUIProvider extends Mutable {
 
     String MARK_STRING = "BackgroundUIProvider";
 

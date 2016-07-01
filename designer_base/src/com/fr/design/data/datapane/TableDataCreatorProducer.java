@@ -100,10 +100,6 @@ public class TableDataCreatorProducer {
 
         TableDataNameObjectCreator[] creators = new TableDataNameObjectCreator[]{dataBase, ds_Class, table, fileTable, storeProcedure, multiTable, treeTable};
 
-        TableDataCreatorProvider creatorProvider = ExtraDesignClassManager.getInstance().getTableDataCreatorProvider();
-        if (creatorProvider != null) {
-            return creatorProvider.produceServerTableDataCreator(creators);
-        }
         return merge(creators, ExtraDesignClassManager.getInstance().getServerTableDataCreators());
     }
 

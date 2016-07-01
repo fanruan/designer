@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Immutable;
 
 /**
  * 在env加载之前, 修改env参数的接口
@@ -9,7 +9,7 @@ import com.fr.stable.fun.Level;
  *
  * Created by Administrator on 2016/3/31/0031.
  */
-public interface DesignerEnvProcessor extends Level{
+public interface DesignerEnvProcessor extends Immutable{
 
     String XML_TAG = "DesignerEnvProcessor";
     int CURRENT_LEVEL = 1;

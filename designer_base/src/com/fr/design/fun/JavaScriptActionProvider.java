@@ -2,12 +2,12 @@ package com.fr.design.fun;
 
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.js.JavaScript;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * Created by zack on 2015/8/14.
  */
-public interface JavaScriptActionProvider extends Level{
+public interface JavaScriptActionProvider extends Mutable{
 
     String XML_TAG = "JavaScriptActionProvider";
 

@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
 
@@ -52,7 +53,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
                      }
         );
         paneList.add(initEmaiPane());
-        List<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getJavaScriptActionProvider();
+        Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
         if (javaScriptActionProviders != null) {
             for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
                 paneList.add(jsp.getJavaScriptActionPane());

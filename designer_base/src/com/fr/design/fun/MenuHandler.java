@@ -2,7 +2,7 @@ package com.fr.design.fun;
 
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.ShortCut;
-import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * @author richie
@@ -10,7 +10,7 @@ import com.fr.stable.fun.Level;
  * @since 8.0
  * 设计器菜单栏插件接口
  */
-public interface MenuHandler extends Level {
+public interface MenuHandler extends Mutable {
 
     String MARK_STRING = "MenuHandler";
 
