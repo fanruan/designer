@@ -1,9 +1,11 @@
 package com.fr.design;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chart.fun.IndependentChartProvider;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
@@ -29,10 +31,7 @@ import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by eason on 14/12/29.
@@ -43,6 +42,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     private static ChartTypeInterfaceManager classManager = null;
 
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
+    private static List<String> chartOrderList = new ArrayList<String>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
@@ -84,6 +84,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
+
+        for (String plotID :chartTypeInterfaces.keySet()){
+            if (!chartOrderList.contains(plotID)){
+                chartOrderList.add(plotID);
+            }
+        }
     }
 
     public String getIconPath(String plotID) {
@@ -109,6 +115,10 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                     PluginMessage.remindUpdate(className);
                 } else if (!chartTypeInterfaces.containsKey(plotID)) {
                     chartTypeInterfaces.put(plotID, provider);
+                    //新图表类型插入到前面
+                    if (!chartOrderList.contains(plotID)) {
+                        chartOrderList.add(0, plotID);
+                    }
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());
@@ -129,13 +139,11 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
-        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            IndependentChartUIProvider creator = (IndependentChartUIProvider) entry.getValue();
+        for (int i = 0; i < chartOrderList.size(); i++){
+            String plotID = chartOrderList.get(i);
+            IndependentChartUIProvider creator = chartTypeInterfaces.get(plotID);
             paneList.add(creator.getPlotTypePane());
         }
-
     }
 
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
