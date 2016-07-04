@@ -25,28 +25,31 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.Authorize;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.stable.plugin.PluginReadListener;
 import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
+
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
     private static ChartTypeInterfaceManager classManager = null;
 
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
-    private static List<String> chartOrderList = new ArrayList<String>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
-            classManager.readDefault();
             classManager.readXMLFile();
         }
         return classManager;
@@ -60,11 +63,23 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         });
     }
 
+    static {
+        GeneralContext.addPluginReadListener(new PluginReadListener() {
+            @Override
+            public void success() {
+                if (chartTypeInterfaces != null) {
+                    readDefault();
+                }
+            }
+        });
+    }
+
     private synchronized static void envChanged() {
         classManager = null;
     }
 
     private static void readDefault() {
+
         chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
@@ -83,15 +98,15 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
 
-        for (String plotID :chartTypeInterfaces.keySet()){
-            if (!chartOrderList.contains(plotID)){
-                chartOrderList.add(plotID);
-            }
-        }
+
     }
 
     public String getIconPath(String plotID) {
-        return chartTypeInterfaces.get(plotID).getIconPath();
+        if (chartTypeInterfaces.get(plotID) != null) {
+            return chartTypeInterfaces.get(plotID).getIconPath();
+        }else {
+            return StringUtils.EMPTY;
+        }
     }
 
     /**
@@ -113,10 +128,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                     PluginMessage.remindUpdate(className);
                 } else if (!chartTypeInterfaces.containsKey(plotID)) {
                     chartTypeInterfaces.put(plotID, provider);
-                    //新图表类型插入到前面
-                    if (!chartOrderList.contains(plotID)) {
-                        chartOrderList.add(0, plotID);
-                    }
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());
@@ -137,11 +148,14 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
-        for (int i = 0; i < chartOrderList.size(); i++){
-            String plotID = chartOrderList.get(i);
-            IndependentChartUIProvider creator = chartTypeInterfaces.get(plotID);
+
+        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            IndependentChartUIProvider creator = (IndependentChartUIProvider) entry.getValue();
             paneList.add(creator.getPlotTypePane());
         }
+
     }
 
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
