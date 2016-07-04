@@ -22,6 +22,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.report.fun.VerticalTextProcessor;
+import com.fr.report.fun.impl.DefaultVerticalTextProcessor;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -134,7 +135,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private void initTextRotationCombox(){
         ArrayList<String> selectOption = new ArrayList<String>();
         selectOption.add(Inter.getLocText("FR-Designer_Custom-Angle"));
-        VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG);
+        VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG, DefaultVerticalTextProcessor.class);
         if (processor != null){
             selectOption.addAll(Arrays.asList(processor.getComboxOption()));
         }
