@@ -1,11 +1,9 @@
 package com.fr.design;
 
 import com.fr.chart.base.ChartConstants;
-import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
-import com.fr.chart.fun.IndependentChartProvider;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
