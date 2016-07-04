@@ -38,12 +38,9 @@ import java.util.Map;
  * Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
-
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
     private static ChartTypeInterfaceManager classManager = null;
-
-    private static boolean isReadDefault = false;
 
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
 
@@ -51,7 +48,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
-            //默认图表类型在新图表类型后面读取
+            classManager.readDefault();
             classManager.readXMLFile();
         }
         return classManager;
@@ -70,27 +67,23 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private static void readDefault() {
-        if (!isReadDefault) {
-            chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.PIE_CHART, new PieIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.METER_CHART, new MeterIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
-            chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
-        }
-        isReadDefault = true;
-
+        chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.PIE_CHART, new PieIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.METER_CHART, new MeterIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
+        chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
     }
 
     public String getIconPath(String plotID) {
@@ -136,7 +129,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
-        classManager.readDefault();
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
