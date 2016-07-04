@@ -381,7 +381,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                     new TemplateParameterAction(this)
             }, new ShortCut[0]);
         } else {
-            return this.elementCaseDesign.shortcut4TemplateMenu();
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
+                    new TemplateParameterAction(this)
+            }, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
