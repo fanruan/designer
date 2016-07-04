@@ -25,6 +25,7 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.Authorize;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.stable.plugin.PluginReadListener;
 import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
@@ -49,7 +50,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
-            classManager.readDefault();
             classManager.readXMLFile();
         }
         return classManager;
@@ -59,6 +59,17 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             public void envChanged() {
                 ChartTypeInterfaceManager.envChanged();
+            }
+        });
+    }
+
+    static {
+        GeneralContext.addPluginReadListener(new PluginReadListener() {
+            @Override
+            public void success() {
+                if (chartTypeInterfaces != null) {
+                    readDefault();
+                }
             }
         });
     }
@@ -91,7 +102,11 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     public String getIconPath(String plotID) {
-        return chartTypeInterfaces.get(plotID).getIconPath();
+        if (chartTypeInterfaces.get(plotID) != null) {
+            return chartTypeInterfaces.get(plotID).getIconPath();
+        }else {
+            return StringUtils.EMPTY;
+        }
     }
 
     /**
