@@ -44,6 +44,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
 
+    //判断默认图表是否读取
+    private static boolean isReadDefault = false;
+
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
@@ -80,33 +83,35 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static void readDefault() {
 
-        chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.PIE_CHART, new PieIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.METER_CHART, new MeterIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
-        chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
+        if (!isReadDefault) {
+            chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.PIE_CHART, new PieIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.METER_CHART, new MeterIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
+            chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
+            isReadDefault = true;
+        }
 
 
     }
 
     public String getIconPath(String plotID) {
-        if (chartTypeInterfaces.get(plotID) != null) {
-            return chartTypeInterfaces.get(plotID).getIconPath();
-        }else {
-            return StringUtils.EMPTY;
+        if (!isReadDefault){
+            readDefault();
         }
+        return chartTypeInterfaces.get(plotID).getIconPath();
     }
 
     /**
