@@ -1,23 +1,30 @@
 package com.fr.design;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
+import com.fr.design.chart.gui.ChartWidgetOption;
 import com.fr.design.chartinterface.*;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.XMLFileManager;
+import com.fr.form.ui.ChartEditor;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
@@ -30,6 +37,7 @@ import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
+import javax.swing.*;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,6 +51,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
     private static ChartTypeInterfaceManager classManager = null;
+
+    //判断默认图表是否读取
+    private static boolean isReadDefault = false;
 
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
 
@@ -69,9 +80,27 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             public void success() {
                 if (chartTypeInterfaces != null) {
                     readDefault();
+                    //重新注册designModuleFactory
+                    DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
                 }
             }
         });
+    }
+
+    public static WidgetOption[] initWidgetOption(){
+        ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+        ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+        for (int i = 0; i < typeName.length; i++) {
+            String plotID = typeName[i].getPlotID();
+            Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
+            if(rowChart == null) {
+                continue;
+            }
+            String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
+            Icon icon = IOUtils.readIcon(iconPath);
+            child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
+        }
+        return child;
     }
 
     private synchronized static void envChanged() {
@@ -79,7 +108,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private static void readDefault() {
-
         chartTypeInterfaces.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.BAR_CHART, new BarIndependentChartInterface());
@@ -97,8 +125,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartTypeInterfaces.put(ChartConstants.MAP_CHART, new MapIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartTypeInterfaces.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
-
-
     }
 
     public String getIconPath(String plotID) {
