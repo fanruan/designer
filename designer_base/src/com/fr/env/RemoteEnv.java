@@ -847,12 +847,28 @@ public class RemoteEnv implements Env {
      * @return 成功新建返回true
      * @throws Exception
      */
-    @Override
     public boolean createFile(String filePath) throws Exception {
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_create_file");
         para.put("file_path", filePath);
+
+        HttpClient client = createHttpMethod(para);
+        InputStream input = execute4InputStream(client);
+
+        if (input == null) {
+            return false;
+        }
+
+        return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
+    }
+
+    public boolean renameFile(String newPath, String oldPath) throws Exception {
+        HashMap<String, String> para = new HashMap<String, String>();
+        para.put("op", "fr_remote_design");
+        para.put("cmd", "design_rename_file");
+        para.put("newPath", newPath);
+        para.put("oldPath", oldPath);
 
         HttpClient client = createHttpMethod(para);
         InputStream input = execute4InputStream(client);
@@ -941,7 +957,6 @@ public class RemoteEnv implements Env {
      */
     public void stopUserCheckTimer() {
     }
-
 
     /**
      * 删除文件
