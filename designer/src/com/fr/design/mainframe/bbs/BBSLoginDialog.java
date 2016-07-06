@@ -279,22 +279,25 @@ public class BBSLoginDialog extends UIDialog {
      * @return 同上
      */
     public static boolean login(String username, String password) {
-        try {
-            username = URLEncoder.encode(username, EncodeConstants.ENCODING_GBK);
-        } catch (UnsupportedEncodingException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
-        HttpClient client = new HttpClient(url);
-        client.setTimeout(TIME_OUT);
-        if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
+        if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
             try {
-                String res = client.getResponseText(EncodeConstants.ENCODING_GBK);
-                if (res.contains(LOGIN_SUCCESS_FLAG)) {
-                    return true;
-                }
-            } catch (Exception e) {
+                username = URLEncoder.encode(username, EncodeConstants.ENCODING_GBK);
+                password = URLEncoder.encode(password, EncodeConstants.ENCODING_GBK);
+            } catch (UnsupportedEncodingException e) {
                 FRLogger.getLogger().error(e.getMessage());
+            }
+            String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
+            HttpClient client = new HttpClient(url);
+            client.setTimeout(TIME_OUT);
+            if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
+                try {
+                    String res = client.getResponseText(EncodeConstants.ENCODING_GBK);
+                    if (res.contains(LOGIN_SUCCESS_FLAG)) {
+                        return true;
+                    }
+                } catch (Exception e) {
+                    FRLogger.getLogger().error(e.getMessage());
+                }
             }
         }
         return false;
