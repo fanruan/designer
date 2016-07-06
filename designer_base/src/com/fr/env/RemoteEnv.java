@@ -816,23 +816,18 @@ public class RemoteEnv implements Env {
         return sqlTableObjs;
     }
 
-    public boolean createFolder(String folderPath) throws Exception {
-        return createFolder(folderPath, false);
-    }
-
-        /**
-         * 在当前路径下新建文件夹
-         *
-         * @param folderPath 文件名
-         * @return 成功创建返回true
-         * @throws Exception
-         */
+    /**
+     * 在当前路径下新建文件夹
+     *
+     * @param folderPath 文件名
+     * @return 成功创建返回true
+     * @throws Exception
+     */
     @Override
-    public boolean createFolder(String folderPath, boolean isWebReport) throws Exception {
+    public boolean createFolder(String folderPath) throws Exception {
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_create_folder");
-        para.put("isWebReport", isWebReport ? "true" : "false");
         para.put("folder_path", folderPath);
 
         HttpClient client = createHttpMethod(para);
@@ -845,11 +840,6 @@ public class RemoteEnv implements Env {
         return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
-    @Override
-    public boolean createFile(String filePath) throws Exception {
-        return createFile(filePath, false);
-    }
-
     /**
      * 新建一个文件
      *
@@ -857,11 +847,10 @@ public class RemoteEnv implements Env {
      * @return 成功新建返回true
      * @throws Exception
      */
-    public boolean createFile(String filePath, boolean isWebReport) throws Exception {
+    public boolean createFile(String filePath) throws Exception {
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_create_file");
-        para.put("isWebReport", isWebReport ? "true" : "false");
         para.put("file_path", filePath);
 
         HttpClient client = createHttpMethod(para);
@@ -969,18 +958,13 @@ public class RemoteEnv implements Env {
     public void stopUserCheckTimer() {
     }
 
+    /**
+     * 删除文件
+     *
+     * @param filePath 文件地址
+     * @return 删除成功返回true
+     */
     public boolean deleteFile(String filePath) {
-        return deleteFile(filePath, false);
-    }
-
-
-        /**
-         * 删除文件
-         *
-         * @param filePath 文件地址
-         * @return 删除成功返回true
-         */
-    public boolean deleteFile(String filePath, boolean isWebReport) {
         if (filePath == null) {
             return false;
         }
@@ -988,7 +972,6 @@ public class RemoteEnv implements Env {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
             para.put("cmd", "delete_file");
-            para.put("isWebReport", isWebReport ? "true" : "false");
             para.put("file_path", filePath);
 
             HttpClient client = createHttpMethod(para);
@@ -1612,53 +1595,6 @@ public class RemoteEnv implements Env {
         para.put(RemoteDeziConstants.TEMPLATE_PATH, beanPath);
 
         return new Bytes2ServerOutputStream(para);
-    }
-
-    /**
-     * 读取文件
-     *
-     * @param path 文件名 从WebReport开始
-     * @return 文件输入流
-     */
-    @Override
-    public String readWebReportFile(String path) throws Exception {
-        HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_read_file");
-        para.put("path", path);
-
-        HttpClient client = createHttpMethod(para);
-        InputStream input = execute4InputStream(client);
-
-        if (input == null) {
-            return null;
-        }
-
-        return stream2String(input);
-    }
-
-    /**
-     * 写文件
-     *
-     * @param path 文件名
-     * @return 文件输出流
-     */
-    @Override
-    public boolean writeWebReportFile(String path, String content) throws Exception {
-        HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_write_file");
-        para.put("path", path);
-        para.put("content", content);
-
-        HttpClient client = createHttpMethod(para);
-        InputStream input = execute4InputStream(client);
-
-        if (input == null) {
-            return false;
-        }
-
-        return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
     }
 
     /**
