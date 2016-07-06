@@ -22,6 +22,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.report.fun.VerticalTextProcessor;
+import com.fr.report.fun.impl.DefaultVerticalTextProcessor;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -95,7 +96,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		initOtherComponent();
 		initAllNames();
 
-		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getIndentationUnitEditor();
+		indentationUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(IndentationUnitProcessor.MARK_STRING);
 		if (null == indentationUnitProcessor){
 			indentationUnitProcessor = new DefaultIndentationUnitProcessor();
 		}
@@ -134,7 +135,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private void initTextRotationCombox(){
         ArrayList<String> selectOption = new ArrayList<String>();
         selectOption.add(Inter.getLocText("FR-Designer_Custom-Angle"));
-        VerticalTextProcessor processor = ExtraClassManager.getInstance().getVerticalTextProcessor();
+        VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG, DefaultVerticalTextProcessor.class);
         if (processor != null){
             selectOption.addAll(Arrays.asList(processor.getComboxOption()));
         }
@@ -241,7 +242,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		} else {
 			this.textComboBox.setSelectedIndex(0);
 		}
-		if (style.getVerticalText() == Style.VERTICALTEXT && ExtraClassManager.getInstance().getVerticalTextProcessor() != null) {
+		if (style.getVerticalText() == Style.VERTICALTEXT && ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG) != null) {
 			textRotationComboBox.setSelectedIndex(style.getTextDirection() == Style.LEFT_TO_RIGHT ? 1 : 2);
 		} else {
 			textRotationComboBox.setSelectedIndex(0);

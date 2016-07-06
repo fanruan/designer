@@ -21,7 +21,6 @@ import com.fr.report.write.BuiltInSQLSubmiter;
 import com.fr.report.write.ReportWriteAttr;
 import com.fr.report.write.SubmitVisitor;
 import com.fr.report.write.WClassSubmiter;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.write.BuiltInSQLSubmiterProvider;
 import com.fr.write.DBManipulation;
@@ -31,10 +30,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class SubmitVisitorListPane extends ObjectJControlPane {
 
@@ -172,17 +169,16 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
         public CustomPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             customCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-            customSubmitPanes = new HashMap<String, BasicBeanPane>();
-            comboItemsMap = new HashMap<String, String>();
+            customSubmitPanes = new HashMap<>();
+            comboItemsMap = new HashMap<>();
 
-            SubmitProvider[] providers = ExtraDesignClassManager.getInstance().getSubmitProviders();
-            providers = (SubmitProvider[]) ArrayUtils.add(providers, new DefaultSubmit());
+            Set<SubmitProvider> providers = ExtraDesignClassManager.getInstance().getArray(SubmitProvider.MARK_STRING);
+            addSubmitPane(new DefaultSubmit());
             for (SubmitProvider provider : providers) {
-                customSubmitPanes.put(provider.keyForSubmit(), provider.appearanceForSubmit());
-                comboItemsMap.put(provider.keyForSubmit(), provider.dataForSubmit());
+                addSubmitPane(provider);
             }
 
-            configTypes = new ArrayList<String>();
+            configTypes = new ArrayList<>();
             for (Map.Entry<String, BasicBeanPane> entry : customSubmitPanes.entrySet()) {
                 String key = entry.getKey();
                 configTypes.add(comboItemsMap.get(key));
@@ -212,6 +208,11 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
                     }
                 }
             });
+        }
+
+        private void addSubmitPane(SubmitProvider provider) {
+            customSubmitPanes.put(provider.keyForSubmit(), provider.appearanceForSubmit());
+            comboItemsMap.put(provider.keyForSubmit(), provider.dataForSubmit());
         }
 
         @Override

@@ -3,6 +3,8 @@ package com.fr.design.fun.impl;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
 
 import java.util.Collections;
 import java.util.Map;
@@ -12,12 +14,17 @@ import java.util.Map;
  * @date 2015-05-13
  * @since 8.0
  */
-public abstract class AbstractPreviewProvider implements PreviewProvider {
+@API(level = PreviewProvider.CURRENT_LEVEL)
+public abstract class AbstractPreviewProvider extends AbstractProvider implements PreviewProvider {
 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
     }
 
+    @Override
+    public String mark4Provider() {
+        return getClass().getName();
+    }
 
     @Override
     public void onClick(JTemplate<?, ?> jt) {

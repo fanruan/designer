@@ -1,38 +1,6 @@
 package com.fr.grid;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Line2D.Double;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.plaf.ComponentUI;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
-import com.fr.base.Formula;
-import com.fr.base.GraphHelper;
-import com.fr.base.Margin;
-import com.fr.base.PaperSize;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.base.background.ColorBackground;
 import com.fr.base.background.ImageBackground;
 import com.fr.design.constants.UIConstants;
@@ -69,6 +37,15 @@ import com.fr.stable.Constants;
 import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
 import com.fr.third.antlr.ANTLRException;
+
+import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.geom.Line2D.Double;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GridUI extends ComponentUI {
 
@@ -438,7 +415,7 @@ public class GridUI extends ComponentUI {
 
         paintDetailedCellElements(g2d, cells, tmpCellElement, reportPane, selectedCellElement, hideWidth, hideHeight, oldClip, report);
         paintBorder(g2d, tmpCellElement, report);
-        paintFatherLeft(g2d);
+        paintFatherLeft(g2d, selectedCellElement, report);
     }
 
     private void paintDetailedCellElements(Graphics2D g2d, Iterator cells, TemplateCellElement tmpCellElement, ElementCasePane reportPane,
@@ -565,7 +542,7 @@ public class GridUI extends ComponentUI {
         }
     }
 
-    private void paintFatherLeft(Graphics2D g2d) {
+    protected void paintFatherLeft(Graphics2D g2d, CellElement selectedCellElement, TemplateElementCase report) {
         // 画左父格子.
         if (validate(this.left_col_row_rect) && this.left_col_row_rect.getHeight() > 5) {
             g2d.setPaint(Color.BLUE);
@@ -827,7 +804,7 @@ public class GridUI extends ComponentUI {
         }
     }
 
-    private void paintFormulaCellArea(Graphics2D g2d, Area formulaCellArea, int i) {
+    protected void paintFormulaCellArea(Graphics2D g2d, Area formulaCellArea, int i) {
         // denny: 标记格子的边框
         formulaCellArea = new Area(new Rectangle2D.Double(this.tmpRectangle.getX(),
                 this.tmpRectangle.getY(), this.tmpRectangle.getWidth(),

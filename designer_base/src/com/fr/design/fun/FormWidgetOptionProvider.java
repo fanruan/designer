@@ -1,14 +1,12 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.Level;
-
 /**
  * @author richie
  * @date 2015-03-23
  * @since 8.0
  * 表单控件
  */
-public interface FormWidgetOptionProvider extends ParameterWidgetOptionProvider, Level {
+public interface FormWidgetOptionProvider extends ParameterWidgetOptionProvider {
 
     String XML_TAG = "FormWidgetOptionProvider";
 

@@ -40,7 +40,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
 		this.tableDataTextField = new UITextField();
 		tableDataPathPane.add(tableDataTextField, BorderLayout.CENTER);
 		this.tableDataTextField.setEditable(false);
-		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getTableDataPaneProcessor();
+		TableDataPaneProcessor paneProcessor = ExtraDesignClassManager.getInstance().getSingle(TableDataPaneProcessor.XML_TAG);
 		TableDataPaneController pane = null;
 		if (paneProcessor != null) {
 			pane = paneProcessor.createServerTableDataPane(DesignModelAdapter.getCurrentModelAdapter()

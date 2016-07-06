@@ -2,16 +2,22 @@ package com.fr.design.fun.impl;
 
 import com.fr.design.fun.FormElementCaseEditorProcessor;
 import com.fr.stable.fun.ReportFitAttrProvider;
+import com.fr.stable.fun.mark.API;
 
 import java.beans.PropertyDescriptor;
 
 /**
  * Created by zhouping on 2015/9/10.
  */
+@API(level = FormElementCaseEditorProcessor.CURRENT_LEVEL)
 public abstract class AbstractFormElementCaseEditorProcessor implements FormElementCaseEditorProcessor {
 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
+    }
+
+    public int layerIndex() {
+        return DEFAULT_LAYER_INDEX;
     }
 
 

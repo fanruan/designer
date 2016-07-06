@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -384,7 +385,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     }
 
     private void addExtraCellEditor(Grid grid) {
-        ElementUIProvider[] providers = ExtraDesignClassManager.getInstance().getElementUIProviders();
+        Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             CellEditor editor = null;
             Class<?> clazz = provider.targetCellEditorClass();

@@ -3,11 +3,12 @@ package com.fr.design.fun;
 import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.stable.fun.Level;
+import com.fr.stable.fun.mark.Mutable;
 
 /**
  * 条件属性界面设计接口
  */
-public interface HighlightProvider extends Level{
+public interface HighlightProvider extends Mutable{
 
     String MARK_STRING = "HighlightProvider";
 
