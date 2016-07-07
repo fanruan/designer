@@ -17,6 +17,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import java.awt.*;
@@ -47,7 +48,12 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 
         Chart chart = ChartTypeManager.getFirstChart();
         if (chart != null){
-            cc.addChart(chart);
+            try {
+                cc.addChart((Chart)chart.clone());
+            } catch (CloneNotSupportedException e) {
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
+
         }else {
             cc.addChart(new Chart(new Bar2DPlot()));
         }
