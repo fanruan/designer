@@ -14,6 +14,7 @@ import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.painters.FRFitLayoutPainter;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
@@ -163,7 +164,7 @@ public class FRFitLayoutAdapter extends AbstractLayoutAdapter {
     		return false;
     	}
     	//如果当前处于边缘地带, 那么就把他贴到父容器上
-    	matchEdge(x, y);
+    	boolean isMatchEdge = matchEdge(x, y);
     	
 		int componentHeight = comp.getHeight();
 		int componentWidth = comp.getWidth();
@@ -171,7 +172,13 @@ public class FRFitLayoutAdapter extends AbstractLayoutAdapter {
 		int upHeight = (int) (componentHeight * TOP_HALF) + comp.getY();
 		//下半部分高度
 		int downHeight = (int) (componentHeight * BOTTOM_HALF) + comp.getY();
-    	
+
+		//布局控件要先判断是不是可编辑
+		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator)comp).getTopLayout();
+		if(topLayout != null && !isMatchEdge && !topLayout.isEditable()){
+			return false;
+		}
+
     	if (isCrossPointArea(comp, x, y)) {
     		return canAcceptWhileCrossPoint(comp, x, y);
     	} 
