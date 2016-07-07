@@ -52,9 +52,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
 
-    //判断默认图表是否读取
-    private static boolean isReadDefault = false;
-
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
