@@ -188,7 +188,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	
 	/**
 	 * 该布局需要隐藏，无需对边框进行操作
-	 * @param 边框
+	 * @param border 边框
 	 * 
 	 */
     public void setBorder(Border border) {
@@ -362,4 +362,9 @@ public class XWTabFitLayout extends XWFitLayout {
 	
     	this.hasCalGap = true;
     }
+
+	@Override
+	public XLayoutContainer getTopLayout() {
+		return this.getBackupParent().getTopLayout();
+	}
 }

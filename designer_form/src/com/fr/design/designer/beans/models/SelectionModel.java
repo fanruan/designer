@@ -66,6 +66,13 @@ public class SelectionModel {
 
 		// 获取e所在的组件
 		XCreator comp = designer.getComponentAt(e);
+
+		//布局组件的顶层布局如不可编辑，要获取其顶层布局
+		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(comp).getTopLayout();
+		if(topLayout != null && !topLayout.isEditable()){
+			comp = topLayout;
+		}
+
 		// 如果父层是scale和title两个专属容器，返回其父层，组件本身是不让被选中的
 		if (comp != designer.getRootComponent() && comp != designer.getParaComponent()) {
 			XCreator parentContainer = (XCreator) comp.getParent();
