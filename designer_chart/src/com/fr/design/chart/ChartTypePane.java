@@ -31,8 +31,9 @@ public class ChartTypePane extends ChartCommonWizardPane {
         charts4Icon = new Chart[this.typeName.length][];
         for (int i = 0; i < this.typeName.length; i++) {
             Chart[] rowCharts = ChartTypeManager.getInstance().getChartTypes(this.typeName[i].getPlotID());
-            charts4Icon[i] = new Chart[1];
-            for (int j = 0; j < 1; j++) {
+            int rowChartsCount = rowCharts.length;
+            charts4Icon[i] = new Chart[rowChartsCount];
+            for (int j = 0; j < rowChartsCount; j++) {
                 try {
                     charts4Icon[i][j] = (Chart) rowCharts[j].clone();
                     charts4Icon[i][j].setTitle(null);
