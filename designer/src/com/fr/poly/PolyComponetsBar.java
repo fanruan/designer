@@ -36,7 +36,7 @@ public class PolyComponetsBar extends JToolBar {
 		setFloatable(false);
 		setBackground(UIConstants.NORMAL_BACKGROUND);
 		setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
-		serIcons = new SerIcon[typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM + 1];
+		serIcons = new SerIcon[(typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM) + 1];
 		serIcons[0] = new SerIcon(PolyECBlock.class, Inter.getLocText("Poly-Report_Block"), "Poly-Report_Block");
 		this.add(serIcons[0]);
 		for (int i = 0, len = typeName.length; i < len && i < MAX_BAR_NUM; i++) {
