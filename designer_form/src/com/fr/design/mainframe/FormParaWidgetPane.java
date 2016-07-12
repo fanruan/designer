@@ -46,7 +46,7 @@ public class FormParaWidgetPane extends JPanel{
     //预定义控件最多显示20行
     private int preWidgetShowMaxRow = 20;
     //显示8个图表组件
-    private int commonChartNum = 8;
+    private static final int commonChartNum = 8;
     //显示10个普通控件
     private int commonWidgetNum = 10;
     private JSeparator jSeparatorPara;
@@ -118,7 +118,6 @@ public class FormParaWidgetPane extends JPanel{
         // 初始化的时候根据图表的总个数获得单行显示图表的个数
         int totalChartNums = loadChartOptions().length;
         if (totalChartNums > 0) {
-        	commonChartNum = ++totalChartNums/2;
             JPanel chartTypePane = new JPanel(new FlowLayout());
             for (int i = 0;i < commonChartNum ;i++) {
                 chartTypePane.add( new ToolBarButton(loadChartOptions()[i]));
@@ -209,11 +208,12 @@ public class FormParaWidgetPane extends JPanel{
             public void mouseClicked(MouseEvent e) {
                 if(chartTypeWindow == null) {
                     JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    for (WidgetOption chartOption : loadChartOptions()) {
+                    WidgetOption[] chartOptions = loadChartOptions();
+                    for (WidgetOption chartOption : chartOptions) {
                         componentsPara.add( new ToolBarButton(chartOption));
                     }
                     int x = commonChartNum * (widgetButtonWidth + smallGAP);
-                    int y = (int)Math.ceil(((double)loadWidgetOptions().length/(double)commonChartNum)) * (widgetButtonHeight + smallGAP);
+                    int y = (int)Math.ceil(chartOptions.length/((double)commonChartNum)) * (widgetButtonHeight + smallGAP);
                     componentsPara.setPreferredSize(new Dimension(x,y));
                     chartTypeWindow = new PopUpWindow(componentsPara, Inter.getLocText("FR-Designer-Form-ToolBar_Chart"));
                     chartTypeWindow.setLocation((int)jSeparatorLayout.getLocationOnScreen().getX() + 1, (int)jSeparatorLayout.getLocationOnScreen().getY());
