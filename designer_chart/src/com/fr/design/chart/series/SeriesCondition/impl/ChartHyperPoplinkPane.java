@@ -5,6 +5,7 @@ import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.ChartFactory;
+import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.gui.ChartComponent;
@@ -16,6 +17,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import java.awt.*;
@@ -43,7 +45,18 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 		this.add(hyperEditPane, BorderLayout.CENTER);
 		
 		ChartCollection cc = new ChartCollection();
-		cc.addChart(new Chart(new Bar2DPlot()));
+
+        Chart chart = ChartTypeManager.getFirstChart();
+        if (chart != null){
+            try {
+                cc.addChart((Chart)chart.clone());
+            } catch (CloneNotSupportedException e) {
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
+
+        }else {
+            cc.addChart(new Chart(new Bar2DPlot()));
+        }
 		
 		chartComponent = new ChartComponent();
 		chartComponent.setPreferredSize(new Dimension(220, 170));// 在单元格弹出时 需要调整保证属性表的大小.
