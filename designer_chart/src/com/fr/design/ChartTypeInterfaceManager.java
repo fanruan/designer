@@ -76,12 +76,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             @Override
             public void success() {
                 if (chartTypeInterfaces != null) {
-                    //这边需要处理一下，如果classManager为空，则读取的东西最终都会被clear掉
-                    if (classManager == null){
-                        classManager = new ChartTypeInterfaceManager();
-                        chartTypeInterfaces.clear();
-                        classManager.readXMLFile();
-                    }
                     readDefault();
                     //重新注册designModuleFactory
                     DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
@@ -107,7 +101,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private synchronized static void envChanged() {
-        classManager = null;
+        chartTypeInterfaces.clear();
     }
 
     private static void readDefault() {
