@@ -101,7 +101,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private synchronized static void envChanged() {
-        classManager = null;
+        chartTypeInterfaces.clear();
     }
 
     private static void readDefault() {
