@@ -1,4 +1,4 @@
-package com.fr;
+package com.fr.plugin;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.file.XMLFileManager;
