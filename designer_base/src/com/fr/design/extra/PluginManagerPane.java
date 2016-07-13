@@ -66,7 +66,11 @@ public class PluginManagerPane extends BasicPane {
             initTraditionalStore();
         }
     }
-    
+
+    /**
+     * 以关键词打开设计器商店
+     * @param keyword 关键词
+     */
     public PluginManagerPane(String keyword){
         this();
         PluginWebBridge.getHelper().setShowKeyword(keyword);
