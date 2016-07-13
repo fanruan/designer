@@ -35,6 +35,7 @@ public class PluginWebBridge {
     private static PluginWebBridge helper;
 
     private UIDialog uiDialog;
+    private String showKeyword;
 
     public static PluginWebBridge getHelper() {
         if (helper != null) {
@@ -57,6 +58,14 @@ public class PluginWebBridge {
     private WebEngine webEngine;
 
     private PluginWebBridge() {
+    }
+
+    public String getShowKeyword() {
+        return showKeyword;
+    }
+
+    public void setShowKeyword(String showKeyWord) {
+        this.showKeyword = showKeyWord;
     }
 
     public void setEngine(WebEngine webEngine) {
