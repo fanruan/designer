@@ -105,14 +105,6 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void backupParent() {
 		setBackupParent(XCreatorUtils.getParentXLayoutContainer(this));
 	}
-
-	/**
-	 * 获取当前布局控件的顶层布局框架，如tab布局、绝对布局
-	 * @return 封装的顶层布局
-	 */
-	public XLayoutContainer getTopLayout(){
-		return null;
-	}
 	
 	/**
 	 * 获取当前XCreator的一个封装父容器

@@ -292,10 +292,5 @@ public class XCardSwitchButton extends XButton {
 		FormHierarchyTreePane.getInstance().refreshRoot();
 		selectionModel.setSelectedCreator(designer.getRootComponent());
 	}
-
-	@Override
-	public XLayoutContainer getTopLayout() {
-		return this.getBackupParent().getTopLayout();
-	}
 	
 }

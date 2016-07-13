@@ -12,7 +12,6 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -147,9 +146,4 @@ public class XWCardTitleLayout extends XWBorderLayout {
 			}
 		}
     }
-
-	@Override
-	public XLayoutContainer getTopLayout() {
-		return this.getBackupParent().getTopLayout();
-	}
 }
