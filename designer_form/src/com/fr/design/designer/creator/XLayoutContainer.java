@@ -41,6 +41,16 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
     protected boolean isRefreshing;
     protected int default_Length = 5; // 取指定点坐在的组件，默认为5保证取四侧相邻的组件时x、y在组件内非边框上
 
+    /**
+     * 布局是否可编辑，不可则显示编辑层
+     */
+    protected boolean editable = false;
+    //鼠标移动到布局画出编辑层
+    protected boolean isMouseEnter = false;
+    public void setMouseEnter(boolean mouseEnter) {
+        isMouseEnter = mouseEnter;
+    }
+
     public XLayoutContainer(WLayout widget, Dimension initSize) {
         super(widget, initSize);
         this.addContainerListener(this);
@@ -445,5 +455,21 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
 
     public void setBackground(Background background){
 
+    }
+
+    /**
+     * 布局是否可编辑，不可则显示编辑蒙层
+     * @return 可否编辑
+     */
+    public boolean isEditable(){
+        return this.editable;
+    }
+
+    /**
+     * 设置布局是否可编辑，不可则显示编辑蒙层
+     * @param isEditable 可否编辑
+     */
+    public void setEditable(boolean isEditable){
+        this.editable = isEditable;
     }
 }

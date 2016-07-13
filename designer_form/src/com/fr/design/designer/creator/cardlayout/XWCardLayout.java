@@ -367,4 +367,9 @@ public class XWCardLayout extends XLayoutContainer {
 			mainLayout.setBorder(border);
 		}
 	}
+
+	@Override
+	public XLayoutContainer getTopLayout() {
+		return this.getBackupParent().getTopLayout();
+	}
 }
