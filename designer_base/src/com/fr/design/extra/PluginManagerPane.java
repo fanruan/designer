@@ -66,6 +66,11 @@ public class PluginManagerPane extends BasicPane {
             initTraditionalStore();
         }
     }
+    
+    public PluginManagerPane(String keyword){
+        this();
+        PluginWebBridge.getHelper().setShowKeyword(keyword);
+    }
 
     private void addPane(String installHome) {
         PluginWebPane webPane = new PluginWebPane(new File(installHome).getAbsolutePath());
