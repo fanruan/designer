@@ -1,20 +1,22 @@
 package com.fr.design.designer.creator;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
+import com.fr.base.BaseUtils;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.design.designer.beans.AdapterBus;
+import com.fr.design.designer.beans.ComponentAdapter;
+import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
-import com.fr.design.mainframe.BaseJForm;
-import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
@@ -40,6 +42,9 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	//	private DesignerEditor<SimpleChartComponent> designerEditor;
 	//marro：无奈的属性，暂时想不出好办法
 	private boolean isRefreshing = false;
+
+	private boolean isEditing = false;
+	private JPanel coverPanel;
 
 	public XChartEditor(BaseChartEditor editor) {
 		this(editor, new Dimension(250, 150));
@@ -142,17 +147,22 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 			}
 		});
 
-		final BaseChartPropertyPane propertyPane = DesignModuleFactory.getChartWidgetPropertyPane(formDesigner);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				if (getDesignerEditor().getEditorTarget() != null) {
-					propertyPane.setSupportCellData(true);
-					propertyPane.populateChartPropertyPane(getDesignerEditorTarget().update(), formDesigner);
+		if (isEditing){
+			final BaseChartPropertyPane propertyPane = DesignModuleFactory.getChartPropertyPane();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					if (getDesignerEditor().getEditorTarget() != null) {
+						propertyPane.setSupportCellData(true);
+						propertyPane.populateChartPropertyPane(getDesignerEditorTarget().update(), formDesigner);
+					}
 				}
-			}
-		});
-		return (JComponent)propertyPane;
+			});
+			return (JComponent)propertyPane;
+		}
+		else{
+			return (JComponent)DesignModuleFactory.getWidgetPropertyPane(formDesigner);
+		}
 	}
 
 	private MiddleChartComponent getDesignerEditorTarget() {
@@ -167,8 +177,8 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * 渲染Painter
 	 */
 	public void paint(Graphics g) {
-		super.paint(g);
 		designerEditor.paintEditor(g, this.getSize());
+		super.paint(g);
 	}
 
 	/**
@@ -178,6 +188,27 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 */
 	public Dimension initEditorSize() {
 		return new Dimension(250, 100);
+	}
+
+	/**
+	 * 响应点击事件
+	 *
+	 * @param editingMouseListener 鼠标点击，位置处理器
+	 * @param e 鼠标点击事件
+	 */
+	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+		FormDesigner designer = editingMouseListener.getDesigner();
+		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
+		isEditing =  e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR;
+		displayCoverPane(!isEditing);
+		selectionModel.selectACreatorAtMouseEvent(e);
+
+		if (editingMouseListener.stopEditing()) {
+			if (this != (XCreator)designer.getRootComponent()) {
+				ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
+				editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
+			}
+		}
 	}
 
 	@Override
@@ -198,6 +229,36 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				});
 			}
 		}
-		return null;
+
+		if (editor == null) {
+			setBorder(DEFALUTBORDER);
+			editor = new JPanel();
+			editor.setBackground(null);
+			editor.setLayout(null);
+			editor.setOpaque(false);
+
+			coverPanel = new CoverReportPane();
+			coverPanel.setPreferredSize(this.getPreferredSize());
+			coverPanel.setBounds(this.getBounds());
+
+			editor.add(coverPanel);
+			coverPanel.setVisible(false);
+		}
+		return editor;
+	}
+
+	/**
+	 * 是否展现覆盖的pane
+	 * @param display     是否
+	 */
+	public void  displayCoverPane(boolean display){
+		coverPanel.setVisible(display);
+		coverPanel.setPreferredSize(editor.getPreferredSize());
+		coverPanel.setBounds(editor.getBounds());
+		editor.repaint();
+	}
+
+	public JComponent getCoverPane(){
+		return coverPanel;
 	}
 }
