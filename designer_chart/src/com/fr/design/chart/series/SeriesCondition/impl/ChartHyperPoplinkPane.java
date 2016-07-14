@@ -43,20 +43,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 
 		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(hyperEditPane, BorderLayout.CENTER);
-		
-		ChartCollection cc = new ChartCollection();
-
-        Chart chart = ChartTypeManager.getFirstChart();
-        if (chart != null){
-            try {
-                cc.addChart((Chart)chart.clone());
-            } catch (CloneNotSupportedException e) {
-                FRLogger.getLogger().error(e.getMessage(), e);
-            }
-
-        }else {
-            cc.addChart(new Chart(new Bar2DPlot()));
-        }
+        ChartCollection cc = createChartCollection();
 		
 		chartComponent = new ChartComponent();
 		chartComponent.setPreferredSize(new Dimension(220, 170));// 在单元格弹出时 需要调整保证属性表的大小.
@@ -69,8 +56,25 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 		
 		hyperEditPane.useChartComponent(chartComponent);
 	}
-	
-	protected int getChartParaType() {
+
+    private ChartCollection createChartCollection() {
+        ChartCollection cc = new ChartCollection();
+
+        Chart chart = ChartTypeManager.getFirstChart();
+        if (chart != null){
+            try {
+                cc.addChart((Chart)chart.clone());
+            } catch (CloneNotSupportedException e) {
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
+
+        }else {
+            cc.addChart(new Chart(new Bar2DPlot()));
+        }
+        return cc;
+    }
+
+    protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
 	}
 
@@ -99,8 +103,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 
 		BaseChartCollection cc = chartHyperlink.getChartCollection();
 		if (cc == null || cc.getChartCount() < 1) {
-			cc = new ChartCollection();
-			cc.addChart(new Chart(ChartFactory.createBar2DPlot()));
+			cc = createChartCollection();
 			chartHyperlink.setChartCollection(cc);
 		}
 		
