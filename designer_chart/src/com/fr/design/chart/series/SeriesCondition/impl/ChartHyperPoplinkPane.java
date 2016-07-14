@@ -44,7 +44,22 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(hyperEditPane, BorderLayout.CENTER);
 		
-		ChartCollection cc = new ChartCollection();
+		ChartCollection cc = createChartCollection();
+
+		chartComponent = new ChartComponent();
+		chartComponent.setPreferredSize(new Dimension(220, 170));// �ڵ�Ԫ�񵯳�ʱ ��Ҫ������֤���Ա�Ĵ�С.
+		chartComponent.setSupportEdit(false);
+		chartComponent.populate(cc);
+		
+		this.add(chartComponent, BorderLayout.EAST);
+		
+		hyperEditPane.populate(cc);
+		
+		hyperEditPane.useChartComponent(chartComponent);
+	}
+
+    private ChartCollection createChartCollection() {
+        ChartCollection cc = new ChartCollection();
 
         Chart chart = ChartTypeManager.getFirstChart();
         if (chart != null){
@@ -68,9 +83,11 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 		hyperEditPane.populate(cc);
 		
 		hyperEditPane.useChartComponent(chartComponent);
-	}
-	
-	protected int getChartParaType() {
+
+        return cc;
+    }
+
+    protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
 	}
 
@@ -99,8 +116,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 
 		BaseChartCollection cc = chartHyperlink.getChartCollection();
 		if (cc == null || cc.getChartCount() < 1) {
-			cc = new ChartCollection();
-			cc.addChart(new Chart(ChartFactory.createBar2DPlot()));
+			cc = createChartCollection();
 			chartHyperlink.setChartCollection(cc);
 		}
 		
