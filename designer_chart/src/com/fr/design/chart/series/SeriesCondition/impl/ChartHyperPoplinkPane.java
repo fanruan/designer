@@ -23,7 +23,7 @@ import com.fr.general.Inter;
 import java.awt.*;
 
 /**
- * 类说明: 图表超链 -- 弹出 悬浮窗. 
+ * 类说明: 图表超链 -- 弹出 悬浮窗.
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2011-12-28 上午10:41:39
  */
@@ -32,7 +32,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	private UITextField itemNameTextField;
 	private ChartHyperEditPane hyperEditPane;
 	private ChartComponent chartComponent;
-	
+
 	public ChartHyperPoplinkPane() {
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
@@ -43,18 +43,18 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 
 		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(hyperEditPane, BorderLayout.CENTER);
-		
-		ChartCollection cc = createChartCollection();
+
+		ChartCollection cc =  createChartCollection();
 
 		chartComponent = new ChartComponent();
-		chartComponent.setPreferredSize(new Dimension(220, 170));// �ڵ�Ԫ�񵯳�ʱ ��Ҫ������֤���Ա�Ĵ�С.
+		chartComponent.setPreferredSize(new Dimension(220, 170));// 在单元格弹出时 需要调整保证属性表的大小.
 		chartComponent.setSupportEdit(false);
 		chartComponent.populate(cc);
-		
+
 		this.add(chartComponent, BorderLayout.EAST);
-		
+
 		hyperEditPane.populate(cc);
-		
+
 		hyperEditPane.useChartComponent(chartComponent);
 	}
 
@@ -72,22 +72,10 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
         }else {
             cc.addChart(new Chart(new Bar2DPlot()));
         }
-		
-		chartComponent = new ChartComponent();
-		chartComponent.setPreferredSize(new Dimension(220, 170));// 在单元格弹出时 需要调整保证属性表的大小.
-		chartComponent.setSupportEdit(false);
-		chartComponent.populate(cc);
-		
-		this.add(chartComponent, BorderLayout.EAST);
-		
-		hyperEditPane.populate(cc);
-		
-		hyperEditPane.useChartComponent(chartComponent);
-
         return cc;
     }
 
-    protected int getChartParaType() {
+	protected int getChartParaType() {
 		return ParameterTableModel.CHART_NORMAL_USE;
 	}
 
@@ -102,7 +90,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
     protected boolean needRenamePane(){
         return true;
     }
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return Inter.getLocText("FR-Chart-Pop_Chart");
