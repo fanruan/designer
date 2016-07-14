@@ -22,7 +22,7 @@ import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.ispinner.UpperCaseSpinner;
-import com.fr.design.gui.ispinner.FillBugSpinner;
+import com.fr.design.gui.ispinner.ColumnRowSpinner;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StableUtils;
@@ -120,7 +120,7 @@ public class ColumnRowPane extends JPanel implements UIObserver {
 
 
 	protected void initRowSpinner() {
-		rowSpinner = new FillBugSpinner((new SpinnerListModel(rowarray))) {
+		rowSpinner = new ColumnRowSpinner((new SpinnerListModel(rowarray))) {
 			public boolean shouldResponseChangeListener() {
 				return false;
 			}

@@ -17,8 +17,8 @@ import javax.swing.text.DocumentFilter;
 
 import com.fr.stable.StableUtils;
 //_kerry: 用来修复Spinner输入数字自动填充的bug
-public class FillBugSpinner extends UIBasicSpinner {
-    public FillBugSpinner(SpinnerModel model) {
+public class ColumnRowSpinner extends UIBasicSpinner {
+    public ColumnRowSpinner(SpinnerModel model) {
         super(model);
     }
 
