@@ -102,8 +102,14 @@ public class NormalChartDataPane extends DataContentsPane {
 	public void populate(ChartCollection collection) {
 		reportDataPane.refreshContentPane(collection);
 		tableDataPane.refreshContentPane(collection);
-		
-		dataPane.populateBean(collection);
+
+		if(collection != null && collection.getSelectedChart().getFilterDefinition() == null) {
+			reportDataPane.populateBean(collection);
+			tableDataPane.populateBean(collection);
+		} else {
+			dataPane.populateBean(collection);
+		}
+
 		this.initAllListeners();
 		this.addAttributeChangeListener(listener);
 		
