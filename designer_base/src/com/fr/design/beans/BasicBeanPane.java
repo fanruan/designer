@@ -7,6 +7,7 @@ import com.fr.design.dialog.BasicPane;
  */
 public abstract class BasicBeanPane<T> extends BasicPane {
 
+
 	/**
 	 * Populate.
 	 */
