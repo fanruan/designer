@@ -1,31 +1,32 @@
 package com.fr.design.mainframe.chart.gui.data;
 
-import java.awt.BorderLayout;
+import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
+import com.fr.base.TableData;
+import com.fr.data.impl.NameTableData;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.datapane.TableDataComboBox;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.base.TableData;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.constants.LayoutConstants;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.data.datapane.TableDataComboBox;
-import com.fr.data.impl.NameTableData;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.dialog.BasicPane;
-
 public class DatabaseTableDataPane extends BasicPane{
 	private static final long serialVersionUID = 5316016202202932242L;
 	private TableDataComboBox tableNameCombox;
 	private UIButton reviewButton;
+
+	private Object lastSelectObject;
 
 	public DatabaseTableDataPane(UILabel label) {
 		initTableCombox();
@@ -74,9 +75,11 @@ public class DatabaseTableDataPane extends BasicPane{
 		tableNameCombox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.DESELECTED){
+				if(e.getStateChange() == ItemEvent.DESELECTED
+						|| (lastSelectObject == null && e.getStateChange() == ItemEvent.SELECTED)){
 					userEvent();
 				}
+				lastSelectObject = tableNameCombox.getSelectedItem();
 			}
 		});
 	}

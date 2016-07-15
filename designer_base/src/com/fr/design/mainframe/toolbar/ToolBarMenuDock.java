@@ -8,31 +8,10 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.community.BBSAction;
-import com.fr.design.actions.community.BugAction;
-import com.fr.design.actions.community.NeedAction;
-import com.fr.design.actions.community.QuestionAction;
-import com.fr.design.actions.community.SignAction;
-import com.fr.design.actions.community.UpAction;
-import com.fr.design.actions.community.VideoAction;
-import com.fr.design.actions.file.CloseCurrentTemplateAction;
-import com.fr.design.actions.file.ExitDesignerAction;
-import com.fr.design.actions.file.OpenRecentReportMenuDef;
-import com.fr.design.actions.file.OpenTemplateAction;
-import com.fr.design.actions.file.PreferenceAction;
-import com.fr.design.actions.file.SwitchExistEnv;
-import com.fr.design.actions.help.AboutAction;
-import com.fr.design.actions.help.FeedBackAction;
-import com.fr.design.actions.help.ForumAction;
-import com.fr.design.actions.help.SupportQQAction;
-import com.fr.design.actions.help.TutorialAction;
-import com.fr.design.actions.help.WebDemoAction;
-import com.fr.design.actions.server.ConnectionListAction;
-import com.fr.design.actions.server.FunctionManagerAction;
-import com.fr.design.actions.server.GlobalParameterAction;
-import com.fr.design.actions.server.GlobalTableDataAction;
-import com.fr.design.actions.server.PlatformManagerAction;
-import com.fr.design.actions.server.PluginManagerAction;
+import com.fr.design.actions.community.*;
+import com.fr.design.actions.file.*;
+import com.fr.design.actions.help.*;
+import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.fun.TableDataPaneProcessor;
@@ -55,7 +34,10 @@ import com.fr.stable.ProductConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author richer
@@ -151,10 +133,11 @@ public abstract class ToolBarMenuDock {
 
         // 添加服务器菜单
         menuList.add(createServerMenuDef(plus));
+
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-     // 添加社区菜单
+        // 添加社区菜单
         menuList.add(createCommunityMenuDef());
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
@@ -359,7 +342,7 @@ public abstract class ToolBarMenuDock {
         for (ShortCut shortCut : otherCommunityShortCuts) {
             menuDef.addShortCut(shortCut);
         }
-        insertMenu(menuDef, MenuHandler.HELP);
+        insertMenu(menuDef, MenuHandler.BBS);
         return menuDef;
     }
     /**

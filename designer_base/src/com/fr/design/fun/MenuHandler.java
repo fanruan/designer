@@ -25,6 +25,7 @@ public interface MenuHandler extends Mutable {
     String TEMPLATE = "template";
     String INSERT = "insert";
     String CELL = "cell";
+    String BBS = "bbs";
 
     /**
      * 插入菜单的位置
