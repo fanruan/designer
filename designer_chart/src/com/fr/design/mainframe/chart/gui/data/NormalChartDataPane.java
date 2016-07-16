@@ -108,7 +108,8 @@ public class NormalChartDataPane extends DataContentsPane {
 			tableDataPane.populateBean(collection);
 		} else {
 			dataPane.populateBean(collection);
-		}		this.initAllListeners();
+		}
+		this.initAllListeners();
 		this.addAttributeChangeListener(listener);
 		
 		reportDataPane.checkBoxUse();
