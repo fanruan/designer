@@ -1,9 +1,6 @@
 package com.fr.design.mainframe;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
@@ -326,10 +323,12 @@ public class EditingMouseListener extends MouseInputAdapter {
 				if (designer.getCursor().getType() == Cursor.HAND_CURSOR) {
 					designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				}
-				if (e.getX() > (parent.getX() + parent.getWidth() / 2 - EDIT_BTN_WIDTH / 2 - GAP)
-						&& e.getX() < (parent.getX() + parent.getWidth() / 2 + EDIT_BTN_WIDTH / 2 + GAP)) {
-					if (e.getY() > (parent.getY() + parent.getHeight() / 2 - EDIT_BTN_HEIGHT / 2 - GAP)
-							&& e.getY() < (parent.getY() + parent.getHeight() / 2 + EDIT_BTN_HEIGHT / 2 + GAP + designer.getParaHeight())) {
+				int minX = getParentPositionX(parent, parent.getX()) + parent.getWidth() / 2;
+				int minY = getParentPositionY(parent, parent.getY()) + parent.getHeight() / 2;
+				int offsetX = EDIT_BTN_WIDTH / 2 + GAP;
+				int offsetY = EDIT_BTN_HEIGHT / 2 + GAP;
+				if (e.getX() > (minX - offsetX) && e.getX() < (minX + offsetX)) {
+					if (e.getY() > (minY - offsetY) && e.getY() < (minY + offsetY + designer.getParaHeight())) {
 						designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					}
 				}
@@ -417,11 +416,43 @@ public class EditingMouseListener extends MouseInputAdapter {
 		designer.repaint();
 	}
 
+	//当前编辑的组件是在布局中，鼠标点击布局外部，需要一次性将布局及其父布局都置为不可编辑
+	private void setTopLayoutUnEditable(XLayoutContainer clickedTopLayout, XLayoutContainer clickingTopLayout){
+		//双击的前后点击click为相同对象，过滤掉
+		if (clickedTopLayout == null || clickedTopLayout == clickingTopLayout){
+			return;
+		}
+		//位于同一层级的控件，父布局相同，过滤掉
+		if (clickingTopLayout != null && clickedTopLayout.getParent() == clickingTopLayout.getParent()){
+			return;
+		}
+		//前后点击的位于不同层级，要置为不可编辑
+		XLayoutContainer xLayoutContainer = (XLayoutContainer)clickedTopLayout.getParent();
+		if (xLayoutContainer == clickingTopLayout){
+			return;
+		}
+		if (xLayoutContainer != null){
+			xLayoutContainer.setEditable(false);
+			setTopLayoutUnEditable((XLayoutContainer) clickedTopLayout.getParent(), clickingTopLayout);
+		}
+	}
+
+	private boolean isCreatorInLayout(XCreator creator, XCreator layout){
+		if (creator == layout){
+			return true;
+		}
+		if(layout.getParent() != null){
+			return isCreatorInLayout(creator, (XCreator)layout.getParent());
+		}
+		return false;
+	}
+
 	private XCreator processTopLayoutMouseClick(XCreator creator){
 		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(creator).getTopLayout();
 		if(topLayout != null){
-			if (clickTopLayout != null && clickTopLayout != topLayout){
+			if (clickTopLayout != null && clickTopLayout != topLayout && !isCreatorInLayout(clickTopLayout, topLayout)){
 				clickTopLayout.setEditable(false);
+				setTopLayoutUnEditable(clickTopLayout, topLayout);
 			}
 			clickTopLayout = topLayout;
 			if(!topLayout.isEditable()) {
@@ -431,6 +462,7 @@ public class EditingMouseListener extends MouseInputAdapter {
 		else{
 			if(clickTopLayout != null){
 				clickTopLayout.setEditable(false);
+				setTopLayoutUnEditable(clickTopLayout, null);
 			}
 		}
 
