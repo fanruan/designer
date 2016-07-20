@@ -219,8 +219,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 
 	 */
 	protected void setWrapperName(XLayoutContainer parentPanel, String widgetName) {
-		//先随便set一个, 以后还是要隐藏的
-		parentPanel.toData().setWidgetName("border_card_" + widgetName);
+		parentPanel.toData().setWidgetName("tablayout" + widgetName.replaceAll(createDefaultName(),""));
 	}
 	
 	/**
