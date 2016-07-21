@@ -9,6 +9,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JWindow;
@@ -85,8 +86,12 @@ public class FormCreatorDropTarget extends DropTarget {
 		if (success) {
 			// 如果添加成功，则触发相应事件
             XCreator xCreator = container.acceptType(XWParameterLayout.class) ? designer.getParaComponent() : designer.getRootComponent();
+			//SetSelection时要确保选中的是最顶层的布局
+			//tab布局添加的时候是初始化了XWCardLayout，实际上最顶层的布局是XWCardMainBorderLayout
+			XCreator addingXCreator = addingModel.getXCreator();
+			Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
 			designer.getSelectionModel().setSelectedCreators(
-					FormSelectionUtils.rebuildSelection(xCreator, new Widget[]{addingModel.getXCreator().toData()}));
+					FormSelectionUtils.rebuildSelection(xCreator, new Widget[]{widget}));
 			designer.getEditListenerTable().fireCreatorModified(addingModel.getXCreator(), DesignerEvent.CREATOR_ADDED);
 		} else {
 			Toolkit.getDefaultToolkit().beep();

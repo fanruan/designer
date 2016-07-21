@@ -11,6 +11,7 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.icon.IconPathConstants;
@@ -263,6 +264,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 	 */
 	@Override
 	public XLayoutContainer getTopLayout() {
-		return this;
+		XLayoutContainer xTopLayout = XCreatorUtils.getParentXLayoutContainer(this).getTopLayout();
+		if (xTopLayout != null && !xTopLayout.isEditable()){
+			return xTopLayout;
+		}
+		else{
+			return this;
+		}
 	}
 }
