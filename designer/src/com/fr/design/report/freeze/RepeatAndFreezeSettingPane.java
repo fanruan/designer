@@ -1,17 +1,23 @@
 package com.fr.design.report.freeze;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.PluginManagerPane;
+import com.fr.design.extra.PluginShopDialog;
+import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.Inter;
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.stable.ColumnRow;
@@ -51,6 +57,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 	// 填报冻结
 	private UICheckBox useWriteFrozenCCheckBox;
 	private UICheckBox useWriteFrozenRCheckBox;
+	private static final int LABEL_HEIGHT = 45;
 
 	/**
 	 * 重复标题行
@@ -206,7 +213,15 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 		JPanel repeatPanel = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
 		repeatPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		JPanel freezePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+		//自适应插件
+		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Attention"));
+
+		BoxCenterAligmentPane actionLabel = getURLActionLabel(Inter.getLocText("FR-Designer_Form-Fit-Tip"));
+		infoPane.add(actionLabel, BorderLayout.SOUTH);
+
 		outfreezePanel.add(freezePanel);
+		this.add(infoPane, BorderLayout.SOUTH);
 		// 重复打印部分
 		// 重复打印标题的起始行
 		JPanel labelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -534,6 +549,60 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
             return ColumnRow.valueOf(col, row);
         }
 		return null;
+	}
+
+	private BoxCenterAligmentPane getURLActionLabel(final String text) {
+		ActionLabel actionLabel = new ActionLabel(text);
+
+		actionLabel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					//Desktop.getDesktop().browse(new URI(url));
+					final PluginManagerPane managerPane = new PluginManagerPane();
+					UIDialog dlg = new PluginShopDialog(DesignerContext.getDesignerFrame(),managerPane);
+					PluginWebBridge.getHelper().setDialogHandle(dlg);
+					dlg.setVisible(true);
+					RepeatAndFreezeSettingPane.this.getTopLevelAncestor().setVisible(false);
+				} catch (Exception exp) {
+
+				}
+			}
+		});
+
+		return new BoxCenterAligmentPane(actionLabel);
+	}
+
+	class BoxCenterAligmentPane extends JPanel {
+
+		private UILabel textLabel;
+
+		public BoxCenterAligmentPane(String text) {
+			this(new UILabel(text));
+		}
+
+		public BoxCenterAligmentPane(UILabel label) {
+			this.setLayout(FRGUIPaneFactory.createBorderLayout());
+
+			JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+			this.add(centerPane, BorderLayout.CENTER);
+			UILabel label1 = new UILabel(Inter.getLocText("FR-Designer_Form-Frozen-Tip"));
+			label1.setForeground(new Color(255, 0, 0));
+			UILabel label2 = new UILabel(Inter.getLocText("FR-Designer_Form-Forzen-Speed"));
+			label2.setForeground(new Color(255, 0, 0));
+			this.textLabel = label;
+			centerPane.add(label1);
+			centerPane.add(textLabel);
+			centerPane.add(label2);
+		}
+
+		public void setFont(Font font) {
+			super.setFont(font);
+
+			if (textLabel != null) {
+				textLabel.setFont(font);
+			}
+		}
 	}
 
 }
