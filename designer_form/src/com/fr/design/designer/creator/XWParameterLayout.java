@@ -3,6 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.form.util.XCreatorConstants;
@@ -16,6 +17,7 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
+import com.fr.design.fun.ShowParameterWindow;
 
 import java.awt.*;
 import java.beans.IntrospectionException;
@@ -51,19 +53,39 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      * @throws java.beans.IntrospectionException
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-        return  new CRPropertyDescriptor[]{
+        ShowParameterWindow processor = ExtraDesignClassManager.getInstance().getSingle(ShowParameterWindow.MARK_STRING);
+        if (processor == null) {
+            return  new CRPropertyDescriptor[]{
+                    new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
+                            .getLocText("FR-Designer_Form-Widget_Name")),
+                    new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
+                            .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
+                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                    new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
+                            .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
+                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                    new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
+                            .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
+                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+            };
+        }
+        return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
                         .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                new CRPropertyDescriptor("display", this.data.getClass()).setEditorClass(BooleanEditor.class)
+                        .setI18NName(Inter.getLocText("ParameterD-Show_Parameter_Window"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
                         .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                     .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
+                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
+
     }
     
 	@Override
