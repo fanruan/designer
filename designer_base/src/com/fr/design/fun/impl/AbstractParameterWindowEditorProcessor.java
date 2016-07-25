@@ -26,6 +26,6 @@ public abstract class AbstractParameterWindowEditorProcessor implements Paramete
      */
     @Override
     public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp) {
-        return null;
+        return new PropertyDescriptor[0];
     }
 }

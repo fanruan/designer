@@ -28,6 +28,10 @@ import com.fr.stable.bridge.StableFactory;
  * Sets Report Page Attributes
  */
 public class RepeatAndFreezeSettingPane extends BasicPane {
+
+	//边框高度
+	private static final int LABEL_HEIGHT = 45;
+
 	// 重复标题行
 	private RepeatRowPane repeatTitleRowPane;
 	// 重复标题列
@@ -57,7 +61,6 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 	// 填报冻结
 	private UICheckBox useWriteFrozenCCheckBox;
 	private UICheckBox useWriteFrozenRCheckBox;
-	private static final int LABEL_HEIGHT = 45;
 
 	/**
 	 * 重复标题行

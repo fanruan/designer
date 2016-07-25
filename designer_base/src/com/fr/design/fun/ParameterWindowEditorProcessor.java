@@ -9,7 +9,7 @@ import java.beans.PropertyDescriptor;
  */
 public interface ParameterWindowEditorProcessor extends Immutable {
 
-    String MARK_STRING = "ShowParameter";
+    String MARK_STRING = "ParameterWindowEditorProcessor";
 
     int CURRENT_LEVEL = 1;
 

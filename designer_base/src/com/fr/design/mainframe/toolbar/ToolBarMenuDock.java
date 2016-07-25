@@ -301,7 +301,6 @@ public abstract class ToolBarMenuDock {
         if (ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)) {
             shortCuts.add(new FeedBackAction());
             shortCuts.add(SeparatorDef.DEFAULT);
-            //shortCuts.add(new SupportQQAction());
             shortCuts.add(SeparatorDef.DEFAULT);
           //  shortCuts.add(new ForumAction());
         }
