@@ -3,6 +3,7 @@
  */
 package com.fr.design.designer.creator;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.form.util.XCreatorConstants;
@@ -16,9 +17,12 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
+import com.fr.design.fun.ParameterWindowEditorProcessor;
+import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
 import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 
 /**
  * 表单参数界面container
@@ -51,7 +55,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      * @throws java.beans.IntrospectionException
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-        return  new CRPropertyDescriptor[]{
+        CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
@@ -61,9 +65,17 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                     .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
+                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
+
+        ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
+        if (processor == null) {
+            return  propertyTableEditor;
+        }
+        CRPropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+
+        return ArrayUtils.addAll(propertyTableEditor, extraEditor);
     }
     
 	@Override
