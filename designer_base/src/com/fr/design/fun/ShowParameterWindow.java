@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.stable.fun.mark.Immutable;
+import java.beans.PropertyDescriptor;
 
 
 /**
@@ -15,6 +16,6 @@ public interface ShowParameterWindow extends Immutable {
     /**
      * 生成属性表
      */
-    void add();
+    PropertyDescriptor[] add(Class<?> temp);
 }
 

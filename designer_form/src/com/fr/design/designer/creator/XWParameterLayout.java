@@ -18,9 +18,11 @@ import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.design.fun.ShowParameterWindow;
+import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
 import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 
 /**
  * 表单参数界面container
@@ -53,30 +55,11 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      * @throws java.beans.IntrospectionException
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-        ShowParameterWindow processor = ExtraDesignClassManager.getInstance().getSingle(ShowParameterWindow.MARK_STRING);
-        if (processor == null) {
-            return  new CRPropertyDescriptor[]{
-                    new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                            .getLocText("FR-Designer_Form-Widget_Name")),
-                    new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
-                            .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
-                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                    new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                            .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
-                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                    new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                            .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
-                            .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-            };
-        }
-        return new CRPropertyDescriptor[]{
+        CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
                         .setRendererClass(BackgroundRenderer.class).setI18NName(Inter.getLocText("Background"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                new CRPropertyDescriptor("display", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(Inter.getLocText("ParameterD-Show_Parameter_Window"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
                         .setI18NName(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"))
@@ -86,6 +69,13 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 
+        ShowParameterWindow processor = ExtraDesignClassManager.getInstance().getSingle(ShowParameterWindow.MARK_STRING);
+        if (processor == null) {
+            return  propertyTableEditor;
+        }
+        PropertyDescriptor[] extraEditor = processor.add(this.data.getClass());
+
+        return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
     }
     
 	@Override

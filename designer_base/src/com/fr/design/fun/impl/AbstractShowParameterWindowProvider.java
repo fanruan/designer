@@ -2,6 +2,7 @@ package com.fr.design.fun.impl;
 
 import com.fr.design.fun.ShowParameterWindow;
 import com.fr.stable.fun.mark.API;
+import java.beans.PropertyDescriptor;
 
 
 /**
@@ -24,7 +25,7 @@ public abstract class AbstractShowParameterWindowProvider implements ShowParamet
      * 生成属性表
      */
     @Override
-    public void add() {
-
+    public PropertyDescriptor[] add(Class<?> temp) {
+        return null;
     }
 }
