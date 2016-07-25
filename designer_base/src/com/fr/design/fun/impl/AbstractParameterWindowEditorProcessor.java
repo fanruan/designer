@@ -1,6 +1,6 @@
 package com.fr.design.fun.impl;
 
-import com.fr.design.fun.ShowParameterWindow;
+import com.fr.design.fun.ParameterWindowEditorProcessor;
 import com.fr.stable.fun.mark.API;
 import java.beans.PropertyDescriptor;
 
@@ -8,8 +8,8 @@ import java.beans.PropertyDescriptor;
 /**
  * Created by zpc on 2016/7/21.
  */
-@API(level = ShowParameterWindow.CURRENT_LEVEL)
-public abstract class AbstractShowParameterWindowProvider implements ShowParameterWindow {
+@API(level = ParameterWindowEditorProcessor.CURRENT_LEVEL)
+public abstract class AbstractParameterWindowEditorProcessor implements ParameterWindowEditorProcessor {
 
     public int currentAPILevel() {
         return CURRENT_LEVEL;
@@ -25,7 +25,7 @@ public abstract class AbstractShowParameterWindowProvider implements ShowParamet
      * 生成属性表
      */
     @Override
-    public PropertyDescriptor[] add(Class<?> temp) {
+    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp) {
         return null;
     }
 }

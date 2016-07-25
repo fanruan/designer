@@ -17,7 +17,7 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.design.fun.ShowParameterWindow;
+import com.fr.design.fun.ParameterWindowEditorProcessor;
 import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
@@ -69,11 +69,11 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 
-        ShowParameterWindow processor = ExtraDesignClassManager.getInstance().getSingle(ShowParameterWindow.MARK_STRING);
+        ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
         if (processor == null) {
             return  propertyTableEditor;
         }
-        PropertyDescriptor[] extraEditor = processor.add(this.data.getClass());
+        PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
 
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
     }

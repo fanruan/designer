@@ -7,7 +7,7 @@ import java.beans.PropertyDescriptor;
 /**
  * Created by zpc on 16/7/21.
  */
-public interface ShowParameterWindow extends Immutable {
+public interface ParameterWindowEditorProcessor extends Immutable {
 
     String MARK_STRING = "ShowParameter";
 
@@ -16,6 +16,6 @@ public interface ShowParameterWindow extends Immutable {
     /**
      * 生成属性表
      */
-    PropertyDescriptor[] add(Class<?> temp);
+    PropertyDescriptor[] createPropertyDescriptor(Class<?> temp);
 }
 
