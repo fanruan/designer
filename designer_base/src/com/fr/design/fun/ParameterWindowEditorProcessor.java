@@ -1,8 +1,7 @@
 package com.fr.design.fun;
 
+import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.stable.fun.mark.Immutable;
-import java.beans.PropertyDescriptor;
-
 
 /**
  * Created by zpc on 16/7/21.
@@ -16,6 +15,6 @@ public interface ParameterWindowEditorProcessor extends Immutable {
     /**
      * 生成属性表
      */
-    PropertyDescriptor[] createPropertyDescriptor(Class<?> temp);
+    CRPropertyDescriptor[] createPropertyDescriptor(Class<?> temp);
 }
 

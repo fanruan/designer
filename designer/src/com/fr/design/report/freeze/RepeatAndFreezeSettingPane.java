@@ -218,7 +218,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
 		JPanel freezePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
 		//自适应插件
-		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Attention"));
+		JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Attention"));
 
 		BoxCenterAligmentPane actionLabel = getURLActionLabel(Inter.getLocText("FR-Designer_Form-Fit-Tip"));
 		infoPane.add(actionLabel, BorderLayout.SOUTH);

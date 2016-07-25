@@ -1,8 +1,8 @@
 package com.fr.design.fun.impl;
 
+import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.fun.ParameterWindowEditorProcessor;
 import com.fr.stable.fun.mark.API;
-import java.beans.PropertyDescriptor;
 
 
 /**
@@ -25,7 +25,7 @@ public abstract class AbstractParameterWindowEditorProcessor implements Paramete
      * 生成属性表
      */
     @Override
-    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp) {
-        return new PropertyDescriptor[0];
+    public CRPropertyDescriptor[] createPropertyDescriptor(Class<?> temp) {
+        return new CRPropertyDescriptor[0];
     }
 }

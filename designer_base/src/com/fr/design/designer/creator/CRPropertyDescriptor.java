@@ -3,7 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.design.gui.xtable.AbstractPropertyGroupModel;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
@@ -15,6 +14,7 @@ import java.beans.PropertyDescriptor;
  * @since 6.5.3
  */
 public final class CRPropertyDescriptor extends PropertyDescriptor {
+    public static final String RENDERER = "renderer";
 	
 	private PropertyChangeAdapter l;
 	
@@ -51,7 +51,7 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
     }
 
     public CRPropertyDescriptor setRendererClass(Class<?> clazz) {
-        this.putKeyValue(AbstractPropertyGroupModel.RENDERER, clazz);
+        this.putKeyValue(RENDERER, clazz);
         return this;
     }
 

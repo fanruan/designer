@@ -73,9 +73,9 @@ public class XWParameterLayout extends XWAbsoluteLayout {
         if (processor == null) {
             return  propertyTableEditor;
         }
-        PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
+        CRPropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass());
 
-        return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+        return ArrayUtils.addAll(propertyTableEditor, extraEditor);
     }
     
 	@Override
