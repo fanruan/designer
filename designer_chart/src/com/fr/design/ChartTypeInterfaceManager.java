@@ -58,13 +58,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
-            classManager.readXMLFile();
         }
         return classManager;
     }
 
     static {
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+        GeneralContext.addSwitchEnvListener(new EnvChangedListener() {
             public void envChanged() {
                 ChartTypeInterfaceManager.envChanged();
             }
@@ -85,6 +84,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     public static WidgetOption[] initWidgetOption(){
+        checkDefault();
+
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
         for (int i = 0; i < typeName.length; i++) {
@@ -132,6 +133,11 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         }
     }
 
+    private static void checkDefault() {
+        if(chartTypeInterfaces.size() == 0){
+            readDefault();
+        }
+    }
     /**
      * 增加界面接口定义
      *
@@ -141,7 +147,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     public void addChartInterface(String className, String plotID, PluginSimplify simplify) {
         if (StringUtils.isNotBlank(className)) {
             try {
-                Class<?> clazz = loader.loadClass(className);
+                Class<?> clazz = Class.forName(className);
                 Authorize authorize = clazz.getAnnotation(Authorize.class);
                 if (authorize != null) {
                     PluginLicenseManager.getInstance().registerPaid(authorize, simplify);
@@ -171,6 +177,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
+        checkDefault();
 
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
