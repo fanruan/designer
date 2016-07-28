@@ -136,9 +136,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         ArrayList<String> selectOption = new ArrayList<String>();
         selectOption.add(Inter.getLocText("FR-Designer_Custom-Angle"));
         VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG, DefaultVerticalTextProcessor.class);
-        if (processor != null){
-            selectOption.addAll(Arrays.asList(processor.getComboxOption()));
-        }
+		selectOption.addAll(Arrays.asList(processor.getComboxOption()));
 
         textRotationComboBox = new UIComboBox(selectOption.toArray(new String[selectOption.size()]));
     }
@@ -242,7 +240,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
 		} else {
 			this.textComboBox.setSelectedIndex(0);
 		}
-		if (style.getVerticalText() == Style.VERTICALTEXT && ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG) != null) {
+		if (style.getVerticalText() == Style.VERTICALTEXT) {
 			textRotationComboBox.setSelectedIndex(style.getTextDirection() == Style.LEFT_TO_RIGHT ? 1 : 2);
 		} else {
 			textRotationComboBox.setSelectedIndex(0);
