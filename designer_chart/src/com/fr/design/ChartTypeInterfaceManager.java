@@ -74,11 +74,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
             public void success() {
-                if (chartTypeInterfaces != null) {
-                    readDefault();
-                    //重新注册designModuleFactory
-                    DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-                }
+                ChartTypeInterfaceManager.getInstance().readDefault();
+                //重新注册designModuleFactory
+                DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
             }
         });
     }
@@ -101,7 +99,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private synchronized static void envChanged() {
-        chartTypeInterfaces.clear();
+        classManager = null;
     }
 
     private static void readDefault() {
@@ -132,6 +130,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         }
     }
 
+    public static void addChartTypeInterface(IndependentChartUIProvider provider, String plotID) {
+        if (chartTypeInterfaces != null && !chartTypeInterfaces.containsKey(plotID)) {
+            chartTypeInterfaces.put(plotID, provider);
+        }
+    }
+
     /**
      * 增加界面接口定义
      *
@@ -149,8 +153,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 IndependentChartUIProvider provider = (IndependentChartUIProvider) clazz.newInstance();
                 if (PluginCollector.getCollector().isError(provider, IndependentChartUIProvider.CURRENT_API_LEVEL, simplify.getPluginName()) || !containsChart(plotID)) {
                     PluginMessage.remindUpdate(className);
-                } else if (!chartTypeInterfaces.containsKey(plotID)) {
-                    chartTypeInterfaces.put(plotID, provider);
+                } else {
+                    ChartTypeInterfaceManager.getInstance().addChartTypeInterface(provider, plotID);
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());
