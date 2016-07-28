@@ -63,7 +63,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     static {
-        GeneralContext.addSwitchEnvListener(new EnvChangedListener() {
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             public void envChanged() {
                 ChartTypeInterfaceManager.envChanged();
             }
