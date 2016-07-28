@@ -1,12 +1,16 @@
 package com.fr.design.mainframe;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.beans.location.MoveUtils;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
@@ -68,6 +72,9 @@ public class EditingMouseListener extends MouseInputAdapter {
 	private MouseEvent lastPressEvent;
 	private DesignerEditor<? extends JComponent> current_editor;
 	private XCreator current_creator;
+
+	//备份开始拖动的位置和大小
+	private Rectangle dragBackupBounds;
 
 	/**
 	 * 获取最小移动距离
@@ -186,6 +193,14 @@ public class EditingMouseListener extends MouseInputAdapter {
 			if (stateModel.isDragging()) {
                 // 当前鼠标所在的组件
                 XCreator hoveredComponent = designer.getComponentAt(e.getX(), e.getY());
+				if(designer.isWidgetsIntersect() && dragBackupBounds != null && hoveredComponent != null){
+					XCreator selectionXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+					if(selectionXCreator != null){
+						selectionXCreator.setBounds(dragBackupBounds.x, dragBackupBounds.y, dragBackupBounds.width, dragBackupBounds.height);
+						MoveUtils.hideForbidWindow();
+					}
+				}
+				dragBackupBounds = null;
                 // 拉伸时鼠标拖动过快，导致所在组件获取会为空
                 if (hoveredComponent == null && e.getY() < 0) {
                 	// bug63538
@@ -384,6 +399,12 @@ public class EditingMouseListener extends MouseInputAdapter {
 				stateModel.dragging(e);
 				// 获取e所在的焦点组件
 				XCreator hotspot = designer.getComponentAt(e.getX(), e.getY());
+				if(dragBackupBounds == null) {
+					XCreator selectingXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+					if(selectingXCreator != null){
+						dragBackupBounds = new Rectangle(selectingXCreator.getX(), selectingXCreator.getY(), selectingXCreator.getWidth(), selectingXCreator.getHeight());
+					}
+				}
 				// 拉伸时鼠标拖动过快，导致所在组件获取会为空
 				if (hotspot == null) {
 					return;

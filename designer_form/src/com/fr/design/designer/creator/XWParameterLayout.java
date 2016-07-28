@@ -163,4 +163,15 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     public void setBackground(Background background){
         this.toData().setBackground(background);
     }
+
+    @Override
+    public void paint(Graphics g) {
+        //参数面板特殊处理，不出现编辑层
+        setEditable(true);
+        super.paint(g);
+    }
+    @Override
+    public XLayoutContainer getTopLayout() {
+        return this;
+    }
 }
