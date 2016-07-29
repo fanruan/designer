@@ -173,10 +173,9 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
             comboItemsMap = new HashMap<>();
 
             Set<SubmitProvider> providers = ExtraDesignClassManager.getInstance().getArray(SubmitProvider.MARK_STRING);
-            providers.add(new DefaultSubmit());
+            addSubmitPane(new DefaultSubmit());
             for (SubmitProvider provider : providers) {
-                customSubmitPanes.put(provider.keyForSubmit(), provider.appearanceForSubmit());
-                comboItemsMap.put(provider.keyForSubmit(), provider.dataForSubmit());
+                addSubmitPane(provider);
             }
 
             configTypes = new ArrayList<>();
@@ -209,6 +208,11 @@ public class SubmitVisitorListPane extends ObjectJControlPane {
                     }
                 }
             });
+        }
+
+        private void addSubmitPane(SubmitProvider provider) {
+            customSubmitPanes.put(provider.keyForSubmit(), provider.appearanceForSubmit());
+            comboItemsMap.put(provider.keyForSubmit(), provider.dataForSubmit());
         }
 
         @Override

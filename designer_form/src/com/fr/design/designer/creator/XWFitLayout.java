@@ -51,7 +51,7 @@ public class XWFitLayout extends XLayoutContainer {
 	
 	public XWFitLayout(WFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
-		
+
 		initPercent();
 	}
 	
@@ -1160,7 +1160,7 @@ public class XWFitLayout extends XLayoutContainer {
 
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(new XWBodyFitLayout())};
+		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
 	}
 	
 }
