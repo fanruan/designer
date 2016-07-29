@@ -121,7 +121,7 @@ public class Inner extends AccessDirection {
 			}
 		};
 		//判断当前操作的是不是参数面板，要特殊处理
-		boolean isParameterLayout = (designer.getSelectionModel().getSelection().getSelectedCreator().getParent()) instanceof XWParameterLayout;
+		boolean isParameterLayout = ((XCreator)(designer.getSelectionModel().getSelection().getSelectedCreator().getParent())).acceptType(XWParameterLayout.class);
 		point.setLocation(MoveUtils.sorption(point.x, point.y, current_bounds.width, current_bounds.height, rd, isParameterLayout));
 	}
 	
