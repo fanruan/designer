@@ -117,9 +117,6 @@ public class FRFitLayoutAdapter extends AbstractLayoutAdapter {
 	 */
 	@Override
 	public void addComp(XCreator child, int x, int y) {
-		if (ComparatorUtils.equals(child.getIconPath(), WIDGETPANEICONPATH)) {
-			return;
-		}
 		fix(child, x, y);
 		if (child.shouldScaleCreator() || child.hasTitleStyle()) {
 			addParentCreator(child);

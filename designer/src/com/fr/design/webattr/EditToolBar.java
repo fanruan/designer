@@ -63,16 +63,8 @@ public class EditToolBar extends BasicPane {
 
 	private ListSelectionListener listSelectionListener = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent evt) {
-			if (lastButton != null && lastButton.getWidget() instanceof Button) {
-				if (!((list.getSelectedValue() instanceof ToolBarButton)
-						&& ((ToolBarButton)(list.getSelectedValue())).getWidget() instanceof CustomToolBarButton)) {
-					lastButton.setWidget(bp.update());
-				} else {
-					((Button) lastButton.getWidget()).setShowIcon(bp.icon.isSelected());
-					((Button) lastButton.getWidget()).setShowText(bp.text.isSelected());
-					((Button) lastButton.getWidget()).setText(bp.nameField.getText());
-					((Button) lastButton.getWidget()).setIconName(bp.iconPane.update());
-				}
+			if (lastButton != null) {
+				lastButton.setWidget(bp.update());
 			}
 			if (list.getSelectedValue() instanceof ToolBarButton) {
 				lastButton = (ToolBarButton) list.getSelectedValue();

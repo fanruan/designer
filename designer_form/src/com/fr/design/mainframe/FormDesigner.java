@@ -84,6 +84,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private ConnectorHelper ConnectorHelper;
     private boolean isReportBlockEditing = false;
 
+    //组件重叠
+    private boolean isWidgetsIntersect = false;
+
     /**
      * 下面的变量都是非序列化成员，不记录设计状态，只作为设计时临时状态使用。
      */
@@ -539,6 +542,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         if (paraComponent != null && paraComponent.acceptType(XWParameterLayout.class)){
             return true;
         }
+        else{
+            if (this.getSelectionModel().getSelection().getSelectedCreator().getParent() != null
+                    && ((XLayoutContainer)this.getSelectionModel().getSelection().getSelectedCreator().getParent()).acceptType(XWAbsoluteLayout.class)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -556,6 +565,14 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     public boolean isReportBlockEditing() {
         return this.isReportBlockEditing;
+    }
+
+    public void setWidgetsIntersect(boolean isWidgetsIntersect){
+        this.isWidgetsIntersect = isWidgetsIntersect;
+    }
+
+    public boolean isWidgetsIntersect(){
+        return this.isWidgetsIntersect;
     }
 
     /**
