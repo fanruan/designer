@@ -6,6 +6,7 @@ import com.fr.design.dialog.BasicPane;
  * Update Pane
  */
 public abstract class BasicBeanPane<T> extends BasicPane {
+    
 
 
 	/**

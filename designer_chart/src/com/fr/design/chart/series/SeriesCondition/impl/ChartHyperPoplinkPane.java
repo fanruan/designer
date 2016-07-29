@@ -4,7 +4,6 @@ import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.ChartFactory;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.design.beans.BasicBeanPane;
