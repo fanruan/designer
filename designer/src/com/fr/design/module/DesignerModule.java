@@ -14,15 +14,8 @@ import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.fun.ElementUIProvider;
-import com.fr.design.gui.controlpane.NameObjectCreator;
-import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.hyperlink.ReportletHyperlinkPane;
-import com.fr.design.hyperlink.WebHyperlinkPane;
-import com.fr.design.javascript.EmailPane;
-import com.fr.design.javascript.JavaScriptImplPane;
-import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
@@ -38,7 +31,6 @@ import com.fr.general.*;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
-import com.fr.js.*;
 import com.fr.main.impl.WorkBook;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.quickeditor.ChartQuickEditor;
@@ -55,10 +47,11 @@ import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.fun.LogProvider;
-import com.fr.stable.module.Module;
 import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
+import com.fr.stable.web.ServletContext;
+import com.fr.stable.web.ServletContextAdapter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
@@ -74,6 +67,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class DesignerModule extends DesignModule {
+
+    static {
+        ServletContext.addServletContextListener(new ServletContextAdapter() {
+
+            public void onServletStart() {
+                ModuleContext.startModule(DesignerModule.class.getName());
+            }
+        });
+    }
 
     /**
      * 启动设计器模块
