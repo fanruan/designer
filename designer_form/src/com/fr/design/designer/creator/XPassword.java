@@ -47,16 +47,19 @@ public class XPassword extends XWrapperedFieldEditor {
      */
 	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
+		CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 								Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
-								WidgetValueEditor.class),
+								WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")}
+							, super.supportedDescriptor());
+		return (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
+				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("regex", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_Input_Rule"))
 								.setEditorClass(RegexEditor.RegexEditor4TextArea.class)
 								.putKeyValue("renderer", RegexCellRencerer.class)
-								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_WaterMark"))
 								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")

@@ -18,6 +18,7 @@ import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.TextEditor;
+import com.fr.form.ui.reg.NoneReg;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -40,18 +41,27 @@ public class XTextEditor extends XWrapperedFieldEditor {
      */
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
-				new CRPropertyDescriptor[] {
-						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-								Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(
-								WidgetValueEditor.class),
-						new CRPropertyDescriptor("regex", this.data.getClass()).setI18NName(
-								Inter.getLocText("FR-Designer_Input_Rule")).setEditorClass(RegexEditor.class).putKeyValue(
-								"renderer", RegexCellRencerer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-								"Advanced"),
-						new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-								Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-								"Advanced"), });
+		CRPropertyDescriptor widgetValue=new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
+					Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(
+					WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+		CRPropertyDescriptor regex=	new CRPropertyDescriptor("regex", this.data.getClass()).setI18NName(
+						Inter.getLocText("FR-Designer_Input_Rule")).setEditorClass(RegexEditor.class).putKeyValue(
+						"renderer", RegexCellRencerer.class).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+		CRPropertyDescriptor regErrorMessage=new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
+						Inter.getLocText("Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+		CRPropertyDescriptor waterMark=	new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
+						Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+						"Advanced");
+		CRPropertyDescriptor[] sup=(CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {widgetValue},super.supportedDescriptor());
+		Boolean displayRegField = false;
+		if((((TextEditor) toData()).getRegex() instanceof NoneReg) || ((TextEditor) toData()).getRegex()==null){
+			displayRegField = false;
+		}else{
+			displayRegField = true;
+		}
+		return  displayRegField? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
+				new CRPropertyDescriptor[] {regex, regErrorMessage, waterMark} ):
+				(CRPropertyDescriptor[]) ArrayUtils.addAll(sup,new CRPropertyDescriptor[] {regex, waterMark});
 	}
     
 	@Override

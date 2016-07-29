@@ -41,31 +41,42 @@ public class XNumberEditor extends XWrapperedFieldEditor {
      */
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] sup = super.supportedDescriptor();
+		CRPropertyDescriptor[] sup =(CRPropertyDescriptor[]) ArrayUtils.addAll(
+				new CRPropertyDescriptor[] {
+						new CRPropertyDescriptor("widgetValue", this.data.getClass())
+						.setI18NName(Inter.getLocText(new String[]{"Widget", "Value"}))
+						.setEditorClass(WidgetValueEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")}
+				,super.supportedDescriptor());
 		CRPropertyDescriptor allowDecimal = new CRPropertyDescriptor("allowDecimals", this.data.getClass())
 				.setEditorClass(InChangeBooleanEditor.class)
-				.setI18NName(Inter.getLocText("FR-Designer_Allow_Decimals"));
+				.setI18NName(Inter.getLocText("FR-Designer_Allow_Decimals"))
+				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
 		CRPropertyDescriptor decimalLength = new CRPropertyDescriptor("maxDecimalLength", this.data.getClass())
-				.setI18NName(Inter.getLocText(new String[]{"Double", "Numbers"}));
+				.setI18NName(Inter.getLocText(new String[]{"Double", "Numbers"}))
+				.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
 		sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, ((NumberEditor)this.data).isAllowDecimals() ?
 				new CRPropertyDescriptor[] {allowDecimal, decimalLength} : new CRPropertyDescriptor[] {allowDecimal});
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("allowNegative", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_Allow_Negative"))
-								.setEditorClass(InChangeBooleanEditor.class),
+								.setEditorClass(InChangeBooleanEditor.class)
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("minValue", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_Min_Value"))
-								.setEditorClass(SpinnerMinNumberEditor.class),
+								.setEditorClass(SpinnerMinNumberEditor.class)
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("maxValue", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_Max_Value"))
-								.setEditorClass(SpinnerMaxNumberEditor.class),
-						new CRPropertyDescriptor("widgetValue", this.data.getClass())
-								.setI18NName(Inter.getLocText(new String[]{"Widget", "Value"}))
-								.setEditorClass(WidgetValueEditor.class),
+								.setEditorClass(SpinnerMaxNumberEditor.class)
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
 								.setI18NName(Inter.getLocText("FR-Designer_WaterMark"))
-								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
+								.setI18NName(Inter.getLocText("Verify-Message"))
+								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate")
 				});
 	}
 
