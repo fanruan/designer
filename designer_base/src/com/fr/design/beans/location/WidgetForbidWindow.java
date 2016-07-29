@@ -15,7 +15,7 @@ public class WidgetForbidWindow extends JWindow {
     private static final int WIDTH = 150;
     private static final int HEIGHT = 20;
 
-    private UIButton promptButton = new UIButton("禁止组件相互重叠", BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
+    private UIButton promptButton = new UIButton(Inter.getLocText("FR-Designer_Forbid_Widgets_Intersects"), BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
 
     /**
      * 构造函数
