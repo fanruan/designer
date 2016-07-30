@@ -23,7 +23,9 @@ sourceSets{
 		}
 }
 dependencies{
-compile fileTree(dir:'../../',include:'**/*.jar')
+compile fileTree(dir:'../../fr-lib-8.0-gradle',include:'**/*.jar')
+compile fileTree(dir:'../../',include:'fr-*-8.0-gradle/**/*.jar')
+
  	testCompile 'junit:junit:4.12'
 }
 
