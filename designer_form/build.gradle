@@ -6,8 +6,8 @@ tasks.withType(JavaCompile){
 
 version='8.0'
 
-def srcDir="${System.getenv()['JENKINS_HOME']}/workspace/design"
-def libDir="${System.getenv()['JENKINS_HOME']}/workspace/lib"
+def srcDir="."
+
 
 
 jar{
@@ -24,8 +24,6 @@ sourceSets{
 }
 dependencies{
 compile fileTree(dir:'../../',include:'**/*.jar')
-compile fileTree(dir:libDir,include:'*.jar')
-compile fileTree(dir:"${libDir}/jetty",include:'*.jar')
  	testCompile 'junit:junit:4.12'
 }
 
@@ -46,7 +44,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 task compressJS{
 	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
 		classpath {
-			fileset(dir:'../../build',includes:'**/*.jar')
+			fileset(dir:'../../fr-build-8.0-gradle',includes:'**/*.jar')
 		}
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
