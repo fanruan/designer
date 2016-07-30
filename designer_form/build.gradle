@@ -17,8 +17,8 @@ jar{
 sourceSets{
 		main{
 			java{
-				srcDirs=["${srcDir}/designer/src",
-"${srcDir}/designer_form/src"]
+				srcDirs=["${srcDir}/src",
+"${srcDir}_form/src"]
 			}
 		}
 }
@@ -32,10 +32,10 @@ compile fileTree(dir:'../../',include:'fr-*-8.0-gradle/**/*.jar')
 
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
-		from ("${srcDir}/designer/src"){
+		from ("${srcDir}/src"){
 			exclude '**/*.java'
 		}
-		from ("${srcDir}/designer_form/src")
+		from ("${srcDir}_form/src")
 		into ('build/classes/main')
 	}
 
@@ -50,11 +50,11 @@ task compressJS{
 		}
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
-		fileset (dir:"${srcDir}/designer/src"){
+		fileset (dir:"${srcDir}/src"){
 			include (name:'**/*.js')
 
 		}
-		fileset (dir:"${srcDir}/designer_form/src"){
+		fileset (dir:"${srcDir}_form/src"){
 			include (name:'**/*.js')
 
 		}
