@@ -18,7 +18,7 @@ sourceSets{
 		main{
 			java{
 				srcDirs=["${srcDir}/src",
-"${srcDir}/src"]
+"${srcDir}/../designer/src"]
 			}
 		}
 }
@@ -35,7 +35,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 		from ("${srcDir}/src"){
 			exclude '**/*.java'
 		}
-		from ("${srcDir}/src")
+		from ("${srcDir}/../designer/src")
 		into ('build/classes/main')
 	}
 
@@ -54,7 +54,7 @@ task compressJS{
 			include (name:'**/*.js')
 
 		}
-		fileset (dir:"${srcDir}/src"){
+		fileset (dir:"${srcDir}/../designer/src"){
 			include (name:'**/*.js')
 
 		}
