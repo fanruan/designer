@@ -35,7 +35,9 @@ task copyFile(type:Copy,dependsOn:compileJava){
 		from ("${srcDir}/src"){
 			exclude '**/*.java'
 		}
-		from ("${srcDir}/../designer/src")
+		from ("${srcDir}/../designer/src"){
+			exclude '**/*.java'
+		}
 		into ('build/classes/main')
 	}
 
