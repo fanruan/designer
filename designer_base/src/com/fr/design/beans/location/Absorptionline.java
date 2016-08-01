@@ -14,6 +14,7 @@ public class Absorptionline {
 	// 2.(x,y)(x±2根号3,y-2)(x±2根号3,y+2)
 	private static int RECTANGLE_OFFSET_X = 2;
 	private static int RECTANGLE_OFFSET_Y = 3;
+	private static int WIDGET_DISTANCE_MIN = 8;
 	//控件周围八个拖拽框的大小
 	private static int RESIZE_BOX_SIZE = 5;
 
@@ -238,114 +239,155 @@ public class Absorptionline {
 
 	//朝向上方的等距线
 	private void paintTopEquidistantLine(Graphics g){
-		int x1[] = {
+		int x[] = {
 				equidistantStart.x + equidistantStart.width / 2,
 				equidistantStart.x + equidistantStart.width / 2 - RECTANGLE_OFFSET_X,
 				equidistantStart.x + equidistantStart.width / 2 + RECTANGLE_OFFSET_X
 		};
-		int y1[] = {
-				top,
-				top + RECTANGLE_OFFSET_Y,
-				top + RECTANGLE_OFFSET_Y
-		};
-		int x2[] = {
-				equidistantStart.x + equidistantStart.width / 2,
-				equidistantStart.x + equidistantStart.width / 2 + RECTANGLE_OFFSET_X,
-				equidistantStart.x + equidistantStart.width / 2 - RECTANGLE_OFFSET_X
-		};
-		int y2[] = {
-				equidistantStart.y - RESIZE_BOX_SIZE,
-				equidistantStart.y - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y,
-				equidistantStart.y - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y
-		};
-		g.fillPolygon(x1, y1, 3);
-		g.fillPolygon(x2, y2, 3);
+		int[] y1, y2;
+		if (equidistantStart.y - top > WIDGET_DISTANCE_MIN) {
+			y1 = new int[] {
+					top,
+					top + RECTANGLE_OFFSET_Y,
+					top + RECTANGLE_OFFSET_Y
+			};
+			y2 = new int[]{
+					equidistantStart.y - RESIZE_BOX_SIZE,
+					equidistantStart.y - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y,
+					equidistantStart.y - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y
+			};
+		}
+		else{
+			y1 = new int[] {
+					top,
+					top - RECTANGLE_OFFSET_Y,
+					top - RECTANGLE_OFFSET_Y
+			};
+			y2 = new int[] {
+					equidistantStart.y,
+					equidistantStart.y + RECTANGLE_OFFSET_Y,
+					equidistantStart.y + RECTANGLE_OFFSET_Y
+			};
+		}
+		g.fillPolygon(x, y1, 3);
+		g.fillPolygon(x, y2, 3);
 		GraphHelper.drawLine(g,
 				equidistantStart.x + equidistantStart.width / 2, top,
 				equidistantStart.x + equidistantStart.width / 2, equidistantStart.y - RESIZE_BOX_SIZE);
 	}
 	//朝向左侧的等距线
 	private void paintLeftEquidistantLine(Graphics g){
-		int x1[] = {
-				left,
-				left + RECTANGLE_OFFSET_Y,
-				left + RECTANGLE_OFFSET_Y,
-		};
-		int y1[] = {
+		int y[] = {
 				equidistantStart.y + equidistantStart.height / 2,
 				equidistantStart.y + equidistantStart.height / 2 - RECTANGLE_OFFSET_X,
 				equidistantStart.y + equidistantStart.height / 2 + RECTANGLE_OFFSET_X,
 		};
-		int x2[] = {
-				equidistantStart.x - RESIZE_BOX_SIZE,
-				equidistantStart.x - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y,
-				equidistantStart.x - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y
-		};
-		int y2[] = {
-				equidistantStart.y + equidistantStart.height / 2,
-				equidistantStart.y + equidistantStart.height / 2 + RECTANGLE_OFFSET_X,
-				equidistantStart.y + equidistantStart.height / 2 - RECTANGLE_OFFSET_X
-		};
-		g.fillPolygon(x1, y1, 3);
-		g.fillPolygon(x2, y2, 3);
+		int[] x1, x2;
+		if (equidistantStart.x - left > WIDGET_DISTANCE_MIN) {
+			x1 = new int[] {
+					left,
+					left + RECTANGLE_OFFSET_Y,
+					left + RECTANGLE_OFFSET_Y,
+			};
+
+			x2 = new int[] {
+					equidistantStart.x - RESIZE_BOX_SIZE,
+					equidistantStart.x - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y,
+					equidistantStart.x - RESIZE_BOX_SIZE - RECTANGLE_OFFSET_Y
+			};
+		}
+		else{
+			x1 = new int[] {
+					left,
+					left - RECTANGLE_OFFSET_Y,
+					left - RECTANGLE_OFFSET_Y,
+			};
+			x2 = new int[] {
+					equidistantStart.x,
+					equidistantStart.x + RECTANGLE_OFFSET_Y,
+					equidistantStart.x + RECTANGLE_OFFSET_Y
+			};
+		}
+		g.fillPolygon(x1, y, 3);
+		g.fillPolygon(x2, y, 3);
 		GraphHelper.drawLine(g,
 				left, equidistantStart.y + equidistantStart.height / 2,
-				equidistantStart.x - RESIZE_BOX_SIZE, equidistantStart.y + equidistantStart.height / 2);
+				equidistantStart.x, equidistantStart.y + equidistantStart.height / 2);
 	}
 	//朝向下方的等距线
 	private void paintBottomEquidistantLine(Graphics g) {
-		int x1[] = {
+		int x[] = {
 				equidistantStart.x + equidistantStart.width / 2,
 				equidistantStart.x + equidistantStart.width / 2 + RECTANGLE_OFFSET_X,
 				equidistantStart.x + equidistantStart.width / 2 - RECTANGLE_OFFSET_X,
 		};
-		int y1[] = {
-				equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE,
-				equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
-				equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
-		};
-		int x2[] = {
-				equidistantStart.x + equidistantStart.width / 2,
-				equidistantStart.x + equidistantStart.width / 2 + RECTANGLE_OFFSET_X,
-				equidistantStart.x + equidistantStart.width / 2 - RECTANGLE_OFFSET_X
-		};
-		int y2[] = {
-				bottom,
-				bottom - RECTANGLE_OFFSET_Y,
-				bottom - RECTANGLE_OFFSET_Y
-		};
-		g.fillPolygon(x1, y1, 3);
-		g.fillPolygon(x2, y2, 3);
+		int[] y1, y2;
+		if (bottom - equidistantStart.y + equidistantStart.height > WIDGET_DISTANCE_MIN) {
+			y1 = new int[] {
+					equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE,
+					equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
+					equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
+			};
+			y2 = new int[] {
+					bottom,
+					bottom - RECTANGLE_OFFSET_Y,
+					bottom - RECTANGLE_OFFSET_Y
+			};
+		}
+		else{
+			y1 = new int[] {
+					equidistantStart.y + equidistantStart.height,
+					equidistantStart.y + equidistantStart.height - RECTANGLE_OFFSET_Y,
+					equidistantStart.y + equidistantStart.height - RECTANGLE_OFFSET_Y,
+			};
+			y2 = new int[] {
+					bottom,
+					bottom + RECTANGLE_OFFSET_Y,
+					bottom + RECTANGLE_OFFSET_Y
+			};
+		}
+		g.fillPolygon(x, y1, 3);
+		g.fillPolygon(x, y2, 3);
 		GraphHelper.drawLine(g,
-				equidistantStart.x + equidistantStart.width / 2, equidistantStart.y + equidistantStart.height + RESIZE_BOX_SIZE,
+				equidistantStart.x + equidistantStart.width / 2, equidistantStart.y + equidistantStart.height,
 				equidistantStart.x + equidistantStart.width / 2, bottom);
 	}
 	//朝向右侧的等距线
 	private void paintRightEquidistantLine(Graphics g){
-		int x1[] = {
-				right,
-				right - 3,
-				right - 3
-		};
-		int y1[] = {
+		int y[] = {
 				equidistantStart.y + equidistantStart.height / 2,
 				equidistantStart.y + equidistantStart.height / 2 - RECTANGLE_OFFSET_X,
 				equidistantStart.y + equidistantStart.height / 2 + RECTANGLE_OFFSET_X
 		};
-		int x2[] = {
-				equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE,
-				equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
-				equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y
-		};
-		int y2[] = {
-				equidistantStart.y + equidistantStart.height / 2,
-				equidistantStart.y + equidistantStart.height / 2 - RECTANGLE_OFFSET_X,
-				equidistantStart.y + equidistantStart.height / 2 + RECTANGLE_OFFSET_X,
-		};
-		g.fillPolygon(x1, y1, 3);
-		g.fillPolygon(x2, y2, 3);
+		int[] x1, x2;
+		if(right - equidistantStart.x > WIDGET_DISTANCE_MIN) {
+			x1 = new int[]{
+					right,
+					right - RECTANGLE_OFFSET_Y,
+					right - RECTANGLE_OFFSET_Y
+			};
+			x2 = new int[]{
+					equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE,
+					equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y,
+					equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE + RECTANGLE_OFFSET_Y
+			};
+		}
+		else{
+			x1 = new int[]{
+					right,
+					right + RECTANGLE_OFFSET_Y,
+					right + RECTANGLE_OFFSET_Y
+			};
+			x2 = new int[]{
+					equidistantStart.x + equidistantStart.width,
+					equidistantStart.x + equidistantStart.width - RECTANGLE_OFFSET_Y,
+					equidistantStart.x + equidistantStart.width - RECTANGLE_OFFSET_Y
+			};
+		}
+		g.fillPolygon(x1, y, 3);
+		g.fillPolygon(x2, y, 3);
 		GraphHelper.drawLine(g,
-				equidistantStart.x + equidistantStart.width + RESIZE_BOX_SIZE, equidistantStart.y + equidistantStart.height / 2,
+				equidistantStart.x + equidistantStart.width, equidistantStart.y + equidistantStart.height / 2,
 				right, equidistantStart.y + equidistantStart.height / 2);
 	}
 }

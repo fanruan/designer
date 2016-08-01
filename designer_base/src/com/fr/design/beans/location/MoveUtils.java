@@ -468,6 +468,7 @@ public class MoveUtils {
 				equidistantLines.add(equidistantLines1[0]);
 				equidistantLines.add(equidistantLines1[2]);
 				pEquidistantY.palce = operatingRectangle.y - offset / 2;
+				operatingRectangle.y = pEquidistantY.palce;
 			}
 		}
 		if (equidistantLines1[1] != null && equidistantLines1[3] != null){//left, right
@@ -477,6 +478,7 @@ public class MoveUtils {
 				equidistantLines.add(equidistantLines1[1]);
 				equidistantLines.add(equidistantLines1[3]);
 				pEquidistantX.palce = operatingRectangle.x - offset / 2;
+				operatingRectangle.x = pEquidistantX.palce;
 			}
 		}
 	}
