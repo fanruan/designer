@@ -69,11 +69,12 @@ public class PluginManagerPane extends BasicPane {
 
     /**
      * 以关键词打开设计器商店
+     *
      * @param keyword 关键词
      */
-    public PluginManagerPane(String keyword){
+    public PluginManagerPane(String keyword) {
         this();
-        PluginWebBridge.getHelper().setShowKeyword(keyword);
+        PluginWebBridge.getHelper().openWithSearch(keyword);
     }
 
     private void addPane(String installHome) {

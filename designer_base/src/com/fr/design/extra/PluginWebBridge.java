@@ -6,7 +6,6 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.general.SiteCenter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
@@ -18,13 +17,14 @@ import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -35,7 +35,26 @@ public class PluginWebBridge {
     private static PluginWebBridge helper;
 
     private UIDialog uiDialog;
-    private String showKeyword;
+    private ACTIONS action;
+    private String ACTION = "action";
+    private String KEYWORD = "keyword";
+    private Map<String, Object> config;
+
+    /**
+     * 动作枚举
+     */
+    public enum ACTIONS {
+        SEARCH("search");
+        private String context;
+
+        ACTIONS(String context) {
+            this.context = context;
+        }
+
+        public String getContext() {
+            return context;
+        }
+    }
 
     public static PluginWebBridge getHelper() {
         if (helper != null) {
@@ -60,12 +79,52 @@ public class PluginWebBridge {
     private PluginWebBridge() {
     }
 
-    public String getShowKeyword() {
-        return showKeyword;
+    /**
+     * 获取打开动作配置
+     *
+     * @return 配置信息
+     */
+    public String getRunConfig() {
+        if (action != null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(ACTION, action.getContext());
+            Set<String> keySet = config.keySet();
+            for (String key : keySet) {
+                jsonObject.put(key, config.get(key).toString());
+            }
+            return jsonObject.toString();
+        }
+        return StringUtils.EMPTY;
     }
 
-    public void setShowKeyword(String showKeyWord) {
-        this.showKeyword = showKeyWord;
+    /**
+     * 配置打开动作
+     *
+     * @param action 动作
+     * @param config 参数
+     */
+    public void setRunConfig(ACTIONS action, Map<String, Object> config) {
+        this.action = action;
+        this.config = config;
+    }
+
+    /**
+     * 清楚打开动作
+     */
+    public void clearRunConfig() {
+        this.action = null;
+        this.config = null;
+    }
+
+    /**
+     * 打开时搜索
+     *
+     * @param keyword 关键词
+     */
+    public void openWithSearch(String keyword) {
+        HashMap<String, Object> map = new HashMap<String, Object>(2);
+        map.put(KEYWORD, keyword);
+        setRunConfig(ACTIONS.SEARCH, map);
     }
 
     public void setEngine(WebEngine webEngine) {
@@ -212,7 +271,7 @@ public class PluginWebBridge {
      *
      * @return 已安装的插件授权对象
      */
-    public PluginLicense getPluginLicenseByID(String pluginID ) {
+    public PluginLicense getPluginLicenseByID(String pluginID) {
         return PluginLicenseManager.getInstance().getPluginLicenseByID(pluginID);
     }
 
@@ -305,7 +364,7 @@ public class PluginWebBridge {
     /**
      * 在本地浏览器里打开url
      * tips:重载的时候,需要给js调用的方法需要放在前面,否则可能不会被调用(此乃坑)
-     *      所以最好的是不要重载在js可以访问的接口文件中
+     * 所以最好的是不要重载在js可以访问的接口文件中
      *
      * @param url 要打开的地址
      */
