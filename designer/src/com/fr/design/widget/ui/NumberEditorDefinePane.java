@@ -42,7 +42,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     private com.fr.design.editor.editor.IntegerEditor decimalLength;
     private JPanel limitNumberPane;
     private WaterMarkDictPane waterMarkDictPane;
-    private UITextField regErrorMsgTextField;
 
     private ActionListener actionListener1 = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -125,9 +124,9 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         @Override
         public void stateChanged(ChangeEvent e) {
             if (setMaxValueCheckBox.isSelected()) {
-				if (setMinValueCheckBox.isSelected()) {
-                	minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
-				}
+                if (setMinValueCheckBox.isSelected()) {
+                    minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
+                }
             }
         }
     };
@@ -137,9 +136,9 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         @Override
         public void stateChanged(ChangeEvent e) {
             if (setMinValueCheckBox.isSelected()) {
-				if (setMaxValueCheckBox.isSelected()) {
-                	maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
-				}
+                if (setMaxValueCheckBox.isSelected()) {
+                    maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
+                }
             }
         }
     };
@@ -168,12 +167,12 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         northPane.add(waterMarkDictPane);
         JPanel centerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Validate"));
         JPanel validatePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        validatePane.setPreferredSize(new Dimension(400,200));
+        validatePane.setPreferredSize(new Dimension(400, 200));
         centerPane.add(validatePane);
         content.add(northPane, BorderLayout.NORTH);
         content.add(centerPane, BorderLayout.CENTER);
         validatePane.add(GUICoreUtils.createFlowPane(getAllowBlankCheckBox(), FlowLayout.LEFT));
-        validatePane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"),getErrorMsgTextField()}, FlowLayout.LEFT,24));
+        validatePane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getErrorMsgTextField()}, FlowLayout.LEFT, 24));
 
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
         this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
@@ -205,24 +204,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.minValueSpinner.setVisible(false);
         this.setMinValueCheckBox.addActionListener(actionListener4);
         this.minValueSpinner.addChangeListener(changeListener2);
-
-        regErrorMsgTextField = new UITextField(16);
-        validatePane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"),regErrorMsgTextField}, FlowLayout.LEFT,24));
-
-        regErrorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
-
-            public void changedUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-        });
+        validatePane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getRegErrorMsgTextField()}, FlowLayout.LEFT, 24));
 
         return content;
     }
@@ -258,7 +240,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
             minValueSpinner.setVisible(true);
             minValueSpinner.setValue(new Double(e.getMinValue()));
         }
-        this.regErrorMsgTextField.setText(e.getRegErrorMessage());
+        this.getRegErrorMsgTextField().setText(e.getRegErrorMessage());
         this.waterMarkDictPane.populate(e);
     }
 
@@ -286,7 +268,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
         this.waterMarkDictPane.update(ob);
 
-        ob.setRegErrorMessage(this.regErrorMsgTextField.getText());
+        ob.setRegErrorMessage(this.getRegErrorMsgTextField().getText());
 
         return ob;
     }
@@ -315,7 +297,9 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
             df.setAllowsInvalid(false);
         }
     }
-    @Override
-    public void addAllowBlankPane(UICheckBox allowBlankCheckBox,JPanel errorMsgPane){}
 
+    @Override
+    public void addAllowBlankPane(UICheckBox allowBlankCheckBox, JPanel errorMsgPane) {
     }
+
+}

@@ -26,6 +26,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     private UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
     private UITextField errorMsgTextField;
+    private UITextField regErrorMsgTextField;
 
     public FieldEditorDefinePane() {
         this.initComponents();
@@ -33,6 +34,20 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        regErrorMsgTextField = new UITextField(16);
+        regErrorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
+        });
 
         //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("Allow_Blank"));
@@ -123,6 +138,10 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     public UITextField getErrorMsgTextField() {
         return errorMsgTextField;
+    }
+
+    public UITextField getRegErrorMsgTextField() {
+        return regErrorMsgTextField;
     }
 
 }
