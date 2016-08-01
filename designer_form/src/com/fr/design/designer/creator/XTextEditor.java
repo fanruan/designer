@@ -19,10 +19,12 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.reg.NoneReg;
+import com.fr.form.ui.reg.RegExp;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 /**
  * @author richer
@@ -53,11 +55,10 @@ public class XTextEditor extends XWrapperedFieldEditor {
 						Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced");
 		CRPropertyDescriptor[] sup=(CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {widgetValue},super.supportedDescriptor());
-		Boolean displayRegField = false;
-		if((((TextEditor) toData()).getRegex() instanceof NoneReg) || ((TextEditor) toData()).getRegex()==null){
+		Boolean displayRegField = true;
+		RegExp reg = ((TextEditor) toData()).getRegex();
+		if(reg == null || reg.toRegText().equals("")){
 			displayRegField = false;
-		}else{
-			displayRegField = true;
 		}
 		return  displayRegField? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
 				new CRPropertyDescriptor[] {regex, regErrorMessage, waterMark} ):

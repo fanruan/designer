@@ -125,9 +125,9 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         @Override
         public void stateChanged(ChangeEvent e) {
             if (setMaxValueCheckBox.isSelected()) {
-                if (setMinValueCheckBox.isSelected()) {
-                    minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
-                }
+				if (setMinValueCheckBox.isSelected()) {
+                	minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
+				}
             }
         }
     };
@@ -137,9 +137,9 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         @Override
         public void stateChanged(ChangeEvent e) {
             if (setMinValueCheckBox.isSelected()) {
-                if (setMaxValueCheckBox.isSelected()) {
-                    maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
-                }
+				if (setMaxValueCheckBox.isSelected()) {
+                	maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
+				}
             }
         }
     };
@@ -315,5 +315,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
             df.setAllowsInvalid(false);
         }
     }
+    @Override
+    public void addAllowBlankPane(UICheckBox allowBlankCheckBox,JPanel errorMsgPane){}
 
-}
+    }

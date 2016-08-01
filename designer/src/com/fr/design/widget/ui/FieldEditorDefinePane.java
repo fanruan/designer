@@ -47,15 +47,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 		// 错误信息
 		JPanel errorMsgPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		//目前只整改了文本、密码、文本域和数字四个控件
-		if(!(this instanceof TextFieldEditorDefinePane)&&!(this instanceof NumberEditorDefinePane)){
-			JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-			this.add(northPane, BorderLayout.NORTH);
-			JPanel firstPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-			firstPanel.setBorder(BorderFactory.createEmptyBorder(0, -2, 0, 0));
-			firstPanel.add(allowBlankCheckBox);
-			firstPanel.add(errorMsgPane);
-			northPane.add(firstPanel);
-		}
+		this.addAllowBlankPane(allowBlankCheckBox,errorMsgPane);
 		errorMsgPane.add(new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"));
 		errorMsgTextField = new UITextField(16);
 		errorMsgPane.add(errorMsgTextField);
@@ -112,6 +104,16 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 	@Override
 	public void checkValid() throws Exception {
 
+	}
+
+	public void addAllowBlankPane(UICheckBox allowBlankCheckBox,JPanel errorMsgPane){
+		JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+		this.add(northPane, BorderLayout.NORTH);
+		JPanel firstPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+		firstPanel.setBorder(BorderFactory.createEmptyBorder(0, -2, 0, 0));
+		firstPanel.add(allowBlankCheckBox);
+		firstPanel.add(errorMsgPane);
+		northPane.add(firstPanel);
 	}
 	public  UICheckBox getAllowBlankCheckBox(){
 		return  allowBlankCheckBox;

@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.frpane.RegPane;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -73,15 +74,15 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 			}
 		};
 		regPane.addPhoneRegListener(pl);
-		JPanel spp1 = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Validate"));
+		JPanel basicPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Validate"));
 		JPanel validateContent = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 		getAllowBlankCheckBox().setPreferredSize(new Dimension(444,40));
 		validateContent.add(GUICoreUtils.createFlowPane(getAllowBlankCheckBox(), FlowLayout.LEFT));
 		validateContent.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"),getErrorMsgTextField()}, FlowLayout.LEFT,24));
 		validateContent.add(GUICoreUtils.createFlowPane(regPane, FlowLayout.LEFT));
 		validateContent.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"),regErrorMsgTextField}, FlowLayout.LEFT,24));
-		spp1.add(validateContent);
-		JPanel spp2 = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		basicPane.add(validateContent);
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
 		waterMarkDictPane = new WaterMarkDictPane();
 		waterMarkDictPane.addInputKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -102,9 +103,9 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
 			}
 		});
-		spp2.add(waterMarkDictPane);
-		contenter.add(spp2, BorderLayout.NORTH);
-		contenter.add(spp1, BorderLayout.CENTER);
+		advancedPane.add(waterMarkDictPane);
+		contenter.add(advancedPane, BorderLayout.NORTH);
+		contenter.add(basicPane, BorderLayout.CENTER);
 		return attrPane;
 	}
 
@@ -138,4 +139,8 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 		return new TextEditor();
 	}
 
-}
+	@Override
+	public void addAllowBlankPane(UICheckBox allowBlankCheckBox, JPanel errorMsgPane){}
+
+
+	}
