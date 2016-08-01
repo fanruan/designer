@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 
 import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.ilable.UILabel;
+
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -22,91 +23,125 @@ import com.fr.general.Inter;
 import com.fr.design.widget.DataModify;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
-	private UICheckBox allowBlankCheckBox;
-	// richer:错误信息，是所有控件共有的属性，所以放到这里来
-	private UITextField errorMsgTextField;
+    private UICheckBox allowBlankCheckBox;
+    // richer:错误信息，是所有控件共有的属性，所以放到这里来
+    private UITextField errorMsgTextField;
+    private UITextField regErrorMsgTextField;
 
-	public FieldEditorDefinePane() {
-		this.initComponents();
-	}
+    public FieldEditorDefinePane() {
+        this.initComponents();
+    }
 
-	protected void initComponents() {
-		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-		JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-		this.add(northPane, BorderLayout.NORTH);
-		JPanel firstPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		firstPanel.setBorder(BorderFactory.createEmptyBorder(0, -2, 0, 0));
-		//JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
-		allowBlankCheckBox = new UICheckBox(Inter.getLocText("Allow_Blank"));
-		// 是否允许为空
-		firstPanel.add(allowBlankCheckBox);
-		allowBlankCheckBox.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
-			}
-		});
+    protected void initComponents() {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        regErrorMsgTextField = new UITextField(16);
+        regErrorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
 
-		// 错误信息
-		JPanel errorMsgPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-		firstPanel.add(errorMsgPane);
-		northPane.add(firstPanel);
-		errorMsgPane.add(new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"));
-		errorMsgTextField = new UITextField(16);
-		errorMsgPane.add(errorMsgTextField);
+            public void insertUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
 
-		// richer:主要为了方便查看比较长的错误信息
-		errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void removeUpdate(DocumentEvent e) {
+                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
+            }
+        });
 
-			public void changedUpdate(DocumentEvent e) {
-				errorMsgTextField.setToolTipText(errorMsgTextField.getText());
-			}
+        //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
+        allowBlankCheckBox = new UICheckBox(Inter.getLocText("Allow_Blank"));
 
-			public void insertUpdate(DocumentEvent e) {
-				errorMsgTextField.setToolTipText(errorMsgTextField.getText());
-			}
+        allowBlankCheckBox.addItemListener(new ItemListener() {
 
-			public void removeUpdate(DocumentEvent e) {
-				errorMsgTextField.setToolTipText(errorMsgTextField.getText());
-			}
-		});
-		JPanel contentPane = this.setFirstContentPane();
-		if (contentPane != null) {
-			//contentPane.add(firstPanel);
-			this.add(contentPane, BorderLayout.CENTER);
-		} else {
-			//this.add(firstPanel, BorderLayout.CENTER);
-		}
-	}
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
+            }
+        });
 
-	@Override
-	public void populateBean(T ob) {
-		this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
-		errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
-		this.errorMsgTextField.setText(ob.getErrorMessage());
+        // 错误信息
+        JPanel errorMsgPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        //目前只整改了文本、密码、文本域和数字四个控件
+        this.addAllowBlankPane(allowBlankCheckBox, errorMsgPane);
+        errorMsgPane.add(new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"));
+        errorMsgTextField = new UITextField(16);
+        errorMsgPane.add(errorMsgTextField);
 
-		populateSubFieldEditorBean(ob);
-	}
+        // richer:主要为了方便查看比较长的错误信息
+        errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
 
-	protected abstract void populateSubFieldEditorBean(T ob);
+            public void changedUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
 
-	@Override
-	public T updateBean() {
-		T e = updateSubFieldEditorBean();
+            public void insertUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
 
-		e.setAllowBlank(this.allowBlankCheckBox.isSelected());
-		e.setErrorMessage(this.errorMsgTextField.getText());
+            public void removeUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
+        });
+        JPanel contentPane = this.setFirstContentPane();
+        if (contentPane != null) {
+            //contentPane.add(firstPanel);
+            this.add(contentPane, BorderLayout.CENTER);
+        } else {
+            //this.add(firstPanel, BorderLayout.CENTER);
+        }
+    }
 
-		return e;
-	}
+    @Override
+    public void populateBean(T ob) {
+        this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
+        errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
+        this.errorMsgTextField.setText(ob.getErrorMessage());
 
-	protected abstract T updateSubFieldEditorBean();
+        populateSubFieldEditorBean(ob);
+    }
 
-	protected abstract JPanel setFirstContentPane();
+    protected abstract void populateSubFieldEditorBean(T ob);
 
-	@Override
-	public void checkValid() throws Exception {
+    @Override
+    public T updateBean() {
+        T e = updateSubFieldEditorBean();
 
-	}
+        e.setAllowBlank(this.allowBlankCheckBox.isSelected());
+        e.setErrorMessage(this.errorMsgTextField.getText());
+
+        return e;
+    }
+
+    protected abstract T updateSubFieldEditorBean();
+
+    protected abstract JPanel setFirstContentPane();
+
+    @Override
+    public void checkValid() throws Exception {
+
+    }
+
+    public void addAllowBlankPane(UICheckBox allowBlankCheckBox, JPanel errorMsgPane) {
+        JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+        this.add(northPane, BorderLayout.NORTH);
+        JPanel firstPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        firstPanel.setBorder(BorderFactory.createEmptyBorder(0, -2, 0, 0));
+        firstPanel.add(allowBlankCheckBox);
+        firstPanel.add(errorMsgPane);
+        northPane.add(firstPanel);
+    }
+
+    public UICheckBox getAllowBlankCheckBox() {
+        return allowBlankCheckBox;
+    }
+
+    public UITextField getErrorMsgTextField() {
+        return errorMsgTextField;
+    }
+
+    public UITextField getRegErrorMsgTextField() {
+        return regErrorMsgTextField;
+    }
+
 }

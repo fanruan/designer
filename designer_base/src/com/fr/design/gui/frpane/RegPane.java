@@ -48,15 +48,15 @@ public class RegPane extends BasicPane {
 		new MobileReg(),
 		new CustomReg()
 	};
-	
+
 	public static final RegExp[] TEXTAREA_REG_TYPE = {
 		new NoneReg(),
 		new LengthReg(),
 		new CustomReg()
 	};
-	
+
 	public static final RegExp[] PASSWORD_REG_TYPE = TEXTAREA_REG_TYPE;
-	
+
 	private RegExp[] regType;
 	private UIComboBox regComboBox;
 	private CardLayout detailedCardLayout;
@@ -64,16 +64,21 @@ public class RegPane extends BasicPane {
 	private RegPhonePane regPhonePane;
 	private DefaultRegPane defaultRegPane;
 	private CustomRegRexPane customRegRexPane;
-		
+
+
+	public UIComboBox getRegComboBox(){
+		return regComboBox;
+	}
+
 	public RegPane() {
 		this(ALL_REG_TYPE);
 	}
-	
+
 	public RegPane(RegExp[] types) {
 		this.regType = types;
 		this.initComponents();
 	}
-	
+
 	private void initComponents(){
 		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 		JPanel contentPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
@@ -82,7 +87,7 @@ public class RegPane extends BasicPane {
 		regComboBox = new UIComboBox(regType);
 		regComboBox.setRenderer(listCellRender);
 		contentPane.add(regComboBox);
-		
+
 		final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 		detailedCardLayout = new CardLayout();
 		cardPane.setLayout(detailedCardLayout);
@@ -90,7 +95,7 @@ public class RegPane extends BasicPane {
 		cardPane.add((regLengthPane = new RegLengthPane()), "Length");
 		cardPane.add((regPhonePane = new RegPhonePane()), "Phone");
 		cardPane.add((customRegRexPane = new CustomRegRexPane()), "Custom");
-		
+
 		this.add(cardPane);
 		regComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -111,15 +116,15 @@ public class RegPane extends BasicPane {
 					}
 					fireRegChangeAction();
 				}
-			}		
+			}
 		});
 	}
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return Inter.getLocText("FR-Designer_Input_Rule");
 	}
-	
+
 	private int getRegTypeIndex(RegExp regex) {
 		if (regex != null) {
 			for (int i = 0; i < regType.length; i++) {
@@ -131,7 +136,7 @@ public class RegPane extends BasicPane {
 
 		return 0;
 	}
-	
+
 	public void populate(RegExp regex) {
 		regComboBox.setSelectedIndex(getRegTypeIndex(regex));
 		if (regex instanceof LengthReg) {
@@ -144,111 +149,111 @@ public class RegPane extends BasicPane {
 			defaultRegPane.populate(regex);
 		}
 	}
-	
+
 	public RegExp update(){
 		RegExp regExp = (RegExp)regComboBox.getSelectedItem();
-		
+
 		if (regExp instanceof LengthReg){
 			return regLengthPane.update();
 		} else if(regExp instanceof PhoneReg) {
 			return regPhonePane.update();
-		} else if(regExp instanceof NoneReg || regExp instanceof MailReg || regExp instanceof IDCardReg 
-			|| regExp instanceof PostCardReg || regExp instanceof PhoneReg || regExp instanceof MobileReg) {
+		} else if(regExp instanceof NoneReg || regExp instanceof MailReg || regExp instanceof IDCardReg
+				|| regExp instanceof PostCardReg || regExp instanceof PhoneReg || regExp instanceof MobileReg) {
 			return regExp;
 		}
 		else if (regExp instanceof CustomReg){
-            if (customRegRexPane.isEmpty()) {
-                return new NoneReg();
-            }
+			if (customRegRexPane.isEmpty()) {
+				return new NoneReg();
+			}
 			return customRegRexPane.update();
 		} else {
 			return defaultRegPane.update();
 		}
 	}
-	
+
 	private static abstract class DisplayPane extends BasicPane {
 		public abstract void populate(RegExp regRex);
-		
+
 		public abstract RegExp update();
 	}
-	
+
 	private static class DefaultRegPane extends DisplayPane {
 		public RegExp regRex;
-		
+
 		public DefaultRegPane(){
-			
+
 		}
 
-		
+
 		@Override
 		protected String title4PopupWindow() {
 			return "Default";
 		}
-		
+
 		@Override
 		public void populate(RegExp regRex) {
-		    
+
 		}
 
 		@Override
 		public RegExp update() {
-		
+
 			return this.regRex;
-		}		
+		}
 	}
-	
+
 	/**
 	 * 添加电话规则监听器
-	 * 
+	 *
 	 * @param listener 监听器
-	 * 
+	 *
 	 *
 	 * @date 2014-12-3-下午7:30:55
-	 * 
+	 *
 	 */
 	public void addPhoneRegListener(PhoneRegListener listener) {
 		this.listenerList.add(PhoneRegListener.class, listener);
 	}
-	
+
 	/**
 	 * 移除电话规则监听器
-	 * 
+	 *
 	 * @param listener 监听器
-	 * 
+	 *
 	 *
 	 * @date 2014-12-3-下午7:30:55
-	 * 
+	 *
 	 */
 	public void removePhoneRegListener(PhoneRegListener listener) {
 		this.listenerList.remove(PhoneRegListener.class, listener);
 	}
-	
+
 	/**
 	 * 添加正则监听器
-	 * 
+	 *
 	 * @param listener 监听器
-	 * 
+	 *
 	 *
 	 * @date 2014-12-3-下午7:29:48
-	 * 
+	 *
 	 */
 	public void addRegChangeListener(RegChangeListener listener) {
 		this.listenerList.add(RegChangeListener.class, listener);
 	}
-	
+
 	/**
 	 * 移除正则监听器
-	 * 
+	 *
 	 * @param listener 监听器
-	 * 
+	 *
 	 *
 	 * @date 2014-12-3-下午7:29:48
-	 * 
+	 *
 	 */
 	public void removeRegChangeListener(RegChangeListener listener) {
 		this.listenerList.remove(RegChangeListener.class, listener);
 	}
-	
+
 	public class PhoneRegEvent extends EventObject {
 		private String phoneRegString;
 		public PhoneRegEvent(Object source, String phoneRegString) {
@@ -275,48 +280,48 @@ public class RegPane extends BasicPane {
 			return regString;
 		}
 	}
-	
+
 	public interface PhoneRegListener extends EventListener{
-		
+
 		/**
 		 * 电话规则变化监听
-		 * 
+		 *
 		 * @param e 变化事件
-		 * 
+		 *
 		 *
 		 * @date 2014-12-3-下午7:29:01
-		 * 
+		 *
 		 */
 		void phoneRegChangeAction(PhoneRegEvent e);
-	
+
 	}
-	
+
 	public interface RegChangeListener extends EventListener {
-		
+
 		/**
 		 * 正则表达规则变化监听
-		 * 
+		 *
 		 *
 		 * @date 2014-12-3-下午7:29:01
-		 * 
+		 *
 		 */
 		void regChangeAction();
 	}
 	protected void firePhoneRegAction(String phoneReg) {
 		Object[] listeners = listenerList.getListenerList();
-       for (int i = listeners.length-2; i>=0; i-=2) {   
-           if (listeners[i]==PhoneRegListener.class) {
-               ((PhoneRegListener)listeners[i+1]).phoneRegChangeAction(new PhoneRegEvent(this , phoneReg));   
-           }   
-       }   
+		for (int i = listeners.length-2; i>=0; i-=2) {
+			if (listeners[i]==PhoneRegListener.class) {
+				((PhoneRegListener)listeners[i+1]).phoneRegChangeAction(new PhoneRegEvent(this , phoneReg));
+			}
+		}
 	}
 	protected void fireRegChangeAction() {
 		Object[] listeners = listenerList.getListenerList();
-       for (int i = listeners.length-2; i>=0; i-=2) {   
-           if (listeners[i]==RegChangeListener.class) {
-               ((RegChangeListener)listeners[i+1]).regChangeAction();   
-           }   
-       }   
+		for (int i = listeners.length-2; i>=0; i-=2) {
+			if (listeners[i]==RegChangeListener.class) {
+				((RegChangeListener)listeners[i+1]).regChangeAction();
+			}
+		}
 	}
 	private class RegPhonePane extends DisplayPane {
 		private static final String EMB_REG1 = "025-85679591";
@@ -324,7 +329,7 @@ public class RegPane extends BasicPane {
 		private static final String EMB_REG3 = "025 85679591";
 		private static final int LIMIT_LENGTH = 20;
 		private static final String REG_PATTERN = "0123456789-*# ";
-		
+
 		private UIComboBox dataTypeComboBox;
 		private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, Inter.getLocText("FR-Designer_Custom")};
 		DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
@@ -357,7 +362,7 @@ public class RegPane extends BasicPane {
 		protected String title4PopupWindow() {
 			return "PHONE";
 		}
-		
+
 		@Override
 		public void populate(RegExp regRex) {
 			if(!(regRex instanceof PhoneReg)) {
@@ -369,13 +374,13 @@ public class RegPane extends BasicPane {
 			}
 			dataTypeComboBox.setSelectedItem(((PhoneReg)regRex).getRegString());
 		}
-		
+
 		private boolean checkEmbedded(String regstr){
 			return !ComparatorUtils.equals(EMB_REG1, regstr) &&
-				   !ComparatorUtils.equals(EMB_REG2, regstr) &&
-				   !ComparatorUtils.equals(EMB_REG3, regstr);
+					!ComparatorUtils.equals(EMB_REG2, regstr) &&
+					!ComparatorUtils.equals(EMB_REG3, regstr);
 		}
-		
+
 		@Override
 		public RegExp update() {
 			PhoneReg regRex = new PhoneReg();
@@ -383,11 +388,11 @@ public class RegPane extends BasicPane {
 			return regRex;
 		}
 	}
-	
+
 	private static class RegLengthPane extends DisplayPane {
 		private UISpinner minLenSpinner;
 		private UISpinner maxLenSpinner;
-		
+
 		public RegLengthPane(){
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"));
@@ -395,9 +400,9 @@ public class RegPane extends BasicPane {
 			this.add(minLenSpinner);
 			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"));
 			maxLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-			this.add(maxLenSpinner);			
+			this.add(maxLenSpinner);
 		}
-		
+
 		@Override
 		protected String title4PopupWindow() {
 			return "LENGTH";
@@ -408,11 +413,11 @@ public class RegPane extends BasicPane {
 			if (!(regRex instanceof LengthReg)){
 				return;
 			}
-			
+
 			int minLength = ((LengthReg)regRex).getMinLen();
 			int maxLength = ((LengthReg)regRex).getMaxLen();
 			minLenSpinner.setValue(minLength);
-			maxLenSpinner.setValue(maxLength);			
+			maxLenSpinner.setValue(maxLength);
 		}
 
 		@Override
@@ -422,21 +427,21 @@ public class RegPane extends BasicPane {
 			LengthReg regRex = new LengthReg();
 			regRex.setMinLen(startLength);
 			regRex.setMaxLen(endLength);
-			
+
 			return regRex;
-		}		
+		}
 	}
-	
+
 	private static class CustomRegRexPane extends DisplayPane{
 		private UITextField regTextField;
-		
+
 		public CustomRegRexPane(){
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions") + ":"));
 			regTextField = new UITextField(20);
 			this.add(regTextField);
 		}
-		
+
 		@Override
 		protected String title4PopupWindow() {
 			return "CUSTOM";
@@ -451,19 +456,19 @@ public class RegPane extends BasicPane {
 		}
 
 		@Override
-		public RegExp update() {			
+		public RegExp update() {
 			return new CustomReg(regTextField.getText());
 		}
 
-        public boolean isEmpty() {
-            return StringUtils.isEmpty(regTextField.getText());
-        }
+		public boolean isEmpty() {
+			return StringUtils.isEmpty(regTextField.getText());
+		}
 	}
-	
+
 	ListCellRenderer listCellRender = new UIComboBoxRenderer(){
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+													  int index, boolean isSelected, boolean cellHasFocus) {
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if (value instanceof NoneReg){
 				this.setText(Inter.getLocText("FR-Designer_None"));
@@ -484,6 +489,6 @@ public class RegPane extends BasicPane {
 			}
 			return this;
 		}
-		
+
 	};
 }

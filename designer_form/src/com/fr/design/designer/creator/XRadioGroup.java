@@ -19,6 +19,7 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.RadioGroup;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.function.ARRAY;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
@@ -39,16 +40,19 @@ public class XRadioGroup extends XFieldEditor {
 
 	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),getCRPropertyDescriptor());
-	}
-	
-	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
+		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class),
+						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
 						Inter.getLocText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
-						DictionaryRenderer.class),
+						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
+		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
+		return properties;
+	}
+
+	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(Inter.getLocText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class)};
 		if (!toData().isAdaptive()) {
