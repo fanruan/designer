@@ -24,8 +24,8 @@ sourceSets{
 
 dependencies{
 
-compile fileTree(dir:'../../fr-lib-8.0-gradle',include:'**/*.jar')
-compile fileTree(dir:'../../',include:'fr-*-8.0-gradle/**/*.jar')
+compile fileTree(dir:'../../finereport-lib-stable',include:'**/*.jar')
+compile fileTree(dir:'../../',include:'finereport-*-stable/**/*.jar')
 
  	testCompile 'junit:junit:4.12'
 }
@@ -45,7 +45,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 task compressJS{
 	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
 		classpath {
-			fileset(dir:'../../fr-build-8.0-gradle',includes:'**/*.jar')
+			fileset(dir:'../../finereport-build-stable',includes:'**/*.jar')
 		}
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
