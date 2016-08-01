@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.IntrospectionException;
 import java.util.HashMap;
 
 import com.fr.design.designer.beans.AdapterBus;
@@ -17,15 +18,21 @@ import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.form.layout.FRAbsoluteLayout;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
+import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
+import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
+import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
  * @author richer
@@ -105,7 +112,17 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 	protected void initLayoutManager() {
 		this.setLayout(new FRAbsoluteLayout());
 	}
-	
+
+	/**
+	 * 是否支持标题样式
+	 *
+	 * @return 默认false
+	 */
+	@Override
+	public boolean hasTitleStyle() {
+		return false;
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -209,6 +226,18 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		else{
 			return this;
 		}
+	}
+
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws java.beans.IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		return  new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(
+						Inter.getLocText("FR-Designer_Form-Widget_Name"))
+		};
 	}
 
 	public void paint(Graphics g) {

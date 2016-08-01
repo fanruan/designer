@@ -2,14 +2,14 @@ package com.fr.design.designer.beans.adapters.layout;
 
 import java.awt.*;
 
+import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.painters.FRAbsoluteLayoutPainter;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.BoundsGroupModel;
+import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
+import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -112,4 +112,10 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
     public ConstraintsGroupModel getLayoutConstraints(XCreator creator) {
         return new BoundsGroupModel((XWAbsoluteLayout)container, creator);
     }
+
+	@Override
+	public GroupModel getLayoutProperties() {
+		XWAbsoluteLayout xwAbsoluteLayout = (XWAbsoluteLayout) container;
+		return new FRAbsoluteLayoutPropertiesGroupModel(xwAbsoluteLayout);
+	}
 }
