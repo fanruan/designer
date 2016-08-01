@@ -11,6 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -69,6 +70,8 @@ public class AboutPane extends JPanel {
             boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
             contentPane.add(boxCenterAlignmentPane);
         }
+        boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ:" + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
+        contentPane.add(boxCenterAlignmentPane);
 
         BoxCenterAligmentPane actionLabel = getURLActionLabel(ProductConstants.WEBSITE_URL);
         BoxCenterAligmentPane emailLabel = getEmailActionLabel(ProductConstants.SUPPORT_EMAIL);

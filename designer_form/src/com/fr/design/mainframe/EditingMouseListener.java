@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.beans.location.MoveUtils;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditor;
@@ -18,12 +19,7 @@ import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XEditorHolder;
-import com.fr.design.designer.creator.XElementCase;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
@@ -45,6 +41,10 @@ public class EditingMouseListener extends MouseInputAdapter {
 	 * 普通模式下对应的model
 	 */
 	private StateModel stateModel;
+
+
+	private XLayoutContainer xTopLayoutContainer;
+	private XLayoutContainer clickTopLayout;
 	
 	/**
 	 * 获取表单设计器
@@ -73,6 +73,9 @@ public class EditingMouseListener extends MouseInputAdapter {
 	private DesignerEditor<? extends JComponent> current_editor;
 	private XCreator current_creator;
 
+	//备份开始拖动的位置和大小
+	private Rectangle dragBackupBounds;
+
 	/**
 	 * 获取最小移动距离
 	 * 
@@ -84,10 +87,14 @@ public class EditingMouseListener extends MouseInputAdapter {
 
 	private int minDragSize = 5;
 	private int minMoveSize = 8;
+
+	private static final int EDIT_BTN_WIDTH = 60;
+	private static final int EDIT_BTN_HEIGHT = 24;
     //报表块的编辑按钮不灵敏，范围扩大一点
     private static final int GAP = 10;
 
     private XElementCase xElementCase;
+	private XChartEditor xChartEditor;
 
     private JWindow promptWindow = new JWindow();
 
@@ -186,6 +193,14 @@ public class EditingMouseListener extends MouseInputAdapter {
 			if (stateModel.isDragging()) {
                 // 当前鼠标所在的组件
                 XCreator hoveredComponent = designer.getComponentAt(e.getX(), e.getY());
+				if(designer.isWidgetsIntersect() && dragBackupBounds != null && hoveredComponent != null){
+					XCreator selectionXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+					if(selectionXCreator != null){
+						selectionXCreator.setBounds(dragBackupBounds.x, dragBackupBounds.y, dragBackupBounds.width, dragBackupBounds.height);
+						MoveUtils.hideForbidWindow();
+					}
+				}
+				dragBackupBounds = null;
                 // 拉伸时鼠标拖动过快，导致所在组件获取会为空
                 if (hoveredComponent == null && e.getY() < 0) {
                 	// bug63538
@@ -244,6 +259,12 @@ public class EditingMouseListener extends MouseInputAdapter {
      */
 	public void mouseMoved(MouseEvent e) {
 		XCreator component = designer.getComponentAt(e);
+
+		setCoverPaneNotDisplay();
+
+		if(processTopLayoutMouseMove(component, e)){
+			return;
+		}
 		if (component instanceof XEditorHolder) {
 			XEditorHolder xcreator = (XEditorHolder) component;
 			Rectangle rect = xcreator.getBounds();
@@ -267,17 +288,15 @@ public class EditingMouseListener extends MouseInputAdapter {
 		if (!BaseUtils.isAuthorityEditing()) {
 			stateModel.setDirection(dir);
 		}
-        if(xElementCase != null){
-            xElementCase.displayCoverPane(false);
-        }
+
         if (component.isReport()) {
             xElementCase = (XElementCase)component;
             UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
             if(designer.getCursor().getType() ==Cursor.HAND_CURSOR) {
                 designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             } // component.getParent() 是报表块所在的XWTitleLayout
-            int minX = button.getX() + component.getX() + component.getParent().getX() - designer.getArea().getHorizontalValue();
-            int minY = button.getY() + component.getY() + component.getParent().getY() + designer.getParaHeight() - designer.getArea().getVerticalValue();
+            int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+            int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
             if(e.getX() + GAP >  minX && e.getX() - GAP < minX + button.getWidth()){
                 if( e.getY() + GAP > minY && e.getY() - GAP < minY + button.getHeight()){
                     designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -285,16 +304,86 @@ public class EditingMouseListener extends MouseInputAdapter {
             }
             xElementCase.displayCoverPane(true);
             xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+
             designer.repaint();
-        }  else {
-            if(xElementCase != null){
-            xElementCase.displayCoverPane(false);
-            designer.repaint();
-            }
+			return;
         }
+
+		processChartEditorMouseMove(component, e);
+
+		designer.repaint();
 	}
 
-    /**
+	private void setCoverPaneNotDisplay(){
+		if (xElementCase != null){
+			xElementCase.displayCoverPane(false);
+		}
+		if (xChartEditor != null){
+			xChartEditor.displayCoverPane(false);
+		}
+
+		if (xTopLayoutContainer != null) {
+			xTopLayoutContainer.setMouseEnter(false);
+		}
+		designer.repaint();
+	}
+
+	private boolean processTopLayoutMouseMove(XCreator component, MouseEvent e){
+		XLayoutContainer parent = XCreatorUtils.getHotspotContainer(component).getTopLayout();
+		if (parent != null){
+			xTopLayoutContainer = parent;
+			xTopLayoutContainer.setMouseEnter(true);
+			designer.repaint();
+			if(!xTopLayoutContainer.isEditable()) {
+				if (designer.getCursor().getType() == Cursor.HAND_CURSOR) {
+					designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}
+				int minX = getParentPositionX(parent, parent.getX()) + parent.getWidth() / 2;
+				int minY = getParentPositionY(parent, parent.getY()) + parent.getHeight() / 2;
+				int offsetX = EDIT_BTN_WIDTH / 2 + GAP;
+				int offsetY = EDIT_BTN_HEIGHT / 2 + GAP;
+				if (e.getX() > (minX - offsetX) && e.getX() < (minX + offsetX)) {
+					if (e.getY() > (minY - offsetY) && e.getY() < (minY + offsetY + designer.getParaHeight())) {
+						designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void processChartEditorMouseMove(XCreator component, MouseEvent e){
+		if (component instanceof XChartEditor) {
+			xChartEditor = (XChartEditor)component;
+			UIButton button = (UIButton)xChartEditor.getCoverPane().getComponent(0);
+			if(designer.getCursor().getType() ==Cursor.HAND_CURSOR) {
+				designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
+			int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+			int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+			if(e.getX() + GAP >  minX && e.getX() - GAP < minX + button.getWidth()){
+				if( e.getY() + GAP > minY && e.getY() - GAP < minY + button.getHeight()){
+					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+			}
+			xChartEditor.displayCoverPane(true);
+			xChartEditor.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
+			designer.repaint();
+		}
+	}
+
+	private int getParentPositionX(XCreator comp, int x){
+		return comp.getParent() == null ?
+				x : getParentPositionX((XCreator)comp.getParent(), comp.getParent().getX() + x);
+	}
+
+	private int getParentPositionY(XCreator comp, int y) {
+		return comp.getParent() == null ?
+				y : getParentPositionY((XCreator) comp.getParent(), comp.getParent().getY() + y);
+	}
+
+	/**
      * 拖拽
      * @param e    鼠标事件
      */
@@ -310,6 +399,12 @@ public class EditingMouseListener extends MouseInputAdapter {
 				stateModel.dragging(e);
 				// 获取e所在的焦点组件
 				XCreator hotspot = designer.getComponentAt(e.getX(), e.getY());
+				if(dragBackupBounds == null) {
+					XCreator selectingXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+					if(selectingXCreator != null){
+						dragBackupBounds = new Rectangle(selectingXCreator.getX(), selectingXCreator.getY(), selectingXCreator.getWidth(), selectingXCreator.getHeight());
+					}
+				}
 				// 拉伸时鼠标拖动过快，导致所在组件获取会为空
 				if (hotspot == null) {
 					return;
@@ -342,6 +437,58 @@ public class EditingMouseListener extends MouseInputAdapter {
 		designer.repaint();
 	}
 
+	//当前编辑的组件是在布局中，鼠标点击布局外部，需要一次性将布局及其父布局都置为不可编辑
+	private void setTopLayoutUnEditable(XLayoutContainer clickedTopLayout, XLayoutContainer clickingTopLayout){
+		//双击的前后点击click为相同对象，过滤掉
+		if (clickedTopLayout == null || clickedTopLayout == clickingTopLayout){
+			return;
+		}
+		//位于同一层级的控件，父布局相同，过滤掉
+		if (clickingTopLayout != null && clickedTopLayout.getParent() == clickingTopLayout.getParent()){
+			return;
+		}
+		//前后点击的位于不同层级，要置为不可编辑
+		XLayoutContainer xLayoutContainer = (XLayoutContainer)clickedTopLayout.getParent();
+		if (xLayoutContainer == clickingTopLayout){
+			return;
+		}
+		if (xLayoutContainer != null){
+			xLayoutContainer.setEditable(false);
+			setTopLayoutUnEditable((XLayoutContainer) clickedTopLayout.getParent(), clickingTopLayout);
+		}
+	}
+
+	private boolean isCreatorInLayout(XCreator creator, XCreator layout){
+		if (creator == layout){
+			return true;
+		}
+		if(layout.getParent() != null){
+			return isCreatorInLayout(creator, (XCreator)layout.getParent());
+		}
+		return false;
+	}
+
+	private XCreator processTopLayoutMouseClick(XCreator creator){
+		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer(creator).getTopLayout();
+		if(topLayout != null){
+			if (clickTopLayout != null && clickTopLayout != topLayout && !isCreatorInLayout(clickTopLayout, topLayout)){
+				clickTopLayout.setEditable(false);
+				setTopLayoutUnEditable(clickTopLayout, topLayout);
+			}
+			clickTopLayout = topLayout;
+			if(!topLayout.isEditable()) {
+				creator = topLayout;
+			}
+		}
+		else{
+			if(clickTopLayout != null){
+				clickTopLayout.setEditable(false);
+				setTopLayoutUnEditable(clickTopLayout, null);
+			}
+		}
+
+		return creator;
+	}
     /**
      * 点击
      * @param e    鼠标事件
@@ -351,6 +498,9 @@ public class EditingMouseListener extends MouseInputAdapter {
 			return;
 		}
 		XCreator creator = designer.getComponentAt(e);
+
+		creator = processTopLayoutMouseClick(creator);
+
 		if(creator != null){
 			creator.respondClick(this, e);
 		}
@@ -368,10 +518,9 @@ public class EditingMouseListener extends MouseInputAdapter {
 		if (designer.getCursor().getType() != Cursor.DEFAULT_CURSOR) {
 			designer.setCursor(Cursor.getDefaultCursor());
 		}
-        if (xElementCase != null){
-            xElementCase.displayCoverPane(false);
-            designer.repaint();
-        }
+
+		setCoverPaneNotDisplay();
+
         cancelPromptWidgetForbidEnter();
 	}
 
