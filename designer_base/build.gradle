@@ -3,8 +3,11 @@ apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
+//指定构建的jdk版本
+sourceCompatibility=1.8
+//指定生成jar包版本
 version='8.0'
-
+//生成jar包重命名
 jar{
 	baseName='fr-designer-core'
 }
@@ -12,7 +15,7 @@ jar{
 
 def srcDir="."
 
-
+//指定源码路径
 sourceSets{
 		main{
 			java{
@@ -21,7 +24,7 @@ sourceSets{
 		}
 }
 
-
+//声明外部依赖
 dependencies{
 
 compile fileTree(dir:'../../finereport-lib-stable',include:'**/*.jar')
@@ -29,7 +32,7 @@ compile fileTree(dir:'../../',include:'finereport-*-stable/**/*.jar')
 
  	testCompile 'junit:junit:4.12'
 }
-
+//复制非.java文件到classes文件夹下参与打包
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
 		from ("${srcDir}/src"){
