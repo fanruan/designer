@@ -14,13 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.NumberEditor;
 import com.fr.general.Inter;

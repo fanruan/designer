@@ -18,14 +18,12 @@ import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.TextEditor;
-import com.fr.form.ui.reg.NoneReg;
 import com.fr.form.ui.reg.RegExp;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 /**
  * @author richer

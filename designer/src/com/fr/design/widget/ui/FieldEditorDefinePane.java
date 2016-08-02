@@ -6,21 +6,17 @@ import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 
-import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
-import com.fr.design.widget.DataModify;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
     private UICheckBox allowBlankCheckBox;
