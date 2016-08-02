@@ -58,6 +58,7 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
         }
         cateTextAttrPane.populate(cateTextAttr);
         categoryName.setSelected(meterPlot.isShowCateName());
+        cateTextAttrPane.setEnabled(meterPlot.isShowCateName());
     }
 
 

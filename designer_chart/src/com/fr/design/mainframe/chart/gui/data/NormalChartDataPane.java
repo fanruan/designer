@@ -109,7 +109,6 @@ public class NormalChartDataPane extends DataContentsPane {
 		} else {
 			dataPane.populateBean(collection);
 		}
-
 		this.initAllListeners();
 		this.addAttributeChangeListener(listener);
 		
