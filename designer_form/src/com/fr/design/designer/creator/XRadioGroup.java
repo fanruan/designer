@@ -19,7 +19,6 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DictionaryRenderer;
 import com.fr.form.ui.RadioGroup;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.function.ARRAY;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
