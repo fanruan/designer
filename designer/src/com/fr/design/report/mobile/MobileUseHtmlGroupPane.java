@@ -37,7 +37,7 @@ public class MobileUseHtmlGroupPane extends BasicBeanPane<ElementCaseMobileAttr>
 
         UIRadioButton useApp = new UIRadioButton(Inter.getLocText("FR-mobile_native_analysis"));
         useApp.setSelected(true);
-        UIRadioButton useHTML5 = new UIRadioButton(Inter.getLocText("FR-mobile_html_analysis"));
+        UIRadioButton useHTML5 = new UIRadioButton(Inter.getLocText("FR-mobile_html_analysis")); 
 
         addToButtonGroup(useApp, useHTML5);
 
