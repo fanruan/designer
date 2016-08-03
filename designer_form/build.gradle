@@ -1,0 +1,65 @@
+
+apply plugin: 'java'
+tasks.withType(JavaCompile){
+	options.encoding = 'UTF-8'
+}
+
+version='8.0'
+
+def srcDir="${System.getenv()['JENKINS_HOME']}/workspace/design"
+def libDir="${System.getenv()['JENKINS_HOME']}/workspace/lib"
+
+
+jar{
+	baseName='fr-designer-report'
+}
+
+sourceSets{
+		main{
+			java{
+				srcDirs=["${srcDir}/designer/src",
+"${srcDir}/designer_form/src"]
+			}
+		}
+}
+dependencies{
+compile fileTree(dir:'../../',include:'**/*.jar')
+compile fileTree(dir:libDir,include:'*.jar')
+compile fileTree(dir:"${libDir}/jetty",include:'*.jar')
+ 	testCompile 'junit:junit:4.12'
+}
+
+
+task copyFile(type:Copy,dependsOn:compileJava){
+	copy{
+		from ("${srcDir}/designer/src"){
+			exclude '**/*.java'
+		}
+		from ("${srcDir}/designer_form/src")
+		into ('build/classes/main')
+	}
+
+}
+
+
+//压缩项目中的js文件
+task compressJS{
+	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
+		classpath {
+			fileset(dir:'../../lib',includes:'*.jar')
+		}
+	}
+	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
+		fileset (dir:"${srcDir}/designer/src"){
+			include (name:'**/*.js')
+
+		}
+		fileset (dir:"${srcDir}/designer_form/src"){
+			include (name:'**/*.js')
+
+		}
+
+	}
+}
+jar.dependsOn compressJS
+

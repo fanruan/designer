@@ -3,6 +3,8 @@
  */
 package com.fr.design.beans.location;
 
+import com.fr.stable.ArrayUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,6 +18,10 @@ import java.util.ArrayList;
 public class MoveUtils {
 
 	public static final int SORPTION_UNIT = 5;
+
+	public static WidgetForbidWindow widgetForbidWindow = new WidgetForbidWindow();
+
+	public static ArrayList<EquidistantLine> equidistantLines = new ArrayList<>();
 
 	private MoveUtils() {
 
@@ -68,6 +74,30 @@ public class MoveUtils {
 		 * 
 		 */
 		int[] getHorizontalLine();
+
+		/**
+		 * 设置designer内部组件是否重叠的标志位
+		 * @param isIntersects 是否重叠
+		 */
+		void setWidgetsIntersects(boolean isIntersects);
+
+		/**
+		 * 获取designer内部组件是否重叠的标志位
+		 * @return 重叠
+		 */
+		boolean getWidgetsIntersects();
+
+		/**
+		 * 获取designer相对屏幕的位置
+		 * @return 位置
+		 */
+		Point getDesignerLocationOnScreen();
+
+		/**
+		 * 设置等距线
+		 * @param line 吸附线
+		 */
+		void setEquidistantLine(Absorptionline line);
 	}
 
 	public interface RectangleIterator {
@@ -183,6 +213,53 @@ public class MoveUtils {
 		}
 	}
 
+	private static void findEquidistantLine(Rectangle bounds, int left, int top, int height, int width) {
+		//最近的距离与坐标
+		EquidistantLine equidistantLineInfo = new EquidistantLine(0, 0, 0);
+		//等距线从各边中点画出，先要判断是不是在范围内
+		int topMiddleX = left + width / 2;
+		int leftMiddleY = top + height / 2;
+		if ((topMiddleX > bounds.getX()) && (topMiddleX < (bounds.getX() + bounds.getWidth()))){
+			//当前操作rec在bounds的下方
+			if (top > (bounds.getY() + bounds.getHeight())){
+				equidistantLineInfo.setDistance(top - (bounds.y + bounds.height));
+				equidistantLineInfo.setReference(bounds.y + bounds.height);
+				equidistantLineInfo.setDirection(SwingConstants.TOP);
+			}
+			//当前操作rec在bounds上方
+			if ((top + height) < bounds.getY()){
+				equidistantLineInfo.setDistance(bounds.y - (top + height));
+				equidistantLineInfo.setReference(bounds.y);
+				equidistantLineInfo.setDirection(SwingConstants.BOTTOM);
+			}
+		}
+		else if ((leftMiddleY > bounds.getY()) && (leftMiddleY < (bounds.getY() + bounds.getHeight()))){
+			//当前操作rec在bounds的右侧
+			if (left > (bounds.getX() + bounds.getWidth())){
+				equidistantLineInfo.setDistance(left - (bounds.x + bounds.width));
+				equidistantLineInfo.setReference(bounds.x + bounds.width);
+				equidistantLineInfo.setDirection(SwingConstants.LEFT);
+			}
+			//当前操作rec在bounds的左侧
+			if ((left + width) < bounds.getX()){
+				equidistantLineInfo.setDistance(bounds.x - (left + width));
+				equidistantLineInfo.setReference(bounds.x);
+				equidistantLineInfo.setDirection(SwingConstants.RIGHT);
+			}
+		}
+		if(equidistantLineInfo.getDistance() > 0) {
+			equidistantLines.add(equidistantLineInfo);
+		}
+	}
+
+	public static void displayForbidWindow(int x, int y) {
+		widgetForbidWindow.showWindow(x, y);
+	}
+
+	public static void hideForbidWindow() {
+		widgetForbidWindow.hideWindow();
+	}
+
 	/**
 	 * 吸附
 	 * 
@@ -197,28 +274,67 @@ public class MoveUtils {
 	 * @date 2015-2-12-下午2:39:16
 	 * 
 	 */
-	public static Point sorption(int x, int y, int width, int height, RectangleDesigner designer) {
+	public static Point sorption(int x, int y, int width, int height, RectangleDesigner designer, boolean isParameterLayout) {
 
 		int left = x, top = y, bottom = top + height, right = left + width;
 
+		Rectangle operatingRectangle = new Rectangle(x, y, width, height);
+
+		equidistantLines.clear();
+
 		PlacePointing px = new PlacePointing(x);
 		PlacePointing py = new PlacePointing(y);
+
+		PlacePointing pEquidistantX = new PlacePointing(x);
+		PlacePointing pEquidistantY = new PlacePointing(y);
+
 		RectangleIterator iterator = designer.createRectangleIterator();
 
 		java.util.List<Rectangle> cacheRecs = new ArrayList<Rectangle>();
+		//是否存在控件重叠
+		boolean isWidgetsIntersects = false;
 		while (iterator.hasNext()) {
 			Rectangle bounds = iterator.nextRectangle();
 			cacheRecs.add(bounds);
+			boolean isIntersects = operatingRectangle.intersects(bounds);
 			findX(px, bounds, left, right, width);
 			findY(py, bounds, top, bottom, height);
-			if (px.isFind() && py.isFind()) {
-				break;
+
+			if(isIntersects && !isParameterLayout){
+				isWidgetsIntersects = true;
+			}
+			else{
+				findEquidistantLine(bounds, left, top, height, width);
 			}
 		}
+		showForbiddenWindow(designer, x, y, isWidgetsIntersects);
 
 		createXAbsorptionline(px, designer, width, cacheRecs);
 		createYAbsorptionline(py, designer, height, cacheRecs);
-		return new Point(px.palce, py.palce);
+		operatingRectangle.x = px.palce;
+		operatingRectangle.y = py.palce;
+		createEquidistantLine(pEquidistantX, pEquidistantY, operatingRectangle, designer);
+		Point sorptionPoint = new Point(px.palce,py.palce);
+		if (!px.isFind()){
+			sorptionPoint.x = pEquidistantX.palce;
+		}
+		if (!py.isFind()){
+			sorptionPoint.y = pEquidistantY.palce;
+		}
+		return sorptionPoint;
+	}
+
+	public static void showForbiddenWindow(RectangleDesigner designer, int x, int y, boolean isIntersects){
+		if (isIntersects){
+			if(designer.getDesignerLocationOnScreen() != null) {
+				displayForbidWindow(x + designer.getDesignerLocationOnScreen().x, y + designer.getDesignerLocationOnScreen().y);
+			}
+			designer.setWidgetsIntersects(true);
+		}
+		else{
+			designer.setWidgetsIntersects(false);
+			hideForbidWindow();
+		}
 	}
 
 	private static void createXAbsorptionline(PlacePointing px, RectangleDesigner designer, int width, java.util.List<Rectangle> cacheRecs) {
@@ -300,6 +416,72 @@ public class MoveUtils {
 		}
 		designer.setYAbsorptionline(line);
 	}
+
+	private static void createEquidistantLine(PlacePointing px, PlacePointing py, Rectangle operatingRectangle, RectangleDesigner designer){
+		processEquidistantLinesList(px, py, operatingRectangle);
+		Absorptionline line = null;
+		if(equidistantLines.size() > 0) {
+			int top = -1;
+			int left = -1;
+			int bottom = -1;
+			int right = -1;
+			for(int i = 0; i < equidistantLines.size(); i++){
+				if (equidistantLines.get(i).getDirection() == SwingConstants.TOP){
+					top = equidistantLines.get(i).getReference();
+				}
+				if (equidistantLines.get(i).getDirection() == SwingConstants.LEFT){
+					left = equidistantLines.get(i).getReference();
+				}
+				if (equidistantLines.get(i).getDirection() == SwingConstants.BOTTOM){
+					bottom = equidistantLines.get(i).getReference();
+				}
+				if (equidistantLines.get(i).getDirection() == SwingConstants.RIGHT){
+					right = equidistantLines.get(i).getReference();
+				}
+			}
+			line = Absorptionline.createEquidistantAbsorptionline(operatingRectangle, top, left, bottom, right);
+		}
+		designer.setEquidistantLine(line);
+	}
+
+	private static void processEquidistantLinesList(PlacePointing pEquidistantX, PlacePointing pEquidistantY, Rectangle operatingRectangle){
+		EquidistantLine[] equidistantLines1 = new EquidistantLine[4];
+		//先按方向处理，只保留四个方向上距离最近
+		for(int count = 0; count < equidistantLines.size(); count++){
+			for (int direction = 0; direction < 4; direction++){
+				if(equidistantLines.get(count).getDirection() == (direction + 1)){//direction 1,2,3,4 分别对应top,left,bottom,right
+					if(equidistantLines1[direction] != null
+							&& equidistantLines1[direction].getDistance() > equidistantLines.get(count).getDistance()
+							|| equidistantLines1[direction] == null) {
+						equidistantLines1[direction] = equidistantLines.get(count);
+					}
+				}
+			}
+		}
+
+		equidistantLines.clear();
+		//找list中横纵分别等距的组合
+		if (equidistantLines1[0] != null && equidistantLines1[2] != null){//top, bottom
+			int offset = equidistantLines1[0].getDistance() - equidistantLines1[2].getDistance();
+			if (Math.abs(offset) <= SORPTION_UNIT * 2){
+				pEquidistantY.direction = SwingConstants.TOP;
+				equidistantLines.add(equidistantLines1[0]);
+				equidistantLines.add(equidistantLines1[2]);
+				pEquidistantY.palce = operatingRectangle.y - offset / 2;
+				operatingRectangle.y = pEquidistantY.palce;
+			}
+		}
+		if (equidistantLines1[1] != null && equidistantLines1[3] != null){//left, right
+			int offset = equidistantLines1[1].getDistance() - equidistantLines1[3].getDistance();
+			if (Math.abs(offset) <= SORPTION_UNIT * 2){
+				pEquidistantX.direction = SwingConstants.LEFT;
+				equidistantLines.add(equidistantLines1[1]);
+				equidistantLines.add(equidistantLines1[3]);
+				pEquidistantX.palce = operatingRectangle.x - offset / 2;
+				operatingRectangle.x = pEquidistantX.palce;
+			}
+		}
+	}
 	
 	//更新纵向行列线
 	private static void updateVerticalLine(int[] selfVertical, RectangleIterator iterator, Absorptionline line){
@@ -328,5 +510,44 @@ public class MoveUtils {
 		}
 		
 		return false;
+	}
+
+	private static class EquidistantLine{
+		//与操作rectangle的距离
+		private int distance;
+		//参考rectangle的位置
+		private int reference;
+		//等距线的方向
+		private int direction;
+
+		EquidistantLine(int distance, int reference, int direction){
+			this.distance = distance;
+			this.reference = reference;
+			this.direction = direction;
+		}
+
+		public void setDistance(int distance){
+			this.distance = distance;
+		}
+
+		public int getDistance(){
+			return this.distance;
+		}
+
+		public void setReference(int reference){
+			this.reference = reference;
+		}
+
+		public int getReference(){
+			return this.reference;
+		}
+
+		public void setDirection(int direction){
+			this.direction = direction;
+		}
+
+		public int getDirection(){
+			return this.direction;
+		}
 	}
 }

@@ -1,22 +1,30 @@
 package com.fr.design.designer.beans.adapters.layout;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
+import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.beans.HoverPainter;
+import com.fr.design.designer.beans.painters.FRAbsoluteLayoutPainter;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.BoundsGroupModel;
+import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
+import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 
 public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
-
+	private HoverPainter painter;
     public FRAbsoluteLayoutAdapter(XLayoutContainer container) {
         super(container);
+		painter = new FRAbsoluteLayoutPainter(container);
     }
+
+	@Override
+	public HoverPainter getPainter() {
+		return painter;
+	}
     
     /**
      * 是否能在指定位置添加组件
@@ -27,8 +35,15 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
      */
     @Override
 	public boolean accept(XCreator creator, int x, int y) {
-		return x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
+		Component comp = container.getComponentAt(x, y);
+		//布局控件要先判断是不是可编辑
+		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator)comp).getTopLayout();
+		if(topLayout != null && !topLayout.isEditable()){
+			return false;
+		}
+		boolean isAccept =  x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
 				&& creator.getWidth() <= container.getWidth();
+		return isAccept;
 	}
 
     @Override
@@ -46,10 +61,20 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
 		}
 
 		fix(creator, x, y);
-		container.add(creator);
+
+		if (creator.shouldScaleCreator() || creator.hasTitleStyle()) {
+			addParentCreator(creator);
+		} else {
+			container.add(creator, creator.toData().getWidgetName());
+		}
 		LayoutUtils.layoutRootContainer(container);
 	}
-    
+
+	private void addParentCreator(XCreator child) {
+		XLayoutContainer parentPanel = child.initCreatorWrapper(child.getHeight());
+		container.add(parentPanel, child.toData().getWidgetName());
+	}
+
     /**
      * 组件拖拽后调整大小
      * @param creator 组件
@@ -87,4 +112,10 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
     public ConstraintsGroupModel getLayoutConstraints(XCreator creator) {
         return new BoundsGroupModel((XWAbsoluteLayout)container, creator);
     }
+
+	@Override
+	public GroupModel getLayoutProperties() {
+		XWAbsoluteLayout xwAbsoluteLayout = (XWAbsoluteLayout) container;
+		return new FRAbsoluteLayoutPropertiesGroupModel(xwAbsoluteLayout);
+	}
 }

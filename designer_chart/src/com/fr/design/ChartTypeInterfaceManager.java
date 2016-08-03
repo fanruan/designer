@@ -58,7 +58,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
-            classManager.readXMLFile();
         }
         return classManager;
     }
@@ -75,16 +74,15 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
             public void success() {
-                if (chartTypeInterfaces != null) {
-                    readDefault();
-                    //重新注册designModuleFactory
-                    DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-                }
+                ChartTypeInterfaceManager.getInstance().readDefault();
+                //重新注册designModuleFactory
+                DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
             }
         });
     }
 
     public static WidgetOption[] initWidgetOption(){
+
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
         for (int i = 0; i < typeName.length; i++) {
@@ -101,7 +99,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private synchronized static void envChanged() {
-        chartTypeInterfaces.clear();
+        classManager = null;
     }
 
     private static void readDefault() {
@@ -132,6 +130,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         }
     }
 
+    public static void addChartTypeInterface(IndependentChartUIProvider provider, String plotID) {
+        if (chartTypeInterfaces != null && !chartTypeInterfaces.containsKey(plotID)) {
+            chartTypeInterfaces.put(plotID, provider);
+        }
+    }
+
     /**
      * 增加界面接口定义
      *
@@ -141,7 +145,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     public void addChartInterface(String className, String plotID, PluginSimplify simplify) {
         if (StringUtils.isNotBlank(className)) {
             try {
-                Class<?> clazz = loader.loadClass(className);
+                Class<?> clazz = Class.forName(className);
                 Authorize authorize = clazz.getAnnotation(Authorize.class);
                 if (authorize != null) {
                     PluginLicenseManager.getInstance().registerPaid(authorize, simplify);
@@ -149,8 +153,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 IndependentChartUIProvider provider = (IndependentChartUIProvider) clazz.newInstance();
                 if (PluginCollector.getCollector().isError(provider, IndependentChartUIProvider.CURRENT_API_LEVEL, simplify.getPluginName()) || !containsChart(plotID)) {
                     PluginMessage.remindUpdate(className);
-                } else if (!chartTypeInterfaces.containsKey(plotID)) {
-                    chartTypeInterfaces.put(plotID, provider);
+                } else {
+                    ChartTypeInterfaceManager.getInstance().addChartTypeInterface(provider, plotID);
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());

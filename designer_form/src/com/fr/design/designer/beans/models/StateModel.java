@@ -44,6 +44,8 @@ public class StateModel {
 
 	private Absorptionline lineInX;
 	private Absorptionline lineInY;
+	//等距线
+	private Absorptionline lineEquidistant;
 
 	// 当前是否处于拖拽选择状态
 	private boolean selecting;
@@ -357,6 +359,14 @@ public class StateModel {
 		this.lineInY = line;
 	}
 
+	/**
+	 * 等距线赋值
+	 * @param line 线
+	 */
+	public void setEquidistantLine(Absorptionline line){
+		this.lineEquidistant = line;
+	}
+
     /**
      *画吸附线
      * @param g Graphics类
@@ -367,6 +377,9 @@ public class StateModel {
 		}
 		if(lineInY != null) {
 			lineInY.paint(g,designer.getArea());
+		}
+		if(lineEquidistant != null){
+			lineEquidistant.paint(g,designer.getArea());
 		}
 	}
 

@@ -59,7 +59,7 @@ public class XLabel extends XWidgetCreator {
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 								Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(
-								WidgetValueEditor.class),
+								WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 						new CRPropertyDescriptor("wrap", this.data.getClass()).setI18NName(
 								Inter.getLocText("FR-Designer_StyleAlignment-Wrap_Text")).putKeyValue(
 								XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),

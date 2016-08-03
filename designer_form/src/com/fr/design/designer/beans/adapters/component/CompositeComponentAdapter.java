@@ -100,7 +100,10 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		for (CRPropertyDescriptor property : properties) {
 			String groupName = (String) property.getValue(XCreatorConstants.PROPERTY_CATEGORY);
 			if (StringUtils.isEmpty(groupName)) {
-				groupName = XCreatorConstants.DEFAULT_GROUP_NAME;
+				groupName = (String) property.getValue(XCreatorConstants.PROPERTY_VALIDATE);
+				if(StringUtils.isEmpty(groupName)){
+					groupName = XCreatorConstants.DEFAULT_GROUP_NAME;
+				}
 			}
 			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
 			if (groupProperties == null) {
@@ -110,6 +113,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 			}
 			groupProperties.add(property);
 		}
+		adjustGroupNamesPosition(groupNames);
 		ArrayList<PropertyGroupModel> groups = new ArrayList<PropertyGroupModel>();
 		for (String groupName : groupNames) {
 			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
@@ -120,6 +124,15 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		return groups;
 	}
 
+		public void adjustGroupNamesPosition(ArrayList<String> groupNames){
+			for(String groupName : groupNames){
+				if(groupName.equals("Form-Basic_Properties")){
+					groupNames.remove(groupName);
+					groupNames.add(0,groupName);
+					break;
+				}
+			}
+		}
 	@Override
 	public ArrayList<GroupModel> getXCreatorPropertyModel() {
 		ArrayList<GroupModel> groupModels = new ArrayList<GroupModel>();
@@ -130,7 +143,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		groupModels.addAll(groups);
 		return groupModels;
 	}
-	
+
 	/**
 	 * 自适应布局中放置文本框等用的scaleLayout和报表块、图表块支持的标题控件用的titleLayout时
 	 * 控件树处只显示父容器，但是控件属性还是为自身的

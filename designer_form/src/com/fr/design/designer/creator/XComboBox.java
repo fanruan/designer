@@ -10,6 +10,7 @@ import java.beans.IntrospectionException;
 
 import javax.swing.JComponent;
 
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.editors.DictionaryEditor;
@@ -38,11 +39,11 @@ public class XComboBox extends XCustomWriteAbleRepeatEditor {
     @Override
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(
-            super.supportedDescriptor(),
-            new CRPropertyDescriptor[]{
-            	new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class),
-                new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(DictionaryRenderer.class)
-            });
+				new CRPropertyDescriptor[]{
+						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(DictionaryRenderer.class)
+								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+				}, super.supportedDescriptor());
     }
 
     @Override

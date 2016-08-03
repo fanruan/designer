@@ -32,20 +32,20 @@ public class XComboCheckBox extends XComboBox {
 						Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setEditorClass(
-						InChangeBooleanEditor.class).setI18NName(Inter.getLocText("Return-String")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Return-Value") } : new CRPropertyDescriptor[] {
+						InChangeBooleanEditor.class).setI18NName(Inter.getLocText("Return-String"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") } : new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
 						Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
-						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Return-Value"),
+						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
-						Inter.getLocText("ComboCheckBox-Start_Symbol")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Return-Value"),
+						Inter.getLocText("ComboCheckBox-Start_Symbol"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
-						Inter.getLocText("ComboCheckBox-End_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-						"Return-Value") });
+						Inter.getLocText("ComboCheckBox-End_Symbol"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
 	}
 
     @Override

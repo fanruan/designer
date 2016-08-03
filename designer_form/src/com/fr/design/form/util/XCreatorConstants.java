@@ -21,6 +21,7 @@ public class XCreatorConstants {
     // 描述属性的分类
     public static final String PROPERTY_CATEGORY = "category";
     public static final String DEFAULT_GROUP_NAME = "Form-Basic_Properties";
+    public static final String PROPERTY_VALIDATE = "validate";
     public static final Color FORM_BG = new Color(252, 252, 254);
     // 拖拽标识块的大小
     public static final int RESIZE_BOX_SIZ = 5;

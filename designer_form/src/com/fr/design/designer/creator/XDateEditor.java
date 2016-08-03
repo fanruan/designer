@@ -46,17 +46,20 @@ public class XDateEditor extends XDirectWriteEditor {
      */
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
+		CRPropertyDescriptor [] tempt=(CRPropertyDescriptor[]) ArrayUtils.addAll(
 				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 								Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
-								WidgetValueEditor.class).setPropertyChangeListener(new PropertyChangeAdapter() {
-									
-									@Override
-									public void propertyChange() {
-										initFieldText();
-									}
-								}),
+								WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+								"Advanced").setPropertyChangeListener(new PropertyChangeAdapter() {
+
+							@Override
+							public void propertyChange() {
+								initFieldText();
+							}
+						})},super.supportedDescriptor());
+		return (CRPropertyDescriptor[]) ArrayUtils.addAll(tempt,
+				new CRPropertyDescriptor[] {
 						new CRPropertyDescriptor("formatText", this.data.getClass()).setI18NName(
 								Inter.getLocText("FR-Engine_Format")).setEditorClass(formatClass()).setRendererClass(
 								DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
@@ -66,11 +69,11 @@ public class XDateEditor extends XDirectWriteEditor {
 						new CRPropertyDescriptor("endDate", this.data.getClass()).setI18NName(
 								Inter.getLocText("FR-Designer_End-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 								"Advanced").setEditorClass(DateRangeEditor.class),
-						new CRPropertyDescriptor("returnDate", this.data.getClass()).setI18NName(
-								Inter.getLocText("FR-Designer_Return-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-								"Return-Value"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
 								Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+								"Advanced"),
+						new CRPropertyDescriptor("returnDate", this.data.getClass()).setI18NName(
+								Inter.getLocText("FR-Designer_Return-Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 								"Advanced")
 				});
 	}

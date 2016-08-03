@@ -41,26 +41,28 @@ public class XTreeEditor extends XWidgetCreator {
         CRPropertyDescriptor[] crp = !((FieldEditor) toData()).isAllowBlank() ?
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(WidgetValueEditor.class),
+                                Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
                                 Inter.getLocText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                                TreeModelRenderer.class),
+                                TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                         new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                                Inter.getLocText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-                                XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                Inter.getLocText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
+                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
                         new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
                                 Inter.getLocText("FR-Designer_Verify-Message"))
-                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
                 }
                 : new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                        Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(WidgetValueEditor.class),
+                        Inter.getLocText(new String[]{"FR-Designer_Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
                         Inter.getLocText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                        TreeModelRenderer.class),
+                        TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                         Inter.getLocText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-                        XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),};
+                        XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),};
 
 		crp = this.addWaterMark(crp);
 		crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp,
