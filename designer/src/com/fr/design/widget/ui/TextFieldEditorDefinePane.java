@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.frpane.RegPane;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -28,10 +27,6 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
     @Override
     protected JPanel setFirstContentPane() {
         JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-        JPanel contenter = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        contenter.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-        attrPane.add(contenter);
         regPane = createRegPane();
         final RegPane.RegChangeListener rl = new RegPane.RegChangeListener() {
 
@@ -51,15 +46,9 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         };
         regPane.addPhoneRegListener(pl);
-        JPanel basicPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Validate"));
-        JPanel validateContent = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        getAllowBlankCheckBox().setPreferredSize(new Dimension(444, 40));
-        validateContent.add(GUICoreUtils.createFlowPane(getAllowBlankCheckBox(), FlowLayout.LEFT));
-        validateContent.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getErrorMsgTextField()}, FlowLayout.LEFT, 24));
-        validateContent.add(GUICoreUtils.createFlowPane(regPane, FlowLayout.LEFT));
-        validateContent.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getRegErrorMsgTextField()}, FlowLayout.LEFT, 24));
-        basicPane.add(validateContent);
-        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+        getValidatePane().add(GUICoreUtils.createFlowPane(regPane, FlowLayout.LEFT));
+        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getRegErrorMsgTextField()}, FlowLayout.LEFT, 24));
+        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
         waterMarkDictPane = new WaterMarkDictPane();
         waterMarkDictPane.addInputKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -81,8 +70,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         });
         advancedPane.add(waterMarkDictPane);
-        contenter.add(advancedPane, BorderLayout.NORTH);
-        contenter.add(basicPane, BorderLayout.CENTER);
+        attrPane.add(advancedPane, BorderLayout.NORTH);
         return attrPane;
     }
 
@@ -115,10 +103,5 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
     protected TextEditor newTextEditorInstance() {
         return new TextEditor();
     }
-
-    @Override
-    public void addAllowBlankPane(UICheckBox allowBlankCheckBox, JPanel errorMsgPane) {
-    }
-
 
 }
