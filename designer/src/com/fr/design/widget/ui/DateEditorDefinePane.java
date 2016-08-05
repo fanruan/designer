@@ -9,6 +9,8 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.form.ui.ComboBox;
 import com.fr.form.ui.DateEditor;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -24,6 +26,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,7 +36,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private UILabel sampleLabel;// preview
 	// content
 	private UITextField patternTextField = null;
-	private JList patternList = null;
+//	private JList patternList = null;
 
 	private ValueEditorPane startDv;
 	private ValueEditorPane endDv;
@@ -53,43 +57,59 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	@Override
 	protected JPanel setSecondContentPane() {
 		JPanel otherContentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-
+		otherContentPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
 		returnTypeComboBox = new UIComboBox(new String[] { Inter.getLocText("String"), Inter.getLocText("Date") });
+		returnTypeComboBox.setPreferredSize(new Dimension(70, 20));
 		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);
-		otherContentPane.add(returnTypePane);
+		JPanel firstPanel = GUICoreUtils.createFlowPane(new JComponent[]{returnTypePane}, FlowLayout.LEFT, 5);
+		firstPanel.setPreferredSize(new Dimension(141,30));
+		otherContentPane.add(firstPanel);
 
 		// sample pane
-		JPanel samplePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("StyleFormat-Sample"));
-		otherContentPane.add(samplePane, BorderLayout.NORTH);
+//		JPanel samplePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("StyleFormat-Sample"));
+//		otherContentPane.add(samplePane, BorderLayout.NORTH);
 
 		sampleLabel = new UILabel("");
-		samplePane.add(sampleLabel, BorderLayout.CENTER);
+//		samplePane.add(sampleLabel, BorderLayout.CENTER);
 		sampleLabel.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
 		sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		sampleLabel.setFont(FRContext.getDefaultValues().getFRFont());
 
 		// content pane
-		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		otherContentPane.add(contentPane, BorderLayout.CENTER);
-		contentPane.setBorder(BorderFactory.createEmptyBorder(4, 0, 2, 0));
+//		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+//		contentPane.setPreferredSize(new Dimension(400,100));
+//		otherContentPane.add(contentPane, BorderLayout.CENTER);
+//		contentPane.setBorder(BorderFactory.createEmptyBorder(4, 0, 2, 0));
 
 		patternTextField = new UITextField();
-		contentPane.add(patternTextField, BorderLayout.NORTH);
+//		contentPane.add(patternTextField, BorderLayout.NORTH);
 		patternTextField.getDocument().addDocumentListener(patternTextDocumentListener);
 
-		patternList = new JList(new DefaultListModel());
-		DefaultListModel model = (DefaultListModel) patternList.getModel();
-		model.removeAllElements();
+//		patternList = new JList(new DefaultListModel());
+//		DefaultListModel model = (DefaultListModel) patternList.getModel();
+//		model.removeAllElements();
         String[] arr = getDateFormateArray();
-		for (int i = 0; i < arr.length; i++) {
-			model.addElement(arr[i]);
-		}
-		JScrollPane pScrollPane = new JScrollPane(patternList);
-		pScrollPane.setPreferredSize(new Dimension(100, 120));
-		contentPane.add(pScrollPane, BorderLayout.CENTER);
-		patternList.addListSelectionListener(patternListSelectionListener);
+//		for (int i = 0; i < arr.length; i++) {
+//			model.addElement(arr[i]);
+//		}
+//		JScrollPane pScrollPane = new JScrollPane(patternList);
+//		pScrollPane.setPreferredSize(new Dimension(100, 120));
+//		contentPane.add(pScrollPane, BorderLayout.CENTER);
+
+		UIComboBox comboBox = new UIComboBox(arr);
+		comboBox.setPreferredSize(new Dimension(150,20));
+		comboBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				patternTextField.setText( (String)comboBox.getSelectedItem());
+			}
+
+		});
+		JPanel secondPanel = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"),comboBox,sampleLabel}, FlowLayout.LEFT, 5);
+		secondPanel.setPreferredSize(new Dimension(220,30));
+		otherContentPane.add(secondPanel);
+//		patternList.addListSelectionListener(patternListSelectionListener);
 		otherContentPane.add(initStartEndDatePane(), BorderLayout.SOUTH);
 		return otherContentPane;
 	}
@@ -146,11 +166,11 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		}
 	}
 
-	private ListSelectionListener patternListSelectionListener = new ListSelectionListener() {
-		public void valueChanged(ListSelectionEvent evt) {
-			patternTextField.setText((String) patternList.getSelectedValue());
-		}
-	};
+//	private ListSelectionListener patternListSelectionListener = new ListSelectionListener() {
+//		public void valueChanged(ListSelectionEvent evt) {
+//			patternTextField.setText((String) patternList.getSelectedValue());
+//		}
+//	};
 
 	@Override
 	protected void populateSubDirectWriteEditorBean(DateEditor e) {
@@ -161,17 +181,17 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		populateStartEnd(e);
 
-		DefaultListModel patternModel = (DefaultListModel) patternList.getModel();
-		if ((formatText == null || formatText.length() <= 0)) {
-			patternList.setSelectedIndex(0);
-		} else {
-			for (int i = 0; i < patternModel.size(); i++) {
-				if (ComparatorUtils.equals(patternModel.getElementAt(i).toString(), formatText)) {
-					patternList.setSelectedIndex(i);
-					return;
-				}
-			}
-		}
+//		DefaultListModel patternModel = (DefaultListModel) patternList.getModel();
+//		if ((formatText == null || formatText.length() <= 0)) {
+//			patternList.setSelectedIndex(0);
+//		} else {
+//			for (int i = 0; i < patternModel.size(); i++) {
+//				if (ComparatorUtils.equals(patternModel.getElementAt(i).toString(), formatText)) {
+//					patternList.setSelectedIndex(i);
+//					return;
+//				}
+//			}
+//		}
 	};
 
 	@Override

@@ -32,12 +32,15 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 //
 //		this.add(infoLabel, BorderLayout.CENTER);
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
 		JPanel textPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		textPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		advancedPane.add(textPane);
 		textPane.add(new UILabel(Inter.getLocText("Text") + ":"));
 		text = new UITextField(8);
 		textPane.add(text);
-		this.add(textPane);
+		this.add(advancedPane);
 	}
 	
 	@Override

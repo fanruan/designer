@@ -46,7 +46,9 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 	}
 
 	protected JPanel setSecondContentPane() {
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
+		advancedPane.add(contentPane);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
 		contentPane.add(contenter,BorderLayout.NORTH);
@@ -56,7 +58,7 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 		if (otherContentPane != null) {
 			contentPane.add(otherContentPane,BorderLayout.CENTER);
 		}
-		return contentPane;
+		return advancedPane;
 	}
 
 	protected JPanel setThirdContentPane() {

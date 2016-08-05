@@ -19,10 +19,13 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
 import com.fr.form.ui.TextArea;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.form.ui.TextEditor;
+import com.fr.form.ui.reg.RegExp;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 /**
  * @author richer
@@ -34,42 +37,49 @@ public class XTextArea extends XFieldEditor {
         super(widget, initSize);
     }
 
-	@Override
-	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] sup=(CRPropertyDescriptor[]) ArrayUtils.addAll(
-				new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
-						WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
-				new CRPropertyDescriptor[] {
-						new CRPropertyDescriptor("regex", this.data.getClass()).setI18NName(
-								Inter.getLocText("Input_Rule")).setEditorClass(RegexEditor.RegexEditor4TextArea.class)
-								.putKeyValue("renderer", RegexCellRencerer.class).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
-						new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
-								Inter.getLocText("WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-								"Advanced"), });
-	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		TextArea area = (TextArea) data;
-		if (area.getWidgetValue() != null) {
-			Graphics2D g2d = (Graphics2D) g.create();
-			BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), area.getWidgetValue()
-					.toString(), Style.getInstance(FRFont.getInstance()).deriveHorizontalAlignment(Constants.LEFT)
-					.deriveVerticalAlignment(SwingConstants.TOP)
-					.deriveTextStyle(Style.TEXTSTYLE_WRAPTEXT), ScreenResolution.getScreenResolution());
-		}
-	}
+    @Override
+    public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+        CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
+                new CRPropertyDescriptor[]{
+                        new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
+                                Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
+                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")}, super.supportedDescriptor());
+        CRPropertyDescriptor regex = new CRPropertyDescriptor("regex", this.data.getClass()).setI18NName(
+                Inter.getLocText("Input_Rule")).setEditorClass(RegexEditor.RegexEditor4TextArea.class)
+                .putKeyValue("renderer", RegexCellRencerer.class).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+        CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
+                Inter.getLocText("Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
+        CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
+                Inter.getLocText("WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                "Advanced");
+        Boolean displayRegField = true;
+        RegExp reg = ((TextEditor) toData()).getRegex();
+        if (reg == null || !StringUtils.isNotEmpty(reg.toRegText())) {
+            displayRegField = false;
+        }
+        return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :
+                (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, waterMark});
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        TextArea area = (TextArea) data;
+        if (area.getWidgetValue() != null) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            BaseUtils.drawStringStyleInRotation(g2d, this.getWidth(), this.getHeight(), area.getWidgetValue()
+                    .toString(), Style.getInstance(FRFont.getInstance()).deriveHorizontalAlignment(Constants.LEFT)
+                    .deriveVerticalAlignment(SwingConstants.TOP)
+                    .deriveTextStyle(Style.TEXTSTYLE_WRAPTEXT), ScreenResolution.getScreenResolution());
+        }
+    }
 
     @Override
     protected JComponent initEditor() {
-    	setBorder(FIELDBORDER);
+        setBorder(FIELDBORDER);
         return this;
     }
-    
+
     @Override
     public Dimension initEditorSize() {
         return BIG_PREFERRED_SIZE;

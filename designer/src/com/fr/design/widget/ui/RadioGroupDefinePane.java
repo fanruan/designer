@@ -10,6 +10,7 @@ import com.fr.design.data.DataCreatorUI;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.RadioGroup;
+import com.fr.general.Inter;
 
 public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 	private DictionaryPane dictPane;
@@ -34,8 +35,10 @@ public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		buttonGroupDictPane = new ButtonGroupDictPane();
 		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
 		centerPane.add(buttonGroupDictPane);
-		attrPane.add(centerPane, BorderLayout.CENTER);
+		advancedPane.add(centerPane);
+		attrPane.add(advancedPane, BorderLayout.CENTER);
 		return attrPane;
 	}
 
