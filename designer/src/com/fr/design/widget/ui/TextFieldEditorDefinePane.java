@@ -48,7 +48,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         regPane.addPhoneRegListener(pl);
         getValidatePane().add(GUICoreUtils.createFlowPane(regPane, FlowLayout.LEFT));
         getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getRegErrorMsgTextField()}, FlowLayout.LEFT, 24));
-        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
         waterMarkDictPane = new WaterMarkDictPane();
         waterMarkDictPane.addInputKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {

@@ -31,7 +31,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
     }
 
 	private void initComponents() {
-        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
         advancedPane.setPreferredSize(new Dimension(600,300));
         JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));

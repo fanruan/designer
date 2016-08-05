@@ -46,7 +46,7 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 	}
 
 	protected JPanel setSecondContentPane() {
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		advancedPane.add(contentPane);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

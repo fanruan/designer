@@ -20,7 +20,7 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 		advancedPane.add(contentPane);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));

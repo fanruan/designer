@@ -41,7 +41,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	protected JPanel setFirstContentPane() {
 		JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
 		advancedPane.add(attrPane);
 		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

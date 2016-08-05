@@ -57,7 +57,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 		centerPane.add(GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("Form-Url") + ":"), srcTextField = new UITextField(16), FlowLayout.LEFT));
 		centerPane.add(GUICoreUtils.createFlowPane( new UILabel(Inter.getLocText("Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane(), FlowLayout.LEFT));
 		parameterViewPane.setPreferredSize(new Dimension(540, 235));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
 		advancedPane.add(contentPane);
 		contentPane.add(centerPane);
 		this.add(advancedPane, BorderLayout.CENTER);

@@ -157,7 +157,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         content.setLayout(FRGUIPaneFactory.createBorderLayout());
         // richer:数字的允许直接编辑没有意义
 
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
         content.add(northPane, BorderLayout.NORTH);
 
         waterMarkDictPane = new WaterMarkDictPane();

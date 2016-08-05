@@ -53,7 +53,7 @@ public abstract class XFieldEditor extends XWidgetCreator {
                 : new CRPropertyDescriptor[]{allowBlank, fontSize};
     }
 
-    public Boolean isDisplayRegField(Boolean displayRegField) {
+    public boolean isDisplayRegField(boolean displayRegField) {
         RegExp reg = ((TextEditor) toData()).getRegex();
         if (reg == null || !StringUtils.isNotEmpty(reg.toRegText())) {
 

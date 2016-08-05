@@ -49,7 +49,7 @@ public class XTextArea extends XFieldEditor {
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
                 Inter.getLocText("WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                 "Advanced");
-        Boolean displayRegField = true;
+        boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);
         return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :
                 (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, waterMark});

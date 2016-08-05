@@ -35,7 +35,7 @@ public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		buttonGroupDictPane = new ButtonGroupDictPane();
 		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
 		centerPane.add(buttonGroupDictPane);
 		advancedPane.add(centerPane);
 		attrPane.add(advancedPane, BorderLayout.CENTER);

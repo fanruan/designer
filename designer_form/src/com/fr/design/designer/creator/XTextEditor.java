@@ -53,7 +53,7 @@ public class XTextEditor extends XWrapperedFieldEditor {
                 Inter.getLocText("FR-Designer_WaterMark")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                 "Advanced");
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[]{widgetValue}, super.supportedDescriptor());
-        Boolean displayRegField = true;
+        boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);
         return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,
                 new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :
