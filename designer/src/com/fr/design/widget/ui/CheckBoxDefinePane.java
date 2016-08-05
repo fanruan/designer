@@ -21,16 +21,6 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	}
 	
 	private void iniComoponents() {
-//		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//
-//		UILabel infoLabel = new UILabel();
-//        FRFont frFont = FRContext.getDefaultValues().getFRFont();
-//        infoLabel.setFont(new Font(frFont.getFamily(), Font.BOLD, 24));
-//	    infoLabel.setText(Inter.getLocText(
-//				"No_Editor_Property_Definition") + ".");
-//	    infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//
-//		this.add(infoLabel, BorderLayout.CENTER);
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
 		JPanel textPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();

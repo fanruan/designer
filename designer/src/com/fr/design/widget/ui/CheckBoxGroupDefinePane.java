@@ -43,13 +43,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
 		advancedPane.add(attrPane);
-//		JPanel northPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-//		checkBoxDictPane = new CheckBoxDictPane();
-//		northPane.add(checkBoxDictPane);
-//		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
-//		northPane.add(checkbox);
-//		attrPane.add(northPane, BorderLayout.NORTH);
-
 		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		checkBoxDictPane = new CheckBoxDictPane();

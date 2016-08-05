@@ -13,8 +13,11 @@ import javax.swing.border.Border;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.form.ui.FieldEditor;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.form.ui.TextEditor;
+import com.fr.form.ui.reg.RegExp;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.StringUtils;
 
 /**
  * @author richer
@@ -48,5 +51,14 @@ public abstract class XFieldEditor extends XWidgetCreator {
         return !((FieldEditor) toData()).isAllowBlank() ?
                 new CRPropertyDescriptor[]{allowBlank, blankErrorMsg, fontSize}
                 : new CRPropertyDescriptor[]{allowBlank, fontSize};
+    }
+
+    public Boolean isDisplayRegField(Boolean displayRegField) {
+        RegExp reg = ((TextEditor) toData()).getRegex();
+        if (reg == null || !StringUtils.isNotEmpty(reg.toRegText())) {
+
+            displayRegField = false;
+        }
+        return displayRegField;
     }
 }

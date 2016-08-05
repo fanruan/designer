@@ -36,8 +36,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private UILabel sampleLabel;// preview
 	// content
 	private UITextField patternTextField = null;
-//	private JList patternList = null;
-
 	private ValueEditorPane startDv;
 	private ValueEditorPane endDv;
 
@@ -68,9 +66,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		otherContentPane.add(firstPanel);
 
 		// sample pane
-//		JPanel samplePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("StyleFormat-Sample"));
-//		otherContentPane.add(samplePane, BorderLayout.NORTH);
-
 		sampleLabel = new UILabel("");
 //		samplePane.add(sampleLabel, BorderLayout.CENTER);
 		sampleLabel.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
@@ -78,26 +73,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		sampleLabel.setFont(FRContext.getDefaultValues().getFRFont());
 
 		// content pane
-//		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//		contentPane.setPreferredSize(new Dimension(400,100));
-//		otherContentPane.add(contentPane, BorderLayout.CENTER);
-//		contentPane.setBorder(BorderFactory.createEmptyBorder(4, 0, 2, 0));
-
 		patternTextField = new UITextField();
-//		contentPane.add(patternTextField, BorderLayout.NORTH);
 		patternTextField.getDocument().addDocumentListener(patternTextDocumentListener);
 
-//		patternList = new JList(new DefaultListModel());
-//		DefaultListModel model = (DefaultListModel) patternList.getModel();
-//		model.removeAllElements();
         String[] arr = getDateFormateArray();
-//		for (int i = 0; i < arr.length; i++) {
-//			model.addElement(arr[i]);
-//		}
-//		JScrollPane pScrollPane = new JScrollPane(patternList);
-//		pScrollPane.setPreferredSize(new Dimension(100, 120));
-//		contentPane.add(pScrollPane, BorderLayout.CENTER);
-
 		UIComboBox comboBox = new UIComboBox(arr);
 		comboBox.setPreferredSize(new Dimension(150,20));
 		comboBox.addActionListener(new ActionListener(){
@@ -109,7 +88,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		JPanel secondPanel = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"),comboBox,sampleLabel}, FlowLayout.LEFT, 5);
 		secondPanel.setPreferredSize(new Dimension(220,30));
 		otherContentPane.add(secondPanel);
-//		patternList.addListSelectionListener(patternListSelectionListener);
 		otherContentPane.add(initStartEndDatePane(), BorderLayout.SOUTH);
 		return otherContentPane;
 	}
@@ -166,12 +144,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		}
 	}
 
-//	private ListSelectionListener patternListSelectionListener = new ListSelectionListener() {
-//		public void valueChanged(ListSelectionEvent evt) {
-//			patternTextField.setText((String) patternList.getSelectedValue());
-//		}
-//	};
-
 	@Override
 	protected void populateSubDirectWriteEditorBean(DateEditor e) {
 		String formatText = e.getFormatText();
@@ -180,18 +152,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		returnTypeComboBox.setSelectedIndex(e.isReturnDate() ? 1 : 0);
 
 		populateStartEnd(e);
-
-//		DefaultListModel patternModel = (DefaultListModel) patternList.getModel();
-//		if ((formatText == null || formatText.length() <= 0)) {
-//			patternList.setSelectedIndex(0);
-//		} else {
-//			for (int i = 0; i < patternModel.size(); i++) {
-//				if (ComparatorUtils.equals(patternModel.getElementAt(i).toString(), formatText)) {
-//					patternList.setSelectedIndex(i);
-//					return;
-//				}
-//			}
-//		}
 	};
 
 	@Override
