@@ -67,6 +67,8 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
 		} else {
 			container.add(creator, creator.toData().getWidgetName());
 		}
+		XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
+		layout.updateBoundsWidget(creator);
 		LayoutUtils.layoutRootContainer(container);
 	}
 
@@ -84,6 +86,9 @@ public class FRAbsoluteLayoutAdapter extends AbstractLayoutAdapter {
     	WAbsoluteLayout wabs = (WAbsoluteLayout)container.toData();
     	fix(creator,creator.getX(),creator.getY());
     	wabs.setBounds(creator.toData(),creator.getBounds());
+
+		XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
+		layout.updateBoundsWidget(creator);
     }
     
     /**

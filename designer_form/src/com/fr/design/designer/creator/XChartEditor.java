@@ -187,7 +187,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * @return 返回大小.
 	 */
 	public Dimension initEditorSize() {
-		return new Dimension(250, 100);
+		return new Dimension(250, 150);
 	}
 
 	/**
