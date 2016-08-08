@@ -2,15 +2,17 @@ apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
-
-task appletJar{
-	
-	ant{
-
+ant{
 		delete(dir:'classes')
 		delete(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'classes')
+
+}
+task appletJar{
+	
+	ant{
+
 		copy(todir:'classes'){
 			fileset(dir:'../finereport-core-stable/build/classes'){
 				include(name:'**/*.*')			
