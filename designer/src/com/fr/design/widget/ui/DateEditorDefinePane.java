@@ -73,7 +73,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		patternTextField.getDocument().addDocumentListener(patternTextDocumentListener);
 
         String[] arr = getDateFormateArray();
-		UIComboBox comboBox = new UIComboBox(arr);
+		final UIComboBox comboBox = new UIComboBox(arr);
 		comboBox.setPreferredSize(new Dimension(150,20));
 		comboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
