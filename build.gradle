@@ -65,19 +65,25 @@ task appletJar{
 			}
 		}
 		delete(dir:'../finereport-lib-stable/tmp')
-		property(name:'jdk1.6.home',value:'D:/FineReport/develop/java/jdk1.6u35')
-		property(name:'keystore',value:'frapplet.store')
-		property(name:'keycert',value:'fr.cert')
-		property(name:'keypasssword',value:'123456')
-		property(name:'keyalias',value:'fr')
-		exec(executable:"${jdk1.6.home}/bin/keytool"){
+		def jdk6home=	'D:/FineReport/develop/java/jdk1.6u35'
+		def keystore='frapplet.store'
+		def keycert='fr.cert'
+		def keypassword='123456'
+		def keyalias='fr'
+//property(name:'jdk1.6.home',value:'D:/FineReport/develop/java/jdk1.6u35')
+		//property(name:'keystore',value:'frapplet.store')
+		//property(name:'keycert',value:'fr.cert')
+		//property(name:'keypasssword',value:'123456')
+		//property(name:'keyalias',value:'fr')
+		
+		exec(executable:"${jdk6home}/bin/keytool"){
 			arg(line:"-genkey -dname &quot;CN=FineReport L=NanJing C=China&quot; -keystore ${keystore} -alias ${keyalias} -validity 3650 -storepass ${keypassword}")
 		}
-		exec(executable:"${jdk1.6.home}/bin/keytool"){
+		exec(executable:"${jdk6home}/bin/keytool"){
 			arg(line:"-export -keystore ${keystore} -alias ${keyalias} -file ${keycert} -storepass ${keypassword}")
 		}
 
-		exec(executable:"${jdk1.6.home}/bin/jarsigner"){
+		exec(executable:"${jdk6home}/bin/jarsigner"){
 			arg(line:"-keystore ${keystore} -storepass ${keypassword} ${applet_jar} ${keyalias}")
 		}
 		delete(file:"${keystore}")
