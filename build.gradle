@@ -10,8 +10,8 @@ task appletJar{
 		delete(dir:'classes')
 		delete(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'../finereport-lib-stable/tmp')
-		mkdir(dir:'build/classes')
-		copy(todir:'classes'){
+		mkdir(dir:'build/classes/main')
+		copy(todir:'build/classes/main'){
 			fileset(dir:'../finereport-core-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
@@ -25,7 +25,7 @@ task appletJar{
 			fileset(dir:'../finereport-platform-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-performance-stable/build/classes/main'){
+			fileset(dir:'../finereport-performance-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
 
