@@ -34,6 +34,11 @@ public class AccessiblePropertyEditor extends AbstractPropertyEditor {
     }
 
     @Override
+    public boolean refreshInTime() {
+        return true;
+    }
+
+    @Override
     public Object getValue() {
         return editor.getValue();
     }

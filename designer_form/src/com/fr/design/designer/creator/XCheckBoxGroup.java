@@ -34,35 +34,35 @@ public class XCheckBoxGroup extends XFieldEditor {
 
 	@Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), getCRPropertyDescriptor());
-	}
-	
-	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
+		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class),
+						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
 						Inter.getLocText("DS-Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
-						DictionaryRenderer.class),
+						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
+		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
+		return	properties;
+	}
+
+	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(Inter.getLocText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class),
 				new CRPropertyDescriptor("chooseAll", this.data.getClass()).setI18NName(
 						Inter.getLocText(new String[]{"Provide", "Choose_All"})).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
-						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Return-Value") };
+						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") };
 		if (((CheckBoxGroup) this.toData()).isReturnString()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.addAll(crp, new CRPropertyDescriptor[] {
 					new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
-							Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-							"Return-Value"),
+							Inter.getLocText("Form-Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
-							Inter.getLocText("ComboCheckBox-Start_Symbol")).putKeyValue(
-							XCreatorConstants.PROPERTY_CATEGORY, "Return-Value"),
+							Inter.getLocText("ComboCheckBox-Start_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 					new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
-							Inter.getLocText("ComboCheckBox-End_Symbol")).putKeyValue(
-							XCreatorConstants.PROPERTY_CATEGORY, "Return-Value") });
+							Inter.getLocText("ComboCheckBox-End_Symbol")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
 		}
 		if (!((CheckBoxGroup) this.toData()).isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data

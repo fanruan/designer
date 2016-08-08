@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.IntrospectionException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fr.design.designer.beans.AdapterBus;
@@ -16,16 +18,26 @@ import com.fr.design.designer.beans.adapters.layout.AbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
+import com.fr.design.mainframe.FormArea;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
+import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
+import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
+import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WFitLayout;
+import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.stable.core.PropertyChangeAdapter;
 
 /**
  * @author richer
@@ -35,6 +47,9 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
 	private static final int EDIT_BTN_WIDTH = 60;
 	private static final int EDIT_BTN_HEIGHT = 24;
+
+	//由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
+	protected double containerPercent = 1.0;
 	
 	private HashMap<Connector,XConnector> xConnectorMap;
 	
@@ -54,6 +69,61 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			connector = widget.getConnectorIndex(i);
 			xConnectorMap.put(connector, new XConnector(connector, this));
 		}
+
+		initPercent();
+	}
+
+	//根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%
+	private void initPercent(){
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension scrnsize = toolkit.getScreenSize();
+		double screenValue = FRScreen.getByDimension(scrnsize).getValue();
+		if(screenValue != FormArea.DEFAULT_SLIDER){
+			this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
+		}
+	}
+
+	/**
+	 * 返回容器大小的百分比
+	 * @return the containerPercent
+	 */
+	public double getContainerPercent() {
+		return containerPercent;
+	}
+
+	/**
+	 * 设置容器大小的百分比
+	 * @param containerPercent the containerPercent to set
+	 */
+	public void setContainerPercent(double containerPercent) {
+		this.containerPercent = containerPercent;
+	}
+
+	/**
+	 * 界面容器大小不是默认的时，处理控件的BoundsWidget，且避免出现空隙
+	 */
+	private Rectangle dealWidgetBound(Rectangle rec) {
+		if (containerPercent == 1.0) {
+			return rec;
+		}
+		rec.x = (int) (rec.x/containerPercent);
+		rec.y = (int) (rec.y/containerPercent);
+		rec.width = (int) (rec.width/containerPercent);
+		rec.height = (int) (rec.height/containerPercent);
+		return rec;
+	}
+
+	/**
+	 * 新增删除拉伸后更新每个组件的BoundsWidget
+	 */
+	public void updateBoundsWidget(XCreator xCreator) {
+		WAbsoluteLayout layout = this.toData();
+		if (xCreator.shouldScaleCreator() || xCreator.hasTitleStyle()) {
+			xCreator = (XLayoutContainer)xCreator.getParent();
+		}
+		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
+		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
+		boundsWidget.setCalculatedBounds(rectangle);
 	}
 	
 	/**
@@ -105,7 +175,17 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 	protected void initLayoutManager() {
 		this.setLayout(new FRAbsoluteLayout());
 	}
-	
+
+	/**
+	 * 是否支持标题样式
+	 *
+	 * @return 默认false
+	 */
+	@Override
+	public boolean hasTitleStyle() {
+		return false;
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -209,6 +289,18 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		else{
 			return this;
 		}
+	}
+
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws java.beans.IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		return  new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(
+						Inter.getLocText("FR-Designer_Form-Widget_Name"))
+		};
 	}
 
 	public void paint(Graphics g) {

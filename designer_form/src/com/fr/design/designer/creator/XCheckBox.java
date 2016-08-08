@@ -32,6 +32,7 @@ public class XCheckBox extends XWidgetCreator {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(Inter.getLocText("Text"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override
@@ -41,6 +42,7 @@ public class XCheckBox extends XWidgetCreator {
 						}),
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 						Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(WidgetValueEditor.class)
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override

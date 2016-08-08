@@ -1,16 +1,17 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.general.Inter;
 
@@ -32,7 +33,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	@Override
 	protected JPanel setFirstContentPane() {
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
-		acceptType.setPreferredSize(new Dimension(400, 18));
+		acceptType.setPreferredSize(new Dimension(200, 18));
 		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
 		fileSizeField = new UINumberField();
 		fileSizeField.setPreferredSize(new Dimension(80, 18));
@@ -40,20 +41,22 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
 		JPanel singleFilePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
+		singleFilePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		singleFilePane.add(singleFileCheckBox);
-		centerPane.add(singleFilePane, BorderLayout.NORTH);
+		getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{singleFilePane}, FlowLayout.LEFT,0));
 
 		JPanel allowTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		allowTypePane.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+		allowTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		allowTypePane.add(new UILabel("   " + Inter.getLocText("File-Allow_Upload_Files") + ":"));
 		allowTypePane.add(acceptType);
-		centerPane.add(allowTypePane, BorderLayout.CENTER);
+		getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{allowTypePane}, FlowLayout.LEFT,5));
 
 		JPanel fileSizePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		fileSizePane.add(new UILabel(" " + Inter.getLocText("File-File_Size_Limit") + ":"));
 		fileSizePane.add(fileSizeField);
 		fileSizePane.add(new UILabel(" KB"));
-		allowTypePane.add(fileSizePane);
+		getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{fileSizePane}, FlowLayout.LEFT,11));
 
 		return centerPane;
 	}
