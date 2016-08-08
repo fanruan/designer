@@ -51,19 +51,19 @@ public class XPassword extends XWrapperedFieldEditor {
         CRPropertyDescriptor[] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
-                                Inter.getLocText(new String[]{"Widget", "Value"})).setEditorClass(
-                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")}
+                                Inter.getLocText("FR-Designer-Estate_Widget_Value")).setEditorClass(
+                                WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced")}
                 , super.supportedDescriptor());
+        CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
+                Inter.getLocText("FR-Engine_Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor regex = new CRPropertyDescriptor("regex", this.data.getClass())
                 .setI18NName(Inter.getLocText("FR-Designer_Input_Rule"))
                 .setEditorClass(RegexEditor.RegexEditor4TextArea.class)
                 .putKeyValue("renderer", RegexCellRencerer.class)
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
-        CRPropertyDescriptor regErrorMessage = new CRPropertyDescriptor("regErrorMessage", this.data.getClass()).setI18NName(
-                Inter.getLocText("Verify-Message")).putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor waterMark = new CRPropertyDescriptor("waterMark", this.data.getClass())
                 .setI18NName(Inter.getLocText("FR-Designer_WaterMark"))
-                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced");
         boolean displayRegField = true;
         displayRegField = isDisplayRegField(displayRegField);
         return displayRegField ? (CRPropertyDescriptor[]) ArrayUtils.addAll(sup, new CRPropertyDescriptor[]{regex, regErrorMessage, waterMark}) :

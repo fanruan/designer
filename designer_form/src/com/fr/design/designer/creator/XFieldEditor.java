@@ -40,14 +40,14 @@ public abstract class XFieldEditor extends XWidgetCreator {
 
     private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
         CRPropertyDescriptor allowBlank = new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                Inter.getLocText("Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
+                Inter.getLocText("FR-Designer_Allow-Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
                 XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor blankErrorMsg = new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
-                Inter.getLocText("Verify-Message"))
+                Inter.getLocText("FR-Engine_Verify-Message"))
                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate");
         CRPropertyDescriptor fontSize = new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
-                .setI18NName(Inter.getLocText(new String[]{"FRFont", "FRFont-Size"}))
-                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+                .setI18NName(Inter.getLocText("FR-Designer_Font-Size"))
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Advanced");
         return !((FieldEditor) toData()).isAllowBlank() ?
                 new CRPropertyDescriptor[]{allowBlank, blankErrorMsg, fontSize}
                 : new CRPropertyDescriptor[]{allowBlank, fontSize};
