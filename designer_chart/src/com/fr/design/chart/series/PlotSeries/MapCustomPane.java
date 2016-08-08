@@ -1,8 +1,28 @@
 package com.fr.design.chart.series.PlotSeries;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import com.fr.base.FRContext;
+import com.fr.base.TableData;
+import com.fr.base.Utils;
+import com.fr.chart.base.MapSvgAttr;
+import com.fr.data.impl.EmbeddedTableData;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.FilterComboBox;
+import com.fr.design.gui.ilable.BoldFontTextLabel;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralUtils;
+import com.fr.general.Inter;
+import com.fr.general.data.DataModel;
+import com.fr.stable.StringUtils;
+import org.apache.batik.swing.svg.SVGFileFilter;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -10,27 +30,6 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import com.fr.base.Utils;
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.data.TableDataSource;
-import com.fr.data.core.DataCoreUtils;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.FilterComboBox;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
-import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
-import org.apache.batik.swing.svg.SVGFileFilter;
 
 /**
  * 自定义地图界面.
@@ -131,21 +130,50 @@ refreshAreaNameBox();
 				String colName = Utils.objectToString(areaString.getSelectedItem());
 
 				TableDataWrapper tableDataWrappe = tableDataNameBox.getTableDataWrapper();
-				TableDataSource source = DesignTableDataManager.getEditingTableDataSource();
-				if (tableDataWrappe == null || source == null) {
-					return;
-				}
-
-				String[] values = DataCoreUtils.getColValuesInData(source, tableDataWrappe.getTableDataName(), colName);
-				ArrayList list = new ArrayList();
-				for(int i = 0; i < values.length; i++) {
-					list.add(values[i]);
-				}
 			
-				imageShowPane.refreshFromDataList(list);
+				imageShowPane.refreshFromDataList(getColValuesInData(tableDataWrappe, colName));
 			}
 		}
 	};
+
+	public static List<String> getColValuesInData(TableDataWrapper tableDataWrappe, String colName) {
+		List<String> colValues = new ArrayList<>();
+
+		EmbeddedTableData embeddedTableData = null;
+		try {
+			embeddedTableData = DesignTableDataManager.previewTableDataNotNeedInputParameters(tableDataWrappe.getTableData(), TableData.RESULT_ALL, false);
+		} catch (Exception ee) {
+			FRContext.getLogger().error(ee.getMessage(), ee);
+		}
+
+		if(embeddedTableData == null){
+			return colValues;
+		}
+
+		int columnIndex = getColumnIndex(embeddedTableData, colName);
+
+		if(columnIndex == DataModel.COLUMN_NAME_NOT_FOUND){
+			return colValues;
+		}
+
+		for (int rowIndex = 0, rowCount = embeddedTableData.getRowCount(); rowIndex < rowCount; rowIndex++) {
+			String colValueName = GeneralUtils.objectToString(embeddedTableData.getValueAt(rowIndex, columnIndex));
+			if (!colValues.contains(colValueName)) {
+				colValues.add(colValueName);
+			}
+		}
+
+		return colValues;
+	}
+
+	private static int getColumnIndex(EmbeddedTableData tableData, String colName) {
+		for (int columnIndex = 0, columnCount = tableData.getColumnCount(); columnIndex < columnCount; columnIndex++) {
+			if (ComparatorUtils.tableDataColumnNameEquals(tableData.getColumnName(columnIndex), colName)) {
+				return columnIndex;
+			}
+		}
+		return DataModel.COLUMN_NAME_NOT_FOUND;
+	}
 
 	/**
 	 * 选中方式: 区域或者点
