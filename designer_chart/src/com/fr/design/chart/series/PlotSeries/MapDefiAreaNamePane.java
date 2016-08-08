@@ -16,7 +16,6 @@ import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.xcombox.ComboBoxUseEditor;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.general.Inter;
-import com.fr.third.org.apache.poi.hssf.record.formula.functions.T;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -80,7 +79,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		tableDataBox.setPreferredSize(new Dimension(200, 20));
 		northPane.add(tableDataBox);
 
-		columnBox = new FilterComboBox<T>();
+		columnBox = new FilterComboBox<>();
 		columnBox.setPreferredSize(new Dimension(40, 20));
 		columnBox.addItemListener(columnChange);
 
