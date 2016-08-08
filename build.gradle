@@ -22,7 +22,7 @@ task appletJar<<{
 			fileset(dir:'../finereport-platform-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-performance-stable/build/classes'){
+			fileset(dir:'../finereport-performance-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
 
@@ -56,7 +56,7 @@ task appletJar<<{
 				include(name:'javax/xml/**')
 
 			}
-			fileset(dir:'buildclasses'){
+			fileset(dir:'build/classes'){
 				include(name:'com/fr/web/*.class')
 				include(name:'com/fr/web/attr/*.class')
 			}
