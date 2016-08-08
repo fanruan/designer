@@ -31,8 +31,8 @@ task appletJar{
 
 
 		}
-		unjar(src:'../finereport-lib-stable/3rd.jar',dest='finereport-lib-stable/tmp')
-		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest='finereport-lib-stable/tmp')
+		unjar(src:'../finereport-lib-stable/3rd.jar',dest:'finereport-lib-stable/tmp')
+		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest:'finereport-lib-stable/tmp')
 		jar(jarfile:'build/libs/fr-applet-8.0.jar'){
 			fileset(dir:'classes'){
 				exclude(name:'*.*')
