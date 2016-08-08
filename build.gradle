@@ -12,20 +12,20 @@ task appletJar{
 		mkdir(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'classes')
 		copy(todir:'classes'){
-			fileset(dir='../finereport-core-stable/build/classes'){
+			fileset(dir:'../finereport-core-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir='../finereport-chart-stable/build/classes'){
+			fileset(dir:'../finereport-chart-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir='../finereport-desgin-stable/build/classes'){
+			fileset(dir:'../finereport-desgin-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
 
-			fileset(dir='../finereport-platform-stable/build/classes'){
+			fileset(dir:'../finereport-platform-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir='../finereport-performance-stable/build/classes'){
+			fileset(dir:'../finereport-performance-stable/build/classes'){
 				include(name:'**/*.*')			
 			}
 
