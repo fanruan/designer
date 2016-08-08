@@ -2,32 +2,30 @@ apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
-ant{
-		delete(dir:'classes')
-		delete(dir:'../finereport-lib-stable/tmp')
-		mkdir(dir:'../finereport-lib-stable/tmp')
-		mkdir(dir:'classes')
 
-}
 task appletJar{
 	
 	ant{
 
+		delete(dir:'classes')
+		delete(dir:'../finereport-lib-stable/tmp')
+		mkdir(dir:'../finereport-lib-stable/tmp')
+		mkdir(dir:'build/classes')
 		copy(todir:'classes'){
-			fileset(dir:'../finereport-core-stable/build/classes'){
+			fileset(dir:'../finereport-core-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-chart-stable/build/classes'){
+			fileset(dir:'../finereport-chart-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-desgin-stable/build/classes'){
+			fileset(dir:'../finereport-desgin-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
 
-			fileset(dir:'../finereport-platform-stable/build/classes'){
+			fileset(dir:'../finereport-platform-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-performance-stable/build/classes'){
+			fileset(dir:'../finereport-performance-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
 
