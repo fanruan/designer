@@ -6,19 +6,16 @@ tasks.withType(JavaCompile){
 task appletJar<<{
 	
 	ant{
-
-		delete(dir:'classes')
-		delete(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'../finereport-lib-stable/tmp')
-		mkdir(dir:'build/classes/main')
-		copy(todir:'build/classes/main'){
+		mkdir(dir:'build/classes/')
+		copy(todir:'build/classes/'){
 			fileset(dir:'../finereport-core-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
 			fileset(dir:'../finereport-chart-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
-			fileset(dir:'../finereport-desgin-stable/build/classes/main'){
+			fileset(dir:'../finereport-report-stable/build/classes/main'){
 				include(name:'**/*.*')			
 			}
 
@@ -34,7 +31,7 @@ task appletJar<<{
 		unjar(src:'../finereport-lib-stable/3rd.jar',dest:'finereport-lib-stable/tmp')
 		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest:'finereport-lib-stable/tmp')
 		jar(jarfile:'build/libs/fr-applet-8.0.jar'){
-			fileset(dir:'classes'){
+			fileset(dir:'build/classes'){
 				exclude(name:'*.*')
 				exclude(name:'bin/*.*')
 				exclude(name:'classes/**')
@@ -59,7 +56,7 @@ task appletJar<<{
 				include(name:'javax/xml/**')
 
 			}
-			fileset(dir:'classes'){
+			fileset(dir:'buildclasses'){
 				include(name:'com/fr/web/*.class')
 				include(name:'com/fr/web/attr/*.class')
 			}
@@ -88,7 +85,7 @@ task appletJar<<{
 		}
 		delete(file:"${keystore}")
 		delete(file:"${keycert}")
-		delete(dir:'classes')
+		delete(dir:'build/classes')
 	
 	}
 
