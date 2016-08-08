@@ -182,7 +182,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
      * @return  尺寸
      */
 	public Dimension initEditorSize() {
-		return new Dimension(250, 150);
+		return BORDER_PREFERRED_SIZE;
 	}
 
     /**
