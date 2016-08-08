@@ -6,7 +6,6 @@ tasks.withType(JavaCompile){
 task appletJar<<{
 	
 	ant{
-		patternset(id:'')
 		mkdir(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'build/classes/')
 		copy(todir:'build/classes/'){
@@ -41,7 +40,7 @@ task appletJar<<{
 				exclude(name:'com/fr/dialog/**')
 				exclude(name:'com/fr/view/**')
 				exclude(name:'com/fr/web/**')
-				exclude(name:'om/fr/fs/**')
+				exclude(name:'com/fr/fs/**')
 				exclude(name:'com/fr/design/**')
 				exclude(name:'com/fr/start/**')
 				exclude(name:'com/fr/process/**')
