@@ -6,30 +6,31 @@ tasks.withType(JavaCompile){
 task appletJar<<{
 	
 	ant{
+		patternset(id:'')
 		mkdir(dir:'../finereport-lib-stable/tmp')
 		mkdir(dir:'build/classes/')
 		copy(todir:'build/classes/'){
-			fileset(dir:'../finereport-core-stable/build/classes/main'){
-				include(name:'**/*.*')			
-			}
-			fileset(dir:'../finereport-chart-stable/build/classes/main'){
-				include(name:'**/*.*')			
-			}
-			fileset(dir:'../finereport-report-stable/build/classes/main'){
-				include(name:'**/*.*')			
-			}
+			fileset(dir:'../finereport-core-stable/build/classes/main')
+							
+			
+			fileset(dir:'../finereport-chart-stable/build/classes/main')
+						
+			
+			fileset(dir:'../finereport-report-stable/build/classes/main')
+						
+			
 
-			fileset(dir:'../finereport-platform-stable/build/classes/main'){
-				include(name:'**/*.*')			
-			}
-			fileset(dir:'../finereport-performance-stable/build/classes/main'){
-				include(name:'**/*.*')			
-			}
+			fileset(dir:'../finereport-platform-stable/build/classes/main')
+						
+			
+			fileset(dir:'../finereport-performance-stable/build/classes/main')
+						
+			
 
 
 		}
-		unjar(src:'../finereport-lib-stable/3rd.jar',dest:'finereport-lib-stable/tmp')
-		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest:'finereport-lib-stable/tmp')
+		unjar(src:'../finereport-lib-stable/3rd.jar',dest:'../finereport-lib-stable/tmp')
+		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest:'../finereport-lib-stable/tmp')
 		jar(jarfile:'build/libs/fr-applet-8.0.jar'){
 			fileset(dir:'build/classes'){
 				exclude(name:'*.*')
@@ -67,11 +68,6 @@ task appletJar<<{
 		def keycert='fr.cert'
 		def keypassword='123456'
 		def keyalias='fr'
-//property(name:'jdk1.6.home',value:'D:/FineReport/develop/java/jdk1.6u35')
-		//property(name:'keystore',value:'frapplet.store')
-		//property(name:'keycert',value:'fr.cert')
-		//property(name:'keypasssword',value:'123456')
-		//property(name:'keyalias',value:'fr')
 		
 		exec(executable:"${jdk6home}/bin/keytool"){
 			arg(line:"-genkey -dname &quot;CN=FineReport L=NanJing C=China&quot; -keystore ${keystore} -alias ${keyalias} -validity 3650 -storepass ${keypassword}")
