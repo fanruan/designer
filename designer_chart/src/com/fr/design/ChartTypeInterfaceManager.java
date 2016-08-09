@@ -38,6 +38,8 @@ import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
 import javax.swing.*;
+import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,6 +49,9 @@ import java.util.Map;
  * Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
+
+
+
 
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
