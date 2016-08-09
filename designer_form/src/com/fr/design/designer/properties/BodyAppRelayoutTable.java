@@ -1,40 +1,39 @@
 package com.fr.design.designer.properties;
 
 import java.awt.event.MouseEvent;
+import java.beans.IntrospectionException;
 import java.util.ArrayList;
-
-import javax.swing.JTable;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import com.fr.design.beans.GroupModel;
+import com.fr.base.FRContext;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
-import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
+import com.fr.general.Inter;
 
 
 public class BodyAppRelayoutTable extends AbstractPropertyTable {
 
-	private XWBodyFitLayout xwBodyFitLayout;
+	private XCreator xCreator;
+	private FormDesigner designer;
 
-	public BodyAppRelayoutTable(XWBodyFitLayout xwBodyFitLayout) {
-		super();
-		setDesigner(xwBodyFitLayout);
+	public BodyAppRelayoutTable(XCreator xCreator) {
+		this.xCreator = xCreator;
 	}
 	
-	public static ArrayList<PropertyGroup> getCreatorPropertyGroup(XCreator source) {
-		ArrayList<PropertyGroup> groups = new ArrayList<PropertyGroup>();
-		if (source instanceof XLayoutContainer) {
-			LayoutAdapter layoutAdapter = ((XLayoutContainer)source).getLayoutAdapter();
-			if(layoutAdapter != null){
-				GroupModel m = layoutAdapter.getLayoutProperties();
-				if (m != null) {
-					groups.add(new PropertyGroup(m));
-				}
-			}
-		}
-		return groups;
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] propertyTableEditor = {
+				new CRPropertyDescriptor("appRelayout", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer-App_ReLayout"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout"))
+		};
+		return propertyTableEditor;
 	}
 
     /**
@@ -43,18 +42,22 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
      */
 	public void initPropertyGroups(Object source) {
 
-		groups = getCreatorPropertyGroup(xwBodyFitLayout);
+		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+
+		groups = new ArrayList<PropertyGroup>();
+		CRPropertyDescriptor[] propertyTableEditor = null;
+
+		try {
+			propertyTableEditor = supportedDescriptor();
+		}catch (IntrospectionException e) {
+			FRContext.getLogger().error(e.getMessage());
+		}
+
+		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer-Layout_Adaptive_Layout"), xCreator, propertyTableEditor, designer)));
 
 		TableModel model = new BeanTableModel();
 		setModel(model);
-		this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		TableColumn tc = this.getColumn(this.getColumnName(0));
-		tc.setPreferredWidth(30);
 		this.repaint();
-	}
-
-	private void setDesigner(XWBodyFitLayout xwBodyFitLayout) {
-		this.xwBodyFitLayout = xwBodyFitLayout;
 	}
 
 
@@ -78,6 +81,6 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
      * 待说明
      */
 	public void firePropertyEdit() {
-
+		designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
 	}
 }

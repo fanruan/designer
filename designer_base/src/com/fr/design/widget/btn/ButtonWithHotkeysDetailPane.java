@@ -1,9 +1,8 @@
 package com.fr.design.widget.btn;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -32,7 +31,11 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
     }
 
 	private void initComponents() {
-		this.setLayout(new BorderLayout());
+        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
+        advancedPane.setPreferredSize(new Dimension(600,300));
+        JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        this.add(advancedPane);
 		double p = TableLayout.PREFERRED;
         double rowSize[] = {p, p, p, p};
         double columnSize[] = {p, p};
@@ -40,17 +43,17 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
 		iconPane = new IconDefinePane();
         labelPane.add(iconPane);
     	Component[][] n_components = {
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField(20)},
+        		{new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField(16)},
         		{new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), labelPane},
         		{new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField(40)}
+        		{new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField(16)}
         };
     	hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 4);
-		add(panel,BorderLayout.NORTH);
+		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
+		advancedPane.add(panel,BorderLayout.NORTH);
 		Component comp = createCenterPane();
 		if(comp != null	) {
-			add(comp,BorderLayout.CENTER);
+			advancedPane.add(comp,BorderLayout.CENTER);
 		}
 	}
 

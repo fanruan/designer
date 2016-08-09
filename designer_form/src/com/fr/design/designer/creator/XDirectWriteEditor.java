@@ -6,6 +6,7 @@ package com.fr.design.designer.creator;
 import java.awt.Dimension;
 import java.beans.IntrospectionException;
 
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.form.ui.DirectWriteEditor;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -24,6 +25,7 @@ public abstract class XDirectWriteEditor extends XFieldEditor {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(),
 				new CRPropertyDescriptor[] { new CRPropertyDescriptor("directEdit", this.data.getClass())
-								.setI18NName(Inter.getLocText("Form-Allow_Edit")) });
+								.setI18NName(Inter.getLocText("Form-Allow_Edit")).putKeyValue(
+								 XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate") });
 	}
 }
