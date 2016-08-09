@@ -125,6 +125,8 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 }
 
                 fire();
+
+                collection.getSelectedChart().getPlot().setAttrChange(true);
             }
         }
     };
