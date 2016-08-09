@@ -24,10 +24,17 @@ sourceSets{
 			}
 		}
 }
+
+//获取什么分支名
+FileTree files =fileTree(dir:'./',include:'build.gradle')
+def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
+buildDir=buildDir.substring(0，buildDir.lastIndexOf ('\\'))
+def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
+
 //声明外部依赖
 dependencies{
-compile fileTree(dir:'../../finereport-lib-stable',include:'**/*.jar')
-compile fileTree(dir:'../../',include:'finereport-*-stable/**/*.jar')
+compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
+compile fileTree(dir:'../../../',include:'finereport-*-stable/**/*.jar')
 
  	testCompile 'junit:junit:4.12'
 }
@@ -56,7 +63,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 task compressJS{
 	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
 		classpath {
-			fileset(dir:'../../finereport-build-stable',includes:'**/*.jar')
+			fileset(dir:'../../../finereport-build-stable',includes:'**/*.jar')
 		}
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){

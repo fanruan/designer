@@ -2,34 +2,32 @@ apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
+def libDir='${libDir}'
+def basicDir='../../'
+//获取什么分支名
+FileTree files =fileTree(dir:'./',include:'build.gradle')
+def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
+def branchName=buildDir.substring(build.DirlastIndexOf ('\\')+1)
 
 task appletJar<<{
 	
 	ant{
-		mkdir(dir:'../finereport-lib-stable/tmp')
+		mkdir(dir:'${libDir}/tmp')
 		mkdir(dir:'build/classes/')
 		copy(todir:'build/classes/'){
-			fileset(dir:'../finereport-core-stable/build/classes/main')
+			fileset(dir:'${basicDir}/finereport-core-stable/${branchName}/build/classes/main')
+	
+			fileset(dir:'${basicDir}/finereport-chart-stable/${branchName}/build/classes/main')
 							
+			fileset(dir:'${basicDir}/finereport-report-stable/${branchName}/build/classes/main')		
 			
-			fileset(dir:'../finereport-chart-stable/build/classes/main')
+			fileset(dir:'${basicDir}/finereport-platform-stable/${branchName}/build/classes/main')
 						
-			
-			fileset(dir:'../finereport-report-stable/build/classes/main')
-						
-			
-
-			fileset(dir:'../finereport-platform-stable/build/classes/main')
-						
-			
-			fileset(dir:'../finereport-performance-stable/build/classes/main')
-						
-			
-
+			fileset(dir:'${basicDir}/finereport-performance-stable/${branchName}/build/classes/main')
 
 		}
-		unjar(src:'../finereport-lib-stable/3rd.jar',dest:'../finereport-lib-stable/tmp')
-		unjar(src:'../finereport-lib-stable/servlet-api.jar',dest:'../finereport-lib-stable/tmp')
+		unjar(src:"${libDir}/3rd.jar',dest:'${libDir}/tmp')
+		unjar(src:'${libDir}/servlet-api.jar',dest:'${libDir}/tmp')
 		jar(jarfile:'build/libs/fr-applet-8.0.jar'){
 			fileset(dir:'build/classes'){
 				exclude(name:'*.*')
@@ -45,7 +43,7 @@ task appletJar<<{
 				exclude(name:'com/fr/start/**')
 				exclude(name:'com/fr/process/**')
 			}
-			fileset(dir:'../finereport-lib-stable/tmp'){
+			fileset(dir:'${libDir}/tmp'){
 				include(name:'javax/mail/**')
 				include(name:'javax/servlet/**')
 				include(name:'org/freehep/**')
@@ -61,7 +59,7 @@ task appletJar<<{
 				include(name:'com/fr/web/attr/*.class')
 			}
 		}
-		delete(dir:'../finereport-lib-stable/tmp')
+		delete(dir:'${libDir}/tmp')
 		def jdk6home=	'D:/FineReport/develop/java/jdk1.6u35'
 		def keystore='frapplet.store'
 		def keycert='fr.cert'
