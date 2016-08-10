@@ -115,6 +115,11 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             AbstractChartAttrPane selectedPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
             selectedPane.update(collection);
             if (!ComparatorUtils.equals(collection, lastCollection)) {
+
+                //此处画图
+                Chart chart = collection.getSelectedChart();
+                chart.demoImgEvent(true);
+
                 try {
                     lastCollection = (ChartCollection) collection.clone();
                 } catch (CloneNotSupportedException e) {
@@ -125,8 +130,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 }
 
                 fire();
-
-                collection.getSelectedChart().getPlot().setAttrChange(true);
             }
         }
     };
