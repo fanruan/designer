@@ -86,7 +86,12 @@ public class CellWidgetCardPane extends BasicPane {
 
         attriPane.remove(widgetPropertyPane);
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        attriPane.add(widgetPropertyPane, BorderLayout.NORTH);
+        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
+        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Form-Basic_Properties"));
+        northPane.add(basic);
+        basic.add(widgetPropertyPane);
+        attriPane.add(northPane, BorderLayout.NORTH);
 
         WidgetDefinePaneFactory.RN rn = WidgetDefinePaneFactory.createWidgetDefinePane(cellWidget, new Operator() {
             @Override

@@ -103,7 +103,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 
 		Rectangle bounds = block.getBounds().toRectangle(resolution);
 		Point resultPoint = MoveUtils.sorption(bounds.x + dragStart.x < 0 ? 0 : bounds.x + dragStart.x, bounds.y
-				+ dragStart.y < 0 ? 0 : bounds.y + dragStart.y, bounds.width, bounds.height, rectDesigner);
+				+ dragStart.y < 0 ? 0 : bounds.y + dragStart.y, bounds.width, bounds.height, rectDesigner, false);
 		block.setBounds(new UnitRectangle(new Rectangle(resultPoint.x, resultPoint.y, bounds.width, bounds.height),
 				resolution));
 		designer.repaint();
@@ -124,7 +124,17 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 		public RectangleIterator createRectangleIterator() {
 			return getRectangleIt();
 		}
-		
+
+		/**
+		 * 设置等距线
+		 *
+		 * @param line 吸附线
+		 */
+		@Override
+		public void setEquidistantLine(Absorptionline line) {
+
+		}
+
 		/**
 		 * 获取当前选中块的垂直线数组
 		 * 
@@ -145,6 +155,34 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 			return editor.getValue().getHorizontalLine();
 		}
 
+		/**
+		 * 设置designer内部组件是否重叠的标志位
+		 *
+		 * @param isIntersects 是否重叠
+		 */
+		@Override
+		public void setWidgetsIntersects(boolean isIntersects) {
+		}
+
+		/**
+		 * 获取designer内部组件是否重叠的标志位
+		 *
+		 * @return 重叠
+		 */
+		@Override
+		public boolean getWidgetsIntersects() {
+			return false;
+		}
+
+		/**
+		 * 获取designer相对屏幕的位置
+		 *
+		 * @return 位置
+		 */
+		@Override
+		public Point getDesignerLocationOnScreen() {
+			return null;
+		}
 	};
 	
 	private RectangleIterator getRectangleIt(){

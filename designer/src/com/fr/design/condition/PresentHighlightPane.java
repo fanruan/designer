@@ -97,21 +97,21 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
     }
 
     public  void populate(HighlightAction ha) {
-        present = ((PresentHighlightAction)ha).getPresent();
-        if (!(present instanceof NormalPresent)) {
-            presentComboBox.setSelectedIndex(1);
-        } else {
-            presentComboBox.setSelectedIndex(0);
-            valueEditor.populate(((NormalPresent)present).getNormalPresent());
+        int valueIndex = ((PresentHighlightAction)ha).getValueIndex();
+        Object obj = ((PresentHighlightAction)ha).getValue();
+        presentComboBox.setSelectedIndex(valueIndex);
+        if(null != obj) {
+            this.valueEditor.populate(obj);
         }
     }
 
     public HighlightAction update() {
-        if (presentComboBox.getSelectedIndex() == 0) {
-            if (this.valueEditor.update() instanceof String) {
+        Object value = this.valueEditor.update();
+        if (presentComboBox.getSelectedIndex() == 1) {
+            if (value instanceof String) {
                 present = new NormalPresent(this.valueEditor.update());
             }
         }
-        return new PresentHighlightAction(present);
+        return new PresentHighlightAction(this.valueEditor.update());
     }
 }

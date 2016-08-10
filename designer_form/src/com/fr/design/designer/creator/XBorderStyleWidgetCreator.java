@@ -30,6 +30,8 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     private int cornerSize = 15;
     private int noneSize = 0;
 
+	protected static final Dimension BORDER_PREFERRED_SIZE = new Dimension(250, 150);
+
     public XBorderStyleWidgetCreator(Widget widget, Dimension initSize) {
         super(widget, initSize);
     }

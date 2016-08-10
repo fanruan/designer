@@ -825,7 +825,7 @@ public class XWFitLayout extends XLayoutContainer {
     
     /**
      * 处理自适应布局的directions
-     * @param creator 组件
+     * @param xcreator 组件
      */
     private void dealDirections(XCreator xcreator, boolean isInit) {
     	if (xcreator == null) {

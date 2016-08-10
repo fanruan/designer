@@ -14,6 +14,8 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
     private AppFitBrowserPane appFitBrowserPane;
 
+    private MobileUseHtmlGroupPane htmlGroupPane;
+
     public ReportMobileAttrPane() {
         initComponents();
     }
@@ -27,6 +29,8 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
         this.add(appFitBrowserPane);
 
+        this.add(htmlGroupPane = new MobileUseHtmlGroupPane());
+
         this.add(appFitPreviewPane);
     }
 
@@ -37,11 +41,17 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         }
         appFitBrowserPane.populateBean(ob);
 
+        htmlGroupPane.populateBean(ob);
+
     }
 
     @Override
     public ElementCaseMobileAttr updateBean() {
-        return appFitBrowserPane.updateBean();
+        ElementCaseMobileAttr caseMobileAttr = appFitBrowserPane.updateBean();
+
+        htmlGroupPane.updateBean(caseMobileAttr);
+
+        return caseMobileAttr;
     }
 
     @Override
