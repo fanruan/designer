@@ -13,7 +13,7 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ("\\")+1)
 task appletJar<<{
 	
 	ant{
-		mkdir(dir:"${libDir}/tmp")
+		mkdir(dir:"${libDir}/tmp-${branchName}")
 		mkdir(dir:"build/classes/")
 		copy(todir:"build/classes/"){
 			fileset(dir:"${basicDir}/finereport-core-stable/${branchName}/build/classes/main")
@@ -44,7 +44,7 @@ task appletJar<<{
 				exclude(name:"com/fr/start/**")
 				exclude(name:"com/fr/process/**")
 			}
-			fileset(dir:"${libDir}/tmp"){
+			fileset(dir:"${libDir}/tmp-${branchName}"){
 				include(name:"javax/mail/**")
 				include(name:"javax/servlet/**")
 				include(name:"org/freehep/**")
@@ -60,7 +60,7 @@ task appletJar<<{
 				include(name:"com/fr/web/attr/*.class")
 			}
 		}
-		delete(dir:"${libDir}/tmp")
+		delete(dir:"${libDir}/tmp-${branchName}")
 		def jdk6home=	"D:/FineReport/develop/java/jdk1.6u35"
 		def keystore="frapplet.store"
 		def keycert="fr.cert"
