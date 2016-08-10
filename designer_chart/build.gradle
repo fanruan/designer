@@ -25,7 +25,7 @@ sourceSets{
 }
 FileTree files =fileTree(dir:'./',include:'build.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
-buildDir=buildDir.substring(0，buildDir.lastIndexOf ('\\'))
+buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
 //指定外部依赖
