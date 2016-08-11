@@ -24,13 +24,17 @@ public abstract class LabelBorderAttrPane extends ConditionAttrSingleConditionPa
     public LabelBorderAttrPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove, String label) {
         super(conditionAttributesPane, isRemove);
         nameLabel = new UILabel(label);
-        linePane = new BorderAttriPane();
+        linePane = initBorderAttrPane();
 
         if (isRemove) {
             this.add(nameLabel);
         }
         this.add(linePane);
         this.labelName = label;
+    }
+
+    protected BorderAttriPane initBorderAttrPane(){
+        return new BorderAttriPane();
     }
 
     @Override
