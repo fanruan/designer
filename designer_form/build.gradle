@@ -31,15 +31,11 @@ def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
-<<<<<<< HEAD
+
 FileTree jars=fileTree(dir:'../../../').include "finereport-*-stable/${branchName}/**/*.jar"
 jars.each{File file->
 println "-----------this jar path is ${file.path}----------"
 }
-
-
-=======
->>>>>>> adaabb5817789ef492696721df369702adeb9971
 //ÉùÃ÷Íâ²¿ÒÀÀµ
 dependencies{
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
