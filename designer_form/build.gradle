@@ -31,12 +31,15 @@ def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
+<<<<<<< HEAD
 FileTree jars=fileTree(dir:'../../../').include "finereport-*-stable/${branchName}/**/*.jar"
 jars.each{File file->
 println "-----------this jar path is ${file.path}----------"
 }
 
 
+=======
+>>>>>>> adaabb5817789ef492696721df369702adeb9971
 //…˘√˜Õ‚≤ø“¿¿µ
 dependencies{
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
@@ -69,6 +72,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 task compressJS{
 	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
 		classpath {
+
 			fileset(dir:'../../../finereport-lib4build-stable',includes:'**/*.jar')
 		}
 	}
