@@ -4,6 +4,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 
@@ -194,7 +195,7 @@ public class ActiveKeyGenerator {
 	
 	//获取char对应的int值
 	private static int getCharIntValue(char charStr){
-		if (!BaseUtils.isNum(charStr)) {
+		if (!StableUtils.isNum(charStr)) {
 			return 0;
 		}
 		return Character.getNumericValue(charStr);
