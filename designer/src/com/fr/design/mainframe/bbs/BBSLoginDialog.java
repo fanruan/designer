@@ -36,7 +36,6 @@ public class BBSLoginDialog extends UIDialog {
 
     private static final int DIALOG_WIDTH = 400;
     private static final int DIALOG_HEIGHT = 200;
-    private static final String LOGIN_SUCCESS_FLAG = "http://bbs.finereport.com";
     private static final Font DEFAULT_FONT = FRFont.getInstance(FRFont.DEFAULT_FONTNAME, 0, 14);
     private static final int TIME_OUT = 10000;
 
@@ -287,12 +286,13 @@ public class BBSLoginDialog extends UIDialog {
                 FRLogger.getLogger().error(e.getMessage());
             }
             String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
+            String loginSuccessFlag = SiteCenter.getInstance().acquireUrlByKind("bbs");
             HttpClient client = new HttpClient(url);
             client.setTimeout(TIME_OUT);
             if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
                 try {
                     String res = client.getResponseText(EncodeConstants.ENCODING_GBK);
-                    if (res.contains(LOGIN_SUCCESS_FLAG)) {
+                    if (res.contains(loginSuccessFlag)) {
                         return true;
                     }
                 } catch (Exception e) {

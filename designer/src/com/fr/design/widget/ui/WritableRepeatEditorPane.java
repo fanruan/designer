@@ -17,8 +17,6 @@ public abstract class WritableRepeatEditorPane<E extends WriteAbleRepeatEditor> 
 	protected JPanel setSecondContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
-		contentPane.add(contenter,BorderLayout.NORTH);
 		JPanel otherContentPane = this.setThirdContentPane();
 		if (otherContentPane != null) {
 			contentPane.add(otherContentPane,BorderLayout.CENTER);

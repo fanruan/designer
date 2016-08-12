@@ -3,20 +3,17 @@
  */
 package com.fr.design.designer.beans.location;
 
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import com.fr.design.beans.location.Absorptionline;
 import com.fr.design.beans.location.MoveUtils;
+import com.fr.design.designer.creator.*;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWBorderLayout;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WParameterLayout;
 
 /**
  * @author richer
@@ -39,10 +36,7 @@ public abstract class AccessDirection implements Direction {
 			return new int[] { x, y };
 		} else {
 			int posy = current_bounds.y;
-			if (posy >= designer.getParaHeight() && !designer.isFormParaDesigner()) {
-				return new int[] { x, y };
-			}
-			
+
 			Point relativePoint = getRelativePoint(x, y, current_bounds,designer);
 			sorptionPoint(relativePoint,current_bounds, designer);
 			return new int[] { relativePoint.x, relativePoint.y };
@@ -72,12 +66,14 @@ public abstract class AccessDirection implements Direction {
 
 		WAbsoluteLayout layout =getLayout(designer);
 		FormSelection selection = designer.getSelectionModel().getSelection();
+
+		boolean isWidgetsIntersect = false;
 		for (int i = 0, count = layout.getWidgetCount(); i < count; i++) {
 			BoundsWidget temp = (BoundsWidget) layout.getWidget(i);
 			if (!temp.isVisible() || selection.contains(temp.getWidget())) {
 				continue;
 			}
-			Rectangle bounds = temp.getBounds();
+			Rectangle bounds = getWidgetRelativeBounds(temp.getBounds(), selection);
 			if (!findInX) {
 				int x1 = bounds.x;
 				if (Math.abs(x1 - point.x) <= MoveUtils.SORPTION_UNIT) {
@@ -106,18 +102,54 @@ public abstract class AccessDirection implements Direction {
 			if (findInX && findInY) {
 				break;
 			}
+
+			if (current_bounds.intersects(bounds) && !(layout instanceof WParameterLayout)){
+				isWidgetsIntersect = true;
+			}
 		}
+		processRectangleIntersects(designer, point.x, point.y, isWidgetsIntersect);
 
 		designer.getStateModel().setXAbsorptionline(findInX && current_bounds.getWidth() > MoveUtils.SORPTION_UNIT ? Absorptionline.createXAbsorptionline(point.x) : null);
 		designer.getStateModel().setYAbsorptionline(findInY && current_bounds.getHeight() > MoveUtils.SORPTION_UNIT ? Absorptionline.createYAbsorptionline(point.y) : null);
+	}
+
+	private Rectangle getWidgetRelativeBounds(Rectangle bounds, FormSelection selection){
+		Rectangle relativeRec = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+		XLayoutContainer parent = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
+		if (parent == null) {
+			return relativeRec;
+		}
+		Rectangle rec = ComponentUtils.getRelativeBounds(parent);
+		relativeRec.x += rec.x;
+		relativeRec.y += rec.y;
+		return relativeRec;
+	}
+
+	private void processRectangleIntersects(FormDesigner designer, int x, int y, boolean isIntersects){
+		if(isIntersects){
+			if(designer.getLocationOnScreen() != null) {
+				MoveUtils.displayForbidWindow(x + designer.getLocationOnScreen().x, y + designer.getLocationOnScreen().y);
+			}
+			designer.setWidgetsIntersect(true);
+		}
+		else{
+			MoveUtils.hideForbidWindow();
+			designer.setWidgetsIntersect(false);
+		}
 	}
 
     private WAbsoluteLayout getLayout(final FormDesigner designer){
         XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(
                 designer.getTarget().getContainer());
         WAbsoluteLayout layout;
-        if (formLayoutContainer.acceptType(XWBorderLayout.class)){
-            layout = (WAbsoluteLayout) designer.getParaComponent().toData();
+        if (formLayoutContainer.acceptType(XWBorderLayout.class)){//看起来这边的作用应该是为了区别cpt(得到XWParameterLayout)还是frm(得到XWBorderLayout)的参数界面
+			Container container = designer.getSelectionModel().getSelection().getSelectedCreator().getParent();
+			if(container instanceof XWAbsoluteLayout){
+				layout = ((XWAbsoluteLayout)container).toData();
+			}
+			else {
+				layout = (WAbsoluteLayout) designer.getParaComponent().toData();
+			}
         } else{
             layout = (WAbsoluteLayout) designer.getTarget().getContainer();
         }

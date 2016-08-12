@@ -29,12 +29,14 @@ public class TreeNodeToogleButtonDefinePane<T extends TreeNodeToggleButton> exte
         setLayout(FRGUIPaneFactory.createBorderLayout());
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p};
-        double columnSize[] = {p, 300};
+        double columnSize[] = {p, 184};
         Component[][] n_components = {
                 {new UILabel(Inter.getLocText(new String[]{"Form-Button", "Type"}) + ":"), createButtonTypeComboBox()}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(n_components, rowSize, columnSize);
-        add(northPane, BorderLayout.CENTER);
+        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
+        advancedPane.add(northPane);
+        add(advancedPane, BorderLayout.CENTER);
     }
 
     @Override

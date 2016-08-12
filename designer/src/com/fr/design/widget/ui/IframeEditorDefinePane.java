@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -18,6 +17,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.IframeEditor;
 import com.fr.general.Inter;
 import com.fr.stable.ParameterProvider;
@@ -36,6 +36,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 	
 	private void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		JPanel attr = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
@@ -51,9 +52,15 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 				{ new UILabel(Inter.getLocText("Form-Url") + ":"), srcTextField = new UITextField() },
 				{ new UILabel(Inter.getLocText("Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane() } };
 		parameterViewPane.setPreferredSize(new Dimension(400, 256));
-		JPanel centerPane = TableLayoutHelper.createTableLayoutPane(coms, rowSize, columnSize);
+		JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+		centerPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		centerPane.add(GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("Form-Url") + ":"), srcTextField = new UITextField(16), FlowLayout.LEFT));
+		centerPane.add(GUICoreUtils.createFlowPane( new UILabel(Inter.getLocText("Parameter") + ":"), parameterViewPane = new ReportletParameterViewPane(), FlowLayout.LEFT));
+		parameterViewPane.setPreferredSize(new Dimension(540, 235));
+		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
+		advancedPane.add(contentPane);
 		contentPane.add(centerPane);
-		this.add(contentPane, BorderLayout.CENTER);
+		this.add(advancedPane, BorderLayout.CENTER);
 	}
 
 
