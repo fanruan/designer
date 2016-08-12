@@ -109,11 +109,7 @@ public class PresentHighlightPane extends ConditionAttrSingleConditionPane<Highl
     }
 
     public HighlightAction update() {
-        Object value = this.valueEditor.update();
         if (presentComboBox.getSelectedIndex() == 1) {
-            if (value instanceof String) {
-                present = new NormalPresent(this.valueEditor.update());
-            }
             return new PresentHighlightAction(present);
         }
         return new PresentHighlightAction(this.valueEditor.update());
