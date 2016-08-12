@@ -300,11 +300,13 @@ public class MoveUtils {
 			findX(px, bounds, left, right, width);
 			findY(py, bounds, top, bottom, height);
 
-			if(isIntersects && !isParameterLayout){
-				isWidgetsIntersects = true;
-			}
-			else{
-				findEquidistantLine(bounds, left, top, height, width);
+			if(!isParameterLayout){
+				if(isIntersects) {
+					isWidgetsIntersects = true;
+				}
+				else{
+					findEquidistantLine(bounds, left, top, height, width);
+				}
 			}
 		}
 		showForbiddenWindow(designer, x, y, isWidgetsIntersects);

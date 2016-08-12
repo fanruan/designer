@@ -12,7 +12,7 @@ import com.fr.general.Inter;
 */
 public class LabelBorderPane extends LabelBorderAttrPane {
 
-    private AttrBorder attrBorder = new AttrBorder();
+    protected AttrBorder attrBorder = new AttrBorder();
 
     public LabelBorderPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane, true, Inter.getLocText(new String[]{"Border", "Format"}));

@@ -4,15 +4,11 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.OperatingSystem;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +149,18 @@ public class RestartHelper {
         }
 
         try {
+            try {
+                File restartLockFile = new File(StableUtils.pathJoin(StableUtils.getInstallHome(), "restart.lock"));
+                StableUtils.makesureFileExist(restartLockFile);
+                RandomAccessFile randomAccessFile = new RandomAccessFile(restartLockFile,"rw");
+                FileChannel restartLockFC = randomAccessFile.getChannel();
+                FileLock restartLock = restartLockFC.tryLock();
+                if(restartLock == null) {
+                    FRLogger.getLogger().error("restart lock null!");
+                }
+            }catch (Exception e){
+                FRLogger.getLogger().error(e.getMessage());
+            }
             if (OperatingSystem.isMacOS()) {
                 restartInMacOS(installHome, filesToBeDelete);
             } else {
