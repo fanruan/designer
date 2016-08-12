@@ -91,7 +91,7 @@ public class XButton extends XWidgetCreator {
     protected CRPropertyDescriptor creatNonListenerStyle(int i) throws IntrospectionException{
        CRPropertyDescriptor[] crPropertyDescriptors = {
                new CRPropertyDescriptor("text", this.data.getClass()).setI18NName(
-					   Inter.getLocText(new String[] {"Form-Button", "Name"})),
+					   Inter.getLocText(new String[] {"Form-Button", "Name"})).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
                        Inter.getLocText(new String[]{"Form-Button", "Style"})).setEditorClass(
                        ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
@@ -164,6 +164,7 @@ public class XButton extends XWidgetCreator {
 		return new CRPropertyDescriptor[]{
 			  new CRPropertyDescriptor("text", this.data.getClass())
 					  .setI18NName(Inter.getLocText(new String[] {"Form-Button", "Name"}))
+					  .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 					  .setPropertyChangeListener(new PropertyChangeAdapter() {
 
 						  @Override

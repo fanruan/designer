@@ -88,6 +88,14 @@ public class XWCardLayout extends XLayoutContainer {
         return (WCardLayout) data;
     }
 
+	/**
+	 *  初始化时默认的组件大小
+	 * @return   默认Dimension
+	 */
+	public Dimension initEditorSize() {
+		return new Dimension(500, 300);
+	}
+
     @Override
 	protected void initLayoutManager() {
     	cardLayout = new FRCardLayout(toData().getHgap(), toData().getVgap());

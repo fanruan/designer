@@ -48,6 +48,9 @@ import java.util.Map;
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
 
+
+
+
     private static ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
     private static ChartTypeInterfaceManager classManager = null;
