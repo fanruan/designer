@@ -174,4 +174,13 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     public XLayoutContainer getTopLayout() {
         return this;
     }
+
+    /**
+     * 新增删除拉伸后更新每个组件的BoundsWidget
+     *
+     * @param xCreator
+     */
+    @Override
+    public void updateBoundsWidget(XCreator xCreator) {
+    }
 }
