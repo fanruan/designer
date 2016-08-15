@@ -32,7 +32,7 @@ buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
 
-FileTree jars=fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar").excludes 'finereport-design-stable/${branchName}/build/libs/*.jar'
+FileTree jars=fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar").excludes "finereport-design-stable/${branchName}/build/libs/*.jar"
 
 jars.each{File file->
 println "-----------this jar path is ${file.path}----------"
@@ -40,7 +40,7 @@ println "-----------this jar path is ${file.path}----------"
 //ÉùÃ÷Íâ²¿ÒÀÀµ
 dependencies{
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
-compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar").excludes 'finereport-design-stable/${branchName}/build/libs/*.jar'
+compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar").excludes "finereport-design-stable/${branchName}/build/libs/*.jar"
 
  	testCompile 'junit:junit:4.12'
 }
