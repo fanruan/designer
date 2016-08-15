@@ -195,7 +195,7 @@ public class ActiveKeyGenerator {
 	
 	//获取char对应的int值
 	private static int getCharIntValue(char charStr){
-		if (!BaseUtils.isNum(charStr)) {
+		if (!StableUtils.isNum(charStr)) {
 			return 0;
 		}
 
