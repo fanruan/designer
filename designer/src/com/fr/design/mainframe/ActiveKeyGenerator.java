@@ -198,6 +198,7 @@ public class ActiveKeyGenerator {
 		if (!BaseUtils.isNum(charStr)) {
 			return 0;
 		}
+
 		return Character.getNumericValue(charStr);
 	}
 	
