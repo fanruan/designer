@@ -79,6 +79,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         registerDSChangeListener();
     }
 
+    public static ChartEditPane getSingleton() {
+        return singleton;
+    }
+
     //构建主面板
     protected void createTabsPane() {
         Icon[] iconArray = new Icon[paneList.size()];
