@@ -3,11 +3,11 @@ apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
-//Ö¸¶¨¹¹½¨µÄjdk°æ±¾
+//æŒ‡å®šæ„å»ºçš„jdkç‰ˆæœ¬
 sourceCompatibility=1.8
-//Ö¸¶¨Éú³Éjar°ü°æ±¾
+//æŒ‡å®šç”ŸæˆjaråŒ…ç‰ˆæœ¬
 version='8.0'
-//Éú³Éjar°üÖØÃüÃû
+//ç”ŸæˆjaråŒ…é‡å‘½å
 jar{
 	baseName='fr-designer-core'
 }
@@ -15,7 +15,7 @@ jar{
 
 def srcDir="."
 
-//Ö¸¶¨Ô´ÂëÂ·¾¶
+//æŒ‡å®šæºç è·¯å¾„
 sourceSets{
 		main{
 			java{
@@ -23,13 +23,13 @@ sourceSets{
 			}
 		}
 }
-//»ñÈ¡Ê²Ã´·ÖÖ§Ãû
+//è·å–ä»€ä¹ˆåˆ†æ”¯å
 FileTree files =fileTree(dir:'./',include:'build.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
-//ÉùÃ÷Íâ²¿ÒÀÀµ
+//å£°æ˜å¤–éƒ¨ä¾èµ–
 dependencies{
 
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
@@ -37,7 +37,7 @@ compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/*
 
  	testCompile 'junit:junit:4.12'
 }
-//¸´ÖÆ·Ç.javaÎÄ¼şµ½classesÎÄ¼ş¼ĞÏÂ²ÎÓë´ò°ü
+//å¤åˆ¶é.javaæ–‡ä»¶åˆ°classesæ–‡ä»¶å¤¹ä¸‹å‚ä¸æ‰“åŒ…
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
 		from ("${srcDir}/src"){
@@ -49,7 +49,7 @@ task copyFile(type:Copy,dependsOn:compileJava){
 }
 
 
-//Ñ¹ËõÏîÄ¿ÖĞµÄjsÎÄ¼ş
+//å‹ç¼©é¡¹ç›®ä¸­çš„jsæ–‡ä»¶
 task compressJS{
 	ant.taskdef(name:'yuicompress',classname:'com.yahoo.platform.yui.compressor.YUICompressTask'){
 		classpath {
