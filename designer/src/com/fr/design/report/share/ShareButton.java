@@ -15,7 +15,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.Inter;
