@@ -5,12 +5,16 @@ package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.LoginCheckContext;
-import com.fr.design.extra.LoginCheckListener;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.*;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
+import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
@@ -41,7 +45,7 @@ public class UserInfoLabel extends UILabel{
 	private static final String MESSAGE_KEY = "messageCount";
 	
 	private static final int MIN_MESSAGE_COUNT = 1;
-	
+	private static final int MENU_HEIGHT = 20;
 
 	//用户名
 	private String userName;
@@ -87,6 +91,19 @@ public class UserInfoLabel extends UILabel{
 				bbsLoginDialog.showWindow();
 			}
 		});
+
+		UserLoginContext.addLoginContextListener(new LoginContextListener() {
+			@Override
+			public void showLoginContext() {
+				LoginPane managerPane = new LoginPane();
+				UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(),managerPane);
+				LoginWebBridge.getHelper().setDialogHandle(qqdlg);
+				LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+				QQLoginWebBridge.getHelper().setLoginlabel();
+				qqdlg.setVisible(true);
+			}
+		});
+
 	}
 
 	/**
@@ -242,22 +259,41 @@ public class UserInfoLabel extends UILabel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(StringUtils.isNotEmpty(userName)){
-                try {
-                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
-                } catch (Exception exp) {
+			if(StringUtils.isNotEmpty(userName)) {
+				UIPopupMenu menu = new UIPopupMenu();
+				menu.setOnlyText(true);
+				menu.setPopupSize(userInfoPane.getWidth(),userInfoPane.getHeight()*3);
 
-                }
-                return;
+				//私人消息
+				UIMenuItem priviteMessage = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Privite-Message"));
+				priviteMessage.addMouseListener(new MouseAdapter() {
+					public void mousePressed(MouseEvent e) {
+						if(StringUtils.isNotEmpty(userName)){
+							try {
+								Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+							} catch (Exception exp) {
+								FRContext.getLogger().info(exp.getMessage());
+							}
+							return;
+						}
+					}
+
+				});
+				//切换账号
+				UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
+				closeOther.addMouseListener(new MouseAdapter() {
+					public void mousePressed(MouseEvent e) {
+						UserLoginContext.fireLoginContextListener();
+					}
+
+				});
+				menu.add(priviteMessage);
+				menu.add(closeOther);
+				GUICoreUtils.showPopupMenu(menu, UserInfoLabel.this, 0, MENU_HEIGHT);
+			} else {
+				UserLoginContext.fireLoginContextListener();
 			}
-            if(bbsLoginDialog == null){
-                bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(),UserInfoLabel.this);
-            }
-            bbsLoginDialog.clearLoginInformation();
-            bbsLoginDialog.setModal(true);
-            bbsLoginDialog.showWindow();
 		}
-
 	};
 
 }
