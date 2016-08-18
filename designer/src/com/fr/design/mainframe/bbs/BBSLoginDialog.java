@@ -75,7 +75,6 @@ public class BBSLoginDialog extends UIDialog {
     // 用户登录状态label
     private UserInfoLabel userInfoLabel;
 
-
     public UILabel getTipLabel() {
         return tipLabel;
     }
@@ -83,7 +82,6 @@ public class BBSLoginDialog extends UIDialog {
     public void setTipLabel(UILabel tipLabel) {
         this.tipLabel = tipLabel;
     }
-
 
     /**
      * 构造函数
@@ -213,7 +211,6 @@ public class BBSLoginDialog extends UIDialog {
         DesignerEnvManager.getEnvManager().setBBSPassword(String.valueOf(passField.getPassword()));
         userInfoLabel.setUserName(nameField.getText());
         userInfoLabel.getUserInfoPane().markSignIn(nameField.getText());
-        userInfoLabel.getUserInfoPane().getSwitchAccountLabel().setVisible(true);
         BBSLoginDialog.this.setVisible(false);
     }
 
