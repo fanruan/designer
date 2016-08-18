@@ -2,10 +2,10 @@ apply plugin: "java"
 tasks.withType(JavaCompile){
 	options.encoding = "UTF-8"
 }
-
+sourceCompatibility=1.7
 def basicDir="../../"
 def libDir="${basicDir}/finereport-lib-stable"
-//获取什么分支名
+//鑾峰彇浠�涔堝垎鏀悕
 FileTree files =fileTree(dir:"./",include:"build.gradle")
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ("\\"))
 def branchName=buildDir.substring(buildDir.lastIndexOf ("\\")+1)
