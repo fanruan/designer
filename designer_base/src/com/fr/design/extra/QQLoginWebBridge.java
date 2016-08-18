@@ -1,6 +1,5 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
@@ -17,6 +16,7 @@ public class QQLoginWebBridge {
     private static com.fr.design.extra.QQLoginWebBridge helper;
     private WebEngine webEngine;
     private static String LOGINSUCCESS = "ok";
+    private static String LOGINFAILED = "failed";
     private UIDialog uiDialog;
     private UILabel uiLabel;
     private UIDialog qqDialog;
@@ -95,9 +95,11 @@ public class QQLoginWebBridge {
             String username = jo.get("username").toString();
             closeQQWindow();
             closeParentWindow();
-            //设置label的用户名
             uiLabel.setText(username);
-        }else {
+            DesignerEnvManager.getEnvManager().setBBSName(username);
+        }else if (status.equals(LOGINFAILED)){
+            //账号没有QQ授权
+            closeQQWindow();
         }
     }
 }

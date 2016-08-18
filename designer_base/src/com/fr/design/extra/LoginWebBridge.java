@@ -25,6 +25,10 @@ import java.net.URLEncoder;
 public class LoginWebBridge {
 
     private static final String LOGIN_SUCCESS_FLAG = "http://bbs.finereport.com";
+    private static final String LOGININ = "0";
+    private static final String LOGIN_INFO_EMPTY = "-1";
+    private static final String DISCONNECTED = "-2";
+    private static final String UNKNOWN_ERROR = "-3";
     private static final int TIME_OUT = 10000;
 
     private static com.fr.design.extra.LoginWebBridge helper;
@@ -102,19 +106,17 @@ public class LoginWebBridge {
      */
     public String defaultLogin(String username, String password) {
         if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
-            //用户名密码为空
-            return "-1";
+            return LOGIN_INFO_EMPTY;
         }
         if (!testConnection()) {
-            //网络测试连接不通过
-            return "-2";
+            return DISCONNECTED;
         }
         if (login(username, password)) {
             updateUserInfo(username, password);
             loginSuccess(username);
-            return "0";
+            return LOGININ;
         }else {
-            return "-3";
+            return UNKNOWN_ERROR;
         }
     }
 

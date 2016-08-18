@@ -16,7 +16,7 @@ public class LoginPane extends BasicPane {
 
     public LoginPane() {
         setLayout(new BorderLayout());
-        if (System.getProperty("java.version").startsWith("1.8")) {
+        if (StableUtils.getMajorJavaVersion() == 8) {
             String installHome;
             if (StableUtils.isDebug()) {
                 URL url = ClassLoader.getSystemResource("");
