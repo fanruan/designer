@@ -101,7 +101,6 @@ public class LoginWebBridge {
      * 登录操作的回调
      * @param username
      * @param password
-     * @param callback
      * @return
      */
     public String defaultLogin(String username, String password) {
