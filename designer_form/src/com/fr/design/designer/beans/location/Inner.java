@@ -40,9 +40,9 @@ public class Inner extends AccessDirection {
 		}
 		if (y < 0) {
 			y = 0;
-		} else if (y + current_bounds.getHeight() > designer.getRootComponent().getHeight()
+		} else if (y + current_bounds.getHeight() > (designer.getRootComponent().getHeight() + designer.getParaHeight())
 				&& designer.getSelectionModel().hasSelectionComponent()) {
-			y = designer.getRootComponent().getHeight() - current_bounds.height;
+			y = designer.getRootComponent().getHeight() + designer.getParaHeight() - current_bounds.height;
 		}
 		return new Point(x, y);
 	}
