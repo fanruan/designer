@@ -29,7 +29,7 @@ public class QQLoginWebPane extends JFXPanel {
                 QQLoginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
                 webEngine = webView.getEngine();
-                webEngine.load("file:///" + installHome + "/scripts/store/web/qqLogin.html");
+                webEngine.load("file:///" + installHome + "/scripts/qqLogin/web/qqLogin.html");
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                     @Override
                     public void handle(WebEvent<String> event) {

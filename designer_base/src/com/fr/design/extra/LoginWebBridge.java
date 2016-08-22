@@ -28,7 +28,7 @@ public class LoginWebBridge {
     private static final String LOGININ = "0";
     private static final String LOGIN_INFO_EMPTY = "-1";
     private static final String DISCONNECTED = "-2";
-    private static final String UNKNOWN_ERROR = "-3";
+    private static final String LOGININFO_ERROR = "-3";
     private static final int TIME_OUT = 10000;
 
     private static com.fr.design.extra.LoginWebBridge helper;
@@ -115,7 +115,7 @@ public class LoginWebBridge {
             loginSuccess(username);
             return LOGININ;
         }else {
-            return UNKNOWN_ERROR;
+            return LOGININFO_ERROR;
         }
     }
 

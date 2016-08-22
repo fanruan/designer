@@ -4,6 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
@@ -53,6 +54,7 @@ public class LoginPane extends BasicPane {
                 }
             }
         } else {
+            initTraditionalStore();
         }
     }
 
@@ -91,7 +93,6 @@ public class LoginPane extends BasicPane {
 
             @Override
             protected void done() {
-
                 try {
                     if (get()) {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
@@ -112,7 +113,6 @@ public class LoginPane extends BasicPane {
                 } catch (InterruptedException | ExecutionException e) {
                     FRContext.getLogger().error(e.getMessage(), e);
                 }
-
             }
         }.execute();
     }
@@ -139,5 +139,14 @@ public class LoginPane extends BasicPane {
                 return null;
             }
         }.execute();
+    }
+
+    private void initTraditionalStore() {
+        UITabbedPane tabbedPane = new UITabbedPane();
+        add(tabbedPane, BorderLayout.CENTER);
+        PluginInstalledPane installedPane = new PluginInstalledPane();
+        tabbedPane.addTab(installedPane.tabTitle(), installedPane);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer-Plugin_Update"), new PluginUpdatePane(tabbedPane));
+        tabbedPane.addTab(Inter.getLocText("FR-Designer-Plugin_All_Plugins"), new PluginFromStorePane(tabbedPane));
     }
 }
