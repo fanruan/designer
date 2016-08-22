@@ -12,7 +12,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.style.background.gradient.GradientBar;
+import com.fr.design.style.background.gradient.FixedGradientBar;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -33,7 +33,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 	protected UIComboBox styleSelectBox;
 	protected JPanel customPane;
     protected JPanel changeColorSetPane;
-	protected GradientBar colorGradient;
+	protected FixedGradientBar colorGradient;
 
     protected CardLayout cardLayout;
 
@@ -55,7 +55,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 		customPane.add(buttonPane, BorderLayout.NORTH);
 		
 		changeColorSetPane = new JPanel(cardLayout = new CardLayout());
-		changeColorSetPane.add(colorGradient = new GradientBar(4, 130), "gradient");
+		changeColorSetPane.add(colorGradient = new FixedGradientBar(4, 130), "gradient");
 		changeColorSetPane.add(colorAcc = new ChartAccColorPane(), "acc");
 		cardLayout.show(changeColorSetPane, "acc");
 		customPane.add(changeColorSetPane, BorderLayout.CENTER);
