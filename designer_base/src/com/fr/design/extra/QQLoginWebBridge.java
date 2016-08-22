@@ -102,6 +102,7 @@ public class QQLoginWebBridge {
             DesignerEnvManager.getEnvManager().setBBSName(username);
         }else if (status.equals(LOGINFAILED)){
             //账号没有QQ授权
+            closeQQWindow();
             try {
                 Desktop.getDesktop().browse(new URI(BBS_URL));
             }catch (Exception exp) {
