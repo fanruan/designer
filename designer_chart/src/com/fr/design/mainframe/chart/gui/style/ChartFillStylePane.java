@@ -13,7 +13,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.background.gradient.FixedGradientBar;
-import com.fr.design.style.background.gradient.GradientBar;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
