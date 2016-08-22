@@ -21,10 +21,9 @@ import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.icon.IconPathConstants;
-import com.fr.design.mainframe.EditingMouseListener;
-import com.fr.design.mainframe.FormArea;
-import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
@@ -34,10 +33,14 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WFitLayout;
+import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.core.PropertyChangeAdapter;
+import org.eclipse.swt.internal.gdip.Rect;
+
+import javax.swing.*;
 
 /**
  * @author richer
@@ -47,6 +50,8 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
 	private static final int EDIT_BTN_WIDTH = 60;
 	private static final int EDIT_BTN_HEIGHT = 24;
+	private int minWidth = WLayout.MIN_WIDTH;
+	private int minHeight = WLayout.MIN_HEIGHT;
 
 	//由于屏幕分辨率不同，界面上的容器大小可能不是默认的100%，此时拖入组件时，保存的大小按照100%时的计算
 	protected double containerPercent = 1.0;
@@ -97,6 +102,35 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 	 */
 	public void setContainerPercent(double containerPercent) {
 		this.containerPercent = containerPercent;
+		minWidth = (int) (XWAbsoluteLayout.MIN_WIDTH*containerPercent);
+		minHeight = (int) (XWAbsoluteLayout.MIN_HEIGHT*containerPercent);
+	}
+
+	/**
+	 * 返回界面处根据百分比调整后的最小宽度
+	 * @return 最小宽度
+	 */
+	public int getActualMinWidth() {
+		return this.minWidth;
+	}
+
+	/**
+	 * 返回界面处根据百分比调整后的最小高度
+	 * @return 最小高度
+	 */
+	public int getActualMinHeight() {
+		return this.minHeight;
+	}
+
+	/**
+	 * 返回界面处根据百分比调整后的间隔大小（且为偶数）
+	 * @return 间隔
+	 */
+	public int getAcualInterval() {
+		// adapter那边交叉三等分、删除都要判断是否对齐，所以间隔转为偶数
+		int interval = (int) (toData().getCompInterval()*containerPercent);
+		int val = interval/2;
+		return val*2;
 	}
 
 	/**
@@ -114,16 +148,46 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 	}
 
 	/**
-	 * 新增删除拉伸后更新每个组件的BoundsWidget
+	 * 新增删除拉伸后单个组件的BoundsWidget
 	 */
 	public void updateBoundsWidget(XCreator xCreator) {
 		WAbsoluteLayout layout = this.toData();
-		if (xCreator.shouldScaleCreator() || xCreator.hasTitleStyle()) {
+		if (xCreator.hasTitleStyle()) {
 			xCreator = (XLayoutContainer)xCreator.getParent();
 		}
 		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
 		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
-		boundsWidget.setCalculatedBounds(rectangle);
+	}
+
+	private Rectangle calculateBound(Rectangle rec, double pw, double ph){
+		Rectangle calRec = new Rectangle(0,0,0,0);
+		calRec.x = (int)(rec.x / pw);
+		calRec.y = (int)(rec.y / ph);
+		calRec.width = (int)(rec.width / pw);
+		calRec.height = (int)(rec.height / ph);
+		return calRec;
+	}
+
+	/**
+	 * 新增删除拉伸后每个组件的BoundsWidget
+	 */
+	public void updateBoundsWidget() {
+		WAbsoluteLayout layout = this.toData();
+		Rectangle backupBound = this.getBackupBound();
+		Rectangle currentBound = this.getBounds();
+		if (backupBound != null && layout.getCompState() == WAbsoluteLayout.STATE_FIT) {
+			double percentW = ((double) backupBound.width / (double) currentBound.width);
+			double percentH = ((double) backupBound.height / (double) currentBound.height);
+			for (int index = 0, n = this.getComponentCount(); index < n; index++){
+				XCreator creator = (XCreator) this.getComponent(index);
+				BoundsWidget wgt = layout.getBoundsWidget(creator.toData());
+				// 用当前的显示大小计算后调正具体位置
+				Rectangle wgtBound = dealWidgetBound(creator.getBounds());
+				Rectangle rec = calculateBound(wgtBound, percentW, percentH);
+				wgt.setBounds(rec);
+				creator.setBounds(rec);
+			}
+		}
 	}
 	
 	/**

@@ -95,9 +95,9 @@ public class FormDesignerUI extends ComponentUI {
 
         if (designer.getPainter() != null) {
             // ComponentAdapter和LayoutAdapter提供的额外的Painter，该Painter一般用于提示作用，
-            // 相当于一个浮动层
+            // 相当于一个浮动层, 要考虑参数面板的高度
             designer.getPainter().paint(g, designer.getArea().getHorizontalValue(),
-                    designer.getArea().getVerticalValue());
+                    designer.getArea().getVerticalValue() + designer.getParaHeight());
         }
         AddingModel addingModel = designer.getAddingModel();
 
