@@ -1,7 +1,9 @@
 package com.fr.design.fun.impl;
 
+import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.fun.JavaScriptActionProvider;
 import com.fr.design.javascript.JavaScriptActionPane;
+import com.fr.js.JavaScript;
 import com.fr.stable.fun.impl.AbstractProvider;
 import com.fr.stable.fun.mark.API;
 
@@ -21,6 +23,7 @@ public abstract class AbstractJavaScriptActionProvider extends AbstractProvider 
     }
 
     @Override
-    public void setJavaScriptActionPane(JavaScriptActionPane pane) {
+    public FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane(JavaScriptActionPane pane) {
+        return getJavaScriptActionPane();
     }
 }

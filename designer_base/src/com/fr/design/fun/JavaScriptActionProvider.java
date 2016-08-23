@@ -14,11 +14,8 @@ public interface JavaScriptActionProvider extends Mutable{
 
     int CURRENT_LEVEL = 1;
 
-    /**
-     * 传给插件额外参数
-     * @param pane
-     */
-    void setJavaScriptActionPane(JavaScriptActionPane pane);
-
     FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane();
+
+    FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane(JavaScriptActionPane pane);
+
 }
