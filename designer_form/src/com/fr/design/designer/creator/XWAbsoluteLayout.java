@@ -182,7 +182,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 				XCreator creator = (XCreator) this.getComponent(index);
 				BoundsWidget wgt = layout.getBoundsWidget(creator.toData());
 				// 用当前的显示大小计算后调正具体位置
-				Rectangle wgtBound = dealWidgetBound(creator.getBounds());
+				Rectangle wgtBound = creator.getBounds();
 				Rectangle rec = calculateBound(wgtBound, percentW, percentH);
 				wgt.setBounds(rec);
 				creator.setBounds(rec);
