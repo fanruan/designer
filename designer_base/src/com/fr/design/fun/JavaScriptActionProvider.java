@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.javascript.JavaScriptActionPane;
 import com.fr.js.JavaScript;
 import com.fr.stable.fun.mark.Mutable;
 
@@ -13,6 +14,11 @@ public interface JavaScriptActionProvider extends Mutable{
 
     int CURRENT_LEVEL = 1;
 
+    /**
+     * 传给插件额外参数
+     * @param pane
+     */
+    void setJavaScriptActionPane(JavaScriptActionPane pane);
 
     FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane();
 }

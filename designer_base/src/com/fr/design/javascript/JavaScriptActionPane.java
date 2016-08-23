@@ -3,7 +3,6 @@ package com.fr.design.javascript;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.fun.JavaScriptActionProvider;
-import com.fr.design.fun.impl.AbstractJavaScriptActionExtensionProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
@@ -57,9 +56,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
         Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
         if (javaScriptActionProviders != null) {
             for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
-                if (jsp instanceof AbstractJavaScriptActionExtensionProvider) {
-                    ((AbstractJavaScriptActionExtensionProvider) jsp).setJavaScriptActionPane(this);
-                }
+                jsp.setJavaScriptActionPane(this);
                 paneList.add(jsp.getJavaScriptActionPane());
             }
         }

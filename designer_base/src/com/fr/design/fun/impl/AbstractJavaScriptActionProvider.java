@@ -1,6 +1,7 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.JavaScriptActionProvider;
+import com.fr.design.javascript.JavaScriptActionPane;
 import com.fr.stable.fun.impl.AbstractProvider;
 import com.fr.stable.fun.mark.API;
 
@@ -17,5 +18,9 @@ public abstract class AbstractJavaScriptActionProvider extends AbstractProvider 
     @Override
     public String mark4Provider() {
         return getClass().getName();
+    }
+
+    @Override
+    public void setJavaScriptActionPane(JavaScriptActionPane pane) {
     }
 }
