@@ -182,6 +182,14 @@ public class MoveUtils {
 			px.palce = x2 - width;
 			px.direction = SwingConstants.RIGHT;
 		}
+		if (Math.abs(bounds.x + bounds.width / 2 - left) <= SORPTION_UNIT) {
+			px.palce = bounds.x + bounds.width / 2;
+			px.direction = SwingConstants.LEFT;
+		}
+		if (Math.abs(bounds.x + bounds.width / 2 - right) <= SORPTION_UNIT) {
+			px.palce = bounds.x + bounds.width / 2 - width;
+			px.direction = SwingConstants.RIGHT;
+		}
 	}
 
 	private static void findY(PlacePointing py, Rectangle bounds, int top, int bottom, int height) {
@@ -209,6 +217,14 @@ public class MoveUtils {
 		}
 		if (Math.abs(y2 - bottom) <= SORPTION_UNIT) {
 			py.palce = y2 - height;
+			py.direction = SwingConstants.BOTTOM;
+		}
+		if (Math.abs(bounds.y + bounds.height / 2 - top) <= SORPTION_UNIT) {
+			py.palce = bounds.y + bounds.height / 2;
+			py.direction = SwingConstants.TOP;
+		}
+		if (Math.abs(bounds.y + bounds.height / 2 - bottom) <= SORPTION_UNIT) {
+			py.palce = bounds.y + bounds.height / 2 - height;
 			py.direction = SwingConstants.BOTTOM;
 		}
 	}
