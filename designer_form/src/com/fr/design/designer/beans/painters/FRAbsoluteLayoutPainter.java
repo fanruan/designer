@@ -46,11 +46,7 @@ public class FRAbsoluteLayoutPainter extends AbstractPainter {
             return;
         }
         super.paint(g, startX, startY);
-        //如果absolute不可编辑那么就将之当普通控件处理，在周围添加控件，
-        //否则，只往内部添加，不需要出现蓝色悬浮提示框
-        if(container.isEditable()){
-            return;
-        }
+
         int x = hotspot.x - hotspot_bounds.x;
         int y = hotspot.y - hotspot_bounds.y;
         FRAbsoluteLayoutAdapter adapter = (FRAbsoluteLayoutAdapter) container.getLayoutAdapter();
@@ -58,6 +54,11 @@ public class FRAbsoluteLayoutPainter extends AbstractPainter {
         int[] hot_rec;
 
         boolean accept = adapter.accept(creator, x, y);
+        //如果absolute不可编辑那么就将之当普通控件处理，在周围添加控件，
+        //否则，只往内部添加，不需要出现蓝色悬浮提示框
+        if(container.isEditable() && accept){
+            return;
+        }
         Component currentComp = container.getComponentAt(x, y);
         //不可编辑的时候要获取顶层的绝对布局容器
         if (XCreatorUtils.getHotspotContainer((XCreator) currentComp) != null) {

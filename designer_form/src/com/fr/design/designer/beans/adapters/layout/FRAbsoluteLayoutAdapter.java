@@ -58,6 +58,16 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator)comp).getTopLayout();
 		if(topLayout != null){
 			if (topLayout.isEditable()){
+				//判断有没有和当前控件重叠
+				Rectangle curRec = new Rectangle(x, y, creator.getWidth(), creator.getHeight());
+				WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout)topLayout.toData();
+				for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
+					WAbsoluteLayout.BoundsWidget temp = (WAbsoluteLayout.BoundsWidget) wAbsoluteLayout.getWidget(i);
+					Rectangle rectangle = temp.getBounds();
+					if (curRec.intersects(rectangle)){
+						return false;
+					}
+				}
 				return x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
 						&& creator.getWidth() <= container.getWidth();
 			}
