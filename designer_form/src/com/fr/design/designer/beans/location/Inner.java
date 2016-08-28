@@ -119,6 +119,16 @@ public class Inner extends AccessDirection {
 			public void setEquidistantLine(Absorptionline line) {
 				designer.getStateModel().setEquidistantLine(line);
 			}
+
+			@Override
+			public int getDesignerScrollHorizontalValue() {
+				return designer.getArea().getHorizontalValue();
+			}
+
+			@Override
+			public int getDesignerScrollVerticalValue() {
+				return designer.getArea().getVerticalValue();
+			}
 		};
 		//判断当前操作的是不是参数面板，要特殊处理
 		boolean isParameterLayout = ((XCreator)(designer.getSelectionModel().getSelection().getSelectedCreator().getParent())).acceptType(XWParameterLayout.class);

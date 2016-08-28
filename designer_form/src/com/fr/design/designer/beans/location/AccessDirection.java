@@ -53,9 +53,9 @@ public abstract class AccessDirection implements Direction {
         //参数面板可以无下限拉长
 		if (y < 0) {
 			y = 0;
-		} else if (y > designer.getRootComponent().getHeight() && designer.getSelectionModel().hasSelectionComponent()
+		} else if (y > designer.getRootComponent().getHeight() + designer.getParaHeight() && designer.getSelectionModel().hasSelectionComponent()
                 && !designer.getSelectionModel().getSelection().getSelectedCreator().acceptType(XWParameterLayout.class)) {
-			y = designer.getRootComponent().getHeight();
+			y = designer.getRootComponent().getHeight() + designer.getParaHeight();
 		}
 		return new Point(x, y);
 	}

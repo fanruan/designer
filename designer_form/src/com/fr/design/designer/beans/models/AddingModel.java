@@ -2,6 +2,7 @@ package com.fr.design.designer.beans.models;
 
 import java.awt.Rectangle;
 
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -115,6 +116,12 @@ public class AddingModel {
      * @return  成功返回true
      */
 	public boolean add2Container(FormDesigner designer, XLayoutContainer container, int x, int y) {
+		//考虑不同布局嵌套的情况，获取顶层容器
+		XLayoutContainer xLayoutContainer = container.getTopLayout();
+		if(xLayoutContainer != null && xLayoutContainer.acceptType(XWAbsoluteLayout.class)){
+			container = xLayoutContainer;
+		}
+
 		Rectangle rect = ComponentUtils.getRelativeBounds(container);
 		if(!ComparatorUtils.equals(container.getOuterLayout(), container.getBackupParent())){
 			return added = container.getLayoutAdapter().addBean(creator,x,y);

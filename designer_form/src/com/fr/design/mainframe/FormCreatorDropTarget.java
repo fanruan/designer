@@ -20,11 +20,7 @@ import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.Painter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.AddingModel;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
@@ -135,8 +131,16 @@ public class FormCreatorDropTarget extends DropTarget {
 					// 取消前一个焦点容器的提示渲染器
 					designer.setPainter(null);
 				}
-
-				painter = AdapterBus.getContainerPainter(designer, container);
+				//获取painter的时候要考虑布局之间嵌套的问题
+				XLayoutContainer xLayoutContainer = container.getTopLayout();
+				if (xLayoutContainer != null && xLayoutContainer.getParent() != null
+						&& ((XLayoutContainer)xLayoutContainer.getParent()).acceptType(XWAbsoluteLayout.class)){
+					if(!xLayoutContainer.isEditable()){
+						xLayoutContainer = (XLayoutContainer)xLayoutContainer.getParent();
+					}
+				}
+				painter = AdapterBus.getContainerPainter(designer,
+						xLayoutContainer != null && xLayoutContainer.acceptType(XWAbsoluteLayout.class) ? xLayoutContainer : container);
 
 				// 为界面设计器设置提示渲染提示器
 				designer.setPainter(painter);

@@ -316,6 +316,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
         return true;
     }
 
+	/**
+	 * 该组件是否可以拖入绝对布局
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoAbsolutePane() {
+		return true;
+	}
+
     /**
      * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
      * @return 是则返回true
