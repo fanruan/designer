@@ -183,6 +183,16 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 		public Point getDesignerLocationOnScreen() {
 			return null;
 		}
+
+		@Override
+		public int getDesignerScrollVerticalValue() {
+			return 0;
+		}
+
+		@Override
+		public int getDesignerScrollHorizontalValue() {
+			return 0;
+		}
 	};
 	
 	private RectangleIterator getRectangleIt(){

@@ -190,4 +190,9 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     @Override
     public void updateBoundsWidget() {
     }
+
+    @Override
+    protected String getIconName() {
+        return "layout_absolute.png";
+    }
 }

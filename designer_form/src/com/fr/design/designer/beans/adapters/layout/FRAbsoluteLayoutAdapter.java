@@ -46,6 +46,10 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
      * @param y 坐标y
      * @return 能则返回true
      */
+	//这个地方的逻辑非常复杂，
+	// 1.当前绝对布局是不可编辑且是最外层，那么其他控件添加在它周围，
+	// 2.当前绝对布局是不可编辑且不是最外层，那么控件不可添加，（嵌套）
+	// 3.当前绝对布局可编辑，那么控件添加
     @Override
 	public boolean accept(XCreator creator, int x, int y) {
 		Component comp = container.getComponentAt(x, y);
@@ -55,11 +59,29 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		if (comp == null){
 			return false;
 		}
+		//判断下组件能不能拖入绝对布局
+		if (!creator.canEnterIntoAbsolutePane()){
+			return false;
+		}
 		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator)comp).getTopLayout();
 		if(topLayout != null){
 			if (topLayout.isEditable()){
 				//判断有没有和当前控件重叠
-				Rectangle curRec = new Rectangle(x, y, creator.getWidth(), creator.getHeight());
+				//先计算当前控件的位置
+				int creatorX, creatorY;
+				if (XCreatorUtils.getParentXLayoutContainer(creator) != null) {
+
+					Rectangle creatorRectangle = ComponentUtils.getRelativeBounds(creator);
+					creatorX = creatorRectangle.x;
+					creatorY = creatorRectangle.y;
+				} else {
+					int w = creator.getWidth() / 2;
+					int h = creator.getHeight() / 2;
+					creatorX = x - w;
+					creatorY = y - h;
+				}
+				//再判断和布局中其他控件重叠
+				Rectangle curRec = new Rectangle(creatorX, creatorY, creator.getWidth(), creator.getHeight());
 				WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout)topLayout.toData();
 				for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
 					WAbsoluteLayout.BoundsWidget temp = (WAbsoluteLayout.BoundsWidget) wAbsoluteLayout.getWidget(i);
@@ -68,8 +90,18 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 						return false;
 					}
 				}
+				if (creatorX < 0
+						|| creatorX + creator.getWidth() > container.getWidth()
+						|| creatorY < 0
+						|| creatorY + creator.getHeight() > container.getHeight()) {
+					return false;
+				}
 				return x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
 						&& creator.getWidth() <= container.getWidth();
+			}
+			//绝对布局嵌套，处于内层，不可编辑，不添加，topLayout只能获取到最外层可编辑的布局
+			else if (((XLayoutContainer)topLayout.getParent()).acceptType(XWAbsoluteLayout.class)) {
+				return false;
 			}
 			else {
 				return acceptWidget(creator, x, y);

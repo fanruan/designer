@@ -78,6 +78,16 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		initPercent();
 	}
 
+	/**
+	 * 初始化时默认的组件大小
+	 *
+	 * @return 默认Dimension
+	 */
+	@Override
+	public Dimension initEditorSize() {
+		return new Dimension(500, 300);
+	}
+
 	//根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%
 	private void initPercent(){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -155,6 +165,9 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		if (xCreator.hasTitleStyle()) {
 			xCreator = (XLayoutContainer)xCreator.getParent();
 		}
+		if (xCreator.acceptType(XWAbsoluteLayout.class)){
+			((XWAbsoluteLayout) xCreator).updateBoundsWidget();
+		}
 		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
 		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
 	}
@@ -186,6 +199,11 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 				Rectangle rec = calculateBound(wgtBound, percentW, percentH);
 				wgt.setBounds(rec);
 				creator.setBounds(rec);
+				//绝对布局嵌套，要更新内部的绝对布局
+				if (creator.acceptType(XWAbsoluteLayout.class)){
+					creator.setBackupBound(wgtBound);
+					((XWAbsoluteLayout) creator).updateBoundsWidget();
+				}
 			}
 		}
 	}
@@ -223,7 +241,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 
 	@Override
 	protected String getIconName() {
-		return "layout_absolute.png";
+		return "layout_absolute_new.png";
 	}
 
 	/**
