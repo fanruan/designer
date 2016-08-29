@@ -54,7 +54,7 @@ task compressJS{
 			fileset(dir:'../../../finereport-lib4build-stable',includes:'**/*.jar')
 		}
 	}
-	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
+	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
 		fileset (dir:"${srcDir}/src"){
 			include (name:'**/*.js')
 			include (name:'**/*.css')
