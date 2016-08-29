@@ -3,8 +3,6 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.PluginInstallOptionProcessor;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
@@ -194,11 +192,6 @@ public class PluginHelper {
         if (plugin == null) {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Illegal_Plugin_Zip_Cannot_Be_Install"));
         }
-        PluginInstallOptionProcessor processor = ExtraDesignClassManager.getInstance().getSingle(PluginInstallOptionProcessor.MARK_STRING);
-        if (processor != null) {
-            processor.pluginInstallOption();
-        }
-
         if (PluginLoader.getLoader().isInstalled(plugin)) {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Has_Been_Installed"));
         }
