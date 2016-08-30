@@ -544,4 +544,13 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[0];
 	}
+
+	/**
+	 * 控件树面板中是否支持重命名选项
+	 *
+	 * @return 控件树面板中是否支持重命名选项
+	 */
+	public boolean supportRenameInWidgetTree() {
+		return true;
+	}
 }
