@@ -3,6 +3,7 @@ package com.fr.design.extra;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.SiteCenter;
 import javafx.scene.web.WebEngine;
 import org.json.JSONObject;
 
@@ -19,7 +20,6 @@ public class QQLoginWebBridge {
     private WebEngine webEngine;
     private static String LOGINSUCCESS = "ok";
     private static String LOGINFAILED = "failed";
-    private static String BBS_URL = "http://bbs.fanruan.com";
     private UIDialog uiDialog;
     private UILabel uiLabel;
     private UIDialog qqDialog;
@@ -104,7 +104,7 @@ public class QQLoginWebBridge {
             //账号没有QQ授权
             closeQQWindow();
             try {
-                Desktop.getDesktop().browse(new URI(BBS_URL));
+                Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
             }catch (Exception exp) {
             }
         }
