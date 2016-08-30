@@ -33,6 +33,9 @@ public abstract class AccessDirection implements Direction {
 	protected int[] sorption(int x, int y,Rectangle current_bounds, FormDesigner designer) {
 		// 自适应布局不需要吸附线，但需要对齐线，对齐线后面处理
 		if (!designer.hasWAbsoluteLayout()) {
+			designer.getStateModel().setEquidistantLine(null);
+			designer.getStateModel().setXAbsorptionline(null);
+			designer.getStateModel().setYAbsorptionline(null);
 			return new int[] { x, y };
 		} else {
 			int posy = current_bounds.y;
@@ -111,6 +114,7 @@ public abstract class AccessDirection implements Direction {
 
 		designer.getStateModel().setXAbsorptionline(findInX && current_bounds.getWidth() > MoveUtils.SORPTION_UNIT ? Absorptionline.createXAbsorptionline(point.x) : null);
 		designer.getStateModel().setYAbsorptionline(findInY && current_bounds.getHeight() > MoveUtils.SORPTION_UNIT ? Absorptionline.createYAbsorptionline(point.y) : null);
+		designer.getStateModel().setEquidistantLine(null);
 	}
 
 	private Rectangle getWidgetRelativeBounds(Rectangle bounds, FormSelection selection){
