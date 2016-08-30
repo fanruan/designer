@@ -107,10 +107,9 @@ public class FRFitLayoutPainter extends AbstractPainter{
 		// 下边缘
 		Rectangle bottomEdge = new Rectangle(containerX, bottomY, containerWidth, BORDER_PROPORTION);
 		if(bottomEdge.intersects(currentXY)){
-			hotspot_bounds.y -= WCardMainBorderLayout.TAB_HEIGHT/2;
+			hotspot_bounds.y += (container.getHeight() - WCardMainBorderLayout.TAB_HEIGHT)/2;
     		hot_rec[WIDTH] = container.getWidth();	
     		hot_rec[HEIGHT] = (container.getHeight() + WCardMainBorderLayout.TAB_HEIGHT)/2;
-    		accept = false;
 		}
 		
 		//左右边缘的高度 -10*2 是为了不和上下边缘重合
