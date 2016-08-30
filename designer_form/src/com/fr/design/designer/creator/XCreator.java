@@ -316,6 +316,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
         return true;
     }
 
+	/**
+	 * 该组件是否可以拖入绝对布局
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoAbsolutePane() {
+		return true;
+	}
+
     /**
      * 该组件是否可以拖拽(表单中参数面板和自适应布局不可以拖拽)
      * @return 是则返回true
@@ -535,5 +543,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[0];
+	}
+
+	/**
+	 * 控件树面板中是否支持重命名选项
+	 *
+	 * @return 控件树面板中是否支持重命名选项
+	 */
+	public boolean supportRenameInWidgetTree() {
+		return true;
 	}
 }

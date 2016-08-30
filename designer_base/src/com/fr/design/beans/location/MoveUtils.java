@@ -3,8 +3,6 @@
  */
 package com.fr.design.beans.location;
 
-import com.fr.stable.ArrayUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -98,6 +96,18 @@ public class MoveUtils {
 		 * @param line 吸附线
 		 */
 		void setEquidistantLine(Absorptionline line);
+
+		/**
+		 * 获取设计器垂直滚动条的值
+		 * @return 滚动条的值
+		 */
+		int getDesignerScrollVerticalValue();
+
+		/**
+		 * 获取设计器水平滚动条的值
+		 * @return 滚动条的值
+		 */
+		int getDesignerScrollHorizontalValue();
 	}
 
 	public interface RectangleIterator {
@@ -457,7 +467,13 @@ public class MoveUtils {
 					right = equidistantLines.get(i).getReference();
 				}
 			}
-			line = Absorptionline.createEquidistantAbsorptionline(operatingRectangle, top, left, bottom, right);
+			operatingRectangle.x -= designer.getDesignerScrollHorizontalValue();
+			operatingRectangle.y -= designer.getDesignerScrollVerticalValue();
+			line = Absorptionline.createEquidistantAbsorptionline(operatingRectangle,
+					top - designer.getDesignerScrollVerticalValue(),
+					left - designer.getDesignerScrollHorizontalValue(),
+					bottom - designer.getDesignerScrollVerticalValue(),
+					right - designer.getDesignerScrollHorizontalValue());
 		}
 		designer.setEquidistantLine(line);
 	}

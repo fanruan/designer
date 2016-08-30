@@ -33,7 +33,7 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 dependencies{
 
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
-compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/*.jar")
+compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/*/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'
 }
@@ -56,7 +56,7 @@ task compressJS{
 			fileset(dir:'../../../finereport-lib4build-stable',includes:'**/*.jar')
 		}
 	}
-	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", , charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
+	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
 		fileset (dir:"${srcDir}/src"){
 			include (name:'**/*.js')
 			include (name:'**/*.css')

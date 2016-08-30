@@ -3,33 +3,17 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ContainerEvent;
-import java.beans.IntrospectionException;
-
-import javax.swing.border.Border;
-
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRCardLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.CRPropertyDescriptor;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.designer.creator.*;
 import com.fr.design.form.layout.FRCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.CardTagWLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.form.ui.CardAddButton;
-import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetTitle;
+import com.fr.form.ui.*;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WLayout;
@@ -40,6 +24,11 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ContainerEvent;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -378,5 +367,10 @@ public class XWCardLayout extends XLayoutContainer {
 	@Override
 	public XLayoutContainer getTopLayout() {
 		return this.getBackupParent().getTopLayout();
+	}
+
+	@Override
+	public boolean supportRenameInWidgetTree() {
+		return false;
 	}
 }
