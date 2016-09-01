@@ -31,7 +31,7 @@ import javax.swing.*;
 
 
 public class PhantomJs4VanChartPlugin implements ActionListener, PreEnv4Plugin {
-    private static final String PHANTOM_PATH = SiteCenter.getInstance().acquireUrlByKind("plugin.phantomjs");
+    private static final String ID = "plugin.phantomjs";
     //链接服务器的客户端
     private HttpClient httpClient;
     //已读文件字节数
@@ -119,7 +119,7 @@ public class PhantomJs4VanChartPlugin implements ActionListener, PreEnv4Plugin {
     }
 
     private void connectToServer(){
-        httpClient = new HttpClient(PHANTOM_PATH);
+        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(ID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             totalSize =  httpClient.getContentLength();
         }else {
@@ -128,7 +128,7 @@ public class PhantomJs4VanChartPlugin implements ActionListener, PreEnv4Plugin {
     }
 
     private int getFileLength(){
-        httpClient = new HttpClient(PHANTOM_PATH);
+        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(ID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return  httpClient.getContentLength();
         }
