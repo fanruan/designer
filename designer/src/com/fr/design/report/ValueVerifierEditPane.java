@@ -48,7 +48,7 @@ public class ValueVerifierEditPane extends JPanel {
 			}
 			String msg = item.getMessage();
 			if (!StableUtils.canBeFormula(msg)) {
-				msg = "\"" + msg + "\"";
+				msg = "\"" + msg + "\"";//如果报错信息是以前的写法(字符串)就拼上""
 			}
 			os[tableDataCount++] = new Object[]{formula, new Formula(msg)};
 		}
