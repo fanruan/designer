@@ -34,36 +34,28 @@ import javax.swing.event.ChangeListener;
 
 
 
-public class InstallPhantomJs implements ActionListener, ChangeListener, PreEnv4Plugin {
+public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener, PreEnv4Plugin {
+    //七牛云服务器下载地址
     private static final String PHANTOM_PATH = "http://ocrpz63ed.bkt.clouddn.com/phantomjs.zip";
 
     //链接服务器的客户端
     private HttpClient httpClient;
-
     //已读文件字节数
     private int totalBytesRead = 0;
-
     //文件总长度
     private int totalSize = 0;
-
     //进度显示界面
     private JDialog frame = null;
-
     //进度条
     private JProgressBar progressbar;
-
-
+    //进度信息
     private JLabel label;
-
     //进度条更新时钟
     private Timer timer;
-
     //文件路径
     private String filePath = StringUtils.EMPTY;
-
     //是否继续下载
     private boolean flag = true;
-
     //安装结果
     boolean result = false;
 
@@ -75,11 +67,12 @@ public class InstallPhantomJs implements ActionListener, ChangeListener, PreEnv4
         return filePath;
     }
 
-    public InstallPhantomJs() {
+    public PhantomJs4VanChartPlugin() {
     }
 
     //是否可以连接服务器
-    public boolean serverReached(){
+    private boolean serverReached(){
+        connectToServer();
         return totalSize != -1;
     }
 
@@ -119,21 +112,29 @@ public class InstallPhantomJs implements ActionListener, ChangeListener, PreEnv4
         contentPanel.add(progressbar, BorderLayout.SOUTH);
     }
 
-    private int connectToServer(){
+    private void connectToServer(){
         httpClient = new HttpClient(PHANTOM_PATH);
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            return httpClient.getContentLength();
+            totalSize =  httpClient.getContentLength();
+        }else {
+            totalSize = -1;
+        }
+    }
+
+    private int getFileLength(){
+        httpClient = new HttpClient(PHANTOM_PATH);
+        if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            return  httpClient.getContentLength();
         }
         return -1;
     }
 
     //安装
-    public boolean install() {
+    private boolean install() {
+        //连接服务器
+        connectToServer();
         //初始化安装进度界面
         init();
-        //连接服务器
-        totalSize = connectToServer();
-
         //开始时钟
         timer.start();
         //开始下载
@@ -226,31 +227,25 @@ public class InstallPhantomJs implements ActionListener, ChangeListener, PreEnv4
 
 
     public void stateChanged(ChangeEvent e1) {
-
         double value = (double)progressbar.getValue() / 1000000.0;
-
         if (e1.getSource() == progressbar) {
-
             label.setText("已下载：" + Double.toString(value) + " m");
-
             label.setForeground(Color.blue);
-
         }
-
     }
 
 
     @Override
     public boolean preOnline() {
-        int choose = JOptionPane.showConfirmDialog(null, "新图表需要phantomjs支持。是否需要安装phantomjs(" + totalSize/1000000 + " m)？", "install tooltip", JOptionPane.YES_NO_OPTION);
+        int fileLength = getFileLength();
+        int choose = JOptionPane.showConfirmDialog(null, "新图表需要phantomjs支持。是否需要安装phantomjs(" + fileLength/1000000 + " m)？", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0){//下载安装
-            InstallPhantomJs installPhantomJs = new InstallPhantomJs();
-            if (!installPhantomJs.serverReached()){
+            if (!serverReached()){
                 JOptionPane.showMessageDialog(null, "无法连接远程服务器！！", "警告", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             //安装phantomJs
-            if (installPhantomJs.install()){
+            if (install()){
                 JOptionPane.showMessageDialog(null, "安装成功！！");
                 return true;
             }else {

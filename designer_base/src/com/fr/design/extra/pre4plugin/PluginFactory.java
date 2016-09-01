@@ -16,7 +16,7 @@ public class PluginFactory {
      */
     private static Map<String, Class<? extends PreEnv4Plugin>> pluginMap = new HashMap<String, Class<? extends PreEnv4Plugin>>();
     static {
-        pluginMap.put("com.fr.plugin.chart.vancharts", InstallPhantomJs.class);
+        pluginMap.put("com.fr.plugin.chart.vancharts", PhantomJs4VanChartPlugin.class);
     }
 
     public static PreEnv4Plugin createPreEnv(String pluginID) {
