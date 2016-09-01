@@ -39,11 +39,11 @@ public class PluginManagerPane extends BasicPane {
         setLayout(new BorderLayout());
         if (StableUtils.getMajorJavaVersion() == 8) {
             String installHome;
-            /*if (StableUtils.isDebug()) {
+            if (StableUtils.isDebug()) {
                 URL url = ClassLoader.getSystemResource("");
                 installHome = url.getPath();
                 addPane(installHome);
-            } else {*/
+            } else {
                 installHome = StableUtils.getInstallHome();
                 File file = new File(StableUtils.pathJoin(installHome, "scripts"));
                 if (!file.exists()) {
@@ -61,7 +61,7 @@ public class PluginManagerPane extends BasicPane {
                     addPane(installHome);
                     updateShopScripts();
                 }
-            /*}*/
+            }
         } else {
             initTraditionalStore();
         }
