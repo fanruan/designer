@@ -4,7 +4,6 @@ import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
-import com.fr.design.extra.pre4plugin.InstallPhantomJs;
 import com.fr.design.extra.pre4plugin.PluginFactory;
 import com.fr.design.extra.pre4plugin.PreEnv4Plugin;
 import com.fr.general.FRLogger;

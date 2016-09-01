@@ -254,16 +254,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     }
 
-    /**
-     * 响应事件.
-     */
-    public void repaint() {
-        if (container != null && container.getEPane() != null) {
-            container.getEPane().validate();
-            container.getEPane().repaint();
-        }
-    }
-
     public int getSelectedChartIndex(Chart chart){
         int index = 0;
         if(typePane != null){

@@ -30,7 +30,6 @@ public class PluginHelper {
     private static final String TEMP_PATH = System.getProperty("user.dir") + "/tmp";
     public static final String DOWNLOAD_PATH = System.getProperty("user.dir") + "/download";
     public static final String TEMP_FILE = "temp.zip";
-    public static final String PHANTOM_PATH = "http://ocrpz63ed.bkt.clouddn.com/phantomjs.zip";
 
     /**
      * 下载插件
