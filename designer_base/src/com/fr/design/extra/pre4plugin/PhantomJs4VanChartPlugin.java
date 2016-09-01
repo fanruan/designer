@@ -9,6 +9,7 @@ import com.fr.design.extra.PluginHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -23,21 +24,14 @@ import java.awt.event.ActionListener;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import javax.swing.*;
 
 
-import javax.swing.event.ChangeEvent;
-
-import javax.swing.event.ChangeListener;
-
-
-
-public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener, PreEnv4Plugin {
-    //七牛云服务器下载地址
-    private static final String PHANTOM_PATH = "http://ocrpz63ed.bkt.clouddn.com/phantomjs.zip";
-
+public class PhantomJs4VanChartPlugin implements ActionListener, PreEnv4Plugin {
+    private static final String PHANTOM_PATH = SiteCenter.getInstance().acquireUrlByKind("plugin.phantomjs");
     //链接服务器的客户端
     private HttpClient httpClient;
     //已读文件字节数
@@ -63,6 +57,10 @@ public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener,
     private static final String WEB_REPORT = new File(WEB_INFO).getParent();
     public static String PHANTOM_ENV = WEB_REPORT + File.separator + "phantomjs";
 
+    // 定义加载窗口大小
+    private static final int LOAD_WIDTH = 455;
+    private static final int LOAD_HEIGHT = 295;
+
     public String getFilePath() {
         return filePath;
     }
@@ -77,12 +75,39 @@ public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener,
     }
 
     private void init(){
+        // 创建标签,并在标签上放置一张图片
+        BufferedImage image =  IOUtils.readImage("/com/fr/design/extra/pre4plugin/image/background.png");
+        ImageIcon imageIcon = new ImageIcon(image);
+        label = new JLabel(imageIcon);
+        label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT - 15);
+
+        progressbar = new JProgressBar();
+        // 显示当前进度值信息
+        progressbar.setStringPainted(true);
+        // 设置进度条边框不显示
+        progressbar.setBorderPainted(false);
+        // 设置进度条的前景色
+        progressbar.setForeground(new Color(0x38aef5));
+        // 设置进度条的背景色
+        progressbar.setBackground(new Color(188, 190, 194));
+        progressbar.setBounds(0, LOAD_HEIGHT - 15, LOAD_WIDTH, 15);
+        progressbar.setMinimum(0);
+        progressbar.setMaximum(totalSize);
+        progressbar.setValue(0);
+
+        timer = new Timer(100, this);
+
         frame = new JDialog(DesignerContext.getDesignerFrame(), true);
         frame.setTitle("在线安装phantomjs");
-        frame.setSize(400, 130);
+        frame.setSize(LOAD_WIDTH, LOAD_HEIGHT);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screenSize.width/2-400/2,screenSize.height/2-130/2);
+        frame.setLocation(screenSize.width/2-LOAD_WIDTH/2,screenSize.height/2-LOAD_HEIGHT/2);
         frame.setResizable(false);
+        // 设置布局为空
+        frame.setLayout(new BorderLayout(0,0));
+        frame.getContentPane().add(label, BorderLayout.CENTER);
+        frame.getContentPane().add(progressbar, BorderLayout.SOUTH);
+
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -91,25 +116,6 @@ public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener,
                 frame.dispose();
             }
         });
-
-        Container contentPanel = frame.getContentPane();
-        label = new JLabel("", JLabel.CENTER);
-
-        progressbar = new JProgressBar();
-        progressbar.setOrientation(JProgressBar.HORIZONTAL);
-        progressbar.setMinimum(0);
-        progressbar.setMaximum(totalSize);
-        progressbar.setValue(0);
-        progressbar.setStringPainted(true);
-        progressbar.addChangeListener(this);
-        progressbar.setPreferredSize(new Dimension(300, 20));
-        progressbar.setBorderPainted(true);
-        progressbar.setBackground(Color.pink);
-
-        timer = new Timer(100, this);
-
-        contentPanel.add(label, BorderLayout.CENTER);
-        contentPanel.add(progressbar, BorderLayout.SOUTH);
     }
 
     private void connectToServer(){
@@ -226,13 +232,13 @@ public class PhantomJs4VanChartPlugin implements ActionListener, ChangeListener,
 
 
 
-    public void stateChanged(ChangeEvent e1) {
+/*    public void stateChanged(ChangeEvent e1) {
         double value = (double)progressbar.getValue() / 1000000.0;
         if (e1.getSource() == progressbar) {
             label.setText("已下载：" + Double.toString(value) + " m");
             label.setForeground(Color.blue);
         }
-    }
+    }*/
 
 
     @Override
