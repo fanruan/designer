@@ -1,9 +1,11 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -40,6 +42,13 @@ public class PluginWebBridge {
     private String ACTION = "action";
     private String KEYWORD = "keyword";
     private Map<String, Object> config;
+
+    private static final String LOGININ = "0";
+    private static final String LOGIN_INFO_EMPTY = "-1";
+    private static final String DISCONNECTED = "-2";
+    private static final String LOGININFO_ERROR = "-3";
+
+    private UILabel uiLabel;
 
     /**
      * 动作枚举
@@ -394,10 +403,6 @@ public class PluginWebBridge {
         });
     }
 
-    public void getUsername() {
-
-    }
-
     /**
      * 在本地浏览器里打开url
      * tips:重载的时候,需要给js调用的方法需要放在前面,否则可能不会被调用(此乃坑)
@@ -489,5 +494,59 @@ public class PluginWebBridge {
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+
+    /*-------------------------------登录部分的处理----------------------------------*/
+    /**
+     * 注册页面
+     */
+    public void registerHref() {
+        try {
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+        }catch (Exception e) {
+            FRContext.getLogger().info(e.getMessage());
+        }
+    }
+
+    /**
+     * 忘记密码
+     */
+    public void forgetHref() {
+        try {
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+        }catch (Exception e) {
+            FRContext.getLogger().info(e.getMessage());
+        }
+    }
+
+    public void setUILabel(UILabel uiLabel) {
+        this.uiLabel = uiLabel;
+    }
+
+    /**
+     * 登录操作的回调
+     * @param username
+     * @param password
+     * @return
+     */
+    public String defaultLogin(String username, String password) {
+        return LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
+    }
+
+    /**
+     * 弹出QQ授权页面
+     */
+    public void showQQ() {
+        LoginWebBridge.getHelper().showQQ();
+    }
+
+    /**
+     * 清除用户信息
+     */
+    public void clearUserInfo() {
+        DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
+        DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+        uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 }
