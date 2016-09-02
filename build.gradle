@@ -2,6 +2,7 @@ apply plugin: "java"
 tasks.withType(JavaCompile){
 	options.encoding = "UTF-8"
 }
+
 def basicDir="../../"
 def libDir="${basicDir}/finereport-lib-stable"
 //获取什么分支名
