@@ -4,8 +4,6 @@ import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
-import com.fr.design.extra.pre4plugin.PluginFactory;
-import com.fr.design.extra.pre4plugin.PreEnv4Plugin;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -147,29 +145,6 @@ public class PluginWebBridge {
     public void installPluginOnline(final String pluginID, final JSObject callback) {
         Task<Void> task = new PluginTask<>(webEngine, callback, new InstallOnlineExecutor(pluginID));
         new Thread(task).start();
-    }
-
-
-
-
-    /**
-     *
-     * @param pluginID 插件类型
-     * @return 如果不需要准备或者已经准备，返回true
-     */
-    public boolean checkVanChartPluginOnline(final String pluginID) {
-        PreEnv4Plugin preEnv4Plugin = PluginFactory.createPreEnv(pluginID);
-        return preEnv4Plugin.checkEnv();
-    }
-
-    /**
-     *
-     * @param pluginID 插件类型
-     * @return 是否准备好了，是或者不需要准备，返回true， 否则返回false
-     */
-    public boolean preEnv4PluginOnline(final String pluginID) {
-        PreEnv4Plugin preEnv4Plugin = PluginFactory.createPreEnv(pluginID);
-        return preEnv4Plugin.preOnline();
     }
 
     /**
