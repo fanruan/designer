@@ -46,7 +46,6 @@ import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -60,6 +59,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -40,9 +40,9 @@ public class Inner extends AccessDirection {
 		}
 		if (y < 0) {
 			y = 0;
-		} else if (y + current_bounds.getHeight() > designer.getRootComponent().getHeight()
+		} else if (y + current_bounds.getHeight() > (designer.getRootComponent().getHeight() + designer.getParaHeight())
 				&& designer.getSelectionModel().hasSelectionComponent()) {
-			y = designer.getRootComponent().getHeight() - current_bounds.height;
+			y = designer.getRootComponent().getHeight() + designer.getParaHeight() - current_bounds.height;
 		}
 		return new Point(x, y);
 	}
@@ -118,6 +118,16 @@ public class Inner extends AccessDirection {
 			@Override
 			public void setEquidistantLine(Absorptionline line) {
 				designer.getStateModel().setEquidistantLine(line);
+			}
+
+			@Override
+			public int getDesignerScrollHorizontalValue() {
+				return designer.getArea().getHorizontalValue();
+			}
+
+			@Override
+			public int getDesignerScrollVerticalValue() {
+				return designer.getArea().getVerticalValue();
 			}
 		};
 		//判断当前操作的是不是参数面板，要特殊处理

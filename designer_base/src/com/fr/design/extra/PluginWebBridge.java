@@ -6,6 +6,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
@@ -359,6 +360,42 @@ public class PluginWebBridge {
             return uiDialog.isUndecorated();
         }
         return false;
+    }
+
+    /**
+     * 获取系统登录的用户名
+     * @param callback
+     */
+    public void getLoginInfo(final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetLoginInfoExecutor());
+        new Thread(task).start();
+    }
+
+    /**
+     * 打开论坛消息界面
+     */
+    public void getPriviteMessage() {
+        try {
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+        }catch (Exception exp) {
+            FRContext.getLogger().info(exp.getMessage());
+        }
+    }
+
+    /**
+     * 打开登录页面
+     */
+    public void loginContent() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                UserLoginContext.fireLoginContextListener();
+            }
+        });
+    }
+
+    public void getUsername() {
+
     }
 
     /**

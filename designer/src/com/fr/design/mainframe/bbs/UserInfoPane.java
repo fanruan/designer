@@ -40,8 +40,6 @@ public class UserInfoPane extends BasicPane{
 	private static final int WAIT_TIME = 10000;
 	
 	private UserInfoLabel userInfoLabel;
-	private ExitLabel switchAccountLabel;
-
 
 	public UserInfoLabel getUserInfoLabel() {
 		return userInfoLabel;
@@ -51,13 +49,6 @@ public class UserInfoPane extends BasicPane{
 		this.userInfoLabel = userInfoLabel;
 	}
 
-	public ExitLabel getSwitchAccountLabel() {
-		return switchAccountLabel;
-	}
-
-	public void setSwitchAccountLabel(ExitLabel switchAccountLabel) {
-		this.switchAccountLabel = switchAccountLabel;
-	}
 	
 	/**
 	 * 构造函数
@@ -67,14 +58,12 @@ public class UserInfoPane extends BasicPane{
 		this.setLayout(new BorderLayout());
 		
 		this.userInfoLabel = new UserInfoLabel(this);
-		this.switchAccountLabel = new ExitLabel(this);
-		
+
 		this.markUnSignIn();
 		autoLogin();
 		autoPushLoginDialog();
 		
 		this.add(userInfoLabel, BorderLayout.CENTER);
-		this.add(switchAccountLabel, BorderLayout.EAST);
 	}
 	
 	// 后台自动登录
@@ -149,7 +138,7 @@ public class UserInfoPane extends BasicPane{
 					bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(),userInfoLabel);
 					userInfoLabel.setBbsLoginDialog(bbsLoginDialog);
 				}
-				
+
 				bbsLoginDialog.showWindow();
 				DesignerEnvManager.getEnvManager().setLastShowBBSTime(DateUtils.DATEFORMAT2.format(new Date()));
 			}
@@ -164,11 +153,9 @@ public class UserInfoPane extends BasicPane{
 	 */
 	public void markUnSignIn(){
 		this.userInfoLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
-		this.switchAccountLabel.setVisible(false);
 		this.userInfoLabel.setOpaque(true);
 		this.userInfoLabel.setBackground(UN_LOGIN_BACKGROUND);
 		this.userInfoLabel.resetUserName();
-		
 	}
 	
 	/**
@@ -179,11 +166,8 @@ public class UserInfoPane extends BasicPane{
 	public void markSignIn(String userName){
 		this.userInfoLabel.setText(userName);
 		this.userInfoLabel.setUserName(userName);
-		this.switchAccountLabel.setVisible(true);
 		this.userInfoLabel.setOpaque(true);
 		this.userInfoLabel.setBackground(LOGIN_BACKGROUND);
-		this.switchAccountLabel.setOpaque(true);
-		this.switchAccountLabel.setBackground(LOGIN_BACKGROUND);
 	}
 	
 	@Override
@@ -191,5 +175,4 @@ public class UserInfoPane extends BasicPane{
 		return StringUtils.EMPTY;
 	}
 
-	
 }

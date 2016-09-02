@@ -744,6 +744,10 @@ public class XWFitLayout extends XLayoutContainer {
     				tabLayout.updateBoundsWidget();
     			}
     		}
+			//如果子组件是绝对布局，则内部的widget也要更新
+			if (creator.acceptType(XWAbsoluteLayout.class)){
+				((XWAbsoluteLayout) creator).updateBoundsWidget();
+			}
     	}
     	layout.setContainerHeight(containerHeight);
     	layout.setContainerWidth(containerWidth);
@@ -801,6 +805,7 @@ public class XWFitLayout extends XLayoutContainer {
         BoundsWidget bw = wlayout.getBoundsWidget(wgt);
         wlayout.removeWidget(bw);
         updateBoundsWidget();
+		((FRFitLayoutAdapter)getLayoutAdapter()).updateCreatorBackBound();
     }
     
     /**

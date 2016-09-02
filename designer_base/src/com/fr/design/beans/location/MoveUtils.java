@@ -3,8 +3,6 @@
  */
 package com.fr.design.beans.location;
 
-import com.fr.stable.ArrayUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -98,6 +96,18 @@ public class MoveUtils {
 		 * @param line 吸附线
 		 */
 		void setEquidistantLine(Absorptionline line);
+
+		/**
+		 * 获取设计器垂直滚动条的值
+		 * @return 滚动条的值
+		 */
+		int getDesignerScrollVerticalValue();
+
+		/**
+		 * 获取设计器水平滚动条的值
+		 * @return 滚动条的值
+		 */
+		int getDesignerScrollHorizontalValue();
 	}
 
 	public interface RectangleIterator {
@@ -182,6 +192,14 @@ public class MoveUtils {
 			px.palce = x2 - width;
 			px.direction = SwingConstants.RIGHT;
 		}
+		if (Math.abs(bounds.x + bounds.width / 2 - left) <= SORPTION_UNIT) {
+			px.palce = bounds.x + bounds.width / 2;
+			px.direction = SwingConstants.LEFT;
+		}
+		if (Math.abs(bounds.x + bounds.width / 2 - right) <= SORPTION_UNIT) {
+			px.palce = bounds.x + bounds.width / 2 - width;
+			px.direction = SwingConstants.RIGHT;
+		}
 	}
 
 	private static void findY(PlacePointing py, Rectangle bounds, int top, int bottom, int height) {
@@ -209,6 +227,14 @@ public class MoveUtils {
 		}
 		if (Math.abs(y2 - bottom) <= SORPTION_UNIT) {
 			py.palce = y2 - height;
+			py.direction = SwingConstants.BOTTOM;
+		}
+		if (Math.abs(bounds.y + bounds.height / 2 - top) <= SORPTION_UNIT) {
+			py.palce = bounds.y + bounds.height / 2;
+			py.direction = SwingConstants.TOP;
+		}
+		if (Math.abs(bounds.y + bounds.height / 2 - bottom) <= SORPTION_UNIT) {
+			py.palce = bounds.y + bounds.height / 2 - height;
 			py.direction = SwingConstants.BOTTOM;
 		}
 	}
@@ -441,7 +467,13 @@ public class MoveUtils {
 					right = equidistantLines.get(i).getReference();
 				}
 			}
-			line = Absorptionline.createEquidistantAbsorptionline(operatingRectangle, top, left, bottom, right);
+			operatingRectangle.x -= designer.getDesignerScrollHorizontalValue();
+			operatingRectangle.y -= designer.getDesignerScrollVerticalValue();
+			line = Absorptionline.createEquidistantAbsorptionline(operatingRectangle,
+					top - designer.getDesignerScrollVerticalValue(),
+					left - designer.getDesignerScrollHorizontalValue(),
+					bottom - designer.getDesignerScrollVerticalValue(),
+					right - designer.getDesignerScrollHorizontalValue());
 		}
 		designer.setEquidistantLine(line);
 	}

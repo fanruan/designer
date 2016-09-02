@@ -230,12 +230,15 @@ public class DesignUtils {
     
     private static FRFont getCurrentLocaleFont(){
         FRFont guiFRFont;
-        Locale defaultLocale = Locale.getDefault();
+        Locale defaultLocale = FRContext.getLocale();
         
         if (isDisplaySimSun(defaultLocale)) {
             guiFRFont = getNamedFont("SimSun");
         } else if(isDisplayDialog(defaultLocale)) {
             guiFRFont = getNamedFont("Dialog");
+        } else if(isDisplayJapaneseFont(defaultLocale)){
+            //日文设计器默认用MS Mincho字体渲染
+            guiFRFont = getNamedFont("MS Mincho");
         } else {
             guiFRFont = getNamedFont("Tahoma");
         }
@@ -267,11 +270,14 @@ public class DesignUtils {
     private static boolean isDisplaySimSun(Locale defaultLocale){
     	return ComparatorUtils.equals(defaultLocale, Locale.SIMPLIFIED_CHINESE);
     }
+
+    private static boolean isDisplayJapaneseFont(Locale defaultLocale){
+        return ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
+                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN);
+    }
     
     private static boolean isDisplayDialog(Locale defaultLocale){
-    	return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE) 
-    			|| ComparatorUtils.equals(defaultLocale, Locale.JAPANESE)
-                || ComparatorUtils.equals(defaultLocale, Locale.JAPAN) 
+    	return ComparatorUtils.equals(defaultLocale, Locale.TRADITIONAL_CHINESE)
                 || ComparatorUtils.equals(defaultLocale, Locale.KOREAN)
                 || ComparatorUtils.equals(defaultLocale, Locale.KOREA);
     }

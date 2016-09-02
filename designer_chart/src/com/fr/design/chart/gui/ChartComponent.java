@@ -319,4 +319,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             g2d.drawImage(chartImage, 0, 0, chartWidth, chartHeight, null);
         }
     }
+
+
 }
