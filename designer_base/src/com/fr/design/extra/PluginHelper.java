@@ -105,6 +105,7 @@ public class PluginHelper {
                         plugin = new Plugin();
                         InputStream inputStream = plugin.readEncryptXml(new FileInputStream(f));
                         XMLTools.readInputStreamXML(plugin, inputStream);
+                        //检查是否需要准备插件依赖环境
                         plugin.checkDependenceEnv();
                         if (!plugin.isValidate()) {
                             return null;
