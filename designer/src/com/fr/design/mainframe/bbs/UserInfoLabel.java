@@ -92,6 +92,9 @@ public class UserInfoLabel extends UILabel{
 			}
 		});
 
+		PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+		QQLoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
+
 		UserLoginContext.addLoginContextListener(new LoginContextListener() {
 			@Override
 			public void showLoginContext() {
@@ -101,13 +104,13 @@ public class UserInfoLabel extends UILabel{
 				LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
 				QQLoginWebBridge.getHelper().setLoginlabel();
 				qqdlg.setVisible(true);
-				clearLoingInformation();
+				clearLoginInformation();
 				updateInfoPane();
 			}
 		});
 	}
 
-	private void clearLoingInformation(){
+	private void clearLoginInformation(){
 		DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
 		DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
 	}
