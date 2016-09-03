@@ -89,7 +89,7 @@ public class PreDependenceUtils{
             timer = new Timer(100, this);
 
             frame = new JDialog(DesignerContext.getDesignerFrame(), true);
-            frame.setTitle("在线安装phantomjs");
+            frame.setTitle("在线安装" + ID);
             frame.setSize(LOAD_WIDTH, LOAD_HEIGHT);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             frame.setLocation(screenSize.width/2-LOAD_WIDTH/2,screenSize.height/2-LOAD_HEIGHT/2);
