@@ -3,11 +3,13 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.extra.pre4plugin.PreDependenceUtils;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
+import com.fr.plugin.PluginPreDependence;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
@@ -19,6 +21,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -106,7 +109,7 @@ public class PluginHelper {
                         InputStream inputStream = plugin.readEncryptXml(new FileInputStream(f));
                         XMLTools.readInputStreamXML(plugin, inputStream);
                         //检查是否需要准备插件依赖环境
-                        plugin.checkDependenceEnv();
+                        checkDependenceEnv(plugin);
                         if (!plugin.isValidate()) {
                             return null;
                         }
@@ -117,6 +120,17 @@ public class PluginHelper {
             }
         }
         return plugin;
+    }
+
+    //将所有未配置好的依赖环境准备好
+    private static void checkDependenceEnv(Plugin plugin) {
+        List<PluginPreDependence> list = plugin.getPreDependenceList();
+        for (int i = 0;list != null && i < list.size(); i++){
+            PluginPreDependence preDependence = list.get(i);
+            if (!preDependence.checkEnv()){
+                PreDependenceUtils.preDependenceOnline(preDependence.getDependenceID(), preDependence.getDir());
+            }
+        }
     }
 
     /**
