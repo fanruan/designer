@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.plugindependence.DownLoadDependenceUtils;
+import com.fr.design.extra.plugindependence.PluginDependenceUtils;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
@@ -134,7 +134,7 @@ public class PluginHelper {
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit preDependence = list.get(i);
             if (!preDependence.checkFileEnv()){
-                DownLoadDependenceUtils.preDependenceOnline(currentID, preDependence.getDependenceID(), preDependence.getFileDir());
+                PluginDependenceUtils.installDependenceOnline(currentID, preDependence.getDependenceID(), preDependence.getFileDir());
             }
         }
     }

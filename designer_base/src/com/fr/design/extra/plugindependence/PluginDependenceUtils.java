@@ -5,9 +5,9 @@ package com.fr.design.extra.plugindependence;
  */
 
 
-public class DownLoadDependenceUtils {
-    public static boolean preDependenceOnline(String currentID, String dependenceID, String dependenceDir) {
+public class PluginDependenceUtils {
+    public static boolean installDependenceOnline(String currentID, String dependenceID, String dependenceDir) {
         DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, dependenceID, dependenceDir);
-        return ui.preOnline();
+        return ui.installOnline();
     }
 }

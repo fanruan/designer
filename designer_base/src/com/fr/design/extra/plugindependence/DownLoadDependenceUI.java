@@ -215,7 +215,7 @@ public class DownLoadDependenceUI implements ActionListener {
         }
     }
 
-    public boolean preOnline() {
+    public boolean installOnline() {
         int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + currentID + Inter.getLocText("Need") + dependenceID + Inter.getLocText("Support") + "," + Inter.getLocText("Need_Install") + dependenceID + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0){//下载安装
             if (!connectToServer()){
