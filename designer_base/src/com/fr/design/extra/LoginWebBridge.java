@@ -80,7 +80,7 @@ public class LoginWebBridge {
      */
     public void registerHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
@@ -119,6 +119,25 @@ public class LoginWebBridge {
         }
     }
 
+    /*
+    插件管理那边的登录
+     */
+    public String pluginManageLogin(String username, String password, UILabel uiLabel) {
+        if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
+            return LOGIN_INFO_EMPTY;
+        }
+        if (!testConnection()) {
+            return DISCONNECTED;
+        }
+        if (login(username, password)) {
+            updateUserInfo(username, password);
+            uiLabel.setText(username);
+            return LOGININ;
+        }else {
+            return LOGININFO_ERROR;
+        }
+    }
+
     /**
      * 关闭窗口
      */
@@ -126,6 +145,7 @@ public class LoginWebBridge {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
+            uiDialog.dispose();
         }
     }
 

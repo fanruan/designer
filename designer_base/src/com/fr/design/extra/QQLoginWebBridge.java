@@ -3,12 +3,14 @@ package com.fr.design.extra;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import javafx.scene.web.WebEngine;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -22,6 +24,7 @@ public class QQLoginWebBridge {
     private static String LOGINFAILED = "failed";
     private UIDialog uiDialog;
     private UILabel uiLabel;
+    private UILabel pluginuiLabel;
     private UIDialog qqDialog;
     private String username;
 
@@ -55,6 +58,10 @@ public class QQLoginWebBridge {
 
     public void setUILabel(UILabel uiLabel) {
         this.uiLabel = uiLabel;
+    }
+
+    public void setUILabelInPlugin(UILabel uiLabel) {
+        this.pluginuiLabel = uiLabel;
     }
 
     public void setLoginlabel() {
@@ -98,7 +105,7 @@ public class QQLoginWebBridge {
             String username = jo.get("username").toString();
             closeQQWindow();
             closeParentWindow();
-            uiLabel.setText(username);
+            pluginuiLabel.setText(username);
             DesignerEnvManager.getEnvManager().setBBSName(username);
         }else if (status.equals(LOGINFAILED)){
             //账号没有QQ授权
@@ -106,6 +113,31 @@ public class QQLoginWebBridge {
             try {
                 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
             }catch (Exception exp) {
+            }
+        }
+    }
+
+    public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
+        if (url.indexOf("qqLogin.html") > 0) {
+            return;
+        }
+        if (Desktop.isDesktopSupported()) {
+            try {
+                //创建一个URI实例,注意不是URL
+                URI uri = URI.create(url);
+                //获取当前系统桌面扩展
+                Desktop desktop = Desktop.getDesktop();
+                //判断系统桌面是否支持要执行的功能
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    //获取系统默认浏览器打开链接
+                    desktop.browse(uri);
+                }
+            } catch (NullPointerException e) {
+                //此为uri为空时抛出异常
+                FRLogger.getLogger().error(e.getMessage());
+            } catch (IOException e) {
+                //此为无法获取系统默认浏览器
+                FRLogger.getLogger().error(e.getMessage());
             }
         }
     }
