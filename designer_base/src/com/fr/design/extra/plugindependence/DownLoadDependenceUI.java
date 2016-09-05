@@ -211,7 +211,7 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     public boolean preOnline() {
-        int choose = JOptionPane.showConfirmDialog(null, "新图表需要" + ID + "支持。是否需要安装" + ID + "(" + totalSize/Math.pow(10, 6) + " m)？", "install tooltip", JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, "新图表需要" + ID + "支持。是否需要安装" + ID + "(" + showFileLength() + " m)？", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0){//下载安装
             if (!connectToServer()){
                 JOptionPane.showMessageDialog(null, "无法连接远程服务器！！", "警告", JOptionPane.ERROR_MESSAGE);
@@ -228,5 +228,9 @@ public class DownLoadDependenceUI implements ActionListener {
         }else {//不安装。无需为用户准备环境
             return true;
         }
+    }
+
+    private String showFileLength() {
+        return totalSize == -1 ? "NAN" : totalSize/Math.pow(10, 6) + "";
     }
 }
