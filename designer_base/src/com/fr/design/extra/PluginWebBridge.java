@@ -503,7 +503,7 @@ public class PluginWebBridge {
      */
     public void registerHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
