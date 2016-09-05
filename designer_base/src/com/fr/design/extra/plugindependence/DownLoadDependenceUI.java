@@ -42,8 +42,9 @@ public class DownLoadDependenceUI implements ActionListener {
     private  final int LOAD_HEIGHT = 295;
 
     //安装环境相关信息
-    private String ID;
-    private String dir;
+    private String currentID;
+    private String dependenceID;
+    private String dependenceDir;
     //安装结果
     private  boolean result = false;
     //链接服务器的客户端
@@ -54,9 +55,12 @@ public class DownLoadDependenceUI implements ActionListener {
     private  int totalSize = 0;
 
     public DownLoadDependenceUI(String ID, String dir) {
-        this.ID = ID;
-        this.dir = dir;
-        this.totalSize = getFileLength();
+    }
+
+    public DownLoadDependenceUI(String currentID, String dependenceID, String dependenceDir) {
+        this.currentID = currentID;
+        this.dependenceID = dependenceID;
+        this.dependenceDir = dependenceDir;
         init();
     }
 
@@ -84,7 +88,7 @@ public class DownLoadDependenceUI implements ActionListener {
         timer = new Timer(100, this);
 
         frame = new JDialog(DesignerContext.getDesignerFrame(), true);
-        frame.setTitle("在线安装" + ID);
+        frame.setTitle(Inter.getLocText("FR-Designer-Dependence_Install_Online") + dependenceID);
         frame.setSize(LOAD_WIDTH, LOAD_HEIGHT);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(screenSize.width/2-LOAD_WIDTH/2,screenSize.height/2-LOAD_HEIGHT/2);
@@ -107,13 +111,13 @@ public class DownLoadDependenceUI implements ActionListener {
 
     //是否可以连接服务器
     private boolean connectToServer(){
-        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(ID));
+        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         return httpClient.getResponseCode() == HttpURLConnection.HTTP_OK;
     }
 
     //获取依赖文件大小
     private  int getFileLength(){
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(ID));
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             return  httpClient.getContentLength();
         }
@@ -147,7 +151,7 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     private String downloadPluginPhantomJSFile() throws Exception {
-        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(ID));
+        httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             InputStream reader = httpClient.getResponseStream();
             String temp = StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE);
@@ -194,7 +198,7 @@ public class DownLoadDependenceUI implements ActionListener {
 
     //安装已经下载好的文件
     private void installPluginPhantomJsFile(String filePath){
-        IOUtils.unzip(new File(filePath), dir);
+        IOUtils.unzip(new File(filePath), dependenceDir);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -211,18 +215,18 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     public boolean preOnline() {
-        int choose = JOptionPane.showConfirmDialog(null, "新图表需要" + ID + "支持。是否需要安装" + ID + "(" + showFileLength() + " m)？", "install tooltip", JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + currentID + Inter.getLocText("Need") + dependenceID + Inter.getLocText("Support") + "," + Inter.getLocText("Need_Install") + dependenceID + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0){//下载安装
             if (!connectToServer()){
-                JOptionPane.showMessageDialog(null, "无法连接远程服务器！！", "警告", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"), "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             //安装依赖环境
             if (install()){
-                JOptionPane.showMessageDialog(null, "安装成功！！");
+                JOptionPane.showMessageDialog(null, Inter.getLocText("Install_Succeed") + "!!");
                 return true;
             }else {
-                JOptionPane.showMessageDialog(null, "安装失败！！", "警告", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, Inter.getLocText("Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }else {//不安装。无需为用户准备环境

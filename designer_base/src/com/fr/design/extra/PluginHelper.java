@@ -126,6 +126,7 @@ public class PluginHelper {
     //将所有未配置好的资源文件依赖准备好
     private static void checkDependenceEnv(Plugin plugin) {
         PluginDependence dependence = plugin.getDependence();
+        String currentID = dependence.getCurrentPluginID();
         if (dependence == null){
             return;
         }
@@ -133,7 +134,7 @@ public class PluginHelper {
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit preDependence = list.get(i);
             if (!preDependence.checkFileEnv()){
-                DownLoadDependenceUtils.preDependenceOnline(preDependence.getDependenceID(), preDependence.getFileDir());
+                DownLoadDependenceUtils.preDependenceOnline(currentID, preDependence.getDependenceID(), preDependence.getFileDir());
             }
         }
     }
