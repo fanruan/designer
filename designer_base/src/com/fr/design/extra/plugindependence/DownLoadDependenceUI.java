@@ -61,6 +61,7 @@ public class DownLoadDependenceUI implements ActionListener {
         this.currentID = currentID;
         this.dependenceID = dependenceID;
         this.dependenceDir = dependenceDir;
+        this.totalSize = getFileLength();
         init();
     }
 
@@ -223,10 +224,10 @@ public class DownLoadDependenceUI implements ActionListener {
             }
             //安装依赖环境
             if (install()){
-                JOptionPane.showMessageDialog(null, Inter.getLocText("Install_Succeed") + "!!");
+                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("Install_Succeed") + "!!");
                 return true;
             }else {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }else {//不安装。无需为用户准备环境
