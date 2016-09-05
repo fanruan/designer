@@ -3,13 +3,14 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.pre4plugin.PreDependenceUtils;
+import com.fr.design.extra.plugindependence.DownLoadDependenceUtils;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
-import com.fr.plugin.PluginPreDependence;
+import com.fr.plugin.dependence.PluginDependence;
+import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
@@ -122,13 +123,14 @@ public class PluginHelper {
         return plugin;
     }
 
-    //将所有未配置好的依赖环境准备好
+    //将所有未配置好的资源文件依赖准备好
     private static void checkDependenceEnv(Plugin plugin) {
-        List<PluginPreDependence> list = plugin.getPreDependenceList();
+        PluginDependence dependence = plugin.getDependence();
+        List<PluginDependenceUnit> list = dependence.getDependPlugins();
         for (int i = 0;list != null && i < list.size(); i++){
-            PluginPreDependence preDependence = list.get(i);
-            if (!preDependence.checkEnv()){
-                PreDependenceUtils.preDependenceOnline(preDependence.getDependenceID(), preDependence.getDir());
+            PluginDependenceUnit preDependence = list.get(i);
+            if (!preDependence.checkFileEnv()){
+                DownLoadDependenceUtils.preDependenceOnline(preDependence.getDependenceID(), preDependence.getFileDir());
             }
         }
     }
