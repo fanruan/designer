@@ -126,10 +126,10 @@ public class PluginHelper {
     //将所有未配置好的资源文件依赖准备好
     private static void checkDependenceEnv(Plugin plugin) {
         PluginDependence dependence = plugin.getDependence();
-        String currentID = dependence.getCurrentPluginID();
         if (dependence == null){
             return;
         }
+        String currentID = dependence.getCurrentPluginID();
         List<PluginDependenceUnit> list = dependence.getDependPlugins();
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit preDependence = list.get(i);
