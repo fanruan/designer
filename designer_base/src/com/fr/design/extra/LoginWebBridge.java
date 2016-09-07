@@ -28,7 +28,7 @@ public class LoginWebBridge {
     private static final String LOGININ = "0";
     private static final String LOGIN_INFO_EMPTY = "-1";
     private static final String DISCONNECTED = "-2";
-    private static final String UNKNOWN_ERROR = "-3";
+    private static final String LOGININFO_ERROR = "-3";
     private static final int TIME_OUT = 10000;
 
     private static com.fr.design.extra.LoginWebBridge helper;
@@ -80,7 +80,7 @@ public class LoginWebBridge {
      */
     public void registerHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
@@ -115,7 +115,26 @@ public class LoginWebBridge {
             loginSuccess(username);
             return LOGININ;
         }else {
-            return UNKNOWN_ERROR;
+            return LOGININFO_ERROR;
+        }
+    }
+
+    /*
+    插件管理那边的登录
+     */
+    public String pluginManageLogin(String username, String password, UILabel uiLabel) {
+        if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
+            return LOGIN_INFO_EMPTY;
+        }
+        if (!testConnection()) {
+            return DISCONNECTED;
+        }
+        if (login(username, password)) {
+            updateUserInfo(username, password);
+            uiLabel.setText(username);
+            return LOGININ;
+        }else {
+            return LOGININFO_ERROR;
         }
     }
 
@@ -126,6 +145,7 @@ public class LoginWebBridge {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
+            uiDialog.dispose();
         }
     }
 

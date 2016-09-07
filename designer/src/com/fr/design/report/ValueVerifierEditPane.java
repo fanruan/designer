@@ -3,13 +3,14 @@ package com.fr.design.report;
 import com.fr.base.Formula;
 import com.fr.data.VerifyItem;
 import com.fr.design.gui.itableeditorpane.ActionStyle;
-import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
+import com.fr.design.gui.itableeditorpane.UIArrayFormulaTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.report.write.ValueVerifier;
 import com.fr.stable.FormulaProvider;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class ValueVerifierEditPane extends JPanel {
 	public ValueVerifierEditPane() {
 		// ben:UITableEditorPane；
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-		tableEditorPane = new UITableEditorPane<Object[]>(new UIArrayTableModel(columnNames, new int[] {
+		tableEditorPane = new UITableEditorPane(new UIArrayFormulaTableModel(columnNames, new int[] {
 				ActionStyle.ADDSTYLE, ActionStyle.DELETESTYLE,
 				ActionStyle.MOVEUPSTYLE, ActionStyle.MOVEDOWNSTYLE}));
 		this.add(tableEditorPane, BorderLayout.CENTER);
@@ -45,7 +46,11 @@ public class ValueVerifierEditPane extends JPanel {
 			if (formula == null) {
 				continue;
 			}
-			os[tableDataCount++] = new Object[]{formula.getPureContent(), item.getMessage()};
+			String msg = item.getMessage();
+			if (!StableUtils.canBeFormula(msg)) {
+				msg = "\"" + msg + "\"";//如果报错信息是以前的写法(字符串)就拼上""
+			}
+			os[tableDataCount++] = new Object[]{formula, new Formula(msg)};
 		}
 		this.tableEditorPane.populate(os);
 	}

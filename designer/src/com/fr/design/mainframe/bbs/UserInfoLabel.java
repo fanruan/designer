@@ -54,7 +54,7 @@ public class UserInfoLabel extends UILabel{
 	
 	private UserInfoPane userInfoPane;
 	private BBSLoginDialog bbsLoginDialog;
-	
+
 	public UserInfoPane getUserInfoPane() {
 		return userInfoPane;
 	}
@@ -92,6 +92,9 @@ public class UserInfoLabel extends UILabel{
 			}
 		});
 
+		PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+		QQLoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
+
 		UserLoginContext.addLoginContextListener(new LoginContextListener() {
 			@Override
 			public void showLoginContext() {
@@ -101,9 +104,19 @@ public class UserInfoLabel extends UILabel{
 				LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
 				QQLoginWebBridge.getHelper().setLoginlabel();
 				qqdlg.setVisible(true);
+				clearLoginInformation();
+				updateInfoPane();
 			}
 		});
+	}
 
+	private void clearLoginInformation(){
+		DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+	}
+
+	private void updateInfoPane(){
+		userInfoPane.markUnSignIn();
 	}
 
 	/**
@@ -117,9 +130,7 @@ public class UserInfoLabel extends UILabel{
 				if(!FRContext.isChineseEnv()){
 					return;
 				}
-				
 				String lastBBSNewsTime = DesignerEnvManager.getEnvManager().getLastShowBBSNewsTime();
-
 				try {
                     String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     if (ComparatorUtils.equals(lastBBSNewsTime, today)) {
@@ -129,25 +140,20 @@ public class UserInfoLabel extends UILabel{
 				} catch (InterruptedException e) {
 					FRContext.getLogger().error(e.getMessage());
 				}
-
                 HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()){
                     return;
                 }
-
                 String res = hc.getResponseText();
                 if (res.indexOf(BBSConstants.UPDATE_KEY) == -1){
                     return;
                 }
-
 				try {
 					BBSDialog bbsLabel = new BBSDialog(DesignerContext.getDesignerFrame());
 					bbsLabel.showWindow(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
 					DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
 				} catch (Throwable e) {
-
 				}
-
 			}
 		});
 		showBBSThread.start();
@@ -259,6 +265,7 @@ public class UserInfoLabel extends UILabel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			userName = DesignerEnvManager.getEnvManager().getBBSName();
 			if(StringUtils.isNotEmpty(userName)) {
 				UIPopupMenu menu = new UIPopupMenu();
 				menu.setOnlyText(true);
@@ -295,5 +302,4 @@ public class UserInfoLabel extends UILabel{
 			}
 		}
 	};
-
 }
