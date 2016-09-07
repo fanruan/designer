@@ -132,9 +132,9 @@ public class PluginHelper {
         String currentID = dependence.getCurrentPluginID();
         List<PluginDependenceUnit> list = dependence.getDependPlugins();
         for (int i = 0;list != null && i < list.size(); i++){
-            PluginDependenceUnit preDependence = list.get(i);
-            if (!preDependence.checkFileEnv()){
-                PluginDependenceUtils.installDependenceOnline(currentID, preDependence.getDependenceID(), preDependence.getFileDir());
+            PluginDependenceUnit dependenceUnit = list.get(i);
+            if (!dependenceUnit.checkFileEnv()){
+                PluginDependenceUtils.installDependenceOnline(currentID, dependenceUnit.getDependenceID(), dependenceUnit.getFileDir());
             }
         }
     }

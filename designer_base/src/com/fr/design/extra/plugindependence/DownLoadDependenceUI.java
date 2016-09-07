@@ -133,7 +133,7 @@ public class DownLoadDependenceUI implements ActionListener {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                installPhantomJsOnline();
+                installDependenceOnline();
             }
         });
         thread.start();
@@ -151,7 +151,7 @@ public class DownLoadDependenceUI implements ActionListener {
         return result;
     }
 
-    private String downloadPluginPhantomJSFile() throws Exception {
+    private String downloadPluginDependenceFile() throws Exception {
         httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             InputStream reader = httpClient.getResponseStream();
@@ -184,12 +184,12 @@ public class DownLoadDependenceUI implements ActionListener {
         }
     }
 
-    public void installPhantomJsOnline(){
+    public void installDependenceOnline(){
         try {
-            String filePath = downloadPluginPhantomJSFile();
+            String filePath = downloadPluginDependenceFile();
             if (!StringUtils.EMPTY.equals(filePath)){
                 //安装文件
-                installPluginPhantomJsFile(filePath);
+                installPluginDependenceFile(filePath);
                 result = true;
             }
         } catch (Exception e) {
@@ -198,7 +198,7 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     //安装已经下载好的文件
-    private void installPluginPhantomJsFile(String filePath){
+    private void installPluginDependenceFile(String filePath){
         IOUtils.unzip(new File(filePath), dependenceDir);
     }
 
@@ -224,10 +224,10 @@ public class DownLoadDependenceUI implements ActionListener {
             }
             //安装依赖环境
             if (install()){
-                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("Install_Succeed") + "!!");
+                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("FR-Designer-Dependence_Install_Succeed") + "!!");
                 return true;
             }else {
-                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("FR-Designer-Dependence_Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }else {//不安装。无需为用户准备环境
