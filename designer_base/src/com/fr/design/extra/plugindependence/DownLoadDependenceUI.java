@@ -29,30 +29,30 @@ public class DownLoadDependenceUI implements ActionListener {
     //进度显示界面
     private JDialog frame = null;
     //进度条
-    private  JProgressBar progressbar;
+    private JProgressBar progressbar;
     //进度信息
-    private  JLabel label;
+    private JLabel label;
     //进度条更新时钟
-    private  Timer timer;
+    private Timer timer;
     //是否继续下载
-    private  boolean flag = true;
+    private boolean flag = true;
 
     // 定义加载窗口大小
-    private  final int LOAD_WIDTH = 455;
-    private  final int LOAD_HEIGHT = 295;
+    private final int LOAD_WIDTH = 455;
+    private final int LOAD_HEIGHT = 295;
 
     //安装环境相关信息
     private String currentID;
     private String dependenceID;
     private String dependenceDir;
     //安装结果
-    private  boolean result = false;
+    private boolean result = false;
     //链接服务器的客户端
     private HttpClient httpClient;
     //已读文件字节数
-    private  int totalBytesRead = 0;
+    private int totalBytesRead = 0;
     //文件总长度
-    private  int totalSize = 0;
+    private int totalSize = 0;
 
     public DownLoadDependenceUI(String ID, String dir) {
     }
@@ -65,9 +65,9 @@ public class DownLoadDependenceUI implements ActionListener {
         init();
     }
 
-    private void init(){
+    private void init() {
         // 创建标签,并在标签上放置一张图片
-        BufferedImage image =  IOUtils.readImage("/com/fr/design/extra/plugindependence/image/background.png");
+        BufferedImage image = IOUtils.readImage("/com/fr/design/extra/plugindependence/image/background.png");
         ImageIcon imageIcon = new ImageIcon(image);
         label = new JLabel(imageIcon);
         label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT - 15);
@@ -92,10 +92,10 @@ public class DownLoadDependenceUI implements ActionListener {
         frame.setTitle(Inter.getLocText("FR-Designer-Dependence_Install_Online") + dependenceID);
         frame.setSize(LOAD_WIDTH, LOAD_HEIGHT);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screenSize.width/2-LOAD_WIDTH/2,screenSize.height/2-LOAD_HEIGHT/2);
+        frame.setLocation(screenSize.width / 2 - LOAD_WIDTH / 2, screenSize.height / 2 - LOAD_HEIGHT / 2);
         frame.setResizable(false);
         // 设置布局为空
-        frame.setLayout(new BorderLayout(0,0));
+        frame.setLayout(new BorderLayout(0, 0));
         frame.getContentPane().add(label, BorderLayout.CENTER);
         frame.getContentPane().add(progressbar, BorderLayout.SOUTH);
 
@@ -111,16 +111,16 @@ public class DownLoadDependenceUI implements ActionListener {
 
 
     //是否可以连接服务器
-    private boolean connectToServer(){
+    private boolean connectToServer() {
         httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         return httpClient.getResponseCode() == HttpURLConnection.HTTP_OK;
     }
 
     //获取依赖文件大小
-    private  int getFileLength(){
+    private int getFileLength() {
         HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceID));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            return  httpClient.getContentLength();
+            return httpClient.getContentLength();
         }
         return -1;
     }
@@ -172,8 +172,8 @@ public class DownLoadDependenceUI implements ActionListener {
             writer.close();
 
             //下载被取消
-            if (flag == false){
-                result =  false;
+            if (flag == false) {
+                result = false;
                 return StringUtils.EMPTY;
             }
             return temp;
@@ -184,10 +184,10 @@ public class DownLoadDependenceUI implements ActionListener {
         }
     }
 
-    public void installDependenceOnline(){
+    public void installDependenceOnline() {
         try {
             String filePath = downloadPluginDependenceFile();
-            if (!StringUtils.EMPTY.equals(filePath)){
+            if (!StringUtils.EMPTY.equals(filePath)) {
                 //安装文件
                 installPluginDependenceFile(filePath);
                 result = true;
@@ -198,7 +198,7 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     //安装已经下载好的文件
-    private void installPluginDependenceFile(String filePath){
+    private void installPluginDependenceFile(String filePath) {
         IOUtils.unzip(new File(filePath), dependenceDir);
     }
 
@@ -207,8 +207,7 @@ public class DownLoadDependenceUI implements ActionListener {
             int value = progressbar.getValue();
             if (value < totalSize) {
                 progressbar.setValue(totalBytesRead);
-            }
-            else {
+            } else {
                 timer.stop();
                 frame.dispose();
             }
@@ -217,25 +216,25 @@ public class DownLoadDependenceUI implements ActionListener {
 
     public boolean installOnline() {
         int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + currentID + Inter.getLocText("Need") + dependenceID + Inter.getLocText("Support") + "," + Inter.getLocText("Need_Install") + dependenceID + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
-        if (choose == 0){//下载安装
-            if (!connectToServer()){
+        if (choose == 0) {//下载安装
+            if (!connectToServer()) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"), "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             //安装依赖环境
-            if (install()){
+            if (install()) {
                 JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("FR-Designer-Dependence_Install_Succeed") + "!!");
                 return true;
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(null, dependenceID + Inter.getLocText("FR-Designer-Dependence_Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        }else {//不安装。无需为用户准备环境
+        } else {//不安装。无需为用户准备环境
             return true;
         }
     }
 
     private String showFileLength() {
-        return totalSize == -1 ? "NAN" : totalSize/Math.pow(10, 6) + "";
+        return totalSize == -1 ? "NAN" : totalSize / Math.pow(10, 6) + "";
     }
 }
