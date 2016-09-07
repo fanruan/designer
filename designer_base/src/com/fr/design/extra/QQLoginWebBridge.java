@@ -7,6 +7,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import javafx.scene.web.WebEngine;
 import org.json.JSONObject;
+import netscape.javascript.JSObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,6 +68,8 @@ public class QQLoginWebBridge {
     public void setLoginlabel() {
         username = DesignerEnvManager.getEnvManager().getBBSName();
     }
+
+    private static JSObject window;
 
     public static com.fr.design.extra.QQLoginWebBridge getHelper(WebEngine webEngine) {
         getHelper();

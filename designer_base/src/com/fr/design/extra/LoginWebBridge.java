@@ -8,6 +8,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.json.JSONObject;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -18,11 +19,20 @@ import java.net.URI;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
 
-/**
- * Created by zhaohehe on 16/8/1.
- */
 public class LoginWebBridge {
+
+    //默认查询消息时间, 30s
+    private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
+    //数据查询正常的标志 ok
+    private static final String SUCCESS_MESSAGE_STATUS = "ok";
+
+    //消息条数
+    private int messageCount;
+
+    //最低消息的条数
+    private static final int MIN_MESSAGE_COUNT = 0;
 
     private static final String LOGIN_SUCCESS_FLAG = "http://bbs.finereport.com";
     private static final String LOGININ = "0";
@@ -34,6 +44,11 @@ public class LoginWebBridge {
     private static com.fr.design.extra.LoginWebBridge helper;
     private UIDialog uiDialog;
     private UILabel uiLabel;
+    private String userName;
+
+    public int getMessageCount() {
+        return messageCount;
+    }
 
     private boolean testConnection() {
         HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
@@ -60,9 +75,6 @@ public class LoginWebBridge {
 
     private WebEngine webEngine;
 
-    private LoginWebBridge() {
-    }
-
     public void setEngine(WebEngine webEngine) {
         this.webEngine = webEngine;
     }
@@ -73,6 +85,90 @@ public class LoginWebBridge {
 
     public void setUILabel(UILabel uiLabel) {
         this.uiLabel = uiLabel;
+    }
+
+    public LoginWebBridge() {
+        String username = DesignerEnvManager.getEnvManager().getBBSName();
+        setUserName(username, uiLabel);
+    }
+
+    public void setUserName(String userName, UILabel label) {
+        if (uiLabel == null) {
+            this.uiLabel = label;
+        }
+        if(StringUtils.isEmpty(userName)){
+            return;
+        }
+
+        if(!StringUtils.isEmpty(this.userName)){
+            updateMessageCount();
+        }
+        //往designerenvmanger里写一下
+        DesignerEnvManager.getEnvManager().setBBSName(userName);
+        this.userName = userName;
+    }
+
+    private void updateMessageCount(){
+        //启动获取消息更新的线程
+        //登陆状态, 根据存起来的用户名密码, 每1分钟发起一次请求, 更新消息条数.
+        Thread updateMessageThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                sleep(CHECK_MESSAGE_TIME);
+                //从env中获取username, 因为如果注销的话, env的里username会被清空.
+                while(StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
+                    HashMap<String, String> para = new HashMap<String, String>();
+                    para.put("username", encode(encode(userName)));
+                    HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
+                    getMessage.asGet();
+                    if(getMessage.isServerAlive()){
+                        try {
+                            String res = getMessage.getResponseText();
+                            JSONObject jo = new JSONObject(res);
+                            if (jo.getString("status").equals(SUCCESS_MESSAGE_STATUS)) {
+                                setMessageCount(Integer.parseInt(jo.getString("message")));
+                            }
+                        } catch (Exception e) {
+                            FRContext.getLogger().info(e.getMessage());
+                        }
+                    }
+                    sleep(CHECK_MESSAGE_TIME);
+                }
+            }
+        });
+        updateMessageThread.start();
+    }
+
+    public void setMessageCount(int count) {
+        if (count == MIN_MESSAGE_COUNT) {
+            uiLabel.setText(DesignerEnvManager.getEnvManager().getBBSName());
+            DesignerEnvManager.getEnvManager().setInShowBBsName(DesignerEnvManager.getEnvManager().getBBSName());
+            return;
+        }
+        this.messageCount = count;
+        StringBuilder sb = new StringBuilder();
+        sb.append(StringUtils.BLANK).append(this.userName)
+                .append("(").append(this.messageCount)
+                .append(")").append(StringUtils.BLANK);
+        DesignerEnvManager.getEnvManager().setInShowBBsName(sb.toString());
+        uiLabel.setText(sb.toString());
+    }
+
+    private String encode(String str){
+        try {
+            return URLEncoder.encode(str, EncodeConstants.ENCODING_UTF_8);
+        } catch (UnsupportedEncodingException e) {
+            return str;
+        }
+    }
+
+    private void sleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
     }
 
     /**
@@ -113,6 +209,7 @@ public class LoginWebBridge {
         if (login(username, password)) {
             updateUserInfo(username, password);
             loginSuccess(username);
+            setUserName(username, uiLabel);
             return LOGININ;
         }else {
             return LOGININFO_ERROR;
@@ -152,6 +249,7 @@ public class LoginWebBridge {
     public void updateUserInfo(String username,String password) {
         DesignerEnvManager.getEnvManager().setBBSName(username);
         DesignerEnvManager.getEnvManager().setBBSPassword(password);
+        this.userName = username;
     }
 
     /**
