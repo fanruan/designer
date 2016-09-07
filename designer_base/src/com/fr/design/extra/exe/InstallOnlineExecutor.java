@@ -40,6 +40,7 @@ public class InstallOnlineExecutor implements Executor {
 
                     @Override
                     public void run(final Process<String> process) {
+                        //下载插件
                         if(StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())){
                             LoginCheckContext.fireLoginCheckListener();
                         }

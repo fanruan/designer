@@ -3,11 +3,14 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.extra.plugindependence.PluginDependenceUtils;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
+import com.fr.plugin.dependence.PluginDependence;
+import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
@@ -19,6 +22,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -105,6 +109,8 @@ public class PluginHelper {
                         plugin = new Plugin();
                         InputStream inputStream = plugin.readEncryptXml(new FileInputStream(f));
                         XMLTools.readInputStreamXML(plugin, inputStream);
+                        //检查是否需要准备插件依赖环境
+                        checkDependenceEnv(plugin);
                         if (!plugin.isValidate()) {
                             return null;
                         }
@@ -115,6 +121,22 @@ public class PluginHelper {
             }
         }
         return plugin;
+    }
+
+    //将所有未配置好的资源文件依赖准备好
+    private static void checkDependenceEnv(Plugin plugin) {
+        PluginDependence dependence = plugin.getDependence();
+        if (dependence == null){
+            return;
+        }
+        String currentID = dependence.getCurrentPluginID();
+        List<PluginDependenceUnit> list = dependence.getDependPlugins();
+        for (int i = 0;list != null && i < list.size(); i++){
+            PluginDependenceUnit dependenceUnit = list.get(i);
+            if (!dependenceUnit.checkFileEnv()){
+                PluginDependenceUtils.installDependenceOnline(currentID, dependenceUnit.getDependenceID(), dependenceUnit.getFileDir());
+            }
+        }
     }
 
     /**
