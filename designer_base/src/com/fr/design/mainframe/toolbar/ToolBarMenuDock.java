@@ -120,7 +120,7 @@ public abstract class ToolBarMenuDock {
     ///////////////////////////////menu below/////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    private MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+    public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
