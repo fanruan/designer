@@ -1,5 +1,6 @@
 package com.fr.design.extra.plugindependence;
 
+import com.fr.base.FRContext;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.mainframe.DesignerContext;
@@ -198,7 +199,8 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     //安装已经下载好的文件
-    private void installPluginDependenceFile(String filePath) {
+    //不支持切换远程目录安装
+    private void installPluginDependenceFile(String filePath) throws Exception {
         IOUtils.unzip(new File(filePath), dependenceDir);
     }
 
