@@ -1,5 +1,7 @@
 package com.fr.design.extra.plugindependence;
 
+import com.fr.base.Env;
+import com.fr.base.FRContext;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.mainframe.DesignerContext;
@@ -7,6 +9,7 @@ import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.plugin.dependence.PluginDependenceType;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -45,6 +48,7 @@ public class DownLoadDependenceUI implements ActionListener {
     private String currentID;
     private String dependenceID;
     private String dependenceDir;
+    private PluginDependenceType dependenceType;
     //安装结果
     private boolean result = false;
     //链接服务器的客户端
@@ -54,13 +58,13 @@ public class DownLoadDependenceUI implements ActionListener {
     //文件总长度
     private int totalSize = 0;
 
-    public DownLoadDependenceUI(String ID, String dir) {
+    public DownLoadDependenceUI() {
     }
-
-    public DownLoadDependenceUI(String currentID, String dependenceID, String dependenceDir) {
+    public DownLoadDependenceUI(String currentID, String dependenceID, PluginDependenceType dependenceType, String dependenceDir) {
         this.currentID = currentID;
         this.dependenceID = dependenceID;
         this.dependenceDir = dependenceDir;
+        this.dependenceType = dependenceType;
         this.totalSize = getFileLength();
         init();
     }
@@ -197,9 +201,14 @@ public class DownLoadDependenceUI implements ActionListener {
         }
     }
 
-    //安装已经下载好的文件
-    private void installPluginDependenceFile(String filePath) throws Exception {
-        IOUtils.unzip(new File(filePath), dependenceDir);
+    //安装已经下载好的文件,如果是服务文件，则需要复制一份到安装目录下，
+    //以便切换远程时，使用本地的服务
+    //如果是服务器环境，则只会安装一份
+    private void installPluginDependenceFile(String filePath){
+        IOUtils.unzip(new File(filePath), FRContext.getCurrentEnv().getPath() + dependenceDir);
+        if (dependenceType == PluginDependenceType.SERVICE) {
+            IOUtils.unzip(new File(filePath), StableUtils.getInstallHome() + dependenceDir);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
