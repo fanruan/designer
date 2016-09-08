@@ -215,7 +215,7 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     public boolean installOnline() {
-        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + currentID + Inter.getLocText("Need") + dependenceID + Inter.getLocText("Support") + "," + Inter.getLocText("Need_Install") + dependenceID + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + currentID + Inter.getLocText("FR-Designer-Need") + " " +  dependenceID + " " + Inter.getLocText("FR-Designer-Support") + "," + Inter.getLocText("FR-Designer-Dependence_Need_Install") + " " + dependenceID + " " +  "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0) {//下载安装
             if (!connectToServer()) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"), "alert", JOptionPane.ERROR_MESSAGE);
