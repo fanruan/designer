@@ -911,23 +911,23 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter{
             minUpH = getUpMinHeightComp(cY, x);
             minDownH = getDownMinHeightComp(currentComp, y);
             dealTrisectAtTop(child, minUpH, minDownH);
-        } else if(ComparatorUtils.equals(trisectAreaDirect, COMP_BOTTOM)) {
-            minUpH = getUpMinHeightComp(cY+cH+actualVal, x);
-            if (cY+cH+DEFAULT_AREA_LENGTH<container.getHeight() - margin.getBottom()){
+        } else if (ComparatorUtils.equals(trisectAreaDirect, COMP_BOTTOM)) {
+            minUpH = getUpMinHeightComp(cY + cH + actualVal, x);
+            if (cY + cH + DEFAULT_AREA_LENGTH < container.getHeight() - margin.getBottom()) {
                 Component targetTopComp = container.getBottomComp(x, cY, cH);
-                minDownH = getDownMinHeightComp(targetTopComp, cY+cH+DEFAULT_AREA_LENGTH+actualVal);
+                minDownH = getDownMinHeightComp(targetTopComp, cY + cH + DEFAULT_AREA_LENGTH + actualVal);
             }
             dealTrisectAtTop(child, minUpH, minDownH);
-        } else if(ComparatorUtils.equals(trisectAreaDirect, COMP_RIGHT)) {
+        } else if (ComparatorUtils.equals(trisectAreaDirect, COMP_RIGHT)) {
             minRightW = getMinRightWidth(cX, cW, y);
             minLeftW = getMinLeftWidth(currentComp, x);
             dealTrisectAtRight(child, minLeftW, minRightW);
-        } else if(ComparatorUtils.equals(trisectAreaDirect, COMP_LEFT)) {
+        } else if (ComparatorUtils.equals(trisectAreaDirect, COMP_LEFT)) {
             // 当前组件就在右侧时，cW为0
-            minRightW = getMinRightWidth(cX, 0,  y);
-            if(cX-DEFAULT_AREA_LENGTH > margin.getLeft()) {
-                Component targetRightComp  = container.getLeftComp(cX, y);
-                minLeftW = getMinLeftWidth(targetRightComp, cX-DEFAULT_AREA_LENGTH);
+            minRightW = getMinRightWidth(cX, 0, y);
+            if (cX - DEFAULT_AREA_LENGTH > margin.getLeft()) {
+                Component targetRightComp = container.getLeftComp(cX, y);
+                minLeftW = getMinLeftWidth(targetRightComp, cX - DEFAULT_AREA_LENGTH - actualVal);//bug104400没算上间隔
             }
             dealTrisectAtRight(child, minLeftW, minRightW);
         }
