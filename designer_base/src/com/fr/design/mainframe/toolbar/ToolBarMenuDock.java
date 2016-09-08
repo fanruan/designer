@@ -142,7 +142,7 @@ public abstract class ToolBarMenuDock {
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
-    private void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
+    public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
         // 给菜单加插件入口
         for (MenuDef m : menuDefs) {
             switch (m.getAnchor()) {
@@ -171,7 +171,7 @@ public abstract class ToolBarMenuDock {
         return plus.menus4Target();
     }
 
-    private MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
+    public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
