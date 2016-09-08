@@ -27,6 +27,8 @@ public class LoginWebBridge {
     private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
     //数据查询正常的标志 ok
     private static final String SUCCESS_MESSAGE_STATUS = "ok";
+    //数据通讯失败
+    private static final String FAILED_MESSAGE_STATUS = "error";
 
     //消息条数
     private int messageCount;
@@ -125,9 +127,12 @@ public class LoginWebBridge {
                     if(getMessage.isServerAlive()){
                         try {
                             String res = getMessage.getResponseText();
-                            JSONObject jo = new JSONObject(res);
-                            if (jo.getString("status").equals(SUCCESS_MESSAGE_STATUS)) {
-                                setMessageCount(Integer.parseInt(jo.getString("message")));
+                            if (res.equals(FAILED_MESSAGE_STATUS)) {
+                            }else {
+                                JSONObject jo = new JSONObject(res);
+                                if (jo.getString("status").equals(SUCCESS_MESSAGE_STATUS)) {
+                                    setMessageCount(Integer.parseInt(jo.getString("message")));
+                                }
                             }
                         } catch (Exception e) {
                             FRContext.getLogger().info(e.getMessage());

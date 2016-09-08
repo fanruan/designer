@@ -104,12 +104,17 @@ public class QQLoginWebPane extends JFXPanel {
                         showAlert(event.getData());
                     }
                 });
-                webEngine.getLoadWorker().stateProperty().addListener((ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) -> {
-                    if (newValue == Worker.State.SUCCEEDED) {
-                        window = (JSObject) webEngine.executeScript("window");
-                        window.setMember("QQLoginHelper", QQLoginWebBridge.getHelper(webEngine));
-                    }
-                });
+                webEngine.getLoadWorker().stateProperty().addListener(
+                        new ChangeListener<Worker.State>() {
+                            public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
+                                if (newState == Worker.State.SUCCEEDED) {
+                                    window = (JSObject) webEngine.executeScript("window");
+                                    window.setMember("QQLoginHelper", QQLoginWebBridge.getHelper(webEngine));
+                                }
+                            }
+                        }
+                );
+
                 webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }
@@ -151,7 +156,6 @@ public class QQLoginWebPane extends JFXPanel {
         dialog.setHeight(DEFAULT_CONFIRM_HEIGHT);
         dialog.setWidth(DEFAULT_CONFIRM_WIDTH);
         dialog.setIconified(false);
-        dialog.setAlwaysOnTop(true);
         dialog.initOwner(parent);
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.setScene(
