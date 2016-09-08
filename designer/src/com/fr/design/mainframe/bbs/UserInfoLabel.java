@@ -78,7 +78,10 @@ public class UserInfoLabel extends UILabel{
 		this.addMouseListener(userInfoAdapter);
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setText(userName);
-		setUserName(userName);
+
+		LoginWebBridge loginWebBridge = new LoginWebBridge();
+		loginWebBridge.setUserName(userName, UserInfoLabel.this);
+
 		LoginCheckContext.addLoginCheckListener(new LoginCheckListener() {
 			@Override
 			public void loginChecked() {
@@ -187,7 +190,6 @@ public class UserInfoLabel extends UILabel{
 		if(StringUtils.isEmpty(this.userName)){
 			updateMessageCount();
 		}
-
 		//往designerenvmanger里写一下
 		DesignerEnvManager.getEnvManager().setBBSName(userName);
 		this.userName = userName;
@@ -216,7 +218,6 @@ public class UserInfoLabel extends UILabel{
 						} catch (Exception e) {
 						}
 					}
-
 					sleep(CHECK_MESSAGE_TIME);
 				}
 			}

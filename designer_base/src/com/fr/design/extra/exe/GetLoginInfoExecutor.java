@@ -27,9 +27,10 @@ public class GetLoginInfoExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         String username = DesignerEnvManager.getEnvManager().getBBSName();
-                        if (StringUtils.isEmpty(username)) {
+                        String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
+                        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
                         }else {
-                            result = username;
+                            result = inShowUsername;
                         }
                     }
                 }
