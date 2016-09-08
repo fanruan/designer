@@ -1,21 +1,38 @@
 package com.fr.design.extra;
 
+import com.fr.base.FRContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.LabelBuilder;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.HBoxBuilder;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
+import javafx.stage.*;
+import javafx.util.Callback;
 import netscape.javascript.JSObject;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by zhaohehe on 16/7/28.
@@ -23,6 +40,17 @@ import javax.swing.*;
 public class QQLoginWebPane extends JFXPanel {
 
     private WebEngine webEngine;
+
+    private static JSObject window;
+
+    private static int DEFAULT_PRIMARYSTAGE_WIDTH = 100;
+    private static int DEFAULT_PRIMARYSTAGE_HEIGHT = 100;
+
+    private static int DEFAULT_CONFIRM_WIDTH = 450;
+    private static int DEFAULT_CONFIRM_HEIGHT = 160;
+    private static int DEFAULT_OFFEST = 20;
+
+    class Delta { double x, y; }
 
     public QQLoginWebPane(final String installHome) {
         Platform.setImplicitExit(false);
@@ -32,9 +60,33 @@ public class QQLoginWebPane extends JFXPanel {
                 BorderPane root = new BorderPane();
                 Scene scene = new Scene(root);
                 QQLoginWebPane.this.setScene(scene);
-                WebView webView = new WebView();
+                final WebView webView = new WebView();
                 webEngine = webView.getEngine();
                 webEngine.load("file:///" + installHome + "/scripts/qqLogin/web/qqLogin.html");
+
+                final Stage primaryStage = new Stage();
+
+                HBox layout = new HBox();
+                try {
+                    primaryStage.initStyle(StageStyle.TRANSPARENT);
+                    primaryStage.setScene(new Scene(layout));
+                    webView.getScene().getStylesheets().add(getClass().getResource("modal-dialog.css").toExternalForm());
+                    primaryStage.initStyle(StageStyle.UTILITY);
+                    primaryStage.setScene(new Scene(new Group(), DEFAULT_PRIMARYSTAGE_WIDTH, DEFAULT_PRIMARYSTAGE_HEIGHT));
+                    primaryStage.setX(0);
+                    primaryStage.setY(Screen.getPrimary().getBounds().getHeight() + DEFAULT_PRIMARYSTAGE_HEIGHT);
+                    primaryStage.show();
+                }catch (Exception e) {
+                    FRContext.getLogger().info(e.getMessage());
+                }
+
+                webView.getEngine().setConfirmHandler(new Callback<String, Boolean>() {
+                    @Override public Boolean call(String msg) {
+                        Boolean confirmed = confirm(primaryStage, msg, installHome, webView);
+                        return confirmed;
+                    }
+                });
+
                 webEngine.locationProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, final String oldValue, String newValue) {
@@ -52,8 +104,12 @@ public class QQLoginWebPane extends JFXPanel {
                         showAlert(event.getData());
                     }
                 });
-                JSObject obj = (JSObject) webEngine.executeScript("window");
-                obj.setMember("QQLoginHelper", QQLoginWebBridge.getHelper(webEngine));
+                webEngine.getLoadWorker().stateProperty().addListener((ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) -> {
+                    if (newValue == Worker.State.SUCCEEDED) {
+                        window = (JSObject) webEngine.executeScript("window");
+                        window.setMember("QQLoginHelper", QQLoginWebBridge.getHelper(webEngine));
+                    }
+                });
                 webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }
@@ -83,5 +139,73 @@ public class QQLoginWebPane extends JFXPanel {
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
+    }
+
+    private Boolean confirm(final Stage parent, String msg, final String installHome,final WebView webView) {
+        final BooleanProperty confirmationResult = new SimpleBooleanProperty();
+        // initialize the confirmation dialog
+        final Stage dialog = new Stage(StageStyle.UTILITY);
+        dialog.setTitle(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
+        dialog.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - DEFAULT_CONFIRM_WIDTH / 2 + DEFAULT_OFFEST);
+        dialog.setY(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 + DEFAULT_OFFEST);
+        dialog.setHeight(DEFAULT_CONFIRM_HEIGHT);
+        dialog.setWidth(DEFAULT_CONFIRM_WIDTH);
+        dialog.setIconified(false);
+        dialog.setAlwaysOnTop(true);
+        dialog.initOwner(parent);
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.setScene(
+                new Scene(
+                        HBoxBuilder.create().styleClass("modal-dialog").children(
+                                LabelBuilder.create().text(msg).build(),
+                                ButtonBuilder.create().text(Inter.getLocText("")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                    @Override public void handle(ActionEvent actionEvent) {
+                                        // take action and close the dialog.
+                                        confirmationResult.set(true);
+                                        webView.getEngine().reload();
+                                        dialog.close();
+                                    }
+                                }).build(),
+                                ButtonBuilder.create().text(Inter.getLocText("FR-Engine_Cancel")).cancelButton(true).onAction(new EventHandler<ActionEvent>() {
+                                    @Override public void handle(ActionEvent actionEvent) {
+                                        // abort action and close the dialog.
+                                        confirmationResult.set(false);
+                                        dialog.close();
+                                    }
+                                }).build()
+                        ).build()
+                        , Color.TRANSPARENT
+                )
+        );
+        // allow the dialog to be dragged around.
+        final Node root = dialog.getScene().getRoot();
+        final Delta dragDelta = new Delta();
+
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                // record a delta distance for the drag and drop operation.
+                dragDelta.x = dialog.getX() - mouseEvent.getScreenX();
+                dragDelta.y = dialog.getY() - mouseEvent.getScreenY();
+            }
+        });
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                dialog.setX(mouseEvent.getScreenX() + dragDelta.x);
+                dialog.setY(mouseEvent.getScreenY() + dragDelta.y);
+            }
+        });
+        // style and show the dialog.
+        dialog.getScene().getStylesheets().add(getClass().getResource("modal-dialog.css").toExternalForm());
+
+        dialog.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent event){
+                event.consume();
+                dialog.close();
+            }
+        });
+
+        dialog.showAndWait();
+        return confirmationResult.get();
     }
 }
