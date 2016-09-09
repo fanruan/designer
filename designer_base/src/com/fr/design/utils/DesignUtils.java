@@ -52,7 +52,7 @@ public class DesignUtils {
     public static boolean isStarted() {
         try {
             new Socket("localhost", port);
-            /*return true;*/
+            return true;
         } catch (Exception exp) {
 
         }
