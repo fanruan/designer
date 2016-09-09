@@ -2086,6 +2086,11 @@ public class RemoteEnv implements Env {
     }
 
     @Override
+    public void pluginServiceStart(PluginServiceCreator service) throws Exception {
+
+    }
+
+    @Override
     public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
 
     }
