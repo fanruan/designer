@@ -6,11 +6,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import com.fr.base.Base64;
+import com.fr.base.FRContext;
 
 /**
  * Created by lp on 2016/9/9.
  */
 public abstract class PHPFunctions {
+
     protected String urlencode(String value){
         return URLEncoder.encode(value);
     }
@@ -20,8 +22,8 @@ public abstract class PHPFunctions {
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            FRContext.getLogger().info(e.getMessage());
+            return "";
         }
         return byte2hex(md.digest(input.getBytes()));
     }
@@ -34,7 +36,8 @@ public abstract class PHPFunctions {
         try {
             return new String(Base64.decode(input));
         } catch (Exception e) {
-            return e.getMessage();
+            FRContext.getLogger().info(e.getMessage());
+            return "";
         }
     }
 
@@ -42,7 +45,8 @@ public abstract class PHPFunctions {
         try {
             return new String(Base64.encode(input.getBytes("iso-8859-1")));
         } catch (Exception e) {
-            return e.getMessage();
+            FRContext.getLogger().info(e.getMessage());
+            return "";
         }
     }
 
@@ -64,7 +68,7 @@ public abstract class PHPFunctions {
     }
 
     protected String substr(String input,int begin){
-        if(begin>0){
+        if(begin > 0){
             return input.substring(begin);
         }else{
             return input.substring(input.length()+ begin);
@@ -102,8 +106,8 @@ public abstract class PHPFunctions {
         try {
             return URLEncoder.encode(value,code);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            FRContext.getLogger().info(e.getMessage());
         }
-        return null;
+        return "";
     }
 }

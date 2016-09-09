@@ -1,5 +1,6 @@
 package com.fr.design.extra.ucenter;
 
+import com.fr.base.FRContext;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -14,7 +15,9 @@ import java.util.LinkedList;
  * Created by lp on 2016/9/9.
  */
 public class XMLHelper {
+
     public static LinkedList<String> uc_unserialize(String input){
+
         LinkedList<String> result = new LinkedList<String>();
         DOMParser parser = new DOMParser();
         try {
@@ -27,9 +30,9 @@ public class XMLHelper {
                     result.add(nl.item(i).getTextContent());
             }
         } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FRContext.getLogger().info(e.getMessage());
+        } catch (IOException e1) {
+            FRContext.getLogger().info(e1.getLocalizedMessage());
         }
         return result;
     }

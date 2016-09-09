@@ -133,8 +133,9 @@ public class LoginWebBridge {
             public void run() {
                 sleep(CHECK_MESSAGE_TIME);
                 while(StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
-                    HashMap<String, String> para = new HashMap<String, String>();
-                    para.put("username", encode(encode(userName)));
+                    HashMap<String, String> para = new HashMap<>();
+                    int uid = DesignerEnvManager.getEnvManager().getBbsUid();
+                    para.put("uid", String.valueOf(uid));
                     HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
                     getMessage.asGet();
                     if(getMessage.isServerAlive()){
