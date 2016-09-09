@@ -31,13 +31,7 @@ public abstract class PluginService implements PluginServiceCreator {
      * @return
      */
     @Override
-    public String fetchServiceData(String req) {
-        try {
-            //设置请求数据,这个地方可能涉及到多线程同时到达，拿错请求和回应的问题
-            return FRContext.getCurrentEnv().pluginServiceAction(this, req);
-            //返回
-        } catch (Exception e) {
-            return null;
-        }
+    public String fetchServiceData(String req) throws Exception {
+        return FRContext.getCurrentEnv().pluginServiceAction(this, req);
     }
 }
