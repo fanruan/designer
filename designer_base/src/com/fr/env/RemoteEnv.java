@@ -2085,9 +2085,12 @@ public class RemoteEnv implements Env {
         return service.remoteServiceAction(req);
     }
 
+    /**
+     * 远程不启动，使用虚拟服务
+     * @param service
+     */
     @Override
-    public boolean pluginServiceStart(PluginServiceCreator service){
-        return false;
+    public void pluginServiceStart(PluginServiceCreator service){
     }
 
     @Override
