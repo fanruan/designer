@@ -2086,8 +2086,8 @@ public class RemoteEnv implements Env {
     }
 
     @Override
-    public void pluginServiceStart(PluginServiceCreator service) throws Exception {
-
+    public boolean pluginServiceStart(PluginServiceCreator service){
+        return false;
     }
 
     @Override
