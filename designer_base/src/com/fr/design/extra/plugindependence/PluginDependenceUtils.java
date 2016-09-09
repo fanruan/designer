@@ -1,6 +1,5 @@
 package com.fr.design.extra.plugindependence;
 
-import com.fr.plugin.dependence.PluginDependenceType;
 
 /**
  * Created by hufan on 2016/8/31.
