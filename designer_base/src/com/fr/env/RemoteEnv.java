@@ -31,6 +31,7 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
+import com.fr.plugin.dependence.PluginServiceCreator;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -2080,6 +2081,25 @@ public class RemoteEnv implements Env {
     }
 
     @Override
-    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
+    public String pluginServiceAction(PluginServiceCreator service, String req) throws Exception {
+        return service.remoteServiceAction(req);
     }
+
+    @Override
+    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
+
+    }
+
+    /**
+     * 提供一个可以再插件自定义请求数据的方法
+     * 返回的数据可自行处理
+     * @param para
+     * @return
+     * @throws Exception
+     */
+    public InputStream getDataFormRemote(HashMap<String, String> para) throws Exception {
+        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
+        return execute4InputStream(client);
+    }
+
 }

@@ -206,9 +206,6 @@ public class DownLoadDependenceUI implements ActionListener {
     //如果是服务器环境，则只会安装一份
     private void installPluginDependenceFile(String filePath){
         IOUtils.unzip(new File(filePath), FRContext.getCurrentEnv().getPath() + dependenceDir);
-        if (dependenceType == PluginDependenceType.SERVICE) {
-            IOUtils.unzip(new File(filePath), StableUtils.getInstallHome() + dependenceDir);
-        }
     }
 
     public void actionPerformed(ActionEvent e) {
