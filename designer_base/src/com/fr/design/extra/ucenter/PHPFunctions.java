@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import com.fr.base.Base64;
 
 /**
  * Created by lp on 2016/9/9.
@@ -31,7 +32,7 @@ public abstract class PHPFunctions {
 
     protected String base64_decode(String input){
         try {
-            return new String(Base64.decode(input.toCharArray()),"iso-8859-1");
+            return new String(Base64.decode(input));
         } catch (Exception e) {
             return e.getMessage();
         }
