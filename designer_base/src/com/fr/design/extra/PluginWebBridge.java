@@ -547,6 +547,7 @@ public class PluginWebBridge {
     public void clearUserInfo() {
         DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
         DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+        DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 }
