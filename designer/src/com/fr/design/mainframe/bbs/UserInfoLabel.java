@@ -116,6 +116,7 @@ public class UserInfoLabel extends UILabel{
 	private void clearLoginInformation(){
 		DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
 		DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
 	}
 
 	private void updateInfoPane(){

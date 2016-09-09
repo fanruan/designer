@@ -254,6 +254,7 @@ public class LoginWebBridge {
     public void updateUserInfo(String username,String password) {
         DesignerEnvManager.getEnvManager().setBBSName(username);
         DesignerEnvManager.getEnvManager().setBBSPassword(password);
+        DesignerEnvManager.getEnvManager().setInShowBBsName(username);
         this.userName = username;
     }
 
