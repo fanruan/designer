@@ -8,7 +8,6 @@ import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.plugin.dependence.PluginDependenceType;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
