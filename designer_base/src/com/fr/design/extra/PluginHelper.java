@@ -134,7 +134,7 @@ public class PluginHelper {
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit dependenceUnit = list.get(i);
             if (!dependenceUnit.checkFileEnv()){
-                PluginDependenceUtils.installDependenceOnline(currentID, dependenceUnit.getDependenceID(),dependenceUnit.getDependenceType(), dependenceUnit.getDependenceDir());
+                PluginDependenceUtils.installDependenceOnline(currentID, dependenceUnit.getDependenceID(), dependenceUnit.getDependenceDir());
             }
         }
     }

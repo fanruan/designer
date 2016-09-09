@@ -1,6 +1,5 @@
 package com.fr.design.extra.plugindependence;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.PluginHelper;
@@ -48,7 +47,6 @@ public class DownLoadDependenceUI implements ActionListener {
     private String currentID;
     private String dependenceID;
     private String dependenceDir;
-    private PluginDependenceType dependenceType;
     //安装结果
     private boolean result = false;
     //链接服务器的客户端
@@ -60,11 +58,10 @@ public class DownLoadDependenceUI implements ActionListener {
 
     public DownLoadDependenceUI() {
     }
-    public DownLoadDependenceUI(String currentID, String dependenceID, PluginDependenceType dependenceType, String dependenceDir) {
+    public DownLoadDependenceUI(String currentID, String dependenceID, String dependenceDir) {
         this.currentID = currentID;
         this.dependenceID = dependenceID;
         this.dependenceDir = dependenceDir;
-        this.dependenceType = dependenceType;
         this.totalSize = getFileLength();
         init();
     }

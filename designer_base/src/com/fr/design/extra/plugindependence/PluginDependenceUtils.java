@@ -8,8 +8,8 @@ import com.fr.plugin.dependence.PluginDependenceType;
 
 
 public class PluginDependenceUtils {
-    public static boolean installDependenceOnline(String currentID, String dependenceID, PluginDependenceType dependenceType, String dependenceDir) {
-        DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, dependenceID, dependenceType, dependenceDir);
+    public static boolean installDependenceOnline(String currentID, String dependenceID, String dependenceDir) {
+        DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, dependenceID, dependenceDir);
         return ui.installOnline();
     }
 }
