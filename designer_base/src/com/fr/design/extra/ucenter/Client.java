@@ -24,9 +24,9 @@ public class Client extends PHPFunctions{
     public static String UC_APPID = "4";
     public static String UC_CLIENT_VERSION = "1.0";
     public static String UC_CLIENT_RELEASE = "20090212";
-    public static String UC_ROOT = "";        //note 用户中心客户端的根目�? UC_CLIENTROOT
-    public static String UC_DATADIR = UC_ROOT + "./data/";        //note 用户中心的数据缓存目�?
-    public static String UC_DATAURL = "UC_API" + "/data";            //note 用户中心的数�? URL
+    public static String UC_ROOT = "";
+    public static String UC_DATADIR = UC_ROOT + "./data/";
+    public static String UC_DATAURL = "UC_API" + "/data";
     public static String UC_API_FUNC = UC_CONNECT.equals("mysql") ? "uc_api_mysql" : "uc_api_post";
     public static String[] uc_controls = {};
 
