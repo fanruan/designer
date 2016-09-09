@@ -24,9 +24,9 @@ public class Client extends PHPFunctions{
     public static String UC_APPID = "4";
     public static String UC_CLIENT_VERSION = "1.0";
     public static String UC_CLIENT_RELEASE = "20090212";
-    public static String UC_ROOT = "";        //note ÓÃ»§ÖĞĞÄ¿Í»§¶ËµÄ¸ùÄ¿?? UC_CLIENTROOT
-    public static String UC_DATADIR = UC_ROOT + "./data/";        //note ÓÃ»§ÖĞĞÄµÄÊı¾İ»º´æÄ¿??
-    public static String UC_DATAURL = "UC_API" + "/data";            //note ÓÃ»§ÖĞĞÄµÄÊı?? URL
+    public static String UC_ROOT = "";        //note ç”¨æˆ·ä¸­å¿ƒå®¢æˆ·ç«¯çš„æ ¹ç›®ï¿½? UC_CLIENTROOT
+    public static String UC_DATADIR = UC_ROOT + "./data/";        //note ç”¨æˆ·ä¸­å¿ƒçš„æ•°æ®ç¼“å­˜ç›®ï¿½?
+    public static String UC_DATAURL = "UC_API" + "/data";            //note ç”¨æˆ·ä¸­å¿ƒçš„æ•°ï¿½? URL
     public static String UC_API_FUNC = UC_CONNECT.equals("mysql") ? "uc_api_mysql" : "uc_api_post";
     public static String[] uc_controls = {};
 
@@ -268,7 +268,7 @@ public class Client extends PHPFunctions{
     }
 
     /**
-     * »ñÈ¡µÇÂ¼ĞÅÏ¢
+     * è·å–ç™»å½•ä¿¡æ¯
      * @param $username
      * @param $password
      * @param $isuid
