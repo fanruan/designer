@@ -164,9 +164,13 @@ public class DownLoadDependenceUI implements ActionListener {
         return result;
     }
 
-    private List<String> downloadPluginDependenceFile() throws Exception {
+    /**
+     * 下载和安装不分开是因为，本地如果只安装好了一个依赖，下次就不需要重复下载了
+     * @return
+     * @throws Exception
+     */
+    private void downloadAndInstallPluginDependenceFile() throws Exception {
         totalBytesRead = 0;
-        List<String> pathList = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
             PluginDependenceUnit dependenceUnit = list.get(i);
             httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceUnit.getDependenceID()));
@@ -191,21 +195,23 @@ public class DownLoadDependenceUI implements ActionListener {
                     result = false;
                     throw new PluginDependenceException(Inter.getLocText("FR-Designer-Dependence_Install_Failed"));
                 }
-                pathList.add(temp);
+
+                //安装文件
+                IOUtils.unzip(new File(temp), FRContext.getCurrentEnv().getPath() + dependenceUnit.getDependenceDir());
 
             } else {
                 result = false;
                 throw new PluginDependenceException(Inter.getLocText("FR-Designer-Dependence_Install_Failed"));
             }
         }
-        return pathList;
+        //所有依赖都正常安装下载完毕，则结果为true
+        result = true;
     }
 
     public void installDependenceOnline() {
         try {
-            List<String> filePathList = downloadPluginDependenceFile();
-            //安装文件
-            installPluginDependenceFile(filePathList);
+            //下载并安装文件
+            downloadAndInstallPluginDependenceFile();
         } catch (Exception e) {
             result = false;
             FRContext.getLogger().error(e.getMessage());
