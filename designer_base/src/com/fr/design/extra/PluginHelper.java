@@ -35,6 +35,8 @@ import java.util.concurrent.ExecutionException;
 public class PluginHelper {
     private static final String TEMP_PATH = System.getProperty("user.dir") + "/tmp";
     public static final String DOWNLOAD_PATH = System.getProperty("user.dir") + "/download";
+    //插件依赖的下载位置
+    public static final String DEPENDENCE_DOWNLOAD_PATH = System.getProperty("user.dir") + "/download/dependence";
     public static final String TEMP_FILE = "temp.zip";
 
     /**

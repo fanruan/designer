@@ -166,6 +166,7 @@ public class DownLoadDependenceUI implements ActionListener {
 
     /**
      * 下载和安装不分开是因为，本地如果只安装好了一个依赖，下次就不需要重复下载了
+     * 如果下载依赖后不安装，则后面的插件会把前面的插件覆盖，故而下载好了一个安装一个
      * @return
      * @throws Exception
      */
@@ -176,7 +177,7 @@ public class DownLoadDependenceUI implements ActionListener {
             httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceUnit.getDependenceID()));
             if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream reader = httpClient.getResponseStream();
-                String temp = StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE);
+                String temp = StableUtils.pathJoin(PluginHelper.DEPENDENCE_DOWNLOAD_PATH, PluginHelper.TEMP_FILE);
                 StableUtils.makesureFileExist(new File(temp));
                 FileOutputStream writer = new FileOutputStream(temp);
                 byte[] buffer = new byte[PluginConstants.BYTES_NUM];
