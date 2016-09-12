@@ -32,6 +32,7 @@ import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.dependence.PluginServiceCreator;
+import com.fr.plugin.dependence.PluginServiceManager;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -2081,16 +2082,26 @@ public class RemoteEnv implements Env {
     }
 
     @Override
-    public String pluginServiceAction(PluginServiceCreator service, String req) throws Exception {
-        return service.remoteServiceAction(req);
+    public String pluginServiceAction(String serviceID, String req) throws Exception {
+        PluginServiceCreator service = PluginServiceManager.getService(serviceID);
+        if (service == null){
+            return null;
+        }
+        HashMap<String, String> para = new HashMap<String, String>();
+        para.put("op", "fr_remote_design");
+        para.put("cmd", "design_get_plugin_service_data");
+        para.put("serviceID", service.getServiceID());
+        para.put("req", req);
+        InputStream inputStream = getDataFormRemote(para);
+        return IOUtils.inputStream2String(inputStream);
     }
 
     /**
      * 远程不启动，使用虚拟服务
-     * @param service
+     * @param serviceID
      */
     @Override
-    public void pluginServiceStart(PluginServiceCreator service){
+    public void pluginServiceStart(String serviceID){
     }
 
     @Override
@@ -2105,7 +2116,7 @@ public class RemoteEnv implements Env {
      * @return
      * @throws Exception
      */
-    public InputStream getDataFormRemote(HashMap<String, String> para) throws Exception {
+    private InputStream getDataFormRemote(HashMap<String, String> para) throws Exception {
         HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
         return execute4InputStream(client);
     }
