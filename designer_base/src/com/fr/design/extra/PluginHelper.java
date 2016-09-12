@@ -3,13 +3,14 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.plugindependence.PluginDependenceUtils;
+import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
 import com.fr.plugin.dependence.PluginDependence;
+import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
@@ -21,6 +22,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -33,6 +35,8 @@ import java.util.concurrent.ExecutionException;
 public class PluginHelper {
     private static final String TEMP_PATH = System.getProperty("user.dir") + "/tmp";
     public static final String DOWNLOAD_PATH = System.getProperty("user.dir") + "/download";
+    //插件依赖的下载位置
+    public static final String DEPENDENCE_DOWNLOAD_PATH = System.getProperty("user.dir") + "/download/dependence";
     public static final String TEMP_FILE = "temp.zip";
 
     /**
@@ -124,21 +128,42 @@ public class PluginHelper {
     }
 
     //将所有未配置好的资源文件依赖准备好
-    private static void checkDependenceEnv(Plugin plugin) {
+    private static void checkDependenceEnv(Plugin plugin) throws PluginDependenceException {
         PluginDependence dependence = plugin.getDependence();
         if (dependence == null){
             return;
         }
+
+        List<PluginDependenceUnit> needInstallDependence = new ArrayList<PluginDependenceUnit>();
+
         String currentID = dependence.getCurrentPluginID();
         List<PluginDependenceUnit> list = dependence.getDependPlugins();
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit dependenceUnit = list.get(i);
             if (!dependenceUnit.checkFileEnv()){
-                PluginDependenceUtils.installDependenceOnline(currentID, dependenceUnit.getDependenceID(), dependenceUnit.getFileDir());
+                needInstallDependence.add(dependenceUnit);
             }
         }
+
+        if (needInstallDependence.isEmpty()){
+            return;
+        }
+
+        //安装插件依赖
+        installDependenceOnline(currentID, needInstallDependence);
     }
 
+
+    /**
+     * 构造一个下载UI
+     * @param currentID
+     * @param list
+     * @throws PluginDependenceException
+     */
+    private static void installDependenceOnline(String currentID, List<PluginDependenceUnit> list) throws PluginDependenceException{
+        DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, list);
+        ui.installOnline();
+    }
     /**
      * 从选中的压缩文件中安装插件
      *

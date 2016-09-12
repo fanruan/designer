@@ -31,6 +31,8 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
+import com.fr.plugin.dependence.PluginServiceCreator;
+import com.fr.plugin.dependence.PluginServiceManager;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -2080,6 +2082,27 @@ public class RemoteEnv implements Env {
     }
 
     @Override
+    public String pluginServiceAction(String serviceID, String req) throws Exception {
+        HashMap<String, String> para = new HashMap<String, String>();
+        para.put("op", "fr_remote_design");
+        para.put("cmd", "design_get_plugin_service_data");
+        para.put("serviceID", serviceID);
+        para.put("req", req);
+        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
+        InputStream inputStream = execute4InputStream(client);
+        return IOUtils.inputStream2String(inputStream);
+    }
+
+    /**
+     * 远程不启动，使用虚拟服务
+     * @param serviceID
+     */
+    @Override
+    public void pluginServiceStart(String serviceID){
+    }
+
+    @Override
     public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
+
     }
 }
