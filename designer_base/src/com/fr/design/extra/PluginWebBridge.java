@@ -43,11 +43,6 @@ public class PluginWebBridge {
     private String KEYWORD = "keyword";
     private Map<String, Object> config;
 
-    private static final String LOGININ = "0";
-    private static final String LOGIN_INFO_EMPTY = "-1";
-    private static final String DISCONNECTED = "-2";
-    private static final String LOGININFO_ERROR = "-3";
-
     private UILabel uiLabel;
 
     /**
