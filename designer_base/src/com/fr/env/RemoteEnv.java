@@ -2083,16 +2083,13 @@ public class RemoteEnv implements Env {
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
-        PluginServiceCreator service = PluginServiceManager.getService(serviceID);
-        if (service == null){
-            return null;
-        }
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_plugin_service_data");
-        para.put("serviceID", service.getServiceID());
+        para.put("serviceID", serviceID);
         para.put("req", req);
-        InputStream inputStream = getDataFormRemote(para);
+        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
+        InputStream inputStream = execute4InputStream(client);
         return IOUtils.inputStream2String(inputStream);
     }
 
@@ -2108,17 +2105,4 @@ public class RemoteEnv implements Env {
     public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
 
     }
-
-    /**
-     * 提供一个可以再插件自定义请求数据的方法
-     * 返回的数据可自行处理
-     * @param para
-     * @return
-     * @throws Exception
-     */
-    private InputStream getDataFormRemote(HashMap<String, String> para) throws Exception {
-        HttpClient client = createHttpMethod(para); //jim ：加上user，远程设计点击预览时传递用户角色信息
-        return execute4InputStream(client);
-    }
-
 }

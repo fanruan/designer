@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.plugindependence.PluginDependenceUtils;
+import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
@@ -150,9 +150,20 @@ public class PluginHelper {
         }
 
         //安装插件依赖
-        PluginDependenceUtils.installDependenceOnline(currentID, needInstallDependence);
+        installDependenceOnline(currentID, needInstallDependence);
     }
 
+
+    /**
+     * 构造一个下载UI
+     * @param currentID
+     * @param list
+     * @throws PluginDependenceException
+     */
+    private static void installDependenceOnline(String currentID, List<PluginDependenceUnit> list) throws PluginDependenceException{
+        DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, list);
+        ui.installOnline();
+    }
     /**
      * 从选中的压缩文件中安装插件
      *
