@@ -47,6 +47,8 @@ public class UserInfoLabel extends UILabel{
 	private static final int MIN_MESSAGE_COUNT = 1;
 	private static final int MENU_HEIGHT = 20;
 
+	private static final int DEFAULT_BBS_UID = 0;
+
 	//用户名
 	private String userName;
 	//消息条数
@@ -116,6 +118,8 @@ public class UserInfoLabel extends UILabel{
 	private void clearLoginInformation(){
 		DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
 		DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setBbsUid(DEFAULT_BBS_UID);
 	}
 
 	private void updateInfoPane(){
