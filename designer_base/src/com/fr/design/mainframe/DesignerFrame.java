@@ -115,7 +115,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
 	private int contentWidth = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 	private int contentHeight = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-
+	
 	private WindowAdapter windowAdapter = new WindowAdapter() {
 		public void windowOpened(WindowEvent e) {
 			HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
@@ -166,11 +166,52 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 	protected DesktopCardPane getCenterTemplateCardPane() {
 		return centerTemplateCardPane;
 	}
-
+	
 	/**
-	 * Constructor.
+	 * 生成frame的方法
+	 * @param ad
+	 * @return
 	 */
-	public DesignerFrame(ToolBarMenuDock ad) {
+	public static DesignerFrame getNewInstance(ToolBarMenuDock ad){
+		DesignerFrame frame = new DesignerFrame(ad);
+		frame.initMenuPane(ad);
+		return frame;
+	}
+	
+	/**
+	 * 初始menuPane的方法 方便OEM时修改该组件
+	 * @param ad
+	 */
+	protected void initMenuPane(ToolBarMenuDock ad){
+		menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
+		menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
+		basePane.add(menuPane, BorderLayout.NORTH);
+		this.resetToolkitByPlus(null);
+	}
+	
+	/**
+	 * @param ad
+	 * @return
+	 */
+	protected JPanel initNorthEastPane(final ToolBarMenuDock ad){
+		//hugh: private修改为protected方便oem的时候修改右上的组件构成
+		//顶部日志+登陆按钮
+		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        GeneralContext.addPluginReadListener(new PluginReadListener() {
+            @Override
+            public void success() {
+                TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
+                if (processor == null) {
+                    processor = new DefaultTitlePlace();
+                }
+                processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            }
+        });
+		return northEastPane;
+	}
+	
+	protected DesignerFrame(ToolBarMenuDock ad) {
 		setName(DESIGNER_FRAME_NAME);
 		this.ad = ad;
 		this.initTitleIcon();
@@ -182,9 +223,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		// the content pane
 		basePane.setLayout(new BorderLayout());
 
-		menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
-		menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
+		
 
 		toolbarPane = new JPanel() {
 			public Dimension getPreferredSize() {
@@ -211,7 +250,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		centerPane.add(centerTemplateCardPane = new DesktopCardPane(), BorderLayout.CENTER);
 		centerPane.add(toolbarPane, BorderLayout.NORTH);
 
-		basePane.add(menuPane, BorderLayout.NORTH);
+		
 		basePane.add(centerPane, BorderLayout.CENTER);
         laoyoutWestPane();
 		basePane.add(EastRegionContainerPane.getInstance(), BorderLayout.EAST);
@@ -222,7 +261,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		// 调整Window大小
 		modWindowBounds();
 
-		this.resetToolkitByPlus(null);
+		
 
 		// p:检查所有按钮的可见性和是否可以编辑性.
 		checkToolbarMenuEnable();
@@ -255,22 +294,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 			FRContext.getLogger().error(e.getMessage(), e);
 			this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
 		}
-	}
-	
-	private JPanel initNorthEastPane(final ToolBarMenuDock ad){
-		//顶部日志+登陆按钮
-		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
-            @Override
-            public void success() {
-                TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
-                if (processor == null) {
-                    processor = new DefaultTitlePlace();
-                }
-                processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
-            }
-        });
-		return northEastPane;
 	}
 
 	private void addWindowListeners(ArrayList<WindowListener> listeners){
