@@ -171,7 +171,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 	 * 初始menuPane的方法 方便OEM时修改该组件
 	 * @param ad
 	 */
-	public void initMenuPane(){
+	protected void initMenuPane(){
 		menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
 		menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
@@ -207,7 +207,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		this.setTitle();// james:因为有默认的了
 		// set this to context.
 		DesignerContext.setDesignerFrame(this);
-
+		
 		// the content pane
 		basePane.setLayout(new BorderLayout());
 		toolbarPane = new JPanel() {
@@ -267,6 +267,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDropTarget(new DropTarget(this, DnDConstants.ACTION_MOVE, new FileDropTargetListener(), true));
 		closeMode = UIConstants.CLOSE_OF_AUTHORITY;
+		initMenuPane();
 	}
 
 	public void initTitleIcon() {
