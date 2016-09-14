@@ -14,6 +14,7 @@ import java.util.Date;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.extra.LoginWebBridge;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
 import com.fr.general.FRLogger;
@@ -33,6 +34,9 @@ public class UserInfoPane extends BasicPane{
 	private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
 	private static final int WIDTH = 104;
 	private static final int HEIGHT = 24;
+
+	//登录成功
+	private static final String LOGININ = "0";
 	
 	// 登录框弹出间隔时间
 	private static final int LOGIN_DIFF_DAY = 7;
@@ -74,10 +78,11 @@ public class UserInfoPane extends BasicPane{
 			public void run() {
 				String username = DesignerEnvManager.getEnvManager().getBBSName();
 				String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-				if(!BBSLoginDialog.login(username, password)){
-					markUnSignIn();
-				}else{
+				String loginResult = LoginWebBridge.getHelper().login(username, password);
+				if (loginResult.equals(LOGININ)) {
 					markSignIn(username);
+				}else {
+					markUnSignIn();
 				}
 			}
 		});
