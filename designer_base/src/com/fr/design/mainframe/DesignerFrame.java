@@ -168,21 +168,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 	}
 	
 	/**
-	 * 生成frame的方法
-	 * @param ad
-	 * @return
-	 */
-	public static DesignerFrame getNewInstance(ToolBarMenuDock ad){
-		DesignerFrame frame = new DesignerFrame(ad);
-		frame.initMenuPane(ad);
-		return frame;
-	}
-	
-	/**
 	 * 初始menuPane的方法 方便OEM时修改该组件
 	 * @param ad
 	 */
-	protected void initMenuPane(ToolBarMenuDock ad){
+	public void initMenuPane(){
 		menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		menuPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
 		menuPane.add(initNorthEastPane(ad), BorderLayout.EAST);
@@ -211,20 +200,16 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		return northEastPane;
 	}
 	
-	protected DesignerFrame(ToolBarMenuDock ad) {
+	public DesignerFrame(ToolBarMenuDock ad) {
 		setName(DESIGNER_FRAME_NAME);
 		this.ad = ad;
 		this.initTitleIcon();
 		this.setTitle();// james:因为有默认的了
-
 		// set this to context.
 		DesignerContext.setDesignerFrame(this);
 
 		// the content pane
 		basePane.setLayout(new BorderLayout());
-
-		
-
 		toolbarPane = new JPanel() {
 			public Dimension getPreferredSize() {
 				Dimension dim = super.getPreferredSize();
