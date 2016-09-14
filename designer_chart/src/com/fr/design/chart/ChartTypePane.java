@@ -35,8 +35,6 @@ public class ChartTypePane extends ChartCommonWizardPane {
             charts4Icon[i] = new Chart[rowChartsCount];
             for (int j = 0; j < rowChartsCount; j++) {
                 try {
-                    //此时，为图片生成模型数据
-                    rowCharts[j].createSlotImage();
                     //获取图片模型
                     charts4Icon[i][j] = (Chart) rowCharts[j].clone();
                     charts4Icon[i][j].setTitle(null);
