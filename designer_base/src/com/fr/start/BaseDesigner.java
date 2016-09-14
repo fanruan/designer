@@ -148,7 +148,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     protected DesignerFrame createDesignerFrame() {
-        return new DesignerFrame(this);
+    	return new DesignerFrame(this);
     }
 
     protected int getStartPort() {
