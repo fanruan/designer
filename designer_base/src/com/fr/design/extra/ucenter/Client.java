@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class Client extends PHPFunctions{
 
-    public static String UC_IP = "211.149.195.54";
+    public static String UC_IP = "";
     public static String UC_API = "";
     public static String UC_CONNECT = "";
     public static String UC_KEY = "Rc85U37411p4zdvcedm8D4t4D3l9Sa42H0kd98Gbd82aA99a61S2Z5LbQ9u430M0";
@@ -87,6 +87,7 @@ public class Client extends PHPFunctions{
         }
         String $postdata = uc_api_requestdata(module, action, str.toString(), "");
         UC_API = SiteCenter.getInstance().acquireUrlByKind("bbs.ucapi");
+        UC_IP = SiteCenter.getInstance().acquireUrlByKind("bbs.ip");
         return uc_fopen2(UC_API + "/index.php", 500000, $postdata, "", true, UC_IP, 20, true);
     }
 
