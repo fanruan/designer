@@ -94,11 +94,23 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             if(rowChart == null) {
                 continue;
             }
+
+            //初始化图表模型图片
+            initChartsDemoImage(rowChart);
+
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
             child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
         }
         return child;
+    }
+
+    private static void initChartsDemoImage(Chart[] rowChart) {
+        int rowChartsCount = rowChart.length;
+        for (int j = 0; j < rowChartsCount; j++) {
+            //此时，为图片生成模型数据
+            rowChart[j].createSlotImage();
+        }
     }
 
     private synchronized static void envChanged() {
