@@ -150,7 +150,6 @@ public class QQLoginWebPane extends JFXPanel {
         final BooleanProperty confirmationResult = new SimpleBooleanProperty();
         // initialize the confirmation dialog
         final Stage dialog = new Stage(StageStyle.UTILITY);
-        dialog.setTitle(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
         dialog.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - DEFAULT_CONFIRM_WIDTH / 2 + DEFAULT_OFFEST);
         dialog.setY(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 + DEFAULT_OFFEST);
         dialog.setHeight(DEFAULT_CONFIRM_HEIGHT);
@@ -162,7 +161,7 @@ public class QQLoginWebPane extends JFXPanel {
                 new Scene(
                         HBoxBuilder.create().styleClass("modal-dialog").children(
                                 LabelBuilder.create().text(msg).build(),
-                                ButtonBuilder.create().text(Inter.getLocText("")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
+                                ButtonBuilder.create().text(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account")).defaultButton(true).onAction(new EventHandler<ActionEvent>() {
                                     @Override public void handle(ActionEvent actionEvent) {
                                         // take action and close the dialog.
                                         confirmationResult.set(true);
