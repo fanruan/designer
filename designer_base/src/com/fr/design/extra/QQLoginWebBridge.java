@@ -106,10 +106,13 @@ public class QQLoginWebBridge {
         String status = jo.get("status").toString();
         if (status.equals(LOGINSUCCESS)) {
             String username = jo.get("username").toString();
+            int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
             closeQQWindow();
             closeParentWindow();
             pluginuiLabel.setText(username);
             DesignerEnvManager.getEnvManager().setBBSName(username);
+            DesignerEnvManager.getEnvManager().setBbsUid(uid);
+            DesignerEnvManager.getEnvManager().setInShowBBsName(username);
         }else if (status.equals(LOGINFAILED)){
             //账号没有QQ授权
             closeQQWindow();

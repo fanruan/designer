@@ -3,9 +3,10 @@ package com.fr.design.extra;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.ucenter.Client;
+import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
@@ -14,12 +15,12 @@ import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
 
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class LoginWebBridge {
 
@@ -29,18 +30,22 @@ public class LoginWebBridge {
     private static final String SUCCESS_MESSAGE_STATUS = "ok";
     //数据通讯失败
     private static final String FAILED_MESSAGE_STATUS = "error";
-
     //消息条数
     private int messageCount;
-
     //最低消息的条数
     private static final int MIN_MESSAGE_COUNT = 0;
-
-    private static final String LOGIN_SUCCESS_FLAG = "http://bbs.finereport.com";
+    //登录成功
     private static final String LOGININ = "0";
-    private static final String LOGIN_INFO_EMPTY = "-1";
-    private static final String DISCONNECTED = "-2";
-    private static final String LOGININFO_ERROR = "-3";
+    //用户名不存在
+    private static final String USERNAME_NOT_EXSIT = "-1";
+    //密码错误
+    private static final String PASSWORD_ERROR = "-2";
+    //未知错误
+    private static final String UNKNOWN_ERROR = "-3";
+    //网络连接失败
+    private static final String NET_FAILED = "-4";
+    //用户名，密码为空
+    private static final String LOGIN_INFO_EMPTY = "-5";
     private static final int TIME_OUT = 10000;
 
     private static com.fr.design.extra.LoginWebBridge helper;
@@ -52,6 +57,10 @@ public class LoginWebBridge {
         return messageCount;
     }
 
+    /**
+     * 测试论坛网络连接
+     * @return
+     */
     private boolean testConnection() {
         HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
@@ -94,6 +103,11 @@ public class LoginWebBridge {
         setUserName(username, uiLabel);
     }
 
+    /**
+     * 设置显示的用户名
+     * @param userName 登录用户名
+     * @param label label显示
+     */
     public void setUserName(String userName, UILabel label) {
         if (uiLabel == null) {
             this.uiLabel = label;
@@ -101,27 +115,27 @@ public class LoginWebBridge {
         if(StringUtils.isEmpty(userName)){
             return;
         }
-
         if(!StringUtils.isEmpty(this.userName)){
             updateMessageCount();
         }
-        //往designerenvmanger里写一下
         DesignerEnvManager.getEnvManager().setBBSName(userName);
         this.userName = userName;
     }
 
+    /**
+     * 定时取后台论坛消息
+     */
     private void updateMessageCount(){
         //启动获取消息更新的线程
         //登陆状态, 根据存起来的用户名密码, 每1分钟发起一次请求, 更新消息条数.
         Thread updateMessageThread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 sleep(CHECK_MESSAGE_TIME);
-                //从env中获取username, 因为如果注销的话, env的里username会被清空.
                 while(StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
-                    HashMap<String, String> para = new HashMap<String, String>();
-                    para.put("username", encode(encode(userName)));
+                    HashMap<String, String> para = new HashMap<>();
+                    int uid = DesignerEnvManager.getEnvManager().getBbsUid();
+                    para.put("uid", String.valueOf(uid));
                     HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
                     getMessage.asGet();
                     if(getMessage.isServerAlive()){
@@ -145,6 +159,10 @@ public class LoginWebBridge {
         updateMessageThread.start();
     }
 
+    /**
+     * 设置获取的消息长度，并设置显示
+     * @param count
+     */
     public void setMessageCount(int count) {
         if (count == MIN_MESSAGE_COUNT) {
             uiLabel.setText(DesignerEnvManager.getEnvManager().getBBSName());
@@ -199,45 +217,47 @@ public class LoginWebBridge {
     }
 
     /**
-     * 登录操作的回调
-     * @param username
-     * @param password
-     * @return
+     * 设计器端的用户登录
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录信息标志
      */
     public String defaultLogin(String username, String password) {
-        if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
-            return LOGIN_INFO_EMPTY;
-        }
-        if (!testConnection()) {
-            return DISCONNECTED;
-        }
-        if (login(username, password)) {
-            updateUserInfo(username, password);
-            loginSuccess(username);
-            setUserName(username, uiLabel);
-            return LOGININ;
-        }else {
-            return LOGININFO_ERROR;
-        }
+        return login(username, password, uiLabel);
     }
 
-    /*
-    插件管理那边的登录
+    /**
+     * 插件管理的用户登录部分
+     * @param username 用户名
+     * @param password 密码
+     * @param uiLabel 设计器端的label
+     * @return 登录信息标志
      */
     public String pluginManageLogin(String username, String password, UILabel uiLabel) {
+        return login(username, password, uiLabel);
+    }
+
+    /**
+     * 登录操作
+     * @param username 用户名
+     * @param password 密码
+     * @param uiLabel 两边的label显示
+     * @return 登录信息标志
+     */
+    private String login(String username, String password, UILabel uiLabel) {
         if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
             return LOGIN_INFO_EMPTY;
         }
         if (!testConnection()) {
-            return DISCONNECTED;
+            return NET_FAILED;
         }
-        if (login(username, password)) {
+        String loginResult = login(username, password);
+        if (loginResult.equals(LOGININ)) {
             updateUserInfo(username, password);
-            uiLabel.setText(username);
-            return LOGININ;
-        }else {
-            return LOGININFO_ERROR;
+            loginSuccess(username, uiLabel);
+            setUserName(username, uiLabel);
         }
+        return loginResult;
     }
 
     /**
@@ -251,9 +271,15 @@ public class LoginWebBridge {
         }
     }
 
+    /**
+     * 更新后台的用户信息
+     * @param username 用户名
+     * @param password 密码
+     */
     public void updateUserInfo(String username,String password) {
         DesignerEnvManager.getEnvManager().setBBSName(username);
         DesignerEnvManager.getEnvManager().setBBSPassword(password);
+        DesignerEnvManager.getEnvManager().setInShowBBsName(username);
         this.userName = username;
     }
 
@@ -261,7 +287,7 @@ public class LoginWebBridge {
      * 关闭窗口并且重新赋值
      * @param username
      */
-    public void loginSuccess(String username) {
+    public void loginSuccess(String username, UILabel uiLabel) {
         closeWindow();
         uiLabel.setText(username);
     }
@@ -284,28 +310,30 @@ public class LoginWebBridge {
         });
     }
 
-    public boolean login(String username, String password) {
-        if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
-            try {
-                username = URLEncoder.encode(username, EncodeConstants.ENCODING_GBK);
-                password = URLEncoder.encode(password, EncodeConstants.ENCODING_GBK);
-            } catch (UnsupportedEncodingException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
-            String url = SiteCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
-            HttpClient client = new HttpClient(url);
-            client.setTimeout(TIME_OUT);
-            if (client.getResponseCodeNoException() == HttpURLConnection.HTTP_OK) {
-                try {
-                    String res = client.getResponseText(EncodeConstants.ENCODING_GBK);
-                    if (res.contains(LOGIN_SUCCESS_FLAG)) {
-                        return true;
-                    }
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+    public String login(String username, String password) {
+        try {
+            Client uc = new Client();
+            String result = uc.uc_user_login(username, password);
+            result = new String(result.getBytes("iso-8859-1"), "gbk");
+            LinkedList<String> list = XMLHelper.uc_unserialize(result);
+            if (list.size() > 0) {
+                int $uid = Integer.parseInt(list.get(0));
+                if ($uid > 0) {
+                    DesignerEnvManager.getEnvManager().setBbsUid($uid);
+                    return LOGININ;//登录成功，0
+                } else if ($uid == -1) {
+                    return USERNAME_NOT_EXSIT;//用户名不存在，-1
+                } else if ($uid == -2) {
+                    return PASSWORD_ERROR;//密码错误，-2
+                } else {
+                    return UNKNOWN_ERROR;//未知错误，-3
                 }
+            }else {
+                return NET_FAILED;
             }
+        }catch (Exception e) {
+            FRContext.getLogger().info(e.getMessage());
         }
-        return false;
+        return UNKNOWN_ERROR;
     }
 }

@@ -30,7 +30,7 @@ public class GetLoginInfoExecutor implements Executor {
                         String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
                         if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
                         }else {
-                            result = inShowUsername;
+                            result = StringUtils.isEmpty(inShowUsername) ? username : inShowUsername;
                         }
                     }
                 }
