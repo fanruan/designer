@@ -34,7 +34,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 	private UICheckBox isShowAsImageBox;
 	private UICheckBox isAutoScaleBox;
 	private UICheckBox isTDHeavyBox;
-	private UICheckBox isTDHeavyUseLightBox;
 	private EventPane eventPane;
 	
 	private UILabel showLocationLabel = new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":");
@@ -60,8 +59,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		north.add(GUICoreUtils.createFlowPane(isAutoScaleBox, FlowLayout.LEFT));
 		isTDHeavyBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
 		north.add(GUICoreUtils.createFlowPane(isTDHeavyBox, FlowLayout.LEFT));
-		isTDHeavyUseLightBox = new UICheckBox(Inter.getLocText("FR-Designer_USE_TD_HEAVY_LIGHT"), false);
-		north.add(GUICoreUtils.createFlowPane(isTDHeavyUseLightBox, FlowLayout.LEFT));
 
 		editToolBarButton.addActionListener(editBtnListener);
 		isUseToolBarCheckBox.setSelected(true);
@@ -96,7 +93,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		this.centerRadioButton.setEnabled(isEnabled);
 		this.eventPane.setEnabled(isEnabled);
 		this.isTDHeavyBox.setEnabled(isEnabled);
-		this.isTDHeavyUseLightBox.setEnabled(isEnabled);
 		this.isAutoScaleBox.setEnabled(isEnabled);
 		this.isShowAsImageBox.setEnabled(isEnabled);
 		this.leftRadioButton.setEnabled(isEnabled);
@@ -126,7 +122,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		isShowAsImageBox.setSelected(webPage.isShowAsImage());
 		isAutoScaleBox.setSelected(webPage.isAutoScaleWhenEmbeddedInIframe());
 		isTDHeavyBox.setSelected(webPage.isTDHeavy());
-		isTDHeavyUseLightBox.setSelected(webPage.isLightTDHeavy());
 		if (webPage.isUseToolBar()) {
 			this.toolBarManagers = webPage.getToolBarManagers();
 			this.isUseToolBarCheckBox.setSelected(true);
@@ -161,7 +156,6 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		webPage.setShowAsImage(isShowAsImageBox.isSelected());
 		webPage.setAutoScaleWhenEmbeddedInIframe(isAutoScaleBox.isSelected());
 		webPage.setTDHeavy(isTDHeavyBox.isSelected());
-		webPage.setLightTDHeavy(isTDHeavyUseLightBox.isSelected());
 		return webPage;
 	}
 
