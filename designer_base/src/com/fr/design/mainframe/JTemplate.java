@@ -8,8 +8,8 @@ import com.fr.base.io.IOFile;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.TableDataSourceAction;
-import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
@@ -19,6 +19,7 @@ import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
+import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
@@ -37,9 +38,12 @@ import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.MemFILE;
+import com.fr.form.ui.NoneWidget;
+import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -51,6 +55,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -505,6 +510,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public boolean saveShareFile(){
     	return true;
     }
+    public Widget getSelectElementCase(){
+        return new NoneWidget();
+    }
 
     protected FILEChooserPane getFILEChooserPane(boolean isShowLoc){
         return new FILEChooserPane(true, isShowLoc);
@@ -956,5 +964,19 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     public boolean acceptToolbarItem(Class clazz) {
         return true;
+    }
+
+    /**
+     * 加载插件中的按钮
+     * @return 按钮组
+     */
+    public UIButton[] createExtraButtons() {
+        Set<DesignerFrameUpButtonProvider> providers = ExtraDesignClassManager.getInstance().getArray(DesignerFrameUpButtonProvider.XML_TAG);
+        UIButton[] uiButtons = new UIButton[0];
+        for (DesignerFrameUpButtonProvider provider : providers) {
+            uiButtons = ArrayUtils.addAll(uiButtons, provider.getUpButtons(getMenuState()));
+        }
+
+        return uiButtons;
     }
 }

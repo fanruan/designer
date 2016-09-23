@@ -29,7 +29,6 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 	private UICheckBox isShowAsImageBox;
 	private UICheckBox isAutoScaleBox;
 	private UICheckBox isTDHeavyBox;
-	private UICheckBox isTDHeavyUseLightBox;
 
 	public PageWebSettingPane() {
 		super();
@@ -49,14 +48,13 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		isShowAsImageBox = new UICheckBox(Inter.getLocText("Is_Paint_Page"));
 		isAutoScaleBox = new UICheckBox(Inter.getLocText("IS_Auto_Scale"));
 		isTDHeavyBox = new UICheckBox(Inter.getLocText("IS_TD_HEAVY_EXPORT"), false);
-		isTDHeavyUseLightBox = new UICheckBox(Inter.getLocText("USE_TD_HEAVY_LIGHT"), false);
 		double p = TableLayout.PREFERRED;
 		double[] columnSize = { p,p,p};
 		double[] rowSize = { p, p,p,p };
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
                 new Component[]{new UILabel(Inter.getLocText("PageSetup-Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
-                new Component[]{null, isTDHeavyBox, isTDHeavyUseLightBox}
+                new Component[]{null, isTDHeavyBox, null}
         };
 
         return  TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
@@ -71,7 +69,6 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		isShowAsImageBox.setEnabled(isSelected);
 		isAutoScaleBox.setEnabled(isSelected);
 		isTDHeavyBox.setEnabled(isSelected);
-		isTDHeavyUseLightBox.setEnabled(isSelected);
 	}
 	protected void setDefault(){
 		super.setDefault();
@@ -79,7 +76,6 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		isShowAsImageBox.setSelected(false);
 		isAutoScaleBox.setSelected(false);
 		isTDHeavyBox.setSelected(false);
-		isTDHeavyUseLightBox.setSelected(false);
 	}
 	@Override
 	protected void populateSubWebSettingrBean(WebPage webPage) {
@@ -95,7 +91,6 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		isShowAsImageBox.setSelected(webPage.isShowAsImage());
 		isAutoScaleBox.setSelected(webPage.isAutoScaleWhenEmbeddedInIframe());
 		isTDHeavyBox.setSelected(webPage.isTDHeavy());
-		isTDHeavyUseLightBox.setSelected(webPage.isLightTDHeavy());
 	}
 
 	@Override
@@ -105,7 +100,6 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		webPage.setShowAsImage(isShowAsImageBox.isSelected());
 		webPage.setAutoScaleWhenEmbeddedInIframe(isAutoScaleBox.isSelected());
 		webPage.setTDHeavy(isTDHeavyBox.isSelected());
-		webPage.setLightTDHeavy(isTDHeavyUseLightBox.isSelected());
 		return webPage;
 	}
 

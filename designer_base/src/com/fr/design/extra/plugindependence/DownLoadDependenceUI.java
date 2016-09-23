@@ -20,12 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Created by hufan on 2016/9/5.
  */
@@ -198,7 +196,7 @@ public class DownLoadDependenceUI implements ActionListener {
                 }
 
                 //安装文件
-                IOUtils.unzip(new File(temp), FRContext.getCurrentEnv().getPath() + dependenceUnit.getDependenceDir());
+                IOUtils.unZipFilesGBK(temp, FRContext.getCurrentEnv().getPath() + dependenceUnit.getDependenceDir());
 
             } else {
                 result = false;
@@ -254,14 +252,12 @@ public class DownLoadDependenceUI implements ActionListener {
         int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + Inter.getLocText("FR-Designer-Need") + Inter.getLocText("FR-Designer-Dependence") + Inter.getLocText("FR-Designer-Support") + "," + Inter.getLocText("FR-Designer-Dependence_Need_Install")  + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0) {//下载安装
             if (!connectToServer()) {
-                //JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"), "alert", JOptionPane.ERROR_MESSAGE);
                 throw new PluginDependenceException(Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"));
             }
             //安装依赖环境
             if (install()) {
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Install_Succeed") + "!!");
             } else {
-                //JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Install_Failed") + "!!", "alert", JOptionPane.ERROR_MESSAGE);
                 throw new PluginDependenceException(Inter.getLocText("FR-Designer-Dependence_Install_Failed"));
             }
         }else {//不选择下载，则不安装图标插件

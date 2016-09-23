@@ -254,7 +254,7 @@ public class LoginWebBridge {
         String loginResult = login(username, password);
         if (loginResult.equals(LOGININ)) {
             updateUserInfo(username, password);
-            loginSuccess(username);
+            loginSuccess(username, uiLabel);
             setUserName(username, uiLabel);
         }
         return loginResult;
@@ -287,7 +287,7 @@ public class LoginWebBridge {
      * 关闭窗口并且重新赋值
      * @param username
      */
-    public void loginSuccess(String username) {
+    public void loginSuccess(String username, UILabel uiLabel) {
         closeWindow();
         uiLabel.setText(username);
     }
