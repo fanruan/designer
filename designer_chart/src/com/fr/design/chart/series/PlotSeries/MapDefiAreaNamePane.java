@@ -36,7 +36,6 @@ import com.fr.design.gui.xcombox.ComboBoxUseEditor;
 import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.TextEditor;
 import com.fr.general.Inter;
-import com.fr.third.org.apache.poi.hssf.record.formula.functions.T;
 
 /**
  * 地图, 定义区域名.
@@ -90,7 +89,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		tableDataBox.setPreferredSize(new Dimension(200, 20));
 		northPane.add(tableDataBox);
 
-		columnBox = new FilterComboBox<T>();
+		columnBox = new FilterComboBox();
 		columnBox.setPreferredSize(new Dimension(40, 20));
 		columnBox.addItemListener(columnChange);
 
