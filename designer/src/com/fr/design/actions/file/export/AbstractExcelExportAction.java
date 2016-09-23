@@ -36,7 +36,7 @@ public abstract class AbstractExcelExportAction extends AbstractExportAction {
     	if (hasLayerReport(tpl)) {
     		return "zip";
     	} else {
-    		return ExcelUtils.checkPOIJarExist() ? "xlsx" : "xls";
+    		return ExcelUtils.checkThirdJarSupportPOI() ? "xlsx" : "xls";
     	}
     }
 }
