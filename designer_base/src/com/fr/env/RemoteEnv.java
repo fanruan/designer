@@ -2098,7 +2098,7 @@ public class RemoteEnv implements Env {
      * @param serviceID
      */
     @Override
-    public void pluginServiceStart(String serviceID){
+    public void pluginServiceStart(String serviceID, String customAttr){
     }
 
     @Override
