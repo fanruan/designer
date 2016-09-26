@@ -40,7 +40,7 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * @author richer
+ *  @author richer
  * @since 6.5.5 创建于2011-6-13
  */
 /*
