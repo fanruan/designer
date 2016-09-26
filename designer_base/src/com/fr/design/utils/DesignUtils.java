@@ -230,7 +230,7 @@ public class DesignUtils {
     
     private static FRFont getCurrentLocaleFont(){
         FRFont guiFRFont;
-        Locale defaultLocale = FRContext.getLocale();
+        Locale defaultLocale = Locale.getDefault();
         
         if (isDisplaySimSun(defaultLocale)) {
             guiFRFont = getNamedFont("SimSun");
