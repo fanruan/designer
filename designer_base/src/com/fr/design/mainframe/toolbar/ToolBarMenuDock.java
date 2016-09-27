@@ -120,7 +120,7 @@ public abstract class ToolBarMenuDock {
     ///////////////////////////////menu below/////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    private MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+    public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -142,7 +142,7 @@ public abstract class ToolBarMenuDock {
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
-    private void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
+    public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
         // 给菜单加插件入口
         for (MenuDef m : menuDefs) {
             switch (m.getAnchor()) {
@@ -171,7 +171,7 @@ public abstract class ToolBarMenuDock {
         return plus.menus4Target();
     }
 
-    private MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
+    public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
@@ -231,15 +231,15 @@ public abstract class ToolBarMenuDock {
      * @return 菜单
      */
     public abstract ShortCut[] createNewFileShortCuts();
-    
+
     /**
-	 * 创建论坛登录面板, chart那边不需要
-	 * 
-	 * @return 面板组件
-	 * 
-	 */
+     * 创建论坛登录面板, chart那边不需要
+     *
+     * @return 面板组件
+     *
+     */
     public Component createBBSLoginPane(){
-    	return new UILabel();
+        return new UILabel();
     }
 
 
@@ -284,7 +284,7 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    protected boolean shouldShowPlugin() {
+    private boolean shouldShowPlugin() {
         return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
     }
 
@@ -302,7 +302,7 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new FeedBackAction());
             shortCuts.add(SeparatorDef.DEFAULT);
             shortCuts.add(SeparatorDef.DEFAULT);
-          //  shortCuts.add(new ForumAction());
+            //  shortCuts.add(new ForumAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
@@ -326,7 +326,6 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
-
     public MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
@@ -336,7 +335,6 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
-
     public MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
@@ -479,29 +477,29 @@ public abstract class ToolBarMenuDock {
          *
          * @return 子菜单
          */
-    	public ShortCut[] shortcut4ExportMenu(){
+        public ShortCut[] shortcut4ExportMenu(){
             return new ShortCut[0];
         }
 
     };
 
     public NewTemplatePane getNewTemplatePane(){
-       return new NewTemplatePane() {
-           @Override
-           public Icon getNew() {
-               return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
-           }
+        return new NewTemplatePane() {
+            @Override
+            public Icon getNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/addicon.png");
+            }
 
-           @Override
-           public Icon getMouseOverNew() {
-               return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-           }
+            @Override
+            public Icon getMouseOverNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
+            }
 
-           @Override
-           public Icon getMousePressNew() {
-               return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
-           }
-       };
+            @Override
+            public Icon getMousePressNew() {
+                return BaseUtils.readIcon("/com/fr/design/images/buttonicon/add_press.png");
+            }
+        };
     }
 
     protected void insertMenu(MenuDef menuDef, String anchor) {
@@ -543,13 +541,13 @@ public abstract class ToolBarMenuDock {
             }
         }
     }
-    
+
     /**
-	 * 设计器退出时, 做的一些操作.
-	 * 
-	 */
+     * 设计器退出时, 做的一些操作.
+     *
+     */
     public void shutDown(){
-    	
+
     }
 
     private interface ShortCutMethodAction{
@@ -560,7 +558,7 @@ public abstract class ToolBarMenuDock {
     private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction{
 
         public ShortCut methodAction(MenuHandler handler){
-           return handler.shortcut();
+            return handler.shortcut();
         }
     }
 
