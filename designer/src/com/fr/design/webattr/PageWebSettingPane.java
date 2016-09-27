@@ -52,10 +52,10 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		double[] columnSize = { p,p,p};
 		double[] rowSize = { p, p,p,p };
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Report_Show_Location") + ":", UILabel.RIGHT),buttonpane,null},
-                new Component[]{new UILabel(Inter.getLocText("PageSetup-Page") + ":", UILabel.RIGHT),isShowAsImageBox,isAutoScaleBox},
-                new Component[]{null,isTDHeavyBox,null}
-        }    ;
+                new Component[]{new UILabel(Inter.getLocText("Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
+                new Component[]{new UILabel(Inter.getLocText("PageSetup-Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
+                new Component[]{null, isTDHeavyBox, null}
+        };
 
         return  TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 	}
