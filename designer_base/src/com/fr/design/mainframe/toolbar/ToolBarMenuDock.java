@@ -120,7 +120,7 @@ public abstract class ToolBarMenuDock {
     ///////////////////////////////menu below/////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+    private MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -142,7 +142,7 @@ public abstract class ToolBarMenuDock {
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
-    public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
+    private void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
         // 给菜单加插件入口
         for (MenuDef m : menuDefs) {
             switch (m.getAnchor()) {
@@ -171,7 +171,7 @@ public abstract class ToolBarMenuDock {
         return plus.menus4Target();
     }
 
-    public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
+    private MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
@@ -284,7 +284,7 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    private boolean shouldShowPlugin() {
+    protected boolean shouldShowPlugin() {
         return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
     }
 
@@ -326,6 +326,7 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
+
     public MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
@@ -335,6 +336,7 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
+
     public MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
