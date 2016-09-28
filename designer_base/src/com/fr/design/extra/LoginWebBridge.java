@@ -267,7 +267,6 @@ public class LoginWebBridge {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
-            uiDialog.dispose();
         }
     }
 
