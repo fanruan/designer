@@ -4,8 +4,8 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.extra.ShopDialog;
+import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
@@ -15,14 +15,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * @author richie
- * @date 2015-03-09
- * @since 8.0
+ * Created by vito on 2016/9/27.
  */
-public class PluginManagerAction extends UpdateAction {
+public class ReuseManagerAction extends UpdateAction {
 
-    public PluginManagerAction() {
-        this.setMenuKeySet(PLUGIN_MANAGER);
+    public ReuseManagerAction() {
+        this.setMenuKeySet(REUSE_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/server/plugin.png"));
@@ -30,21 +28,21 @@ public class PluginManagerAction extends UpdateAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BasicPane managerPane = new WebManagerPaneFactory().createPluginPane();
+        BasicPane managerPane = new WebManagerPaneFactory().createReusePane();
         UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
         PluginWebBridge.getHelper().setDialogHandle(dlg);
         dlg.setVisible(true);
     }
 
-    public static final MenuKeySet PLUGIN_MANAGER = new MenuKeySet() {
+    public static final MenuKeySet REUSE_MANAGER = new MenuKeySet() {
         @Override
         public char getMnemonic() {
-            return 'I';
+            return 'R';
         }
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("FR-Designer-Plugin_Manager");
+            return Inter.getLocText("FR-Designer-Reuse_Manager");
         }
 
         @Override
