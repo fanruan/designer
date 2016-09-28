@@ -42,6 +42,7 @@ public class PluginWebBridge {
     private String ACTION = "action";
     private String KEYWORD = "keyword";
     private Map<String, Object> config;
+    private WebEngine webEngine;
 
     private UILabel uiLabel;
 
@@ -78,8 +79,6 @@ public class PluginWebBridge {
         helper.setEngine(webEngine);
         return helper;
     }
-
-    private WebEngine webEngine;
 
     private PluginWebBridge() {
     }
