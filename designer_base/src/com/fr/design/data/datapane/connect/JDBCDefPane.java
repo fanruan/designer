@@ -43,8 +43,8 @@ public class JDBCDefPane extends JPanel {
 				new DriverURLName("org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:[PATH_TO_DB_FILES]"), new DriverURLName("com.inet.tds.TdsDriver", "jdbc:inetdae7:localhost:1433/"),
 				new DriverURLName("COM.cloudscape.JDBCDriver", "jdbc:cloudscape:/cloudscape/"),
 				new DriverURLName("com.internetcds.jdbc.tds.Driver", "jdbc:freetds:sqlserver://localhost/")});
-        jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:hive://localhost:10000/default"),
-				new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default")});
+        jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
+				new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default")});
 		jdbcMap.put("Oracle", new DriverURLName[]{new DriverURLName("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@localhost:1521:databaseName")});
 		jdbcMap.put("DB2", new DriverURLName[]{new DriverURLName("com.ibm.db2.jcc.DB2Driver", "jdbc:db2://localhost:50000/")});
 		jdbcMap.put("SQL Server", new DriverURLName[]{new DriverURLName("com.microsoft.sqlserver.jdbc.SQLServerDriver", "jdbc:sqlserver://localhost:1433;" + "databaseName=")});
@@ -64,7 +64,7 @@ public class JDBCDefPane extends JPanel {
 	private UITextField userNameTextField;
 	private JPasswordField passwordTextField;
 	// 请不要改动dbtype,只应该最后添加
-	private final String[] dbtype = {"", "Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre","SQLite", "Inceptor", "Others"};
+	private final String[] dbtype = {"", "Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre","SQLite","Inceptor", "Others"};
 
 	// carl:DBCP的一些属性
 	private IntegerEditor DBCP_INITIAL_SIZE = new IntegerEditor();
