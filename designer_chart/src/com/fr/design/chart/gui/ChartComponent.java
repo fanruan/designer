@@ -222,12 +222,9 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     /**
      * 鼠标点击
      * @param event    鼠标事件
+     * 不设置鼠标点击跳转事件
      */
-    public void mouseClicked(MouseEvent event) { 
-    	 int click = event.getClickCount();
-         if (click >= 1 && activeGlyph != null && this.isSupportEdit()) {
-             activeGlyph.goRightPane();
-         }
+    public void mouseClicked(MouseEvent event) {
     }
 
     /**
