@@ -44,7 +44,7 @@ public class JDBCDefPane extends JPanel {
 				new DriverURLName("COM.cloudscape.JDBCDriver", "jdbc:cloudscape:/cloudscape/"),
 				new DriverURLName("com.internetcds.jdbc.tds.Driver", "jdbc:freetds:sqlserver://localhost/")});
         jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
-				new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default")});
+				new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:inceptor://localhost:10000/default")});
 		jdbcMap.put("Oracle", new DriverURLName[]{new DriverURLName("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@localhost:1521:databaseName")});
 		jdbcMap.put("DB2", new DriverURLName[]{new DriverURLName("com.ibm.db2.jcc.DB2Driver", "jdbc:db2://localhost:50000/")});
 		jdbcMap.put("SQL Server", new DriverURLName[]{new DriverURLName("com.microsoft.sqlserver.jdbc.SQLServerDriver", "jdbc:sqlserver://localhost:1433;" + "databaseName=")});
