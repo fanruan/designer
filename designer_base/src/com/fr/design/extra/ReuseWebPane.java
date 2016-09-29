@@ -13,20 +13,19 @@ import netscape.javascript.JSObject;
 import javax.swing.*;
 
 /**
- * Created by richie on 16/3/19.
+ * Created by vito on 2016/9/28.
  */
-public class PluginWebPane extends JFXPanel {
-
+public class ReuseWebPane extends JFXPanel {
     private WebEngine webEngine;
 
-    public PluginWebPane(final String mainJs) {
+    public ReuseWebPane(final String mainJs) {
         Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 BorderPane root = new BorderPane();
                 Scene scene = new Scene(root);
-                PluginWebPane.this.setScene(scene);
+                ReuseWebPane.this.setScene(scene);
                 WebView webView = new WebView();
                 webEngine = webView.getEngine();
                 webEngine.load("file:///" + mainJs);
@@ -37,7 +36,7 @@ public class PluginWebPane extends JFXPanel {
                     }
                 });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
-                obj.setMember("PluginHelper", PluginWebBridge.getHelper(webEngine));
+                obj.setMember("ReuseHelper", ReuseWebBridge.getHelper(webEngine));
                 webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }
@@ -48,7 +47,7 @@ public class PluginWebPane extends JFXPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(PluginWebPane.this, message);
+                JOptionPane.showMessageDialog(ReuseWebPane.this, message);
             }
         });
     }
