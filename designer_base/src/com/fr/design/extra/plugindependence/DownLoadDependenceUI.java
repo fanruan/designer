@@ -265,7 +265,9 @@ public class DownLoadDependenceUI implements ActionListener {
         }
     }
 
-    private String showFileLength() {
-        return totalSize == -1 ? "NAN" : totalSize / Math.pow(10, 6) + "";
+    private String showFileLength(){
+        double len = totalSize / Math.pow(10, 6);
+        String lenStr = String.format("%.2f", len);
+        return totalSize == -1 ? "NAN" : lenStr;
     }
 }
