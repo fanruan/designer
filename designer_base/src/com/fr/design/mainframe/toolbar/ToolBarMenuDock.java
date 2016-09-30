@@ -26,6 +26,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -263,7 +264,7 @@ public abstract class ToolBarMenuDock {
         );
 
         if (!BaseUtils.isAuthorityEditing()) {
-            if (shouldShowPlugin()) {
+            if (shouldShowPlugin() && !(FRContext.getCurrentEnv() instanceof RemoteEnv)) {
                 menuDef.addShortCut(
                         new PluginManagerAction(),
                         new ReuseManagerAction()
