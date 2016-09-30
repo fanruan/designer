@@ -210,7 +210,7 @@ public class LoginWebBridge {
      */
     public void forgetHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
