@@ -112,7 +112,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         new RemoveParaAction()
                 };
             }
-        }, " " + Inter.getLocText(new String[]{"DS-TableData", "DEFAULT", "Parameter"}));
+        }, " " + Inter.getLocText("FR-Designer_TableData-Default-Para"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 
