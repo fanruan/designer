@@ -1,38 +1,31 @@
 package com.fr.design.designer.beans.adapters.component;
 
-import java.awt.AlphaComposite;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.beans.IntrospectionException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
-
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.beans.GroupModel;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.gui.xtable.PropertyGroupModel;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.actions.ChangeNameAction;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XButton;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.form.ui.Button;
-import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.stable.StringUtils;
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.design.gui.xtable.PropertyGroupModel;
+import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.Button;
+import com.fr.form.ui.Widget;
+import com.fr.stable.StringUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.beans.IntrospectionException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class CompositeComponentAdapter implements ComponentAdapter {
 
@@ -81,7 +74,8 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		}
         //底层布局或者是自适应布局都不能删除
         boolean isRootComponent = ComponentUtils.isRootComponent(xCreator) || designer.isRoot(xCreator);
-		changeVarNameAction.setEnabled(!isRootComponent);
+		//bug103155 有的布局的重命名(tab布局)涉及到其他非子节点的属性修改,支持起来比较麻烦,先屏蔽了控件树面板的修改,强制使用属性面板修改
+		changeVarNameAction.setEnabled(!isRootComponent && xCreator.supportRenameInWidgetTree());
 		popupMenu.add(changeVarNameAction);
 
 		Action[] actions = designer.getActions();

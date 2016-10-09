@@ -53,6 +53,8 @@ public class XWFitLayout extends XLayoutContainer {
 		super(widget, initSize);
 
 		initPercent();
+
+		widget.setResolutionScaling(containerPercent);
 	}
 	
 	//根据屏幕大小来确定显示的百分比, 1440*900默认100%, 1366*768缩放90%

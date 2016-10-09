@@ -122,7 +122,10 @@ public abstract class FunctionConstants {
 			String[] arr = filePath.split("!/");
 			String jarPath = arr[0].substring(6); // alex:substring(6)去掉前面的file:/这六个字符
 			String classPath = arr[1];
-            if (OperatingSystem.isMacOS()){
+			if(classPath.endsWith("/")){
+				classPath = classPath.substring(0, classPath.length() - 1);
+			}
+            if (!OperatingSystem.isWindows()){
                 //windows里substring后是d:\123\456, mac下substring后是Application/123/456
                 jarPath = StringUtils.perfectStart(jarPath, "/");
             }

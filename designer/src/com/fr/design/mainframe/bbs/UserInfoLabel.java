@@ -47,6 +47,8 @@ public class UserInfoLabel extends UILabel{
 	private static final int MIN_MESSAGE_COUNT = 1;
 	private static final int MENU_HEIGHT = 20;
 
+	private static final int DEFAULT_BBS_UID = 0;
+
 	//用户名
 	private String userName;
 	//消息条数
@@ -54,7 +56,7 @@ public class UserInfoLabel extends UILabel{
 	
 	private UserInfoPane userInfoPane;
 	private BBSLoginDialog bbsLoginDialog;
-	
+
 	public UserInfoPane getUserInfoPane() {
 		return userInfoPane;
 	}
@@ -78,7 +80,10 @@ public class UserInfoLabel extends UILabel{
 		this.addMouseListener(userInfoAdapter);
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setText(userName);
-		setUserName(userName);
+
+		LoginWebBridge loginWebBridge = new LoginWebBridge();
+		loginWebBridge.setUserName(userName, UserInfoLabel.this);
+
 		LoginCheckContext.addLoginCheckListener(new LoginCheckListener() {
 			@Override
 			public void loginChecked() {
@@ -92,6 +97,9 @@ public class UserInfoLabel extends UILabel{
 			}
 		});
 
+		PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+		QQLoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
+
 		UserLoginContext.addLoginContextListener(new LoginContextListener() {
 			@Override
 			public void showLoginContext() {
@@ -101,9 +109,21 @@ public class UserInfoLabel extends UILabel{
 				LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
 				QQLoginWebBridge.getHelper().setLoginlabel();
 				qqdlg.setVisible(true);
+				clearLoginInformation();
+				updateInfoPane();
 			}
 		});
+	}
 
+	private void clearLoginInformation(){
+		DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
+		DesignerEnvManager.getEnvManager().setBbsUid(DEFAULT_BBS_UID);
+	}
+
+	private void updateInfoPane(){
+		userInfoPane.markUnSignIn();
 	}
 
 	/**
@@ -117,9 +137,7 @@ public class UserInfoLabel extends UILabel{
 				if(!FRContext.isChineseEnv()){
 					return;
 				}
-				
 				String lastBBSNewsTime = DesignerEnvManager.getEnvManager().getLastShowBBSNewsTime();
-
 				try {
                     String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                     if (ComparatorUtils.equals(lastBBSNewsTime, today)) {
@@ -129,25 +147,20 @@ public class UserInfoLabel extends UILabel{
 				} catch (InterruptedException e) {
 					FRContext.getLogger().error(e.getMessage());
 				}
-
                 HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()){
                     return;
                 }
-
                 String res = hc.getResponseText();
                 if (res.indexOf(BBSConstants.UPDATE_KEY) == -1){
                     return;
                 }
-
 				try {
 					BBSDialog bbsLabel = new BBSDialog(DesignerContext.getDesignerFrame());
 					bbsLabel.showWindow(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
 					DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
 				} catch (Throwable e) {
-
 				}
-
 			}
 		});
 		showBBSThread.start();
@@ -181,7 +194,6 @@ public class UserInfoLabel extends UILabel{
 		if(StringUtils.isEmpty(this.userName)){
 			updateMessageCount();
 		}
-
 		//往designerenvmanger里写一下
 		DesignerEnvManager.getEnvManager().setBBSName(userName);
 		this.userName = userName;
@@ -210,7 +222,6 @@ public class UserInfoLabel extends UILabel{
 						} catch (Exception e) {
 						}
 					}
-
 					sleep(CHECK_MESSAGE_TIME);
 				}
 			}
@@ -259,6 +270,7 @@ public class UserInfoLabel extends UILabel{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			userName = DesignerEnvManager.getEnvManager().getBBSName();
 			if(StringUtils.isNotEmpty(userName)) {
 				UIPopupMenu menu = new UIPopupMenu();
 				menu.setOnlyText(true);
@@ -295,5 +307,4 @@ public class UserInfoLabel extends UILabel{
 			}
 		}
 	};
-
 }

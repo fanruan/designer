@@ -93,6 +93,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private String bbsName;
     //当前设计器用户的论坛密码
     private String bbsPassword;
+    //当前设计器用户的论坛ID
+    private int bbsUid;
+    //当前设计器用户的昵称显示（带消息）
+    private String inShowBBsName;
 	//上一次登录弹窗的时间, 为了控制一天只弹一次窗口
     private String lastShowBBSTime;
     //上一次资讯弹窗时间， 为了控制一天只弹一次
@@ -1148,6 +1152,22 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 	public void setBBSPassword(String bbsPassword) {
 		this.bbsPassword = bbsPassword;
 	}
+
+    public int getBbsUid() {
+        return bbsUid;
+    }
+
+    public void setBbsUid(int bbsUid) {
+        this.bbsUid = bbsUid;
+    }
+
+    public void setInShowBBsName(String inShowBBsName) {
+        this.inShowBBsName = inShowBBsName;
+    }
+
+    public String getInShowBBsName() {
+        return inShowBBsName;
+    }
 	
 	public String getLastShowBBSTime() {
 		return lastShowBBSTime;

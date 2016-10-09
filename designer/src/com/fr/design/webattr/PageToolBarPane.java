@@ -59,7 +59,7 @@ public class PageToolBarPane extends AbstractEditToolBarPane {
 		north.add(GUICoreUtils.createFlowPane(isAutoScaleBox, FlowLayout.LEFT));
 		isTDHeavyBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
 		north.add(GUICoreUtils.createFlowPane(isTDHeavyBox, FlowLayout.LEFT));
-		
+
 		editToolBarButton.addActionListener(editBtnListener);
 		isUseToolBarCheckBox.setSelected(true);
 		isUseToolBarCheckBox.addActionListener(new ActionListener() {

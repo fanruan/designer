@@ -9,6 +9,7 @@ import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.Process;
 import com.fr.general.Inter;
 import com.fr.plugin.PluginVerifyException;
+import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -40,6 +41,7 @@ public class InstallOnlineExecutor implements Executor {
 
                     @Override
                     public void run(final Process<String> process) {
+                        //下载插件
                         if(StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())){
                             LoginCheckContext.fireLoginCheckListener();
                         }
@@ -87,6 +89,8 @@ public class InstallOnlineExecutor implements Executor {
                                 }
                             });
                         } catch (PluginVerifyException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        } catch (PluginDependenceException e){
                             JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                         } catch (InterruptedException e) {
                             e.printStackTrace();

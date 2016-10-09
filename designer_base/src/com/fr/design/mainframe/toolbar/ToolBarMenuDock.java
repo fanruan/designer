@@ -284,7 +284,7 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    private boolean shouldShowPlugin() {
+    protected boolean shouldShowPlugin() {
         return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
     }
 
@@ -326,7 +326,8 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
-    private MenuDef createHelpMenuDef() {
+
+    public MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
         for (ShortCut shortCut : otherHelpShortCuts) {
@@ -335,7 +336,8 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
-    private MenuDef createCommunityMenuDef() {
+
+    public MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {

@@ -15,7 +15,7 @@ public class UIScrollPane extends JScrollPane {
     private static final long serialVersionUID = 1L;
 
     public UIScrollPane(Component c) {
-        super(c, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        super(c, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.setHorizontalScrollBar(createHorizontalScrollBar());
         this.getVerticalScrollBar().setUnitIncrement(30);
         this.getVerticalScrollBar().setBlockIncrement(30);
