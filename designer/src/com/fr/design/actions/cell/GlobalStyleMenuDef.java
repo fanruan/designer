@@ -8,19 +8,27 @@ import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.design.actions.ElementCaseAction;
+import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
+import com.fr.design.selection.SelectionEvent;
+import com.fr.design.selection.SelectionListener;
 import com.fr.design.style.StylePane;
 import com.fr.general.Inter;
 import com.fr.base.ConfigManagerProvider;
+import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.Selection;
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinHelper;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.util.Iterator;
 
 public class GlobalStyleMenuDef extends MenuDef {
@@ -46,8 +54,9 @@ public class GlobalStyleMenuDef extends MenuDef {
         while (iterator.hasNext()) {
             String name = (String) iterator.next();
             NameStyle nameStyle = NameStyle.getInstance(name);
-
-            UpdateAction.UseMenuItem useMenuItem = new GlobalStyleSelection(ePane, nameStyle).createUseMenuItem();
+            GlobalStyleSelection selection = new GlobalStyleSelection(ePane, nameStyle);
+            UpdateAction.UseMenuItem useMenuItem =selection.createUseMenuItem();
+            selection.registerSelectionListener(ePane,  useMenuItem);
             useMenuItem.setNameStyle(nameStyle);
             createdMenu.add(useMenuItem);
         }
@@ -113,7 +122,9 @@ public class GlobalStyleMenuDef extends MenuDef {
 
     }
 
-    public static class GlobalStyleSelection extends ElementCaseAction {
+
+
+    public static class GlobalStyleSelection extends TemplateComponentAction<ElementCasePane> {
 
         private NameStyle nameStyle;
 
@@ -148,6 +159,37 @@ public class GlobalStyleMenuDef extends MenuDef {
 
             stylePane.updateGlobalStyle(getEditingComponent());
             return true;
+        }
+
+        private SelectionListener createSelectionListener (){
+            return new SelectionListener (){
+
+                @Override
+                public void selectionChanged(SelectionEvent e) {
+                    update();
+                    if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
+                        Selection selection = getEditingComponent().getSelection();
+                        if (selection instanceof CellSelection) {
+                            CellSelection cellselection = (CellSelection) selection;
+                            //样式处理
+                            getEditingComponent().setCellNeedTOFormat(cellselection);
+                        }
+                    }
+                }
+            };
+        }
+
+
+        public void registerSelectionListener(final ElementCasePane ePane, UseMenuItem useMenuItem) {
+
+            SelectionListener listener = createSelectionListener();
+            ePane.addSelectionChangeListener(listener);
+            useMenuItem.addHierarchyListener(new HierarchyListener(){
+                @Override
+                public void hierarchyChanged(HierarchyEvent e) {
+                    ePane.removeSelectionChangeListener(listener);
+                }
+            });
         }
     }
 }
