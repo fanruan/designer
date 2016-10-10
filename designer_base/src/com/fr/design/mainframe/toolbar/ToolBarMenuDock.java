@@ -284,7 +284,7 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    private boolean shouldShowPlugin() {
+    protected boolean shouldShowPlugin() {
         return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
     }
 
