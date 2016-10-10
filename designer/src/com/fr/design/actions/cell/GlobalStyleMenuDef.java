@@ -8,6 +8,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.design.actions.ElementCaseAction;
+import com.fr.design.actions.SelectionListenerAction;
 import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.imenu.UIMenu;
@@ -151,7 +152,7 @@ public class GlobalStyleMenuDef extends MenuDef {
 
 
 
-    public static class GlobalStyleSelection extends TemplateComponentAction<ElementCasePane> {
+    public static class GlobalStyleSelection extends SelectionListenerAction {
 
         private NameStyle nameStyle;
 
@@ -196,22 +197,5 @@ public class GlobalStyleMenuDef extends MenuDef {
             return useMenuItem;
         }
 
-        private SelectionListener createSelectionListener (){
-            return new SelectionListener (){
-
-                @Override
-                public void selectionChanged(SelectionEvent e) {
-                    update();
-                    if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
-                        Selection selection = getEditingComponent().getSelection();
-                        if (selection instanceof CellSelection) {
-                            CellSelection cellselection = (CellSelection) selection;
-                            //样式处理
-                            getEditingComponent().setCellNeedTOFormat(cellselection);
-                        }
-                    }
-                }
-            };
-        }
     }
 }
