@@ -55,12 +55,17 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
 
+    //所有图表存储器
     private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
+
+    //插件图表存储器
+    private static LinkedHashMap<String, IndependentChartUIProvider> vanChartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
+            vanChartTypeInterfaces.clear();
         }
         return classManager;
     }
@@ -148,6 +153,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     public static void addChartTypeInterface(IndependentChartUIProvider provider, String plotID) {
         if (chartTypeInterfaces != null && !chartTypeInterfaces.containsKey(plotID)) {
             chartTypeInterfaces.put(plotID, provider);
+        }
+        if (vanChartTypeInterfaces != null && !vanChartTypeInterfaces.containsKey(plotID)) {
+            vanChartTypeInterfaces.put(plotID, provider);
         }
     }
 

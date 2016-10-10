@@ -4,15 +4,19 @@ import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +38,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	protected JPanel createContentPane() {
 		JPanel content = new JPanel(new BorderLayout());
 		
-		buttonPane = new ChartTypeButtonPane();
+		buttonPane = new ChartTypeButtonPane(this);
 		content.add(buttonPane, BorderLayout.NORTH);
 		
 		chartTypePane = new ComboBoxPane();
@@ -130,14 +134,72 @@ public class ChartTypePane extends AbstractChartAttrPane{
 				}
 			}
 		}
+
+		public void populateBean(ChartCollection collection) {
+			Chart chart = collection.getSelectedChart();
+			switch (collection.getState()){
+				case NEW:{
+					reactorComboBoxItem(chart, true);
+					break;
+				}
+				case DEFAULT:{
+					reactorComboBoxItem(chart, false);
+					break;
+				}
+				case NONE:{
+					populateBean(chart);
+					break;
+				}
+				default:{
+					populateBean(chart);
+				}
+			}
+		}
+
+		private void reactorComboBoxItem(Chart chart, boolean isVanChart){
+			//重构下拉选项
+			if (jcb != null) {
+				jcb.removeAllItems();
+			}
+			//重构下拉框选项
+			for (int i = 0; i < this.cards.size(); i++) {
+				String name = cards.get(i).title4PopupWindow();
+				if (name.contains(Inter.getLocText("Plugin-ChartF_NewChart")) && isVanChart){
+					jcb.addItem(cards.get(i).title4PopupWindow());
+				}else if (!name.contains(Inter.getLocText("Plugin-ChartF_NewChart")) && !isVanChart) {
+					jcb.addItem(cards.get(i).title4PopupWindow());
+				}
+			}
+
+			for (int i = 0; i < this.cards.size(); i++) {
+				FurtherBasicBeanPane pane = cards.get(i);
+				if (pane.accept(chart)) {
+					pane.populateBean(chart);
+					int index = getJcbIndex(pane, jcb);
+					jcb.setSelectedIndex(index);
+					return;
+				}
+			}
+		}
+
+		private int getJcbIndex(FurtherBasicBeanPane pane, UIComboBox jcb) {
+			String name = pane.title4PopupWindow();
+			for (int i = 0; i < jcb.getItemCount(); i++){
+				if (ComparatorUtils.equals(name, jcb.getItemAt(i))){
+					return i;
+				}
+			}
+			return 0;
+		}
 	}
+
 
 	/**
 	 * 更新界面属性 用于展示
 	 */
 	public void populate(ChartCollection collection) {
 		Chart chart = collection.getSelectedChart();
-		chartTypePane.populateBean(chart);
+		chartTypePane.populateBean(collection);
 		
 		buttonPane.populateBean(collection);
 	}
