@@ -525,6 +525,9 @@ public abstract class ToolBarMenuDock {
 
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
+            if (insertPosition == MenuHandler.HIDE) {
+                return;
+            }
             ShortCut shortCut = action.methodAction(handler);
             if (shortCut == null) {
                 continue;

@@ -18,6 +18,7 @@ public interface MenuHandler extends Mutable {
 
 
     int LAST = -1;
+    int HIDE =-2;
 
     String HELP = "help";
     String SERVER = "server";
