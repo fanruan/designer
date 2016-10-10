@@ -77,12 +77,11 @@ public class UserInfoPane extends BasicPane{
 			@Override
 			public void run() {
 				String username = DesignerEnvManager.getEnvManager().getBBSName();
-				String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-				String loginResult = LoginWebBridge.getHelper().login(username, password);
-				if (loginResult.equals(LOGININ)) {
-					markSignIn(username);
-				}else {
+				String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
+				if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)){
 					markUnSignIn();
+				} else {
+					markSignIn(username);
 				}
 			}
 		});
