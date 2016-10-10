@@ -24,7 +24,6 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.RowColumnPane;
 import com.fr.design.selection.QuickEditor;
-import com.fr.design.selection.SelectionListener;
 import com.fr.general.Inter;
 import com.fr.grid.GridUtils;
 import com.fr.report.cell.CellElement;
@@ -37,8 +36,6 @@ import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
