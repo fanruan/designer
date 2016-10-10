@@ -26,9 +26,8 @@ import com.fr.grid.selection.Selection;
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinHelper;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Iterator;
 
 public class GlobalStyleMenuDef extends MenuDef {
@@ -43,6 +42,36 @@ public class GlobalStyleMenuDef extends MenuDef {
         this.setIconPath("/com/fr/design/images/m_web/style.png");
     }
 
+    protected ContainerListener getContainerListener() {
+        return  containerListener;
+    }
+
+    private ContainerListener containerListener = new ContainerListener() {
+        @Override
+        public void componentAdded(ContainerEvent e) {
+
+        }
+
+        @Override
+        public void componentRemoved(ContainerEvent e) {
+            Component c = e.getChild();
+            c.dispatchEvent(new MenuDeleteEvent(c));
+        }
+    };
+
+    private class MenuDeleteEvent extends UpdateAction.ComponentRemoveEvent {
+
+        public MenuDeleteEvent(Component source) {
+            super(source);
+        }
+
+        @Override
+        public void release(SelectionListener listener) {
+            ePane.removeSelectionChangeListener(listener);
+        }
+    }
+
+
     /**
      * 更新菜单项
      */
@@ -54,9 +83,7 @@ public class GlobalStyleMenuDef extends MenuDef {
         while (iterator.hasNext()) {
             String name = (String) iterator.next();
             NameStyle nameStyle = NameStyle.getInstance(name);
-            GlobalStyleSelection selection = new GlobalStyleSelection(ePane, nameStyle);
-            UpdateAction.UseMenuItem useMenuItem =selection.createUseMenuItem();
-            selection.registerSelectionListener(ePane,  useMenuItem);
+            UpdateAction.UseMenuItem useMenuItem =new GlobalStyleSelection(ePane, nameStyle).createUseMenuItem();
             useMenuItem.setNameStyle(nameStyle);
             createdMenu.add(useMenuItem);
         }
@@ -161,6 +188,14 @@ public class GlobalStyleMenuDef extends MenuDef {
             return true;
         }
 
+        public UseMenuItem createUseMenuItem() {
+            UseMenuItem useMenuItem = super.createUseMenuItem();
+            SelectionListener listener = createSelectionListener();
+            getEditingComponent().addSelectionChangeListener(listener);
+            useMenuItem.setSelectionListener(listener);
+            return useMenuItem;
+        }
+
         private SelectionListener createSelectionListener (){
             return new SelectionListener (){
 
@@ -177,19 +212,6 @@ public class GlobalStyleMenuDef extends MenuDef {
                     }
                 }
             };
-        }
-
-
-        public void registerSelectionListener(final ElementCasePane ePane, UseMenuItem useMenuItem) {
-
-            SelectionListener listener = createSelectionListener();
-            ePane.addSelectionChangeListener(listener);
-            useMenuItem.addHierarchyListener(new HierarchyListener(){
-                @Override
-                public void hierarchyChanged(HierarchyEvent e) {
-                    ePane.removeSelectionChangeListener(listener);
-                }
-            });
         }
     }
 }

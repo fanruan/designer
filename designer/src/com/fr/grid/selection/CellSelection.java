@@ -437,9 +437,7 @@ public class CellSelection extends Selection {
                 String name = (String) iterato.next();
                 name = GlobalStyleMenuDef.judgeChina(name);
                 NameStyle nameStyle = NameStyle.getInstance(name);
-                GlobalStyleSelection selection = new GlobalStyleSelection(ePane, nameStyle);
-                UpdateAction.UseMenuItem useMenuItem = selection.createUseMenuItem();
-                selection.registerSelectionListener(ePane, useMenuItem);
+                UpdateAction.UseMenuItem useMenuItem = new GlobalStyleSelection(ePane, nameStyle).createUseMenuItem();
                 useMenuItem.setNameStyle(nameStyle);
                 styleMenu.add(useMenuItem);
             }
