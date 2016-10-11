@@ -192,7 +192,7 @@ public class FormParaWidgetPane extends JPanel{
         }
         labelPane.add(label,BorderLayout.CENTER);
         reportPane.add(labelPane,BorderLayout.SOUTH);
-        reportPane.setPreferredSize(new Dimension((int)jComponent.getPreferredSize().getWidth(),(int)reportPane.getPreferredSize().getHeight()));
+        reportPane.setPreferredSize(new Dimension((int)reportPane.getPreferredSize().getWidth(),(int)reportPane.getPreferredSize().getHeight()));
         return reportPane;
     }
 
