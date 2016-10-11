@@ -31,10 +31,6 @@ public class UITreeComboBox extends JComboBox{
     public UITreeComboBox(ComponentTree componentTree){
         this.setTree(componentTree);
         tree.getDesigner().addDesignerEditListener(new TreeComboBoxDesignerEditAdapter());
-//        for(int i=0; i<tree.getRowCount(); i++)
-//        {
-//            tree.expandRow(i);
-//        }
         setPreferredSize(new Dimension(200, 20));
     }
 
