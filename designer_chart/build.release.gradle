@@ -5,17 +5,17 @@ tasks.withType(JavaCompile){
 }
 //指定构建的jdk版本
 sourceCompatibility=1.8
-//指定生成jar包版本
+//指定生成jar包的版本
 version='8.0'
-//生成jar包重命名
-jar{
-	baseName='fr-designer-core'
-}
-
 
 def srcDir="."
 
-//指定源码路径
+//对生成的jar包进行重命名
+
+jar{
+	baseName='fr-designer-chart'
+}
+
 sourceSets{
 		main{
 			java{
@@ -23,31 +23,29 @@ sourceSets{
 			}
 		}
 }
-//获取什么分支名
-FileTree files =fileTree(dir:'./',include:'build.gradle')
+FileTree files =fileTree(dir:'./',include:'build.*.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
-//声明外部依赖
+//指定外部依赖
 dependencies{
-
 compile fileTree(dir:'../../../finereport-lib-stable',include:'**/*.jar')
-compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/*/build/libs/*.jar")
+compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'
 }
-//复制非.java文件到classes文件夹下参与打包
+//将非.java 文件复制到classes文件夹下参与打包
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
 		from ("${srcDir}/src"){
-			exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
+				exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
+
 		}
 		into 'build/classes/main'
 	}
 
 }
-
 
 //压缩项目中的js文件
 task compressJS{
@@ -65,6 +63,4 @@ task compressJS{
 	}
 }
 jar.dependsOn compressJS
-
-
 
