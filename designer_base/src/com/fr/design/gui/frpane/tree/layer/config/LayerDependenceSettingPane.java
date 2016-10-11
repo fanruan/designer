@@ -161,16 +161,6 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
     }
 
-    private boolean tableDataNameChanged() {
-
-        String newName = tableDataDictPane.tableDataNameComboBox.getTreeName();
-        if (newName != null && !newName.equals(tableDataName)) {
-            tableDataName = newName;
-            return true;
-        }
-        return false;
-    }
-
     /**
      * 清楚当前设置的依赖关系
      */
