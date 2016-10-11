@@ -13,15 +13,15 @@ import java.util.ArrayList;
  * Created by xiaxiang on 2016/10/10.
  */
 public class ShareWidgetPane extends JPanel {
-    public ShareWidgetPane(ArrayList<ElCaseBindInfo> elCaseBindInfos) {
+    public ShareWidgetPane(ArrayList<ElCaseBindInfo> elCaseBindInfoList) {
         this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// 设置面板的边框 ，距离上、左、下、右 的距离
-        int rowCount = (elCaseBindInfos.size() + 1)/2;
+        int rowCount = (elCaseBindInfoList.size() + 1)/2;
         this.setLayout(new GridLayout(rowCount, 2, 10, 10));
-        for (ElCaseBindInfo rbModuleInfo : elCaseBindInfos) {
+        for (ElCaseBindInfo rbModuleInfo : elCaseBindInfoList) {
             ShareWidgetButton widgetButton = new ShareWidgetButton(rbModuleInfo);
             this.add(widgetButton);
         }
-        if (elCaseBindInfos.size() == 1) {
+        if (elCaseBindInfoList.size() == 1) {
             this.add(new JPanel());
         }
 
