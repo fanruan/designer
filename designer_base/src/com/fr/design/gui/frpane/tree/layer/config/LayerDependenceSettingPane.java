@@ -86,7 +86,9 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //先要停止编辑,然后再添加
+                fieldEditor.stopCellEditing();
+                layerIndexEditor.stopCellEditing();
                 LayerDependenceSettingPane.this.model.addDependence();
             }
         });
@@ -102,6 +104,9 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
                 //获取视图索引,并根据视图索引获取model索引,删除model指定行
                 int selectedRow = dependenceTable.getSelectedRow();
                 int selectedRowModelIndex = dependenceTable.convertRowIndexToModel(selectedRow);
+                //先要停止编辑,然后再删除
+                fieldEditor.stopCellEditing();
+                layerIndexEditor.stopCellEditing();
                 model.delDependence(selectedRowModelIndex);
             }
         });
