@@ -46,7 +46,6 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 
 	public TreeSettingPane(boolean isEditor) {
 		this.initComponents(isEditor);
-        System.out.print(true);
     }
 
 	private void initComponents(boolean isEditor) {

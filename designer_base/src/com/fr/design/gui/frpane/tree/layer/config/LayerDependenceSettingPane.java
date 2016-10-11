@@ -142,13 +142,6 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
         return this.model.update();
     }
 
-    public int updateLayerIndex() {
-
-        return this.currentLayerIndex;
-    }
-
-    private String tableDataName = "";
-
     /**
      * 当tableDataDictPane变化时,调用该方法
      */
