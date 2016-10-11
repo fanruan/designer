@@ -5,59 +5,47 @@ tasks.withType(JavaCompile){
 }
 //指定构建的jdk版本
 sourceCompatibility=1.7
-//指定生成的jar包版本
+//指定生成jar包的版本
 version='8.0'
 
 def srcDir="."
 
+//对生成的jar包进行重命名
 
-//指明生成jar包的名字
 jar{
-	baseName='fr-designer-report'
+	baseName='fr-designer-chart'
 }
-//源码所在位置
+
 sourceSets{
 		main{
 			java{
-				srcDirs=["${srcDir}/src",
-"${srcDir}/../designer/src"]
+				srcDirs=["${srcDir}/src"]
 			}
 		}
 }
-
-//获取什么分支名
-FileTree files =fileTree(dir:'./',include:'build.gradle')
+FileTree files =fileTree(dir:'./',include:'build.*.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
-//声明外部依赖
+//指定外部依赖
 dependencies{
 compile fileTree(dir:"../../../finereport-lib-stable/${branchName}",include:'**/*.jar')
 compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'
 }
-
-//指明无法编译文件所在路径
-def dataContent ={def dir ->
-		copySpec{
-			from ("${dir}"){
-				exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
-			}
-		}
-}
-
-//将非.java文件复制到classes文件夹下 参与打包
+//将非.java 文件复制到classes文件夹下参与打包
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
-		with dataContent.call("${srcDir}/src") 
-		with dataContent.call("${srcDir}/../designer/src") 
-		into ('build/classes/main')
+		from ("${srcDir}/src"){
+				exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
+
+		}
+		into 'build/classes/main'
 	}
 
 }
-
 
 //压缩项目中的js文件
 task compressJS{
@@ -66,13 +54,8 @@ task compressJS{
 			fileset(dir:'../../../finereport-lib4build-stable',includes:'**/*.jar')
 		}
 	}
-	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false", charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
+	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
 		fileset (dir:"${srcDir}/src"){
-			include (name:'**/*.js')
-			include (name:'**/*.css')
-
-		}
-		fileset (dir:"${srcDir}/../designer/src"){
 			include (name:'**/*.js')
 			include (name:'**/*.css')
 		}
