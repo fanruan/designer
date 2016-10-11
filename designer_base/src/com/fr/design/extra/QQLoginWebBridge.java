@@ -117,7 +117,7 @@ public class QQLoginWebBridge {
             //账号没有QQ授权
             closeQQWindow();
             try {
-                Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+                Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
             }catch (Exception exp) {
             }
         }

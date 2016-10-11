@@ -10,6 +10,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.Inter;
 import com.fr.io.exporter.Exporter;
 import com.fr.io.exporter.PDFExporter;
+import com.fr.io.exporter.pdfstream.PDFStreamExporter;
 
 /**
  * Export pdf
@@ -28,7 +29,7 @@ public class PDFExportAction extends AbstractExportAction {
 
     @Override
 	protected Exporter getExporter() {
-        return new PDFExporter();
+        return new PDFStreamExporter();
     }
 
     @Override
