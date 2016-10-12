@@ -18,6 +18,8 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.stable.StringUtils;
@@ -276,6 +278,13 @@ public class ComponentTree extends JTree {
             path.add(0, parent);
             if (creator != comp ) {
                 creator.notShowInComponentTree(path);
+            }
+            //绝对布局作为body的时候不显示自适应布局父层
+            if (((XCreator) parent).acceptType(XWAbsoluteLayout.class)
+                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)
+                    && ((XWAbsoluteLayout)parent).toData().isAbsoluteLayoutAsBody()){
+                parent = parent.getParent().getParent();
+                continue;
             }
             parent = parent.getParent();
         }

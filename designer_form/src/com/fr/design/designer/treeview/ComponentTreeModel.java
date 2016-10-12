@@ -10,11 +10,9 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import com.fr.base.FRContext;
+import com.fr.design.designer.creator.*;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.form.ui.Widget;
 
 public class ComponentTreeModel implements TreeModel {
@@ -22,6 +20,8 @@ public class ComponentTreeModel implements TreeModel {
     private ArrayList<TreeModelListener> listeners = new ArrayList<TreeModelListener>();
     private Component root;
     private FormDesigner designer;
+
+    private final int ABSOLUTE_AS_BODY_NOT_FOUND = -1;
 
     public ComponentTreeModel(FormDesigner designer, Component root) {
         this.designer = designer;
@@ -38,6 +38,11 @@ public class ComponentTreeModel implements TreeModel {
         if (parent != null && parent instanceof XLayoutContainer) {
         	XLayoutContainer xlayout = (XLayoutContainer) parent;
         	XCreator creator = xlayout.getXCreator(index);
+            //绝对布局作为body的时候不显示自适应布局父层
+            int absoluteBodyIndex = getAbsoluteBodyIndex(creator);
+            if (absoluteBodyIndex > ABSOLUTE_AS_BODY_NOT_FOUND){
+                return creator.getComponent(absoluteBodyIndex);
+            }
         	return creator.getXCreator();
         }
         return null;
@@ -134,5 +139,21 @@ public class ComponentTreeModel implements TreeModel {
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
+    }
+
+    private int getAbsoluteBodyIndex(XCreator xCreator){
+        //绝对布局作为body，父层是自适应布局，找到绝对布局位于父层的index
+        int index = ABSOLUTE_AS_BODY_NOT_FOUND;
+        if (xCreator.acceptType(XWFitLayout.class)){
+            XWFitLayout bodyFitLayout = (XWFitLayout)xCreator;
+            for (int i = 0;i < bodyFitLayout.getXCreatorCount();i++){
+                //类型是绝对布局并且还是body
+                if (bodyFitLayout.getXCreator(i).acceptType(XWAbsoluteLayout.class)
+                        && ((XWAbsoluteLayout)bodyFitLayout.getXCreator(i)).toData().isAbsoluteLayoutAsBody()){
+                    index = i;
+                }
+            }
+        }
+        return index;
     }
 }
