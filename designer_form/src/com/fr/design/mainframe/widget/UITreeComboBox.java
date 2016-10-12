@@ -123,22 +123,12 @@ public class UITreeComboBox extends JComboBox{
     }
 
 
-    public TreePath[] getSelectedTreePath() {
-        XCreator[] creators = tree.getDesigner().getSelectionModel().getSelection().getSelectedCreators();
-        TreePath[] paths = new TreePath[creators.length];
-
-        for (int i = 0; i < paths.length; i++) {
-            paths[i] = tree.buildTreePath(creators[i]);
-        }
-        return paths;
-    }
-
     private class TreeComboBoxDesignerEditAdapter implements DesignerEditListener {
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED || evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-                TreePath[] paths = getSelectedTreePath();
+                TreePath[] paths = tree.getSelectedTreePath();
 
                 if (paths.length == 1) {
                     tree.setAndScrollSelectionPath(paths[0]);
