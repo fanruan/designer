@@ -75,7 +75,15 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			xConnectorMap.put(connector, new XConnector(connector, this));
 		}
 
+		this.editable = widget.isAbsoluteLayoutAsBody();
+
 		initPercent();
+	}
+
+	public XWAbsoluteLayout(WAbsoluteLayout widget, Dimension initSize, boolean isAbsoluteLayoutAsBody) {
+		this(widget, initSize);
+		widget.setAbsoluteLayoutAsBody(isAbsoluteLayoutAsBody);
+		this.editable = isAbsoluteLayoutAsBody;
 	}
 
 	/**
@@ -442,5 +450,16 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 				editingMouseListener.startEditing(this, isEditing ? adapter.getDesignerEditor() : null, adapter);
 			}
 		}
+	}
+
+	/**
+	 * 设置布局是否可编辑，不可则显示编辑蒙层
+	 * 假如是body的话，始终要能编辑，不会出现蒙层
+	 *
+	 * @param isEditable 可否编辑
+	 */
+	@Override
+	public void setEditable(boolean isEditable) {
+		super.setEditable(toData().isAbsoluteLayoutAsBody() || isEditable);
 	}
 }

@@ -13,8 +13,8 @@ import com.fr.general.Inter;
 public class FRFitConstraintsItems implements ItemProvider{
 
 	public static final Item[] ITEMS = new Item[] {
-		new Item(Inter.getLocText("Adaptive_Full_Area"), WFitLayout.STATE_FULL),
-		new Item(Inter.getLocText("Adaptive_Original_Scale"), WFitLayout.STATE_ORIGIN)};
+		new Item(Inter.getLocText("FR-Designer_Attr_Bidirectional_Adaptive"), WFitLayout.STATE_FULL),
+		new Item(Inter.getLocText("FR_Designer_Attr_Horizontal_Adaptive"), WFitLayout.STATE_ORIGIN)};
 	
 	public Item[] getItems() {
 		return ITEMS;
