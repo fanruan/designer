@@ -31,6 +31,10 @@ public class UITreeComboBox extends JComboBox{
     public UITreeComboBox(ComponentTree componentTree){
         this.setTree(componentTree);
         tree.getDesigner().addDesignerEditListener(new TreeComboBoxDesignerEditAdapter());
+//        for(int i=0; i<tree.getRowCount(); i++)
+//        {
+//            tree.expandRow(i);
+//        }
         setPreferredSize(new Dimension(200, 20));
     }
 
@@ -133,7 +137,7 @@ public class UITreeComboBox extends JComboBox{
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED || evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
                 TreePath[] paths = getSelectedTreePath();
 
                 if (paths.length == 1) {
@@ -143,16 +147,6 @@ public class UITreeComboBox extends JComboBox{
                 }
                 setSelectedItem(paths[0]);
                 MenuSelectionManager.defaultManager().clearSelectedPath();
-            }  else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-                TreePath[] paths = getSelectedTreePath();
-                if (paths.length == 1) {
-                    tree.setAndScrollSelectionPath(paths[0]);
-                } else {
-                    tree.setSelectionPaths(paths);
-                }
-                setSelectedItem(paths[0]);
-                MenuSelectionManager.defaultManager().clearSelectedPath();
-
             }  else {
                 return;
             }
@@ -189,15 +183,7 @@ class TreePopup extends JPopupMenu implements ComboPopup{
 
     protected MouseMotionListener mouseMotionListener;
     protected MouseListener mouseListener;
-    private MouseListener treeSelectListener = new MouseAdapter(){
-        public void mouseClicked (MouseEvent e){
-            if (e.isMetaDown()) {
-                popupMenu(e);
-            } else {
-                return;
-            }
-        }
-    };
+
 
     public void popupMenu(MouseEvent e) {
         TreePath path = comboBox.getTree().getSelectionPath();
@@ -223,7 +209,6 @@ class TreePopup extends JPopupMenu implements ComboPopup{
             scrollPane = new JScrollPane(tree);
             scrollPane.setBorder(null);
             add(scrollPane, BorderLayout.CENTER);
-            this.comboBox.addMouseListener(treeSelectListener);
         }
     }
 
@@ -300,6 +285,14 @@ class TreePopup extends JPopupMenu implements ComboPopup{
                 comboBox.requestFocus();
             }
             togglePopup();
+        }
+
+        public void mouseClicked (MouseEvent e){
+            if (e.isMetaDown()) {
+                popupMenu(e);
+            } else {
+                return;
+            }
         }
     }
 
