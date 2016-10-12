@@ -284,10 +284,7 @@ public class UserInfoLabel extends UILabel{
 					public void mousePressed(MouseEvent e) {
 						if(StringUtils.isNotEmpty(userName)){
 							try {
-								String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default") +
-										"&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=" +
-										"&username=" + DesignerEnvManager.getEnvManager().getBBSName() +
-										"&password=" + DesignerEnvManager.getEnvManager().getBBSPassword();
+								String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
 								Desktop.getDesktop().browse(new URI(loginUrl));
 							} catch (Exception exp) {
 								FRContext.getLogger().info(exp.getMessage());

@@ -379,10 +379,7 @@ public class PluginWebBridge {
      */
     public void getPriviteMessage() {
         try {
-            String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default") +
-                    "&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=" +
-                    "&username=" + DesignerEnvManager.getEnvManager().getBBSName() +
-                    "&password=" + DesignerEnvManager.getEnvManager().getBBSPassword();
+            String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
             Desktop.getDesktop().browse(new URI(loginUrl));
         }catch (Exception exp) {
             FRContext.getLogger().info(exp.getMessage());

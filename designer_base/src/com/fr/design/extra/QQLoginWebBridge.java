@@ -127,24 +127,5 @@ public class QQLoginWebBridge {
         if (url.indexOf("qqLogin.html") > 0) {
             return;
         }
-        if (Desktop.isDesktopSupported()) {
-            try {
-                //创建一个URI实例,注意不是URL
-                URI uri = URI.create(url);
-                //获取当前系统桌面扩展
-                Desktop desktop = Desktop.getDesktop();
-                //判断系统桌面是否支持要执行的功能
-                if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                    //获取系统默认浏览器打开链接
-                    desktop.browse(uri);
-                }
-            } catch (NullPointerException e) {
-                //此为uri为空时抛出异常
-                FRLogger.getLogger().error(e.getMessage());
-            } catch (IOException e) {
-                //此为无法获取系统默认浏览器
-                FRLogger.getLogger().error(e.getMessage());
-            }
-        }
     }
 }
