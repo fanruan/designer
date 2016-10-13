@@ -37,7 +37,7 @@ public class UIComboBox extends JComboBox implements UIObserver, GlobalNameObser
 
     private static final int SIZE5 = 5;
 
-    private UIObserverListener uiObserverListener;
+    protected UIObserverListener uiObserverListener;
 
     private String comboBoxName = "";
 
@@ -71,7 +71,7 @@ public class UIComboBox extends JComboBox implements UIObserver, GlobalNameObser
         initListener();
     }
 
-    private void initListener() {
+    protected void initListener() {
         if (shouldResponseChangeListener()) {
             this.addFocusListener(new FocusAdapter() {
                 @Override
@@ -94,7 +94,7 @@ public class UIComboBox extends JComboBox implements UIObserver, GlobalNameObser
         }
     }
 
-    private void fireSetGlobalName() {
+    protected void fireSetGlobalName() {
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(comboBoxName);
         }

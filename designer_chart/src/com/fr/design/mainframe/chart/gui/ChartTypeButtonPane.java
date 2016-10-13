@@ -12,7 +12,6 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -36,7 +35,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int B_H = 20;
     private static final int COL_COUNT = 3;
 
-    private AbstractChartAttrPane parent;
+    private ChartTypePane parent;
     private UIButton addButton;
     private ArrayList<ChartChangeButton> indexList = new ArrayList<ChartChangeButton>();
 
@@ -92,7 +91,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
-    public ChartTypeButtonPane(AbstractChartAttrPane parent){
+    public ChartTypeButtonPane(ChartTypePane parent){
         this();
         this.parent = parent;
     }
@@ -109,13 +108,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             indexList.add(button);
 
             if (editingCollection != null) {
-                //判断当前编辑的图表类型
-                if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
-                    editingCollection.setState(SwitchState.NEW);
-                }else {
-                    editingCollection.setState(SwitchState.DEFAULT);
-                }
-
                 Chart[] barChart = ColumnIndependentChart.columnChartTypes;
                 try {
                     Chart newChart = (Chart) barChart[0].clone();
@@ -128,11 +120,21 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             }
             layoutPane(buttonPane);
 
-            if (parent != null){
-                parent.populate(editingCollection);
-            }
+            //刷新下拉框
+            refreshChangeMode();
         }
+
+
     };
+
+    private void refreshChangeMode() {
+        //判断当前编辑的图表，对否开启多图表切换模式
+        boolean stateChange = editingCollection.setMultiChartMode();
+        //只有状态切换了才会重构下拉选项
+        if (parent != null && stateChange){
+            parent.fireReactor(editingCollection);
+        }
+    }
 
     MouseListener mouseListener = new MouseAdapter() {
         @Override
@@ -391,8 +393,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     }
                 }
             }
-
             relayoutPane();
+
+            refreshChangeMode();
         }
 
         private void relayoutPane() {
