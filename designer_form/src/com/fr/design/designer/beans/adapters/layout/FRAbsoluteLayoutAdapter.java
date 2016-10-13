@@ -12,6 +12,7 @@ import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 
@@ -330,6 +331,15 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 	@Override
 	public GroupModel getLayoutProperties() {
 		XWAbsoluteLayout xwAbsoluteLayout = (XWAbsoluteLayout) container;
-		return new FRAbsoluteLayoutPropertiesGroupModel(xwAbsoluteLayout);
+		if (xwAbsoluteLayout.toData().isAbsoluteLayoutAsBody()){
+			//如果body是绝对布局，那么获取原来自适应body的属性--布局类型
+			WBodyLayoutType layoutType = WBodyLayoutType.FIT;
+			if (container.getParent() != null) {
+				layoutType = ((XWFitLayout)container.getParent()).toData().getBodyLayoutType();
+			}
+			return new FRAbsoluteLayoutPropertiesGroupModel(xwAbsoluteLayout, layoutType);
+		} else {
+			return new FRAbsoluteLayoutPropertiesGroupModel(xwAbsoluteLayout);
+		}
 	}
 }

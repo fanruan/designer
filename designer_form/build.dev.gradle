@@ -26,13 +26,13 @@ sourceSets{
 }
 
 //获取什么分支名
-FileTree files =fileTree(dir:'./',include:'build.gradle')
+FileTree files =fileTree(dir:'./',include:'build.*.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
 buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 //声明外部依赖
 dependencies{
-compile fileTree(dir:"../../../finereport-lib-stable${branchName}",include:'**/*.jar')
+compile fileTree(dir:"../../../finereport-lib-stable/${branchName}",include:'**/*.jar')
 compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'

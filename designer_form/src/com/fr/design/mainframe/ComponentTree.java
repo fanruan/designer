@@ -18,6 +18,8 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.stable.StringUtils;
@@ -40,7 +42,7 @@ public class ComponentTree extends JTree {
         TreePath[] paths = getSelectedTreePath();
         addTreeSelectionListener(designer);
         setSelectionPaths(paths);
-        
+
         designer.addDesignerEditListener(new TreeDesignerEditAdapter());
         this.addMouseListener(new MouseAdapter() {
 
@@ -68,15 +70,19 @@ public class ComponentTree extends JTree {
         setEditable(true);
     }
 
+    public FormDesigner getDesigner() {
+        return designer;
+    }
+
     /**
      * 构造函数
-     * 
+     *
      * @param designer 设计界面组件
      * @param model 构造JTree的model
      */
     public ComponentTree(FormDesigner designer,ComponentTreeModel model) {
-    	this(designer);
-    	this.setModel(model);
+        this(designer);
+        this.setModel(model);
     }
 
 
@@ -96,17 +102,17 @@ public class ComponentTree extends JTree {
         return super.isPathEditable(path);
     }
 
-   /**
-    * 将值转换为文本
-    * @param value 值
-    * @param selected 是否选中
-    * @param expanded 扩展
-    * @param leaf 是否叶子
-    * @param row 行
-    * @param hasFocus 是否焦点
-    * 
-    * @return 返回文本
-    */
+    /**
+     * 将值转换为文本
+     * @param value 值
+     * @param selected 是否选中
+     * @param expanded 扩展
+     * @param leaf 是否叶子
+     * @param row 行
+     * @param hasFocus 是否焦点
+     *
+     * @return 返回文本
+     */
     @Override
     public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         if (value != null && value instanceof XCreator) {
@@ -115,25 +121,25 @@ public class ComponentTree extends JTree {
             return super.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
         }
     }
-    
+
     public void setAndScrollSelectionPath(TreePath treepath) {
-    	setSelectionPath(treepath);
-    	scrollPathToVisible(treepath);
+        setSelectionPath(treepath);
+        scrollPathToVisible(treepath);
     }
-    
-	private void popupMenu(MouseEvent e) {
-		TreePath path = this.getSelectionPath();
-		if (path == null) {
-			return;
-		}
-		Component component = (Component) path.getLastPathComponent();
-		if (!(component instanceof XCreator)) {
-			return;
-		}
-		ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
-		JPopupMenu menu = adapter.getContextPopupMenu(e);
-		menu.show(this, e.getX(), e.getY());
-	}
+
+    private void popupMenu(MouseEvent e) {
+        TreePath path = this.getSelectionPath();
+        if (path == null) {
+            return;
+        }
+        Component component = (Component) path.getLastPathComponent();
+        if (!(component instanceof XCreator)) {
+            return;
+        }
+        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
+        JPopupMenu menu = adapter.getContextPopupMenu(e);
+        menu.show(this, e.getX(), e.getY());
+    }
 
     /**
      * 刷新
@@ -145,51 +151,51 @@ public class ComponentTree extends JTree {
 
 
 
-    
-	public TreePath[] getSelectedTreePath() {
-		XCreator[] creators = designer.getSelectionModel().getSelection().getSelectedCreators();
-		TreePath[] paths = new TreePath[creators.length];
 
-		for (int i = 0; i < paths.length; i++) {
-			paths[i] = buildTreePath(creators[i]);
-		}
-		return paths;
-	}
+    public TreePath[] getSelectedTreePath() {
+        XCreator[] creators = designer.getSelectionModel().getSelection().getSelectedCreators();
+        TreePath[] paths = new TreePath[creators.length];
 
-	private class TreeDesignerEditAdapter implements DesignerEditListener {
-		
-		@Override
-		public void fireCreatorModified(DesignerEvent evt) { 	
-			if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-				TreePath[] paths = getSelectedTreePath();
+        for (int i = 0; i < paths.length; i++) {
+            paths[i] = buildTreePath(creators[i]);
+        }
+        return paths;
+    }
 
-				if (paths.length == 1) {
-					setAndScrollSelectionPath(paths[0]);
-				} else {
-					setSelectionPaths(paths);
-				}
-			}  else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-				ComponentTree.this.refreshUI();
-				TreePath[] paths = getSelectedTreePath();
+    private class TreeDesignerEditAdapter implements DesignerEditListener {
 
-				if (paths.length == 1) {
-					setAndScrollSelectionPath(paths[0]);
-				} else {
-					setSelectionPaths(paths);
-				}
-				ComponentTree.this.repaint();
-				
-			}  else {
-				ComponentTree.this.refreshUI();
-				ComponentTree.this.repaint();
-			}
-		}
+        @Override
+        public void fireCreatorModified(DesignerEvent evt) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+                TreePath[] paths = getSelectedTreePath();
 
-		@Override
-		public boolean equals(Object o) {
-			return o.getClass() == this.getClass();
-		}
-	}
+                if (paths.length == 1) {
+                    setAndScrollSelectionPath(paths[0]);
+                } else {
+                    setSelectionPaths(paths);
+                }
+            }  else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
+                ComponentTree.this.refreshUI();
+                TreePath[] paths = getSelectedTreePath();
+
+                if (paths.length == 1) {
+                    setAndScrollSelectionPath(paths[0]);
+                } else {
+                    setSelectionPaths(paths);
+                }
+                ComponentTree.this.repaint();
+
+            }  else {
+                ComponentTree.this.refreshUI();
+                ComponentTree.this.repaint();
+            }
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return o.getClass() == this.getClass();
+        }
+    }
 
 
     /**
@@ -211,11 +217,11 @@ public class ComponentTree extends JTree {
             paths[i] = buildTreePath(searchList.get(i));
         }
         if(paths.length > 0) {
-        	setAndScrollSelectionPath(paths[0]);
+            setAndScrollSelectionPath(paths[0]);
         } else {
-        	setSelectionPath();
+            setSelectionPath();
         }
-		return paths;
+        return paths;
     }
 
 
@@ -248,7 +254,7 @@ public class ComponentTree extends JTree {
      * 触发
      */
     public void fireTreeChanged() {
-       designer.refreshDesignerUI();
+        designer.refreshDesignerUI();
     }
 
     /**
@@ -267,14 +273,21 @@ public class ComponentTree extends JTree {
         ArrayList<Component> path = new ArrayList<Component>();
         Component parent = comp;
 
-		while (parent != null) {
-			XCreator creator = (XCreator) parent;
-			path.add(0, parent);
-			if (creator != comp ) {
-				creator.notShowInComponentTree(path);
-			}
-			parent = parent.getParent();
-		}
+        while (parent != null) {
+            XCreator creator = (XCreator) parent;
+            path.add(0, parent);
+            if (creator != comp ) {
+                creator.notShowInComponentTree(path);
+            }
+            //绝对布局作为body的时候不显示自适应布局父层
+            if (((XCreator) parent).acceptType(XWAbsoluteLayout.class)
+                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)
+                    && ((XWAbsoluteLayout)parent).toData().isAbsoluteLayoutAsBody()){
+                parent = parent.getParent().getParent();
+                continue;
+            }
+            parent = parent.getParent();
+        }
         Object[] components = path.toArray();
         return new TreePath(components);
     }
