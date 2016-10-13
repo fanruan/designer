@@ -153,32 +153,6 @@ public class PluginHelper {
         installDependenceOnline(currentID, needInstallDependence);
     }
 
-    public static void installCoverDependence(PluginDependenceUnit dependenceUnit) throws Exception {
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceUnit.getDependenceID()));
-        if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            InputStream reader = httpClient.getResponseStream();
-            String temp = StableUtils.pathJoin(PluginHelper.DEPENDENCE_DOWNLOAD_PATH, PluginHelper.TEMP_FILE);
-            StableUtils.makesureFileExist(new File(temp));
-            FileOutputStream writer = new FileOutputStream(temp);
-            byte[] buffer = new byte[PluginConstants.BYTES_NUM];
-            int bytesRead = 0;
-            while ((bytesRead = reader.read(buffer)) > 0) {
-                writer.write(buffer, 0, bytesRead);
-                buffer = new byte[PluginConstants.BYTES_NUM];
-            }
-            reader.close();
-            writer.flush();
-            writer.close();
-
-
-            //安装文件
-            IOUtils.unZipFilesGBK(temp, FRContext.getCurrentEnv().getPath() + dependenceUnit.getDependenceDir());
-        }else {
-            throw new PluginDependenceException();
-        }
-    }
-
-
     /**
      * 构造一个下载UI
      * @param currentID
