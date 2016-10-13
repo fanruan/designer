@@ -281,6 +281,7 @@ public class ComponentTree extends JTree {
             }
             //绝对布局作为body的时候不显示自适应布局父层
             if (((XCreator) parent).acceptType(XWAbsoluteLayout.class)
+                    && (parent.getParent() != null)
                     && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)
                     && ((XWAbsoluteLayout)parent).toData().isAbsoluteLayoutAsBody()){
                 parent = parent.getParent().getParent();
