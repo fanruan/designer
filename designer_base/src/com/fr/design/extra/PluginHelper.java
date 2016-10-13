@@ -140,14 +140,6 @@ public class PluginHelper {
         List<PluginDependenceUnit> list = dependence.getDependPlugins();
         for (int i = 0;list != null && i < list.size(); i++){
             PluginDependenceUnit dependenceUnit = list.get(i);
-            //覆盖型依赖，立即下载安装
-            if (dependenceUnit.isCover()){
-                try {
-                    installCoverDependence(dependenceUnit);
-                } catch (Exception e) {
-                    throw new PluginDependenceException();
-                }
-            }
             if (!dependenceUnit.checkFileEnv()){
                 needInstallDependence.add(dependenceUnit);
             }
