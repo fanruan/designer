@@ -127,7 +127,7 @@ public abstract class AbstractHyperlinkPane<T extends Hyperlink> extends BasicBe
 
 	public void updateBean(T link) {
 		updateSubHyperlinkBean(link);
-		link.setTargetFrame(HyperlinkTargetFrame.getName(targetFrameComboBox.getSelectedIndex()));
+		link.setTargetFrame(HyperlinkTargetFrame.parse(targetFrameComboBox.getSelectedIndex()).getName());
 		link.setHeight(Utils.objectToNumber(heightTextFiled.getText(), false).intValue());
 		link.setWidth(Utils.objectToNumber(widthTextFiled.getText(), false).intValue());
 	}

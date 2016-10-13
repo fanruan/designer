@@ -8,21 +8,25 @@ public enum HyperlinkTargetFrame {
 
     private String name;
     private int index;
-
+    private static HyperlinkTargetFrame[] arrayOfValues;
 
     HyperlinkTargetFrame(String name, int index) {
         this.name = name;
         this.index = index;
     }
 
-    public static String getName(int index) {
+    public static HyperlinkTargetFrame parse(int index) {
+        if (arrayOfValues == null) {
+            arrayOfValues = HyperlinkTargetFrame.values();
+        }
         for (HyperlinkTargetFrame hyperlinkTargetFrame : HyperlinkTargetFrame.values()) {
             if (hyperlinkTargetFrame.getIndex() == index) {
-                return hyperlinkTargetFrame.name;
+                return hyperlinkTargetFrame;
             }
         }
-        return null;
+        return BLANK_FRAME;
     }
+
 
     public int getIndex() {
         return index;
