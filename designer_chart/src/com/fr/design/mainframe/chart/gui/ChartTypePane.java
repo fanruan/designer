@@ -118,8 +118,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//这一步会替换plot
             ((AbstractChartTypePane) cards.get(fcb.getRelatedSelectedIndex())).updateBean(chart);
 
-			String chartID = chart.getChartID();
-
 			Plot plot = chart.getPlot();
 
 			if(plot != null){
