@@ -46,16 +46,18 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
     private void initUI() {
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        setPreferredSize(new Dimension(110, 70));
+        setPreferredSize(new Dimension(108, 72));
         setLayout(FRGUIPaneFactory.createBorderLayout());
         ImagePanel imagePanel = new ImagePanel((BufferedImage) bindInfo.getCover());
+        imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         this.add(imagePanel, BorderLayout.NORTH);
         JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(108, 20));
         UILabel label = new UILabel(bindInfo.getName(), SwingConstants.HORIZONTAL);
-        panel.setBackground(new Color(184, 220, 242));
-        panel.add(label);
-        this.add(panel, BorderLayout.SOUTH);
+        label.setOpaque(true);
+        label.setBackground(new Color(184, 220, 242));
+        this.add(label, BorderLayout.SOUTH);
     }
 
     private class ImagePanel extends JPanel {
@@ -64,12 +66,12 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
 
         public ImagePanel(BufferedImage image) {
             this.image = image;
-            this.setPreferredSize(new Dimension(110, 50));
+            this.setPreferredSize(new Dimension(108, 52));
         }
 
         @Override
         public void paintComponent(Graphics g) {
-            g.drawImage(image, 0, 0, 110, 70, null);
+            g.drawImage(image, 0, 0, null);
         }
 
     }
