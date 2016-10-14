@@ -108,9 +108,15 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             indexList.add(button);
 
             if (editingCollection != null) {
-                Chart[] barChart = ColumnIndependentChart.columnChartTypes;
+                //这个地方应该判断是clone VanChart还是clone Chart
+                Chart[] clonedChart = null;
+                if (editingCollection.getState() == SwitchState.NEW) {
+
+                }else {
+                    clonedChart = ColumnIndependentChart.columnChartTypes;
+                }
                 try {
-                    Chart newChart = (Chart) barChart[0].clone();
+                    Chart newChart = (Chart) clonedChart[0].clone();
                     editingCollection.addNamedChart(name, newChart);
                     editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
@@ -275,9 +281,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         //新建一个collection
         if(editingCollection != null && editingCollection.getChartCount() == 1){
             //vanChart 不支持图表切换 目前
-            if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
+            /*if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
                 addButton.setVisible(false);
-            }
+            }*/
         }
     }
 

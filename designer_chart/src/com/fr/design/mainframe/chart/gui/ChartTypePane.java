@@ -118,6 +118,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//这一步会替换plot
             ((AbstractChartTypePane) cards.get(fcb.getRelatedSelectedIndex())).updateBean(chart);
 
+			String chartID = chart.getChartID();
+
 			Plot plot = chart.getPlot();
 
 			if(plot != null){
@@ -199,10 +201,11 @@ public class ChartTypePane extends AbstractChartAttrPane{
 					jcb.addItem(cards.get(i).title4PopupWindow());
 				}
 			}
-			//重构完成
-			fcb.setItemEvenType(ItemEvenType.DEFAULT);
 			//重置选择项
 			fcb.setRelatedSelectedIndex(relativeIndex);
+			//重构完成
+			fcb.setItemEvenType(ItemEvenType.DEFAULT);
+
 		}
 
 		@Override

@@ -78,7 +78,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
             public void success() {
-                ChartTypeInterfaceManager.getInstance().readDefault();
+                if (chartTypeInterfaces.size() == 0) {
+                    ChartTypeInterfaceManager.getInstance().readDefault();
+                }
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
             }
