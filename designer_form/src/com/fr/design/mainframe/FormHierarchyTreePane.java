@@ -68,7 +68,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	}
 
 	private FormHierarchyTreePane() {
-		setLayout(new BorderLayout(0, 6));
+		setLayout(new BorderLayout(0, 0));
 	}
 
 	@Override
