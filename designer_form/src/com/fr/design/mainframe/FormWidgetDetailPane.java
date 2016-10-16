@@ -97,7 +97,7 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel.setBorder(new LineBorder(Color.gray));
         esp.add(reuWidgetPanel, BorderLayout.CENTER);
         UIButton button = new UIButton();
-        button.setIcon(BaseUtils.readIcon("/com/fr/design/images/control/download.png"));
+        button.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
         button.set4ToolbarButton();
         JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 3));
