@@ -80,7 +80,7 @@ public class FormWidgetDetailPane extends FormDockView{
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        downPanel.setPreferredSize(new Dimension(240, 400));
+        downPanel.setPreferredSize(new Dimension(235, 480));
         reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
         UIComboBox comboBox = new UIComboBox(getCategories());
         comboBox.setPreferredSize(new Dimension(240, 30));
@@ -89,12 +89,11 @@ public class FormWidgetDetailPane extends FormDockView{
             public void itemStateChanged(ItemEvent e) {
                 String filterName = (String) e.getItem();
                 elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
-                refreshUI();
-                reuWidgetPanel.repaint();
+                refreshDownPanel();
             }
         });
         reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
-        reuWidgetPanel.add(downPanel, BorderLayout.SOUTH);
+        reuWidgetPanel.add(downPanel, BorderLayout.CENTER);
         reuWidgetPanel.setBorder(new LineBorder(Color.gray));
         esp.add(reuWidgetPanel, BorderLayout.CENTER);
         UIButton button = new UIButton();
@@ -120,11 +119,19 @@ public class FormWidgetDetailPane extends FormDockView{
         return new String[]{Inter.getLocText("FR-Designer_AllCategories"), "" };
     }
 
-    public void refreshUI() {
+    public void refreshDownPanel() {
         reuWidgetPanel.remove(downPanel);
-        downPanel = new JScrollPane(new ShareWidgetPane(elCaseBindInfoList), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
+        downPanel.setPreferredSize(new Dimension(235, 480));
         reuWidgetPanel.add(downPanel);
+        repaintContainer();
 
+    }
+
+    public void repaintContainer() {
+        validate();
+        repaint();
+        revalidate();
     }
 
 
