@@ -2,6 +2,8 @@ package com.fr.design.gui.frpane.tree.layer.config;
 
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.present.dict.TableDataDictPane;
 import com.fr.form.ui.tree.LayerDependence;
 import com.fr.general.Inter;
@@ -71,12 +73,14 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
         delButton = new UIButton(Inter.getLocText("Delete"));
         //初始化Table对象,并添加renderer和editor
         model = new LayerDepenceTableModel();
-        dependenceTable = new JTable(model);
+        dependenceTable = new JTable();
+        dependenceTable.setModel(model);
         //初始化辅助组件
         fieldEditor = new FiledEditor(tableDataDictPane);
         fieldRenderer = new FieldRenderer(tableDictPane);
         layerIndexEditor = new LayerIndexEditor(currentLayerIndex);
         //添加renderer
+        dependenceTable.getColumnModel().getColumn(0).setCellRenderer(new FirstRenderer());
         dependenceTable.getColumnModel().getColumn(1).setCellRenderer(fieldRenderer);
         //添加第一列editor
         dependenceTable.getColumnModel().getColumn(0).setCellEditor(layerIndexEditor);
@@ -170,10 +174,33 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
     }
 
     /**
+     * 第一列renderer
+     */
+    private static final class FirstRenderer extends UILabel implements TableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+            if (value != null) {
+                //value是用户选择的字段索引值,从1开始的
+                this.setText(String.valueOf(value));
+            } else {
+                this.setText("");
+            }
+            if (hasFocus) {
+                this.setBorder(UIManager.getBorder("Table.focusCelHighlightBorder"));
+            } else {
+                this.setBorder(null);
+            }
+            return this;
+        }
+    }
+
+    /**
      * 第二列renderer
      * 由于从model中获取的数据是数据集列的索引值,这里要转换为列的名称
      */
-    private static final class FieldRenderer extends JLabel implements TableCellRenderer {
+    private static final class FieldRenderer extends UILabel implements TableCellRenderer {
 
         //用于将字段索引转换为字段名;保存改pane,是为了当用户选择其他数据集时,renderer可同步更新
         private TableDataDictPane tableDataDictPane;
@@ -214,7 +241,7 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
 
         private int currentLayerIndex;
 
-        private JComboBox<Integer> layerChoseCombobox = new JComboBox<Integer>();
+        private UIComboBox layerChoseCombobox = new UIComboBox();
 
         public LayerIndexEditor(int currentLayerIndex) {
 
@@ -254,7 +281,7 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
      */
     private static final class FiledEditor extends AbstractCellEditor implements TableCellEditor {
 
-        private JComboBox<String> layerChoseCombobox = new JComboBox<String>();
+        private UIComboBox layerChoseCombobox = new UIComboBox();
 
         TableDataDictPane tableDataDictPane;
 
