@@ -1,5 +1,6 @@
 package com.fr.design.designer.creator;
 
+import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
@@ -20,6 +21,7 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 import com.fr.stable.fun.FitProvider;
 import com.fr.stable.fun.ReportFitAttrProvider;
@@ -35,6 +37,18 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
     private UILabel imageLable;
     private JPanel coverPanel;
 	private FormDesigner designer;
+	//缩略图
+	private BufferedImage thumbnailImage;
+	private static BufferedImage DEFAULT_BACKGROUND;
+
+	static{
+		try{
+			DEFAULT_BACKGROUND = BaseUtils.readImageWithCache("com/fr/base/images/report/elementcase.png");
+		}catch (Throwable e) {
+			//IBM jdk 1.5.0_22 并发下读取图片有时会异常(EOFException), 这个图片反正只有设计器用到, 捕获住
+			DEFAULT_BACKGROUND = CoreGraphHelper.createBufferedImage(0, 0);
+		}
+	}
 
 	public XElementCase(ElementCaseEditor widget, Dimension initSize) {
 		super(widget, initSize);
@@ -145,7 +159,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 */
 	private UILabel initImageBackground(){
 		UILabel imageLable = new UILabel();
-		BufferedImage image = toData().getECImage();
+		BufferedImage image = getThumbnailImage();
 		setLabelBackground(image, imageLable);
 
         return imageLable;
@@ -222,8 +236,16 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	}
 
 	public void setBackground(BufferedImage image){
-		toData().setECImage(image);
+		setThumbnailImage(image);
 		setEditorIcon(image);
+	}
+
+	private void setThumbnailImage(BufferedImage image) {
+		this.thumbnailImage = image;
+	}
+
+	private BufferedImage getThumbnailImage(){
+		return thumbnailImage == null ? DEFAULT_BACKGROUND : thumbnailImage;
 	}
 
 	private void setEditorIcon(BufferedImage image){

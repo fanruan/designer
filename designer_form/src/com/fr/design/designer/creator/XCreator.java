@@ -15,6 +15,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -27,7 +28,7 @@ import java.util.List;
 /**
  * @author richer
  * @since 6.5.3 com.fr.base.listener.OB的设计组件
- * 
+ *
  */
 public abstract class XCreator extends JPanel implements XComponent, XCreatorTools {
 
@@ -44,6 +45,8 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	// XCreator加入到某些XLayoutContainer中时，能调整宽度或者高度
 	private int[] directions;
 	private Rectangle backupBound;
+	private String shareId = StringUtils.EMPTY;//如果组件是共享的会有这个属性
+	private boolean isHelpBtnOnFocus = false;//焦点是否在帮助按钮上
 
 	public XCreator(Widget ob, Dimension initSize) {
 		this.data = ob;
@@ -83,7 +86,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			setSize(this.backupSize);
 		}
 	}
-	
+
 	/**
 	 * 备份当前大小
 	 */
@@ -113,76 +116,76 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public XLayoutContainer getTopLayout(){
 		return null;
 	}
-	
+
 	/**
 	 * 获取当前XCreator的一个封装父容器
-	 * 
+	 *
 	 * @param widgetName 当前组件名
-	 * 
+	 *
 	 * @return 封装的父容器
-	 * 
+	 *
 	 *
 	 * @date 2014-11-25-下午4:47:23
-	 * 
+	 *
 	 */
 	protected XLayoutContainer getCreatorWrapper(String widgetName){
 		return new XWTitleLayout();
 	}
-	
+
 	/**
 	 * 将当前对象添加到父容器中
-	 * 
+	 *
 	 * @param parentPanel 父容器组件
-	 * 
+	 *
 	 *
 	 * @date 2014-11-25-下午4:57:55
-	 * 
+	 *
 	 */
-	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){			
+	protected void addToWrapper(XLayoutContainer parentPanel, int width, int minHeight){
 		parentPanel.add(this, WTitleLayout.BODY);
 	}
-	
+
 	/**
 	 * 设置父容器的名字
-	 * 
+	 *
 	 * @param parentPanel 当前父容器
 	 * @param widgetName 当前控件名
-	 * 
+	 *
 	 *
 	 * @date 2014-11-27-上午9:47:00
-	 * 
+	 *
 	 */
 	protected void setWrapperName(XLayoutContainer parentPanel, String widgetName){
 		parentPanel.toData().setWidgetName(widgetName);
 	}
-	
+
 	/**
 	 * 初始化当前组件的父容器
 	 * 大体分为三种: Scale缩放型, Title标题型, Border自定义标题栏
-	 * 
+	 *
 	 * @param minHeight 最小高度
-	 * 
+	 *
 	 * @return 父容器
-	 * 
+	 *
 	 *
 	 * @date 2014-11-25-下午5:15:23
-	 * 
+	 *
 	 */
 	public XLayoutContainer initCreatorWrapper(int minHeight){
 		XLayoutContainer parentPanel;
 		String widgetName = this.toData().getWidgetName();
 		parentPanel = this.getCreatorWrapper(widgetName);
-		
+
 		int width = this.getWidth();
 		int height = this.getHeight();
-		
+
 		parentPanel.setLocation(this.getX(), this.getY());
 		parentPanel.setSize(width, height);
 		setWrapperName(parentPanel, widgetName);
 		this.setLocation(0, 0);
 		this.addToWrapper(parentPanel, width, minHeight);
 		LayoutUtils.layoutRootContainer(parentPanel);
-		
+
 		return parentPanel;
 	}
 
@@ -291,7 +294,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public Dimension getMinimumSize() {
 		return new Dimension(0, 0);
 	}
-	
+
 	/**
 	 * 是否支持切换到报表界面编辑
 	 * @return 是则返回true
@@ -299,7 +302,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public boolean isReport(){
 		return false;
 	}
-    
+
     /**
      * 该组件是否可以拖入参数面板
      * @return 是则返回true
@@ -359,7 +362,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void setBackupBound(Rectangle rec) {
 		this.backupBound = rec;
 	}
-	
+
 	/**
 	 * 控件树不显示此组件
 	 * @param path 控件树list
@@ -367,7 +370,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void notShowInComponentTree(ArrayList<Component> path) {
 		return;
 	}
-	
+
 	/**
 	 * 重置组件的名称
 	 * @param name 名称
@@ -375,7 +378,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void resetCreatorName(String name) {
 		toData().setWidgetName(name);
 	}
-	
+
 	/**
 	 * 返回编辑的子组件，scale为其内部组件
 	 * @return 组件
@@ -383,7 +386,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public XCreator getEditingChildCreator() {
 		return this;
 	}
-	
+
 	/**
 	 * 返回对应属性表的组件，scale和title返回其子组件
 	 * @return 组件
@@ -391,7 +394,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public XCreator getPropertyDescriptorCreator() {
 		return this;
 	}
-	
+
 	/**
 	 * 更新子组件的Bound; 没有不处理
 	 * @param minHeight 最小高度
@@ -399,7 +402,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void updateChildBound(int minHeight) {
 		return;
 	}
-	
+
 	/**
 	 * 是否作为控件树的叶子节点
 	 * @return 是则返回true
@@ -407,7 +410,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public boolean isComponentTreeLeaf() {
 		return true;
 	}
-	
+
 	/**
 	 *  是否为sclae和title专属容器
 	 * @return 是则返回true
@@ -415,7 +418,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public boolean isDedicateContainer() {
 		return false;
 	}
-	
+
 	/**
      * 是否接收这种类型
      * @param acceptTypes 接收的类型
@@ -432,13 +435,13 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 
 	/**
 	 * 是否组件要缩放(自适应里部分组件需要, 如数字、文本、下拉框、下拉复选框、密码、下拉树、下拉复选树、日期)
-	 * 
+	 *
 	 * @return 是则返回true
 	 */
 	public boolean shouldScaleCreator() {
 		return false;
 	}
-	
+
 	/**
 	 * 是否支持标题样式
 	 * @return 默认false
@@ -446,10 +449,10 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public boolean hasTitleStyle() {
 		return false;
 	}
-	
+
 	/**
 	 * 响应点击事件
-	 * 
+	 *
 	 * @param editingMouseListener 鼠标点击，位置处理器
 	 * @param e 鼠标点击事件
 	 */
@@ -468,10 +471,10 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			}
 		}
 	}
-	
+
 	/**
 	 * 删除相关组件
-	 * 
+	 *
 	 * @param creator 当前组件
 	 * @param designer 表单设计器
 	 *
@@ -479,17 +482,17 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void deleteRelatedComponent(XCreator creator,FormDesigner designer){
 		return;
 	}
-	
+
 	/**
 	 * 选择相关组件
-	 * 
+	 *
 	 * @param creator 当前组件
-	 * 
+	 *
 	 */
 	public void seleteRelatedComponent(XCreator creator){
 		return;
 	}
-	
+
 	/**
 	 * 返回组件
 	 * @return
@@ -498,7 +501,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public XCreator getXCreator(){
 		return this;
 	}
-	
+
 	/**
 	 * 按百分比调整组件
 	 * @param percent 百分比
@@ -507,7 +510,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void adjustCompSize(double percent){
 		return;
 	}
-	
+
 	/**
 	 * 返回一些需要的子组件
 	 * @return 返回一些需要的子组件
@@ -516,11 +519,11 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public ArrayList<?> getTargetChildrenList(){
 		return new ArrayList();
 	}
-	
+
 	public XLayoutContainer getOuterLayout(){
 		return this.getBackupParent();
 	}
-	
+
 	/**
 	 * 重新调整子组件宽度
 	 * @param width 宽度
@@ -553,4 +556,38 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public boolean supportRenameInWidgetTree() {
 		return true;
 	}
+
+	/**
+	 * 组件是否是共享组件
+	 * @return 是否是共享组件
+     */
+	public boolean isShared() {
+		return StringUtils.isNotEmpty(shareId);
+	}
+
+	public void setShareId(String shareId) {
+		this.shareId = shareId;
+	}
+
+	public String getShareId() {
+		return shareId;
+	}
+
+	/**
+	 * 焦点是否在帮助按钮上
+	 * @return 焦点是否在帮助按钮上
+     */
+	public boolean isHelpBtnOnFocus() {
+		return isHelpBtnOnFocus;
+	}
+
+	public void setHelpBtnOnFocus(boolean helpBtnOnFocus) {
+		isHelpBtnOnFocus = helpBtnOnFocus;
+	}
+
+	/**
+	 * 设置共享帮助信息
+	 * @param msg 帮助信息
+     */
+	public void setSharedMsg(String msg){}
 }

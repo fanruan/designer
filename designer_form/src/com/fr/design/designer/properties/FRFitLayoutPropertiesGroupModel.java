@@ -4,16 +4,26 @@
 package com.fr.design.designer.properties;
 
 import com.fr.design.beans.GroupModel;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.FormSelectionUtils;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.FitLayoutDirectionEditor;
+import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WAbsoluteBodyLayout;
+import com.fr.form.ui.container.WAbsoluteLayout;
+import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.Inter;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 /**
  * 自适应布局自身的属性表
@@ -28,6 +38,8 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	private DefaultTableCellRenderer renderer;
 	private FitLayoutDirectionEditor stateEditor;
 	private FitStateRenderer stateRenderer;
+	private LayoutTypeEditor layoutTypeEditor;
+	private LayoutTypeRenderer layoutTypeRenderer;
 	private WFitLayout layout;
 	private XWFitLayout xfl;
 	
@@ -38,6 +50,8 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		editor = new PropertyCellEditor(new IntegerPropertyEditor());
 	    stateEditor = new FitLayoutDirectionEditor();
 	    stateRenderer = new FitStateRenderer();
+		layoutTypeEditor = new LayoutTypeEditor();
+		layoutTypeRenderer = new LayoutTypeRenderer();
 	}
 
 	/** 
@@ -45,31 +59,35 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 	 */
 	@Override
 	public String getGroupName() {
-		return Inter.getLocText("FR-Designer-Layout_Adaptive_Layout");
+		return Inter.getLocText("FR-Designer_Layout");
 	}
 
 	@Override
 	public int getRowCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
 	public TableCellRenderer getRenderer(int row) {
 		switch (row) {
 	        case 0:
-	            return renderer;
+	            return layoutTypeRenderer;
+			case 1:
+				return stateRenderer;
 			default:
-	            return stateRenderer;
+	            return renderer;
 		}
 	}
 
 	@Override
 	public TableCellEditor getEditor(int row) {
 		switch (row) {
-	        case 0:
-	            return editor;
+			case 0:
+				return layoutTypeEditor;
+			case 1:
+				return stateEditor;
 			default:
-	            return stateEditor;
+				return editor;
 		}
 	}
 
@@ -78,16 +96,20 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("FR-Designer_Component_Interval");
+                    return Inter.getLocText("FR-Designer_Attr_Layout_Type");
+				case 1:
+					return Inter.getLocText("FR-Designer_Component_Scale");
 				default:
-                    return Inter.getLocText("FR-Designer_Component_Scale");
+                    return Inter.getLocText("FR-Designer_Component_Interval");
             }
         } else {
             switch (row) {
                 case 0:
-                    return layout.getCompInterval();
+                    return layout.getBodyLayoutType().getTypeValue();
+				case 1:
+					return layout.getCompState();
 				default:
-                	return layout.getCompState();
+                	return layout.getCompInterval();
             }
         }
 	}
@@ -101,12 +123,34 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		if (column == 0 || state < 0) {
 			return false;
 		} else {
-			if (row ==0 && xfl.canAddInterval(state)) {
+			if (row == 2 && xfl.canAddInterval(state)) {
 				// 设置完间隔后，要同步处理界面组件，容器刷新后显示出对应效果
 				setLayoutGap(state);
 				return true;
 			}else if (row == 1) {
 				layout.setCompState(state);
+				return true;
+			}else if (row == 0) {
+				layout.setLayoutType(WBodyLayoutType.parse(state));
+				if (state == WBodyLayoutType.ABSOLUTE.getTypeValue()) {
+					WAbsoluteBodyLayout wAbsoluteBodyLayout = new WAbsoluteBodyLayout("body");
+					wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
+					Component[] components = xfl.getComponents();
+					xfl.removeAll();
+					XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0,0));
+					xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
+					for (Component component : components) {
+						xwAbsoluteBodyLayout.add(component);
+					}
+					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+					formDesigner.getSelectionModel().setSelectedCreators(
+							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{wAbsoluteBodyLayout}));
+				}
+				else {
+					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+					formDesigner.getSelectionModel().setSelectedCreators(
+							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{xfl.toData()}));
+				}
 				return true;
 			}
 			return false;

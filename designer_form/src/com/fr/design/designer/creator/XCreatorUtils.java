@@ -77,6 +77,7 @@ public class XCreatorUtils {
 
         xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
         xLayoutMap.put(WParameterLayout.class, XWParameterLayout.class);
+        xLayoutMap.put(WAbsoluteBodyLayout.class, XWAbsoluteBodyLayout.class);
         xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
         xLayoutMap.put(WHorizontalBoxLayout.class, XWHorizontalBoxLayout.class);
         xLayoutMap.put(WBorderLayout.class, XWBorderLayout.class);
