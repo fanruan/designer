@@ -3,7 +3,8 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -15,6 +16,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.Inter;
@@ -30,7 +32,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UITabbedPane tabbedPane;
     private JScrollPane downPanel;
     private JPanel reuWidgetPanel;
-    private ArrayList<ElCaseBindInfo> elCaseBindInfoList;
+    private List<ElCaseBindInfo> elCaseBindInfoList;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -80,16 +82,22 @@ public class FormWidgetDetailPane extends FormDockView{
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        downPanel.setPreferredSize(new Dimension(235, 480));
+        downPanel.setPreferredSize(new Dimension(236, 480));
         reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-        UIComboBox comboBox = new UIComboBox(getCategories());
-        comboBox.setPreferredSize(new Dimension(240, 30));
+        final UIComboBox comboBox = new UIComboBox(getCategories());
+        comboBox.setPreferredSize(new Dimension(236, 30));
         comboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                String filterName = (String) e.getItem();
-                elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
+                int filterIndex = comboBox.getSelectedIndex();
+                if (filterIndex == 0) {
+                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                } else {
+                    String filterName = (String) e.getItem();
+                    elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
+                }
                 refreshDownPanel();
+
             }
         });
         reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
@@ -116,13 +124,13 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     public String[] getCategories() {
-        return new String[]{Inter.getLocText("FR-Designer_AllCategories"), "" };
+        return ShareConstants.WIDGET_CATEGORIES;
     }
 
     public void refreshDownPanel() {
         reuWidgetPanel.remove(downPanel);
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        downPanel.setPreferredSize(new Dimension(235, 480));
+        //todo:这个地方有问题
         reuWidgetPanel.add(downPanel);
         repaintContainer();
 

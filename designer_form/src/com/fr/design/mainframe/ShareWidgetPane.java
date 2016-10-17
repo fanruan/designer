@@ -6,14 +6,16 @@ import com.fr.form.ui.ElCaseBindInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 
 /**
  * Created by xiaxiang on 2016/10/10.
  */
 public class ShareWidgetPane extends JPanel {
-    public ShareWidgetPane(ArrayList<ElCaseBindInfo> elCaseBindInfoList) {
+
+    public ShareWidgetPane(List<ElCaseBindInfo> elCaseBindInfoList) {
         this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// 设置面板的边框 ，距离上、左、下、右 的距离
         int rowCount = (elCaseBindInfoList.size() + 1)/2;
         this.setLayout(new GridLayout(rowCount, 2, 10, 10));
@@ -26,4 +28,5 @@ public class ShareWidgetPane extends JPanel {
         }
 
     }
+
 }
