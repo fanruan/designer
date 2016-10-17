@@ -82,16 +82,7 @@ public class FormWidgetDetailPane extends FormDockView{
         if (elCaseBindInfoList == null) {
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
-        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        downPanel.setPreferredSize(new Dimension(236, 480));
-        reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-        comboBox = new UIComboBox(getCategories());
-        comboBox.setPreferredSize(new Dimension(236, 30));
-        initComboBoxSelectedListener();
-
-        reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
-        reuWidgetPanel.add(downPanel, BorderLayout.CENTER);
-        reuWidgetPanel.setBorder(new LineBorder(Color.gray));
+        initReuWidgetPanel();
         esp.add(reuWidgetPanel, BorderLayout.CENTER);
         UIButton button = new UIButton();
         button.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
@@ -110,6 +101,22 @@ public class FormWidgetDetailPane extends FormDockView{
         tabbedPane.addTab(Inter.getLocText("FR-Designer-Form-ToolBar_Chart"), new JPanel());
         add(tabbedPane, BorderLayout.CENTER);
 
+    }
+
+    /**
+     * 初始化组件共享和复用面板
+     */
+    private void initReuWidgetPanel() {
+        int rowCount = (elCaseBindInfoList.size() + 1)/2;
+        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
+        downPanel.setPreferredSize(new Dimension(236, rowCount * 82));
+        reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
+        comboBox = new UIComboBox(getCategories());
+        comboBox.setPreferredSize(new Dimension(236, 30));
+        initComboBoxSelectedListener();
+        reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
+        reuWidgetPanel.add(downPanel, BorderLayout.CENTER);
+        reuWidgetPanel.setBorder(new LineBorder(Color.gray));
     }
 
     private void initComboBoxSelectedListener() {
