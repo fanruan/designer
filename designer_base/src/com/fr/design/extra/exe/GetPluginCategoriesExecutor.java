@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe;
 
+import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.Process;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
@@ -26,8 +27,14 @@ public class GetPluginCategoriesExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.category"));
-                        result = httpClient.getResponseText();
+                        String url = SiteCenter.getInstance().acquireUrlByKind("plugin.category");
+                        if (url != null) {
+                            HttpClient httpClient = new HttpClient(url);
+                            result = httpClient.getResponseText();
+                        } else {
+                            result = PluginHelper.CONNECTION_404;
+                        }
+
                     }
                 }
         };
