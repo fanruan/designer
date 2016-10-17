@@ -42,6 +42,7 @@ public class PluginWebBridge {
     private String ACTION = "action";
     private String KEYWORD = "keyword";
     private Map<String, Object> config;
+    private WebEngine webEngine;
 
     private UILabel uiLabel;
 
@@ -78,8 +79,6 @@ public class PluginWebBridge {
         helper.setEngine(webEngine);
         return helper;
     }
-
-    private WebEngine webEngine;
 
     private PluginWebBridge() {
     }
@@ -380,7 +379,8 @@ public class PluginWebBridge {
      */
     public void getPriviteMessage() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
+            Desktop.getDesktop().browse(new URI(loginUrl));
         }catch (Exception exp) {
             FRContext.getLogger().info(exp.getMessage());
         }
@@ -509,7 +509,7 @@ public class PluginWebBridge {
      */
     public void forgetHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }

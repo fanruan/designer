@@ -10,6 +10,7 @@ import com.fr.design.designer.beans.actions.FormDeleteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XComponent;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
@@ -35,6 +36,7 @@ import com.fr.file.FILE;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
+import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
@@ -756,4 +758,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return WorkBookSupportable.class.isAssignableFrom(clazz);
     }
 
+    @Override
+    public Widget getSelectElementCase() {
+        FormSelection selection = formDesign.getSelectionModel().getSelection();
+        XCreator creator = selection.getSelectedCreator();
+        return creator.toData();
+    }
 }

@@ -19,10 +19,10 @@ public class FRAbsoluteLayoutPropertiesGroupModel implements GroupModel {
 
     private PropertyCellEditor editor;
     private DefaultTableCellRenderer renderer;
-    private AbsoluteLayoutDirectionEditor stateEditor;
-    private AbsoluteStateRenderer stateRenderer;
-    private WAbsoluteLayout layout;
-    private XWAbsoluteLayout xwAbsoluteLayout;
+    protected AbsoluteLayoutDirectionEditor stateEditor;
+    protected AbsoluteStateRenderer stateRenderer;
+    protected WAbsoluteLayout layout;
+    protected XWAbsoluteLayout xwAbsoluteLayout;
 
     public FRAbsoluteLayoutPropertiesGroupModel(XWAbsoluteLayout xwAbsoluteLayout){
         this.xwAbsoluteLayout = xwAbsoluteLayout;

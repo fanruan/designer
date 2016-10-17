@@ -19,7 +19,7 @@ public class PluginWebPane extends JFXPanel {
 
     private WebEngine webEngine;
 
-    public PluginWebPane(final String installHome) {
+    public PluginWebPane(final String mainJs) {
         Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
             @Override
@@ -29,7 +29,7 @@ public class PluginWebPane extends JFXPanel {
                 PluginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
                 webEngine = webView.getEngine();
-                webEngine.load("file:///" + installHome + "/scripts/store/web/index.html");
+                webEngine.load("file:///" + mainJs);
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                     @Override
                     public void handle(WebEvent<String> event) {

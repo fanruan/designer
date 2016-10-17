@@ -12,10 +12,13 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.selection.SelectionListener;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -321,12 +324,24 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		toolBar.add(this.createToolBarComponent());
 	}
 
+	public abstract static  class ComponentRemoveEvent  extends ComponentEvent {
+
+		private static int EVENT_DELETE= 3001;
+
+		public ComponentRemoveEvent(Component source) {
+			super(source, EVENT_DELETE);
+		}
+
+		public abstract void release(SelectionListener listener);
+	}
+
 	/**
 	 * 全局style的菜单
 	 */
 	public static class UseMenuItem extends UIMenuItem {
 
 		private NameStyle nameStyle;
+		private SelectionListener listener;
 
 		public UseMenuItem(Action action) {
 			super(action);
@@ -335,6 +350,18 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 		public UseMenuItem(String text, Icon icon) {
 			super(text, icon);
+		}
+
+		protected void processEvent(AWTEvent e) {
+			if (e instanceof ComponentRemoveEvent) {
+				((ComponentRemoveEvent) e).release(listener);
+				return;
+			}
+			super.processEvent(e);
+		}
+
+		public void setSelectionListener(SelectionListener listener) {
+			this.listener = listener;
 		}
 
 		@Override

@@ -6,14 +6,14 @@ import com.fr.design.mainframe.JChart;
 import com.fr.general.FRLogger;
 import com.fr.general.IOUtils;
 import com.fr.stable.CoreGraphHelper;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.fr.third.v2.org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import com.fr.third.v2.org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import com.fr.third.v2.org.apache.poi.ss.usermodel.ClientAnchor;
+import com.fr.third.v2.org.apache.poi.ss.usermodel.Drawing;
+import com.fr.third.v2.org.apache.poi.ss.usermodel.Sheet;
+import com.fr.third.v2.org.apache.poi.ss.usermodel.Workbook;
+import com.fr.third.v2.org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import com.fr.third.v2.org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -73,7 +73,7 @@ public class ExcelExporter4Chart extends ImageExporter4Chart {
     }
 
     private boolean checkExcelExportVersion() {
-        return ExcelUtils.checkPOIJarExist();
+        return ExcelUtils.checkThirdJarSupportPOI();
     }
     	// 加载图片.
 	private int loadPicture(BufferedImage bufferedImage)throws IOException {

@@ -45,13 +45,8 @@ public class ChartAreaPane extends ThirdTabPane<Chart> implements AutoSelectedPa
 		if(parent instanceof ChartStylePane) {
 			plotPane.setParentPane((ChartStylePane)parent);
 		}
-        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (jTemplate.isJWorkBook() || jTemplate.getEditingReportIndex() == BaseJForm.ELEMENTCASE_TAB) {
-            //表单中的图表组件的图表区挪到控件属性表的样式中了
-            paneList.add(new NamePane(areaPane.title4PopupWindow(), areaPane));
-        }else if(jTemplate.isChartBook()){
-            paneList.add(new NamePane(areaPane.title4PopupWindow(), areaPane));
-        }
+
+		paneList.add(new NamePane(areaPane.title4PopupWindow(), areaPane));
 
 		if(plot.isSupportPlotBackground()) {
 			paneList.add(new NamePane(plotPane.title4PopupWindow(), plotPane));

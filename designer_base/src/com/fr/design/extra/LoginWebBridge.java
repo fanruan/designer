@@ -210,7 +210,7 @@ public class LoginWebBridge {
      */
     public void forgetHref() {
         try {
-            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+            Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
         }catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
@@ -267,7 +267,6 @@ public class LoginWebBridge {
         if (uiDialog != null) {
             uiDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             uiDialog.setVisible(false);
-            uiDialog.dispose();
         }
     }
 

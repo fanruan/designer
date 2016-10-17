@@ -58,7 +58,7 @@ public class ExcelExportAction4Chart extends AbstractExportAction4JChart {
 
     @Override
 	protected String getDefaultExtension() {
-    	return ExcelUtils.checkPOIJarExist() ? "xlsx" : "xls";
+    	return ExcelUtils.checkThirdJarSupportPOI() ? "xlsx" : "xls";
     }
 
     @Override

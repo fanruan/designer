@@ -87,6 +87,7 @@ public class UserInfoLabel extends UILabel{
 		LoginCheckContext.addLoginCheckListener(new LoginCheckListener() {
 			@Override
 			public void loginChecked() {
+				/*
 				if (bbsLoginDialog == null) {
 					bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(), UserInfoLabel.this);
 				}
@@ -94,6 +95,7 @@ public class UserInfoLabel extends UILabel{
 				bbsLoginDialog.showTipForDownloadPluginWithoutLogin();
 				bbsLoginDialog.setModal(true);
 				bbsLoginDialog.showWindow();
+				*/
 			}
 		});
 
@@ -282,7 +284,8 @@ public class UserInfoLabel extends UILabel{
 					public void mousePressed(MouseEvent e) {
 						if(StringUtils.isNotEmpty(userName)){
 							try {
-								Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.default")));
+								String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
+								Desktop.getDesktop().browse(new URI(loginUrl));
 							} catch (Exception exp) {
 								FRContext.getLogger().info(exp.getMessage());
 							}
