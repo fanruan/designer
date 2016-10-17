@@ -15,15 +15,15 @@ import java.util.List;
  */
 public class ShareWidgetPane extends JPanel {
 
-    public ShareWidgetPane(List<ElCaseBindInfo> elCaseBindInfoList) {
+    public ShareWidgetPane(ElCaseBindInfo[] elCaseBindInfoList) {
         this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// 设置面板的边框 ，距离上、左、下、右 的距离
-        int rowCount = (elCaseBindInfoList.size() + 1)/2;
+        int rowCount = (elCaseBindInfoList.length + 1)/2;
         this.setLayout(new GridLayout(rowCount, 2, 10, 10));
         for (ElCaseBindInfo rbModuleInfo : elCaseBindInfoList) {
             ShareWidgetButton widgetButton = new ShareWidgetButton(rbModuleInfo);
             this.add(widgetButton);
         }
-        if (elCaseBindInfoList.size() == 1) {
+        if (elCaseBindInfoList.length == 1) {
             this.add(new JPanel());
         }
 

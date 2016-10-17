@@ -33,7 +33,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private JScrollPane downPanel;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
-    private List<ElCaseBindInfo> elCaseBindInfoList;
+    private ElCaseBindInfo[] elCaseBindInfoList;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -107,7 +107,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化组件共享和复用面板
      */
     private void initReuWidgetPanel() {
-        int rowCount = (elCaseBindInfoList.size() + 1)/2;
+        int rowCount = (elCaseBindInfoList.length + 1)/2;
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
         downPanel.setPreferredSize(new Dimension(236, rowCount * 82));
         reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
