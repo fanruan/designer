@@ -32,6 +32,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UITabbedPane tabbedPane;
     private JScrollPane downPanel;
     private JPanel reuWidgetPanel;
+    private UIComboBox comboBox;
     private List<ElCaseBindInfo> elCaseBindInfoList;
 
     public static FormWidgetDetailPane getInstance() {
@@ -84,22 +85,10 @@ public class FormWidgetDetailPane extends FormDockView{
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
         downPanel.setPreferredSize(new Dimension(236, 480));
         reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-        final UIComboBox comboBox = new UIComboBox(getCategories());
+        comboBox = new UIComboBox(getCategories());
         comboBox.setPreferredSize(new Dimension(236, 30));
-        comboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                int filterIndex = comboBox.getSelectedIndex();
-                if (filterIndex == 0) {
-                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                } else {
-                    String filterName = (String) e.getItem();
-                    elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
-                }
-                refreshDownPanel();
+        initComboBoxSelectedListener();
 
-            }
-        });
         reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
         reuWidgetPanel.add(downPanel, BorderLayout.CENTER);
         reuWidgetPanel.setBorder(new LineBorder(Color.gray));
@@ -121,6 +110,23 @@ public class FormWidgetDetailPane extends FormDockView{
         tabbedPane.addTab(Inter.getLocText("FR-Designer-Form-ToolBar_Chart"), new JPanel());
         add(tabbedPane, BorderLayout.CENTER);
 
+    }
+
+    private void initComboBoxSelectedListener() {
+        comboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                int filterIndex = comboBox.getSelectedIndex();
+                if (filterIndex == 0) {
+                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                } else {
+                    String filterName = (String) e.getItem();
+                    elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
+                }
+                refreshDownPanel();
+
+            }
+        });
     }
 
     public String[] getCategories() {
