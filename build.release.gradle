@@ -3,7 +3,7 @@ tasks.withType(JavaCompile){
 	options.encoding = "UTF-8"
 }
 def basicDir="../../"
-def libDir="${basicDir}/finereport-lib-stable"
+def libDir="${basicDir}/finereport-lib-stable/master"
 //获取什么分支名
 FileTree files =fileTree(dir:"./",include:"build.*.gradle")
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ("\\"))
