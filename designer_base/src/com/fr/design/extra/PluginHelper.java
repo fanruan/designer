@@ -38,6 +38,7 @@ public class PluginHelper {
     //插件依赖的下载位置
     public static final String DEPENDENCE_DOWNLOAD_PATH = System.getProperty("user.dir") + "/download/dependence";
     public static final String TEMP_FILE = "temp.zip";
+    public static final String CONNECTION_404 = "404";
 
     /**
      * 下载插件
@@ -130,7 +131,7 @@ public class PluginHelper {
     //将所有未配置好的资源文件依赖准备好
     private static void checkDependenceEnv(Plugin plugin) throws PluginDependenceException {
         PluginDependence dependence = plugin.getDependence();
-        if (dependence == null){
+        if (dependence == null) {
             return;
         }
 
@@ -138,14 +139,14 @@ public class PluginHelper {
 
         String currentID = dependence.getCurrentPluginID();
         List<PluginDependenceUnit> list = dependence.getDependPlugins();
-        for (int i = 0;list != null && i < list.size(); i++){
+        for (int i = 0; list != null && i < list.size(); i++) {
             PluginDependenceUnit dependenceUnit = list.get(i);
-            if (!dependenceUnit.checkFileEnv()){
+            if (!dependenceUnit.checkFileEnv()) {
                 needInstallDependence.add(dependenceUnit);
             }
         }
 
-        if (needInstallDependence.isEmpty()){
+        if (needInstallDependence.isEmpty()) {
             return;
         }
 
@@ -156,14 +157,16 @@ public class PluginHelper {
 
     /**
      * 构造一个下载UI
+     *
      * @param currentID
      * @param list
      * @throws PluginDependenceException
      */
-    private static void installDependenceOnline(String currentID, List<PluginDependenceUnit> list) throws PluginDependenceException{
+    private static void installDependenceOnline(String currentID, List<PluginDependenceUnit> list) throws PluginDependenceException {
         DownLoadDependenceUI ui = new DownLoadDependenceUI(currentID, list);
         ui.installOnline();
     }
+
     /**
      * 从选中的压缩文件中安装插件
      *
