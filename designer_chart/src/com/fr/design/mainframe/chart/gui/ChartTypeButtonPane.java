@@ -35,7 +35,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int B_H = 20;
     private static final int COL_COUNT = 3;
 
-    private ChartTypePane parent;
     private UIButton addButton;
     private ArrayList<ChartChangeButton> indexList = new ArrayList<ChartChangeButton>();
 
@@ -44,6 +43,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private UIObserverListener uiobListener = null;
     private ComboBoxPane editChartType;
     private UITextField currentEditingEditor = null;
+
+    private ChartTypePane parent = null;
 
     private boolean mouseOnChartTypeButtonPane = false;
 
@@ -70,6 +71,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         }
     };
 
+    public ChartTypeButtonPane(ChartTypePane chartTypePane){
+        this();
+        parent = chartTypePane;
+    }
+
     public ChartTypeButtonPane() {
         this.setLayout(new BorderLayout());
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
@@ -91,11 +97,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
-    public ChartTypeButtonPane(ChartTypePane parent){
-        this();
-        this.parent = parent;
-    }
-
     ActionListener addListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -108,39 +109,25 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             indexList.add(button);
 
             if (editingCollection != null) {
-                //这个地方应该判断是clone VanChart还是clone Chart
-                Chart[] clonedChart = null;
-                if (editingCollection.getState() == SwitchState.NEW) {
-
-                }else {
-                    clonedChart = ColumnIndependentChart.columnChartTypes;
-                }
+                //点击添加按钮，则会触发切换状态
+                Chart chart = editingCollection.getChangeStateNewChart();
                 try {
-                    Chart newChart = (Chart) clonedChart[0].clone();
+                    Chart newChart = (Chart) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
                     editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
                     FRLogger.getLogger().error("Error in Clone");
                 }
+                //获取图表收集器的状态
+                SwitchState state = editingCollection.calculateMultiChartMode();
+                if (SwitchState.isDynamicState(state) && parent != null){
+                    parent.reactorChartTypePane(state, editingCollection);
+                }
 
             }
             layoutPane(buttonPane);
-
-            //刷新下拉框
-            refreshChangeMode();
         }
-
-
     };
-
-    private void refreshChangeMode() {
-        //判断当前编辑的图表，对否开启多图表切换模式
-        boolean stateChange = editingCollection.setMultiChartMode();
-        //只有状态切换了才会重构下拉选项
-        if (parent != null && stateChange){
-            parent.fireReactor(editingCollection);
-        }
-    }
 
     MouseListener mouseListener = new MouseAdapter() {
         @Override
@@ -281,9 +268,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         //新建一个collection
         if(editingCollection != null && editingCollection.getChartCount() == 1){
             //vanChart 不支持图表切换 目前
-            /*if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
+            if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
                 addButton.setVisible(false);
-            }*/
+            }
         }
     }
 
@@ -399,9 +386,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     }
                 }
             }
-            relayoutPane();
 
-            refreshChangeMode();
+            relayoutPane();
         }
 
         private void relayoutPane() {

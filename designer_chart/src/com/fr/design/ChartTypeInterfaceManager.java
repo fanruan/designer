@@ -203,6 +203,24 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     }
 
+    /**
+     * 把chartID的pane加到list里
+     *
+     * @param chartID 图表类型
+     * @param paneList pane容器
+     */
+    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList, String chartID) {
+        ///////////////////////////待更改///////////////////////////////
+        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            IndependentChartUIProvider creator = (IndependentChartUIProvider) entry.getValue();
+            paneList.add(creator.getPlotTypePane());
+        }
+
+    }
+
+
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
         return chartTypeInterfaces.get(plotID).getChartDataPane(listener);
     }

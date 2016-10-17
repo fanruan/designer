@@ -4,24 +4,19 @@ import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
-import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
-import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-import com.fr.design.mainframe.chart.gui.item.ItemEvenType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +30,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
+	
 	@Override
 	protected JPanel createContentPane() {
 		JPanel content = new JPanel(new BorderLayout());
@@ -71,6 +67,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		return content;
 	}
 
+	public void reactorChartTypePane(SwitchState state, ChartCollection collection){
+
+	}
+
 	/**
 	 * 界面做为按钮时的图片位置. design_base
 	 */
@@ -85,12 +85,17 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public String title4PopupWindow() {
 		return PaneTitleConstants.CHART_TYPE_TITLE;
 	}
-
+	
 	class ComboBoxPane extends UIComboBoxPane<Chart>{
 		@Override
 		protected List<FurtherBasicBeanPane<? extends Chart>> initPaneList() {
 			List<FurtherBasicBeanPane<? extends Chart>> paneList = new ArrayList<FurtherBasicBeanPane<? extends Chart>>();
-			ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList);
+			if (editingCollection.getState() == SwitchState.DEFAULT) {
+				ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList);
+			}else {
+				Chart chart = editingCollection.getSelectedChart();
+				ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList, chart.getChartID());
+			}
 			return paneList;
 		}
 
@@ -101,10 +106,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		
 		public void updateBean(Chart chart) {
             int lastSelectIndex = editPane.getSelectedChartIndex(chart);
-			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
 
             try{
-                Chart newDefaultChart = (Chart)((AbstractChartTypePane)cards.get(fcb.getRelatedSelectedIndex())).getDefaultChart().clone();
+                Chart newDefaultChart = (Chart)((AbstractChartTypePane)cards.get(jcb.getSelectedIndex())).getDefaultChart().clone();
                 if(!chart.accept(newDefaultChart.getClass())){
                     //vanChart 和 chart 之间切换
                     editingCollection.removeNameObject(editingCollection.getSelectedIndex());
@@ -116,7 +120,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
             }
 
 			//这一步会替换plot
-            ((AbstractChartTypePane) cards.get(fcb.getRelatedSelectedIndex())).updateBean(chart);
+            ((AbstractChartTypePane) cards.get(jcb.getSelectedIndex())).updateBean(chart);
 
 			Plot plot = chart.getPlot();
 
@@ -131,114 +135,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && lastSelectIndex != fcb.getRelatedSelectedIndex())){
+				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && lastSelectIndex != jcb.getSelectedIndex())){
 					editPane.reLayout(chart);
 				}
 			}
-		}
-
-		@Override
-		public void populateBean(Chart ob) {
-			for (int i = 0; i < this.cards.size(); i++) {
-				FurtherBasicBeanPane pane = cards.get(i);
-				if (pane.accept(ob)) {
-					pane.populateBean(ob);
-					((FlexibleComboBox)jcb).setRelatedSelectedIndex(i);
-					return;
-				}
-			}
-		}
-
-		@Override
-		protected UIComboBox createComboBox() {
-			FlexibleComboBox comboBox = new FlexibleComboBox();
-			//初始化分界线
-			int partition = 0;
-			for (int i = 0; i < this.cards.size(); i++) {
-				String name = cards.get(i).title4PopupWindow();
-				if (name.contains(Inter.getLocText("Plugin-ChartF_NewChart"))) {
-					partition++;
-				}
-			}
-			comboBox.setPartition(partition);
-			return comboBox;
-		}
-
-
-		/**
-		 * 下拉框重构条件
-		 * 1、从None->Default(multiMode)
-		 * 2、从None->New(multiMode)
-		 * 3、从Default->None(singleMode)
-		 * 4、从New->None(singleMode)
-		 * @param is2MultiMode
-		 * @param isVanChart
-		 */
-		private void reactorComboBoxItem(boolean is2MultiMode, boolean isVanChart){
-			if (jcb == null){
-				return;
-			}
-			//重构下拉选项
-			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
-			//重构前，保存相对下标
-			int relativeIndex = is2MultiMode ? fcb.getSelectedIndex() : fcb.getRelatedSelectedIndex();
-			//多图表切换模式
-			fcb.setMultiMode(is2MultiMode);
-			//设置当前切换是新图表还是老图表
-			fcb.setBottom(!isVanChart);
-			//重构下拉框选项
-			fcb.setItemEvenType(ItemEvenType.REACTOR);
-			jcb.removeAllItems();
-			for (int i = 0; i < this.cards.size(); i++) {
-				String name = cards.get(i).title4PopupWindow();
-				if (is2MultiMode && (name.contains(Inter.getLocText("Plugin-ChartF_NewChart")) && isVanChart)) {
-					jcb.addItem(cards.get(i).title4PopupWindow());
-				} else if (is2MultiMode && (!name.contains(Inter.getLocText("Plugin-ChartF_NewChart")) && !isVanChart)) {
-					jcb.addItem(cards.get(i).title4PopupWindow());
-				}else if (!is2MultiMode){
-					jcb.addItem(cards.get(i).title4PopupWindow());
-				}
-			}
-			//重置选择项
-			fcb.setRelatedSelectedIndex(relativeIndex);
-			//重构完成
-			fcb.setItemEvenType(ItemEvenType.DEFAULT);
-
-		}
-
-		@Override
-		protected void addItemChangeEvent() {
-			jcb.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					//如果是在进行重构，则不触发状态改变事件
-					FlexibleComboBox fcb = (FlexibleComboBox)jcb;
-					if (fcb.isReactor()){
-						return;
-					}
-					comboBoxItemStateChanged();
-					CardLayout cl = (CardLayout)cardPane.getLayout();
-					cl.show(cardPane, cardNames[((FlexibleComboBox)jcb).getRelatedSelectedIndex()]);
-				}
-			});
-		}
-	}
-
-	public void fireReactor(ChartCollection collection) {
-		switch (collection.getState()){
-			case NEW:{
-				this.chartTypePane.reactorComboBoxItem(true, true);
-				break;
-			}
-			case DEFAULT:{
-				this.chartTypePane.reactorComboBoxItem(true, false);
-				break;
-			}
-			case NONE:{
-				this.chartTypePane.reactorComboBoxItem(false, false);
-				break;
-			}
-			default:this.chartTypePane.reactorComboBoxItem(false, false);
 		}
 	}
 
