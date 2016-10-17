@@ -1,12 +1,14 @@
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 
+import com.fr.design.actions.community.NeedAction;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.mainframe.widget.UITreeComboBox;
 import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
@@ -43,11 +45,13 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public static final int NODE_LENGTH = 2;
 	public static final int PARA = 0;
 	public static final int BODY = 1;
-	
+
 	private ComponentTree componentTree;
+	private UITreeComboBox treeComboBox;
+	private JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 	// richer:搜寻树节点的的文本框
-	private UITextField searchTextField;
-	private SearchResultPane searchResult;
+//	private UITextField searchTextField;
+//	private SearchResultPane searchResult;
 
 	public static FormHierarchyTreePane getInstance() {
 		return HOLDER.singleton;
@@ -64,7 +68,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	}
 
 	private FormHierarchyTreePane() {
-		setLayout(new BorderLayout(0, 6));
+		setLayout(new BorderLayout(0, 0));
 	}
 
 	@Override
@@ -86,8 +90,8 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	 */
 	public void clearDockingView() {
 		this.componentTree = null;
-		this.searchTextField = null;
-		this.searchResult = null;
+//		this.searchTextField = null;
+//		this.searchResult = null;
 		add(new JScrollPane(), BorderLayout.CENTER);
 	}
 
@@ -103,53 +107,65 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			return;
 		}
 		componentTree = new ComponentTree(formDesigner);
-		
+
 		ComponentTreeModel treeModel = (ComponentTreeModel) componentTree.getModel();
 		XCreator root = (XCreator)treeModel.getRoot();
 		int childCount = treeModel.getChildCount(root);
 		//按照节点添加para在下的，但这里需要para节点在上，调整一下位置
 		if(childCount == NODE_LENGTH){
-			adjustPosition(treeModel,formDesigner);
+			adjustPosition(treeModel, formDesigner);
 		}
-		UIScrollPane scrollPane = new UIScrollPane(componentTree);
-		scrollPane.setBorder(null);
-		add(scrollPane, BorderLayout.CENTER);
-		JPanel searchPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		add(searchPane, BorderLayout.NORTH);
-		searchPane.add(new UILabel(Inter.getLocText("FR-Designer_Search") + ":",
-				SwingConstants.HORIZONTAL), BorderLayout.WEST);
-		searchTextField = new UITextField();
-		searchPane.add(searchTextField, BorderLayout.CENTER);
-		searchTextField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				search();
-			}
+		widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 2, 3, 0));
+		add(widgetPane, BorderLayout.NORTH);
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				search();
-			}
+		if(treeComboBox == null) {
+			widgetPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
+					SwingConstants.HORIZONTAL), BorderLayout.WEST);
+			treeComboBox = new UITreeComboBox(componentTree);
+			widgetPane.add(treeComboBox, BorderLayout.CENTER);
+			add(widgetPane, BorderLayout.CENTER);
+		}
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				search();
-			}
 
-			private void search() {
-				String text = searchTextField.getText();
-				if (StringUtils.isEmpty(text)) {
-					removeSearchResult();
-				} else {
-					populate(componentTree.search(text));
-				}
-			}
-		});
+//		UIScrollPane scrollPane = new UIScrollPane(componentTree);
+//		scrollPane.setBorder(null);
+//		add(scrollPane, BorderLayout.CENTER);
+//		JPanel searchPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+//		add(searchPane, BorderLayout.NORTH);
+//		searchPane.add(new UILabel(Inter.getLocText("FR-Designer_Search") + ":",
+//				SwingConstants.HORIZONTAL), BorderLayout.WEST);
+//		searchTextField = new UITextField();
+//		searchPane.add(searchTextField, BorderLayout.CENTER);
+//		searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+//			@Override
+//			public void insertUpdate(DocumentEvent e) {
+//				search();
+//			}
+//
+//			@Override
+//			public void removeUpdate(DocumentEvent e) {
+//				search();
+//			}
+//
+//			@Override
+//			public void changedUpdate(DocumentEvent e) {
+//				search();
+//			}
+//
+//			private void search() {
+//				String text = searchTextField.getText();
+//				if (StringUtils.isEmpty(text)) {
+//					removeSearchResult();
+//				} else {
+//					populate(componentTree.search(text));
+//				}
+//			}
+//		});
 	}
-	
+
 	/**
 	 * 调整结构树para和body的位置
-	 * 
+	 *
 	 * @param treeModel
 	 * @param formDesigner
 	 */
@@ -176,114 +192,114 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	/**
 	 * 删除搜索结果
 	 */
-	public void removeSearchResult() {
-		componentTree.setSelectionPath(null);
-		if (searchResult != null) {
-			this.remove(searchResult);
-		}
-	}
+//	public void removeSearchResult() {
+//		componentTree.setSelectionPath(null);
+//		if (searchResult != null) {
+//			this.remove(searchResult);
+//		}
+//	}
+//
+//	public void populate(TreePath[] treepath) {
+//		if (this.searchResult == null) {
+//			searchResult = new SearchResultPane();
+//		}
+//		if (((BorderLayout) getLayout()).getLayoutComponent(BorderLayout.SOUTH) == null) {
+//			add(searchResult, BorderLayout.SOUTH);
+//		}
+//		searchResult.populate(treepath);
+//	}
 
-	public void populate(TreePath[] treepath) {
-		if (this.searchResult == null) {
-			searchResult = new SearchResultPane();
-		}
-		if (((BorderLayout) getLayout()).getLayoutComponent(BorderLayout.SOUTH) == null) {
-			add(searchResult, BorderLayout.SOUTH);
-		}
-		searchResult.populate(treepath);
-	}
+//	private class SearchResultPane extends JPanel {
+//		private UILabel resultLabel = new UILabel();
+//		private BackAction backAction = new BackAction();
+//		private ForWardAction forwardAction = new ForWardAction();
+//		private TreePath[] tree;
+//		private int number = 0;
+//
+//		SearchResultPane() {
+//			this.setLayout(FRGUIPaneFactory.createBorderLayout());
+//			JPanel actionJPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
+//			addButtonToJPanel(actionJPanel, backAction.createToolBarComponent());
+//			addButtonToJPanel(actionJPanel, forwardAction.createToolBarComponent());
+//
+//			this.add(actionJPanel, BorderLayout.EAST);
+//			this.add(resultLabel, BorderLayout.WEST);
+//		}
+//
+//		private void addButtonToJPanel(JPanel actionLabel,
+//									   JComponent toolBarComponent) {
+//			actionLabel.add(toolBarComponent);
+//			if (toolBarComponent instanceof UIButton) {
+//				toolBarComponent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//			}
+//		}
+//
+//		public void populate(TreePath[] search) {
+//			tree = search;
+//			resultLabel.setText(Inter.getLocText("FR-Designer_Total") + ":" + tree.length);
+//			number = 0;
+//			check();
+//		}
+//
+//		public void next() {
+//			if (number < tree.length - 1) {
+//				componentTree.setAndScrollSelectionPath(tree[++number]);
+//			}
+//			check();
+//		}
+//
+//		public void last() {
+//			if (number > 0) {
+//				componentTree.setAndScrollSelectionPath(tree[--number]);
+//			}
+//			check();
+//		}
+//
+//		public void check() {
+//			if (tree.length < 1) {
+//				backAction.setEnabled(false);
+//				forwardAction.setEnabled(false);
+//			} else {
+//				backAction.setEnabled(number > 0);
+//				forwardAction.setEnabled(number < tree.length - 1);
+//			}
+//
+//		}
 
-	private class SearchResultPane extends JPanel {
-		private UILabel resultLabel = new UILabel();
-		private BackAction backAction = new BackAction();
-		private ForWardAction forwardAction = new ForWardAction();
-		private TreePath[] tree;
-		private int number = 0;
+	//}
 
-		SearchResultPane() {
-			this.setLayout(FRGUIPaneFactory.createBorderLayout());
-			JPanel actionJPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-			addButtonToJPanel(actionJPanel, backAction.createToolBarComponent());
-			addButtonToJPanel(actionJPanel, forwardAction.createToolBarComponent());
-
-			this.add(actionJPanel, BorderLayout.EAST);
-			this.add(resultLabel, BorderLayout.WEST);
-		}
-
-		private void addButtonToJPanel(JPanel actionLabel,
-									   JComponent toolBarComponent) {
-			actionLabel.add(toolBarComponent);
-			if (toolBarComponent instanceof UIButton) {
-				toolBarComponent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-			}
-		}
-
-		public void populate(TreePath[] search) {
-			tree = search;
-			resultLabel.setText(Inter.getLocText("FR-Designer_Total") + ":" + tree.length);
-			number = 0;
-			check();
-		}
-
-		public void next() {
-			if (number < tree.length - 1) {
-				componentTree.setAndScrollSelectionPath(tree[++number]);
-			}
-			check();
-		}
-
-		public void last() {
-			if (number > 0) {
-				componentTree.setAndScrollSelectionPath(tree[--number]);
-			}
-			check();
-		}
-
-		public void check() {
-			if (tree.length < 1) {
-				backAction.setEnabled(false);
-				forwardAction.setEnabled(false);
-			} else {
-				backAction.setEnabled(number > 0);
-				forwardAction.setEnabled(number < tree.length - 1);
-			}
-
-		}
-
-	}
-
-	private class BackAction extends UpdateAction {
-
-		public BackAction() {
-			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Last"));
-			this.setSmallIcon(BaseUtils
-					.readIcon("com/fr/design/images/m_help/back.png"));
-			this.setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			searchResult.last();
-		}
-	}
-
-	private class ForWardAction extends UpdateAction {
-
-		public ForWardAction() {
-			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Next"));
-			this.setSmallIcon(BaseUtils
-					.readIcon("com/fr/design/images/m_help/forward.png"));
-			this.setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			searchResult.next();
-		}
-	}
+//	private class BackAction extends UpdateAction {
+//
+//		public BackAction() {
+//			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Last"));
+//			this.setSmallIcon(BaseUtils
+//					.readIcon("com/fr/design/images/m_help/back.png"));
+//			this.setEnabled(false);
+//		}
+//
+//		public void actionPerformed(ActionEvent e) {
+//			searchResult.last();
+//		}
+//	}
+//
+//	private class ForWardAction extends UpdateAction {
+//
+//		public ForWardAction() {
+//			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Next"));
+//			this.setSmallIcon(BaseUtils
+//					.readIcon("com/fr/design/images/m_help/forward.png"));
+//			this.setEnabled(false);
+//		}
+//
+//		public void actionPerformed(ActionEvent e) {
+//			searchResult.next();
+//		}
+//	}
 
 	@Override
 	/**
 	 * 位置
-	 * 
+	 *
 	 * @return 位置
 	 */
 	public Location preferredLocation() {

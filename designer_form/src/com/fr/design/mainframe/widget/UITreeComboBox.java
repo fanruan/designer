@@ -107,14 +107,16 @@ public class UITreeComboBox extends JComboBox{
     class UITreeComboBoxRenderer extends DefaultListCellRenderer {
         public Component getListCellRendererComponent(JList list, Object value,
                                                       int index, boolean isSelected, boolean cellHasFocus){
-            if(value != null){
-                TreePath path = (TreePath)value;
+            if(tree != null ){
+                TreePath path = tree.getSelectedTreePath()[0];
+                tree.setAndScrollSelectionPath(path);
                 Object node = path.getLastPathComponent();
                 value = node;
                 TreeCellRenderer r = tree.getCellRenderer();
                 JLabel lb = (JLabel)r.getTreeCellRendererComponent(
                         tree, value, isSelected, false, false, index,
                         cellHasFocus);
+
                 return lb;
             }
             return super.getListCellRendererComponent(list, value, index,
@@ -138,7 +140,8 @@ public class UITreeComboBox extends JComboBox{
                 setSelectedItem(paths[0]);
                 MenuSelectionManager.defaultManager().clearSelectedPath();
             }  else {
-                return;
+                tree.refreshUI();
+                repaint();
             }
 
         }

@@ -36,11 +36,8 @@ public class ComponentTree extends JTree {
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
         this.refreshTreeRoot();
-        TreePath[] paths = getSelectedTreePath();
         addTreeSelectionListener(designer);
-        setSelectionPaths(paths);
 
-        designer.addDesignerEditListener(new TreeDesignerEditAdapter());
         this.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -159,40 +156,7 @@ public class ComponentTree extends JTree {
         return paths;
     }
 
-    private class TreeDesignerEditAdapter implements DesignerEditListener {
 
-        @Override
-        public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-                TreePath[] paths = getSelectedTreePath();
-
-                if (paths.length == 1) {
-                    setAndScrollSelectionPath(paths[0]);
-                } else {
-                    setSelectionPaths(paths);
-                }
-            }  else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-                ComponentTree.this.refreshUI();
-                TreePath[] paths = getSelectedTreePath();
-
-                if (paths.length == 1) {
-                    setAndScrollSelectionPath(paths[0]);
-                } else {
-                    setSelectionPaths(paths);
-                }
-                ComponentTree.this.repaint();
-
-            }  else {
-                ComponentTree.this.refreshUI();
-                ComponentTree.this.repaint();
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return o.getClass() == this.getClass();
-        }
-    }
 
 
     /**

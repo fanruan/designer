@@ -48,12 +48,12 @@ public class ParameterPropertyPane extends JPanel{
 		
         this.setLayout(new BorderLayout(0, 6));
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        this.add(toolbarPane, BorderLayout.NORTH);
+        this.add(toolbarPane, BorderLayout.CENTER);
 	}
 	
 	private void setEditor(FormDesigner editor) {
 		this.remove(FormHierarchyTreePane.getInstance());
-		this.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.CENTER);
+		this.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.NORTH);
 	}
 
 	private void initParameterListener() {
