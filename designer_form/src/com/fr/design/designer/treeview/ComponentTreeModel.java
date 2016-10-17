@@ -148,8 +148,7 @@ public class ComponentTreeModel implements TreeModel {
             XWFitLayout bodyFitLayout = (XWFitLayout)xCreator;
             for (int i = 0;i < bodyFitLayout.getXCreatorCount();i++){
                 //类型是绝对布局并且还是body
-                if (bodyFitLayout.getXCreator(i).acceptType(XWAbsoluteLayout.class)
-                        && ((XWAbsoluteLayout)bodyFitLayout.getXCreator(i)).toData().isAbsoluteLayoutAsBody()){
+                if (bodyFitLayout.getXCreator(i).acceptType(XWAbsoluteBodyLayout.class)){
                     index = i;
                 }
             }

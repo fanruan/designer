@@ -4,7 +4,7 @@
 package com.fr.design.designer.properties;
 
 import com.fr.design.beans.GroupModel;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
@@ -14,6 +14,7 @@ import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
@@ -132,18 +133,18 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 			}else if (row == 0) {
 				layout.setLayoutType(WBodyLayoutType.parse(state));
 				if (state == WBodyLayoutType.ABSOLUTE.getTypeValue()) {
-					WAbsoluteLayout wAbsoluteLayout = new WAbsoluteLayout("body");
-					wAbsoluteLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
+					WAbsoluteBodyLayout wAbsoluteBodyLayout = new WAbsoluteBodyLayout("body");
+					wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
 					Component[] components = xfl.getComponents();
 					xfl.removeAll();
-					XWAbsoluteLayout xwAbsoluteLayout = new XWAbsoluteLayout(wAbsoluteLayout, new Dimension(0,0), true);
-					xfl.getLayoutAdapter().addBean(xwAbsoluteLayout, 0, 0);
+					XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0,0));
+					xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
 					for (Component component : components) {
-						xwAbsoluteLayout.add(component);
+						xwAbsoluteBodyLayout.add(component);
 					}
 					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 					formDesigner.getSelectionModel().setSelectedCreators(
-							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{wAbsoluteLayout}));
+							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{wAbsoluteBodyLayout}));
 				}
 				else {
 					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
