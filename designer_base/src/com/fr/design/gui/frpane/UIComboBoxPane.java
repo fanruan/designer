@@ -56,6 +56,11 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		jcb.setSelectedIndex(0);
 	}
 
+	public FurtherBasicBeanPane<? extends T> getSelectedPane(){
+		return cards.get(jcb.getSelectedIndex());
+	}
+
+
 	protected void addItemChangeEvent() {
 		jcb.addItemListener(new ItemListener() {
 			@Override
@@ -120,6 +125,8 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 			}
 		}
 	}
+
+
 
 	@Override
 	public T updateBean() {
