@@ -52,8 +52,6 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         this.add(imagePanel, BorderLayout.NORTH);
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(108, 20));
         UILabel label = new UILabel(bindInfo.getName(), SwingConstants.HORIZONTAL);
         label.setOpaque(true);
         label.setBackground(new Color(184, 220, 242));
