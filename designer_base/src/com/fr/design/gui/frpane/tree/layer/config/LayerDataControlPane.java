@@ -208,7 +208,7 @@ public class LayerDataControlPane extends ControlPane {
             for (int i = 0; i < count; i++) {
 
                 DefaultMutableTreeNode node4add = new DefaultMutableTreeNode(
-                    new NameObject(Inter.getLocText("FR-Designer_Gradation") + (i + 1), layerConfigs[i]));
+                    new NameObject(Inter.getLocText("FR-Designer_Gradation") + (i + 1), layerConfigs[i].clone()));
                 node4root.add(node4add);
                 node4root = node4add;
             }
