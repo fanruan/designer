@@ -1,6 +1,7 @@
 package com.fr.design.gui.frpane.tree.layer.config;
 
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.present.dict.TableDataDictPane;
 import com.fr.form.ui.tree.LayerDependence;
 import com.fr.general.Inter;
@@ -31,12 +32,12 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
     /**
      * 添加依赖按钮
      */
-    private JButton addButton;
+    private UIButton addButton;
 
     /**
      * 删除依赖按钮
      */
-    private JButton delButton;
+    private UIButton delButton;
 
     /**
      * 依赖关系编辑Table
@@ -66,8 +67,8 @@ public class LayerDependenceSettingPane extends JPanel implements ItemListener {
         tableDataDictPane.tableDataNameComboBox.addItemListener(this);
 
         //初始化按钮对象
-        addButton = new JButton(Inter.getLocText("add"));
-        delButton = new JButton(Inter.getLocText("Delete"));
+        addButton = new UIButton(Inter.getLocText("add"));
+        delButton = new UIButton(Inter.getLocText("Delete"));
         //初始化Table对象,并添加renderer和editor
         model = new LayerDepenceTableModel();
         dependenceTable = new JTable(model);

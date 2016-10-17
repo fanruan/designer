@@ -156,15 +156,11 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 			te.setAutoBuild(true);
 			te.setDictionary(dictionary);
 			te.setNodeOrDict(dictionary);
-        } else if (buildBox.getSelectedIndex() == 0) {
-            // TODO: 16/9/12
-            te.setLayerBuild(true);
-
-        } else {
-            te.setAutoBuild(false);
-            NameObject no = this.controlPane.update();
-            if (no != null) {
-                TreeEditor editor = (TreeEditor) no.getObject();
+		} else if (buildBox.getSelectedIndex() == 2) {
+			te.setAutoBuild(false);
+			NameObject no = this.controlPane.update();
+			if (no != null) {
+				TreeEditor editor = (TreeEditor) no.getObject();
                 te.setAllowBlank(editor.isAllowBlank());
                 te.setEnabled(editor.isEnabled());
                 te.setDirectEdit(editor.isDirectEdit());
@@ -212,15 +208,13 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 			tcb.setAutoBuild(true);
 			tcb.setDictionary(dictionary);
 			tcb.setNodeOrDict(dictionary);
-        } else if (buildBox.getSelectedIndex() == 0) {
-            // TODO: 16/9/12
-        } else {
-            tcb.setAutoBuild(false);
-            NameObject no = this.controlPane.update();
-            if (no != null) {
-                if (no.getObject() instanceof TreeComboBoxEditor) {
-                    return (TreeComboBoxEditor) no.getObject();
-                }
+		} else if (buildBox.getSelectedIndex() == 2) {
+			tcb.setAutoBuild(false);
+			NameObject no = this.controlPane.update();
+			if (no != null) {
+				if (no.getObject() instanceof TreeComboBoxEditor) {
+					return (TreeComboBoxEditor) no.getObject();
+				}
 
 				TreeEditor editor = (TreeEditor) no.getObject();
 				tcb.setAllowBlank(editor.isAllowBlank());

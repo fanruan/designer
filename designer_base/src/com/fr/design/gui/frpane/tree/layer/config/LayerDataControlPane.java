@@ -49,10 +49,9 @@ public class LayerDataControlPane extends ControlPane {
         JPanel leftPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(Inter.getLocText("FR-Designer_Root"));
         defaultTreeModel = new DefaultTreeModel(rootNode);
-        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(Inter.getLocText("FR-Designer_Gradation") + 1, new LayerConfig(1)));
         tree = new JTree(defaultTreeModel);
+        DefaultMutableTreeNode firstLayer = new DefaultMutableTreeNode(new NameObject(Inter.getLocText("FR-Designer_Gradation") + 1, new LayerConfig(1)));
         tree.setRootVisible(false);
-        tree.repaint();
         ((DefaultMutableTreeNode) defaultTreeModel.getRoot()).getLastLeaf().add(firstLayer);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         leftPane.add(new UIScrollPane(tree), BorderLayout.CENTER);
