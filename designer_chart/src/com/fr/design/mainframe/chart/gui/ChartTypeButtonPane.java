@@ -272,9 +272,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     private void checkConfigButtonVisible() {
         addButton.setVisible(true);
-        configButton.setVisible(true);
         //新建一个collection
-        if(editingCollection.getState() == SwitchState.CHANGE){
+        if(editingCollection.getState() == SwitchState.DEFAULT){
             //Chart 不支持图表切换
             configButton.setVisible(editingCollection.getSelectedChart().supportChange());
         }
