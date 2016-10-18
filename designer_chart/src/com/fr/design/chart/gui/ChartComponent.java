@@ -10,6 +10,7 @@ import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartglyph.AxisGlyph;
+import com.fr.chart.chartimage.ChartGlyphToImageManager;
 import com.fr.design.chart.gui.active.ActiveGlyph;
 import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.gui.chart.MiddleChartComponent;
@@ -44,8 +45,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     private ActiveGlyph activeGlyph;
     
     private boolean supportEdit = true;
-
-    private ChartGlyphDrawEvent glyphDrawEvent  = null;
 
     private final int[] resizeCursors = new int[]{
             Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
@@ -184,7 +183,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //画图
-        drawImage(g2d);
+        drawChartGlyph(g2d);
 
         ActiveGlyph ag = this.getActiveGlyph();
 		if (ag != null) {
@@ -197,13 +196,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         }
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, lastHint);
-    }
-
-    /**
-     * 事件结束后，释放事件
-     */
-    public void deleteDrawEvent(){
-        glyphDrawEvent = null;
     }
 
     /*
@@ -312,15 +304,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         return chartGlyph == null || chartWidth != this.getBounds().width || chartHeight != this.getBounds().height;
     }
 
-    private void drawImage(Graphics2D g2d){
-        //画图事件处理
-        glyphDrawEvent = new ChartGlyphDrawEvent(this, g2d);
-        //注册事件执行者
-        chartGlyph.addChartDataEvent(glyphDrawEvent);
-        //处理画图事件
-        glyphDrawEvent.run();
-    }
-
     public void drawChartGlyph(Graphics2D g2d) {
         if (chartGlyph != null) {
             if (chartGlyph.isRoundBorder()) {
@@ -331,7 +314,9 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             // chartGlyph.draw(g2d, ScreenResolution.getScreenResolution());
             //不直接画chartGlyph而画image的原因是表单的柱形图会溢出表单
             //其他图都ok，其实感觉应该是柱形图画的不对，应该也可以改那边
-            Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution());
+            //处理画图事件
+            Image chartImage = ChartGlyphToImageManager.toImage(g2d, chartGlyph, chartWidth, chartHeight, ScreenResolution.getScreenResolution());
+            //Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution());
             g2d.drawImage(chartImage, 0, 0,  null);
         }
     }
