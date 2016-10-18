@@ -214,7 +214,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         this.editingChart = this.chartCollection4Design.getSelectedChart();// kunsnat: 切换选中时 同步切换Plot
         if (editingChart != null) {
             this.chartGlyph = editingChart.createGlyph(editingChart.defaultChartData());
-            //注册ChartData监听器
             this.activeGlyph = ActiveGlyphFactory.createActiveGlyph(this, chartGlyph);
         }
         this.chartWidth = d.width - ChartConstants.PREGAP4BOUNDS;
