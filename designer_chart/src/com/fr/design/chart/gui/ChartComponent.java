@@ -5,7 +5,6 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGlyph;
-import com.fr.base.chart.chartdata.ChartDataEvent;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Chart;
