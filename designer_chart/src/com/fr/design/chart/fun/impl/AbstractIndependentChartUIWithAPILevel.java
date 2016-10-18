@@ -15,7 +15,7 @@ import com.fr.general.ComparatorUtils;
  * Created by Mitisky on 16/3/7.
  */
 public abstract class AbstractIndependentChartUIWithAPILevel implements IndependentChartUIProvider {
-    private static final int OLD_PLUGIN_LEVEL = -2;
+    private static final int OLD_PLUGIN_LEVEL = 3;
 
     @Override
     //以前的插件没有覆写这个方法,所以始终获取到-2,比当前level低,提示更新.

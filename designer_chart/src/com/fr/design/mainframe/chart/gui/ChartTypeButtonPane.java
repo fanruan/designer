@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart.gui;
 import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ColumnIndependentChart;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.event.UIObserver;
@@ -35,6 +36,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int COL_COUNT = 3;
 
     private UIButton addButton;
+    private UIButton configButton;
     private ArrayList<ChartChangeButton> indexList = new ArrayList<ChartChangeButton>();
 
     private JPanel buttonPane;
@@ -42,6 +44,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private UIObserverListener uiobListener = null;
     private ComboBoxPane editChartType;
     private UITextField currentEditingEditor = null;
+
+    private ChartTypePane parent = null;
 
     private boolean mouseOnChartTypeButtonPane = false;
 
@@ -68,9 +72,15 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         }
     };
 
+    public ChartTypeButtonPane(ChartTypePane chartTypePane){
+        this();
+        parent = chartTypePane;
+    }
+
     public ChartTypeButtonPane() {
         this.setLayout(new BorderLayout());
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
+        configButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/config.png"));
 
         buttonPane = new JPanel();
         this.add(buttonPane, BorderLayout.CENTER);
@@ -80,8 +90,13 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         eastPane.setLayout(new BorderLayout());
 
-        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 20));
-        eastPane.add(addButton, BorderLayout.NORTH);
+        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 15));
+        JPanel button = new JPanel();
+        button.setPreferredSize(new Dimension(45, 20));
+        button.setLayout(new GridLayout(1, 2, 5, 0));
+        button.add(addButton);
+        button.add(configButton);
+        eastPane.add(button, BorderLayout.NORTH);
 
         addButton.setPreferredSize(new Dimension(20, 20));
         addButton.addActionListener(addListener);
@@ -101,13 +116,19 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             indexList.add(button);
 
             if (editingCollection != null) {
-                Chart[] barChart = ColumnIndependentChart.columnChartTypes;
+                //点击添加按钮，则会触发切换状态
+                Chart chart = editingCollection.getChangeStateNewChart();
                 try {
-                    Chart newChart = (Chart) barChart[0].clone();
+                    Chart newChart = (Chart) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
                     editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
                     FRLogger.getLogger().error("Error in Clone");
+                }
+                //获取图表收集器的状态
+                SwitchState state = editingCollection.calculateMultiChartMode();
+                if (SwitchState.isDynamicState(state) && parent != null){
+                    parent.reactorChartTypePane(editingCollection);
                 }
 
             }
@@ -246,17 +267,15 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         }
 
         layoutPane(buttonPane);
-        checkAddButtonVisible();
+        checkConfigButtonVisible();
     }
 
-    private void checkAddButtonVisible() {
+    private void checkConfigButtonVisible() {
         addButton.setVisible(true);
         //新建一个collection
-        if(editingCollection != null && editingCollection.getChartCount() == 1){
-            //vanChart 不支持图表切换 目前
-            if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
-                addButton.setVisible(false);
-            }
+        if(editingCollection.getState() == SwitchState.DEFAULT){
+            //Chart 不支持图表切换
+            configButton.setVisible(editingCollection.getSelectedChart().supportChange());
         }
     }
 
@@ -367,10 +386,19 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     for (int i = 0; i < count; i++) {
                         if (ComparatorUtils.equals(getButtonName(), editingCollection.getChartName(i))) {
                             editingCollection.removeNameObject(i);
+                            if (i <= editingCollection.getSelectedIndex()){
+                                editingCollection.setSelectedIndex(editingCollection.getSelectedIndex()-1);
+                            }
                             break;
                         }
                     }
                 }
+            }
+
+            //获取图表收集器的状态
+            SwitchState state = editingCollection.calculateMultiChartMode();
+            if (SwitchState.isDynamicState(state) && parent != null){
+                parent.reactorChartTypePane(editingCollection);
             }
 
             relayoutPane();

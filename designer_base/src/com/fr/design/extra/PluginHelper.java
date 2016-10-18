@@ -153,7 +153,6 @@ public class PluginHelper {
         installDependenceOnline(currentID, needInstallDependence);
     }
 
-
     /**
      * 构造一个下载UI
      * @param currentID
