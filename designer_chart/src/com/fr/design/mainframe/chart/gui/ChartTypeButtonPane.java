@@ -127,7 +127,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 }
                 //获取图表收集器的状态
                 SwitchState state = editingCollection.calculateMultiChartMode();
-                if (SwitchState.isDynamicState(state) && parent != null){
+                if (state.isDynamicState() && parent != null){
                     parent.reactorChartTypePane(editingCollection);
                 }
 
@@ -397,7 +397,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             //获取图表收集器的状态
             SwitchState state = editingCollection.calculateMultiChartMode();
-            if (SwitchState.isDynamicState(state) && parent != null){
+            if (state.isDynamicState() && parent != null){
                 parent.reactorChartTypePane(editingCollection);
             }
 
