@@ -542,13 +542,12 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         andRadioButton.setSelected(true);
 
-        JPanel radioPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(3);
+        JPanel radioPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
         addControlPane.add(radioPane);
         radioPane.add(andRadioButton);
-        addControlPane.add(Box.createHorizontalStrut(4));
         radioPane.add(orRadioButton);
 
-        addControlPane.add(Box.createHorizontalStrut(12));
+        addControlPane.add(Box.createHorizontalStrut(35));
 
         addButton = new UIButton(Inter.getLocText("FR-Designer_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
         addButton.setMnemonic('A');
