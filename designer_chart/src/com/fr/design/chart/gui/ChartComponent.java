@@ -327,7 +327,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     }
 
     @Override
-    public void fire() {
+    public void callback() {
         this.repaint();
     }
 }
