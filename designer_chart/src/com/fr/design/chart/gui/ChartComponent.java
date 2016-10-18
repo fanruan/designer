@@ -323,7 +323,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
 
     @Override
     public void registerChartDataEvent(BaseChartGlyph glyph) {
-        glyph.registerChartDataEvent(this);
+        glyph.addChartDataEvent(this);
     }
 
     @Override
