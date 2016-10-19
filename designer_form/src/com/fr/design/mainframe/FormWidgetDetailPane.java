@@ -126,7 +126,7 @@ public class FormWidgetDetailPane extends FormDockView{
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
         downPanel.setPreferredSize(new Dimension(236, rowCount * 82));
         reuWidgetPanel = new JPanel();
-        comboBox = new UIComboBox(getCategories());
+        comboBox = new UIComboBox(getFormCategories());
         comboBox.setPreferredSize(new Dimension(236, 30));
         initComboBoxSelectedListener();
         reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
@@ -151,6 +151,9 @@ public class FormWidgetDetailPane extends FormDockView{
         });
     }
 
+    /**
+     * 创建下载模板的按钮
+     */
     private void createDownloadButton() {
         downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/showmenu.png"));
@@ -175,9 +178,15 @@ public class FormWidgetDetailPane extends FormDockView{
             }
         });
     }
-    public String[] getCategories() {
+
+    /**
+     * 获取报表块组件分类
+     */
+    public String[] getFormCategories() {
         return ShareConstants.WIDGET_CATEGORIES;
     }
+
+    
 
     public void refreshDownPanel() {
         reuWidgetPanel.remove(downPanel);
