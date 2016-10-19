@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.*;
@@ -10,12 +12,26 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.file.WebPreviewUtils;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.ShopDialog;
+import com.fr.design.extra.WebManagerPaneFactory;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIPopupMenu;
+import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
@@ -30,10 +46,11 @@ import com.fr.general.Inter;
 public class FormWidgetDetailPane extends FormDockView{
 
     private UITabbedPane tabbedPane;
-    private JScrollPane downPanel;
+    private UIScrollPane downPanel;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
+    private UIButton downloadButton;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -84,14 +101,12 @@ public class FormWidgetDetailPane extends FormDockView{
         }
         initReuWidgetPanel();
         esp.add(reuWidgetPanel, BorderLayout.CENTER);
-        UIButton button = new UIButton();
-        button.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
-        button.set4ToolbarButton();
+        createDownButton();
         JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 3));
         widgetPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
-        widgetPane.add(button, BorderLayout.EAST);
+        widgetPane.add(downloadButton, BorderLayout.EAST);
         esp.add(widgetPane,BorderLayout.NORTH);
         tabbedPane = new UITabbedPane();
         tabbedPane.setOpaque(true);
@@ -110,7 +125,7 @@ public class FormWidgetDetailPane extends FormDockView{
         int rowCount = (elCaseBindInfoList.length + 1)/2;
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
         downPanel.setPreferredSize(new Dimension(236, rowCount * 82));
-        reuWidgetPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
+        reuWidgetPanel = new JPanel();
         comboBox = new UIComboBox(getCategories());
         comboBox.setPreferredSize(new Dimension(236, 30));
         initComboBoxSelectedListener();
@@ -136,6 +151,36 @@ public class FormWidgetDetailPane extends FormDockView{
         });
     }
 
+    private void createDownButton() {
+        downloadButton = new UIButton();
+        downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/showmenu.png"));
+        downloadButton.set4ToolbarButton();
+        downloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                if (jt == null) {
+                    return;
+                }
+
+                UIPopupMenu menu = new UIPopupMenu();
+
+                UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
+                menu.add(downloadItem);
+                downloadItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BasicPane managerPane = new WebManagerPaneFactory().createReusePane();
+                        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
+                        PluginWebBridge.getHelper().setDialogHandle(dlg);
+                        dlg.setVisible(true);
+                    }
+                });
+                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + 140, tabbedPane.getY() + 26);
+
+            }
+        });
+    }
     public String[] getCategories() {
         return ShareConstants.WIDGET_CATEGORIES;
     }
