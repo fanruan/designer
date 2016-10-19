@@ -51,6 +51,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
     private UIButton downloadButton;
+    private static final int OFFSET_X = 140;
+    private static final int OFFSET_Y = 26;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -173,7 +175,7 @@ public class FormWidgetDetailPane extends FormDockView{
                         dlg.setVisible(true);
                     }
                 });
-                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + 140, tabbedPane.getY() + 26);
+                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, tabbedPane.getY() + OFFSET_Y);
 
             }
         });
@@ -186,7 +188,7 @@ public class FormWidgetDetailPane extends FormDockView{
         return ShareConstants.WIDGET_CATEGORIES;
     }
 
-    
+
 
     public void refreshDownPanel() {
         reuWidgetPanel.remove(downPanel);
