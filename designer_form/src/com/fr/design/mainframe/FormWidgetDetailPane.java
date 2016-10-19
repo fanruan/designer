@@ -101,7 +101,7 @@ public class FormWidgetDetailPane extends FormDockView{
         }
         initReuWidgetPanel();
         esp.add(reuWidgetPanel, BorderLayout.CENTER);
-        createDownButton();
+        createDownloadButton();
         JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 3));
         widgetPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
@@ -151,20 +151,14 @@ public class FormWidgetDetailPane extends FormDockView{
         });
     }
 
-    private void createDownButton() {
+    private void createDownloadButton() {
         downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/showmenu.png"));
         downloadButton.set4ToolbarButton();
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-                if (jt == null) {
-                    return;
-                }
-
                 UIPopupMenu menu = new UIPopupMenu();
-
                 UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
                 menu.add(downloadItem);
                 downloadItem.addActionListener(new ActionListener() {
