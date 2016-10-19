@@ -157,6 +157,7 @@ public class XCreatorUtils {
             FRContext.getLogger().error("Error to create xcreator!");
             creator = new NullCreator(widget, d);
         }
+        creator.setShareMsgByWidget(widget);//设置共享信息
         return creator;
     }
 

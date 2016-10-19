@@ -35,7 +35,7 @@ import java.beans.PropertyDescriptor;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
-    private JPanel coverPanel;
+    private CoverReportPane coverPanel;
 	private FormDesigner designer;
 	//缩略图
 	private BufferedImage thumbnailImage;
@@ -181,11 +181,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
      * @param display     是否
      */
     public void  displayCoverPane(boolean display){
-        coverPanel.setVisible(display);
-        coverPanel.setPreferredSize(editor.getPreferredSize());
-        coverPanel.setBounds(editor.getBounds());
-        editor.repaint();
-    }
+		coverPanel.setVisible(display);
+		coverPanel.setBounds(1, 1, (int) editor.getBounds().getWidth(), (int) editor.getBounds().getHeight());
+		editor.repaint();
+	}
 
     public JComponent getCoverPane(){
         return coverPanel;
@@ -263,7 +262,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 */
 	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
 		super.respondClick(editingMouseListener, e);
-		switchTab(e,editingMouseListener);
+		if (this.isHelpBtnOnFocus()) {
+			coverPanel.setMsgDisplay(e);
+		}else {
+			switchTab(e,editingMouseListener);
+		}
 	}
 
 
@@ -279,5 +282,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new ElementCasePropertyUI(this)};
+	}
+
+	@Override
+	public void setSharedMsg(String msg) {
+		coverPanel.setHelpMsg(msg);
 	}
 }

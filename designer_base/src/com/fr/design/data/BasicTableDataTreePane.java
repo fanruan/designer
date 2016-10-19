@@ -3,6 +3,7 @@ package com.fr.design.data;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
+import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -422,5 +423,8 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_CONNECTION_ICON_PATH));
         }
+    }
+    public void addTableData(TableDataSource tableDataSource){
+
     }
 }

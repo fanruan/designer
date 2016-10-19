@@ -39,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TableDataTreePane extends BasicTableDataTreePane {
@@ -138,6 +139,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         populate(new TableDataSourceOP(tc));
         this.checkButtonEnabled();
     }
+
     protected void initbuttonGroup() {
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
@@ -266,5 +268,23 @@ public class TableDataTreePane extends BasicTableDataTreePane {
      */
     public TableDataTree getDataTree() {
         return dataTree;
+    }
+
+    public void addTableData(TableDataSource tableDataSource) {
+        DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
+        TableDataSource tds = tc.getBook();
+        Iterator tdIterator = tableDataSource.getTableDataNameIterator();
+        while (tdIterator.hasNext()) {
+            String tdName = (String) tdIterator.next();
+            TableData td = tableDataSource.getTableData(tdName);
+            if (tds.getTableData(tdName) != null) {
+                tds.putTableData(tdName + "-fr-el", td);
+            } else {
+                tds.putTableData(tdName, td);
+            }
+        }
+        tc.fireTargetModified();
+        tc.parameterChanged();
+        dataTree.refresh();
     }
 }
