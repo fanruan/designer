@@ -52,7 +52,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
     private static LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>> chartTypeInterfaces = new LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>>();
-    //private static LinkedHashMap<String, IndependentChartUIProvider> chartTypeInterfaces = new LinkedHashMap<String, IndependentChartUIProvider>();
+    private static final String DEFAULT_CHART_ID = "DefaultChart";
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
@@ -136,7 +136,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartUIList.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartUIList.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
 
-        chartTypeInterfaces.put(ChartConstants.CHART_ID, chartUIList);
+        chartTypeInterfaces.put(DEFAULT_CHART_ID, chartUIList);
     }
 
     public String getIconPath(String plotID) {
@@ -286,7 +286,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getChartDataPane(chartID, plotID, listener);
         }
-        return getChartDataPane(ChartConstants.DEFAULT_CHART_ID, plotID, listener);
+        return getChartDataPane(DEFAULT_CHART_ID, plotID, listener);
     }
 
     private ChartDataPane getChartDataPane(String chartID, String plotID, AttributeChangeListener listener) {
@@ -312,7 +312,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getAttrPaneArray(chartID, plotID, listener);
         }
-        return getAttrPaneArray(ChartConstants.DEFAULT_CHART_ID, plotID, listener);
+        return getAttrPaneArray(DEFAULT_CHART_ID, plotID, listener);
     }
 
     private AbstractChartAttrPane[] getAttrPaneArray(String chartID, String plotID, AttributeChangeListener listener) {
@@ -326,7 +326,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getTableDataSourcePane(chartID, plot, parent);
         }
-        return getTableDataSourcePane(ChartConstants.DEFAULT_CHART_ID, plot, parent);
+        return getTableDataSourcePane(DEFAULT_CHART_ID, plot, parent);
     }
 
     private AbstractTableDataContentPane getTableDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
@@ -341,7 +341,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getReportDataSourcePane(chartID, plot, parent);
         }
-        return getReportDataSourcePane(ChartConstants.DEFAULT_CHART_ID, plot, parent);
+        return getReportDataSourcePane(DEFAULT_CHART_ID, plot, parent);
     }
 
     private AbstractReportDataContentPane getReportDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
@@ -356,7 +356,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getPlotConditionPane(chartID, plot);
         }
-        return getPlotConditionPane(ChartConstants.DEFAULT_CHART_ID, plot);
+        return getPlotConditionPane(DEFAULT_CHART_ID, plot);
     }
 
     private ConditionAttributesPane getPlotConditionPane(String chartID, Plot plot) {
@@ -371,7 +371,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             String chartID = (String) entry.getKey();
             return getPlotSeriesPane(chartID, parent, plot);
         }
-        return getPlotSeriesPane(ChartConstants.DEFAULT_CHART_ID, parent, plot);
+        return getPlotSeriesPane(DEFAULT_CHART_ID, parent, plot);
     }
 
     private BasicBeanPane<Plot> getPlotSeriesPane(String chartID, ChartStylePane parent, Plot plot) {
@@ -418,7 +418,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 extraChartDesignInterfaceList.add(tagName);
             }
             if (IndependentChartUIProvider.XML_TAG.equals(tagName)) {
-                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("chartID", ChartConstants.DEFAULT_CHART_ID),reader.getAttrAsString("plotID", ""), simplify);
+                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("chartID", DEFAULT_CHART_ID),reader.getAttrAsString("plotID", ""), simplify);
             }
         }
     }
