@@ -586,8 +586,19 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
-	 * 设置共享帮助信息
+	 * 设置描述信息
 	 * @param msg 帮助信息
      */
-	public void setSharedMsg(String msg){}
+	public void setXDescrption(String msg){}
+
+	/**
+	 * 根据widget设置Xcreator描述信息
+	 * @param widget
+     */
+	public void setXDescrption(Widget widget){
+		if (widget != null) {
+			setXDescrption(widget.getDescription());
+		}
+
+	}
 }

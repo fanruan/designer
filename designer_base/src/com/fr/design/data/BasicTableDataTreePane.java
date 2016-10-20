@@ -3,6 +3,7 @@ package com.fr.design.data;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
+import com.fr.data.TableDataSource;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.UpdateAction;
@@ -422,5 +423,14 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
             this.setMnemonic('D');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_CONNECTION_ICON_PATH));
         }
+    }
+
+    /**
+     * 合并数据集
+     * @param srcName 数据集来源(比如报表块，就是报表块的名称)
+     * @param tableDataSource 数据集
+     */
+    public void addTableData(String srcName, TableDataSource tableDataSource) {
+
     }
 }

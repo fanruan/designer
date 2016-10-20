@@ -1,14 +1,5 @@
 package com.fr.design.mainframe;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.beans.location.MoveUtils;
 import com.fr.design.designer.beans.AdapterBus;
@@ -28,6 +19,11 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * 普通模式下的鼠标点击、位置处理器
@@ -291,18 +287,28 @@ public class EditingMouseListener extends MouseInputAdapter {
 
         if (component.isReport()) {
             xElementCase = (XElementCase)component;
-            UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
+			UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
+            JComponent button1= (JComponent) xElementCase.getCoverPane().getComponent(1);
             if(designer.getCursor().getType() ==Cursor.HAND_CURSOR) {
                 designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             } // component.getParent() 是报表块所在的XWTitleLayout
             int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+            int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
             int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-            if(e.getX() + GAP >  minX && e.getX() - GAP < minX + button.getWidth()){
-                if( e.getY() + GAP > minY && e.getY() - GAP < minY + button.getHeight()){
-                    designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                }
-            }
-            xElementCase.displayCoverPane(true);
+            int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+			if (e.getX() + GAP - xElementCase.getInsets().left > minX && e.getX() - GAP - xElementCase.getInsets().left < minX + button.getWidth()) {
+				if (e.getY() + GAP - xElementCase.getInsets().top > minY && e.getY() - GAP - xElementCase.getInsets().top < minY + button.getHeight()) {
+					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+			}
+			xElementCase.setHelpBtnOnFocus(false);
+			if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
+				if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
+					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					xElementCase.setHelpBtnOnFocus(true);
+				}
+			}
+			xElementCase.displayCoverPane(true);
             xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
 
             designer.repaint();
