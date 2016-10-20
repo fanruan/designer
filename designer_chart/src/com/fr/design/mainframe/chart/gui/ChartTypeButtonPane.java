@@ -4,11 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
-import com.fr.chart.chartglyph.ChangeConfigAttr;
-import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.chart.charttypes.ColumnIndependentChart;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chart.series.SeriesCondition.impl.LinePlotDataSeriesConditionPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
@@ -118,7 +114,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void initConfigCreator() {
-        
     }
 
     private void initAddButton() {
@@ -167,7 +162,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     ActionListener configListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            
         }
     };
 
