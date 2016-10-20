@@ -14,6 +14,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.ShareLoader;
+import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.SharableElementCaseEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
@@ -83,9 +84,11 @@ public class FormCreatorDropTarget extends DropTarget {
             //tab布局添加的时候是初始化了XWCardLayout，实际上最顶层的布局是XWCardMainBorderLayout
             XCreator addingXCreator = addingModel.getXCreator();
             if (addingXCreator.isShared()) {
-                SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(addingXCreator.getShareId());
-                if (sharableEditor != null) {
-                    TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(sharableEditor.getTableDataSource());
+                String shareId = addingXCreator.getShareId();
+                SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
+                ElCaseBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                if (sharableEditor != null && bindInfo != null) {
+                    TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(),sharableEditor.getTableDataSource());
                 }
             }
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();

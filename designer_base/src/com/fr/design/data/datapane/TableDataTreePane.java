@@ -270,18 +270,27 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         return dataTree;
     }
 
-    public void addTableData(TableDataSource tableDataSource) {
+    /**
+     * 合并数据集
+     * @param srcName 数据集来源(比如报表块，就是报表块的名称)
+     * @param tableDataSource 数据集
+     */
+    public void addTableData(String srcName, TableDataSource tableDataSource) {
         DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
         TableDataSource tds = tc.getBook();
         Iterator tdIterator = tableDataSource.getTableDataNameIterator();
         while (tdIterator.hasNext()) {
             String tdName = (String) tdIterator.next();
             TableData td = tableDataSource.getTableData(tdName);
-            if (tds.getTableData(tdName) != null) {
-                tds.putTableData(tdName + "-fr-el", td);
-            } else {
-                tds.putTableData(tdName, td);
+            if (tds.getTableData(tdName) != null) {//如果有同名的就拼上来源名称
+                tdName = srcName + tdName;
             }
+            int i = 0;
+            while (tds.getTableData(tdName) != null) {
+                i++;//如果拼上名字后依然已经存在就加编号
+                tdName += i;
+            }
+            tds.putTableData(tdName, td);
         }
         tc.fireTargetModified();
         tc.parameterChanged();

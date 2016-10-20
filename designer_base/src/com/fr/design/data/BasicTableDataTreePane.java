@@ -424,7 +424,13 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_CONNECTION_ICON_PATH));
         }
     }
-    public void addTableData(TableDataSource tableDataSource){
+
+    /**
+     * 合并数据集
+     * @param srcName 数据集来源(比如报表块，就是报表块的名称)
+     * @param tableDataSource 数据集
+     */
+    public void addTableData(String srcName, TableDataSource tableDataSource) {
 
     }
 }
