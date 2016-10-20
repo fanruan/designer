@@ -12,10 +12,6 @@ import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.*;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.AbstractFormSharableEditor;
-import com.fr.form.ui.ElCaseBindInfo;
-import com.fr.form.ui.FormSharableEditor;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.stable.StableUtils;
@@ -590,24 +586,18 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
-	 * 设置共享帮助信息
+	 * 设置描述信息
 	 * @param msg 帮助信息
      */
-	public void setSharedMsg(String msg){}
+	public void setXDescrption(String msg){}
 
 	/**
-	 * 根据widget设置Xcreator共享信息
+	 * 根据widget设置Xcreator描述信息
 	 * @param widget
      */
-	public void setShareMsgByWidget(Widget widget){
-		if (widget != null && (widget instanceof FormSharableEditor)) {
-			String shareId = ((AbstractFormSharableEditor) widget).getShareId();
-			ElCaseBindInfo info = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
-			if (info != null) {
-
-				setSharedMsg(info.getGuideInfo());
-
-			}
+	public void setXDescrption(Widget widget){
+		if (widget != null) {
+			setXDescrption(widget.getDescription());
 		}
 
 	}

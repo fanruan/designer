@@ -285,7 +285,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	}
 
 	@Override
-	public void setSharedMsg(String msg) {
+	public void setXDescrption(String msg) {
 		coverPanel.setHelpMsg(msg);
 	}
 }

@@ -6,9 +6,7 @@ import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.AbstractFormSharableEditor;
 import com.fr.form.ui.ElCaseBindInfo;
-import com.fr.form.ui.FormSharableEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
@@ -120,7 +118,6 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         Object source = e.getSource();
         Widget creatorSource = null;
         String shareId = StringUtils.EMPTY;
-        String helpMsg = StringUtils.EMPTY;
         if (source instanceof ShareWidgetButton) {
             ShareWidgetButton no = (ShareWidgetButton) e.getSource();
             if (no == null) {
@@ -128,15 +125,10 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             }
             shareId = no.getBindInfo().getId();
             creatorSource = ShareLoader.getLoader().getElCaseEditorById(shareId);
-            ElCaseBindInfo info = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
-            if (info != null) {
-                helpMsg = info.getGuideInfo();
-            }
         }
         if (creatorSource != null) {
             XCreator xCreator = XCreatorUtils.createXCreator(creatorSource);
             xCreator.setShareId(shareId);
-            xCreator.setSharedMsg(helpMsg);
             WidgetToolBarPane.getTarget().startDraggingBean(xCreator);
             lastPressEvent = null;
             this.setBorder(null);
@@ -160,9 +152,6 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             ShareWidgetButton shareWidgetButton = (ShareWidgetButton) dge.getComponent();
             if (shareWidgetButton != null) {
                 Widget widget = ShareLoader.getLoader().getElCaseEditorById(shareWidgetButton.getBindInfo().getId());
-                if (widget instanceof FormSharableEditor) {
-                    ((AbstractFormSharableEditor) widget).setShareId(shareWidgetButton.getBindInfo().getId());
-                }
                 DragAndDropTransferable dragAndDropTransferable = new DragAndDropTransferable(widget);
                 dge.startDrag(DragSource.DefaultCopyDrop, dragAndDropTransferable, this);
             }

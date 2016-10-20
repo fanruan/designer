@@ -36,6 +36,8 @@ import com.fr.file.FILE;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
+import com.fr.form.share.ShareLoader;
+import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
@@ -51,6 +53,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
@@ -622,7 +625,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         } else {
             JPanel pane = new JPanel();
             pane.setLayout(new BorderLayout());
-            pane.add(FormWidgetDetailPane.getInstance(formDesign), BorderLayout.CENTER);
+            //pane.add(FormWidgetDetailPane.getInstance(formDesign), BorderLayout.CENTER);
+            ArrayList<ElCaseBindInfo> elCaseBindInfos = new ArrayList<>();
+            for (ElCaseBindInfo info :
+                    ShareLoader.getLoader().getAllBindInfos().values()) {
+                elCaseBindInfos.add(info);
+            }
+            pane.add(new ShareWidgetPane(elCaseBindInfos.toArray(new ElCaseBindInfo[elCaseBindInfos.size()])), BorderLayout.CENTER);
             EastRegionContainerPane.getInstance().replaceDownPane(pane);
         }
     }
