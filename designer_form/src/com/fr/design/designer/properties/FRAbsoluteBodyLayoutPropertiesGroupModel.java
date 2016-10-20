@@ -1,8 +1,6 @@
 package com.fr.design.designer.properties;
 
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
@@ -106,10 +104,16 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         xfl.toData().setLayoutType(WBodyLayoutType.FIT);
 
                         for (Component comp : components) {
-                            xfl.add(comp);
+                            XCreator xCreator = (XCreator)comp;
+                            if (xCreator.shouldScaleCreator()){
+                                XLayoutContainer parentPanel = xCreator.initCreatorWrapper(xCreator.getHeight());
+                                xfl.add(parentPanel, xCreator.toData().getWidgetName());
+                                continue;
+                            }
+                            xfl.add(xCreator);
                         }
                         //这边计算的时候会先把组件间隔去掉
-                        moveComponents2FitLayout(xfl, components);
+                        moveComponents2FitLayout(xfl);
                         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                         formDesigner.getSelectionModel().setSelectedCreator(xfl);
                         xfl.convert();
@@ -159,8 +163,9 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
     }
 
     //把绝对布局中的元素按规则移动到自适应布局中
-    private void moveComponents2FitLayout(XWFitLayout xwFitLayout, Component[] components) {
+    private void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
         int eachRowCount = 4;
+        Component[] components = xwFitLayout.getComponents();
         if (components.length <= 1){
             return;
         }
