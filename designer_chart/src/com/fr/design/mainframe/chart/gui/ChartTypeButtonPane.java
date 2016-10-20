@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
+import com.fr.chart.chartglyph.ChangeConfigAttr;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -114,6 +115,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void initConfigCreator() {
+        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new ChangeConfigAttr(), ChangeConfigPane.class);
     }
 
     private void initAddButton() {
@@ -162,29 +164,26 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     ActionListener configListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            UIMenuNameableCreator ui = configCreator.clone();
+            final Object obj = ui.getObj();
+            final BasicBeanPane pane = ui.getPane();
+
+
+            UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
+                @Override
+                public void doOk() {
+
+                }
+
+                @Override
+                public void doCancel() {
+                }
+            });
+            dialog.setSize(500, 500);
+            dialog.setVisible(true);
         }
     };
-
-    /**
-     * 响应事件
-     */
-    public void fireTargetChanged() {
-        this.validate();
-        this.repaint();
-        this.revalidate();
-        fireChanged();
-    }
-
-    protected void fireChanged() {
-        Object[] listeners = listenerList.getListenerList();
-
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ChangeListener.class) {
-                ((ChangeListener) listeners[i + 1]).stateChanged(new ChangeEvent(this));
-            }
-        }
-    }
+    
 
     MouseListener mouseListener = new MouseAdapter() {
         @Override
