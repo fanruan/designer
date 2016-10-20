@@ -120,6 +120,12 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         LayoutUtils.layoutContainer(xfl);
                         xfl.adjustCreatorsWhileSlide(xfl.getContainerPercent() - 1.0);
 
+                        for (int i = 0; i < components.length; i++) {
+                            Component comp = xfl.getComponent(i);
+                            XCreator creator = (XCreator) comp;
+                            creator.setBackupBound(components[i].getBounds());
+                        }
+
                         //把组件间隔加上
                         if (xfl.toData().getCompInterval() != compInterval) {
                             xfl.moveContainerMargin();
