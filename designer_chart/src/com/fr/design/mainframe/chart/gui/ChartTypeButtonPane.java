@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
-import com.fr.chart.chartglyph.ChangeConfigAttr;
+import com.fr.chart.chartattr.change.ChangeConfigAttr;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -21,8 +21,6 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -39,6 +37,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int B_W = 52;
     private static final int B_H = 20;
     private static final int COL_COUNT = 3;
+    private static final int P_W = 300;
+    private static final int P_H = 400;
 
     private UIButton addButton;
     private UIButton configButton;
@@ -165,21 +165,20 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         @Override
         public void actionPerformed(ActionEvent e) {
             UIMenuNameableCreator ui = configCreator.clone();
-            final Object obj = ui.getObj();
             final BasicBeanPane pane = ui.getPane();
-
-
+            pane.populateBean(editingCollection);
             UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
                 @Override
                 public void doOk() {
-
+                    pane.updateBean(editingCollection);
                 }
 
                 @Override
                 public void doCancel() {
+
                 }
             });
-            dialog.setSize(500, 500);
+            dialog.setSize(P_W, P_H);
             dialog.setVisible(true);
         }
     };
