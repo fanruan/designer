@@ -4,13 +4,19 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
+import com.fr.chart.chartglyph.ChangeConfigAttr;
+import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.ColumnIndependentChart;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chart.series.SeriesCondition.impl.LinePlotDataSeriesConditionPane;
+import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
@@ -18,6 +24,8 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -47,7 +55,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     private ChartTypePane parent = null;
 
+    //记录鼠标当前是否在操作添加按钮
     private boolean mouseOnChartTypeButtonPane = false;
+
+    //配置窗口属性
+    private UIMenuNameableCreator configCreator;
 
     /**
      * 鼠标事件是否在这个面板
@@ -98,10 +110,26 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         button.add(configButton);
         eastPane.add(button, BorderLayout.NORTH);
 
+        initAddButton();
+        initConfigButton();
+        initConfigCreator();
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigCreator() {
+        
+    }
+
+    private void initAddButton() {
         addButton.setPreferredSize(new Dimension(20, 20));
         addButton.addActionListener(addListener);
         addButton.addMouseListener(mouseListener);
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigButton() {
+        configButton.setPreferredSize(new Dimension(20, 20));
+        configButton.addActionListener(configListener);
     }
 
     ActionListener addListener = new ActionListener() {
@@ -135,6 +163,33 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             layoutPane(buttonPane);
         }
     };
+
+    ActionListener configListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    };
+
+    /**
+     * 响应事件
+     */
+    public void fireTargetChanged() {
+        this.validate();
+        this.repaint();
+        this.revalidate();
+        fireChanged();
+    }
+
+    protected void fireChanged() {
+        Object[] listeners = listenerList.getListenerList();
+
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ChangeListener.class) {
+                ((ChangeListener) listeners[i + 1]).stateChanged(new ChangeEvent(this));
+            }
+        }
+    }
 
     MouseListener mouseListener = new MouseAdapter() {
         @Override
