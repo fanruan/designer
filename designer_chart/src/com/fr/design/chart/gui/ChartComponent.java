@@ -5,12 +5,12 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGlyph;
+import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartglyph.AxisGlyph;
-import com.fr.design.chart.gui.chartimage.ChartGlyphToImageManager;
 import com.fr.design.chart.gui.active.ActiveGlyph;
 import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.gui.chart.MiddleChartComponent;
@@ -32,7 +32,7 @@ import java.util.List;
 * 类说明: 事件说明: 工具栏编辑--> 是刷新ChartComponent 然后响应整个设计块的改变事件
  				       右键编辑 ---> 刷新ChartCompment  刷新对应的工具栏(加入事件) 然后响应整个设计块的改变事件
  */
-public class ChartComponent extends MiddleChartComponent implements MouseListener, MouseMotionListener{
+public class ChartComponent extends MiddleChartComponent implements MouseListener, MouseMotionListener, CallbackEvent{
 	private static final long serialVersionUID = 744164838619052097L;
 	private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
     private ChartCollection chartCollection4Design;
@@ -315,9 +315,13 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             //不直接画chartGlyph而画image的原因是表单的柱形图会溢出表单
             //其他图都ok，其实感觉应该是柱形图画的不对，应该也可以改那边
             //处理画图事件
-            Image chartImage = ChartGlyphToImageManager.toImage(this, chartGlyph, chartWidth, chartHeight, ScreenResolution.getScreenResolution());
-            //Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution());
+            Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution(), this);
             g2d.drawImage(chartImage, 0, 0,  null);
         }
+    }
+
+    @Override
+    public void callback() {
+        this.repaint();
     }
 }
