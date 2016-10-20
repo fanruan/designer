@@ -4,6 +4,7 @@
 package com.fr.design.designer.properties;
 
 import com.fr.design.beans.GroupModel;
+import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.mainframe.FormDesigner;
@@ -91,8 +92,23 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 		}
 	}
 
+	private XLayoutContainer selectedBodyLayout(FormDesigner formDesigner) {
+		XLayoutContainer rootLayout = formDesigner.getRootComponent();
+		if (rootLayout.getComponentCount() == 1 && rootLayout.getXCreator(0).acceptType(XWAbsoluteBodyLayout.class)){
+			rootLayout = (XWAbsoluteBodyLayout)rootLayout.getXCreator(0);
+		}
+		return rootLayout;
+	}
+
 	@Override
 	public Object getValue(int row, int column) {
+		FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+		XLayoutContainer rootLayout = selectedBodyLayout(formDesigner);
+		if (rootLayout != formDesigner.getRootComponent()
+				&& formDesigner.getSelectionModel().getSelection().getSelectedCreator() == formDesigner.getRootComponent()) {
+			formDesigner.getSelectionModel().setSelectedCreators(
+					FormSelectionUtils.rebuildSelection(xfl, new Widget[]{selectedBodyLayout(formDesigner).toData()}));
+		}
 		if (column == 0) {
             switch (row) {
                 case 0:
