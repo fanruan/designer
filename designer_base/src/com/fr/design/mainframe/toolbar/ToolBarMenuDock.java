@@ -266,8 +266,7 @@ public abstract class ToolBarMenuDock {
         if (!BaseUtils.isAuthorityEditing()) {
             if (shouldShowPlugin() && !(FRContext.getCurrentEnv() instanceof RemoteEnv)) {
                 menuDef.addShortCut(
-                        new PluginManagerAction(),
-                        new ReuseManagerAction()
+                        new PluginManagerAction()
                 );
             }
             menuDef.addShortCut(
