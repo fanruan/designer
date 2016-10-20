@@ -4,9 +4,7 @@
 package com.fr.design.designer.properties;
 
 import com.fr.design.beans.GroupModel;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -156,6 +154,14 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 					XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0,0));
 					xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
 					for (Component component : components) {
+						XCreator xCreator = (XCreator)component;
+						//部分控件被ScaleLayout包裹着，绝对布局里面要放出来
+						if (xCreator.acceptType(XWScaleLayout.class)){
+							if (xCreator.getComponentCount() > 0 && ((XCreator)xCreator.getComponent(0)).shouldScaleCreator()) {
+								component = xCreator.getComponent(0);
+								component.setBounds(xCreator.getBounds());
+							}
+						}
 						xwAbsoluteBodyLayout.add(component);
 					}
 					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
