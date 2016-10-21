@@ -101,13 +101,13 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
 
                         xfl.getLayoutAdapter().removeBean(xwAbsoluteLayout, xwAbsoluteLayout.getWidth(), xwAbsoluteLayout.getHeight());
                         xfl.remove(xwAbsoluteLayout);
-                        xfl.toData().setLayoutType(WBodyLayoutType.FIT);
 
                         for (Component comp : components) {
                             XCreator xCreator = (XCreator)comp;
                             if (xCreator.shouldScaleCreator()){
                                 XLayoutContainer parentPanel = xCreator.initCreatorWrapper(xCreator.getHeight());
                                 xfl.add(parentPanel, xCreator.toData().getWidgetName());
+                                parentPanel.updateChildBound(xfl.getActualMinHeight());
                                 continue;
                             }
                             xfl.add(xCreator);
@@ -116,9 +116,6 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         moveComponents2FitLayout(xfl);
                         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                         formDesigner.getSelectionModel().setSelectedCreator(xfl);
-                        xfl.convert();
-                        LayoutUtils.layoutContainer(xfl);
-                        xfl.adjustCreatorsWhileSlide(xfl.getContainerPercent() - 1.0);
 
                         for (int i = 0; i < components.length; i++) {
                             Component comp = xfl.getComponent(i);
@@ -133,6 +130,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                             xfl.toData().setCompInterval(compInterval);
                             xfl.addCompInterval(xfl.getAcualInterval());
                         }
+                        xfl.toData().setLayoutType(WBodyLayoutType.FIT);
                         return true;
                     }
                 }
@@ -212,6 +210,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                 ((XWCardMainBorderLayout)components[i]).recalculateChildWidth(components[i].getWidth());
                 ((XWCardMainBorderLayout)components[i]).recalculateChildHeight(components[i].getHeight());
             }
+            xwFitLayout.dealDirections((XCreator)components[i], false);
         }
         xwFitLayout.updateBoundsWidget();
     }
