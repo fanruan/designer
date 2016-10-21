@@ -4,7 +4,7 @@ tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
 //指定构建的jdk版本
-sourceCompatibility=1.8
+sourceCompatibility=1.7
 //指定生成jar包的版本
 version='8.0'
 
@@ -30,7 +30,7 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 
 //指定外部依赖
 dependencies{
-compile fileTree(dir:'../../../finereport-lib-stable/master',include:'**/*.jar')
+compile fileTree(dir:"../../../finereport-lib-stable/${branchName}",include:'**/*.jar')
 compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'
