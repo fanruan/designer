@@ -173,6 +173,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         int eachRowCount = 4;
         Component[] components = xwFitLayout.getComponents();
         if (components.length <= 1){
+            xwFitLayout.updateBoundsWidget();
             return;
         }
         int layoutWidth = xwFitLayout.getWidth() - xwFitLayout.toData().getMargin().getLeft() - xwFitLayout.toData().getMargin().getRight();
