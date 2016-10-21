@@ -26,7 +26,6 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -121,7 +120,7 @@ public abstract class ToolBarMenuDock {
     ///////////////////////////////menu below/////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    private MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+    public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -143,17 +142,17 @@ public abstract class ToolBarMenuDock {
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
-    private void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
+    public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
         // 给菜单加插件入口
         for (MenuDef m : menuDefs) {
             switch (m.getAnchor()) {
-                case MenuHandler.TEMPLATE:
+                case MenuHandler.TEMPLATE :
                     insertMenu(m, MenuHandler.TEMPLATE, new TemplateTargetAction(plus));
                     break;
-                case MenuHandler.INSERT:
+                case MenuHandler.INSERT :
                     insertMenu(m, MenuHandler.INSERT);
                     break;
-                case MenuHandler.CELL:
+                case MenuHandler.CELL :
                     insertMenu(m, MenuHandler.CELL);
                     break;
                 default:
@@ -172,7 +171,7 @@ public abstract class ToolBarMenuDock {
         return plus.menus4Target();
     }
 
-    private MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
+    public MenuDef createFileMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
@@ -200,7 +199,7 @@ public abstract class ToolBarMenuDock {
 
         addSwitchExistEnvAction(menuDef);
 
-        menuDef.addShortCut(new ExitDesignerAction());
+        menuDef.addShortCut( new ExitDesignerAction());
 
         insertMenu(menuDef, MenuHandler.FILE);
         return menuDef;
@@ -222,7 +221,7 @@ public abstract class ToolBarMenuDock {
         menuDef.addShortCut(new SwitchExistEnv());
     }
 
-    protected ShortCut openTemplateAction() {
+    protected ShortCut openTemplateAction(){
         return new OpenTemplateAction();
     }
 
@@ -237,8 +236,9 @@ public abstract class ToolBarMenuDock {
      * 创建论坛登录面板, chart那边不需要
      *
      * @return 面板组件
+     *
      */
-    public Component createBBSLoginPane() {
+    public Component createBBSLoginPane(){
         return new UILabel();
     }
 
@@ -264,7 +264,7 @@ public abstract class ToolBarMenuDock {
         );
 
         if (!BaseUtils.isAuthorityEditing()) {
-            if (shouldShowPlugin() && !(FRContext.getCurrentEnv() instanceof RemoteEnv)) {
+            if (shouldShowPlugin()){
                 menuDef.addShortCut(
                         new PluginManagerAction()
                 );
@@ -290,7 +290,6 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 创建帮助子菜单
-     *
      * @return 帮组菜单的子菜单
      */
     public ShortCut[] createHelpShortCuts() {
@@ -299,7 +298,7 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(SeparatorDef.DEFAULT);
         //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
-        if (ComparatorUtils.equals(ProductConstants.APP_NAME, FINEREPORT)) {
+        if (ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)) {
             shortCuts.add(new FeedBackAction());
             shortCuts.add(SeparatorDef.DEFAULT);
             shortCuts.add(SeparatorDef.DEFAULT);
@@ -313,7 +312,6 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 创建社区子菜单
-     *
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
@@ -328,7 +326,6 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
-
     public MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
@@ -338,7 +335,6 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
-
     public MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
@@ -348,7 +344,6 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.BBS);
         return menuDef;
     }
-
     /**
      * 生成工具栏
      *
@@ -473,8 +468,7 @@ public abstract class ToolBarMenuDock {
         public int getMenuState() {
             return DesignState.WORK_SHEET;
         }
-
-        public int getToolBarHeight() {
+        public int getToolBarHeight(){
             return PANLE_HEIGNT;
         }
 
@@ -483,13 +477,13 @@ public abstract class ToolBarMenuDock {
          *
          * @return 子菜单
          */
-        public ShortCut[] shortcut4ExportMenu() {
+        public ShortCut[] shortcut4ExportMenu(){
             return new ShortCut[0];
         }
 
     };
 
-    public NewTemplatePane getNewTemplatePane() {
+    public NewTemplatePane getNewTemplatePane(){
         return new NewTemplatePane() {
             @Override
             public Icon getNew() {
@@ -524,11 +518,8 @@ public abstract class ToolBarMenuDock {
 
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
-            if (insertPosition == MenuHandler.HIDE) {
-                return;
-            }
             ShortCut shortCut = action.methodAction(handler);
-            if (shortCut == null) {
+            if (shortCut == null){
                 continue;
             }
 
@@ -541,10 +532,10 @@ public abstract class ToolBarMenuDock {
                 menuDef.insertShortCut(insertPosition, shortCut);
                 if (handler.insertSeparatorBefore()) {
                     menuDef.insertShortCut(insertPosition, SeparatorDef.DEFAULT);
-                    insertPosition++;
+                    insertPosition ++;
                 }
                 if (handler.insertSeparatorAfter()) {
-                    insertPosition++;
+                    insertPosition ++;
                     menuDef.insertShortCut(insertPosition, SeparatorDef.DEFAULT);
                 }
             }
@@ -553,35 +544,36 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 设计器退出时, 做的一些操作.
+     *
      */
-    public void shutDown() {
+    public void shutDown(){
 
     }
 
-    private interface ShortCutMethodAction {
+    private interface ShortCutMethodAction{
 
         public ShortCut methodAction(MenuHandler handler);
     }
 
-    private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction {
+    private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction{
 
-        public ShortCut methodAction(MenuHandler handler) {
+        public ShortCut methodAction(MenuHandler handler){
             return handler.shortcut();
         }
     }
 
     //不需要编辑对象的菜单, 比如文件, 服务器, 关于
-    private class NoTargetAction extends AbstractShortCutMethodAction {
+    private class NoTargetAction extends AbstractShortCutMethodAction{
 
     }
 
     //模板为对象的菜单, 比如模板, 后续如果单元格也要, 直接加个CellTargetAction即可.
     //在methodAction中做handler.shortcut(cell), 不需要修改handler中原有接口, 加个shortcut(cell).
-    private class TemplateTargetAction extends AbstractShortCutMethodAction {
+    private class TemplateTargetAction extends AbstractShortCutMethodAction{
 
         private ToolBarMenuDockPlus plus;
 
-        public TemplateTargetAction(ToolBarMenuDockPlus plus) {
+        public TemplateTargetAction(ToolBarMenuDockPlus plus){
             this.plus = plus;
         }
 
