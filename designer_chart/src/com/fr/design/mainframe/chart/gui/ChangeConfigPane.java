@@ -6,7 +6,7 @@ package com.fr.design.mainframe.chart.gui;
 
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.change.ChangeConfigAttr;
-import com.fr.chart.chartattr.change.ChangeType;
+import com.fr.chart.chartglyph.ChangeType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
@@ -14,14 +14,9 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.function.MAX;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.third.org.hsqldb.lib.Collection;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
