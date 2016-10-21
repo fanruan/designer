@@ -63,12 +63,12 @@ public abstract class AbstractHyperlinkPane<T extends Hyperlink> extends BasicBe
 		newWindowConfPane.add(new UILabel(Inter.getLocText("FR-Designer_Height") + ": "));
 		heightTextFiled = new UINumberField();
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
-		heightTextFiled.setPreferredSize(new Dimension(60, 20));
+		heightTextFiled.setPreferredSize(new Dimension(40, 20));
 		newWindowConfPane.add(heightTextFiled);
 		newWindowConfPane.add(new UILabel("  " + Inter.getLocText("FR-Designer_Width") + ": "));
 		widthTextFiled = new UINumberField();
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
-		widthTextFiled.setPreferredSize(new Dimension(60, 20));
+		widthTextFiled.setPreferredSize(new Dimension(40, 20));
 		newWindowConfPane.add(widthTextFiled);
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
