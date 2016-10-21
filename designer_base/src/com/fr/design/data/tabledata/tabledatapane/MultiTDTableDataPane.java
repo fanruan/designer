@@ -99,12 +99,6 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
         while (entryIt.hasNext()) {
             TableDataWrapper tableDataWrappe = entryIt.next().getValue();
             String tmp = tableDataWrappe.getTableDataName();
-            UILabel uiLabel = new UILabel(tmp);
-            while (uiLabel.getPreferredSize().width > MAX_LENTH_OF_DATASET) {
-                tmp = tmp.substring(0, tmp.length() - SUB_LENGTH);
-                tmp = tmp + "...";
-                uiLabel = new UILabel(tmp);
-            }
             if (!ComparatorUtils.equals(tableDataWrappe.getTableDataName(), multiName)) {
                 centerPanel.add(new BarPanel(tmp, tableDataWrappe.getIcon()));
             }
@@ -285,12 +279,18 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
         }
 
         private void initUI() {
+            String tmp = name;
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
             JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             leftPanel.setPreferredSize(new Dimension(190, BAR_HEIGHT));
             chekbox = new UICheckBox();
-            UILabel tabledataName = new UILabel(name);
+            UILabel tabledataName = new UILabel(tmp);
+            while (tabledataName.getPreferredSize().width > MAX_LENTH_OF_DATASET) {
+                tmp = tmp.substring(0, tmp.length() - SUB_LENGTH);
+                tmp = tmp + "...";
+                tabledataName = new UILabel(tmp);
+            }
             UILabel iconLabel = new UILabel(icon);
             chekbox.addActionListener(tableDataCheckboxListener);
             iconLabel.addMouseListener(chooseTableDataListener);

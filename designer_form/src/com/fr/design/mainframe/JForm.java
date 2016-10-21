@@ -9,8 +9,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XComponent;
-import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -35,6 +34,7 @@ import com.fr.file.FILE;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
+import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
@@ -434,6 +434,18 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return !inECUndoForm && this.getUndoManager().canUndo();
     }
 
+    // 返回当前的body，
+    // 假如当前body是自适应的话就沿用，
+    // 假如当前body是绝对布局的话就返回绝对布局body
+    private XLayoutContainer selectedBodyLayout() {
+        XLayoutContainer rootLayout = formDesign.getRootComponent();
+        for (int i = 0; i < rootLayout.getComponentCount(); i++){
+            if (rootLayout.getXCreator(i).acceptType(XWAbsoluteBodyLayout.class)){
+                rootLayout = (XWAbsoluteBodyLayout)rootLayout.getXCreator(i);
+            }
+        }
+        return rootLayout;
+    }
     @Override
     /**
      * 应用undoState的表单数据
@@ -445,7 +457,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             if (this.index == FORM_TAB) {
                 JForm.this.refreshRoot();
                 this.formDesign.getArea().setAreaSize(u.getAreaSize(), u.getHorizontalValue(), u.getVerticalValue(), u.getWidthValue(), u.getHeightValue(), u.getSlideValue());
-                this.formDesign.getSelectionModel().setSelectedCreators(FormSelectionUtils.rebuildSelection(formDesign.getRootComponent(), u.getSelectWidgets()));
+                //撤销的时候要重新选择的body布局
+                this.formDesign.getSelectionModel().setSelectedCreators(FormSelectionUtils.rebuildSelection(formDesign.getRootComponent(),
+                        formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
             } else {
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
@@ -756,4 +770,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return WorkBookSupportable.class.isAssignableFrom(clazz);
     }
 
+    @Override
+    public Widget getSelectElementCase() {
+        FormSelection selection = formDesign.getSelectionModel().getSelection();
+        XCreator creator = selection.getSelectedCreator();
+        return creator.toData();
+    }
 }

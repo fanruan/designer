@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
@@ -155,10 +157,17 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	 */
 	private void adjustPosition(ComponentTreeModel treeModel,FormDesigner formDesigner){
 		XCreator root = (XCreator)treeModel.getRoot();
-		if(treeModel.getChild(root,PARA) instanceof XWParameterLayout){
+		XCreator firstChild = (XCreator)treeModel.getChild(root,PARA);
+		if(firstChild.acceptType(XWParameterLayout.class)){
 			return;
 		}
-		root.add((Component)(treeModel.getChild(root,PARA)),BODY);
+		// 绝对布局作为body的时候
+		// 获取第一个子节点的方法中屏蔽了fit
+		// 这边另外处理一下
+		else if (firstChild.acceptType(XWAbsoluteBodyLayout.class) && firstChild.getBackupParent() != null) {
+			firstChild = firstChild.getBackupParent();
+		}
+		root.add(firstChild,BODY);
 		treeModel.setRoot(root);
 		componentTree = new ComponentTree(formDesigner,treeModel);
 	}

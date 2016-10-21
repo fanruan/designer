@@ -473,8 +473,27 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		
 		//添加分享按钮
 		addShareButton();
+
+		//添加插件中的按钮
+		addExtraButtons();
 		
 		return combineUp;
+	}
+
+	private void addExtraButtons(){
+		JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+		if(jt == null){
+			return;
+		}
+
+
+		UIButton[] extraButtons = jt.createExtraButtons();
+		for (int i = 0; i < extraButtons.length; i++) {
+			combineUp.add(extraButtons[i]);
+		}
+		if (extraButtons.length > 0) {
+			combineUp.addSeparator(new Dimension(2, 16));
+		}
 	}
 	
 	private void addShareButton(){

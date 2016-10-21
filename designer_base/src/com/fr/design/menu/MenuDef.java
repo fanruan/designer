@@ -13,9 +13,7 @@ import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,11 +162,18 @@ public class MenuDef extends ShortCut {
 				createdJMenu.setIcon(BaseUtils.readIcon(this.iconPath));
 			}
 			createdJMenu.addMenuListener(menuDefListener);
+			ContainerListener listener = getContainerListener();
+			if(listener != null){
+				createdJMenu.getPopupMenu().addContainerListener(listener);
+			}
 		}
 
 		return createdJMenu;
 	}
 
+	protected ContainerListener getContainerListener() {
+		return  null;
+	}
     /**
      * 生成 JPopupMenu
      * @return       弹出菜单

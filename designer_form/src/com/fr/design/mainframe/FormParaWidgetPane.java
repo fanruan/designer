@@ -94,12 +94,6 @@ public class FormParaWidgetPane extends JPanel{
     private void initFormParaComponent() {
         this.removeAll();
         // 菜单中的布局先注释掉
-
-        JPanel reportPane = new JPanel(new FlowLayout());
-        reportPane.add(new ToolBarButton(FormWidgetOption.ELEMENTCASE));
-        add(createNormalCombinationPane(reportPane,Inter.getLocText("FR-Designer-Form-ToolBar_Report")));
-        add(createJSeparator());
-
         JPanel paraPane = new JPanel(new FlowLayout());
         ToolBarButton paraButton = new paraButton(FormWidgetOption.PARAMETERCONTAINER);
         paraPane.add(paraButton);
@@ -111,7 +105,8 @@ public class FormParaWidgetPane extends JPanel{
         for(WidgetOption option : loadLayoutOptions()){
             layoutPane.add(new ToolBarButton(option));
         }
-        add(createNormalCombinationPane(layoutPane,Inter.getLocText("FR-Designer_Layout")));
+        layoutPane.add(new ToolBarButton(FormWidgetOption.ELEMENTCASE));
+        add(createNormalCombinationPane(layoutPane,Inter.getLocText("FR-Designer_Layout_Block_Blank")));
         jSeparatorLayout = createJSeparator();
         add(jSeparatorLayout);
 
@@ -192,7 +187,7 @@ public class FormParaWidgetPane extends JPanel{
         }
         labelPane.add(label,BorderLayout.CENTER);
         reportPane.add(labelPane,BorderLayout.SOUTH);
-        reportPane.setPreferredSize(new Dimension((int)jComponent.getPreferredSize().getWidth(),(int)reportPane.getPreferredSize().getHeight()));
+        reportPane.setPreferredSize(new Dimension((int)reportPane.getPreferredSize().getWidth(),(int)reportPane.getPreferredSize().getHeight()));
         return reportPane;
     }
 

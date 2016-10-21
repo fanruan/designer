@@ -8,19 +8,27 @@ import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
 import com.fr.base.NameStyle;
 import com.fr.design.actions.ElementCaseAction;
+import com.fr.design.actions.SelectionListenerAction;
+import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
+import com.fr.design.selection.SelectionEvent;
+import com.fr.design.selection.SelectionListener;
 import com.fr.design.style.StylePane;
 import com.fr.general.Inter;
 import com.fr.base.ConfigManagerProvider;
+import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.Selection;
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinHelper;
 
-import java.awt.event.ActionEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Iterator;
 
 public class GlobalStyleMenuDef extends MenuDef {
@@ -35,6 +43,36 @@ public class GlobalStyleMenuDef extends MenuDef {
         this.setIconPath("/com/fr/design/images/m_web/style.png");
     }
 
+    protected ContainerListener getContainerListener() {
+        return  containerListener;
+    }
+
+    private ContainerListener containerListener = new ContainerListener() {
+        @Override
+        public void componentAdded(ContainerEvent e) {
+
+        }
+
+        @Override
+        public void componentRemoved(ContainerEvent e) {
+            Component c = e.getChild();
+            c.dispatchEvent(new MenuDeleteEvent(c));
+        }
+    };
+
+    private class MenuDeleteEvent extends UpdateAction.ComponentRemoveEvent {
+
+        public MenuDeleteEvent(Component source) {
+            super(source);
+        }
+
+        @Override
+        public void release(SelectionListener listener) {
+            ePane.removeSelectionChangeListener(listener);
+        }
+    }
+
+
     /**
      * 更新菜单项
      */
@@ -46,8 +84,7 @@ public class GlobalStyleMenuDef extends MenuDef {
         while (iterator.hasNext()) {
             String name = (String) iterator.next();
             NameStyle nameStyle = NameStyle.getInstance(name);
-
-            UpdateAction.UseMenuItem useMenuItem = new GlobalStyleSelection(ePane, nameStyle).createUseMenuItem();
+            UpdateAction.UseMenuItem useMenuItem =new GlobalStyleSelection(ePane, nameStyle).createUseMenuItem();
             useMenuItem.setNameStyle(nameStyle);
             createdMenu.add(useMenuItem);
         }
@@ -113,7 +150,9 @@ public class GlobalStyleMenuDef extends MenuDef {
 
     }
 
-    public static class GlobalStyleSelection extends ElementCaseAction {
+
+
+    public static class GlobalStyleSelection extends SelectionListenerAction {
 
         private NameStyle nameStyle;
 
@@ -149,5 +188,14 @@ public class GlobalStyleMenuDef extends MenuDef {
             stylePane.updateGlobalStyle(getEditingComponent());
             return true;
         }
+
+        public UseMenuItem createUseMenuItem() {
+            UseMenuItem useMenuItem = super.createUseMenuItem();
+            SelectionListener listener = createSelectionListener();
+            getEditingComponent().addSelectionChangeListener(listener);
+            useMenuItem.setSelectionListener(listener);
+            return useMenuItem;
+        }
+
     }
 }

@@ -2,10 +2,11 @@ package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginManagerPane;
 import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.PluginShopDialog;
+import com.fr.design.extra.ShopDialog;
+import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
@@ -29,8 +30,8 @@ public class PluginManagerAction extends UpdateAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        final PluginManagerPane managerPane = new PluginManagerPane();
-        UIDialog dlg = new PluginShopDialog(DesignerContext.getDesignerFrame(),managerPane);
+        BasicPane managerPane = new WebManagerPaneFactory().createPluginPane();
+        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
         PluginWebBridge.getHelper().setDialogHandle(dlg);
         dlg.setVisible(true);
     }

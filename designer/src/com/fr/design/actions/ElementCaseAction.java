@@ -10,24 +10,10 @@ import com.fr.grid.selection.Selection;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 
-public abstract class ElementCaseAction extends TemplateComponentAction<ElementCasePane> {
+public abstract class ElementCaseAction extends SelectionListenerAction {
 	protected ElementCaseAction(ElementCasePane t) {
 		super(t);
-		t.addSelectionChangeListener(new SelectionListener() {
-
-			@Override
-			public void selectionChanged(SelectionEvent e) {
-				update();
-				if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
-					Selection selection = getEditingComponent().getSelection();
-					if (selection instanceof CellSelection) {
-						CellSelection cellselection = (CellSelection) selection;
-						//样式处理
-						getEditingComponent().setCellNeedTOFormat(cellselection);
-					}
-				}
-			}
-		});
+		t.addSelectionChangeListener(createSelectionListener());
 	}
 
 }
