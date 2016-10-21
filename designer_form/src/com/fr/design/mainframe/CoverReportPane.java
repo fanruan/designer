@@ -62,15 +62,17 @@ public class CoverReportPane extends JPanel {
         editButton.setBackground(new Color(176, 196, 222));
         add(editButton);
         add(controlButton);
-        WidgetPropertyPane.getInstance().getEditingFormDesigner().addDesignerEditListener(new DesignerEditListener() {
-            @Override
-            public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == (DesignerEvent.CREATOR_DELETED)
-                        || evt.getCreatorEventID() == (DesignerEvent.CREATOR_RESIZED)) {
-                    destroyHelpDialog();
+        if (WidgetPropertyPane.getInstance().getEditingFormDesigner() != null) {
+            WidgetPropertyPane.getInstance().getEditingFormDesigner().addDesignerEditListener(new DesignerEditListener() {
+                @Override
+                public void fireCreatorModified(DesignerEvent evt) {
+                    if (evt.getCreatorEventID() == (DesignerEvent.CREATOR_DELETED)
+                            || evt.getCreatorEventID() == (DesignerEvent.CREATOR_RESIZED)) {
+                        destroyHelpDialog();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public String getHelpMsg() {

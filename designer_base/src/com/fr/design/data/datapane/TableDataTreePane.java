@@ -292,7 +292,6 @@ public class TableDataTreePane extends BasicTableDataTreePane {
             }
             tds.putTableData(tdName, td);
         }
-        tc.fireTargetModified();
         tc.parameterChanged();
         dataTree.refresh();
     }
