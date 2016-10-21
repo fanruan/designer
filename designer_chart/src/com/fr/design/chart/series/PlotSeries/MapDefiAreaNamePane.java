@@ -1,41 +1,31 @@
 package com.fr.design.chart.series.PlotSeries;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import com.fr.base.Utils;
+import com.fr.chart.base.MapSvgAttr;
+import com.fr.chart.base.MapSvgXMLHelper;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.gui.icombobox.FilterComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
+import com.fr.design.gui.itableeditorpane.UITableEditorPane;
+import com.fr.design.gui.xcombox.ComboBoxUseEditor;
+import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.AbstractCellEditor;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.chart.base.MapSvgXMLHelper;
-import com.fr.base.Utils;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.data.TableDataSource;
-import com.fr.data.core.DataCoreUtils;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.icombobox.FilterComboBox;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
-import com.fr.design.gui.itableeditorpane.UITableEditorPane;
-import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.gui.xcombox.ComboBoxUseEditor;
-import com.fr.design.editor.editor.Editor;
-import com.fr.design.editor.editor.TextEditor;
-import com.fr.general.Inter;
 
 /**
  * 地图, 定义区域名.
@@ -89,7 +79,7 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 		tableDataBox.setPreferredSize(new Dimension(200, 20));
 		northPane.add(tableDataBox);
 
-		columnBox = new FilterComboBox();
+		columnBox = new FilterComboBox<>();
 		columnBox.setPreferredSize(new Dimension(40, 20));
 		columnBox.addItemListener(columnChange);
 
@@ -113,12 +103,10 @@ public class MapDefiAreaNamePane extends BasicBeanPane<String> implements Abstrc
 				String columnName = Utils.objectToString(columnBox.getSelectedItem());
 
 				TableDataWrapper tableDataWrappe = tableDataBox.getTableDataWrapper();
-				TableDataSource source = DesignTableDataManager.getEditingTableDataSource();
-				if (tableDataWrappe == null || source == null) {
-					return;
-				}
 
-				initNames = DataCoreUtils.getColValuesInData(source, tableDataWrappe.getTableDataName(), columnName);
+				List<String> list = MapCustomPane.getColValuesInData(tableDataWrappe, columnName);
+
+				initNames = list.toArray(initNames);
 
 				if (tableEditorModel != null) {
 					tableEditorModel.stopCellEditing();// 只是用来刷新列表的combox
