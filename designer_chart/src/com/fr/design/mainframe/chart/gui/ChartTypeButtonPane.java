@@ -150,16 +150,19 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 } catch (CloneNotSupportedException e1) {
                     FRLogger.getLogger().error("Error in Clone");
                 }
-                //获取图表收集器的状态
-                SwitchState state = editingCollection.calculateMultiChartMode();
-                if (state.isDynamicState() && parent != null){
-                    parent.reactorChartTypePane(editingCollection);
-                }
-
+                checkoutChange();
             }
             layoutPane(buttonPane);
         }
     };
+
+    //获取图表收集器的状态
+    private void checkoutChange(){
+        SwitchState state = editingCollection.calculateMultiChartMode();
+        if (state.isDynamicState() && parent != null){
+            parent.reactorChartTypePane(editingCollection);
+        }
+    }
 
     ActionListener configListener = new ActionListener() {
         @Override
@@ -316,6 +319,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         layoutPane(buttonPane);
         checkConfigButtonVisible();
+        //更新切换面板
+        checkoutChange();
     }
 
     private void checkConfigButtonVisible() {
@@ -444,10 +449,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             }
 
             //获取图表收集器的状态
-            SwitchState state = editingCollection.calculateMultiChartMode();
-            if (state.isDynamicState() && parent != null){
-                parent.reactorChartTypePane(editingCollection);
-            }
+            checkoutChange();
 
             relayoutPane();
         }
