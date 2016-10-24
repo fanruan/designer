@@ -197,7 +197,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         changeConfigAttr.setChangeType(configStyleButton.getSelectedIndex() == 0 ? AttrChangeType.BUTTON : AttrChangeType.CAROUSEL);
         changeConfigAttr.setStyleAttr(styleAttrPane.update());
         changeConfigAttr.setButtonColor(colorSelectBox4button.getSelectObject());
-        changeConfigAttr.setTimeInterval(timeInterval.getValue());
+        changeConfigAttr.setTimeInterval((int) timeInterval.getValue());
         changeConfigAttr.setCarouselColor(colorSelectBox4carousel.getSelectObject());
     }
 
