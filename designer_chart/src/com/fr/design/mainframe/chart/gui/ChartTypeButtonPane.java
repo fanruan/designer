@@ -4,7 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
-import com.fr.chart.chartattr.change.ChangeConfigAttr;
+import com.fr.chart.base.AttrChangeConfig;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -115,7 +115,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void initConfigCreator() {
-        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new ChangeConfigAttr(), ChangeConfigPane.class);
+        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
     }
 
     private void initAddButton() {
