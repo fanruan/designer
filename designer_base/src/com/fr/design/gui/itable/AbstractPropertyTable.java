@@ -66,6 +66,9 @@ public abstract class AbstractPropertyTable extends JTable {
     public TableCellRenderer getCellRenderer(int row, int column) {
         if (groups != null) {
             Point pIndex = getGroupIndex(row);
+            if (pIndex == null){
+                return super.getCellRenderer(row, column);
+            }
             PropertyGroup group = groups.get(pIndex.x);
             if (pIndex.y == 0) {
                 if (column == 0) {
@@ -192,6 +195,9 @@ public abstract class AbstractPropertyTable extends JTable {
 		@Override
 		public Object getValueAt(int row, int column) {
 			Point pIndex = getGroupIndex(row);
+            if (pIndex == null){
+                return null;
+            }
 			PropertyGroup group = groups.get(pIndex.x);
 			if (pIndex.y == 0) {
 				if (column == 0) {

@@ -157,6 +157,7 @@ public class XCreatorUtils {
             FRContext.getLogger().error("Error to create xcreator!");
             creator = new NullCreator(widget, d);
         }
+        creator.setXDescrption(widget);//设置描述信息
         return creator;
     }
 
