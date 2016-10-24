@@ -4,13 +4,16 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
-import com.fr.chart.charttypes.ColumnIndependentChart;
+import com.fr.chart.chartattr.change.ChangeConfigAttr;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
@@ -34,6 +37,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int B_W = 52;
     private static final int B_H = 20;
     private static final int COL_COUNT = 3;
+    private static final int P_W = 300;
+    private static final int P_H = 400;
 
     private UIButton addButton;
     private UIButton configButton;
@@ -47,7 +52,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     private ChartTypePane parent = null;
 
+    //记录鼠标当前是否在操作添加按钮
     private boolean mouseOnChartTypeButtonPane = false;
+
+    //配置窗口属性
+    private UIMenuNameableCreator configCreator;
 
     /**
      * 鼠标事件是否在这个面板
@@ -98,10 +107,26 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         button.add(configButton);
         eastPane.add(button, BorderLayout.NORTH);
 
+        initAddButton();
+        initConfigButton();
+        initConfigCreator();
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigCreator() {
+        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new ChangeConfigAttr(), ChangeConfigPane.class);
+    }
+
+    private void initAddButton() {
         addButton.setPreferredSize(new Dimension(20, 20));
         addButton.addActionListener(addListener);
         addButton.addMouseListener(mouseListener);
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigButton() {
+        configButton.setPreferredSize(new Dimension(20, 20));
+        configButton.addActionListener(configListener);
     }
 
     ActionListener addListener = new ActionListener() {
@@ -125,16 +150,42 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 } catch (CloneNotSupportedException e1) {
                     FRLogger.getLogger().error("Error in Clone");
                 }
-                //获取图表收集器的状态
-                SwitchState state = editingCollection.calculateMultiChartMode();
-                if (state.isDynamicState() && parent != null){
-                    parent.reactorChartTypePane(editingCollection);
-                }
-
+                checkoutChange();
             }
             layoutPane(buttonPane);
         }
     };
+
+    //获取图表收集器的状态
+    private void checkoutChange(){
+        SwitchState state = editingCollection.calculateMultiChartMode();
+        if (state.isDynamicState() && parent != null){
+            parent.reactorChartTypePane(editingCollection);
+        }
+    }
+
+    ActionListener configListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            UIMenuNameableCreator ui = configCreator.clone();
+            final BasicBeanPane pane = ui.getPane();
+            pane.populateBean(editingCollection);
+            UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
+                @Override
+                public void doOk() {
+                    pane.updateBean(editingCollection);
+                }
+
+                @Override
+                public void doCancel() {
+
+                }
+            });
+            dialog.setSize(P_W, P_H);
+            dialog.setVisible(true);
+        }
+    };
+    
 
     MouseListener mouseListener = new MouseAdapter() {
         @Override
@@ -268,6 +319,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         layoutPane(buttonPane);
         checkConfigButtonVisible();
+        //更新切换面板
+        checkoutChange();
     }
 
     private void checkConfigButtonVisible() {
@@ -396,10 +449,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             }
 
             //获取图表收集器的状态
-            SwitchState state = editingCollection.calculateMultiChartMode();
-            if (state.isDynamicState() && parent != null){
-                parent.reactorChartTypePane(editingCollection);
-            }
+            checkoutChange();
 
             relayoutPane();
         }

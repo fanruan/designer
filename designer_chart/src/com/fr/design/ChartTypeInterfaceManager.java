@@ -284,7 +284,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getChartDataPane(chartID, plotID, listener);
+            if (plotInChart(plotID, chartID)) {
+                return getChartDataPane(chartID, plotID, listener);
+            }
         }
         return getChartDataPane(DEFAULT_CHART_ID, plotID, listener);
     }
@@ -310,7 +312,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getAttrPaneArray(chartID, plotID, listener);
+            if (plotInChart(plotID, chartID)) {
+                return getAttrPaneArray(chartID, plotID, listener);
+            }
         }
         return getAttrPaneArray(DEFAULT_CHART_ID, plotID, listener);
     }
@@ -324,7 +328,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getTableDataSourcePane(chartID, plot, parent);
+            if (plotInChart(plot.getPlotID(), chartID)) {
+                return getTableDataSourcePane(chartID, plot, parent);
+            }
         }
         return getTableDataSourcePane(DEFAULT_CHART_ID, plot, parent);
     }
@@ -339,9 +345,18 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getReportDataSourcePane(chartID, plot, parent);
+            String plotID = plot.getPlotID();
+            if (plotInChart(plotID, chartID)) {
+                return getReportDataSourcePane(chartID, plot, parent);
+            }
         }
         return getReportDataSourcePane(DEFAULT_CHART_ID, plot, parent);
+    }
+
+    private boolean plotInChart(String plotID, String chartID) {
+        return chartTypeInterfaces != null
+                && chartTypeInterfaces.containsKey(chartID)
+                && chartTypeInterfaces.get(chartID).containsKey(plotID);
     }
 
     private AbstractReportDataContentPane getReportDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
@@ -354,7 +369,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getPlotConditionPane(chartID, plot);
+            if (plotInChart(plot.getPlotID(), chartID)) {
+                return getPlotConditionPane(chartID, plot);
+            }
         }
         return getPlotConditionPane(DEFAULT_CHART_ID, plot);
     }
@@ -369,7 +386,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
             String chartID = (String) entry.getKey();
-            return getPlotSeriesPane(chartID, parent, plot);
+            if (plotInChart(plot.getPlotID(), chartID)) {
+                return getPlotSeriesPane(chartID, parent, plot);
+            }
         }
         return getPlotSeriesPane(DEFAULT_CHART_ID, parent, plot);
     }
