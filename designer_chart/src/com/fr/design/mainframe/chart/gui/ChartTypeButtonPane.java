@@ -162,6 +162,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         if (state.isDynamicState() && parent != null){
             parent.reactorChartTypePane(editingCollection);
         }
+        //检查是否可以配置切换
+        configButton.setEnabled(editingCollection.changeEnable());
     }
 
     ActionListener configListener = new ActionListener() {
