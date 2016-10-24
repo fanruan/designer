@@ -5,8 +5,8 @@ package com.fr.design.mainframe.chart.gui;
  */
 
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.change.ChangeConfigAttr;
-import com.fr.chart.chartglyph.ChangeType;
+import com.fr.chart.base.AttrChangeConfig;
+import com.fr.chart.base.AttrChangeType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
@@ -163,11 +163,11 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         if (ob == null){
             return;
         }
-        ChangeConfigAttr changeConfigAttr = ob.getChangeConfigAttr();
+        AttrChangeConfig changeConfigAttr = ob.getChangeConfigAttr();
         if (changeConfigAttr == null){
             return;
         }
-        configStyleButton.setSelectedIndex(changeConfigAttr.getChangeType() == ChangeType.BUTTON ? 0 : 1);
+        configStyleButton.setSelectedIndex(changeConfigAttr.getChangeType() == AttrChangeType.BUTTON ? 0 : 1);
 
         //按钮切换界面
         styleAttrPane.populate(changeConfigAttr.getStyleAttr());
@@ -190,12 +190,13 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         if (ob == null){
             return;
         }
-        ChangeConfigAttr changeConfigAttr = ob.getChangeConfigAttr();
+        AttrChangeConfig changeConfigAttr = ob.getChangeConfigAttr();
         if (changeConfigAttr == null){
             return;
         }
 
-        changeConfigAttr.setChangeType(configStyleButton.getSelectedIndex() == 0 ? ChangeType.BUTTON : ChangeType.CAROUSEL);
+        changeConfigAttr.setEnable(ob.changeEnable());
+        changeConfigAttr.setChangeType(configStyleButton.getSelectedIndex() == 0 ? AttrChangeType.BUTTON : AttrChangeType.CAROUSEL);
         changeConfigAttr.setStyleAttr(styleAttrPane.update());
         changeConfigAttr.setButtonColor(colorSelectBox4button.getSelectObject());
         changeConfigAttr.setTimeInterval(timeInterval.getValue());
