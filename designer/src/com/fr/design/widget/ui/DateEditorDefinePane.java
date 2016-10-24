@@ -31,7 +31,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private UIComboBox returnTypeComboBox;
 	private UILabel sampleLabel;// preview
 	// content
-	private UITextField patternTextField = null;
+	private UIComboBox dateFormatComboBox;
 	private ValueEditorPane startDv;
 	private ValueEditorPane endDv;
 
@@ -42,7 +42,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private void initComponets() {
 		super.initComponents();
 	}
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return "Date";
@@ -63,25 +63,21 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		// sample pane
 		sampleLabel = new UILabel("");
-//		samplePane.add(sampleLabel, BorderLayout.CENTER);
 		sampleLabel.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
 		sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		sampleLabel.setFont(FRContext.getDefaultValues().getFRFont());
 
 		// content pane
-		patternTextField = new UITextField();
-		patternTextField.getDocument().addDocumentListener(patternTextDocumentListener);
-
-        String[] arr = getDateFormateArray();
-		final UIComboBox comboBox = new UIComboBox(arr);
-		comboBox.setPreferredSize(new Dimension(150,20));
-		comboBox.addActionListener(new ActionListener(){
+		String[] arr = getDateFormateArray();
+		dateFormatComboBox = new UIComboBox(arr);
+		dateFormatComboBox.setPreferredSize(new Dimension(150,20));
+		dateFormatComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				patternTextField.setText( (String)comboBox.getSelectedItem());
+				refreshPreviewLabel();
 			}
 
 		});
-		JPanel secondPanel = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"),comboBox,sampleLabel}, FlowLayout.LEFT, 5);
+		JPanel secondPanel = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"),dateFormatComboBox,sampleLabel}, FlowLayout.LEFT, 5);
 		secondPanel.setPreferredSize(new Dimension(220,30));
 		otherContentPane.add(secondPanel);
 		otherContentPane.add(initStartEndDatePane(), BorderLayout.SOUTH);
@@ -104,33 +100,20 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		return rangePane;
 	}
 
-	private DocumentListener patternTextDocumentListener = new DocumentListener() {
-		public void insertUpdate(DocumentEvent evt) {
-			refreshPreviewLabel();
-		}
-
-		public void removeUpdate(DocumentEvent evt) {
-			refreshPreviewLabel();
-		}
-
-		public void changedUpdate(DocumentEvent evt) {
-			refreshPreviewLabel();
-		}
-	};
 
 	private void refreshPreviewLabel() {
-		String text = patternTextField.getText();
+		String text = (String) dateFormatComboBox.getSelectedItem();
 		if (text != null && text.length() > 0) {
 			try {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(text);
-                String sample = simpleDateFormat.format(new Date());
-                Color c = Color.black;
-                if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-                    sample += " " + Inter.getLocText("DateFormat-Custom_Warning");
-                    c = Color.red;
-                }
+				String sample = simpleDateFormat.format(new Date());
+				Color c = Color.black;
+				if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
+					sample += " " + Inter.getLocText("DateFormat-Custom_Warning");
+					c = Color.red;
+				}
 				this.sampleLabel.setText(sample);
-                this.sampleLabel.setForeground(c);
+				this.sampleLabel.setForeground(c);
 			} catch (Exception exp) {
 				this.sampleLabel.setForeground(Color.red);
 				this.sampleLabel.setText(exp.getMessage());
@@ -143,12 +126,12 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	@Override
 	protected void populateSubDirectWriteEditorBean(DateEditor e) {
 		String formatText = e.getFormatText();
-		patternTextField.setText(formatText);
+		dateFormatComboBox.setSelectedItem(formatText);
 
 		returnTypeComboBox.setSelectedIndex(e.isReturnDate() ? 1 : 0);
 
 		populateStartEnd(e);
-	};
+	}
 
 	@Override
 	protected DateEditor updateSubDirectWriteEditorBean() {
@@ -162,10 +145,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		return ob;
 	}
 
-    /**
-     * 初始起止日期
-     * @param dateWidgetEditor 日期控件
-     */
+	/**
+	 * 初始起止日期
+	 * @param dateWidgetEditor 日期控件
+	 */
 	public void populateStartEnd(DateEditor dateWidgetEditor) {
 		Formula startFM = dateWidgetEditor.getStartDateFM();
 		Formula endFM = dateWidgetEditor.getEndDateFM();
@@ -183,10 +166,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		}
 	}
 
-    /**
-     * 更新日期控件的起止日期
-     * @param dateWidgetEditor 日期控件
-     */
+	/**
+	 * 更新日期控件的起止日期
+	 * @param dateWidgetEditor 日期控件
+	 */
 	public void updateStartEnd(DateEditor dateWidgetEditor) {
 		Object startObject = startDv.update();
 		Object endObject = endDv.update();
@@ -204,11 +187,11 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 			dateWidgetEditor.setStartDateFM(startFormula);
 			dateWidgetEditor.setStartText(null);
 		} else {
-	        try {
-	        	dateWidgetEditor.setStartText(startObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)startObject));
-	        } catch(ClassCastException e) {
-	        	//wei : TODO 说明应用的公式不能转化成日期格式，应该做些处理。
-	        }
+			try {
+				dateWidgetEditor.setStartText(startObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)startObject));
+			} catch(ClassCastException e) {
+				//wei : TODO 说明应用的公式不能转化成日期格式，应该做些处理。
+			}
 		}
 		if (endObject instanceof Formula) {
 			cal = Calculator.createCalculator();
@@ -222,20 +205,20 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 			dateWidgetEditor.setEndDateFM(endFormula);
 			dateWidgetEditor.setEndText(null);
 		} else {
-	        try {
-	        	dateWidgetEditor.setEndText(endObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)endObject));
-	        } catch(ClassCastException e) {
-	        	
-	        }
+			try {
+				dateWidgetEditor.setEndText(endObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date)endObject));
+			} catch(ClassCastException e) {
+
+			}
 		}
 	}
 
 	private SimpleDateFormat getSimpleDateFormat() {
-		String text = patternTextField.getText();
+		String text = (String) dateFormatComboBox.getSelectedItem();
 		SimpleDateFormat simpleDateFormat;
 		if (text != null && text.length() > 0) {
 			try {
-				simpleDateFormat = new SimpleDateFormat(patternTextField.getText());
+				simpleDateFormat = new SimpleDateFormat(text);
 				this.sampleLabel.setText(simpleDateFormat.format(new Date()));
 			} catch (Exception exp) {
 				simpleDateFormat = new SimpleDateFormat("");
