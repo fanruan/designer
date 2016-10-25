@@ -1,14 +1,10 @@
 package com.fr.design.mainframe;
 
 
-import com.fr.design.form.layout.FRGridLayout;
+
 import com.fr.form.ui.ElCaseBindInfo;
-
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 
 /**
