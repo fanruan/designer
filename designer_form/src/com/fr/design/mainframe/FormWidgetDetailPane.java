@@ -127,7 +127,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private void initMenuPanel() {
         JPanel menutPane = new JPanel();
         menutPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-        menutPane.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 3));
+        menutPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 3, 3));
         menutPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
         menutPane.add(downloadButton, BorderLayout.EAST);
