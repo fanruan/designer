@@ -47,7 +47,7 @@ public class FormWidgetDetailPane extends FormDockView{
 
     private UITabbedPane tabbedPane;
     private UIScrollPane downPanel;
-    private JPanel esp;
+    private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
     private UIButton downloadButton;
@@ -95,8 +95,8 @@ public class FormWidgetDetailPane extends FormDockView{
             clearDockingView();
             return;
         }
-        esp = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        esp.setBorder(null);
+        reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
@@ -107,7 +107,7 @@ public class FormWidgetDetailPane extends FormDockView{
         tabbedPane.setOpaque(true);
         tabbedPane.setBorder(null);
         tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
-        tabbedPane.addTab(Inter.getLocText("FR-Engine_Report"), esp);
+        tabbedPane.addTab(Inter.getLocText("FR-Engine_Report"), reuWidgetPanel);
         tabbedPane.addTab(Inter.getLocText("FR-Designer-Form-ToolBar_Chart"), new JPanel());
         add(tabbedPane, BorderLayout.CENTER);
 
@@ -118,7 +118,7 @@ public class FormWidgetDetailPane extends FormDockView{
      */
     private void initReuWidgetPanel() {
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        esp.add(downPanel);
+        reuWidgetPanel.add(downPanel);
     }
 
     /**
@@ -135,7 +135,7 @@ public class FormWidgetDetailPane extends FormDockView{
         comboBox.setPreferredSize(new Dimension(240, 30));
         initComboBoxSelectedListener();
         menutPane.add(comboBox, BorderLayout.SOUTH);
-        esp.add(menutPane,BorderLayout.NORTH);
+        reuWidgetPanel.add(menutPane,BorderLayout.NORTH);
     }
 
     private void initComboBoxSelectedListener() {
@@ -193,9 +193,9 @@ public class FormWidgetDetailPane extends FormDockView{
 
 
     public void refreshDownPanel() {
-        esp.remove(downPanel);
+        reuWidgetPanel.remove(downPanel);
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        esp.add(downPanel);
+        reuWidgetPanel.add(downPanel);
         repaintContainer();
 
     }
