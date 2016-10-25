@@ -15,7 +15,6 @@ import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.ComponentTree;
 import com.sun.java.swing.plaf.motif.*;
 import com.sun.java.swing.plaf.windows.*;
