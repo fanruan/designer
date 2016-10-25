@@ -8,6 +8,7 @@ import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -37,6 +38,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
+	//记录面板所处状态
+	private SwitchState paneState = SwitchState.DEFAULT;
 	
 	@Override
 	protected JPanel createContentPane() {
@@ -161,11 +164,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		public void reactor(ChartCollection collection){
-			//重构前存储所选择的下拉选项
-			Object item = jcb.getSelectedItem();
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
 			String chartID = chart.getChartID();
+			String plotID = chart.getPlot().getPlotID();
 			if (collection.getState() == SwitchState.DEFAULT){
 				chartID = StringUtils.EMPTY;
 			}
@@ -179,6 +181,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 				fcb.addItem(cardNames[i]);
 			}
 			//重新选择选中的下拉项
+			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
 			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
@@ -220,7 +223,11 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 
 	public void reactorChartTypePane(ChartCollection collection){
-		chartTypePane.reactor(collection);
+		if (paneState != collection.getState()) {
+			chartTypePane.reactor(collection);
+			//设置面板切换状态
+			paneState = collection.getState();
+		}
 	}
 
 	/**
