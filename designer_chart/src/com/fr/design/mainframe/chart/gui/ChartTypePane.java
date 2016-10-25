@@ -173,17 +173,21 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//第一步就是重构cardNames
 			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
 			//重构下拉框选项
+			reactorComboBox();
+			//重新选择选中的下拉项
+			chartID = chart.getChartID();
+			String plotID = chart.getPlot().getPlotID();
+			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
+			jcb.setSelectedItem(item);
+		}
+
+		private void reactorComboBox() {
 			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
 			fcb.setItemEvenType(ItemEventType.REACTOR);
 			fcb.removeAllItems();
 			for (int i = 0; i < this.cardNames.length; i++) {
 				fcb.addItem(cardNames[i]);
 			}
-			//重新选择选中的下拉项
-			chartID = chart.getChartID();
-			String plotID = chart.getPlot().getPlotID();
-			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
-			jcb.setSelectedItem(item);
 			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
 
@@ -236,9 +240,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 */
 	public void populate(ChartCollection collection) {
 		Chart chart = collection.getSelectedChart();
-		chartTypePane.populateBean(chart);
-		
 		buttonPane.populateBean(collection);
+		chartTypePane.populateBean(chart);
 	}
 
 	/**
