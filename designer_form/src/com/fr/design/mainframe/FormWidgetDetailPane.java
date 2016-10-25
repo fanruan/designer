@@ -195,7 +195,6 @@ public class FormWidgetDetailPane extends FormDockView{
     public void refreshDownPanel() {
         esp.remove(downPanel);
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        //todo:这个地方有问题
         esp.add(downPanel);
         repaintContainer();
 
