@@ -46,8 +46,8 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] rowSize = { p, p, p};
 		
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(getCateName()), getSingCatePane()},
-				new Component[]{new UILabel(getNValue()), singValuePane = new TinyFormulaPane()},
+				new Component[]{new UILabel(getCateNameString()), getSingCatePane()},
+				new Component[]{new UILabel(getNValueString()), singValuePane = new TinyFormulaPane()},
 				new Component[]{null, null}
 		};
 		
@@ -67,11 +67,11 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		this.add(pane, BorderLayout.CENTER);
 	}
 
-	protected String getCateName() {
+	protected String getCateNameString() {
 		return CATENAME;
 	}
 
-	protected String getNValue() {
+	protected String getNValueString() {
 		return NVALUE;
 	}
 	
