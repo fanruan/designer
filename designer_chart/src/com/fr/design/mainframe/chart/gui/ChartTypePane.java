@@ -38,9 +38,31 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
-	//记录面板所处状态
-	private SwitchState paneState = SwitchState.DEFAULT;
-	
+	private PaneState paneState = new PaneState();
+
+	private class PaneState{
+		//记录面板所处状态
+		private SwitchState paneState = SwitchState.DEFAULT;
+		//记录当前面板是谁在使用切换状态
+		private String chartID = StringUtils.EMPTY;
+
+		public SwitchState getPaneState() {
+			return paneState;
+		}
+
+		public void setPaneState(SwitchState paneState) {
+			this.paneState = paneState;
+		}
+
+		public String getChartID() {
+			return chartID;
+		}
+
+		public void setChartID(String chartID) {
+			this.chartID = chartID;
+		}
+	}
+
 	@Override
 	protected JPanel createContentPane() {
 		JPanel content = new JPanel(new BorderLayout());
@@ -179,6 +201,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String plotID = chart.getPlot().getPlotID();
 			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
+			//重新选中
+			checkPlotPane();
+		}
+
+		private void checkPlotPane() {
+			CardLayout cl = (CardLayout)cardPane.getLayout();
+			cl.show(cardPane, cardNames[jcb.getSelectedIndex()]);
 		}
 
 		private void reactorComboBox() {
@@ -228,11 +257,20 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 
 	public void reactorChartTypePane(ChartCollection collection){
-		if (paneState != collection.getState()) {
+		if (needReactor(collection)) {
 			chartTypePane.reactor(collection);
 			//设置面板切换状态
-			paneState = collection.getState();
+			updatePaneState(collection);
 		}
+	}
+
+	private void updatePaneState(ChartCollection collection) {
+		paneState.setChartID(collection.getRepresentChartID());
+		paneState.setPaneState(collection.getState());
+	}
+
+	private boolean needReactor(ChartCollection collection) {
+		return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();
 	}
 
 	/**
