@@ -47,7 +47,7 @@ public class FormWidgetDetailPane extends FormDockView{
 
     private UITabbedPane tabbedPane;
     private UIScrollPane downPanel;
-    private JPanel reuWidgetPanel;
+    private JPanel esp;
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
     private UIButton downloadButton;
@@ -95,21 +95,14 @@ public class FormWidgetDetailPane extends FormDockView{
             clearDockingView();
             return;
         }
-
-        JPanel esp = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        esp = FRGUIPaneFactory.createBorderLayout_S_Pane();
         esp.setBorder(null);
         if (elCaseBindInfoList == null) {
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
         initReuWidgetPanel();
-        esp.add(reuWidgetPanel, BorderLayout.CENTER);
         createDownloadButton();
-        JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 3));
-        widgetPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
-                SwingConstants.HORIZONTAL), BorderLayout.WEST);
-        widgetPane.add(downloadButton, BorderLayout.EAST);
-        esp.add(widgetPane,BorderLayout.NORTH);
+        initMenuPanel();
         tabbedPane = new UITabbedPane();
         tabbedPane.setOpaque(true);
         tabbedPane.setBorder(null);
@@ -124,16 +117,25 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化组件共享和复用面板
      */
     private void initReuWidgetPanel() {
-        int rowCount = (elCaseBindInfoList.length + 1)/2;
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
-        downPanel.setPreferredSize(new Dimension(236, rowCount * 82));
-        reuWidgetPanel = new JPanel();
+        esp.add(downPanel);
+    }
+
+    /**
+     * 初始化菜单栏面板
+     */
+    private void initMenuPanel() {
+        JPanel menutPane = new JPanel();
+        menutPane.setLayout(FRGUIPaneFactory.createBorderLayout());
+        menutPane.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 3));
+        menutPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
+                SwingConstants.HORIZONTAL), BorderLayout.WEST);
+        menutPane.add(downloadButton, BorderLayout.EAST);
         comboBox = new UIComboBox(getFormCategories());
-        comboBox.setPreferredSize(new Dimension(236, 30));
+        comboBox.setPreferredSize(new Dimension(240, 30));
         initComboBoxSelectedListener();
-        reuWidgetPanel.add(comboBox, BorderLayout.NORTH);
-        reuWidgetPanel.add(downPanel, BorderLayout.CENTER);
-        reuWidgetPanel.setBorder(new LineBorder(Color.gray));
+        menutPane.add(comboBox, BorderLayout.SOUTH);
+        esp.add(menutPane,BorderLayout.NORTH);
     }
 
     private void initComboBoxSelectedListener() {
@@ -144,7 +146,7 @@ public class FormWidgetDetailPane extends FormDockView{
                 if (filterIndex == 0) {
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
                 } else {
-                    String filterName = (String) e.getItem();
+                    String filterName = comboBox.getSelectedItem().toString();
                     elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
                 }
                 refreshDownPanel();
@@ -191,10 +193,10 @@ public class FormWidgetDetailPane extends FormDockView{
 
 
     public void refreshDownPanel() {
-        reuWidgetPanel.remove(downPanel);
+        esp.remove(downPanel);
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
         //todo:这个地方有问题
-        reuWidgetPanel.add(downPanel);
+        esp.add(downPanel);
         repaintContainer();
 
     }
