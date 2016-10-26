@@ -1,12 +1,5 @@
 package com.fr.design.chart.series.SeriesCondition.dlp;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-
 import com.fr.base.Utils;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.ChartConstants;
@@ -20,6 +13,9 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -80,11 +76,14 @@ public class DataLabelPane extends TooltipContentsPane {
 
     protected Component[] createComponents4ShowCategoryName() {
         if (showCategoryNameCB == null) {
-            showCategoryNameCB = new UICheckBox(Inter.getLocText(new String[]{"StyleFormat-Category", "WF-Name"}));
+            showCategoryNameCB = new UICheckBox(getCategoryString());
         }
         return new Component[]{null, showCategoryNameCB};
     }
 
+    protected String getCategoryString(){
+        return Inter.getLocText(new String[]{"StyleFormat-Category", "WF-Name"});
+    }
    
 
     protected Component[] createComponents4ShowGuidLine() {

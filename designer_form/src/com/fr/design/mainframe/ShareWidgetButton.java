@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.Widget;
@@ -20,7 +19,6 @@ import java.awt.dnd.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -36,42 +34,20 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
     public ShareWidgetButton(ElCaseBindInfo bindInfo) {
         this.bindInfo = bindInfo;
         initUI();
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         new DragAndDropDragGestureListener(this, DnDConstants.ACTION_COPY_OR_MOVE);
     }
 
-
     private void initUI() {
-        this.setBackground(Color.WHITE);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        setPreferredSize(new Dimension(108, 72));
-        setLayout(FRGUIPaneFactory.createBorderLayout());
-        ImagePanel imagePanel = new ImagePanel((BufferedImage) bindInfo.getCover());
-        imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-        this.add(imagePanel, BorderLayout.NORTH);
-        UILabel label = new UILabel(bindInfo.getName(), SwingConstants.HORIZONTAL);
-        label.setOpaque(true);
-        label.setBackground(new Color(184, 220, 242));
-        this.add(label, BorderLayout.SOUTH);
-    }
-
-    private class ImagePanel extends JPanel {
-
-        private BufferedImage image;
-
-        public ImagePanel(BufferedImage image) {
-            this.image = image;
-            this.setPreferredSize(new Dimension(108, 52));
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            g.drawImage(image, 0, 0, null);
-        }
-
+        JPanel reportPane = new JPanel(new BorderLayout());
+        reportPane.add(new UILabel(new ImageIcon(bindInfo.getCover())), BorderLayout.CENTER);
+        JPanel labelPane = new JPanel(new BorderLayout());
+        UILabel label = new UILabel(bindInfo.getName(), UILabel.CENTER);
+        labelPane.setBackground(new Color(184, 220, 242));
+        labelPane.add(label, BorderLayout.CENTER);
+        reportPane.add(labelPane, BorderLayout.SOUTH);
+        add(reportPane);
     }
 
     public ElCaseBindInfo getBindInfo() {
