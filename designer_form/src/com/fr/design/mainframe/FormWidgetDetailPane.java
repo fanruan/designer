@@ -169,8 +169,8 @@ public class FormWidgetDetailPane extends FormDockView{
             public void actionPerformed(ActionEvent e) {
                 UIPopupMenu menu = new UIPopupMenu();
                 UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
-                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
-                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
+                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
+                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
 
                 menu.add(downloadItem);
                 menu.add(installItem);
@@ -203,7 +203,7 @@ public class FormWidgetDetailPane extends FormDockView{
                 deleteItem.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        deleteFromDiskZipFile();
                     }
                 });
                 GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, tabbedPane.getY() + OFFSET_Y);
@@ -212,7 +212,12 @@ public class FormWidgetDetailPane extends FormDockView{
         });
     }
 
+    private void deleteFromDiskZipFile() {
+
+    }
+
     private void installFromDiskZipFile(File chosenFile) {
+
     }
 
     /**
