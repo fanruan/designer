@@ -98,18 +98,17 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-
 		};
 
+		//这边有个插件兼容问题,之后还是要改回process才行
 		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
-		for (FormElementCaseEditorProvider processor : set) {
-			if (processor == null) {
+		for (FormElementCaseEditorProvider provider : set) {
+			if (provider == null) {
 				return propertyTableEditor;
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 			Form attr = designer.getTarget();
-
-			PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), attr, this.toData());
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), attr, this.toData());
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
 		return propertyTableEditor;
