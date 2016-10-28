@@ -104,11 +104,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
 		for (FormElementCaseEditorProvider provider : set) {
 			if (provider == null) {
-				return propertyTableEditor;
+				continue;
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-			Form attr = designer.getTarget();
-			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), attr, this.toData());
+			Form formAttr = designer.getTarget();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formAttr, this.toData());
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
 		return propertyTableEditor;
