@@ -8,6 +8,7 @@ import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -37,7 +38,31 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
-	
+	private PaneState paneState = new PaneState();
+
+	private class PaneState{
+		//记录面板所处状态
+		private SwitchState paneState = SwitchState.DEFAULT;
+		//记录当前面板是谁在使用切换状态
+		private String chartID = StringUtils.EMPTY;
+
+		public SwitchState getPaneState() {
+			return paneState;
+		}
+
+		public void setPaneState(SwitchState paneState) {
+			this.paneState = paneState;
+		}
+
+		public String getChartID() {
+			return chartID;
+		}
+
+		public void setChartID(String chartID) {
+			this.chartID = chartID;
+		}
+	}
+
 	@Override
 	protected JPanel createContentPane() {
 		JPanel content = new JPanel(new BorderLayout());
@@ -161,8 +186,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		public void reactor(ChartCollection collection){
-			//重构前存储所选择的下拉选项
-			Object item = jcb.getSelectedItem();
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
 			String chartID = chart.getChartID();
@@ -172,14 +195,28 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//第一步就是重构cardNames
 			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
 			//重构下拉框选项
+			reactorComboBox();
+			//重新选择选中的下拉项
+			chartID = chart.getChartID();
+			String plotID = chart.getPlot().getPlotID();
+			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
+			jcb.setSelectedItem(item);
+			//重新选中
+			checkPlotPane();
+		}
+
+		private void checkPlotPane() {
+			CardLayout cl = (CardLayout)cardPane.getLayout();
+			cl.show(cardPane, cardNames[jcb.getSelectedIndex()]);
+		}
+
+		private void reactorComboBox() {
 			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
 			fcb.setItemEvenType(ItemEventType.REACTOR);
 			fcb.removeAllItems();
 			for (int i = 0; i < this.cardNames.length; i++) {
 				fcb.addItem(cardNames[i]);
 			}
-			//重新选择选中的下拉项
-			jcb.setSelectedItem(item);
 			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
 
@@ -220,7 +257,20 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 
 	public void reactorChartTypePane(ChartCollection collection){
-		chartTypePane.reactor(collection);
+		if (needReactor(collection)) {
+			chartTypePane.reactor(collection);
+			//设置面板切换状态
+			updatePaneState(collection);
+		}
+	}
+
+	private void updatePaneState(ChartCollection collection) {
+		paneState.setChartID(collection.getRepresentChartID());
+		paneState.setPaneState(collection.getState());
+	}
+
+	private boolean needReactor(ChartCollection collection) {
+		return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();
 	}
 
 	/**
@@ -228,9 +278,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 */
 	public void populate(ChartCollection collection) {
 		Chart chart = collection.getSelectedChart();
-		chartTypePane.populateBean(chart);
-		
 		buttonPane.populateBean(collection);
+		chartTypePane.populateBean(chart);
 	}
 
 	/**
