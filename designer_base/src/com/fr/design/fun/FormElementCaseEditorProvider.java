@@ -19,7 +19,7 @@ public interface FormElementCaseEditorProvider extends Mutable {
 
     //加个provider返回tab的接口
     //design_base依赖了form
-    PropertyDescriptor[] createPropertyDescriptor (Class<?> temp, Form reportAttr, ElementCaseEditor editor);
+    PropertyDescriptor[] createPropertyDescriptor (Class<?> temp, Form form, ElementCaseEditor editor);
 
     /**
      * 生成属性表
