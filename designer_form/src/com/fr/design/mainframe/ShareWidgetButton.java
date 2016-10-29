@@ -1,13 +1,17 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.icon.IconPathConstants;
+import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -30,24 +34,81 @@ import java.io.Serializable;
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
     private ElCaseBindInfo bindInfo;
     private MouseEvent lastPressEvent;
+    private JPanel reportPane;
+    private boolean isEdit;
+    private Icon controlMode = IOUtils.readIcon("/com/fr/design/form/images/mark.png");
+    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F);
+    private JComponent controlButton = new JComponent() {
+        protected void paintComponent(Graphics g) {
+            controlMode.paintIcon(this, g, 0, 0);
+        }
+    };
 
     public ShareWidgetButton(ElCaseBindInfo bindInfo) {
         this.bindInfo = bindInfo;
+        this.setPreferredSize(new Dimension(108, 68));
         initUI();
+        this.setLayout(getCoverLayout());
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         new DragAndDropDragGestureListener(this, DnDConstants.ACTION_COPY_OR_MOVE);
     }
 
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        Composite oldComposite = g2d.getComposite();
+        g2d.setComposite(composite);
+        g2d.setColor(Color.white);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.setComposite(oldComposite);
+        super.paint(g);
+    }
+
     private void initUI() {
-        JPanel reportPane = new JPanel(new BorderLayout());
+
+        reportPane = new JPanel(new BorderLayout());
         reportPane.add(new UILabel(new ImageIcon(bindInfo.getCover())), BorderLayout.CENTER);
         JPanel labelPane = new JPanel(new BorderLayout());
         UILabel label = new UILabel(bindInfo.getName(), UILabel.CENTER);
         labelPane.setBackground(new Color(184, 220, 242));
         labelPane.add(label, BorderLayout.CENTER);
         reportPane.add(labelPane, BorderLayout.SOUTH);
+        //add(controlButton);
         add(reportPane);
+    }
+
+    protected LayoutManager getCoverLayout() {
+        return new LayoutManager() {
+
+            @Override
+            public void removeLayoutComponent(Component comp) {
+            }
+
+            @Override
+            public Dimension preferredLayoutSize(Container parent) {
+                return parent.getPreferredSize();
+            }
+
+            @Override
+            public Dimension minimumLayoutSize(Container parent) {
+                return null;
+            }
+
+            @Override
+            public void layoutContainer(Container parent) {
+                int width = parent.getWidth();
+                int height = parent.getHeight();
+                controlButton.setBounds((width - 25), 0, 25, 25);
+                reportPane.setBounds(0, 0, width, height);
+
+
+
+            }
+
+            @Override
+            public void addLayoutComponent(String name, Component comp) {
+            }
+        };
     }
 
     public ElCaseBindInfo getBindInfo() {
@@ -60,7 +121,15 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (isEdit) {
+            remove(controlButton);
+            isEdit = false;
+        } else {
+            add(controlButton,0);
+            isEdit = true;
+        }
 
+        repaint();
     }
 
     @Override
