@@ -129,6 +129,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
+		if (editor.getReportFitAttr() == null) {
+			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
+		}
 
 		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
