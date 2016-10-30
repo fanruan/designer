@@ -48,4 +48,12 @@ public abstract class AbstractFormElementCaseEditorProvider implements FormEleme
     public int getFitStateInPC(ReportFitAttrProvider fitAttrProvider) {
         return 0;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        return true;
+    }
 }
