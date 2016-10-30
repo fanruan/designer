@@ -1,18 +1,25 @@
 package com.fr.design.fun;
 
+import com.fr.form.ui.ElementCaseEditor;
 import com.fr.stable.fun.ReportFitAttrProvider;
-import com.fr.stable.fun.mark.Immutable;
+import com.fr.form.main.Form;
+import com.fr.stable.fun.mark.Mutable;
 
 import java.beans.PropertyDescriptor;
 
 /**
- * Created by Slpire on 2016/10/28.
+ * Created by zhouping on 2015/9/10.
  */
-public interface FormElementCaseEditorProcessor extends Immutable {
+public interface FormElementCaseEditorProvider extends Mutable {
+
     String MARK_STRING = "PropertyEditor";
 
     int CURRENT_LEVEL = 1;
 
+
+    //加个provider返回tab的接口
+    //design_base依赖了form
+    PropertyDescriptor[] createPropertyDescriptor (Class<?> temp, Form form, ElementCaseEditor editor);
 
     /**
      * 生成属性表
