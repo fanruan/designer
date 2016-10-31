@@ -96,7 +96,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             }
         }).start();
 
-
         return child;
     }
 
