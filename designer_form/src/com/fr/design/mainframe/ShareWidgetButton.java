@@ -38,8 +38,8 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
     private JPanel reportPane;
     private boolean isEdit;
     private boolean isMarked;
-    private Icon markedMode = IOUtils.readIcon("/com/fr/design/form/images/mark.png");
-    private Icon unMarkedMode = IOUtils.readIcon("/com/fr/design/form/images/unmark.png");
+    private Icon markedMode = IOUtils.readIcon("/com/fr/design/form/images/marked.png");
+    private Icon unMarkedMode = IOUtils.readIcon("/com/fr/design/form/images/unmarked.png");
     private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F);
     private JComponent markedButton = new JComponent() {
         protected void paintComponent(Graphics g) {
