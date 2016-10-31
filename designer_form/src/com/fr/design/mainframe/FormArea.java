@@ -341,8 +341,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 			if (layout.getParent() != null) {
 				int paraHeight = designer.getParaHeight();
 				if (needCalculateParaHeight && paraHeight > 0) {
-					// 调整参数界面的大小
-					paraHeight += (int) (paraHeight*percent) ;
 					designer.setParaHeight(paraHeight);
 					XWBorderLayout parent =  (XWBorderLayout) layout.getParent();
 					parent.toData().setNorthSize(paraHeight);
