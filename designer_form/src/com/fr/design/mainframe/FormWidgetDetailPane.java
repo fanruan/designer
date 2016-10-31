@@ -252,15 +252,16 @@ public class FormWidgetDetailPane extends FormDockView{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ShareLoader.getLoader().removeModulesFromMap()) {
-                    ShareLoader.getLoader().removeModulesFromMap();
+                if(ShareLoader.getLoader().removeModulesFromList()) {
                     refreshShareMoudule();
                     reuWidgetPanel.remove(deleteButton);
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                 } else {
+                    reuWidgetPanel.remove(deleteButton);
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
+                    refreshDownPanel(false);
                 }
 
             }
