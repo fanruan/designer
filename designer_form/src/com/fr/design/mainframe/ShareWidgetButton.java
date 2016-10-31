@@ -1,6 +1,6 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.*;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -15,6 +15,7 @@ import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.Icon;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -36,11 +37,18 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
     private boolean isEdit;
-    private Icon controlMode = IOUtils.readIcon("/com/fr/design/form/images/mark.png");
+    private boolean isMarked;
+    private Icon markedMode = IOUtils.readIcon("/com/fr/design/form/images/mark.png");
+    private Icon unMarkedMode = IOUtils.readIcon("/com/fr/design/form/images/unmark.png");
     private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F);
-    private JComponent controlButton = new JComponent() {
+    private JComponent markedButton = new JComponent() {
         protected void paintComponent(Graphics g) {
-            controlMode.paintIcon(this, g, 0, 0);
+            markedMode.paintIcon(this, g, 0, 0);
+        }
+    };
+    private JComponent unMarkedButton = new JComponent() {
+        protected void paintComponent(Graphics g) {
+            unMarkedMode.paintIcon(this, g, 0, 0);
         }
     };
 
@@ -64,6 +72,16 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         super.paint(g);
     }
 
+    public void setElementCaseEdit(boolean isEdit) {
+        this.isEdit = isEdit;
+        if (isEdit) {
+            this.add(unMarkedButton, 0);
+            repaint();
+        }
+
+
+    }
+
     private void initUI() {
 
         reportPane = new JPanel(new BorderLayout());
@@ -73,7 +91,6 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         labelPane.setBackground(new Color(184, 220, 242));
         labelPane.add(label, BorderLayout.CENTER);
         reportPane.add(labelPane, BorderLayout.SOUTH);
-        //add(controlButton);
         add(reportPane);
     }
 
@@ -98,7 +115,8 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
             public void layoutContainer(Container parent) {
                 int width = parent.getWidth();
                 int height = parent.getHeight();
-                controlButton.setBounds((width - 25), 0, 25, 25);
+                markedButton.setBounds((width - 25), 0, 25, 25);
+                unMarkedButton.setBounds((width - 25), 0, 25, 25);
                 reportPane.setBounds(0, 0, width, height);
 
 
@@ -119,14 +137,22 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         this.bindInfo = bindInfo;
     }
 
+    public String getFileName() {
+        return  bindInfo.getName() +"." + bindInfo.getId() + ShareConstants.SUFFIX_MODULE;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (isEdit) {
-            remove(controlButton);
-            isEdit = false;
-        } else {
-            add(controlButton,0);
-            isEdit = true;
+            if (isMarked) {
+                remove(markedButton);
+                ShareLoader.getLoader().removeModuleForList(getFileName());
+                isMarked = false;
+            } else {
+                add(markedButton,0);
+                ShareLoader.getLoader().addModuleToList(getFileName());
+                isMarked = true;
+            }
         }
 
         repaint();
