@@ -252,12 +252,17 @@ public class FormWidgetDetailPane extends FormDockView{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShareLoader.getLoader().removeModulesFromMap();
-                refreshShareMoudule();
-                reuWidgetPanel.remove(deleteButton);
-                elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                refreshDownPanel(false);
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
+                if(ShareLoader.getLoader().removeModulesFromMap()) {
+                    ShareLoader.getLoader().removeModulesFromMap();
+                    refreshShareMoudule();
+                    reuWidgetPanel.remove(deleteButton);
+                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
+                    refreshDownPanel(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
+                }
+
             }
         });
         refreshDownPanel(true);
@@ -265,11 +270,17 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     private void installFromDiskZipFile(File chosenFile) {
-        ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile);
-        refreshShareMoudule();
-        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-        refreshDownPanel(false);
-        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
+        try {
+            ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile);
+            refreshShareMoudule();
+            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+            refreshDownPanel(false);
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+            e.printStackTrace();
+        }
+
     }
 
     private void refreshShareMoudule() {
