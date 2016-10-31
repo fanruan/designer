@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -33,10 +34,12 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 /**
@@ -53,6 +56,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
     private UIButton downloadButton;
+    private UIButton refreshButton;
+    private UIButton deleteButton;
     private static final int OFFSET_X = 140;
     private static final int OFFSET_Y = 26;
 
@@ -103,6 +108,7 @@ public class FormWidgetDetailPane extends FormDockView{
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         }
         initReuWidgetPanel();
+        createRefreshButton();
         createDownloadButton();
         initMenuPanel();
         tabbedPane = new UITabbedPane();
@@ -119,7 +125,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化组件共享和复用面板
      */
     private void initReuWidgetPanel() {
-        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
+        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, false));
         reuWidgetPanel.add(downPanel);
     }
 
@@ -129,15 +135,22 @@ public class FormWidgetDetailPane extends FormDockView{
     private void initMenuPanel() {
         JPanel menutPane = new JPanel();
         menutPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-        menutPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 3, 3));
+        menutPane.setBorder(BorderFactory.createEmptyBorder(3, 8, 3, 3));
+        menutPane.setPreferredSize(new Dimension(240, 48));
         menutPane.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
-        menutPane.add(downloadButton, BorderLayout.EAST);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
+        buttonPanel.add(refreshButton, BorderLayout.WEST);
+        buttonPanel.add(downloadButton, BorderLayout.EAST);
+        menutPane.add(buttonPanel, BorderLayout.EAST);
+        menutPane.add(new JPanel(), BorderLayout.CENTER);
         comboBox = new UIComboBox(getFormCategories());
         comboBox.setPreferredSize(new Dimension(240, 30));
         initComboBoxSelectedListener();
         menutPane.add(comboBox, BorderLayout.SOUTH);
-        reuWidgetPanel.add(menutPane,BorderLayout.NORTH);
+        reuWidgetPanel.add(menutPane, BorderLayout.NORTH);
+
     }
 
     private void initComboBoxSelectedListener() {
@@ -151,10 +164,25 @@ public class FormWidgetDetailPane extends FormDockView{
                     String filterName = comboBox.getSelectedItem().toString();
                     elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
                 }
-                refreshDownPanel();
+                refreshDownPanel(false);
 
             }
         });
+    }
+
+    private void createRefreshButton() {
+        refreshButton = new UIButton();
+        refreshButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/refresh.png"));
+        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_Refresh"));
+        refreshButton.set4ToolbarButton();
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                refreshShareMoudule();
+                refreshDownPanel(false);
+            }
+        });
+
     }
 
     /**
@@ -164,13 +192,14 @@ public class FormWidgetDetailPane extends FormDockView{
         downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/showmenu.png"));
         downloadButton.set4ToolbarButton();
+        downloadButton.setToolTipText(Inter.getLocText("FR-Designer_Download_Template"));
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UIPopupMenu menu = new UIPopupMenu();
-                UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
-                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
-                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download.png"));
+                UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
+                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"));
+                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"));
 
                 menu.add(downloadItem);
                 menu.add(installItem);
@@ -185,13 +214,14 @@ public class FormWidgetDetailPane extends FormDockView{
                         dlg.setVisible(true);
                     }
                 });
+
                 installItem.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                        fileChooser.setFileFilter(new FileNameExtensionFilter("zip", "zip"));
-                        int returnValue = fileChooser.showDialog(new JLabel(), "选择");
+                        fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
+                        int returnValue = fileChooser.showDialog(new JLabel(), Inter.getLocText("FR-Designer_Select"));
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);
@@ -206,18 +236,52 @@ public class FormWidgetDetailPane extends FormDockView{
                         deleteFromDiskZipFile();
                     }
                 });
-                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, tabbedPane.getY() + OFFSET_Y);
+
+                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, OFFSET_Y);
 
             }
         });
     }
 
     private void deleteFromDiskZipFile() {
-
+        deleteButton = new UIButton(Inter.getLocText("FR-Designer-CommitTab_Remove"));
+        deleteButton.setOpaque(true);
+        deleteButton.setBackground(Color.red);
+        deleteButton.setPreferredSize(new Dimension(240, 40));
+        reuWidgetPanel.add(deleteButton, BorderLayout.SOUTH);
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShareLoader.getLoader().removeElementFromMap();
+                refreshShareMoudule();
+                reuWidgetPanel.remove(deleteButton);
+                elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                refreshDownPanel(false);
+            }
+        });
+        refreshDownPanel(true);
     }
 
     private void installFromDiskZipFile(File chosenFile) {
+        try {
 
+            IOUtils.copy(chosenFile, new File(ShareLoader.MODULE_PATH));
+            refreshShareMoudule();
+            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+            refreshDownPanel(false);
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+            e.printStackTrace();
+        }
+    }
+
+    private void refreshShareMoudule() {
+        try {
+            ShareLoader.getLoader().readFromEnv();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -229,9 +293,9 @@ public class FormWidgetDetailPane extends FormDockView{
 
 
 
-    public void refreshDownPanel() {
+    public void refreshDownPanel(boolean isEdit) {
         reuWidgetPanel.remove(downPanel);
-        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList));
+        downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, isEdit));
         reuWidgetPanel.add(downPanel);
         repaintContainer();
 
