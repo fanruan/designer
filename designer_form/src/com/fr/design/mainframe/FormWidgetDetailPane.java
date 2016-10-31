@@ -252,28 +252,24 @@ public class FormWidgetDetailPane extends FormDockView{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShareLoader.getLoader().removeElementFromMap();
+                ShareLoader.getLoader().removeModulesFromMap();
                 refreshShareMoudule();
                 reuWidgetPanel.remove(deleteButton);
                 elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
                 refreshDownPanel(false);
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
             }
         });
         refreshDownPanel(true);
+
     }
 
     private void installFromDiskZipFile(File chosenFile) {
-        try {
-
-            IOUtils.copy(chosenFile, new File(ShareLoader.MODULE_PATH));
-            refreshShareMoudule();
-            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-            refreshDownPanel(false);
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
-            e.printStackTrace();
-        }
+        ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile);
+        refreshShareMoudule();
+        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+        refreshDownPanel(false);
+        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
     }
 
     private void refreshShareMoudule() {
