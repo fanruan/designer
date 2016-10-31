@@ -265,7 +265,7 @@ public abstract class ToolBarMenuDock {
         );
 
         if (!BaseUtils.isAuthorityEditing()) {
-            if (shouldShowPlugin() && !(FRContext.getCurrentEnv() instanceof RemoteEnv)) {
+            if (shouldShowPlugin()) {
                 menuDef.addShortCut(
                         new PluginManagerAction()
                 );
@@ -286,7 +286,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected boolean shouldShowPlugin() {
-        return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
+        return !(FRContext.getCurrentEnv() instanceof RemoteEnv) && FRContext.isChineseEnv();
     }
 
     /**
