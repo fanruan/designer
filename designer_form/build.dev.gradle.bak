@@ -35,7 +35,6 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 FileTree f=fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 f.each{File file->
 	println "----${f.path}"
-
 }
 
 //声明外部依赖
