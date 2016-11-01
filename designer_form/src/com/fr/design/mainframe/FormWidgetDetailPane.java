@@ -286,7 +286,7 @@ public class FormWidgetDetailPane extends FormDockView{
 
     private void refreshShareMoudule() {
         try {
-            ShareLoader.getLoader().readFromEnv();
+            ShareLoader.getLoader().refreshModule();
         } catch (Exception e) {
             e.printStackTrace();
         }
