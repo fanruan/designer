@@ -3,6 +3,7 @@ package com.fr.design.gui.icontainer;
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -21,6 +22,7 @@ public class UIResizableContainer extends JPanel {
 
     private JComponent upPane;
     private JComponent downPane;
+    private JComponent parameterPane = new JPanel();
 
     private HorizotalToolPane horizontToolPane;
     private VerticalToolPane verticalToolPane;
@@ -37,6 +39,7 @@ public class UIResizableContainer extends JPanel {
 
     private boolean isLeftRightDragEnabled = true;
     private boolean isDownPaneVisible = true ;
+    private int paraHeight;
 
     public UIResizableContainer(int direction) {
         this(new JPanel(), new JPanel(), direction);
@@ -85,7 +88,10 @@ public class UIResizableContainer extends JPanel {
         add(horizontToolPane);
         add(downPane);
         add(verticalToolPane);
+        parameterPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        add(parameterPane);
     }
+
     public UIResizableContainer(JComponent upPane, int direction) {
         setBackground(UIConstants.NORMAL_BACKGROUND);
 
@@ -96,6 +102,7 @@ public class UIResizableContainer extends JPanel {
         setLayout(containerLayout);
         add(upPane);
         add(horizontToolPane);
+        add(parameterPane);
 
     }
 
@@ -117,6 +124,20 @@ public class UIResizableContainer extends JPanel {
             containerWidth = preferredWidth;
             refreshContainer();
         }
+    }
+
+    public int getParameterPaneHeight() {
+        if(parameterPane.getHeight() == 0) {
+            return 30;
+        }
+        return paraHeight;
+
+    }
+
+    public void setParameterHeight(int height) {
+        paraHeight = height;
+        refreshContainer();
+
     }
 
     /**
@@ -183,20 +204,21 @@ public class UIResizableContainer extends JPanel {
                 if(isDownPaneVisible){
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, toolPaneY);
                     horizontToolPane.setBounds(0, toolPaneY, containerWidth - toolPaneHeight, toolPaneHeight);
-                    downPane.setBounds(0, toolPaneY + toolPaneHeight, containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight);
+                    downPane.setBounds(0, toolPaneY + toolPaneHeight, containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight-30);
                     verticalToolPane.setBounds(containerWidth - toolPaneHeight, 0, toolPaneHeight, getHeight());
                 }else{
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, getHeight());
                     verticalToolPane.setBounds(containerWidth - toolPaneHeight, 0, toolPaneHeight, getHeight());
                 }
-            } else if (direction == Constants.LEFT) {
+            } else if (direction == Constants.LEFT && parent instanceof EastRegionContainerPane) {
                 if(isDownPaneVisible){
                     if (toolPaneY > getHeight() - toolPaneHeight) {
                         toolPaneY = getHeight() - toolPaneHeight;
                     }
-                    upPane.setBounds(toolPaneHeight, 0, containerWidth - toolPaneHeight, toolPaneY);
-                    horizontToolPane.setBounds(toolPaneHeight, toolPaneY, containerWidth - toolPaneHeight, toolPaneHeight);
-                    downPane.setBounds(toolPaneHeight, toolPaneY + toolPaneHeight, containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight);
+                    parameterPane.setBounds(20,0,230,getParameterPaneHeight());
+                    upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneY);
+                    horizontToolPane.setBounds(toolPaneHeight, toolPaneY + getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneHeight);
+                    downPane.setBounds(toolPaneHeight, toolPaneY + toolPaneHeight + getParameterPaneHeight(), containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight - getParameterPaneHeight());
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
                 }else{
                     upPane.setBounds(toolPaneHeight, 0, containerWidth - toolPaneHeight, getHeight());
@@ -241,6 +263,16 @@ public class UIResizableContainer extends JPanel {
         remove(pane);
         remove(this.downPane);
         add(this.downPane = pane);
+        refreshContainer();
+    }
+
+    public void addParameterPane(JComponent pane) {
+        add(this.parameterPane = pane);
+        refreshContainer();
+    }
+
+    public void removeParameterPane() {
+        remove(this.parameterPane);
         refreshContainer();
     }
 
@@ -483,7 +515,7 @@ public class UIResizableContainer extends JPanel {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
-        UIResizableContainer bb = new UIResizableContainer(Constants.LEFT);
+        UIResizableContainer bb = new UIResizableContainer(Constants.RIGHT);
         JPanel cc = new JPanel();
         cc.setBackground(Color.blue);
         content.add(bb, BorderLayout.EAST);
