@@ -619,7 +619,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
 
         EastRegionContainerPane.getInstance().replaceUpPane(WidgetPropertyPane.getInstance(formDesign));
-        //sharetest
         EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(formDesign));
         if (EastRegionContainerPane.getInstance().getDownPane() == null) {
             new Thread() {
