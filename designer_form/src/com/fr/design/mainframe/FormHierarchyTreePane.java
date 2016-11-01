@@ -49,7 +49,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 
 	private ComponentTree componentTree;
 	private UITreeComboBox treeComboBox;
-	private JPanel widgetPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 	// richer:搜寻树节点的的文本框
 //	private UITextField searchTextField;
 //	private SearchResultPane searchResult;
@@ -116,16 +115,15 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		if(childCount == NODE_LENGTH){
 			adjustPosition(treeModel, formDesigner);
 		}
-		widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 2, 3, 0));
+		JPanel widgetPane = new JPanel();
+		widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 		add(widgetPane, BorderLayout.NORTH);
-
-		if(treeComboBox == null) {
-			widgetPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
-					SwingConstants.HORIZONTAL), BorderLayout.WEST);
-			treeComboBox = new UITreeComboBox(componentTree);
-			widgetPane.add(treeComboBox, BorderLayout.CENTER);
-			add(widgetPane, BorderLayout.CENTER);
-		}
+		widgetPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
+				SwingConstants.HORIZONTAL), BorderLayout.WEST);
+		treeComboBox = new UITreeComboBox(componentTree);
+		widgetPane.add(treeComboBox, BorderLayout.CENTER);
+		add(widgetPane, BorderLayout.CENTER);
 
 
 //		UIScrollPane scrollPane = new UIScrollPane(componentTree);

@@ -40,7 +40,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private FormDesigner designer;
     private ComponentTree componentTree;
     private JPanel wsp;
-    private ParameterPropertyPane parameterPropertyPane;
     private MobileWidgetTable mobileWidgetTable;
     private MobileBodyWidgetTable mobileBodyWidgetTable;
     private UIScrollPane downPanel;
@@ -50,6 +49,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     public static final String BODY = "body";
     public static final int NODE_LENGTH = 2;
     public boolean isrefresh = true;
+
 
     public static WidgetPropertyPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -63,7 +63,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         HOLDER.singleton.refreshDockingView();
         return HOLDER.singleton;
     }
-
 
     private static class HOLDER {
         private static WidgetPropertyPane singleton = new WidgetPropertyPane();
@@ -190,10 +189,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
             }
         }
-
-        parameterPropertyPane = ParameterPropertyPane.getInstance(designer);
-        parameterPropertyPane.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 4));
-        add(parameterPropertyPane, BorderLayout.NORTH);
         add(tabbedPane, BorderLayout.CENTER);
         propertyTable.initPropertyGroups(null);
         eventTable.refresh();
