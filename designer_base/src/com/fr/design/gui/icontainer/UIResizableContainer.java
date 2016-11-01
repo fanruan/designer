@@ -127,9 +127,7 @@ public class UIResizableContainer extends JPanel {
     }
 
     public int getParameterPaneHeight() {
-        if(parameterPane.getHeight() == 0) {
-            return 30;
-        }
+
         return paraHeight;
 
     }
@@ -217,6 +215,7 @@ public class UIResizableContainer extends JPanel {
                     }
                     parameterPane.setBounds(20,0,230,getParameterPaneHeight());
                     upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneY);
+                    System.out.print(getParameterPaneHeight() + "fsdfsdfsd");
                     horizontToolPane.setBounds(toolPaneHeight, toolPaneY + getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneHeight);
                     downPane.setBounds(toolPaneHeight, toolPaneY + toolPaneHeight + getParameterPaneHeight(), containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight - getParameterPaneHeight());
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
@@ -273,6 +272,7 @@ public class UIResizableContainer extends JPanel {
 
     public void removeParameterPane() {
         remove(this.parameterPane);
+        setParameterHeight(0);
         refreshContainer();
     }
 
