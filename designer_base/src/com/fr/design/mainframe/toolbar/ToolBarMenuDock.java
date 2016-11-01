@@ -26,6 +26,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
@@ -264,7 +265,7 @@ public abstract class ToolBarMenuDock {
         );
 
         if (!BaseUtils.isAuthorityEditing()) {
-            if (shouldShowPlugin()){
+            if (shouldShowPlugin()) {
                 menuDef.addShortCut(
                         new PluginManagerAction()
                 );
@@ -285,7 +286,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected boolean shouldShowPlugin() {
-        return FRContext.isChineseEnv() || ComparatorUtils.equals(GeneralContext.getLocale(), Locale.TAIWAN);
+        return !(FRContext.getCurrentEnv() instanceof RemoteEnv) && FRContext.isChineseEnv();
     }
 
     /**
@@ -518,6 +519,9 @@ public abstract class ToolBarMenuDock {
 
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
+			if (insertPosition == MenuHandler.HIDE) {
+                return;
+            }
             ShortCut shortCut = action.methodAction(handler);
             if (shortCut == null){
                 continue;
