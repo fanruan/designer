@@ -22,6 +22,7 @@ public class UIResizableContainer extends JPanel {
 
     private JComponent upPane;
     private JComponent downPane;
+    //放参数面板
     private JComponent parameterPane = new JPanel();
 
     private HorizotalToolPane horizontToolPane;
@@ -125,12 +126,20 @@ public class UIResizableContainer extends JPanel {
         }
     }
 
+    /**
+     * 获取参数面板高度
+     */
     public int getParameterPaneHeight() {
 
         return paraHeight;
 
     }
 
+    /**
+     * 设置参数面板高度
+     *
+     * @param height
+     */
     public void setParameterHeight(int height) {
         paraHeight = height;
         refreshContainer();
