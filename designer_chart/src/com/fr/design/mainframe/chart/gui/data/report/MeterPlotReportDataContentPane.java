@@ -46,8 +46,8 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] rowSize = { p, p, p};
 		
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(getCateNameString()), getSingCatePane()},
-				new Component[]{new UILabel(getNValueString()), singValuePane = new TinyFormulaPane()},
+				new Component[]{new UILabel(getCateNameString(), SwingConstants.RIGHT), getSingCatePane()},
+				new Component[]{new UILabel(getNValueString(), SwingConstants.RIGHT), singValuePane = new TinyFormulaPane()},
 				new Component[]{null, null}
 		};
 		
