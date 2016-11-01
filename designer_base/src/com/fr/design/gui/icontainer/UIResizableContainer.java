@@ -208,18 +208,19 @@ public class UIResizableContainer extends JPanel {
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, getHeight());
                     verticalToolPane.setBounds(containerWidth - toolPaneHeight, 0, toolPaneHeight, getHeight());
                 }
-            } else if (direction == Constants.LEFT && parent instanceof EastRegionContainerPane) {
+            } else if (direction == Constants.LEFT) {
                 if(isDownPaneVisible){
                     if (toolPaneY > getHeight() - toolPaneHeight) {
                         toolPaneY = getHeight() - toolPaneHeight;
                     }
-                    parameterPane.setBounds(20,0,230,getParameterPaneHeight());
+                    parameterPane.setBounds(20, 0, 230, getParameterPaneHeight());
                     upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneY);
                     horizontToolPane.setBounds(toolPaneHeight, toolPaneY + getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneHeight);
                     downPane.setBounds(toolPaneHeight, toolPaneY + toolPaneHeight + getParameterPaneHeight(), containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight - getParameterPaneHeight());
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
-                }else{
-                    upPane.setBounds(toolPaneHeight, 0, containerWidth - toolPaneHeight, getHeight());
+                }else {
+                    parameterPane.setBounds(20, 0, 230, getParameterPaneHeight());
+                    upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, getHeight() - getParameterPaneHeight());
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
                 }
             }
