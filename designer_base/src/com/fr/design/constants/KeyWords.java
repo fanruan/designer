@@ -117,6 +117,8 @@ public class KeyWords {
             "verifyReport()",
             "writeReportIgnoreVerify(true)",
             "writeReport(index)",
+            "loadSheetByIndex(index)",
+            "loadSheetByName(sheetName)",
               
             // curLGP
             "currentTDCell",
