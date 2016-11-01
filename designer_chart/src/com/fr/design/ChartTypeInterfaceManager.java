@@ -87,6 +87,20 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+
+        //异步加载
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getWidgetOption(typeName, child);
+            }
+        }).start();
+
+
+        return child;
+    }
+
+    private static void getWidgetOption(ChartInternationalNameContentBean[] typeName, ChartWidgetOption[] child){
         for (int i = 0; i < typeName.length; i++) {
             String plotID = typeName[i].getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
@@ -94,14 +108,15 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 continue;
             }
 
-            //初始化图表模型图片
+            //加载初始化图表模型图片
             initChartsDemoImage(rowChart);
 
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
             child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
         }
-        return child;
+
+        DesignModuleFactory.registerExtraWidgetOptions(child);
     }
 
     private static void initChartsDemoImage(Chart[] rowChart) {
@@ -247,6 +262,21 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             return names;
         }
         return new String[0];
+    }
+
+    /**
+     * 获取指定图表的标题
+     * @param chartID
+     * @return
+     */
+    public String getTitle4PopupWindow(String chartID, String plotID){
+        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(chartID) && chartTypeInterfaces.get(chartID).containsKey(plotID)){
+            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(chartID);
+            IndependentChartUIProvider provider = chartTypeInterfaces.get(chartID).get(plotID);
+            return   provider.getPlotTypePane().title4PopupWindow();
+
+        }
+        return new String();
     }
 
     private String[] getTitle4PopupWindow(){

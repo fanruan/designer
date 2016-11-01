@@ -5,7 +5,9 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.FormElementCaseEditorProcessor;
+import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.CoverReportPane;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -23,6 +25,7 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.form.main.Form;
 import com.fr.stable.fun.FitProvider;
 import com.fr.stable.fun.ReportFitAttrProvider;
 
@@ -32,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.Set;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
@@ -97,8 +101,19 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-
 		};
+
+		//这边有个插件兼容问题,之后还是要改回process才行
+		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
+		for (FormElementCaseEditorProvider provider : set) {
+			if (provider == null) {
+				continue;
+			}
+			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			Form form = designer.getTarget();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), form, this.toData());
+			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+		}
 
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
@@ -114,11 +129,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
-
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
 		}
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+
+		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
 
 	@Override
