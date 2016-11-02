@@ -21,10 +21,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.XMLFileManager;
 import com.fr.form.ui.ChartEditor;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralContext;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
@@ -52,7 +49,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
     private static LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>> chartTypeInterfaces = new LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>>();
-    private static final String DEFAULT_CHART_ID = "DefaultChart";
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
@@ -150,7 +146,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartUIList.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartUIList.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
 
-        chartTypeInterfaces.put(DEFAULT_CHART_ID, chartUIList);
+        chartTypeInterfaces.put(ChartTypeManager.DEFAULT_CHART_ID, chartUIList);
     }
 
     public String getIconPath(String plotID) {
@@ -291,15 +287,36 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
             int index = 0;
 
+            //处理vanChart
+            {
+                Iterator vanChartUI = chartTypeInterfaces.get(ChartTypeManager.vanChartID).entrySet().iterator();
+                while (vanChartUI.hasNext()) {
+                    Map.Entry chartUIEntry = (Map.Entry) vanChartUI.next();
+                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
+                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
+                }
+            }
+            //处理chart
+            {
+                Iterator chartUI = chartTypeInterfaces.get(ChartTypeManager.chartID).entrySet().iterator();
+                while (chartUI.hasNext()) {
+                    Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
+                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
+                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
+                }
+            }
+            //其它图表
             Iterator i = chartTypeInterfaces.entrySet().iterator();
             while (i.hasNext()){
                 Map.Entry entry = (Map.Entry) i.next();
                 String chartID = (String) entry.getKey();
-                Iterator chartUI = chartTypeInterfaces.get(chartID).entrySet().iterator();
-                while (chartUI.hasNext()){
-                    Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
-                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
+                if (!(ComparatorUtils.equals(chartID, ChartTypeManager.chartID) || ComparatorUtils.equals(chartID, ChartTypeManager.vanChartID))) {
+                    Iterator otherChartUI = chartTypeInterfaces.get(chartID).entrySet().iterator();
+                    while (otherChartUI.hasNext()) {
+                        Map.Entry chartUIEntry = (Map.Entry) otherChartUI.next();
+                        IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
+                        names[index++] = provider.getPlotTypePane().title4PopupWindow();
+                    }
                 }
             }
             return names;
@@ -317,7 +334,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getChartDataPane(chartID, plotID, listener);
             }
         }
-        return getChartDataPane(DEFAULT_CHART_ID, plotID, listener);
+        return getChartDataPane(ChartTypeManager.DEFAULT_CHART_ID, plotID, listener);
     }
 
     private ChartDataPane getChartDataPane(String chartID, String plotID, AttributeChangeListener listener) {
@@ -345,7 +362,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getAttrPaneArray(chartID, plotID, listener);
             }
         }
-        return getAttrPaneArray(DEFAULT_CHART_ID, plotID, listener);
+        return getAttrPaneArray(ChartTypeManager.DEFAULT_CHART_ID, plotID, listener);
     }
 
     private AbstractChartAttrPane[] getAttrPaneArray(String chartID, String plotID, AttributeChangeListener listener) {
@@ -361,7 +378,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getTableDataSourcePane(chartID, plot, parent);
             }
         }
-        return getTableDataSourcePane(DEFAULT_CHART_ID, plot, parent);
+        return getTableDataSourcePane(ChartTypeManager.DEFAULT_CHART_ID, plot, parent);
     }
 
     private AbstractTableDataContentPane getTableDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
@@ -379,7 +396,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getReportDataSourcePane(chartID, plot, parent);
             }
         }
-        return getReportDataSourcePane(DEFAULT_CHART_ID, plot, parent);
+        return getReportDataSourcePane(ChartTypeManager.DEFAULT_CHART_ID, plot, parent);
     }
 
     private boolean plotInChart(String plotID, String chartID) {
@@ -402,7 +419,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getPlotConditionPane(chartID, plot);
             }
         }
-        return getPlotConditionPane(DEFAULT_CHART_ID, plot);
+        return getPlotConditionPane(ChartTypeManager.DEFAULT_CHART_ID, plot);
     }
 
     private ConditionAttributesPane getPlotConditionPane(String chartID, Plot plot) {
@@ -419,7 +436,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 return getPlotSeriesPane(chartID, parent, plot);
             }
         }
-        return getPlotSeriesPane(DEFAULT_CHART_ID, parent, plot);
+        return getPlotSeriesPane(ChartTypeManager.DEFAULT_CHART_ID, parent, plot);
     }
 
     private BasicBeanPane<Plot> getPlotSeriesPane(String chartID, ChartStylePane parent, Plot plot) {
@@ -466,7 +483,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 extraChartDesignInterfaceList.add(tagName);
             }
             if (IndependentChartUIProvider.XML_TAG.equals(tagName)) {
-                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("chartID", DEFAULT_CHART_ID),reader.getAttrAsString("plotID", ""), simplify);
+                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("chartID", ChartTypeManager.DEFAULT_CHART_ID),reader.getAttrAsString("plotID", ""), simplify);
             }
         }
     }
