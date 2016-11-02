@@ -232,6 +232,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		}
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
+
+		//参数面板独立后只能这边触发调整高度，根据参数个数调整换行，计算高度
+		EastRegionContainerPane.getInstance().setParameterHeight((p.getParameterArray().length + 5) / 6 * 30 + 80);
 		ParameterPropertyPane.getInstance().repaintContainer();
 	}
 
