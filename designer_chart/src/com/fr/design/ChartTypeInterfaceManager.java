@@ -290,20 +290,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             //处理vanChart
             {
                 Iterator vanChartUI = chartTypeInterfaces.get(ChartTypeManager.vanChartID).entrySet().iterator();
-                while (vanChartUI.hasNext()) {
-                    Map.Entry chartUIEntry = (Map.Entry) vanChartUI.next();
-                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
-                }
+                fetchNames(vanChartUI, names, index++);
             }
             //处理chart
             {
                 Iterator chartUI = chartTypeInterfaces.get(ChartTypeManager.chartID).entrySet().iterator();
-                while (chartUI.hasNext()) {
-                    Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
-                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
-                }
+                fetchNames(chartUI, names, index++);
             }
             //其它图表
             Iterator i = chartTypeInterfaces.entrySet().iterator();
@@ -312,17 +304,21 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 String chartID = (String) entry.getKey();
                 if (!(ComparatorUtils.equals(chartID, ChartTypeManager.chartID) || ComparatorUtils.equals(chartID, ChartTypeManager.vanChartID))) {
                     Iterator otherChartUI = chartTypeInterfaces.get(chartID).entrySet().iterator();
-                    while (otherChartUI.hasNext()) {
-                        Map.Entry chartUIEntry = (Map.Entry) otherChartUI.next();
-                        IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-                        names[index++] = provider.getPlotTypePane().title4PopupWindow();
-                    }
+                    fetchNames(otherChartUI, names, index++);
                 }
             }
             return names;
         }
 
         return new String[0];
+    }
+
+    private void fetchNames(Iterator chartUI, String[] names, int index) {
+        while (chartUI.hasNext()) {
+            Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
+            IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
+            names[index] = provider.getPlotTypePane().title4PopupWindow();
+        }
     }
 
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
