@@ -288,15 +288,11 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             int index = 0;
 
             //处理vanChart
-            {
-                Iterator vanChartUI = chartTypeInterfaces.get(ChartTypeManager.vanChartID).entrySet().iterator();
-                fetchNames(vanChartUI, names, index++);
-            }
+            Iterator vanChartUI = chartTypeInterfaces.get(ChartTypeManager.vanChartID).entrySet().iterator();
+            index = fetchNames(vanChartUI, names, index);
             //处理chart
-            {
-                Iterator chartUI = chartTypeInterfaces.get(ChartTypeManager.chartID).entrySet().iterator();
-                fetchNames(chartUI, names, index++);
-            }
+            Iterator chartUI = chartTypeInterfaces.get(ChartTypeManager.chartID).entrySet().iterator();
+            index = fetchNames(chartUI, names, index);
             //其它图表
             Iterator i = chartTypeInterfaces.entrySet().iterator();
             while (i.hasNext()){
@@ -304,7 +300,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 String chartID = (String) entry.getKey();
                 if (!(ComparatorUtils.equals(chartID, ChartTypeManager.chartID) || ComparatorUtils.equals(chartID, ChartTypeManager.vanChartID))) {
                     Iterator otherChartUI = chartTypeInterfaces.get(chartID).entrySet().iterator();
-                    fetchNames(otherChartUI, names, index++);
+                    index = fetchNames(otherChartUI, names, index);
                 }
             }
             return names;
@@ -313,12 +309,13 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return new String[0];
     }
 
-    private void fetchNames(Iterator chartUI, String[] names, int index) {
+    private int fetchNames(Iterator chartUI, String[] names, int index) {
         while (chartUI.hasNext()) {
             Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
             IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-            names[index] = provider.getPlotTypePane().title4PopupWindow();
+            names[index++] = provider.getPlotTypePane().title4PopupWindow();
         }
+        return index;
     }
 
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
