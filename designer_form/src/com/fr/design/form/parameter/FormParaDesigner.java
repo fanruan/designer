@@ -79,6 +79,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 	private static final int SECOND_H_LOCATION = 170;
 	private static final int ADD_HEIGHT = 20;
 	private static final int H_GAP = 105;
+	private static int paraCount;
 
 	private static Image paraImage = BaseUtils.readImage("/com/fr/design/images/form/parameter.png");
 
@@ -114,8 +115,6 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		if (!BaseUtils.isAuthorityEditing()) {
 			EastRegionContainerPane.getInstance().replaceUpPane(
 					WidgetPropertyPane.getInstance(this));
-			EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
-			refreshParameter();
 		} else {
 			showAuthorityEditPane();
 		}
@@ -233,9 +232,16 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
 
-		//参数面板独立后只能这边触发调整高度，根据参数个数调整换行，计算高度
-		EastRegionContainerPane.getInstance().setParameterHeight((p.getParameterArray().length + 5) / 6 * 30 + 80);
-		ParameterPropertyPane.getInstance().repaintContainer();
+		EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
+		if (p.getParameterArray().length == 0) {
+			EastRegionContainerPane.getInstance().setParameterHeight(30);
+		} else {
+			//参数面板独立后只能这边触发调整高度，根据参数个数调整换行，计算高度
+			EastRegionContainerPane.getInstance().setParameterHeight((p.getParameterArray().length + 5) / 6 * 30 + 80);
+		}
+		System.out.print("1");
+
+		//ParameterPropertyPane.getInstance().repaintContainer();
 	}
 
 	/**
