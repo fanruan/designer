@@ -129,7 +129,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 		
 		public void updateBean(Chart chart) {
-            int lastSelectIndex = editPane.getSelectedChartIndex(chart);
+
+			Plot oldPlot = chart.getPlot();
+			String lastPlotID = oldPlot == null ? StringUtils.EMPTY : oldPlot.getPlotID();
 
             try{
                 Chart newDefaultChart = (Chart)((AbstractChartTypePane)getSelectedPane()).getDefaultChart().clone();
@@ -159,7 +161,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && lastSelectIndex != jcb.getSelectedIndex())){
+				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 					editPane.reLayout(chart);
 				}
 			}
