@@ -9,10 +9,7 @@ import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.CoverReportPane;
-import com.fr.design.mainframe.EditingMouseListener;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
@@ -201,6 +198,13 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		editor.repaint();
 	}
 
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		coverPanel.destroyHelpDialog();
+	}
+
     public JComponent getCoverPane(){
         return coverPanel;
     }
@@ -280,6 +284,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (this.isHelpBtnOnFocus()) {
 			coverPanel.setMsgDisplay(e);
 		}else {
+			coverPanel.destroyHelpDialog();
 			switchTab(e,editingMouseListener);
 		}
 	}
