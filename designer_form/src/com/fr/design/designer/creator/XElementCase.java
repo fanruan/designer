@@ -22,13 +22,10 @@ import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.stable.fun.ExtraAttrMapProvider;
 import com.fr.stable.fun.FitProvider;
-import com.fr.stable.fun.IOFileAttrMark;
 import com.fr.stable.fun.ReportFitAttrProvider;
 
 import javax.swing.*;
@@ -113,13 +110,6 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 			ElementCaseEditor editor = this.toData();
-			Set<ExtraAttrMapProvider> setAttr = ExtraClassManager.getInstance().getArray(ExtraAttrMapProvider.XML_TAG);
-			for (ExtraAttrMapProvider attrProvider:setAttr) {
-				if (attrProvider == null) {
-					continue;
-				}
-				editor.addAttrMark((IOFileAttrMark) attrProvider);
-			}
 			FitProvider fitProvider = (FitProvider) designer.getTarget();
 			ReportFitAttrProvider fitAttr = fitProvider.getFitAttr();
 			//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
