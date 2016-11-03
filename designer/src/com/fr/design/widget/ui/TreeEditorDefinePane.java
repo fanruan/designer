@@ -1,17 +1,15 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.form.ui.TreeEditor;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /*
@@ -31,12 +29,18 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 	protected void populateSubFieldEditorBean(TreeEditor e) {
 		this.treeSettingPane.populate(e);
 		treeRootPane.populate(e.getTreeAttr());
+		if (this.removeRepeatCheckBox != null) {
+			this.removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
+		}
 	}
 
 	@Override
 	protected TreeEditor updateSubFieldEditorBean() {
 		TreeEditor editor = treeSettingPane.updateTreeEditor();
 		editor.setTreeAttr(treeRootPane.update());
+		if (this.removeRepeatCheckBox != null) {
+			editor.setRemoveRepeat(this.removeRepeatCheckBox.isSelected());
+		}
 		return editor;
 	}
 

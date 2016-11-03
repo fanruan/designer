@@ -273,7 +273,17 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         leftButton.setEnabled(buttonEnabled);
         rightButton.setEnabled(buttonEnabled);
     }
-
+    
+    /**
+     * 抽出来方便OEM
+     * @return
+     */
+    public Icon getAddWorkSheet(){
+    	return ADD_WORK_SHEET;
+    }
+    public Icon getWorkSheetIcon(){
+    	return WORK_SHEET_ICON;
+    }
     @Override
     /**
      * 画Tab
@@ -290,7 +300,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         double textHeight = this.getSize().getHeight() - 1;
 
         widthArray = calculateWidthArray();
-        int operationWidth = GRAP + ADD_WORK_SHEET.getIconWidth() + ICON_SEP_DISTANCE + ADD_POLY_SHEET.getIconWidth();
+        int operationWidth = GRAP + getAddWorkSheet().getIconWidth() + ICON_SEP_DISTANCE + ADD_POLY_SHEET.getIconWidth();
         double maxWidth = getWidth() - operationWidth - buttonPane.getWidth();// 最大宽度
         paintBackgroundAndLine(g2d, textHeight, maxWidth, charWidth, textAscent);
         checkButton(showCount < widthArray.length);
@@ -321,7 +331,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 isNeedPaintedAuthority = templateReport.getWorkSheetPrivilegeControl().checkInvisible(selectedRoles);
             }
-            sheeticon = templateReport instanceof WorkSheet ? WORK_SHEET_ICON : POLY_SHEET_ICON;
+            sheeticon = templateReport instanceof WorkSheet ? getWorkSheetIcon() : POLY_SHEET_ICON;
             String sheetName = workBook.getReportName(i);
             if (i == selectedIndex) {
                 paintSelectedTab(g2d, sheeticon, textHeight, textX, sheetName, charWidth, textAscent, isNeedPaintedAuthority);
@@ -352,8 +362,8 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     }
     
     protected void paintAddButton(Graphics2D g2d){
-    	ADD_WORK_SHEET.paintIcon(this, g2d, iconLocation, 3);
-    	ADD_POLY_SHEET.paintIcon(this, g2d, iconLocation + ADD_WORK_SHEET.getIconWidth() + ICON_SEP_DISTANCE, 3);
+    	getAddWorkSheet().paintIcon(this, g2d, iconLocation, 3);
+    	ADD_POLY_SHEET.paintIcon(this, g2d, iconLocation + getAddWorkSheet().getIconWidth() + ICON_SEP_DISTANCE, 3);
     }
 
     /**
@@ -757,7 +767,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 widthArray = calculateWidthArray();
                 int width = widthArray[i];
                 textX += width + 1;
-                int operationWidth = GRAP + ADD_WORK_SHEET.getIconWidth() + ICON_SEP_DISTANCE + ADD_POLY_SHEET.getIconWidth();
+                int operationWidth = GRAP + getAddWorkSheet().getIconWidth() + ICON_SEP_DISTANCE + ADD_POLY_SHEET.getIconWidth();
                 double maxWidth = getWidth() - operationWidth - buttonPane.getWidth();// 最大宽度
                 if (i < widthArray.length - 1 && textX + widthArray[i + 1] + 1 > maxWidth) {
                     isOvertakeWidth = true;

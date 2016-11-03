@@ -1,40 +1,27 @@
 package com.fr.design.mainframe;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.actions.community.NeedAction;
-import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.widget.UITreeComboBox;
+
 import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.treeview.ComponentTreeModel;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icontainer.UIScrollPane;
-
-import javax.swing.JComponent;
 
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.fr.design.gui.itextfield.UITextField;
 
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.tree.TreePath;
 
 import com.fr.base.BaseUtils;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
-import com.fr.design.actions.UpdateAction;
 import com.fr.design.layout.FRGUIPaneFactory;
 
 

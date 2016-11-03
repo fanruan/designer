@@ -2,6 +2,7 @@ package com.fr.design.webattr;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
@@ -22,10 +23,12 @@ import com.fr.stable.Constants;
 import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WriteToolBarPane extends AbstractEditToolBarPane {
@@ -103,12 +106,12 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         toolBarManager.setToolBarLocation(Location.createTopEmbedLocation());
         this.toolBarManagers = new ToolBarManager[]{toolBarManager};
     }
-
+    
     private ActionListener editBtnListener = new ActionListener() {
 
         public void actionPerformed(ActionEvent e) {
             final DragToolBarPane dragToolbarPane = new DragToolBarPane();
-            dragToolbarPane.setDefaultToolBar(ToolBarManager.createDefaultWriteToolBar(), ReportWebWidgetConstants.getWriteToolBarInstance());
+            dragToolbarPane.setDefaultToolBar(ToolBarManager.createDefaultWriteToolBar(), getToolBarInstance());
             dragToolbarPane.populateBean(WriteToolBarPane.this.toolBarManagers);
             BasicDialog toobarDialog = dragToolbarPane.showWindow(SwingUtilities.getWindowAncestor(WriteToolBarPane.this));
             toobarDialog.addDialogActionListener(new DialogActionAdapter() {
@@ -130,7 +133,12 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
 
     @Override
     protected WidgetOption[] getToolBarInstance() {
-        return ReportWebWidgetConstants.getWriteToolBarInstance();
+    	List<WidgetOption> defaultOptions = Arrays.asList(ReportWebWidgetConstants.getWriteToolBarInstance());
+        List<WidgetOption> extraOptions = Arrays.asList(ExtraDesignClassManager.getInstance().getWebWidgetOptions());
+        List<WidgetOption> options = new ArrayList<WidgetOption>();
+        options.addAll(defaultOptions);
+        options.addAll(extraOptions);
+        return options.toArray(new WidgetOption[options.size()]);
     }
 
     @Override
