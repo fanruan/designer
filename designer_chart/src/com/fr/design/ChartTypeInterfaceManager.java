@@ -79,8 +79,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     public static WidgetOption[] initWidgetOption(){
 
-        ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
-        ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+        final ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+        final ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
 
         //异步加载
         new Thread(new Runnable() {
