@@ -50,7 +50,6 @@ public class UndoStateEdit extends AbstractUndoableEdit {
             }
         }
         if (this.old != null) {
-            HelpDialogManager.getInstance().destroyDialog();
             this.old.applyState();
         }
         if (BaseUtils.isAuthorityEditing()) {
