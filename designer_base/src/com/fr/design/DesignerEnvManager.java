@@ -20,6 +20,7 @@ import com.fr.stable.xml.*;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
+
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -28,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
 /**
@@ -226,7 +228,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     StableUtils.makesureFileExist(new java.io.File(fileName));
                 }
                 Handler handler = new FileHandler(fileName, true);
-                handler.setFormatter(new SimpleFormatter());
+                
+                handler.setFormatter(new FRLogFormatter());
                 FRContext.getLogger().addLogHandler(handler);
             } catch (SecurityException e) {
                 FRContext.getLogger().error(e.getMessage(), e);
@@ -235,7 +238,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
         }
     }
-
+    
     private File getDesignerEnvFile() {
         File envFile = getEnvFile();
         // james:FineReportEnv.xml文件没有必要做兼容，里面保存的主要是界面布局以及设计器激活的信息
