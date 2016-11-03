@@ -22,11 +22,13 @@ import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.general.Inter;
+import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.form.main.Form;
+import com.fr.stable.fun.ExtraAttrMapProvider;
 import com.fr.stable.fun.FitProvider;
+import com.fr.stable.fun.IOFileAttrMark;
 import com.fr.stable.fun.ReportFitAttrProvider;
 
 import javax.swing.*;
@@ -100,7 +102,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 
 		//这边有个插件兼容问题,之后还是要改回process才行
@@ -110,8 +112,22 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				continue;
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-			Form form = designer.getTarget();
-			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), form, this.toData());
+			ElementCaseEditor editor = this.toData();
+			Set<ExtraAttrMapProvider> setAttr = ExtraClassManager.getInstance().getArray(ExtraAttrMapProvider.XML_TAG);
+			for (ExtraAttrMapProvider attrProvider:setAttr) {
+				if (attrProvider == null) {
+					continue;
+				}
+				editor.addAttrMark((IOFileAttrMark) attrProvider);
+			}
+			FitProvider fitProvider = (FitProvider) designer.getTarget();
+			ReportFitAttrProvider fitAttr = fitProvider.getFitAttr();
+			//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
+			if (editor.getFitStateInPC() == 0) {
+				editor.setReportFitAttr(null);
+			}
+			ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), editor.getAttrMarkMap(), reportFitAttr);
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
 

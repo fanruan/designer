@@ -1,12 +1,12 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.FormElementCaseEditorProvider;
-import com.fr.form.main.Form;
-import com.fr.form.ui.ElementCaseEditor;
+import com.fr.stable.fun.IOFileAttrMark;
 import com.fr.stable.fun.ReportFitAttrProvider;
 import com.fr.stable.fun.mark.API;
 
 import java.beans.PropertyDescriptor;
+import java.util.Map;
 
 /**
  * Created by zhouping on 2015/9/10.
@@ -24,7 +24,7 @@ public abstract class AbstractFormElementCaseEditorProvider implements FormEleme
     }
 
     @Override
-    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, Form reportAttr, ElementCaseEditor editor) {
+    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, Map<String, IOFileAttrMark> attrMarkMap, ReportFitAttrProvider reportFitAttr) {
         return new PropertyDescriptor[0];
     }
 
@@ -47,13 +47,5 @@ public abstract class AbstractFormElementCaseEditorProvider implements FormEleme
     @Override
     public int getFitStateInPC(ReportFitAttrProvider fitAttrProvider) {
         return 0;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null) {
-            return false;
-        }
-        return true;
     }
 }
