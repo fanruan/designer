@@ -1,5 +1,27 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.ShopDialog;
+import com.fr.design.extra.WebManagerPaneFactory;
+import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIPopupMenu;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.form.share.ShareConstants;
+import com.fr.form.share.ShareLoader;
+import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,40 +29,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.actions.file.WebPreviewUtils;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.WebManagerPaneFactory;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ibutton.UIPreviewButton;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.imenu.UIMenuItem;
-import com.fr.design.gui.imenu.UIPopupMenu;
-import com.fr.design.gui.itoolbar.UILargeToolbar;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.parameter.ParameterPropertyPane;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.share.ShareConstants;
-import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.ElCaseBindInfo;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,6 +48,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIButton deleteButton;
     private static final int OFFSET_X = 140;
     private static final int OFFSET_Y = 26;
+    private SwingWorker sw;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -105,7 +94,19 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
-            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+            elCaseBindInfoList = new ElCaseBindInfo[0];
+            if (sw != null) {
+                sw.cancel(true);
+            }
+            sw = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
+                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                    refreshDownPanel(false);
+                    return null;
+                }
+            };
+            sw.execute();
         }
         initReuWidgetPanel();
         createRefreshButton();
@@ -178,8 +179,19 @@ public class FormWidgetDetailPane extends FormDockView{
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                refreshShareMoudule();
-                refreshDownPanel(false);
+                if (sw != null) {
+                    sw.cancel(true);
+                }
+                sw = new SwingWorker() {
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        ShareLoader.getLoader().refreshModule();
+                        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                        refreshDownPanel(false);
+                        return null;
+                    }
+                };
+                sw.execute();
             }
         });
 
