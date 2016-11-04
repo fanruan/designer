@@ -124,7 +124,7 @@ public class AddingModel {
 
 		Rectangle rect = ComponentUtils.getRelativeBounds(container);
 		if(!ComparatorUtils.equals(container.getOuterLayout(), container.getBackupParent())){
-			return added = container.getLayoutAdapter().addBean(creator,x,y);
+			return added = container.getLayoutAdapter().addBean(creator, x + designer.getArea().getHorizontalValue(), y + designer.getArea().getVerticalValue());
 		}
 		return added = container.getLayoutAdapter().addBean(creator,
 				x + designer.getArea().getHorizontalValue() - rect.x,

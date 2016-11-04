@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe;
 
+import com.fr.design.extra.PluginHelper;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
@@ -38,21 +39,27 @@ public class GetPluginFromStoreExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        StringBuilder url = new StringBuilder(SiteCenter.getInstance().acquireUrlByKind("plugin.plist"));
-                        if (StringUtils.isNotBlank(category)) {
-                            url.append("&cid=").append(category.split("-")[1]);
-                        }
-                        if (StringUtils.isNotBlank(seller)) {
-                            url.append("&seller=").append(seller.split("-")[1]);
-                        }
-                        if (StringUtils.isNotBlank(fee)) {
-                            url.append("&fee=").append(fee.split("-")[1]);
-                        }
-                        try {
-                            HttpClient httpClient = new HttpClient(url.toString());
-                            result = httpClient.getResponseText();
-                        } catch (Exception e) {
-                            FRLogger.getLogger().error(e.getMessage());
+                        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
+                        if (StringUtils.isNotBlank(plistUrl)) {
+                            StringBuilder url = new StringBuilder();
+                            url.append(plistUrl);
+                            if (StringUtils.isNotBlank(category)) {
+                                url.append("&cid=").append(category.split("-")[1]);
+                            }
+                            if (StringUtils.isNotBlank(seller)) {
+                                url.append("&seller=").append(seller.split("-")[1]);
+                            }
+                            if (StringUtils.isNotBlank(fee)) {
+                                url.append("&fee=").append(fee.split("-")[1]);
+                            }
+                            try {
+                                HttpClient httpClient = new HttpClient(url.toString());
+                                result = httpClient.getResponseText();
+                            } catch (Exception e) {
+                                FRLogger.getLogger().error(e.getMessage());
+                            }
+                        } else {
+                            result = PluginHelper.CONNECTION_404;
                         }
                     }
                 }

@@ -247,7 +247,17 @@ public class FRTreeComboBox extends UIComboBox {
         }
         @Override
     	protected UIButton createArrowButton() {
-        	arrowButton = new UIButton(UIConstants.ARROW_DOWN_ICON);
+        	arrowButton = new UIButton(UIConstants.ARROW_DOWN_ICON){
+                /**
+                 * 组件是否需要响应添加的观察者事件
+                 *
+                 * @return 如果需要响应观察者事件则返回true，否则返回false
+                 */
+                @Override
+                public boolean shouldResponseChangeListener() {
+                    return false;
+                }
+            };
     		((UIButton) arrowButton).setRoundBorder(true, Constants.LEFT);
     		arrowButton.addMouseListener(this);
     		comboBox.addMouseListener(this);

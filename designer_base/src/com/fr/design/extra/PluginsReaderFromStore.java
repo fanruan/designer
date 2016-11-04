@@ -31,30 +31,30 @@ public class PluginsReaderFromStore {
      * @return 插件信息
      */
     public static Plugin[] readPlugins() throws Exception {
-            String resText;
+        String resText;
+        try {
+            HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.store"));
+            resText = httpClient.getResponseText();
+            String charSet = EncodeConstants.ENCODING_UTF_8;
+            resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
+        } catch (Exception e) {
+            throw new Exception(Inter.getLocText("FR-Designer-Plugin_PluginMarket_Coding"));
+        }
+        if (StringUtils.isNotEmpty(resText)) {
             try {
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.store"));
-                resText = httpClient.getResponseText();
-                String charSet = EncodeConstants.ENCODING_UTF_8;
-                resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
-            } catch (Exception e) {
-                throw new Exception(Inter.getLocText("FR-Designer-Plugin_PluginMarket_Coding"));
-            }
-            if (StringUtils.isNotEmpty(resText)) {
-                try {
-                    plugins.clear();//先清空set
-                    JSONArray jsonArray = new JSONArray(resText);
-                    for (int i = 0, size = jsonArray.length(); i < size; i++) {
-                        Plugin plugin = new Plugin();
-                        plugin.parseJSON(jsonArray.optJSONObject(i));
-                        if (plugin.isValidate()) {
-                            plugins.add(plugin);
-                        }
+                plugins.clear();//先清空set
+                JSONArray jsonArray = new JSONArray(resText);
+                for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                    Plugin plugin = new Plugin();
+                    plugin.parseJSON(jsonArray.optJSONObject(i));
+                    if (plugin.isValidate()) {
+                        plugins.add(plugin);
                     }
-                } catch (JSONException e) {
-                    throw new Exception(Inter.getLocText("FR-Designer-Plugin_Read_Plugin_List_Error"));
                 }
+            } catch (JSONException e) {
+                throw new Exception(Inter.getLocText("FR-Designer-Plugin_Read_Plugin_List_Error"));
             }
+        }
 
         return plugins.toArray(new Plugin[plugins.size()]);
     }
@@ -65,35 +65,33 @@ public class PluginsReaderFromStore {
      * @return 插件信息
      */
     public static Plugin[] readPluginsForUpdate() throws Exception {
-            String resText;
+        String resText = null;
+        String url = SiteCenter.getInstance().acquireUrlByKind("plugin.update");
+        if (StringUtils.isNotEmpty(url)) {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("plugins", PluginLoader.getLoader().pluginsToString());
+            //只有当前设计器的jar高于插件新版本需要的jarTime时, 才提示更新该插件.
+            para.put("jarTime", GeneralUtils.readBuildNO());
+            HttpClient httpClient = new HttpClient(url, para);
+            resText = httpClient.getResponseText();
+            String charSet = EncodeConstants.ENCODING_UTF_8;
+            resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
+        }
+        if (StringUtils.isNotEmpty(resText)) {
             try {
-                HashMap<String, String> para = new HashMap<String, String>();
-                para.put("plugins", PluginLoader.getLoader().pluginsToString());
-                //只有当前设计器的jar高于插件新版本需要的jarTime时, 才提示更新该插件.
-                para.put("jarTime", GeneralUtils.readBuildNO());
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.update"), para);
-                resText = httpClient.getResponseText();
-                String charSet = EncodeConstants.ENCODING_UTF_8;
-                resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
-            } catch (Exception e) {
-                throw new Exception(Inter.getLocText("FR-Designer-Plugin_PluginMarket_Coding"));
-            }
-            if (StringUtils.isNotEmpty(resText)) {
-                try {
-                    pluginsToUpdate.clear();
-                    JSONArray jsonArray = new JSONArray(resText);
-                    for (int i = 0, size = jsonArray.length(); i < size; i++) {
-                        Plugin plugin = new Plugin();
-                        plugin.parseJSON(jsonArray.optJSONObject(i));
-                        if (plugin.isValidate()) {
-                            pluginsToUpdate.add(plugin);
-                        }
+                pluginsToUpdate.clear();
+                JSONArray jsonArray = new JSONArray(resText);
+                for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                    Plugin plugin = new Plugin();
+                    plugin.parseJSON(jsonArray.optJSONObject(i));
+                    if (plugin.isValidate()) {
+                        pluginsToUpdate.add(plugin);
                     }
-                } catch (JSONException e) {
-                    throw new Exception(Inter.getLocText("FR-Designer-Plugin_Read_Plugin_List_Error"));
                 }
+            } catch (JSONException e) {
+                throw new Exception(Inter.getLocText("FR-Designer-Plugin_Read_Plugin_List_Error"));
             }
-
+        }
         return pluginsToUpdate.toArray(new Plugin[pluginsToUpdate.size()]);
     }
 
