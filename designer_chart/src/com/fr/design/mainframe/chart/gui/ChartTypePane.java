@@ -129,7 +129,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 		
 		public void updateBean(Chart chart) {
-            int lastSelectIndex = editPane.getSelectedChartIndex(chart);
+
+			Plot oldPlot = chart.getPlot();
+			String lastPlotID = oldPlot == null ? StringUtils.EMPTY : oldPlot.getPlotID();
 
             try{
                 Chart newDefaultChart = (Chart)((AbstractChartTypePane)getSelectedPane()).getDefaultChart().clone();
@@ -159,7 +161,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && lastSelectIndex != jcb.getSelectedIndex())){
+				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 					editPane.reLayout(chart);
 				}
 			}
@@ -188,7 +190,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		public void reactor(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
-			String chartID = chart.getChartID();
+			String chartID = chart.getPriority();
 			if (collection.getState() == SwitchState.DEFAULT){
 				chartID = StringUtils.EMPTY;
 			}
@@ -197,7 +199,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//重构下拉框选项
 			reactorComboBox();
 			//重新选择选中的下拉项
-			chartID = chart.getChartID();
+			chartID = chart.getPriority();
 			String plotID = chart.getPlot().getPlotID();
 			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);

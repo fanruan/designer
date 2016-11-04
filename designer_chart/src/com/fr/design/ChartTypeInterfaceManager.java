@@ -21,10 +21,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.XMLFileManager;
 import com.fr.form.ui.ChartEditor;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralContext;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
@@ -52,12 +49,12 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private static ChartTypeInterfaceManager classManager = null;
     private static LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>> chartTypeInterfaces = new LinkedHashMap<String, LinkedHashMap<String, IndependentChartUIProvider>>();
-    private static final String DEFAULT_CHART_ID = "DefaultChart";
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         if (classManager == null) {
             classManager = new ChartTypeInterfaceManager();
             chartTypeInterfaces.clear();
+            classManager.readDefault();
         }
         return classManager;
     }
@@ -74,9 +71,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
             public void success() {
-                if (chartTypeInterfaces.size() == 0) {
-                    ChartTypeInterfaceManager.getInstance().readDefault();
-                }
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
             }
@@ -85,8 +79,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     public static WidgetOption[] initWidgetOption(){
 
-        ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
-        ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+        final ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+        final ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
 
         //异步加载
         new Thread(new Runnable() {
@@ -95,7 +89,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 getWidgetOption(typeName, child);
             }
         }).start();
-
 
         return child;
     }
@@ -132,6 +125,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private static void readDefault() {
+        if (chartTypeInterfaces.containsKey(ChartTypeManager.CHART_PRIORITY)){
+            return;
+        }
         LinkedHashMap<String, IndependentChartUIProvider> chartUIList = new LinkedHashMap<String, IndependentChartUIProvider>();
         chartUIList.put(ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
         chartUIList.put(ChartConstants.LINE_CHART, new LineIndependentChartInterface());
@@ -151,7 +147,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         chartUIList.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartUIList.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
 
-        chartTypeInterfaces.put(DEFAULT_CHART_ID, chartUIList);
+        chartTypeInterfaces.put(ChartTypeManager.CHART_PRIORITY, chartUIList);
     }
 
     public String getIconPath(String plotID) {
@@ -159,8 +155,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             Iterator iterator = chartTypeInterfaces.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry entry = (Map.Entry) iterator.next();
-                String chartID = (String) entry.getKey();
-                String imagePath = getIconPath(chartID, plotID);
+                String priority = (String) entry.getKey();
+                String imagePath = getIconPath(priority, plotID);
                 if (!StringUtils.isEmpty(imagePath)) {
                     return imagePath;
                 }
@@ -169,23 +165,23 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return StringUtils.EMPTY;
     }
 
-    private String getIconPath(String chartID, String plotID) {
-        if (chartTypeInterfaces.get(chartID) != null && chartTypeInterfaces.get(chartID).get(plotID) != null) {
-            return chartTypeInterfaces.get(chartID).get(plotID).getIconPath();
+    private String getIconPath(String priority, String plotID) {
+        if (chartTypeInterfaces.get(priority) != null && chartTypeInterfaces.get(priority).get(plotID) != null) {
+            return chartTypeInterfaces.get(priority).get(plotID).getIconPath();
         }else {
             return StringUtils.EMPTY;
         }
     }
 
-    public static void addChartTypeInterface(IndependentChartUIProvider provider, String chartID, String plotID) {
+    public static void addChartTypeInterface(IndependentChartUIProvider provider, String priority, String plotID) {
         if (chartTypeInterfaces != null){
-            if (!chartTypeInterfaces.containsKey(chartID)){
+            if (!chartTypeInterfaces.containsKey(priority)){
                 //新建一个具体图表列表
                 LinkedHashMap<String, IndependentChartUIProvider> chartUIList = new LinkedHashMap<String, IndependentChartUIProvider>();
                 chartUIList.put(plotID, provider);
-                chartTypeInterfaces.put(chartID, chartUIList);
+                chartTypeInterfaces.put(priority, chartUIList);
             }else {
-                LinkedHashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(chartID);
+                LinkedHashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
                 if (!chartUIList.containsKey(plotID)) {
                     chartUIList.put(plotID, provider);
                 }
@@ -199,7 +195,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      * @param className 类名
      * @param plotID    标志ID
      */
-    public void addChartInterface(String className, String chartID, String plotID, PluginSimplify simplify) {
+    public void addChartInterface(String className, String priority, String plotID, PluginSimplify simplify) {
         if (StringUtils.isNotBlank(className)) {
             try {
                 Class<?> clazz = Class.forName(className);
@@ -211,7 +207,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 if (PluginCollector.getCollector().isError(provider, IndependentChartUIProvider.CURRENT_API_LEVEL, simplify.getPluginName()) || !containsChart(plotID)) {
                     PluginMessage.remindUpdate(className);
                 } else {
-                    ChartTypeInterfaceManager.getInstance().addChartTypeInterface(provider, chartID, plotID);
+                    ChartTypeInterfaceManager.getInstance().addChartTypeInterface(provider, priority, plotID);
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());
@@ -235,8 +231,8 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            Iterator chartUIIterator = chartTypeInterfaces.get(chartID).entrySet().iterator();
+            String priority = (String) entry.getKey();
+            Iterator chartUIIterator = chartTypeInterfaces.get(priority).entrySet().iterator();
             while (chartUIIterator.hasNext()) {
                 Map.Entry chartUIEntry = (Map.Entry) chartUIIterator.next();
                 IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
@@ -245,13 +241,13 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         }
     }
 
-    public String[] getTitle4PopupWindow(String chartID){
-        if (chartID.isEmpty()){
+    public String[] getTitle4PopupWindow(String priority){
+        if (priority.isEmpty()){
             return getTitle4PopupWindow();
         }
-        String[] names = new String[getChartSize(chartID)];
-        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(chartID)){
-            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(chartID);
+        String[] names = new String[getChartSize(priority)];
+        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)){
+            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
             Iterator iterator = chartUIList.entrySet().iterator();
             int i = 0;
             while (iterator.hasNext()){
@@ -266,13 +262,13 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     /**
      * 获取指定图表的标题
-     * @param chartID
+     * @param priority
      * @return
      */
-    public String getTitle4PopupWindow(String chartID, String plotID){
-        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(chartID) && chartTypeInterfaces.get(chartID).containsKey(plotID)){
-            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(chartID);
-            IndependentChartUIProvider provider = chartTypeInterfaces.get(chartID).get(plotID);
+    public String getTitle4PopupWindow(String priority, String plotID){
+        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)){
+            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
+            IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
             return   provider.getPlotTypePane().title4PopupWindow();
 
         }
@@ -280,59 +276,67 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private String[] getTitle4PopupWindow(){
+        List<Integer> priorityList = new ArrayList<Integer>();
         int size = 0;
         if (chartTypeInterfaces != null){
             Iterator iterator = chartTypeInterfaces.entrySet().iterator();
             while (iterator.hasNext()){
                 Map.Entry entry = (Map.Entry) iterator.next();
-                String chartID = (String) entry.getKey();
-                size += getChartSize(chartID);
+                String priority = (String) entry.getKey();
+                priorityList.add(Integer.valueOf(priority));
+                size += getChartSize(priority);
             }
             String[] names = new String[size];
 
+            priorityList = ChartTypeManager.orderInPriority(priorityList);
+
             int index = 0;
 
-            Iterator i = chartTypeInterfaces.entrySet().iterator();
-            while (i.hasNext()){
-                Map.Entry entry = (Map.Entry) i.next();
-                String chartID = (String) entry.getKey();
-                Iterator chartUI = chartTypeInterfaces.get(chartID).entrySet().iterator();
-                while (chartUI.hasNext()){
-                    Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
-                    IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-                    names[index++] = provider.getPlotTypePane().title4PopupWindow();
-                }
+            for (int i = 0; i < priorityList.size(); i++){
+                String priority = String.valueOf(priorityList.get(i));
+                Iterator chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
+                index = fetchNames(chartUI, names, index);
             }
+
             return names;
         }
 
         return new String[0];
     }
 
+    private int fetchNames(Iterator chartUI, String[] names, int index) {
+        while (chartUI.hasNext()) {
+            Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
+            IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
+            names[index++] = provider.getPlotTypePane().title4PopupWindow();
+        }
+        return index;
+    }
+
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (plotInChart(plotID, chartID)) {
-                return getChartDataPane(chartID, plotID, listener);
+            String priority = (String) entry.getKey();
+            if (plotInChart(plotID, priority)) {
+                return getChartDataPane(priority, plotID, listener);
             }
         }
-        return getChartDataPane(DEFAULT_CHART_ID, plotID, listener);
+        return getChartDataPane(ChartTypeManager.CHART_PRIORITY, plotID, listener);
     }
 
-    private ChartDataPane getChartDataPane(String chartID, String plotID, AttributeChangeListener listener) {
-        return chartTypeInterfaces.get(chartID).get(plotID).getChartDataPane(listener);
+    private ChartDataPane getChartDataPane(String priority, String plotID, AttributeChangeListener listener) {
+        return chartTypeInterfaces.get(priority).get(plotID).getChartDataPane(listener);
     }
 
     /**
      * 获取对应ID的图表数量
-     * @param chartID
+     * @param key
      * @return
      */
-    private int getChartSize(String chartID){
-        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(chartID)){
-            return chartTypeInterfaces.get(chartID).size();
+    private int getChartSize(String key){
+        if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(key)){
+            return chartTypeInterfaces.get(key).size();
         }
         return 0;
     }
@@ -341,32 +345,32 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (plotInChart(plotID, chartID)) {
-                return getAttrPaneArray(chartID, plotID, listener);
+            String priority = (String) entry.getKey();
+            if (plotInChart(plotID, priority)) {
+                return getAttrPaneArray(priority, plotID, listener);
             }
         }
-        return getAttrPaneArray(DEFAULT_CHART_ID, plotID, listener);
+        return getAttrPaneArray(ChartTypeManager.CHART_PRIORITY, plotID, listener);
     }
 
-    private AbstractChartAttrPane[] getAttrPaneArray(String chartID, String plotID, AttributeChangeListener listener) {
-        return chartTypeInterfaces.get(chartID).get(plotID).getAttrPaneArray(listener);
+    private AbstractChartAttrPane[] getAttrPaneArray(String priority, String plotID, AttributeChangeListener listener) {
+        return chartTypeInterfaces.get(priority).get(plotID).getAttrPaneArray(listener);
     }
 
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (plotInChart(plot.getPlotID(), chartID)) {
-                return getTableDataSourcePane(chartID, plot, parent);
+            String priority = (String) entry.getKey();
+            if (plotInChart(plot.getPlotID(), priority)) {
+                return getTableDataSourcePane(priority, plot, parent);
             }
         }
-        return getTableDataSourcePane(DEFAULT_CHART_ID, plot, parent);
+        return getTableDataSourcePane(ChartTypeManager.CHART_PRIORITY, plot, parent);
     }
 
-    private AbstractTableDataContentPane getTableDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
-        return chartTypeInterfaces.get(chartID).get(plot.getPlotID()).getTableDataSourcePane(plot, parent);
+    private AbstractTableDataContentPane getTableDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
+        return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getTableDataSourcePane(plot, parent);
     }
 
 
@@ -374,23 +378,23 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
+            String priority = (String) entry.getKey();
             String plotID = plot.getPlotID();
-            if (plotInChart(plotID, chartID)) {
-                return getReportDataSourcePane(chartID, plot, parent);
+            if (plotInChart(plotID, priority)) {
+                return getReportDataSourcePane(priority, plot, parent);
             }
         }
-        return getReportDataSourcePane(DEFAULT_CHART_ID, plot, parent);
+        return getReportDataSourcePane(ChartTypeManager.CHART_PRIORITY, plot, parent);
     }
 
-    private boolean plotInChart(String plotID, String chartID) {
+    private boolean plotInChart(String plotID, String priority) {
         return chartTypeInterfaces != null
-                && chartTypeInterfaces.containsKey(chartID)
-                && chartTypeInterfaces.get(chartID).containsKey(plotID);
+                && chartTypeInterfaces.containsKey(priority)
+                && chartTypeInterfaces.get(priority).containsKey(plotID);
     }
 
-    private AbstractReportDataContentPane getReportDataSourcePane(String chartID, Plot plot, ChartDataPane parent) {
-        return chartTypeInterfaces.get(chartID).get(plot.getPlotID()).getReportDataSourcePane(plot, parent);
+    private AbstractReportDataContentPane getReportDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
+        return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getReportDataSourcePane(plot, parent);
     }
 
 
@@ -398,16 +402,16 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (plotInChart(plot.getPlotID(), chartID)) {
-                return getPlotConditionPane(chartID, plot);
+            String priority = (String) entry.getKey();
+            if (plotInChart(plot.getPlotID(), priority)) {
+                return getPlotConditionPane(priority, plot);
             }
         }
-        return getPlotConditionPane(DEFAULT_CHART_ID, plot);
+        return getPlotConditionPane(ChartTypeManager.CHART_PRIORITY, plot);
     }
 
-    private ConditionAttributesPane getPlotConditionPane(String chartID, Plot plot) {
-        return chartTypeInterfaces.get(chartID).get(plot.getPlotID()).getPlotConditionPane(plot);
+    private ConditionAttributesPane getPlotConditionPane(String priority, Plot plot) {
+        return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getPlotConditionPane(plot);
     }
 
 
@@ -415,16 +419,16 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (plotInChart(plot.getPlotID(), chartID)) {
-                return getPlotSeriesPane(chartID, parent, plot);
+            String priority = (String) entry.getKey();
+            if (plotInChart(plot.getPlotID(), priority)) {
+                return getPlotSeriesPane(priority, parent, plot);
             }
         }
-        return getPlotSeriesPane(DEFAULT_CHART_ID, parent, plot);
+        return getPlotSeriesPane(ChartTypeManager.CHART_PRIORITY, parent, plot);
     }
 
-    private BasicBeanPane<Plot> getPlotSeriesPane(String chartID, ChartStylePane parent, Plot plot) {
-        return chartTypeInterfaces.get(chartID).get(plot.getPlotID()).getPlotSeriesPane(parent, plot);
+    private BasicBeanPane<Plot> getPlotSeriesPane(String priority, ChartStylePane parent, Plot plot) {
+        return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getPlotSeriesPane(parent, plot);
     }
 
     /**
@@ -437,19 +441,19 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
-            String chartID = (String) entry.getKey();
-            if (chartTypeInterfaces.get(chartID).containsKey(plotID)){
-                return isUseDefaultPane(chartID, plotID);
+            String priority = (String) entry.getKey();
+            if (chartTypeInterfaces.get(priority).containsKey(plotID)){
+                return isUseDefaultPane(priority, plotID);
             }
         }
 
         return true;
     }
 
-    private boolean isUseDefaultPane(String chartID, String plotID){
+    private boolean isUseDefaultPane(String priority, String plotID){
 
-        if (chartTypeInterfaces.containsKey(chartID) && chartTypeInterfaces.get(chartID).containsKey(plotID)) {
-            return chartTypeInterfaces.get(chartID).get(plotID).isUseDefaultPane();
+        if (chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)) {
+            return chartTypeInterfaces.get(priority).get(plotID).isUseDefaultPane();
         }
 
         return true;
@@ -467,7 +471,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 extraChartDesignInterfaceList.add(tagName);
             }
             if (IndependentChartUIProvider.XML_TAG.equals(tagName)) {
-                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("chartID", DEFAULT_CHART_ID),reader.getAttrAsString("plotID", ""), simplify);
+                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("priority", ChartTypeManager.CHART_PRIORITY),reader.getAttrAsString("plotID", ""), simplify);
             }
         }
     }
