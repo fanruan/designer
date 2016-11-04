@@ -303,6 +303,7 @@ public class FormWidgetDetailPane extends FormDockView{
 
     public void refreshDownPanel(boolean isEdit) {
         reuWidgetPanel.remove(downPanel);
+        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         downPanel = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, isEdit));
         reuWidgetPanel.add(downPanel);
         repaintContainer();
