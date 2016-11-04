@@ -256,7 +256,7 @@ public class EditingMouseListener extends MouseInputAdapter {
 	public void mouseMoved(MouseEvent e) {
 		XCreator component = designer.getComponentAt(e);
 
-		setCoverPaneNotDisplay();
+		setCoverPaneNotDisplay(e, false);
 
 		if(processTopLayoutMouseMove(component, e)){
 			return;
@@ -320,8 +320,17 @@ public class EditingMouseListener extends MouseInputAdapter {
 		designer.repaint();
 	}
 
-	private void setCoverPaneNotDisplay(){
-		if (xElementCase != null){
+	private void setCoverPaneNotDisplay(MouseEvent e, boolean isLinkedHelpDialog) {
+		if (xElementCase != null) {
+			int x = getParentPositionX(xElementCase, 0) - designer.getArea().getHorizontalValue();
+			int y = getParentPositionY(xElementCase, 0) - designer.getArea().getVerticalValue();
+			Rectangle rect = new Rectangle(x, y, xElementCase.getWidth(), xElementCase.getHeight());
+			if (rect.contains(e.getPoint())) {
+				return;
+			}
+			if(isLinkedHelpDialog){
+				xElementCase.destroyHelpDialog();
+			}
 			xElementCase.displayCoverPane(false);
 		}
 		if (xChartEditor != null){
@@ -525,7 +534,7 @@ public class EditingMouseListener extends MouseInputAdapter {
 			designer.setCursor(Cursor.getDefaultCursor());
 		}
 
-		setCoverPaneNotDisplay();
+		setCoverPaneNotDisplay(e, true);
 
         cancelPromptWidgetForbidEnter();
 	}
