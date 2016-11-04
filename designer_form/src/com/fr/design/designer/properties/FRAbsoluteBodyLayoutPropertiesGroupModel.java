@@ -116,9 +116,6 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         moveComponents2FitLayout(xfl);
                         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                         formDesigner.getSelectionModel().setSelectedCreator(xfl);
-                        xfl.convert();
-                        LayoutUtils.layoutContainer(xfl);
-                        xfl.adjustCreatorsWhileSlide(xfl.getContainerPercent() - 1.0);
 
                         for (int i = 0; i < components.length; i++) {
                             Component comp = xfl.getComponent(i);
