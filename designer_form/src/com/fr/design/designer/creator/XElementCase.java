@@ -20,7 +20,9 @@ import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
@@ -109,15 +111,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				continue;
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-			ElementCaseEditor editor = this.toData();
-			FitProvider fitProvider = (FitProvider) designer.getTarget();
-			ReportFitAttrProvider fitAttr = fitProvider.getFitAttr();
-			//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
-			if (editor.getFitStateInPC() == 0) {
-				editor.setReportFitAttr(null);
-			}
-			ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
-			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), editor.getAttrMarkMap(), reportFitAttr);
+			FormProvider formProvider = designer.getTarget();
+			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
 

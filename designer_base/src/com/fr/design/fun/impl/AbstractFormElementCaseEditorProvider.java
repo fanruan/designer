@@ -1,12 +1,12 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.FormElementCaseEditorProvider;
-import com.fr.stable.fun.IOFileAttrMark;
+import com.fr.form.FormProvider;
+import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.stable.fun.ReportFitAttrProvider;
 import com.fr.stable.fun.mark.API;
 
 import java.beans.PropertyDescriptor;
-import java.util.Map;
 
 /**
  * Created by zhouping on 2015/9/10.
@@ -23,8 +23,7 @@ public abstract class AbstractFormElementCaseEditorProvider implements FormEleme
         return this.getClass().getName();
     }
 
-    @Override
-    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, Map<String, IOFileAttrMark> attrMarkMap, ReportFitAttrProvider reportFitAttr) {
+    public PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, FormProvider reportAttr, ElementCaseEditorProvider editor) {
         return new PropertyDescriptor[0];
     }
 
