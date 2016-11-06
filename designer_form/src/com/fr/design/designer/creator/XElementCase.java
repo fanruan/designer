@@ -9,10 +9,7 @@ import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.CoverReportPane;
-import com.fr.design.mainframe.EditingMouseListener;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
@@ -20,12 +17,13 @@ import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.form.main.Form;
 import com.fr.stable.fun.FitProvider;
 import com.fr.stable.fun.ReportFitAttrProvider;
 
@@ -100,7 +98,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 
 		//这边有个插件兼容问题,之后还是要改回process才行
@@ -110,8 +108,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				continue;
 			}
 			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-			Form form = designer.getTarget();
-			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), form, this.toData());
+			FormProvider formProvider = designer.getTarget();
+			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
 
@@ -201,6 +200,13 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		editor.repaint();
 	}
 
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		coverPanel.destroyHelpDialog();
+	}
+
     public JComponent getCoverPane(){
         return coverPanel;
     }
@@ -280,6 +286,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (this.isHelpBtnOnFocus()) {
 			coverPanel.setMsgDisplay(e);
 		}else {
+			coverPanel.destroyHelpDialog();
 			switchTab(e,editingMouseListener);
 		}
 	}
