@@ -8,7 +8,6 @@ import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -45,6 +44,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		private SwitchState paneState = SwitchState.DEFAULT;
 		//记录当前面板是谁在使用切换状态
 		private String chartID = StringUtils.EMPTY;
+		//记录当前面板是否处在图表切换的事件状态
+		private boolean isChangEvent = false;
 
 		public SwitchState getPaneState() {
 			return paneState;
@@ -60,6 +61,17 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 		public void setChartID(String chartID) {
 			this.chartID = chartID;
+		}
+
+		//使用一次即失效
+		public boolean useChangEvent() {
+			boolean event = isChangEvent;
+			isChangEvent = false;
+			return event;
+		}
+
+		public void setChangEvent(boolean changEvent) {
+			isChangEvent = changEvent;
 		}
 	}
 
@@ -127,7 +139,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		protected String title4PopupWindow() {
 			return null;
 		}
-		
+
+		/**
+		 * 不同图表切换分同一个selected的不同图表切换和不同selected的不同图表切换
+		 * 如果是切换图表的某个图表发生变化，则collection的选择下标不会变
+		 * 如果是切换图表的不同图表之间切换，则collection的选择下标会改变
+		 * @param chart
+		 */
 		public void updateBean(Chart chart) {
 
 			Plot oldPlot = chart.getPlot();
@@ -161,9 +179,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
+				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID)) || paneState.useChangEvent()){
 					editPane.reLayout(chart);
 				}
+
+				//重置面板切换事件状态
+				paneState.setChangEvent(false);
 			}
 		}
 
@@ -291,7 +312,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
 		Chart chart = collection.getSelectedChart();
-
+		//判断是否是图表切换事件
+		if (collection.useChangeEvent()){
+			paneState.setChangEvent(true);
+		}
 		chartTypePane.updateBean(chart);
 	}
 
