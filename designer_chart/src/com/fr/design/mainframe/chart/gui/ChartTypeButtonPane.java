@@ -19,6 +19,7 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -502,9 +503,17 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (isEnabled()) {
                 noSelected();
+                //记录改变前的plotID
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();
+
+                //需要先更新，最后重构面板
+                //重构面板
+                if (parent != null ){
+                    parent.reLayoutEditPane(lastPlotID, editingCollection);
+                }
             }
         }
 

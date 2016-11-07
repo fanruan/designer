@@ -315,7 +315,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             //不直接画chartGlyph而画image的原因是表单的柱形图会溢出表单
             //其他图都ok，其实感觉应该是柱形图画的不对，应该也可以改那边
             //处理画图事件
-            Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution(), this);
+            Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,ScreenResolution.getScreenResolution(), this, null);
             g2d.drawImage(chartImage, 0, 0,  null);
         }
     }
