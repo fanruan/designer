@@ -68,20 +68,20 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         return this.mouseOnChartTypeButtonPane;
     }
 
-    private AWTEventListener awt = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            //没有进行鼠标点击，则返回
-            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
-                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
-                    stopEditing();
-                    if (event.getSource() instanceof ChartChangeButton) {
-                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
-                    }
-                    populateBean(editingCollection);
-                }
-            }
-        }
-    };
+//    private AWTEventListener awt = new AWTEventListener() {
+//        public void eventDispatched(AWTEvent event) {
+//            //没有进行鼠标点击，则返回
+//            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
+//                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
+//                    stopEditing();
+//                    if (event.getSource() instanceof ChartChangeButton) {
+//                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
+//                    }
+//                    populateBean(editingCollection);
+//                }
+//            }
+//        }
+//    };
 
     public ChartTypeButtonPane(ChartTypePane chartTypePane){
         this();
@@ -113,7 +113,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         initConfigButton();
         initConfigCreator();
 
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+     //   Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
     private void initConfigCreator() {
@@ -336,7 +336,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private void checkConfigButtonVisible() {
         addButton.setVisible(true);
         //新建一个collection
-        if(editingCollection.getState() == SwitchState.DEFAULT){
+        if(editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChart() != null){
             //Chart 不支持图表切换
             configButton.setVisible(editingCollection.getSelectedChart().supportChange());
         }

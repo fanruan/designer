@@ -52,7 +52,7 @@ public class ReportDataPane extends FurtherBasicBeanPane<ChartCollection>{
      * 界面重置
      */
 	public void reset() {
-		
+		clear();
 	}
 
     /**
@@ -97,5 +97,9 @@ public class ReportDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	@Override
 	public ChartCollection updateBean() {
 		return null;
+	}
+
+	public void clear() {
+		this.removeAll();
 	}
 }

@@ -13,8 +13,8 @@ import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -129,8 +129,8 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	public void updateBean(ChartHyperPoplink chartHyperlink) {
 		hyperEditPane.updateHyperLink(chartHyperlink);
 		chartHyperlink.setChartCollection(chartComponent.update());
-		
-		ChartEditPane.getInstance().fire();// 响应整个图表保存事件等.
+
+		DesignModuleFactory.getChartPropertyPane().getChartEditPane().fire();// 响应整个图表保存事件等.
         if(itemNameTextField != null){
             chartHyperlink.setItemName(this.itemNameTextField.getText());
         }

@@ -29,38 +29,11 @@ public class ChartDesigner extends TargetComponent<ChartBook>  implements MouseL
 
     private ChartArea chartArea;//上层区域
     private boolean hasCalGap = false;
-    private ChartDesignerUI designerUI;
     private ArrayList<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
-    private ChartToolBarPane chartToolBarPane;
-
     public ChartDesigner(ChartBook chartBook) {
         super(chartBook);
         this.addMouseListener(this);
-        designerUI = new ChartDesignerUI();
-        chartToolBarPane = new ChartToolBarPane(this){
-            public Dimension getPreferredSize() {
-                Dimension size = super.getPreferredSize();
-                return new Dimension(size.width, ChartToolBarPane.TOTAL_HEIGHT);
-            }
-        };
-        this.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                if(designerUI!=null){
-                    designerUI.mouseMoved(e);
-                    ChartDesigner.this.repaint();
-                }
-            }
-        });
         updateUI();// 初始化界面设计工具的UI实例
-    }
-
-    /**
-     * 设置其UI类为DesignerUI，负责渲染
-     */
-    @Override
-    public void updateUI() {
-        setUI(designerUI);
     }
 
     /**
@@ -203,8 +176,6 @@ public class ChartDesigner extends TargetComponent<ChartBook>  implements MouseL
      * @param e 事件
      */
     public void mouseClicked(MouseEvent e) {
-        designerUI.mouseClicked(e);
-        this.chartToolBarPane.populate();
     }
 
     /**
@@ -247,18 +218,13 @@ public class ChartDesigner extends TargetComponent<ChartBook>  implements MouseL
         this.changeListeners.add(changeListener);
     }
 
-    public ChartToolBarPane getChartToolBarPane(){
-        return this.chartToolBarPane;
-    }
 
     public void populate(){
-        this.chartToolBarPane.populate();
     }
 
     /**
      * 清除工具栏上面全局风格按钮的选中
      */
     public void clearToolBarStyleChoose(){
-        chartToolBarPane.clearStyleChoose();
     }
 }

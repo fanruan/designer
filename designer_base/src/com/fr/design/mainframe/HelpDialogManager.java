@@ -40,5 +40,6 @@ public class HelpDialogManager {
         if (handler != null) {
             handler.destroyHelpDialog();
         }
+        handler = null;
     }
 }

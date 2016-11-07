@@ -44,17 +44,17 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
         super();
         this.helpMsg = helpMsg;
         add(controlButton);
-        if (WidgetPropertyPane.getInstance().getEditingFormDesigner() != null) {
-            WidgetPropertyPane.getInstance().getEditingFormDesigner().addDesignerEditListener(new DesignerEditListener() {
-                @Override
-                public void fireCreatorModified(DesignerEvent evt) {
-                    if (evt.getCreatorEventID() == (DesignerEvent.CREATOR_DELETED)
-                            || evt.getCreatorEventID() == (DesignerEvent.CREATOR_RESIZED)) {
-                        destroyHelpDialog();
-                    }
-                }
-            });
-        }
+//        if (WidgetPropertyPane.getInstance().getEditingFormDesigner() != null) {
+//            WidgetPropertyPane.getInstance().getEditingFormDesigner().addDesignerEditListener(new DesignerEditListener() {
+//                @Override
+//                public void fireCreatorModified(DesignerEvent evt) {
+//                    if (evt.getCreatorEventID() == (DesignerEvent.CREATOR_DELETED)
+//                            || evt.getCreatorEventID() == (DesignerEvent.CREATOR_RESIZED)) {
+//                        destroyHelpDialog();
+//                    }
+//                }
+//            });
+//        }
     }
 
     public String getHelpMsg() {

@@ -30,7 +30,7 @@ import java.awt.event.MouseEvent;
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
-	protected UITextField columnRowTextField;
+	protected  UITextField columnRowTextField;
 	protected UIButton cellElementEditButton;
 	protected TemplateCellElement cellElement;
 
