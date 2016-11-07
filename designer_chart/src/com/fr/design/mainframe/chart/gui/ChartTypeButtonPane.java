@@ -52,7 +52,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private UITextField currentEditingEditor = null;
 
     private ChartTypePane parent = null;
-    private String lastPlotID = StringUtils.EMPTY;
 
     //记录鼠标当前是否在操作添加按钮
     private boolean mouseOnChartTypeButtonPane = false;
@@ -290,7 +289,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
      */
     private void changeCollectionSelected(String name) {
         if (editingCollection != null) {
-            lastPlotID = editingCollection.getSelectedChart().getPlot().getPlotID();
             int count = editingCollection.getChartCount();
             for (int i = 0; i < count; i++) {
                 if (ComparatorUtils.equals(name, editingCollection.getChartName(i))) {
@@ -510,6 +508,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (isEnabled()) {
                 noSelected();
+                //记录改变前的plotID
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();
