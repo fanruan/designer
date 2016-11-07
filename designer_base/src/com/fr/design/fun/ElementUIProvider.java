@@ -13,7 +13,7 @@ public interface ElementUIProvider extends Mutable {
 
     String MARK_STRING = "ElementUIProvider";
 
-    int CURRENT_LEVEL = 1;
+    int CURRENT_LEVEL = 2;
 
     /**
      * 单元格元素编辑器
