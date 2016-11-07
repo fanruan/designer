@@ -266,7 +266,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * 重构面板
 	 * @param chart
 	 */
-	public void relayOutEditPane(Chart chart){
+	public void reLayoutEditPane(Chart chart){
 		if (editPane != null){
 			editPane.reLayout(chart);
 		}

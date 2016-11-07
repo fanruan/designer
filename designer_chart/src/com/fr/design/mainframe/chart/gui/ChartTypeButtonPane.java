@@ -289,7 +289,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     editingCollection.setSelectedIndex(i);
                     //重构面板
                     if (parent != null){
-                        parent.relayOutEditPane(editingCollection.getSelectedChart());
+                        parent.reLayoutEditPane(editingCollection.getSelectedChart());
                     }
                     break;
                 }
