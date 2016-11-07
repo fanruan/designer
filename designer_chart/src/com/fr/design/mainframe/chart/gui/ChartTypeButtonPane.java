@@ -283,12 +283,14 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     private void changeCollectionSelected(String name) {
         if (editingCollection != null) {
-            //图表切换事件生效
-            editingCollection.setChangeEvent(true);
             int count = editingCollection.getChartCount();
             for (int i = 0; i < count; i++) {
                 if (ComparatorUtils.equals(name, editingCollection.getChartName(i))) {
                     editingCollection.setSelectedIndex(i);
+                    //重构面板
+                    if (parent != null){
+                        parent.relayOutEditPane(editingCollection.getSelectedChart());
+                    }
                     break;
                 }
             }

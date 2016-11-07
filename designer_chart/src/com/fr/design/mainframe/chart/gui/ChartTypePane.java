@@ -44,8 +44,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		private SwitchState paneState = SwitchState.DEFAULT;
 		//记录当前面板是谁在使用切换状态
 		private String chartID = StringUtils.EMPTY;
-		//记录当前面板是否处在图表切换的事件状态
-		private boolean isChangEvent = false;
 
 		public SwitchState getPaneState() {
 			return paneState;
@@ -61,17 +59,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 		public void setChartID(String chartID) {
 			this.chartID = chartID;
-		}
-
-		//使用一次即失效
-		public boolean useChangEvent() {
-			boolean event = isChangEvent;
-			isChangEvent = false;
-			return event;
-		}
-
-		public void setChangEvent(boolean changEvent) {
-			isChangEvent = changEvent;
 		}
 	}
 
@@ -179,12 +166,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID)) || paneState.useChangEvent()){
+				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 					editPane.reLayout(chart);
 				}
-
-				//重置面板切换事件状态
-				paneState.setChangEvent(false);
 			}
 		}
 
@@ -278,6 +262,16 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 	}
 
+	/**
+	 * 重构面板
+	 * @param chart
+	 */
+	public void relayOutEditPane(Chart chart){
+		if (editPane != null){
+			editPane.reLayout(chart);
+		}
+	}
+
 
 	public void reactorChartTypePane(ChartCollection collection){
 		if (needReactor(collection)) {
@@ -312,10 +306,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
 		Chart chart = collection.getSelectedChart();
-		//判断是否是图表切换事件
-		if (collection.useChangeEvent()){
-			paneState.setChangEvent(true);
-		}
 		chartTypePane.updateBean(chart);
 	}
 
