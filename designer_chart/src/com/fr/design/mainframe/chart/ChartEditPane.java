@@ -9,6 +9,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.itabpane.TitleChangeListener;
@@ -30,20 +31,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange {
-    public synchronized static ChartEditPane getInstance() {
-        if (singleton == null) {
-            singleton = new ChartEditPane();
-        }
-        return singleton;
-    }
+public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
 
     private final static int CHANGE_MIN_TIME = 80;
 
     protected ChartCollection collection;
     protected boolean isDefaultPane = true;//是否是默认的界面
 
-    private static ChartEditPane singleton;
     protected List<AbstractChartAttrPane> paneList;
 
     protected ChartTypePane typePane;
@@ -77,10 +71,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
         createTabsPane();
         registerDSChangeListener();
-    }
-
-    public static ChartEditPane getSingleton() {
-        return singleton;
     }
 
     //构建主面板
@@ -295,7 +285,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
      *
      * @param id 界面的标志.id
      */
-    public void GoToPane(String... id) {
+    public void gotoPane(String... id) {
         this.setSelectedIndex(id);
         EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }

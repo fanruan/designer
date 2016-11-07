@@ -89,6 +89,12 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public void refreshDockingView() {
 		FormDesigner formDesigner = this.getEditingFormDesigner();
 		removeAll();
+		if(this.componentTree != null) {
+			this.componentTree.removeAll();
+		}
+		if(this.treeComboBox != null) {
+			this.treeComboBox.removeAll();
+		}
 		if (formDesigner == null) {
 			clearDockingView();
 			return;

@@ -10,6 +10,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
@@ -41,12 +42,15 @@ public class SwitchExistEnv extends MenuDef {
         this.setName(getMenuKeySet().getMenuName());
         this.setHasScrollSubMenu(true);
         initMenuDef();
-        GeneralContext.addEnvWillChangedListener(new EnvChangedListener() {
-            public void envChanged() {
-                SwitchExistEnv.this.clearShortCuts();
-                initMenuDef();
-            }
-        });
+        JTemplate<?, ?> t = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if(t != null) {
+            GeneralContext.addEnvWillChangedListener(t.getFullPathName(), new EnvChangedListener() {
+                public void envChanged() {
+                    SwitchExistEnv.this.clearShortCuts();
+                    initMenuDef();
+                }
+            });
+        }
     }
 
     private void initMenuDef() {

@@ -31,7 +31,7 @@ public interface ElementUIProvider extends Mutable {
      * 右侧的快速编辑器
      * @return 编辑器
      */
-    QuickEditor<?> quickEditor();
+    Class<? extends QuickEditor> quickEditor();
 
     /**
      * 插件单元格元素

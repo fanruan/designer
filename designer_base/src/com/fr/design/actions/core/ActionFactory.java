@@ -10,6 +10,7 @@ import com.fr.design.selection.QuickEditor;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -22,11 +23,11 @@ public class ActionFactory {
     private ActionFactory() {
     }
 
-    private static Map<Class, QuickEditor> floatEditor = new HashMap<Class, QuickEditor>();
+    private static Map<Class, Class<? extends QuickEditor>> floatEditor = new HashMap<Class, Class<? extends QuickEditor>>();
 
     private static Class chartCollectionClass = null;
 
-    private static Map<Class, QuickEditor> cellEditor = new HashMap<Class, QuickEditor>();
+    private static Map<Class, Class<? extends QuickEditor>> cellEditor = new HashMap<Class, Class<? extends QuickEditor>>();
 
     private static UpdateAction chartPreStyleAction = null;
 
@@ -36,9 +37,10 @@ public class ActionFactory {
      * @param clazz  待说明
      * @param editor 待说明
      */
-    public static void registerCellEditor(Class clazz, QuickEditor editor) {
+    public static void registerCellEditor(Class clazz, Class<? extends QuickEditor> editor) {
         cellEditor.put(clazz, editor);
     }
+
 
     /**
      * 待说明
@@ -46,7 +48,7 @@ public class ActionFactory {
      * @param clazz  待说明
      * @param editor 待说明
      */
-    public static void registerFloatEditor(Class clazz, QuickEditor editor) {
+    public static void registerFloatEditor(Class clazz, Class<? extends QuickEditor> editor) {
         floatEditor.put(clazz, editor);
     }
 
@@ -84,7 +86,7 @@ public class ActionFactory {
      *
      * @param editor 待说明
      */
-    public static void registerChartFloatEditorInEditor(QuickEditor editor) {
+    public static void registerChartFloatEditorInEditor(Class<? extends QuickEditor> editor) {
         if (chartCollectionClass != null) {
             floatEditor.put(chartCollectionClass, editor);
         }
@@ -95,7 +97,7 @@ public class ActionFactory {
      *
      * @param editor 待说明
      */
-    public static void registerChartCellEditorInEditor(QuickEditor editor) {
+    public static void registerChartCellEditorInEditor(Class<? extends QuickEditor> editor) {
         if (chartCollectionClass != null) {
             cellEditor.put(chartCollectionClass, editor);
         }
@@ -105,11 +107,29 @@ public class ActionFactory {
      * 返回 悬浮元素选中的Editor
      */
     public static QuickEditor getFloatEditor(Class clazz) {
-        return floatEditor.get(clazz);
+        return createEditor(clazz, floatEditor);
+    }
+
+    private static QuickEditor createEditor(Class clazz, Map<Class, Class<? extends QuickEditor>> editorMap) {
+        Class<? extends QuickEditor> c = editorMap.get(clazz);
+        try {
+            Constructor<? extends QuickEditor> constructor = c.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return constructor.newInstance();
+        } catch (NoSuchMethodException e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        } catch (InstantiationException e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+        return null;
     }
 
     public static QuickEditor getCellEditor(Class clazz) {
-        return cellEditor.get(clazz);
+        return createEditor(clazz, cellEditor);
     }
 
     /**
