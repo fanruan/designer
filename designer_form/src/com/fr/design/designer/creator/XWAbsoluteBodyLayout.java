@@ -42,4 +42,14 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
     public void setEditable(boolean isEditable) {
         super.setEditable(true);
     }
+
+    /**
+     * 该组件是否可以拖拽(表单中绝对布局不可以拖拽)
+     *
+     * @return 是则返回true
+     */
+    @Override
+    public boolean isSupportDrag() {
+        return false;
+    }
 }
