@@ -153,4 +153,7 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		return this.cards;
 	}
 
+	public void clear() {
+		reset();
+	}
 }

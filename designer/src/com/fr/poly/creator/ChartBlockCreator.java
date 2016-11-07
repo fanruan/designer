@@ -142,7 +142,7 @@ public class ChartBlockCreator extends BlockCreator<PolyChartBlock> {
 
 	@Override
 	public QuickEditor getQuickEditor(TargetComponent tc) {
-		ChartQuickEditor quitEditor = ChartQuickEditor.getInstance();
+		ChartQuickEditor quitEditor = new ChartQuickEditor();
 		quitEditor.populate(tc);
 		return quitEditor;
 	}

@@ -17,15 +17,15 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	/**
 	 * 创建图表属性表实例.
 	 */
-	public synchronized static ChartPropertyPane getInstance() {
+	private synchronized static ChartPropertyPane getInstance() {
 		if(singleton == null) {
 			singleton = new ChartPropertyPane();
 		}
-		
+
 		singleton.setSureProperty();
 		return singleton;
 	}
-	
+
 	private static ChartPropertyPane singleton;
 
 	@Override
@@ -49,9 +49,8 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	protected JComponent createNorthComponent() {
 		return nameLabel;
 	}
-	
-	@Override
-	public void setWidgetPropertyPane(BaseWidgetPropertyPane pane) {
-		
+
+	public synchronized static void  clear() {
+		singleton =  null;
 	}
 }

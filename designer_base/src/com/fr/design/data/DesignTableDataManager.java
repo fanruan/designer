@@ -13,8 +13,10 @@ import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.data.impl.storeproc.StoreProcedureConstants;
 import com.fr.design.data.tabledata.wrapper.*;
 import com.fr.design.DesignModelAdapter;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.parameter.ParameterInputPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.file.DatasourceManager;
@@ -34,6 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.Collator;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 设计器管理操作数据集的类:
@@ -54,7 +57,10 @@ public abstract class DesignTableDataManager {
      */
     private static java.util.Map<String, TableDataWrapper> globalDsCache = new java.util.HashMap<String, TableDataWrapper>();
     private static java.util.Map<String, String> dsNameChangedMap = new HashMap<String, String>();
-    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
+//    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
+
+    private static  Map<String,  List<ChangeListener>> dsListenersMap = new HashMap<String,  List<ChangeListener>>();
+
 
     public static String NO_PARAMETER = "no_paramater_pane";
 
@@ -73,14 +79,30 @@ public abstract class DesignTableDataManager {
      * 响应数据集改变.
      */
     private static void fireDsChanged() {
-        for (int i = 0; i < dsListeners.size(); i++) {
-        //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
-        // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
+        for(Entry<String,  List<ChangeListener>> listenerEntry : dsListenersMap.entrySet()) {
+            List<ChangeListener> dsListeners = listenerEntry.getValue();
+            for (int i = 0; i < dsListeners.size(); i++) {
+                //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
+                // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
 //        for (ChangeListener l : dsListeners) {
-            ChangeEvent e = null;
-            dsListeners.get(i).stateChanged(e);
+                ChangeEvent e = null;
+                dsListeners.get(i).stateChanged(e);
+            }
         }
     }
+
+    public static void closeTemplate(JTemplate<?,?> template) {
+        if(template != null) {
+            dsListenersMap.remove(template.getFullPathName());
+        }
+    }
+
+    public static void envChange() {
+        dsListenersMap.clear();
+        dsNameChangedMap.clear();
+        clearGlobalDs();
+    }
+
 
     /**
      * 响应数据集改变
@@ -127,6 +149,16 @@ public abstract class DesignTableDataManager {
      * @param l ChangeListener监听器
      */
     public static void addDsChangeListener(ChangeListener l) {
+        JTemplate<?, ?> template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        String key = StringUtils.EMPTY;
+        if(template != null) {
+            key = template.getFullPathName();
+        }
+        List<ChangeListener> dsListeners = dsListenersMap.get(key);
+        if (dsListeners == null) {
+            dsListeners = new ArrayList<ChangeListener>();
+            dsListenersMap.put(key, dsListeners);
+        }
         dsListeners.add(l);
     }
 
