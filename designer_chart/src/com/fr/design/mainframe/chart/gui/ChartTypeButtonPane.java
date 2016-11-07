@@ -282,11 +282,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         return Inter.getLocText("FR-Chart-Types_Switch");
     }
 
-    /**
-     * 返回是否还需要更新
-     * @param name
-     * @return
-     */
     private void changeCollectionSelected(String name) {
         if (editingCollection != null) {
             int count = editingCollection.getChartCount();
