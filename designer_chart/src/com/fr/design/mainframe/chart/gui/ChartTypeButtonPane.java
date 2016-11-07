@@ -19,6 +19,7 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +52,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private UITextField currentEditingEditor = null;
 
     private ChartTypePane parent = null;
+    private String lastPlotID = StringUtils.EMPTY;
 
     //记录鼠标当前是否在操作添加按钮
     private boolean mouseOnChartTypeButtonPane = false;
@@ -281,16 +283,18 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         return Inter.getLocText("FR-Chart-Types_Switch");
     }
 
+    /**
+     * 返回是否还需要更新
+     * @param name
+     * @return
+     */
     private void changeCollectionSelected(String name) {
         if (editingCollection != null) {
+            lastPlotID = editingCollection.getSelectedChart().getPlot().getPlotID();
             int count = editingCollection.getChartCount();
             for (int i = 0; i < count; i++) {
                 if (ComparatorUtils.equals(name, editingCollection.getChartName(i))) {
                     editingCollection.setSelectedIndex(i);
-                    //重构面板
-                    if (parent != null){
-                        parent.reLayoutEditPane(editingCollection.getSelectedChart());
-                    }
                     break;
                 }
             }
@@ -509,6 +513,12 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();
+
+                //需要先更新，最后重构面板
+                //重构面板
+                if (parent != null ){
+                    parent.reLayoutEditPane(lastPlotID, editingCollection);
+                }
             }
         }
 

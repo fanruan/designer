@@ -262,12 +262,17 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 	}
 
+
 	/**
-	 * 重构面板
-	 * @param chart
+	 * 面板重构
+	 * @param lastPlotID
+	 * @param collection
 	 */
-	public void reLayoutEditPane(Chart chart){
-		if (editPane != null){
+	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
+		Chart chart = collection.getSelectedChart();
+		String plotID = chart.getPlot().getPlotID();
+		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
+		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 			editPane.reLayout(chart);
 		}
 	}
