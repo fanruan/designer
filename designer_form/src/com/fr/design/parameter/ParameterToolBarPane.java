@@ -35,6 +35,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private static final int GAP_BV = 4;
 	
 	private static final int L_H = 18;
+	private static int HEIGHT = 0;
 
 	public ParameterToolBarPane() {
 		this.setLayout(new FlowParameterPaneLayout());
