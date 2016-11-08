@@ -18,6 +18,7 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -99,7 +100,9 @@ public class UserInfoLabel extends UILabel{
 			}
 		});
 
-		//PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+		if (StableUtils.getMajorJavaVersion() == 8) {
+			PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+		}
 		QQLoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
 
 		UserLoginContext.addLoginContextListener(new LoginContextListener() {
