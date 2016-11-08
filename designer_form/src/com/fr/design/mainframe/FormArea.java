@@ -433,17 +433,17 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         if (rec.width <= dWidth&&rec.x < getHorizontalValue()) {
         	//在边界内部且x位置小于水平滚动条的值
         	horScrollBar.setValue(rec.x);
-        } else if (rec.x+rec.width > dWidth) {
+        } else if (rec.x + rec.width > dWidth + horizontalValue) {
         	//超出边界宽度
-        	horScrollBar.setValue(rec.x+rec.width-dWidth);
+        	horScrollBar.setValue(rec.x + rec.width - dWidth);
         }
         int dHeight = getDesignerHeight();
         if (rec.height < dHeight && rec.y < getVerticalValue()) {
         	//在边界内部且y位置小于竖直滚动条的值
         	 verScrollBar.setValue(rec.y);
-        } else if (rec.y+rec.height > dHeight) {
+        } else if (rec.y + rec.height > dHeight + verticalValue) {
         	//超出边界高度
-        	verScrollBar.setValue(rec.y+rec.height-dHeight);
+        	verScrollBar.setValue(rec.y + rec.height - dHeight);
         }
     }
     

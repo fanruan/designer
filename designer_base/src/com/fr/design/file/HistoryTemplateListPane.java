@@ -9,7 +9,6 @@ import java.util.logging.Level;
 
 import javax.swing.*;
 
-
 import com.fr.design.constants.UIConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
