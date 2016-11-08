@@ -198,7 +198,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
                 getParameterArray() == null ? new Parameter[0] : getParameterArray());
         ParameterPropertyPane.getInstance().repaintContainer();
-        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
+        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
     }
 
    private void removeSame(Parameter[] parameters, List<String> namelist){
