@@ -13,11 +13,13 @@ import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
+import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.general.Inter;
+import com.fr.stable.StableUtils;
 
 public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 
@@ -37,7 +39,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
 		
-		chartEditPane = ChartEditPane.getInstance();
+		chartEditPane =  StableUtils.construct(ChartEditPane.class);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
 	}
@@ -47,6 +49,12 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	protected abstract JComponent createNorthComponent();
 	
 	protected abstract void createMainPane();
+
+
+	@Override
+	public ChartEditPaneProvider getChartEditPane() {
+		return chartEditPane;
+	}
 
 	public void setSureProperty() {
 		chartEditPane.setContainer(container);
@@ -92,6 +100,12 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 			populateChartPropertyPane((ChartCollection)collection, ePane);
 		}
 	}
+
+//	public void clear() {
+//		this.container.setEPane(null);
+//		chartEditPane.clear();
+//		getParent().remove(this);
+//	}
 
 	/**
 	 * 返回View的标题.

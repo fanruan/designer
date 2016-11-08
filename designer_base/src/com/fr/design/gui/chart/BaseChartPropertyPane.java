@@ -20,6 +20,8 @@ public abstract class BaseChartPropertyPane extends DockingView {
 	public abstract void setSupportCellData(boolean supportCellData);
 	
 	public abstract void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane);
-	
-	public abstract void setWidgetPropertyPane(BaseWidgetPropertyPane pane);
+
+	public abstract ChartEditPaneProvider getChartEditPane();
+
+	//public abstract void clear();
 }

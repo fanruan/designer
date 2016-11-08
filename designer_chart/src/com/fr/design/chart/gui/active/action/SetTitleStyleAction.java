@@ -3,8 +3,8 @@ package com.fr.design.chart.gui.active.action;
 import java.awt.event.ActionEvent;
 
 import com.fr.design.chart.gui.ChartComponent;
-import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 
 /**
@@ -27,6 +27,6 @@ public class SetTitleStyleAction extends ChartComponentAction {
 	}
 
 	public void showTitlePane() {
-		ChartEditPane.getInstance().GoToPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_TITLE_TITLE);
+		DesignModuleFactory.getChartPropertyPane().getChartEditPane().gotoPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_TITLE_TITLE);
 	}
 }

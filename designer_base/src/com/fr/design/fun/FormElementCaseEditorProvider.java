@@ -1,8 +1,8 @@
 package com.fr.design.fun;
 
-import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.FormProvider;
+import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.stable.fun.ReportFitAttrProvider;
-import com.fr.form.main.Form;
 import com.fr.stable.fun.mark.Mutable;
 
 import java.beans.PropertyDescriptor;
@@ -16,10 +16,7 @@ public interface FormElementCaseEditorProvider extends Mutable {
 
     int CURRENT_LEVEL = 1;
 
-
-    //加个provider返回tab的接口
-    //design_base依赖了form
-    PropertyDescriptor[] createPropertyDescriptor (Class<?> temp, Form form, ElementCaseEditor editor);
+    PropertyDescriptor[] createPropertyDescriptor(Class<?> temp, FormProvider formProvider, ElementCaseEditorProvider editor);
 
     /**
      * 生成属性表

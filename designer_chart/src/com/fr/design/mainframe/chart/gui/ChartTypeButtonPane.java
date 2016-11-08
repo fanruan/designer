@@ -19,6 +19,7 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,20 +67,20 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         return this.mouseOnChartTypeButtonPane;
     }
 
-    private AWTEventListener awt = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            //没有进行鼠标点击，则返回
-            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
-                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
-                    stopEditing();
-                    if (event.getSource() instanceof ChartChangeButton) {
-                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
-                    }
-                    populateBean(editingCollection);
-                }
-            }
-        }
-    };
+//    private AWTEventListener awt = new AWTEventListener() {
+//        public void eventDispatched(AWTEvent event) {
+//            //没有进行鼠标点击，则返回
+//            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
+//                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
+//                    stopEditing();
+//                    if (event.getSource() instanceof ChartChangeButton) {
+//                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
+//                    }
+//                    populateBean(editingCollection);
+//                }
+//            }
+//        }
+//    };
 
     public ChartTypeButtonPane(ChartTypePane chartTypePane){
         this();
@@ -111,7 +112,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         initConfigButton();
         initConfigCreator();
 
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+     //   Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
     private void initConfigCreator() {
@@ -328,7 +329,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private void checkConfigButtonVisible() {
         addButton.setVisible(true);
         //新建一个collection
-        if(editingCollection.getState() == SwitchState.DEFAULT){
+        if(editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChart() != null){
             //Chart 不支持图表切换
             configButton.setVisible(editingCollection.getSelectedChart().supportChange());
         }
@@ -502,9 +503,17 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (isEnabled()) {
                 noSelected();
+                //记录改变前的plotID
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();
+
+                //需要先更新，最后重构面板
+                //重构面板
+                if (parent != null ){
+                    parent.reLayoutEditPane(lastPlotID, editingCollection);
+                }
             }
         }
 
