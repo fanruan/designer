@@ -231,7 +231,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
 		EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
-		EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
+		EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
 
 	}
 
