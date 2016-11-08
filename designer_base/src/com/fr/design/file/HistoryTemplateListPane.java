@@ -9,8 +9,6 @@ import java.util.logging.Level;
 
 import javax.swing.*;
 
-import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
