@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextarea.UITextArea;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.awt.*;
 public class ElementCaseHelpDialog extends UIDialog {
 
     private static final int OUTER_WIDTH = 190;
-    private static final int OUTER_HEIGHT = 120;
+    private static final int OUTER_HEIGHT = 280;
 
 
     private String helpMsg;
@@ -25,7 +26,6 @@ public class ElementCaseHelpDialog extends UIDialog {
     public ElementCaseHelpDialog(Frame parent, String helpMsg) {
         super(parent);
         this.helpMsg = helpMsg;
-        setUndecorated(true);
         initHelpArea();
         JPanel panel = (JPanel) getContentPane();
         initComponents(panel);
@@ -37,21 +37,23 @@ public class ElementCaseHelpDialog extends UIDialog {
         textArea.setEditable(false);
         textArea.setBorder(null);
         helpArea = new UIScrollPane(textArea);
-        helpArea.setBounds(0, 0, 190, 120);
+        helpArea.setBounds(0, 0, 190, 280);
         helpArea.setBorder(null);
     }
 
     private void initComponents(JPanel contentPane) {
         contentPane.setLayout(new BorderLayout());
         add(helpArea, BorderLayout.CENTER);
+        this.applyClosingAction();
+        this.setTitle(Inter.getLocText("FR-Designer_Help"));
     }
 
     /**
      * 打开帮助框
      */
     public void showWindow() {
-        setVisible(true);
         this.setResizable(false);
+        setVisible(true);
     }
 
     /**
