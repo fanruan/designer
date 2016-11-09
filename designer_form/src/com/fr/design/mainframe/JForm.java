@@ -657,7 +657,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 是则返回true
      */
     public boolean isSelectRootPane() {
-        return formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator();
+        return (formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator())
+                || (formDesign.getSelectionModel().getSelection().getSelectedCreator().acceptType(XWAbsoluteBodyLayout.class));
 
     }
 
