@@ -107,7 +107,7 @@ public class UITreeComboBox extends JComboBox{
     class UITreeComboBoxRenderer extends DefaultListCellRenderer {
         public Component getListCellRendererComponent(JList list, Object value,
                                                       int index, boolean isSelected, boolean cellHasFocus){
-            if(tree != null ){
+            if(tree != null && tree.getSelectedTreePath().length > 0){
                 TreePath path = tree.getSelectedTreePath()[0];
                 tree.setAndScrollSelectionPath(path);
                 Object node = path.getLastPathComponent();
@@ -131,14 +131,12 @@ public class UITreeComboBox extends JComboBox{
         public void fireCreatorModified(DesignerEvent evt) {
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED || evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
                 TreePath[] paths = tree.getSelectedTreePath();
-
-                if (paths.length == 1) {
+                if (tree != null && paths.length > 0) {
                     tree.setAndScrollSelectionPath(paths[0]);
-                } else {
-                    tree.setSelectionPaths(paths);
+                    setSelectedItem(paths[0]);
+                    MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
-                setSelectedItem(paths[0]);
-                MenuSelectionManager.defaultManager().clearSelectedPath();
+
             }  else {
                 tree.refreshUI();
                 repaint();
@@ -205,7 +203,7 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         }
     }
 
-    public void show(){
+    public void show() {
         updatePopup();
         show(comboBox, 0, comboBox.getHeight());
         comboBox.getTree().requestFocus();
