@@ -28,7 +28,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 选项对话框
@@ -71,12 +73,13 @@ public class PreferencePane extends BasicPane {
     private static final String DISPLAY_MINUS = "-";
     
     private static final FRLevel[] LOG = {FRLevel.SEVERE, FRLevel.WARNING, FRLevel.INFO, FRLevel.DEBUG};
-    private static final String[] LANGUAGE = {Inter.getLocText("FR-Designer_Language_Default"),
-    	getLocaledLanguage("Simplified_Chinese_Language", Locale.SIMPLIFIED_CHINESE), 
-    	getLocaledLanguage("English_Language", Locale.ENGLISH),
-    	getLocaledLanguage("Japanese_Language", Locale.JAPAN),
-    	getLocaledLanguage("Traditional_Chinese_Language", Locale.TRADITIONAL_CHINESE),
-        getLocaledLanguage("Korea_Language",Locale.KOREA),
+    private static java.util.List<String> LANGUAGE = new ArrayList<>();
+    static {
+        Map<Locale, String> map = Inter.getSupportLocaleMap();
+        LANGUAGE.add(Inter.getLocText("FR-Designer_Language_Default"));
+        for(Locale locale : map.keySet()){
+            LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
+        }
     };
 
     //设置是否支持undo
@@ -355,7 +358,7 @@ public class PreferencePane extends BasicPane {
         JPanel LanguagePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Choose_Language"));
         generalPane.add(languageAndDashBoard_pane);
         languageAndDashBoard_pane.add(LanguagePane);
-        languageComboBox = new UIComboBox(LANGUAGE);
+        languageComboBox = new UIComboBox(LANGUAGE.toArray());
         languageComboBox.setFont(FRFont.getInstance("Dialog", Font.PLAIN, 12));//为了在中文系统中显示韩文
         ActionLabel languageLabel = new ActionLabel(Inter.getLocText("FR-Designer_Designer_Language"));
         languageLabel.addActionListener(new ActionListener() {
@@ -526,7 +529,7 @@ public class PreferencePane extends BasicPane {
 
 		this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(designerEnvManager.getLogLevel()));
 
-        this.languageComboBox.setSelectedItem(LANGUAGE[designerEnvManager.getLanguage()]);
+        this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
 
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
@@ -613,8 +616,8 @@ public class PreferencePane extends BasicPane {
     private int getLanguageInt() {
         int l = 0;
         String lang = (String) this.languageComboBox.getSelectedItem();
-        for (int i = 0; i < LANGUAGE.length; i++) {
-            if (ComparatorUtils.equals(lang, LANGUAGE[i])) {
+        for (int i = 0; i < LANGUAGE.size(); i++) {
+            if (ComparatorUtils.equals(lang, LANGUAGE.get(i))) {
                 l = i;
                 break;
             }
