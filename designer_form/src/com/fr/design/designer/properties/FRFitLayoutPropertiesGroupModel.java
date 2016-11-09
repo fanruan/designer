@@ -17,6 +17,7 @@ import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -145,34 +146,38 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 				layout.setCompState(state);
 				return true;
 			}else if (row == 0) {
-				layout.setLayoutType(WBodyLayoutType.parse(state));
-				if (state == WBodyLayoutType.ABSOLUTE.getTypeValue()) {
-					WAbsoluteBodyLayout wAbsoluteBodyLayout = new WAbsoluteBodyLayout("body");
-					wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
-					Component[] components = xfl.getComponents();
-					xfl.removeAll();
-					XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0,0));
-					xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
-					for (Component component : components) {
-						XCreator xCreator = (XCreator)component;
-						//部分控件被ScaleLayout包裹着，绝对布局里面要放出来
-						if (xCreator.acceptType(XWScaleLayout.class)){
-							if (xCreator.getComponentCount() > 0 && ((XCreator)xCreator.getComponent(0)).shouldScaleCreator()) {
-								component = xCreator.getComponent(0);
-								component.setBounds(xCreator.getBounds());
+				try {
+					if (state == WBodyLayoutType.ABSOLUTE.getTypeValue()) {
+						WAbsoluteBodyLayout wAbsoluteBodyLayout = new WAbsoluteBodyLayout("body");
+						wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
+						Component[] components = xfl.getComponents();
+						xfl.removeAll();
+						XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0));
+						xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
+						for (Component component : components) {
+							XCreator xCreator = (XCreator) component;
+							//部分控件被ScaleLayout包裹着，绝对布局里面要放出来
+							if (xCreator.acceptType(XWScaleLayout.class)) {
+								if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
+									component = xCreator.getComponent(0);
+									component.setBounds(xCreator.getBounds());
+								}
 							}
+							xwAbsoluteBodyLayout.add(component);
 						}
-						xwAbsoluteBodyLayout.add(component);
+						FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+						formDesigner.getSelectionModel().setSelectedCreators(
+								FormSelectionUtils.rebuildSelection(xfl, new Widget[]{wAbsoluteBodyLayout}));
+					} else {
+						FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+						formDesigner.getSelectionModel().setSelectedCreators(
+								FormSelectionUtils.rebuildSelection(xfl, new Widget[]{xfl.toData()}));
 					}
-					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-					formDesigner.getSelectionModel().setSelectedCreators(
-							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{wAbsoluteBodyLayout}));
+				}catch (Exception e){
+					FRLogger.getLogger().error(e.getMessage());
+					return false;
 				}
-				else {
-					FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-					formDesigner.getSelectionModel().setSelectedCreators(
-							FormSelectionUtils.rebuildSelection(xfl, new Widget[]{xfl.toData()}));
-				}
+				layout.setLayoutType(WBodyLayoutType.parse(state));
 				return true;
 			}
 			return false;
