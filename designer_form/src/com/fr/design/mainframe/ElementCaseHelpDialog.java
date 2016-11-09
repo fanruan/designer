@@ -37,7 +37,7 @@ public class ElementCaseHelpDialog extends UIDialog {
         textArea.setEditable(false);
         textArea.setBorder(null);
         helpArea = new UIScrollPane(textArea);
-        helpArea.setBounds(0, 0, 190, 280);
+        helpArea.setBounds(0, 0, OUTER_WIDTH, OUTER_HEIGHT);
         helpArea.setBorder(null);
     }
 
