@@ -232,7 +232,6 @@ public class UIResizableContainer extends JPanel {
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
                 }
             }
-
         }
 
         @Override
@@ -303,6 +302,15 @@ public class UIResizableContainer extends JPanel {
     }
 
     /**
+     * 得到参数面板
+     *
+     * @return
+     */
+    public JComponent getParameterPane() {
+        return this.parameterPane;
+    }
+
+    /**
      * 刷新下面板
      */
     public void refreshDownPane() {
@@ -343,7 +351,7 @@ public class UIResizableContainer extends JPanel {
                 public void mouseDragged(MouseEvent e) {
                     toolPaneY = e.getYOnScreen() - UIResizableContainer.this.getLocationOnScreen().y;
                     toolPaneY = toolPaneY < 0 ? 0 : toolPaneY;
-                    toolPaneY = toolPaneY > UIResizableContainer.this.getHeight() - toolPaneHeight ? UIResizableContainer.this.getHeight() - toolPaneHeight : toolPaneY;
+                    toolPaneY = toolPaneY > UIResizableContainer.this.getHeight() - toolPaneHeight ? UIResizableContainer.this.getHeight() - toolPaneHeight - getParameterPaneHeight() : toolPaneY - getParameterPaneHeight();
                     refreshContainer();
                 }
             });
@@ -366,7 +374,7 @@ public class UIResizableContainer extends JPanel {
                     if (e.getX() <= ARROW_RANGE) {
                         toolPaneY = 0;
                     } else if (e.getX() >= getWidth() - ARROW_RANGE) {
-                        toolPaneY = UIResizableContainer.this.getHeight() - toolPaneHeight;
+                        toolPaneY = UIResizableContainer.this.getHeight() - toolPaneHeight - getParameterPaneHeight();
                     } else {
                         return;
                     }

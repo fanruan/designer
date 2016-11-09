@@ -45,9 +45,9 @@ public class ParameterPropertyPane extends JPanel{
 		toolbarPane = new ParameterToolBarPane();
 
 		initParameterListener();
-		
+
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(2, 5, 5, 5));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         this.add(toolbarPane, BorderLayout.CENTER);
 	}
 	

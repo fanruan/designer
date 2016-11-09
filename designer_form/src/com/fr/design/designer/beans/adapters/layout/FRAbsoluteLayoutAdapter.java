@@ -308,19 +308,23 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
      * @param y 坐标y
      */
     public void fix(XCreator creator ,int x, int y) {
+		int height = creator.getHeight();
+		int width = creator.getWidth();
     	if (x < 0) {
+			width += x;
 			x = 0;
 		} else if (x + creator.getWidth() > container.getWidth()) {
-			x = container.getWidth() - creator.getWidth();
+			width = container.getWidth() - x;
 		}
 
 		if (y < 0) {
+			height += y;
 			y = 0;
 		} else if (y + creator.getHeight() > container.getHeight()) {
-			y = container.getHeight() - creator.getHeight();
+			height = container.getHeight() - y;
 		}
 
-		creator.setLocation(x, y);
+		creator.setBounds(x, y, width, height);
     }
 
     @Override

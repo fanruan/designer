@@ -66,7 +66,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-                        WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+                        WLayoutBorderStyleEditor.class).setI18NName(
                         Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -76,7 +76,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                             }
                         }),
                 new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                        .setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                        .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                     };
 	}
