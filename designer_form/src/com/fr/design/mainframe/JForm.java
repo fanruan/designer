@@ -609,14 +609,15 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
             return;
         }
+
         if (formDesign.isReportBlockEditing()) {
             if (elementCaseDesign != null) {
+                EastRegionContainerPane.getInstance().removeParameterPane();
                 EastRegionContainerPane.getInstance().replaceDownPane(elementCaseDesign.getEastDownPane());
                 EastRegionContainerPane.getInstance().replaceUpPane(elementCaseDesign.getEastUpPane());
                 return;
             }
         }
-
 
         EastRegionContainerPane.getInstance().replaceUpPane(WidgetPropertyPane.getInstance(formDesign));
         EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(formDesign));
