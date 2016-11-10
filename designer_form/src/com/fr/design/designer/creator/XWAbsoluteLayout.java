@@ -444,4 +444,36 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			}
 		}
 	}
+
+	/**
+	 * body大小手动调整的时候
+	 * 按照比例调整组件的宽度
+	 * @param percent 比例
+	 */
+	@Override
+	public void adjustCompWidth(double percent) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			XCreator xCreator = (XCreator) getComponent(i);
+			Rectangle rectangle = xCreator.getBounds();
+			xCreator.setBounds((int) (rectangle.x * percent), rectangle.y, (int) (rectangle.width * percent), rectangle.height);
+			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			widget.setBounds(xCreator.getBounds());
+		}
+	}
+
+	/**
+	 * body大小手动调整的时候
+	 * 按照比例调整组件的高度
+	 * @param percent 比例
+	 */
+	@Override
+	public void adjustCompHeight(double percent) {
+		for (int i = 0; i < getComponentCount(); i++) {
+			XCreator xCreator = (XCreator) getComponent(i);
+			Rectangle rectangle = xCreator.getBounds();
+			xCreator.setBounds(rectangle.x, (int) (rectangle.y * percent), rectangle.width, (int) (rectangle.height * percent));
+			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			widget.setBounds(xCreator.getBounds());
+		}
+	}
 }
