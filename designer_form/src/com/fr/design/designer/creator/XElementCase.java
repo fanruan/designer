@@ -282,12 +282,12 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 * @param e 点击事件
 	 */
 	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+		HelpDialogManager.getInstance().setPane(coverPanel);
 		super.respondClick(editingMouseListener, e);
 		if (this.isHelpBtnOnFocus()) {
 			coverPanel.setMsgDisplay(e);
-		}else {
-			coverPanel.destroyHelpDialog();
-			switchTab(e,editingMouseListener);
+		} else {
+			switchTab(e, editingMouseListener);
 		}
 	}
 
