@@ -79,37 +79,43 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     public static WidgetOption[] initWidgetOption(){
 
-        final ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
-        final ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
-
-        //异步加载
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getWidgetOption(typeName, child);
-            }
-        }).start();
-
-        return child;
-    }
-
-    private static void getWidgetOption(ChartInternationalNameContentBean[] typeName, ChartWidgetOption[] child){
+        ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+        ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+        final Chart[][] allCharts = new Chart[typeName.length][];
         for (int i = 0; i < typeName.length; i++) {
             String plotID = typeName[i].getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
             if(rowChart == null) {
                 continue;
             }
-
-            //加载初始化图表模型图片
-            initChartsDemoImage(rowChart);
-
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
             child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
+
+            allCharts[i] = rowChart;
         }
 
-        DesignModuleFactory.registerExtraWidgetOptions(child);
+        //异步加载图片
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initAllChartsDemoImage(allCharts);
+            }
+        }).start();
+
+        return child;
+    }
+
+    //加载所有图表图片
+    private static void initAllChartsDemoImage(Chart[][] allCharts){
+        for (int i = 0; i < allCharts.length; i++) {
+            Chart[] rowChart = allCharts[i];
+            if(rowChart == null) {
+                continue;
+            }
+            //加载初始化图表模型图片
+            initChartsDemoImage(rowChart);
+        }
     }
 
     private static void initChartsDemoImage(Chart[] rowChart) {
