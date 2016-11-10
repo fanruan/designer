@@ -81,24 +81,25 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
-        final Chart[][] allChart = new Chart[typeName.length][];
+        final Chart[][] allCharts = new Chart[typeName.length][];
         for (int i = 0; i < typeName.length; i++) {
             String plotID = typeName[i].getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
-            allChart[i] = rowChart;
             if(rowChart == null) {
                 continue;
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
             child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
+
+            allCharts[i] = rowChart;
         }
 
         //异步加载图片
         new Thread(new Runnable() {
             @Override
             public void run() {
-                initAllChartsDemoImage(allChart);
+                initAllChartsDemoImage(allCharts);
             }
         }).start();
 
