@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.PluginWebBridge;
@@ -19,6 +20,8 @@ import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -29,6 +32,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -220,10 +225,23 @@ public class FormWidgetDetailPane extends FormDockView{
                 downloadItem.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        BasicPane managerPane = new WebManagerPaneFactory().createReusePane();
-                        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-                        PluginWebBridge.getHelper().setDialogHandle(dlg);
-                        dlg.setVisible(true);
+                        String url = SiteCenter.getInstance().acquireUrlByKind("reuse.url");
+                        if (StringUtils.isEmpty(url)) {
+                            FRContext.getLogger().info("The URL is empty!");
+                            return;
+                        }
+                        try {
+                            Desktop.getDesktop().browse(new URI(url));
+                        } catch (IOException exp) {
+                            JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
+                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                        } catch (URISyntaxException exp) {
+                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                        } catch (Exception exp) {
+                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                            FRContext.getLogger().error("Can not open the browser for URL:  " + url);
+                        }
+
                     }
                 });
 

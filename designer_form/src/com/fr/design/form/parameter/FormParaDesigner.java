@@ -112,9 +112,12 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		EastRegionContainerPane.getInstance().replaceDownPane(
                 FormWidgetDetailPane.getInstance(this));
 		if (!BaseUtils.isAuthorityEditing()) {
+			EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
+			EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
 			EastRegionContainerPane.getInstance().replaceUpPane(
 					WidgetPropertyPane.getInstance(this));
 		} else {
+			EastRegionContainerPane.getInstance().removeParameterPane();
 			showAuthorityEditPane();
 		}
 
@@ -230,8 +233,6 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		}
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
-		EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
-		EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
 
 	}
 
