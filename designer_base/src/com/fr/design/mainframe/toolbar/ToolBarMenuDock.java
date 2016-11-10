@@ -138,8 +138,6 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        // 添加社区菜单
-        menuList.add(createCommunityMenuDef());
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
