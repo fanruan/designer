@@ -288,24 +288,26 @@ public class EditingMouseListener extends MouseInputAdapter {
         if (component.isReport()) {
             xElementCase = (XElementCase)component;
 			UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
-            JComponent button1= (JComponent) xElementCase.getCoverPane().getComponent(1);
             if(designer.getCursor().getType() ==Cursor.HAND_CURSOR) {
-                designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            } // component.getParent() 是报表块所在的XWTitleLayout
-            int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-            int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-            int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-            int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+				designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			} // component.getParent() 是报表块所在的XWTitleLayout
+			int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+			int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
 			if (e.getX() + GAP - xElementCase.getInsets().left > minX && e.getX() - GAP - xElementCase.getInsets().left < minX + button.getWidth()) {
 				if (e.getY() + GAP - xElementCase.getInsets().top > minY && e.getY() - GAP - xElementCase.getInsets().top < minY + button.getHeight()) {
 					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				}
 			}
 			xElementCase.setHelpBtnOnFocus(false);
-			if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
-				if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
-					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					xElementCase.setHelpBtnOnFocus(true);
+			if (xElementCase.getCoverPane().getComponentCount() > 1) {
+				JComponent button1 = (JComponent) xElementCase.getCoverPane().getComponent(1);
+				int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+				int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+				if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
+					if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
+						designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						xElementCase.setHelpBtnOnFocus(true);
+					}
 				}
 			}
 			xElementCase.displayCoverPane(true);
