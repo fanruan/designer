@@ -1,19 +1,18 @@
 package com.fr.design.mainframe.chart.gui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-
-import com.fr.design.chart.report.GisMapDataPane;
-import com.fr.design.chart.report.MapDataPane;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.GisMapPlot;
 import com.fr.chart.chartattr.MapPlot;
+import com.fr.design.chart.report.GisMapDataPane;
+import com.fr.design.chart.report.MapDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ChartDataPane extends AbstractChartAttrPane {
 	
@@ -68,12 +67,19 @@ public class ChartDataPane extends AbstractChartAttrPane {
 			contentsPane.setSupportCellData(supportCellData);
 		}
 	}
-	
+
+	public boolean isSupportCellData() {
+		return supportCellData;
+	}
+
 	/**
 	 * 设置数据界面是否支持单元格
 	 */
 	public void setSupportCellData(boolean supportCellData) {
 		this.supportCellData = supportCellData;
+		if(contentsPane != null) {
+			contentsPane.setSupportCellData(supportCellData);
+		}
 	}
 	
 	/**
