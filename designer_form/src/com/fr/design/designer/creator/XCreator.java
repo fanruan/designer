@@ -601,4 +601,20 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		}
 
 	}
+
+	/**
+	 * 按照比例调整组件的宽度
+	 * @param percent 比例
+	 */
+	public void adjustCompWidth(double percent){
+		return;
+	}
+
+	/**
+	 * 按照比例调整组件的高度
+	 * @param percent 比例
+	 */
+	public void adjustCompHeight(double percent) {
+		return;
+	}
 }

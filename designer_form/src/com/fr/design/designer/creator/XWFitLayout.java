@@ -381,6 +381,7 @@ public class XWFitLayout extends XLayoutContainer {
 				needAddWidth = Math.max(needAddWidth, MIN_WIDTH-width);
 			}
 		}
+		creator.adjustCompWidth((double) creator.getBounds().width / rec.width);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
 	
@@ -504,6 +505,7 @@ public class XWFitLayout extends XLayoutContainer {
 				needAddHeight = Math.max(needAddHeight, MIN_HEIGHT-h);
 			}
 		}
+		creator.adjustCompHeight((double) creator.getBounds().height / rec.height);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
 	
