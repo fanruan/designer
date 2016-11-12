@@ -29,6 +29,7 @@ public class UIResizableContainer extends JPanel {
     private VerticalToolPane verticalToolPane;
 
     private int direction;
+    private boolean hasParameterPane;
 
     private static final int MAX_WIDTH = 300;
     private static final int MIN_WIDTH = 165;
@@ -89,7 +90,6 @@ public class UIResizableContainer extends JPanel {
         add(horizontToolPane);
         add(downPane);
         add(verticalToolPane);
-        add(parameterPane);
     }
 
     public UIResizableContainer(JComponent upPane, int direction) {
@@ -102,7 +102,6 @@ public class UIResizableContainer extends JPanel {
         setLayout(containerLayout);
         add(upPane);
         add(horizontToolPane);
-        add(parameterPane);
 
     }
 
@@ -141,7 +140,7 @@ public class UIResizableContainer extends JPanel {
      * @param height
      */
     public void setParameterHeight(int height) {
-        paraHeight = height;
+        paraHeight = hasParameterPane? height : 0;
         refreshContainer();
 
     }
@@ -274,13 +273,18 @@ public class UIResizableContainer extends JPanel {
 
     public void addParameterPane(JComponent pane) {
         add(this.parameterPane = pane);
+        hasParameterPane = true;
         refreshContainer();
     }
 
     public void removeParameterPane() {
-        remove(this.parameterPane);
-        setParameterHeight(0);
-        refreshContainer();
+        if (this.parameterPane != null) {
+            this.remove(this.parameterPane);
+            setParameterHeight(0);
+            hasParameterPane = false;
+            refreshContainer();
+        }
+
     }
 
     /**
