@@ -110,8 +110,8 @@ public class LineSeriesPane extends AbstractPlotSeriesPane{
 		if(plot instanceof LinePlot) {
 			LinePlot linePlot = (LinePlot)plot;
 			linePlot.setCurve(isCurve.isSelected());
-			linePlot.setNullValueBreak(isNullValueBreak.getSelectedIndex() == 0);
 		}
+		plot.setNullValueBreak(isNullValueBreak.getSelectedIndex() == 0);
 		ConditionAttr attrList = plot.getConditionCollection().getDefaultAttr();
 		updateAttrCondition(attrList);
 	}
