@@ -141,11 +141,25 @@ public abstract class ToolBarMenuDock {
         menuList.add(createHelpMenuDef());
 
 		// 添加社区菜单
-        if(!Locale.KOREA.equals(locale)){
-            menuList.add(createCommunityMenuDef());
+        Locale [] locales =supportCommunityLocales();
+
+        // 添加社区菜单
+        for(int i = 0; i < locales.length; i++) {
+            if(locale.equals(locales[i])){
+                menuList.add(createCommunityMenuDef());
+            }
         }
 		
         return menuList.toArray(new MenuDef[menuList.size()]);
+    }
+	
+	public Locale[] supportCommunityLocales() {
+        return new Locale[]{
+                Locale.CHINA,
+                Locale.JAPAN,
+                Locale.TAIWAN,
+                Locale.US,
+        };
     }
 
     public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {
