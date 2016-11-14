@@ -18,6 +18,7 @@ import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.tree.LayerConfig;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.*;
 import java.awt.*;
@@ -133,7 +134,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 			for (LayerConfig layerConfig : layerConfigList) {
 				layerConfigs[i++] = layerConfig;
 			}
-			this.layerDataControlPane.populate(new NameObject("tree", layerConfigs));
+			this.layerDataControlPane.populate(new NameObject("Tree Layer Data", layerConfigs));
 		} else {
 			buildBox.setSelectedIndex(2);
 		}
@@ -154,10 +155,12 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		if (buildBox.getSelectedIndex() == 1) {
 			TableDataDictionary dictionary = this.autoBuildPane.update();
 			te.setAutoBuild(true);
+			te.setLayerBuild(false);
 			te.setDictionary(dictionary);
 			te.setNodeOrDict(dictionary);
 		} else if (buildBox.getSelectedIndex() == 2) {
 			te.setAutoBuild(false);
+			te.setLayerBuild(false);
 			NameObject no = this.controlPane.update();
 			if (no != null) {
 				TreeEditor editor = (TreeEditor) no.getObject();
@@ -174,6 +177,11 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 				te.setNodeOrDict(editor.getTreeNodeAttr());
 				te.setPerformanceFirst(editor.isPerformanceFirst());
 			}
+		} else {
+			LayerConfig[] configs = (LayerConfig[]) layerDataControlPane.update().getObject();
+			te.setAutoBuild(false);
+			te.setLayerBuild(true);
+			te.setLayerConfigs(Arrays.asList(configs));
 		}
 		return te;
 	}
@@ -230,7 +238,12 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 				tcb.setNodeOrDict(editor.getTreeNodeAttr());
 				tcb.setPerformanceFirst(editor.isPerformanceFirst());
 			}
-		}
+		}else {
+            LayerConfig[] configs = (LayerConfig[]) layerDataControlPane.update().getObject();
+            tcb.setAutoBuild(false);
+            tcb.setLayerBuild(true);
+            tcb.setLayerConfigs(Arrays.asList(configs));
+        }
 		return tcb;
 	}
 
