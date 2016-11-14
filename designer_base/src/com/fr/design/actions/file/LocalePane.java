@@ -158,7 +158,7 @@ public class LocalePane extends BasicPane {
         }
     }
 
-    public String readText(List<ResourceBundle> rbs, String key) {
+    private String readText(List<ResourceBundle> rbs, String key) {
         for (ResourceBundle rb : rbs) {
             if (rb.containsKey(key)) {
                 return rb.getString(key);
@@ -205,17 +205,6 @@ public class LocalePane extends BasicPane {
             }
             customTableModel.addRow(vector);
         }
-    }
-
-    private Properties loadLocaleProperties(String name) {
-        Properties properties = new Properties();
-        InputStream inputStream = IOUtils.readResource("/com/fr/general/locale/" + name);
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        return properties;
     }
 
     /**
