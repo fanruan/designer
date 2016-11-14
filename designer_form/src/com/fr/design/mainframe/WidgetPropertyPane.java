@@ -124,15 +124,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         }
 
         componentTree = new ComponentTree(designer);
-
-        ComponentTreeModel treeModel = (ComponentTreeModel) componentTree.getModel();
-        XCreator root = (XCreator)treeModel.getRoot();
-        int childCount = treeModel.getChildCount(root);
-        //按照节点添加para在下的，但这里需要para节点在上，调整一下位置
-        if(childCount == NODE_LENGTH){
-            adjustPosition(treeModel, designer);
-        }
-
         widgetPropertyTables = new ArrayList<AbstractPropertyTable>();
         propertyTable = new WidgetPropertyTable(designer);
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
@@ -198,22 +189,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         isrefresh = false;
     }
 
-
-    /**
-     * 调整结构树para和body的位置
-     *
-     * @param treeModel
-     * @param formDesigner
-     */
-    private void adjustPosition(ComponentTreeModel treeModel,FormDesigner formDesigner){
-        XCreator root = (XCreator)treeModel.getRoot();
-        if(treeModel.getChild(root,0) instanceof XWParameterLayout){
-            return;
-        }
-        root.add((Component)(treeModel.getChild(root,0)),1);
-        treeModel.setRoot(root);
-        componentTree = new ComponentTree(formDesigner,treeModel);
-    }
     //
     /**
      * 选中的组件是否在参数面板里
