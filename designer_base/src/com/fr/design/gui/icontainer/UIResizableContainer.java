@@ -278,12 +278,10 @@ public class UIResizableContainer extends JPanel {
     }
 
     public void removeParameterPane() {
-        if (this.parameterPane != null) {
             this.remove(this.parameterPane);
             setParameterHeight(0);
             hasParameterPane = false;
             refreshContainer();
-        }
 
     }
 
