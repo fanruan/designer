@@ -18,12 +18,12 @@ import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.tree.LayerConfig;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Arrays;
 
 public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	private JTreeControlPane controlPane;
