@@ -153,7 +153,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 paneList.add(otherPane);
                 this.isDefaultPane = true;
             }else{
-                ChartDataPane chartDataPane = ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
+                ChartDataPane chartDataPane = createChartDataPane(plotID);
                 paneList.add(chartDataPane);
                 AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(plotID, listener);
                 for(int i = 0; i < otherPaneList.length; i++){
@@ -165,6 +165,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             createTabsPane();
             setSelectedTab();
         }
+    }
+
+    protected ChartDataPane createChartDataPane(String plotID) {
+        return ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
     }
 
     protected void addTypePane() {
