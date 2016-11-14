@@ -214,15 +214,17 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		if (buildBox.getSelectedIndex() == 1) {
 			TableDataDictionary dictionary = this.autoBuildPane.update();
 			tcb.setAutoBuild(true);
-			tcb.setDictionary(dictionary);
-			tcb.setNodeOrDict(dictionary);
-		} else if (buildBox.getSelectedIndex() == 2) {
-			tcb.setAutoBuild(false);
-			NameObject no = this.controlPane.update();
-			if (no != null) {
-				if (no.getObject() instanceof TreeComboBoxEditor) {
-					return (TreeComboBoxEditor) no.getObject();
-				}
+            tcb.setLayerBuild(false);
+            tcb.setDictionary(dictionary);
+            tcb.setNodeOrDict(dictionary);
+        } else if (buildBox.getSelectedIndex() == 2) {
+            tcb.setAutoBuild(false);
+            tcb.setLayerBuild(false);
+            NameObject no = this.controlPane.update();
+            if (no != null) {
+                if (no.getObject() instanceof TreeComboBoxEditor) {
+                    return (TreeComboBoxEditor) no.getObject();
+                }
 
 				TreeEditor editor = (TreeEditor) no.getObject();
 				tcb.setAllowBlank(editor.isAllowBlank());
