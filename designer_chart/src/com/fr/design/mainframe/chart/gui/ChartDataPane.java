@@ -68,7 +68,11 @@ public class ChartDataPane extends AbstractChartAttrPane {
 			contentsPane.setSupportCellData(supportCellData);
 		}
 	}
-	
+
+	public boolean isSupportCellData() {
+		return supportCellData;
+	}
+
 	/**
 	 * 设置数据界面是否支持单元格
 	 */
