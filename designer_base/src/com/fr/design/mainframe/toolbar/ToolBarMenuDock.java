@@ -122,8 +122,6 @@ public abstract class ToolBarMenuDock {
     //////////////////////////////////////////////////////////////////////////////////////////
 
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
-		Locale locale = FRContext.getLocale();
-		
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -140,17 +138,21 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-		// 添加社区菜单
-        Locale [] locales =supportCommunityLocales();
-
         // 添加社区菜单
+        addCommunityMenuDef(menuList);
+		
+        return menuList.toArray(new MenuDef[menuList.size()]);
+    }
+	
+	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
+        Locale locale = FRContext.getLocale();
+        Locale [] locales =supportCommunityLocales();
         for(int i = 0; i < locales.length; i++) {
             if(locale.equals(locales[i])){
                 menuList.add(createCommunityMenuDef());
+                break;
             }
         }
-		
-        return menuList.toArray(new MenuDef[menuList.size()]);
     }
 	
 	public Locale[] supportCommunityLocales() {
