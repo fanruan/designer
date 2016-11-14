@@ -8,13 +8,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -31,10 +25,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.dialog.BasicPane;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+import com.fr.general.*;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -43,12 +34,6 @@ import com.fr.stable.project.ProjectConstants;
  * @since : 8.0
  */
 public class LocalePane extends BasicPane {
-    private static final String FR = "fr.properties";
-    private static final String US = "fr_en_US.properties";
-    private static final String CN = "fr_zh_CN.properties";
-    private static final String JP = "fr_ja_JP.properties";
-    private static final String TW = "fr_zh_TW.properties";
-    private static final String KR = "fr_ko_KR.properties";
     private static final String PREFIX = "fr_";
     private static final int LOCALE_NAME_LEN = 5;
 
@@ -124,39 +109,35 @@ public class LocalePane extends BasicPane {
     }
 
     private void initPredefinedProperties() {
-        Properties fr = loadLocaleProperties(FR);
-        Properties us = loadLocaleProperties(US);
-        Properties cn = loadLocaleProperties(CN);
-        Properties jp = loadLocaleProperties(JP);
-        Properties tw = loadLocaleProperties(TW);
-        Properties kr = loadLocaleProperties(KR);
+        Map<Locale, LocalePackage> map = Inter.getPredefinedPackageMap();
+        LocalePackage chinese = map.get(Locale.SIMPLIFIED_CHINESE);
 
-        Set<String> keys = fr.stringPropertyNames();
-        List<String> sortKeys = new ArrayList<String>(keys);
-        Collections.sort(sortKeys);
-        Vector<String> keyVector = new Vector<String>();
-        Vector<String> valueVector = new Vector<String>();
-        Vector<String> usVector = new Vector<String>();
-        Vector<String> cnVector = new Vector<String>();
-        Vector<String> jpVector = new Vector<String>();
-        Vector<String> twVector = new Vector<String>();
-        Vector<String> krVector = new Vector<String>();
-        for (String key : sortKeys) {
-            keyVector.add(key);
-            valueVector.add(fr.getProperty(key));
-            usVector.add(us.getProperty(key));
-            cnVector.add(cn.getProperty(key));
-            jpVector.add(jp.getProperty(key));
-            twVector.add(tw.getProperty(key));
-            krVector.add(kr.getProperty(key));
+        List<String> sortKeys = new ArrayList<String>();
+
+
+        Set<ResourceBundle> bundles = chinese.getKindsOfResourceBundle();
+        for (ResourceBundle bundle : bundles) {
+            sortKeys.addAll(bundle.keySet());
         }
+        Collections.sort(sortKeys);
+
+        Map<Locale, Vector<String>> data = new HashMap<Locale, Vector<String>>();
+        for (Map.Entry<Locale, LocalePackage> entry : map.entrySet()) {
+            Vector<String> column = new Vector<String>();
+            for (String key : sortKeys) {
+                column.add(entry.getValue().getLocText(key));
+            }
+            data.put(entry.getKey(), column);
+        }
+
+        Vector<String> keyVector = new Vector<String>();
+        keyVector.addAll(sortKeys);
+
+
         predefineTableModel.addColumn(Inter.getLocText("Key"), keyVector);
-        predefineTableModel.addColumn(Inter.getLocText("Value"), valueVector);
-        predefineTableModel.addColumn("en_US", usVector);
-        predefineTableModel.addColumn("zh_CN", cnVector);
-        predefineTableModel.addColumn("ja_JP", jpVector);
-        predefineTableModel.addColumn("zh_TW", twVector);
-        predefineTableModel.addColumn("ko_KR", krVector);
+        for (Map.Entry<Locale, Vector<String>> entry : data.entrySet()) {
+            predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
+        }
     }
 
     private void initCustomProperties() throws Exception {
