@@ -432,7 +432,7 @@ public class ChartDatapointLabelPane extends BasicPane{
                 this.percentFormatPane = new FormatPane();
             }
             if(this.percentFormat == null){
-                DecimalFormat defaultFormat = new CoreDecimalFormat(new DecimalFormat(), "#.##%");
+                DecimalFormat defaultFormat = new CoreDecimalFormat(new DecimalFormat("#.##%"), "#.##%");
                 percentFormatPane.populateBean(defaultFormat);
                 this.percentFormat = defaultFormat;
             }
