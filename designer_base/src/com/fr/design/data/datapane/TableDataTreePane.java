@@ -276,13 +276,14 @@ public class TableDataTreePane extends BasicTableDataTreePane {
      * @param tableDataSource 数据集
      */
     public void addTableData(String srcName, TableDataSource tableDataSource) {
+        allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
         DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
         TableDataSource tds = tc.getBook();
         Iterator tdIterator = tableDataSource.getTableDataNameIterator();
         while (tdIterator.hasNext()) {
             String tdName = (String) tdIterator.next();
             TableData td = tableDataSource.getTableData(tdName);
-            if (tds.getTableData(tdName) != null) {//如果有同名的就拼上来源名称
+            if (tds.getTableData(tdName) != null || isDsNameRepeaded(tdName)) {//如果有同名的就拼上来源名称
                 tdName = srcName + tdName;
             }
             int i = 0;
