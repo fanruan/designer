@@ -9,19 +9,12 @@ public class UIMenuNameableCreator implements Nameable{
 	protected String name;
 	protected Object obj;
 	protected Class<? extends BasicBeanPane> paneClazz;
-	protected Object edit;
 	
-	public UIMenuNameableCreator(Object edit, String name, Object obj, Class<? extends BasicBeanPane> paneClazz) {
-		this.edit = edit;
+	public UIMenuNameableCreator(String name, Object obj, Class<? extends BasicBeanPane> paneClazz) {
 		this.name = name;
 		this.obj = obj;
 		this.paneClazz = paneClazz;
 	}
-
-	public UIMenuNameableCreator(String name, Object obj, Class<? extends BasicBeanPane> paneClazz) {
-		this(null, name, obj, paneClazz);
-	}
-
 
 	@Override
 	public String getName() {
@@ -53,14 +46,13 @@ public class UIMenuNameableCreator implements Nameable{
 		} catch (IllegalAccessException e) {
 			FRLogger.getLogger().error("UIMenuNameableCreator IllegalAccessException");
 		}
-		return new UIMenuNameableCreator(edit, name, cloneObj, this.paneClazz);
+		return new UIMenuNameableCreator(name, cloneObj, this.paneClazz);
 		
 	}
 	
 	public BasicBeanPane getPane() {
 		try {
 			BasicBeanPane pane = this.paneClazz.newInstance();
-			pane.setPlot(edit);
 			return pane;
 		} catch (InstantiationException e) {
 

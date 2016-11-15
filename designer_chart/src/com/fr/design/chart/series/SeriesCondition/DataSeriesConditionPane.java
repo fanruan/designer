@@ -35,9 +35,8 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
         initComponents();
     }
 
-    @Override
-    public void setPlot(Object plot) {
-        this.plot = (Plot) plot;
+    public void setPlot(Plot plot) {
+        this.plot = plot;
     }
 
     public DataSeriesConditionPane() {
