@@ -853,7 +853,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 是则返回true
      */
     public boolean isRoot(XCreator comp) {
-        return comp == rootComponent;
+        return comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class);
     }
 
     // 计算鼠标事件e所发生的位置相对根组件的位置关系
