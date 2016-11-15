@@ -118,7 +118,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
         if (StringUtils.isBlank(tempName)) {
             nPanel.setShowText(Inter.getLocText(new String[]{"DS-TableData", "ISEMPTY", "PLEASE", "GIVE-NAME"}, new String[]{"", "，", "", "！"}));
             dg.setButtonEnabled(false);
-        } else if (!ComparatorUtils.equals(oldName, tempName) && isDsNameRepeaded(tempName, allDSNames)) {
+        } else if (!ComparatorUtils.equals(oldName, tempName) && isDsNameRepeaded(tempName)) {
             String[] waring = new String[]{"DS-TableData", "Utils-has_been_existed", "PLEASE", "Rename"};
             String[] sign = new String[]{tempName, "，", "", "！"};
             nPanel.setShowText(Inter.getLocText(waring, sign));
@@ -324,20 +324,22 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     private String createDsName(String prefix) {
         int count = 1;
         allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
-        while (isDsNameRepeaded(prefix + count, allDSNames)) {
+        while (isDsNameRepeaded(prefix + count)) {
             count++;
         }
         return prefix + count;
     }
 
-    private boolean isDsNameRepeaded(String name, String[] names) {
-        boolean repeat = false;
-        for (int i = 0; i < names.length; i++) {
-            if (ComparatorUtils.equals(name, names[i])) {
-                repeat = true;
+    protected boolean isDsNameRepeaded(String name) {
+        if (allDSNames == null) {
+            allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
+        }
+        for (int i = 0; i < allDSNames.length; i++) {
+            if (ComparatorUtils.equals(name, allDSNames[i])) {
+                return true;
             }
         }
-        return repeat;
+        return false;
     }
 
     protected KeyAdapter getTableTreeNodeListener(final UpdateAction editAction, final UpdateAction previewTableDataAction, final UpdateAction removeAction, final TableDataSourceOP op, final TableDataTree dataTree) {
