@@ -24,6 +24,14 @@ public abstract class BasicBeanPane<T> extends BasicPane {
 	}
 
 	/**
+	 * 设置plot
+	 * @param plot
+	 */
+	public void setPlot(Object plot) {
+
+	}
+
+	/**
 	 * 更新权限工具栏面板
 	 */
 	public void populateAuthority() {
