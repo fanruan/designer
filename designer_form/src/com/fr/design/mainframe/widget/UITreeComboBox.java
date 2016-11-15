@@ -145,10 +145,13 @@ public class UITreeComboBox extends JComboBox{
                     setSelectedItem(paths[0]);
                     MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
-            } else {
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
                 tree.refreshUI();
                 setSelectedItem(null);
                 MenuSelectionManager.defaultManager().clearSelectedPath();
+            } else {
+                tree.refreshUI();
+                tree.repaint();
             }
 
         }
