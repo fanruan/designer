@@ -52,8 +52,7 @@ public class UIMenuNameableCreator implements Nameable{
 	
 	public BasicBeanPane getPane() {
 		try {
-			BasicBeanPane pane = this.paneClazz.newInstance();
-			return pane;
+			return this.paneClazz.newInstance();
 		} catch (InstantiationException e) {
 
 		} catch (IllegalAccessException e) {
