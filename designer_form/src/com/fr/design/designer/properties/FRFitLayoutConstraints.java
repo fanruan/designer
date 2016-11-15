@@ -47,7 +47,7 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return Inter.getLocText("Widget-Size");
+        return Inter.getLocText("FR-Designer-Widget_Size");
     }
 
     @Override
@@ -70,9 +70,9 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return Inter.getLocText("Tree-Width");
+                    return Inter.getLocText("FR-Designer-Tree_Width");
                 default:
-                    return Inter.getLocText("Tree-Height");
+                    return Inter.getLocText("FR-Designer-Tree_Height");
             }
         } else {
             switch (row) {
@@ -103,7 +103,7 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
                     if(bounds.width == rec.width - margin.getLeft() - margin.getRight()){
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
                     }else if(v < minWidth){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("Min-Width") + Integer.toString(minWidth));
+                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Width") + Integer.toString(minWidth));
                         v = xCreator.getWidth();
                     }
                     difference = bounds.width - v;
@@ -116,7 +116,7 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
                     if(bounds.height == rec.height - margin.getTop() - margin.getBottom()){
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Beyond_Bounds"));
                     }else if(v < minHeight){
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("Min-Height") + Integer.toString(minHeight));
+                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Min_Height") + Integer.toString(minHeight));
                         v = xCreator.getHeight();
                     }
                     difference = bounds.height - v;
