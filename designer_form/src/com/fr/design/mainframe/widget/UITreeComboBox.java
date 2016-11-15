@@ -15,6 +15,7 @@ import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.mainframe.ComponentTree;
 import com.sun.java.swing.plaf.motif.*;
 import com.sun.java.swing.plaf.windows.*;
@@ -116,7 +117,6 @@ public class UITreeComboBox extends JComboBox{
                 JLabel lb = (JLabel)r.getTreeCellRendererComponent(
                         tree, value, isSelected, false, false, index,
                         cellHasFocus);
-
                 return lb;
             }
             return super.getListCellRendererComponent(list, value, index,
@@ -129,7 +129,7 @@ public class UITreeComboBox extends JComboBox{
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED || evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                 TreePath[] paths = tree.getSelectedTreePath();
                 if (tree != null && paths.length > 0) {
                     tree.setAndScrollSelectionPath(paths[0]);
@@ -137,9 +137,18 @@ public class UITreeComboBox extends JComboBox{
                     MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
 
-            }  else {
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
                 tree.refreshUI();
-                repaint();
+                TreePath[] paths = tree.getSelectedTreePath();
+                if (tree != null && paths.length > 0) {
+                    tree.setAndScrollSelectionPath(paths[0]);
+                    setSelectedItem(paths[0]);
+                    MenuSelectionManager.defaultManager().clearSelectedPath();
+                }
+            } else {
+                tree.refreshUI();
+                setSelectedItem(null);
+                MenuSelectionManager.defaultManager().clearSelectedPath();
             }
 
         }
@@ -192,13 +201,12 @@ class TreePopup extends JPopupMenu implements ComboPopup{
 
     public TreePopup(JComboBox comboBox){
         this.comboBox = (UITreeComboBox)comboBox;
-        setBorder(BorderFactory.createLineBorder(Color.black));
         setLayout(new BorderLayout());
         setLightWeightPopupEnabled(comboBox.isLightWeightPopupEnabled());
         JTree tree = this.comboBox.getTree();
         if(tree != null){
-            scrollPane = new JScrollPane(tree);
-            scrollPane.setBorder(null);
+            scrollPane = new UIScrollPane(tree);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder(0,4,0,0));
             add(scrollPane, BorderLayout.CENTER);
         }
     }
