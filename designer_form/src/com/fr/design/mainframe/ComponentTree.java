@@ -37,30 +37,6 @@ public class ComponentTree extends JTree {
         this.setTransferHandler(new TreeTransferHandler());
         this.refreshTreeRoot();
         addTreeSelectionListener(designer);
-
-        this.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-        });
         setEditable(true);
     }
 
@@ -121,19 +97,6 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath);
     }
 
-    private void popupMenu(MouseEvent e) {
-        TreePath path = this.getSelectionPath();
-        if (path == null) {
-            return;
-        }
-        Component component = (Component) path.getLastPathComponent();
-        if (!(component instanceof XCreator)) {
-            return;
-        }
-        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
-        JPopupMenu menu = adapter.getContextPopupMenu(e);
-        menu.show(this, e.getX(), e.getY());
-    }
 
     /**
      * 刷新
@@ -241,12 +204,14 @@ public class ComponentTree extends JTree {
                 creator.notShowInComponentTree(path);
             }
             //绝对布局作为body的时候不显示自适应布局父层
-            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)
-                    && (parent.getParent() != null)
-                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
-                parent = parent.getParent().getParent();
-                continue;
+            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)) {
+                if ((parent.getParent() != null)
+                        && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
+                    parent = parent.getParent().getParent();
+                    continue;
+                }
             }
+
             parent = parent.getParent();
         }
         Object[] components = path.toArray();
