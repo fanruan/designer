@@ -209,7 +209,7 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         JTree tree = this.comboBox.getTree();
         if(tree != null){
             scrollPane = new UIScrollPane(tree);
-            scrollPane.setBorder(BorderFactory.createEmptyBorder(0,2,0,0));
+            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
             add(scrollPane, BorderLayout.CENTER);
         }
     }
