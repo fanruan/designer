@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
+import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
@@ -71,6 +72,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     private JComponent editingComponent;
     private FormECCompositeProvider reportComposite;
 
+    //FORM_TAB代表是否点击编辑，用于点击编辑前后菜单的显示
     protected int index = FORM_TAB;
 
     public JForm() {
@@ -383,11 +385,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
             return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this)
+                    new TemplateParameterAction(this),
+                    new FormMobileAttrAction(this)
             }, new ShortCut[0]);
         } else {
             return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this)
+                    new TemplateParameterAction(this),
+                    new FormMobileAttrAction(this)
             }, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }

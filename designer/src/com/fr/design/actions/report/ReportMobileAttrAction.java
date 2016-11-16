@@ -57,9 +57,7 @@ public class ReportMobileAttrAction extends JWorkBookAction{
 
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {
         @Override
-        public char getMnemonic() {
-            return 'P';
-        }
+        public char getMnemonic() { return 'P'; }
 
         @Override
         public String getMenuName() {

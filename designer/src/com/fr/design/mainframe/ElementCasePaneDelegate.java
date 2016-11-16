@@ -3,7 +3,6 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.general.Inter;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.design.file.HistoryTemplateListPane;
