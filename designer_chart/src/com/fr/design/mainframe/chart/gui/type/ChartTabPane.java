@@ -30,7 +30,6 @@ public abstract class ChartTabPane extends MultiTabPane<Chart> {
 
     //日文环境下,显示不全的,用tooltip
     private void setSomeTooltipText() {
-        this.setVisible(true);
         for(int i = 0, size = paneList.size(); i<size; i++){
             String tooltip = paneList.get(i).getTitle();
             UIToggleButton button = tabPane.getButton(i);
