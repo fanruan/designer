@@ -79,37 +79,43 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     public static WidgetOption[] initWidgetOption(){
 
-        final ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
-        final ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
-
-        //异步加载
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getWidgetOption(typeName, child);
-            }
-        }).start();
-
-        return child;
-    }
-
-    private static void getWidgetOption(ChartInternationalNameContentBean[] typeName, ChartWidgetOption[] child){
+        ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+        ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
+        final Chart[][] allCharts = new Chart[typeName.length][];
         for (int i = 0; i < typeName.length; i++) {
             String plotID = typeName[i].getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
             if(rowChart == null) {
                 continue;
             }
-
-            //加载初始化图表模型图片
-            initChartsDemoImage(rowChart);
-
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
             child[i] = new ChartWidgetOption(Inter.getLocText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
+
+            allCharts[i] = rowChart;
         }
 
-        DesignModuleFactory.registerExtraWidgetOptions(child);
+        //异步加载图片
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initAllChartsDemoImage(allCharts);
+            }
+        }).start();
+
+        return child;
+    }
+
+    //加载所有图表图片
+    private static void initAllChartsDemoImage(Chart[][] allCharts){
+        for (int i = 0; i < allCharts.length; i++) {
+            Chart[] rowChart = allCharts[i];
+            if(rowChart == null) {
+                continue;
+            }
+            //加载初始化图表模型图片
+            initChartsDemoImage(rowChart);
+        }
     }
 
     private static void initChartsDemoImage(Chart[] rowChart) {
@@ -222,16 +228,16 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return ChartTypeManager.getInstance().containsPlot(plotID);
     }
 
+
     /**
      * 把所有的pane加到list里
      *
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList) {
-        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String priority = (String) entry.getKey();
+        List<Integer> priorityList = getPriorityInOrder();
+        for (int i = 0; i < priorityList.size(); i++){
+            String priority = String.valueOf(priorityList.get(i));
             Iterator chartUIIterator = chartTypeInterfaces.get(priority).entrySet().iterator();
             while (chartUIIterator.hasNext()) {
                 Map.Entry chartUIEntry = (Map.Entry) chartUIIterator.next();
@@ -276,32 +282,40 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     private String[] getTitle4PopupWindow(){
-        List<Integer> priorityList = new ArrayList<Integer>();
+        List<Integer> priorityList = getPriorityInOrder();
+
+        if (priorityList.size() == 0){
+            return new String[0];
+        }
+
         int size = 0;
-        if (chartTypeInterfaces != null){
+        //获取总得图表格式
+        for (int i = 0; i < priorityList.size(); i++) {
+            size += getChartSize(String.valueOf(priorityList.get(i)));
+        }
+        String[] names = new String[size];
+
+        int index = 0;
+        for (int i = 0; i < priorityList.size(); i++){
+            String priority = String.valueOf(priorityList.get(i));
+            Iterator chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
+            index = fetchNames(chartUI, names, index);
+        }
+
+        return names;
+    }
+
+    private List<Integer> getPriorityInOrder() {
+        List<Integer> priorityList = new ArrayList<Integer>();
+        if (chartTypeInterfaces != null) {
             Iterator iterator = chartTypeInterfaces.entrySet().iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String priority = (String) entry.getKey();
                 priorityList.add(Integer.valueOf(priority));
-                size += getChartSize(priority);
             }
-            String[] names = new String[size];
-
-            priorityList = ChartTypeManager.orderInPriority(priorityList);
-
-            int index = 0;
-
-            for (int i = 0; i < priorityList.size(); i++){
-                String priority = String.valueOf(priorityList.get(i));
-                Iterator chartUI = chartTypeInterfaces.get(priority).entrySet().iterator();
-                index = fetchNames(chartUI, names, index);
-            }
-
-            return names;
         }
-
-        return new String[0];
+        return ChartTypeManager.orderInPriority(priorityList);
     }
 
     private int fetchNames(Iterator chartUI, String[] names, int index) {

@@ -2,6 +2,7 @@ package com.fr.design.mainframe.chart;
 
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.web.ChartHyperPoplink;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPopAttrPane;
 import com.fr.design.editor.ValueEditorPane;
@@ -38,6 +39,12 @@ public class ChartHyperEditPane  extends ChartEditPane {
 		createTabsPane();
 	}
 
+	@Override
+	protected ChartDataPane createChartDataPane(String plotID) {
+		ChartDataPane dataPane = ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
+		dataPane.setSupportCellData(false);
+		return dataPane;
+	}
 
     protected void addTypePane() {
         paneList.add(attrPane);

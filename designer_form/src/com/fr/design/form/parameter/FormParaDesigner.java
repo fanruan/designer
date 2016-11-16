@@ -112,9 +112,12 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		EastRegionContainerPane.getInstance().replaceDownPane(
                 FormWidgetDetailPane.getInstance(this));
 		if (!BaseUtils.isAuthorityEditing()) {
+			EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
+			EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
 			EastRegionContainerPane.getInstance().replaceUpPane(
 					WidgetPropertyPane.getInstance(this));
 		} else {
+			EastRegionContainerPane.getInstance().removeParameterPane();
 			showAuthorityEditPane();
 		}
 
@@ -230,14 +233,8 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		}
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
+		EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
 
-		EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
-		if (p.getParameterArray().length == 0) {
-			EastRegionContainerPane.getInstance().setParameterHeight(30);
-		} else {
-			//参数面板独立后只能这边触发调整高度，根据参数个数调整换行，计算高度
-			EastRegionContainerPane.getInstance().setParameterHeight((p.getParameterArray().length + 5) / 6 * 30 + 80);
-		}
 	}
 
 	/**

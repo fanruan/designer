@@ -35,10 +35,4 @@ public class HelpDialogManager {
         }
         return THIS;
     }
-
-    public void destroyDialog() {
-        if (handler != null) {
-            handler.destroyHelpDialog();
-        }
-    }
 }

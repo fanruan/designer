@@ -1,8 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.beans.events.DesignerEditListener;
-import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.form.share.ShareConstants;
@@ -13,6 +11,8 @@ import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * 报表块的封面（如果后面所有的组件都有帮助信息的话就抽接口吧）
@@ -43,18 +43,6 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
     public CoverReportPane(String helpMsg) {
         super();
         this.helpMsg = helpMsg;
-        add(controlButton);
-        if (WidgetPropertyPane.getInstance().getEditingFormDesigner() != null) {
-            WidgetPropertyPane.getInstance().getEditingFormDesigner().addDesignerEditListener(new DesignerEditListener() {
-                @Override
-                public void fireCreatorModified(DesignerEvent evt) {
-                    if (evt.getCreatorEventID() == (DesignerEvent.CREATOR_DELETED)
-                            || evt.getCreatorEventID() == (DesignerEvent.CREATOR_RESIZED)) {
-                        destroyHelpDialog();
-                    }
-                }
-            });
-        }
     }
 
     public String getHelpMsg() {
@@ -63,12 +51,16 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
 
     public void setHelpMsg(String helpMsg) {
         this.helpMsg = helpMsg;
+        //帮助信息为空就不显示帮助按钮
+        if (StringUtils.isNotEmpty(helpMsg)) {
+            add(controlButton);
+        }
     }
 
     public void setMsgDisplay(MouseEvent e) {
         if (helpDialog == null) {
-            controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_CLOSE_ICON_PATH);
-            controlButton.repaint();
+//            controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_CLOSE_ICON_PATH);
+            controlButton.setVisible(false);
             helpDialog = new ElementCaseHelpDialog(DesignerContext.getDesignerFrame(), helpMsg);
             double screenValue = FRScreen.getByDimension(Toolkit.getDefaultToolkit().getScreenSize()).getValue();
             int offsetX = 0;
@@ -80,12 +72,14 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
             int rY = 165 + e.getY();//165是设计器最上面几个面板的高度
             helpDialog.setLocationRelativeTo(DesignerContext.getDesignerFrame(), rX, rY);
             helpDialog.showWindow();
+            helpDialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    helpDialog = null;
+                    controlButton.setVisible(true);
+                }
+            });
             HelpDialogManager.getInstance().setPane(this);
-        } else {
-            controlMode = IOUtils.readIcon(IconPathConstants.TD_EL_SHARE_HELP_ICON_PATH);
-            controlButton.repaint();
-            helpDialog.dispose();
-            helpDialog = null;
         }
     }
 
@@ -135,8 +129,8 @@ public class CoverReportPane extends CoverPane implements HelpDialogHandler{
     @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);
-        if (aFlag) {
-            HelpDialogManager.getInstance().setPane(this);
-        }
+//        if (aFlag) {
+//            HelpDialogManager.getInstance().setPane(this);
+//        }
     }
 }

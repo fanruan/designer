@@ -613,17 +613,19 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
             return;
         }
+
         if (formDesign.isReportBlockEditing()) {
             if (elementCaseDesign != null) {
+                EastRegionContainerPane.getInstance().removeParameterPane();
                 EastRegionContainerPane.getInstance().replaceDownPane(elementCaseDesign.getEastDownPane());
                 EastRegionContainerPane.getInstance().replaceUpPane(elementCaseDesign.getEastUpPane());
                 return;
             }
         }
 
-
         EastRegionContainerPane.getInstance().replaceUpPane(WidgetPropertyPane.getInstance(formDesign));
         EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(formDesign));
+        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(formDesign).getPreferredSize().height);
         if (EastRegionContainerPane.getInstance().getDownPane() == null) {
             new Thread() {
                 public void run() {
@@ -661,7 +663,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 是则返回true
      */
     public boolean isSelectRootPane() {
-        return formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator();
+        return (formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator())
+                || (formDesign.getSelectionModel().getSelection().getSelectedCreator().acceptType(XWAbsoluteBodyLayout.class));
 
     }
 

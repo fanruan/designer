@@ -3,8 +3,8 @@ package com.fr.design.chart.gui.active.action;
 import java.awt.event.ActionEvent;
 
 import com.fr.design.chart.gui.ChartComponent;
-import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -27,7 +27,7 @@ public class SetAxisStyleAction extends ChartComponentAction {
 
     public void showAxisStylePane() {
         String axisType = getActiveAxisGlyph() == null ? StringUtils.EMPTY : getActiveAxisGlyph().getAxisType();
-        
-    	ChartEditPane.getInstance().GoToPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_AXIS_TITLE, axisType);
+
+        DesignModuleFactory.getChartPropertyPane().getChartEditPane().gotoPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_AXIS_TITLE, axisType);
     }
 }

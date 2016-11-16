@@ -8,7 +8,6 @@ import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -127,7 +126,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		protected String title4PopupWindow() {
 			return null;
 		}
-		
+
+		/**
+		 * 不同图表切换分同一个selected的不同图表切换和不同selected的不同图表切换
+		 * 如果是切换图表的某个图表发生变化，则collection的选择下标不会变
+		 * 如果是切换图表的不同图表之间切换，则collection的选择下标会改变
+		 * @param chart
+		 */
 		public void updateBean(Chart chart) {
 
 			Plot oldPlot = chart.getPlot();
@@ -258,6 +263,21 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	}
 
 
+	/**
+	 * 面板重构
+	 * @param lastPlotID
+	 * @param collection
+	 */
+	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
+		Chart chart = collection.getSelectedChart();
+		String plotID = chart.getPlot().getPlotID();
+		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
+		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
+			editPane.reLayout(chart);
+		}
+	}
+
+
 	public void reactorChartTypePane(ChartCollection collection){
 		if (needReactor(collection)) {
 			chartTypePane.reactor(collection);
@@ -291,7 +311,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
 		Chart chart = collection.getSelectedChart();
-
 		chartTypePane.updateBean(chart);
 	}
 

@@ -29,6 +29,7 @@ public class UIResizableContainer extends JPanel {
     private VerticalToolPane verticalToolPane;
 
     private int direction;
+    private boolean hasParameterPane;
 
     private static final int MAX_WIDTH = 300;
     private static final int MIN_WIDTH = 165;
@@ -89,7 +90,6 @@ public class UIResizableContainer extends JPanel {
         add(horizontToolPane);
         add(downPane);
         add(verticalToolPane);
-        add(parameterPane);
     }
 
     public UIResizableContainer(JComponent upPane, int direction) {
@@ -102,7 +102,6 @@ public class UIResizableContainer extends JPanel {
         setLayout(containerLayout);
         add(upPane);
         add(horizontToolPane);
-        add(parameterPane);
 
     }
 
@@ -141,7 +140,7 @@ public class UIResizableContainer extends JPanel {
      * @param height
      */
     public void setParameterHeight(int height) {
-        paraHeight = height;
+        paraHeight = hasParameterPane? height : 0;
         refreshContainer();
 
     }
@@ -232,7 +231,6 @@ public class UIResizableContainer extends JPanel {
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
                 }
             }
-
         }
 
         @Override
@@ -275,13 +273,16 @@ public class UIResizableContainer extends JPanel {
 
     public void addParameterPane(JComponent pane) {
         add(this.parameterPane = pane);
+        hasParameterPane = true;
         refreshContainer();
     }
 
     public void removeParameterPane() {
         remove(this.parameterPane);
         setParameterHeight(0);
+        hasParameterPane = false;
         refreshContainer();
+
     }
 
     /**
@@ -300,6 +301,15 @@ public class UIResizableContainer extends JPanel {
      */
     public JComponent getDownPane() {
         return this.downPane;
+    }
+
+    /**
+     * 得到参数面板
+     *
+     * @return
+     */
+    public JComponent getParameterPane() {
+        return this.parameterPane;
     }
 
     /**
@@ -343,7 +353,7 @@ public class UIResizableContainer extends JPanel {
                 public void mouseDragged(MouseEvent e) {
                     toolPaneY = e.getYOnScreen() - UIResizableContainer.this.getLocationOnScreen().y;
                     toolPaneY = toolPaneY < 0 ? 0 : toolPaneY;
-                    toolPaneY = toolPaneY > UIResizableContainer.this.getHeight() - toolPaneHeight ? UIResizableContainer.this.getHeight() - toolPaneHeight : toolPaneY;
+                    toolPaneY = toolPaneY > UIResizableContainer.this.getHeight() - toolPaneHeight ? UIResizableContainer.this.getHeight() - toolPaneHeight - getParameterPaneHeight() : toolPaneY - getParameterPaneHeight();
                     refreshContainer();
                 }
             });
@@ -366,7 +376,7 @@ public class UIResizableContainer extends JPanel {
                     if (e.getX() <= ARROW_RANGE) {
                         toolPaneY = 0;
                     } else if (e.getX() >= getWidth() - ARROW_RANGE) {
-                        toolPaneY = UIResizableContainer.this.getHeight() - toolPaneHeight;
+                        toolPaneY = UIResizableContainer.this.getHeight() - toolPaneHeight - getParameterPaneHeight();
                     } else {
                         return;
                     }

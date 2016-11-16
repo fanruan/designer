@@ -732,6 +732,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             }
         } else {
             DesignerContext.getDesignerFrame().resetToolkitByPlus(JWorkBook.this);
+            EastRegionContainerPane.getInstance().removeParameterPane();
             if (delegate4ToolbarMenuAdapter() instanceof PolyDesigner) {
                 PolyDesigner polyDesigner = (PolyDesigner) delegate4ToolbarMenuAdapter();
                 if (polyDesigner.getSelectionType() == PolyDesigner.SelectionType.NONE || polyDesigner.getSelection() == null) {
@@ -752,6 +753,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             EastRegionContainerPane.getInstance().replaceUpPane(allowAuthorityUpPane());
             EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
         }
+
         centerPane.needToShowCoverAndHidPane();
     }
 

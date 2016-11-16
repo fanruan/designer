@@ -33,6 +33,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private static final int GAP_H = 4;
 	private static final int GAP_V = 6;
 	private static final int GAP_BV = 4;
+	private static final int WIDTH = 225;
 	
 	private static final int L_H = 18;
 
@@ -140,7 +141,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 		}
 
 		public void layoutContainer(Container parent) {
-			int width = parent.getWidth();
+			int width = parent.getWidth() == 0 ? WIDTH : parent.getWidth();
 			int x = 0;
 			int y = L_H + GAP_H;
 			

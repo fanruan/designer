@@ -79,7 +79,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		this.componentTree = null;
 //		this.searchTextField = null;
 //		this.searchResult = null;
-		add(new JScrollPane(), BorderLayout.CENTER);
+//		add(new JScrollPane(), BorderLayout.CENTER);
 	}
 
 	@Override
@@ -89,6 +89,12 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public void refreshDockingView() {
 		FormDesigner formDesigner = this.getEditingFormDesigner();
 		removeAll();
+		if(this.componentTree != null) {
+			this.componentTree.removeAll();
+		}
+		if(this.treeComboBox != null) {
+			this.treeComboBox.removeAll();
+		}
 		if (formDesigner == null) {
 			clearDockingView();
 			return;
@@ -103,7 +109,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			adjustPosition(treeModel, formDesigner);
 		}
 		JPanel widgetPane = new JPanel();
-		widgetPane.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+		widgetPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 		add(widgetPane, BorderLayout.NORTH);
 		widgetPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
