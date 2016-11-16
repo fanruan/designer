@@ -38,29 +38,29 @@ public class ComponentTree extends JTree {
         this.refreshTreeRoot();
         addTreeSelectionListener(designer);
 
-        this.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-        });
+//        this.addMouseListener(new MouseAdapter() {
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//        });
         setEditable(true);
     }
 
@@ -121,19 +121,19 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath);
     }
 
-    private void popupMenu(MouseEvent e) {
-        TreePath path = this.getSelectionPath();
-        if (path == null) {
-            return;
-        }
-        Component component = (Component) path.getLastPathComponent();
-        if (!(component instanceof XCreator)) {
-            return;
-        }
-        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
-        JPopupMenu menu = adapter.getContextPopupMenu(e);
-        menu.show(this, e.getX(), e.getY());
-    }
+//    private void popupMenu(MouseEvent e) {
+//        TreePath path = this.getSelectionPath();
+//        if (path == null) {
+//            return;
+//        }
+//        Component component = (Component) path.getLastPathComponent();
+//        if (!(component instanceof XCreator)) {
+//            return;
+//        }
+//        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
+//        JPopupMenu menu = adapter.getContextPopupMenu(e);
+//        menu.show(this, e.getX(), e.getY());
+//    }
 
     /**
      * 刷新
