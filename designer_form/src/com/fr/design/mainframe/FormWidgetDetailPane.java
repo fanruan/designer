@@ -372,7 +372,7 @@ public class FormWidgetDetailPane extends FormDockView{
         try {
             ShareLoader.getLoader().refreshModule();
         } catch (Exception e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
     }
 
