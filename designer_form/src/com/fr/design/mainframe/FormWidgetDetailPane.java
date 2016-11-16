@@ -254,69 +254,69 @@ public class FormWidgetDetailPane extends FormDockView{
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UIPopupMenu menu = new UIPopupMenu();
-                UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
-                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"));
-                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"));
-                menu.add(downloadItem);
-                menu.add(installItem);
-                menu.add(deleteItem);
-                downloadItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String url = SiteCenter.getInstance().acquireUrlByKind("reuse.url");
-                        if (StringUtils.isEmpty(url)) {
-                            FRContext.getLogger().info("The URL is empty!");
-                            return;
-                        }
-                        try {
-                            Desktop.getDesktop().browse(new URI(url));
-                        } catch (IOException exp) {
-                            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                        } catch (URISyntaxException exp) {
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                        } catch (Exception exp) {
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                            FRContext.getLogger().error("Can not open the browser for URL:  " + url);
-                        }
-
-                    }
-                });
-
-                installItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JFileChooser fileChooser = new JFileChooser();
-                        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                        fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), Inter.getLocText("FR-Designer_Select"));
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            final File chosenFile = fileChooser.getSelectedFile();
-                            installFromDiskZipFile(chosenFile);
-
-                        }
-                    }
-                });
-
-                deleteItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        replaceButtonPanel(true);
-                        deleteFromDiskZipFile();
-                    }
-                });
-
-                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, OFFSET_Y);
-
+                initPopMenu();
             }
         });
         return downloadButton;
     }
 
+    /**
+     * 初始化下拉面板
+     */
+    private void initPopMenu() {
+        UIPopupMenu menu = new UIPopupMenu();
+        UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
+        UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"));
+        UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"));
+        menu.add(downloadItem);
+        menu.add(installItem);
+        menu.add(deleteItem);
+        downloadItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String url = SiteCenter.getInstance().acquireUrlByKind("reuse.url");
+                if (StringUtils.isEmpty(url)) {
+                    FRContext.getLogger().info("The URL is empty!");
+                    return;
+                }
+                try {
+                    Desktop.getDesktop().browse(new URI(url));
+                } catch (IOException exp) {
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+                    FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                } catch (URISyntaxException exp) {
+                    FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                } catch (Exception exp) {
+                    FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+                    FRContext.getLogger().error("Can not open the browser for URL:  " + url);
+                }
+            }
+        });
+        installItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
+                int returnValue = fileChooser.showDialog(new UILabel(), Inter.getLocText("FR-Designer_Select"));
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    final File chosenFile = fileChooser.getSelectedFile();
+                    installFromDiskZipFile(chosenFile);
+                }
+            }
+        });
+        deleteItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                replaceButtonPanel(true);
+                deleteFromDiskZipFile();
+            }
+        });
+        GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, OFFSET_Y);
+    }
+
     private void deleteFromDiskZipFile() {
         deleteButton = new UIButton(Inter.getLocText("FR-Designer-CommitTab_Remove"));
-
         deleteButton.setBackground(Color.red);
         deleteButton.repaint();
         deleteButton.setPreferredSize(new Dimension(240, 40));
