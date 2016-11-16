@@ -33,6 +33,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private static final int GAP_H = 4;
 	private static final int GAP_V = 6;
 	private static final int GAP_BV = 4;
+	private static final int BUTTON_HEIGHT = 20;
 	private static final int WIDTH = 225;
 
 	private static final int L_H = 18;
@@ -48,12 +49,12 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		label.setText(Inter.getLocText("FR-Following_parameters_are_not_generated")+":");
+		label.setText(Inter.getLocText("Following_parameters_are_not_generated")+":");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
 		this.add(label);
 
-		addAll = new UIButton(Inter.getLocText("FR-Designer_Add_all"));
+		addAll = new UIButton(Inter.getLocText("Add-all"));
 		this.add(addAll);
 
 	}
@@ -132,7 +133,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 			layoutContainer(parent);
 
-			int h= ((parameterSelectedLabellist.size() == 0) ? L_H : breakid * (20 + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
+			int h= ((parameterSelectedLabellist.size() == 0) ? L_H : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
 			return new Dimension(w, h);
 		}
 
@@ -160,7 +161,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 				x += (dim.width + GAP_H);
 			}
-			addAll.setBounds(0, y + GAP_V+ 20, width, addAll.getPreferredSize().height);
+			addAll.setBounds(0, y + GAP_V + BUTTON_HEIGHT, width, addAll.getPreferredSize().height);
 
 		}
 	}
