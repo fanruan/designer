@@ -151,7 +151,7 @@ public class UITreeComboBox extends JComboBox{
                 MenuSelectionManager.defaultManager().clearSelectedPath();
             } else {
                 tree.refreshUI();
-                tree.repaint();
+                repaint();
             }
 
         }
