@@ -1,303 +1,255 @@
-package com.fr.design.mainframe.widget;
+package com.fr.design.mainframe;
 
-/**
- * Created by xiaxiang on 2016/9/30.
- */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.metal.*;
-import javax.swing.tree.*;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
-import com.fr.design.designer.beans.*;
+import javax.swing.DropMode;
+import javax.swing.JPopupMenu;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
+import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.beans.AdapterBus;
+import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.mainframe.ComponentTree;
-import com.sun.java.swing.plaf.motif.*;
-import com.sun.java.swing.plaf.windows.*;
+import com.fr.design.designer.creator.*;
+import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
+import com.fr.design.designer.treeview.ComponentTreeModel;
+import com.fr.stable.StringUtils;
 
-/**
- * 控件树下拉列表框
- */
-public class UITreeComboBox extends JComboBox{
-    /**
-     * 显示用的树
-     */
-    private ComponentTree tree;
+public class ComponentTree extends JTree {
 
-    public UITreeComboBox(ComponentTree componentTree){
-        this.setTree(componentTree);
-        tree.getDesigner().addDesignerEditListener(new TreeComboBoxDesignerEditAdapter());
-//        for(int i=0; i<tree.getRowCount(); i++)
-//        {
-//            tree.expandRow(i);
-//        }
-        setPreferredSize(new Dimension(200, 20));
+    private FormDesigner designer;
+    private ComponentTreeModel model;
+
+    public ComponentTree(FormDesigner designer) {
+        this.designer = designer;
+        this.setBackground(UIConstants.NORMAL_BACKGROUND);
+        setRootVisible(true);
+        setCellRenderer(new ComponentTreeCellRenderer());
+        getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+        this.setDragEnabled(false);
+        this.setDropMode(DropMode.ON_OR_INSERT);
+        this.setTransferHandler(new TreeTransferHandler());
+        this.refreshTreeRoot();
+        addTreeSelectionListener(designer);
+
+//        this.addMouseListener(new MouseAdapter() {
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//                if (e.isPopupTrigger()) {
+//                    popupMenu(e);
+//                }
+//            }
+//        });
+        setEditable(true);
+    }
+
+    public FormDesigner getDesigner() {
+        return designer;
     }
 
     /**
-     * 设置树
-     * @param tree ComponentTree
-     */
-    public void setTree(ComponentTree tree){
-        this.tree = tree;
-        if(tree != null){
-            this.setSelectedItem(tree.getSelectionPath());
-            this.setRenderer(new UITreeComboBoxRenderer());
-        }
-        this.updateUI();
-    }
-
-    /**
-     * 取得树
-     * @return JTree
-     */
-    public ComponentTree getTree(){
-        return tree;
-    }
-
-    /**
-     * 设置当前选择的树路径
-     * @param o Object
-     */
-    public void setSelectedItem(Object o){
-        tree.setSelectionPath((TreePath)o);
-        getModel().setSelectedItem(o);
-    }
-
-    public void updateUI(){
-        ComboBoxUI cui = (ComboBoxUI)UIManager.getUI(this);
-        if(cui instanceof MetalComboBoxUI){
-            cui = new MetalJTreeComboBoxUI();
-        } else if(cui instanceof MotifComboBoxUI){
-            cui = new MotifJTreeComboBoxUI();
-        } else {
-            cui = new WindowsJTreeComboBoxUI();
-        }
-        setUI(cui);
-    }
-
-    // UI Inner classes -- one for each supported Look and Feel
-    class MetalJTreeComboBoxUI extends MetalComboBoxUI{
-        protected ComboPopup createPopup() {
-            return new TreePopup(comboBox);
-        }
-    }
-
-    class WindowsJTreeComboBoxUI extends WindowsComboBoxUI{
-        protected ComboPopup createPopup() {
-            return new TreePopup(comboBox);
-        }
-    }
-
-    class MotifJTreeComboBoxUI extends MotifComboBoxUI{
-        protected ComboPopup createPopup() {
-            return new TreePopup(comboBox);
-        }
-    }
-
-
-    /**
-     * <p>Title: UITreeComboBoxRenderer</p>
-     * <p>Description: 树形结构而来的DefaultListCellRenderer </p>
-     */
-    class UITreeComboBoxRenderer extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList list, Object value,
-                                                      int index, boolean isSelected, boolean cellHasFocus){
-            if(tree != null && tree.getSelectedTreePath().length > 0){
-                TreePath path = tree.getSelectedTreePath()[0];
-                tree.setAndScrollSelectionPath(path);
-                Object node = path.getLastPathComponent();
-                value = node;
-                TreeCellRenderer r = tree.getCellRenderer();
-                JLabel lb = (JLabel)r.getTreeCellRendererComponent(
-                        tree, value, isSelected, false, false, index,
-                        cellHasFocus);
-                return lb;
-            }
-            return super.getListCellRendererComponent(list, value, index,
-                    isSelected, cellHasFocus);
-        }
-    }
-
-
-    private class TreeComboBoxDesignerEditAdapter implements DesignerEditListener {
-
-        @Override
-        public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-                TreePath[] paths = tree.getSelectedTreePath();
-                if (tree != null && paths.length > 0) {
-                    tree.setAndScrollSelectionPath(paths[0]);
-                    setSelectedItem(paths[0]);
-                    MenuSelectionManager.defaultManager().clearSelectedPath();
-                }
-
-            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-                tree.refreshUI();
-                TreePath[] paths = tree.getSelectedTreePath();
-                if (tree != null && paths.length > 0) {
-                    tree.setAndScrollSelectionPath(paths[0]);
-                    setSelectedItem(paths[0]);
-                    MenuSelectionManager.defaultManager().clearSelectedPath();
-                }
-            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED) {
-                tree.refreshUI();
-                setSelectedItem(null);
-                MenuSelectionManager.defaultManager().clearSelectedPath();
-            } else {
-                tree.refreshUI();
-                repaint();
-            }
-
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return o.getClass() == this.getClass();
-        }
-    }
-
-    /**
-     * 测试
-     */
-//    public static void main(String args[]){
-//        JFrame frame = new JFrame("UITreeComboBox");
-//        final UITreeComboBox box = new UITreeComboBox(new ComponentTree(new FormDesigner()));
-//        box.setPreferredSize(new Dimension(300, 28));
-//        frame.getContentPane().add(box);
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-//    }
-}
-
-/**
- * <p>Title: UITreeComboBox</p>
- * <p>Description: TreePopup</p>
- */
-class TreePopup extends JPopupMenu implements ComboPopup{
-    protected UITreeComboBox comboBox;
-    protected JScrollPane scrollPane;
-
-    protected MouseMotionListener mouseMotionListener;
-    protected MouseListener mouseListener;
-
-
-    public void popupMenu(MouseEvent e) {
-        TreePath path = comboBox.getTree().getSelectionPath();
-        if (path == null) {
-            return;
-        }
-        Component component = (Component) path.getLastPathComponent();
-        if (!(component instanceof XCreator)) {
-            return;
-        }
-        com.fr.design.designer.beans.ComponentAdapter adapter = AdapterBus.getComponentAdapter(comboBox.getTree().getDesigner(), (XCreator) component);
-        JPopupMenu menu = adapter.getContextPopupMenu(e);
-        menu.show(comboBox, e.getX(), e.getY());
-    }
-
-    public TreePopup(JComboBox comboBox){
-        this.comboBox = (UITreeComboBox)comboBox;
-        setLayout(new BorderLayout());
-        setLightWeightPopupEnabled(comboBox.isLightWeightPopupEnabled());
-        JTree tree = this.comboBox.getTree();
-        if(tree != null){
-            scrollPane = new UIScrollPane(tree);
-            scrollPane.setBorder(BorderFactory.createEmptyBorder(0,2,0,0));
-            add(scrollPane, BorderLayout.CENTER);
-        }
-    }
-
-    public void show() {
-        updatePopup();
-        show(comboBox, 0, comboBox.getHeight());
-        comboBox.getTree().requestFocus();
-    }
-
-    public void hide(){
-        setVisible(false);
-        comboBox.firePropertyChange("popupVisible", true, false);
-    }
-
-    protected JList list = new JList();
-    public JList getList(){
-        return list;
-    }
-
-    public MouseMotionListener getMouseMotionListener(){
-        if(mouseMotionListener == null){
-            mouseMotionListener = new MouseMotionAdapter(){};
-        }
-        return mouseMotionListener;
-    }
-
-    public KeyListener getKeyListener(){
-        return null;
-    }
-
-    public void uninstallingUI(){}
-
-    /**
-     * Implementation of ComboPopup.getMouseListener().
+     * 构造函数
      *
-     * @return a <code>MouseListener</code> or null
-     * @see ComboPopup#getMouseListener
+     * @param designer 设计界面组件
+     * @param model 构造JTree的model
      */
-    public MouseListener getMouseListener(){
-        if(mouseListener == null){
-            mouseListener = new InvocationMouseHandler();
-        }
-        return mouseListener;
+    public ComponentTree(FormDesigner designer,ComponentTreeModel model) {
+        this(designer);
+        this.setModel(model);
     }
 
-    protected void togglePopup(){
-        if(isVisible()){
-            hide();
-        } else{
-            show();
+
+
+
+    /**
+     * 是否可编辑
+     * @param path 树路径
+     * @return 是则返回true
+     */
+    @Override
+    public boolean isPathEditable(TreePath path) {
+        Object object = path.getLastPathComponent();
+        if (object == designer.getRootComponent()) {
+            return false;
         }
+        return super.isPathEditable(path);
     }
-    protected void updatePopup(){
-        setPreferredSize(new Dimension(comboBox.getSize().width, 200));
-        Object selectedObj = comboBox.getSelectedItem();
-        if(selectedObj != null){
-            TreePath tp = (TreePath)selectedObj;
-            ((UITreeComboBox)comboBox).getTree().setSelectionPath(tp);
+
+    /**
+     * 将值转换为文本
+     * @param value 值
+     * @param selected 是否选中
+     * @param expanded 扩展
+     * @param leaf 是否叶子
+     * @param row 行
+     * @param hasFocus 是否焦点
+     *
+     * @return 返回文本
+     */
+    @Override
+    public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+        if (value != null && value instanceof XCreator) {
+            return ((XCreator) value).toData().getWidgetName();
+        } else {
+            return super.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
         }
     }
 
-    protected class InvocationMouseHandler extends MouseAdapter{
-        public void mousePressed(MouseEvent e){
-            if(!SwingUtilities.isLeftMouseButton(e) || !comboBox.isEnabled()){
-                return;
+    public void setAndScrollSelectionPath(TreePath treepath) {
+        setSelectionPath(treepath);
+        scrollPathToVisible(treepath);
+    }
+
+//    private void popupMenu(MouseEvent e) {
+//        TreePath path = this.getSelectionPath();
+//        if (path == null) {
+//            return;
+//        }
+//        Component component = (Component) path.getLastPathComponent();
+//        if (!(component instanceof XCreator)) {
+//            return;
+//        }
+//        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
+//        JPopupMenu menu = adapter.getContextPopupMenu(e);
+//        menu.show(this, e.getX(), e.getY());
+//    }
+
+    /**
+     * 刷新
+     */
+    public void refreshUI() {
+        updateUI();
+    }
+
+
+
+
+
+    public TreePath[] getSelectedTreePath() {
+        XCreator[] creators = designer.getSelectionModel().getSelection().getSelectedCreators();
+        TreePath[] paths = new TreePath[creators.length];
+
+        for (int i = 0; i < paths.length; i++) {
+            paths[i] = buildTreePath(creators[i]);
+        }
+        return paths;
+    }
+
+
+
+
+    /**
+     *搜索指定名称的路径
+     *
+     * @param text 名称
+     * @return 树路径
+     */
+    public TreePath[] search(String text) {
+        if (StringUtils.isNotEmpty(text)) {
+            text = text.toLowerCase();
+        }
+        ArrayList<XCreator> searchList = new ArrayList<XCreator>();
+        XLayoutContainer root = designer.getRootComponent();
+        searchFormRoot(root, searchList, text);
+        TreePath[] paths = new TreePath[searchList.size()];
+
+        for (int i = 0; i < paths.length; i++) {
+            paths[i] = buildTreePath(searchList.get(i));
+        }
+        if(paths.length > 0) {
+            setAndScrollSelectionPath(paths[0]);
+        } else {
+            setSelectionPath();
+        }
+        return paths;
+    }
+
+
+    private void  setSelectionPath(){
+
+        /**
+         * 不让传null参数，所以只有自己定义
+         */
+        super.setSelectionPath(null);
+        clearSelection();
+    }
+
+    private void searchFormRoot(XLayoutContainer container, ArrayList<XCreator> searchList, String text) {
+        if (StringUtils.isEmpty(text)) {
+            return;
+        }
+        for (int i = 0, size = container.getXCreatorCount(); i < size; i++) {
+            XCreator creator = container.getXCreator(i);
+            String xName = creator.toData().getWidgetName();
+            if (xName.toLowerCase().contains(text)) {
+                searchList.add(creator);
             }
-            if(comboBox.isEditable()){
-                Component comp = comboBox.getEditor().getEditorComponent();
-                if((!(comp instanceof JComponent)) ||
-                        ((JComponent)comp).isRequestFocusEnabled()){
-                    comp.requestFocus();
-                }
-            } else if(comboBox.isRequestFocusEnabled()){
-                comboBox.requestFocus();
-            }
-            togglePopup();
-        }
-
-        public void mouseClicked (MouseEvent e){
-            if (e.isMetaDown()) {
-                popupMenu(e);
-            } else {
-                return;
+            if (creator instanceof XLayoutContainer) {
+                searchFormRoot((XLayoutContainer) creator, searchList, text);
             }
         }
     }
 
+    /**
+     * 触发
+     */
+    public void fireTreeChanged() {
+        designer.refreshDesignerUI();
+    }
 
+    /**
+     * 刷新
+     */
+    public void refreshTreeRoot() {
+        model = new ComponentTreeModel(designer, designer.getTopContainer());
+        setModel(model);
+        setDragEnabled(false);
+        setDropMode(DropMode.ON_OR_INSERT);
+        setTransferHandler(new TreeTransferHandler());
+        repaint();
+    }
 
+    private TreePath buildTreePath(Component comp) {
+        ArrayList<Component> path = new ArrayList<Component>();
+        Component parent = comp;
+
+        while (parent != null) {
+            XCreator creator = (XCreator) parent;
+            path.add(0, parent);
+            if (creator != comp ) {
+                creator.notShowInComponentTree(path);
+            }
+            //绝对布局作为body的时候不显示自适应布局父层
+            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)
+                    && (parent.getParent() != null)
+                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
+                parent = parent.getParent().getParent();
+                continue;
+            }
+            parent = parent.getParent();
+        }
+        Object[] components = path.toArray();
+        return new TreePath(components);
+    }
 }
