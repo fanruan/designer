@@ -241,12 +241,14 @@ public class ComponentTree extends JTree {
                 creator.notShowInComponentTree(path);
             }
             //绝对布局作为body的时候不显示自适应布局父层
-            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)
-                    && (parent.getParent() != null)
-                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
-                parent = parent.getParent().getParent();
-                continue;
+            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)) {
+                if ((parent.getParent() != null)
+                        && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
+                    parent = parent.getParent().getParent();
+                    continue;
+                }
             }
+
             parent = parent.getParent();
         }
         Object[] components = path.toArray();
