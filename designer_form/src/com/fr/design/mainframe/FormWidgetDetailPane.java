@@ -49,8 +49,6 @@ public class FormWidgetDetailPane extends FormDockView{
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
     private ElCaseBindInfo[] elCaseBindInfoList;
-    private UIButton downloadButton;
-    private UIButton refreshButton;
     private UIButton deleteButton;
     private UIButton resetButton;
     private JPanel editPanel;
@@ -149,7 +147,7 @@ public class FormWidgetDetailPane extends FormDockView{
         menutPanel.add(new UILabel(Inter.getLocText("FR-Designer_LocalWidget"),
                 SwingConstants.HORIZONTAL), BorderLayout.WEST);
 
-        menutPanel.add(initButtonPane(), BorderLayout.EAST);
+        menutPanel.add(initEditButtonPane(), BorderLayout.EAST);
         menutPanel.add(new JPanel(), BorderLayout.CENTER);
         comboBox = new UIComboBox(getFormCategories());
         comboBox.setPreferredSize(new Dimension(240, 30));
@@ -162,7 +160,7 @@ public class FormWidgetDetailPane extends FormDockView{
     /**
      * 创建菜单栏按钮面板
      */
-    private JPanel initButtonPane() {
+    private JPanel initEditButtonPane() {
         editPanel = new JPanel();
         editPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
         editPanel.add(createRefreshButton(), BorderLayout.WEST);
@@ -217,7 +215,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 创建刷新按钮
      */
     private UIButton createRefreshButton() {
-        refreshButton = new UIButton();
+        UIButton refreshButton = new UIButton();
         refreshButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/refresh.png"));
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_Refresh"));
         refreshButton.set4ToolbarButton();
@@ -248,7 +246,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 创建下载模板的按钮
      */
     private UIButton createDownloadButton() {
-        downloadButton = new UIButton();
+        UIButton downloadButton = new UIButton();
         downloadButton.setIcon(BaseUtils.readIcon("/com/fr/design/form/images/showmenu.png"));
         downloadButton.set4ToolbarButton();
         downloadButton.setToolTipText(Inter.getLocText("FR-Designer_Download_Template"));
@@ -350,7 +348,8 @@ public class FormWidgetDetailPane extends FormDockView{
             menutPanel.add(initResetButtonPane(), BorderLayout.EAST);
         } else {
             menutPanel.remove(resetPanel);
-            menutPanel.add(initButtonPane(), BorderLayout.EAST);
+            menutPanel.add(initEditButtonPane(), BorderLayout.EAST);
+            ShareLoader.getLoader().resetRemovedModuleList();
         }
 
 
