@@ -49,12 +49,12 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		label.setText(Inter.getLocText("Following_parameters_are_not_generated")+":");
+		label.setText(Inter.getLocText("FR-Following_parameters_are_not_generated")+":");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
 		this.add(label);
 
-		addAll = new UIButton(Inter.getLocText("Add-all"));
+		addAll = new UIButton(Inter.getLocText("FR-Designer_Add_all"));
 		this.add(addAll);
 
 	}
