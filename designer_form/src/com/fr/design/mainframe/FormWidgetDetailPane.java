@@ -19,6 +19,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.stable.ArrayUtils;
@@ -257,11 +258,9 @@ public class FormWidgetDetailPane extends FormDockView{
                 UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
                 UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"));
                 UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"));
-
                 menu.add(downloadItem);
                 menu.add(installItem);
                 menu.add(deleteItem);
-
                 downloadItem.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -291,7 +290,7 @@ public class FormWidgetDetailPane extends FormDockView{
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                         fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new JLabel(), Inter.getLocText("FR-Designer_Select"));
+                        int returnValue = fileChooser.showDialog(new UILabel(), Inter.getLocText("FR-Designer_Select"));
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);
@@ -364,7 +363,7 @@ public class FormWidgetDetailPane extends FormDockView{
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
 
     }
