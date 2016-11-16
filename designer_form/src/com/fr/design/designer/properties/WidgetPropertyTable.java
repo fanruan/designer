@@ -21,6 +21,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.general.ComparatorUtils;
 
 public class WidgetPropertyTable extends AbstractPropertyTable {
 
@@ -71,7 +72,7 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		if (size == 0 || size == 1) {
 			XCreator creator = size == 0 ? designer.getRootComponent() : designer.getSelectionModel().getSelection()
 					.getSelectedCreator();
-			if (designer.isRoot(creator)) {
+			if (ComparatorUtils.equals(creator, designer.getRootComponent())) {
 				groups = designer.getDesignerMode().createRootDesignerPropertyGroup();
 			} else {
 				groups = getCreatorPropertyGroup(designer, creator);

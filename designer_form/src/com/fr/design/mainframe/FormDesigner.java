@@ -186,14 +186,14 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public void refreshParameter(){
         XLayoutContainer rootContainer = this.getParaComponent();
         if (rootContainer != null){
-        java.util.List<String> namelist = new ArrayList<String>();
-        rootContainer.getAllXCreatorNameList(rootContainer,namelist);
-        // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
-        // 与已有的参数列表比较 如果已经存在 就除去
-        Parameter[] ps = getParameterArray();
-        if (ps != null) {
-            removeSame(ps, namelist);
-        }
+            java.util.List<String> namelist = new ArrayList<String>();
+            rootContainer.getAllXCreatorNameList(rootContainer,namelist);
+            // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
+            // 与已有的参数列表比较 如果已经存在 就除去
+            Parameter[] ps = getParameterArray();
+            if (ps != null) {
+                removeSame(ps, namelist);
+            }
         }
         ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
                 getParameterArray() == null ? new Parameter[0] : getParameterArray());
@@ -853,7 +853,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 是则返回true
      */
     public boolean isRoot(XCreator comp) {
-        return comp == rootComponent;
+        return comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class);
     }
 
     // 计算鼠标事件e所发生的位置相对根组件的位置关系
