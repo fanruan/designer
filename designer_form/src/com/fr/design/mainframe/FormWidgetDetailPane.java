@@ -58,6 +58,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private static final int OFFSET_X = 140;
     private static final int OFFSET_Y = 26;
     private SwingWorker sw;
+    //组件面板是否可以编辑
+    private boolean isEdit;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -133,6 +135,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化组件共享和复用面板
      */
     private void initReuWidgetPanel() {
+        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         downPane = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, false));
         reuWidgetPanel.add(downPane);
     }
@@ -199,6 +202,7 @@ public class FormWidgetDetailPane extends FormDockView{
         comboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                ShareLoader.getLoader().resetRemovedModuleList();
                 int filterIndex = comboBox.getSelectedIndex();
                 if (filterIndex == 0) {
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
@@ -206,7 +210,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     String filterName = comboBox.getSelectedItem().toString();
                     elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
                 }
-                refreshDownPanel(false);
+                refreshDownPanel(isEdit);
 
             }
         });
@@ -331,6 +335,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
+                    comboBox.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
                 }
@@ -342,6 +347,7 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     private void replaceButtonPanel(boolean isEdit) {
+        this.isEdit = isEdit;
         if (isEdit) {
             menutPanel.remove(editPanel);
             menutPanel.add(initResetButtonPane(), BorderLayout.EAST);
@@ -360,6 +366,7 @@ public class FormWidgetDetailPane extends FormDockView{
             refreshShareMoudule();
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
             refreshDownPanel(false);
+            comboBox.setSelectedIndex(0);
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
