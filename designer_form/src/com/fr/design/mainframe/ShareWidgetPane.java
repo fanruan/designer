@@ -14,15 +14,16 @@ public class ShareWidgetPane extends JPanel {
 
     public ShareWidgetPane(ElCaseBindInfo[] elCaseBindInfoList, boolean isEdit) {
         this.setBorder(BorderFactory.createEmptyBorder(10, 3, 0, 0));// 设置面板的边框 ，距离上、左、下、右 的距离
-        int rowCount = (elCaseBindInfoList.length + 1) / 2;
-        this.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
-        for (ElCaseBindInfo rbModuleInfo : elCaseBindInfoList) {
-            ShareWidgetButton widgetButton = new ShareWidgetButton(rbModuleInfo);
-            widgetButton.setElementCaseEdit(isEdit);
-            this.add(widgetButton);
+        if (elCaseBindInfoList != null) {
+            int rowCount = (elCaseBindInfoList.length + 1) / 2;
+            this.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
+            for (ElCaseBindInfo rbModuleInfo : elCaseBindInfoList) {
+                ShareWidgetButton widgetButton = new ShareWidgetButton(rbModuleInfo);
+                widgetButton.setElementCaseEdit(isEdit);
+                this.add(widgetButton);
+            }
+            this.setPreferredSize(new Dimension(240, rowCount * 80));
         }
-        this.setPreferredSize(new Dimension(240, rowCount * 80));
-
     }
 
 }

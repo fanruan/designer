@@ -2,11 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -19,6 +14,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.stable.StringUtils;
@@ -99,7 +95,6 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
-            elCaseBindInfoList = new ElCaseBindInfo[0];
             if (sw != null) {
                 sw.cancel(true);
             }
@@ -233,7 +228,7 @@ public class FormWidgetDetailPane extends FormDockView{
                         try {
                             Desktop.getDesktop().browse(new URI(url));
                         } catch (IOException exp) {
-                            JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
+                            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
                             FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
                         } catch (URISyntaxException exp) {
                             FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
@@ -309,7 +304,7 @@ public class FormWidgetDetailPane extends FormDockView{
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
 
     }
@@ -318,7 +313,7 @@ public class FormWidgetDetailPane extends FormDockView{
         try {
             ShareLoader.getLoader().refreshModule();
         } catch (Exception e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
     }
 
