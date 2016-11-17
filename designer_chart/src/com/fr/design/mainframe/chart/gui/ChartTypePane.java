@@ -300,8 +300,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 */
 	public void populate(ChartCollection collection) {
 		Chart chart = collection.getSelectedChart();
+		this.remove(leftContentPane);
+		initContentPane();
+		this.removeAttributeChangeListener();
 		buttonPane.populateBean(collection);
 		chartTypePane.populateBean(chart);
+		this.initAllListeners();
 	}
 
 	/**

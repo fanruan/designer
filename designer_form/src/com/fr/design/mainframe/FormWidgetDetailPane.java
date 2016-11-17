@@ -2,11 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -16,7 +11,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.FRLogger;
@@ -105,7 +99,6 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
-            elCaseBindInfoList = new ElCaseBindInfo[0];
             if (sw != null) {
                 sw.cancel(true);
             }
@@ -235,7 +228,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     protected Object doInBackground() throws Exception {
                         ShareLoader.getLoader().refreshModule();
                         elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                        comboBox.setSelectedIndex(0);
+                        refreshComboxData();
                         refreshDownPanel(false);
                         return null;
                     }
@@ -245,6 +238,11 @@ public class FormWidgetDetailPane extends FormDockView{
         });
         return refreshButton;
 
+    }
+
+    private void refreshComboxData() {
+        comboBox.setSelectedIndex(0);
+        comboBox.setModel(new DefaultComboBoxModel(getFormCategories()));
     }
 
     /**
@@ -335,7 +333,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
-                    comboBox.setSelectedIndex(0);
+                    refreshComboxData();
                 } else {
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
                 }
@@ -366,7 +364,7 @@ public class FormWidgetDetailPane extends FormDockView{
             refreshShareMoudule();
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
             refreshDownPanel(false);
-            comboBox.setSelectedIndex(0);
+            refreshComboxData();
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
