@@ -24,6 +24,7 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.collections.array.Array;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -36,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -235,7 +237,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     protected Object doInBackground() throws Exception {
                         ShareLoader.getLoader().refreshModule();
                         elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-                        comboBox.setSelectedIndex(0);
+                        refreshComboxData();
                         refreshDownPanel(false);
                         return null;
                     }
@@ -245,6 +247,11 @@ public class FormWidgetDetailPane extends FormDockView{
         });
         return refreshButton;
 
+    }
+
+    private void refreshComboxData() {
+        comboBox.setSelectedIndex(0);
+        comboBox.setModel(new DefaultComboBoxModel(getFormCategories()));
     }
 
     /**
@@ -335,7 +342,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
-                    comboBox.setSelectedIndex(0);
+                    refreshComboxData();
                 } else {
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
                 }
@@ -366,7 +373,7 @@ public class FormWidgetDetailPane extends FormDockView{
             refreshShareMoudule();
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
             refreshDownPanel(false);
-            comboBox.setSelectedIndex(0);
+            refreshComboxData();
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
