@@ -4,10 +4,12 @@
 
 package com.fr.design.menu;
 
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -710,7 +712,14 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
+
+            // mod by anchore 16/11/16
+            if (Locale.JAPAN.equals(GeneralContext.getLocale())) {
+                return Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"}) + "に" + Inter.getLocText("Allow");
+            } else {
+                return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
+            }
+            //return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
         }
 
         @Override
