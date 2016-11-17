@@ -133,6 +133,7 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化组件共享和复用面板
      */
     private void initReuWidgetPanel() {
+        elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         downPane = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, false));
         reuWidgetPanel.add(downPane);
     }
@@ -331,6 +332,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Successful"));
                     refreshDownPanel(false);
                     replaceButtonPanel(false);
+                    comboBox.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Removed_Failed"));
                 }
@@ -360,6 +362,7 @@ public class FormWidgetDetailPane extends FormDockView{
             refreshShareMoudule();
             elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
             refreshDownPanel(false);
+            comboBox.setSelectedIndex(0);
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
