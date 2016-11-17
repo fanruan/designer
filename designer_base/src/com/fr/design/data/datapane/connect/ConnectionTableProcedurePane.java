@@ -99,15 +99,15 @@ public class ConnectionTableProcedurePane extends BasicPane {
 
 		// 根据环境是否为中文设置不同的显示
 		if (GeneralContext.isChineseEnv()) {
-			first.add(new UILabel(Inter.getLocText("Table"),
+			first.add(new UILabel(Inter.getLocText("FR-Designer_SQL-Table"),
 					BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING));
-			second.add(new UILabel(Inter.getLocText("SQL-View"),
+			second.add(new UILabel(Inter.getLocText("FR-Designer_SQL-View"),
 					BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING));
 		} else {
 			UILabel ui1 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING);
 			UILabel ui2 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING);
-			ui1.setToolTipText(Inter.getLocText("Table"));
-			ui2.setToolTipText(Inter.getLocText("SQL-View"));
+			ui1.setToolTipText(Inter.getLocText("FR-Designer_SQL-Table"));
+			ui2.setToolTipText(Inter.getLocText("FR-Designer_SQL-View"));
 			first.add(ui1);
 			second.add(ui2);
 		}
