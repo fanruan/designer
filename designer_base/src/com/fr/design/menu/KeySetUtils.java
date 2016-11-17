@@ -4,6 +4,7 @@
 
 package com.fr.design.menu;
 
+import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 
@@ -714,10 +715,10 @@ public class KeySetUtils {
         public String getMenuName() {
 
             // mod by anchore 16/11/16
-            if (Locale.JAPAN.equals(GeneralContext.getLocale())) {
-                return Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"}) + "に" + Inter.getLocText("Allow");
+            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
+                return Inter.getLocText(new String[]{"FR-Engine_RP_Authority_Edit", "Allow"});
             } else {
-                return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
+                return Inter.getLocText(new String[]{"Allow", "FR-Engine_RP_Authority_Edit"});
             }
             //return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
         }

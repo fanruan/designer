@@ -415,7 +415,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
 
             // mod by anchore 16/11/16
-            if (Locale.JAPAN.equals(GeneralContext.getLocale())) {
+            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
                 cancelButton.setBounds(250, 90, 80, 25);
             } else {
                 cancelButton.setBounds(180, 90, 80, 25);
