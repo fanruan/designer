@@ -49,7 +49,7 @@ public abstract class AbstractPopBox extends JPanel {
             }
         }
     };
-    
+
     private void showPopupMenu() {
         if (selectPopupWindow != null && selectPopupWindow.isVisible()) {
             hidePopupMenu();
@@ -96,13 +96,14 @@ public abstract class AbstractPopBox extends JPanel {
     }
 
     private void mouseClick(MouseEvent evt) {
-        int x = evt.getLocationOnScreen().x;
-        int y = evt.getLocationOnScreen().y;
-        Rectangle popBoxRect = AbstractPopBox.this.getBounds();
-        Rectangle rectangle = this.getControlWindow().getBounds();
-        boolean b1 = x < rectangle.x || x > rectangle.x + rectangle.width;
-        boolean b2 = y < rectangle.y - popBoxRect.height || y > rectangle.y + rectangle.height;
-        if (b1 || b2) {
+        Point point = new Point((int) (evt.getLocationOnScreen().getX()), (int) evt.getLocationOnScreen().getY());
+        Dimension popBoxD = AbstractPopBox.this.getSize();
+        Point popBoxP = AbstractPopBox.this.getLocationOnScreen();
+        Dimension popMenuD = this.getControlWindow().getSize();
+        Point popMenuP = this.getControlWindow().getLocation();
+        Rectangle popBoxRect = new Rectangle(popBoxP, popBoxD);
+        Rectangle popMenuRect = new Rectangle(popMenuP, popMenuD);
+        if (!popBoxRect.contains(point) && !popMenuRect.contains(point)) {
             this.hidePopupMenu();
         }
     }
