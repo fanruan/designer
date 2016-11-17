@@ -2,11 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -16,7 +11,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.FRLogger;
@@ -24,7 +18,6 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.collections.array.Array;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,7 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -107,7 +99,6 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
-            elCaseBindInfoList = new ElCaseBindInfo[0];
             if (sw != null) {
                 sw.cancel(true);
             }
