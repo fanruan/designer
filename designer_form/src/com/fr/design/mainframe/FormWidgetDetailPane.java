@@ -16,6 +16,7 @@ import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
+import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -359,18 +360,22 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     private void installFromDiskZipFile(File chosenFile) {
-        try {
-            ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile);
-            refreshShareMoudule();
-            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-            refreshDownPanel(false);
-            refreshComboxData();
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
-            FRLogger.getLogger().error(e.getMessage(), e);
+        if (chosenFile != null && chosenFile.getName().endsWith(ShareConstants.SUFFIX_MODULE)) {
+            try {
+                if (ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile)) {
+                    refreshShareMoudule();
+                    elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
+                    refreshDownPanel(false);
+                    refreshComboxData();
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
+                } else {
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
+                FRLogger.getLogger().error(e.getMessage(), e);
+            }
         }
-
     }
 
     private void refreshShareMoudule() {
