@@ -2,11 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.WebManagerPaneFactory;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -99,7 +94,6 @@ public class FormWidgetDetailPane extends FormDockView{
         reuWidgetPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         reuWidgetPanel.setBorder(null);
         if (elCaseBindInfoList == null) {
-            elCaseBindInfoList = new ElCaseBindInfo[0];
             if (sw != null) {
                 sw.cancel(true);
             }
