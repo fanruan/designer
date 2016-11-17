@@ -58,6 +58,8 @@ public class FormWidgetDetailPane extends FormDockView{
     private static final int OFFSET_X = 140;
     private static final int OFFSET_Y = 26;
     private SwingWorker sw;
+    //组件面板是否可以编辑
+    private boolean isEdit;
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -207,7 +209,7 @@ public class FormWidgetDetailPane extends FormDockView{
                     String filterName = comboBox.getSelectedItem().toString();
                     elCaseBindInfoList = ShareLoader.getLoader().getFilterBindInfoList(filterName);
                 }
-                refreshDownPanel(false);
+                refreshDownPanel(isEdit);
 
             }
         });
@@ -344,6 +346,7 @@ public class FormWidgetDetailPane extends FormDockView{
     }
 
     private void replaceButtonPanel(boolean isEdit) {
+        this.isEdit = isEdit;
         if (isEdit) {
             menutPanel.remove(editPanel);
             menutPanel.add(initResetButtonPane(), BorderLayout.EAST);
