@@ -15,6 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ChartDataPane extends AbstractChartAttrPane {
+
+	public static final int LABEL_WIDTH = 85;
+	public static final int LABEL_HEIGHT = 20;
 	
 	protected DataContentsPane contentsPane;
 	protected AttributeChangeListener listener;
