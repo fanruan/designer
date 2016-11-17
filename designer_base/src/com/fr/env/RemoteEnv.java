@@ -2145,6 +2145,6 @@ public class RemoteEnv implements Env {
         } finally {
             StableUtils.deleteFile(zip);
         }
-        return null;
+        return new File[0];
     }
 }
