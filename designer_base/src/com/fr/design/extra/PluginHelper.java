@@ -15,6 +15,7 @@ import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 
@@ -47,6 +48,9 @@ public class PluginHelper {
      * @param p  下载百分比处理
      */
     public static void downloadPluginFile(String id, String username, String password, Process<Double> p) throws Exception {
+        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return;
+        }
         HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();
