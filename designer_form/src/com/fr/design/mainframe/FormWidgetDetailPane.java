@@ -202,6 +202,7 @@ public class FormWidgetDetailPane extends FormDockView{
         comboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                ShareLoader.getLoader().resetRemovedModuleList();
                 int filterIndex = comboBox.getSelectedIndex();
                 if (filterIndex == 0) {
                     elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
