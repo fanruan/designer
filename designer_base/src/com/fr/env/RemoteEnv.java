@@ -1537,6 +1537,7 @@ public class RemoteEnv implements Env {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_resource");
         para.put("resource", mgr.fileName());
+        para.put("class_name", mgr.getClass().getName());
         para.put("current_uid", this.createUserID());
         para.put("currentUsername", this.getUser());
 
