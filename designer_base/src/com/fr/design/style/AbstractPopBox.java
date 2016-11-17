@@ -97,13 +97,13 @@ public abstract class AbstractPopBox extends JPanel {
 
     private void mouseClick(MouseEvent evt) {
         Point point = new Point((int) (evt.getLocationOnScreen().getX()), (int) evt.getLocationOnScreen().getY());
-        Dimension d = AbstractPopBox.this.getSize();
-        Point p = AbstractPopBox.this.getLocationOnScreen();
-        Dimension popBoxD = this.getControlWindow().getSize();
-        Point popBoxP = this.getControlWindow().getLocation();
-        Rectangle rect = new Rectangle(p, d);
+        Dimension popBoxD = AbstractPopBox.this.getSize();
+        Point popBoxP = AbstractPopBox.this.getLocationOnScreen();
+        Dimension popMenuD = this.getControlWindow().getSize();
+        Point popMenuP = this.getControlWindow().getLocation();
         Rectangle popBoxRect = new Rectangle(popBoxP, popBoxD);
-        if (!rect.contains(point) && !popBoxRect.contains(point)) {
+        Rectangle popMenuRect = new Rectangle(popMenuP, popMenuD);
+        if (!popBoxRect.contains(point) && !popMenuRect.contains(point)) {
             this.hidePopupMenu();
         }
     }
