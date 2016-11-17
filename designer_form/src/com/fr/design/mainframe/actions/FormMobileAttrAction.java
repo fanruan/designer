@@ -2,9 +2,14 @@ package com.fr.design.mainframe.actions;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.JTemplateAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.form.mobile.FormMobileAttrPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.form.main.Form;
+import com.fr.general.Inter;
 import com.fr.report.mobile.ElementCaseMobileAttr;
 
 import javax.swing.*;
@@ -35,6 +40,18 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             return;
         }
         final Form formTpl = jf.getTarget();
+        ElementCaseMobileAttr mobileAttr = formTpl.getReportMobileAttr();
+
+        final FormMobileAttrPane mobileAttrPane = new FormMobileAttrPane();
+        mobileAttrPane.populateBean(mobileAttr);
+        BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+            @Override
+            public void doOk() {
+                formTpl.setReportMobileAttr(mobileAttrPane.updateBean());
+                jf.fireTargetModified();
+            }
+        });
+        dialog.setVisible(true);
     }
 
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {
@@ -45,7 +62,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
 
         @Override
         public String getMenuName() {
-            return "移动端属性";
+            return Inter.getLocText("FR-Designer_Mobile-Attr");
         }
 
         @Override
