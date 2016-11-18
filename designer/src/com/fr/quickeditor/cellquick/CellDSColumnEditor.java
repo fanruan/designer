@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class CellDScolumnEditor extends CellQuickEditor {
+public class CellDSColumnEditor extends CellQuickEditor {
     private JPanel dsColumnRegion;
     private JPanel centerPane;
     private SelectedDataColumnPane dataPane;
@@ -55,16 +55,7 @@ public class CellDScolumnEditor extends CellQuickEditor {
         }
     };
 
-    private static CellDScolumnEditor THIS;
-
-    public static final CellDScolumnEditor getInstance() {
-        if (THIS == null) {
-            THIS = new CellDScolumnEditor();
-        }
-        return THIS;
-    }
-
-    private CellDScolumnEditor() {
+    private CellDSColumnEditor() {
         super();
     }
 
@@ -105,6 +96,16 @@ public class CellDScolumnEditor extends CellQuickEditor {
         dataPane.populate(null, cellElement);
         groupPane.populate(cellElement);
         this.validate();
+    }
+
+
+    /**
+     * for 关闭时候释放
+     */
+    public void release () {
+        super.release();
+        dsColumnRegion = null;
+        centerPane = null;
     }
 
 }

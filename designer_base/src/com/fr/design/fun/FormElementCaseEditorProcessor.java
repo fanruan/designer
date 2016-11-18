@@ -6,10 +6,9 @@ import com.fr.stable.fun.mark.Immutable;
 import java.beans.PropertyDescriptor;
 
 /**
- * Created by zhouping on 2015/9/10.
+ * Created by Slpire on 2016/10/28.
  */
 public interface FormElementCaseEditorProcessor extends Immutable {
-
     String MARK_STRING = "PropertyEditor";
 
     int CURRENT_LEVEL = 1;
@@ -29,6 +28,4 @@ public interface FormElementCaseEditorProcessor extends Immutable {
      * @return 返回pc自适应属性值
      */
     int getFitStateInPC(ReportFitAttrProvider fitAttrProvider);
-
-
 }

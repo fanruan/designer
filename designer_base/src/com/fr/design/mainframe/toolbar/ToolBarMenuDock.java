@@ -139,8 +139,29 @@ public abstract class ToolBarMenuDock {
         menuList.add(createHelpMenuDef());
 
         // 添加社区菜单
-        menuList.add(createCommunityMenuDef());
+        addCommunityMenuDef(menuList);
+		
         return menuList.toArray(new MenuDef[menuList.size()]);
+    }
+	
+	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
+        Locale locale = FRContext.getLocale();
+        Locale [] locales =supportCommunityLocales();
+        for(int i = 0; i < locales.length; i++) {
+            if(locale.equals(locales[i])){
+                menuList.add(createCommunityMenuDef());
+                break;
+            }
+        }
+    }
+	
+	public Locale[] supportCommunityLocales() {
+        return new Locale[]{
+                Locale.CHINA,
+                Locale.JAPAN,
+                Locale.TAIWAN,
+                Locale.US,
+        };
     }
 
     public void insertTemplateExtendMenu(ToolBarMenuDockPlus plus, MenuDef[] menuDefs) {

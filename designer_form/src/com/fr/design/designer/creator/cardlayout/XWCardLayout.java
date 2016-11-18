@@ -283,7 +283,7 @@ public class XWCardLayout extends XLayoutContainer {
                     	   }
                        }),
                new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-            		   CardTagWLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+            		   CardTagWLayoutBorderStyleEditor.class).setI18NName(
                        Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                        .setPropertyChangeListener(new PropertyChangeAdapter() {
 

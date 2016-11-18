@@ -319,7 +319,7 @@ public class EditToolBar extends BasicPane {
 		private CardLayout card;
 		private JPanel centerPane;
 		private UICheckBox icon, text, pdf, excelP, excelO, excelS, image, word,
-				flashPrint, pdfPrint, appletPrint, serverPrint, isPopup, isVerify, failSubmit;
+				flashPrint, pdfPrint, appletPrint, serverPrint, isPopup, isVerify, failSubmit, isCurSheet;
 		private UIBasicSpinner count;
 		private Widget widget;
 		private UITextField nameField;
@@ -469,10 +469,12 @@ public class EditToolBar extends BasicPane {
 		private JPanel getSubmitPane() {
 			isVerify = new UICheckBox(Inter.getLocText("Verify-Data_Verify"));
 			failSubmit = new UICheckBox(Inter.getLocText(new String[]{"Verify_Fail", "Still", "Submit"}));
+			isCurSheet = new UICheckBox(Inter.getLocText("FR-Designer-Basic_Only_Submit_Current_Sheet"));
 			JPanel submitPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 			submitPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Form-Button", "Property", "Set"}), null));
 			submitPane.add(isVerify);
 			submitPane.add(failSubmit);
+			submitPane.add(isCurSheet);
 			isVerify.addChangeListener(changeListener);
 			return submitPane;
 		}
@@ -562,6 +564,7 @@ public class EditToolBar extends BasicPane {
 			Submit submit = ((Submit) widget);
 			this.isVerify.setSelected(submit.isVerify());
 			this.failSubmit.setSelected(submit.isFailVerifySubmit());
+			this.isCurSheet.setSelected(submit.isOnlySubmitSelect());
 		}
 		
 		private void populatePDFPrint(){
@@ -624,6 +627,7 @@ public class EditToolBar extends BasicPane {
 			Submit submit = ((Submit) widget);
 			submit.setVerify(this.isVerify.isSelected());
 			submit.setFailVerifySubmit(this.failSubmit.isSelected());
+			submit.setOnlySubmitSelect(this.isCurSheet.isSelected());
 		}
 		
 		private void updatePrint(){

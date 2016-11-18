@@ -121,7 +121,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private static final int H_GAP = 105;
 
     public FormDesigner(Form form) {
-    	this(form, null);
+        this(form, null);
     }
 
     public FormDesigner(Form form, Action switchAction) {
@@ -186,29 +186,30 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public void refreshParameter(){
         XLayoutContainer rootContainer = this.getParaComponent();
         if (rootContainer != null){
-        java.util.List<String> namelist = new ArrayList<String>();
-        rootContainer.getAllXCreatorNameList(rootContainer,namelist);
-        // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
-        // 与已有的参数列表比较 如果已经存在 就除去
-        Parameter[] ps = getParameterArray();
-        if (ps != null) {
-            removeSame(ps, namelist);
-        }
+            java.util.List<String> namelist = new ArrayList<String>();
+            rootContainer.getAllXCreatorNameList(rootContainer,namelist);
+            // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
+            // 与已有的参数列表比较 如果已经存在 就除去
+            Parameter[] ps = getParameterArray();
+            if (ps != null) {
+                removeSame(ps, namelist);
+            }
         }
         ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
                 getParameterArray() == null ? new Parameter[0] : getParameterArray());
         ParameterPropertyPane.getInstance().repaintContainer();
+        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
     }
 
-   private void removeSame(Parameter[] parameters, List<String> namelist){
-       for (Parameter parameter : parameters) {
-           for (String name : namelist) {
-               if (name.equalsIgnoreCase(parameter.getName())) {
-                   setParameterArray((Parameter[]) ArrayUtils.removeElement(getParameterArray(), parameter));
-               }
-           }
-       }
-   }
+    private void removeSame(Parameter[] parameters, List<String> namelist){
+        for (Parameter parameter : parameters) {
+            for (String name : namelist) {
+                if (name.equalsIgnoreCase(parameter.getName())) {
+                    setParameterArray((Parameter[]) ArrayUtils.removeElement(getParameterArray(), parameter));
+                }
+            }
+        }
+    }
 
 
     /**
@@ -404,10 +405,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * 加入参数面板
      */
     public void addParaComponent(){
-    	if (paraComponent != null) {
-    		return ;
-    	}
-    	paraHeight = WBorderLayout.DEFAULT_SIZE;
+        if (paraComponent != null) {
+            return ;
+        }
+        paraHeight = WBorderLayout.DEFAULT_SIZE;
         paraComponent = new XWParameterLayout();
         paraComponent.toData().setWidgetName("para");
         paraComponent.setSize(paraComponent.initEditorSize());
@@ -427,10 +428,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return  父容器
      */
     public Component getTopContainer(){
-    	 if(rootComponent != null){
-    		 // 返回root所在的父容器，非designer
-    	     return LayoutUtils.getTopContainer(rootComponent);
-    	 }
+        if(rootComponent != null){
+            // 返回root所在的父容器，非designer
+            return LayoutUtils.getTopContainer(rootComponent);
+        }
         return  XCreatorUtils.createXCreator(this.getTarget().getContainer());
     }
 
@@ -447,9 +448,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @param height  高度
      */
     public void setParaHeight(int height){
-    	XWBorderLayout container = (XWBorderLayout) getTopContainer();
-    	container.toData().setNorthSize(height);
-    	container.setSize(container.getWidth(), container.getHeight() + height - getParaHeight());
+        XWBorderLayout container = (XWBorderLayout) getTopContainer();
+        container.toData().setNorthSize(height);
+        container.setSize(container.getWidth(), container.getHeight() + height - getParaHeight());
         paraHeight = height;
     }
 
@@ -463,6 +464,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         paraComponent = null;
         formLayoutContainer.setSize(rootComponent.getWidth(), rootComponent.getHeight());
         EastRegionContainerPane.getInstance().replaceDownPane(this.getEastDownPane());
+        //atat
+        //EastRegionContainerPane.getInstance().addTitlePane(ParameterPropertyPane.getInstance(FormDesigner.this));
         //删除后重绘下
         invalidateLayout();
     }
@@ -472,39 +475,39 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @param elementCaseContainer       容器
      */
     public void switchTab(FormElementCaseContainerProvider elementCaseContainer){
-    	if(this.switchAction == null){
-    		return;
-    	}
-    	this.elementCaseContainer = elementCaseContainer;
-    	this.switchAction.actionPerformed(null);
+        if(this.switchAction == null){
+            return;
+        }
+        this.elementCaseContainer = elementCaseContainer;
+        this.switchAction.actionPerformed(null);
     }
 
     public void setElementCaseContainer(FormElementCaseContainerProvider elementCaseContainer){
-    	this.elementCaseContainer = elementCaseContainer;
+        this.elementCaseContainer = elementCaseContainer;
     }
 
     public FormElementCaseProvider getElementCase(){
-    	return this.elementCaseContainer.getElementCase();
+        return this.elementCaseContainer.getElementCase();
     }
 
     public String getElementCaseContainerName(){
-    	return this.elementCaseContainer.getElementCaseContainerName();
+        return this.elementCaseContainer.getElementCaseContainerName();
     }
 
     public void setElementCase(FormElementCaseProvider elementCase){
-    	this.elementCaseContainer.setElementCase(elementCase);
+        this.elementCaseContainer.setElementCase(elementCase);
     }
 
     public void setElementCaseBackground(BufferedImage image){
-    	this.elementCaseContainer.setBackground(image);
+        this.elementCaseContainer.setBackground(image);
     }
 
     public Dimension getElementCaseContainerSize(){
-    	return this.elementCaseContainer.getSize();
+        return this.elementCaseContainer.getSize();
     }
 
     public FormElementCaseContainerProvider getElementCaseContainer(){
-    	return this.elementCaseContainer;
+        return this.elementCaseContainer;
     }
 
     protected FormDesignerModeForSpecial<?> createFormDesignerTargetMode() {
@@ -601,7 +604,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @param width 指定的宽度
      */
     public void updateWidth(int width) {
-       //TODO
+        //TODO
     }
 
     /**
@@ -612,12 +615,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 不返回任何对象
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    	if(rootComponent != null){
-			LayoutUtils.layoutRootContainer(rootComponent);
-		}
-		if(paraComponent != null){
-		  	LayoutUtils.layoutRootContainer(paraComponent);
-		 }
+        if(rootComponent != null){
+            LayoutUtils.layoutRootContainer(rootComponent);
+        }
+        if(paraComponent != null){
+            LayoutUtils.layoutRootContainer(paraComponent);
+        }
         repaint();
         return null;
     }
@@ -637,7 +640,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-            	// 只有选择组件时不触发模版更新，其他都要触发
+                // 只有选择组件时不触发模版更新，其他都要触发
                 if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     FormDesigner.this.fireTargetModified();
                     //bug59192
@@ -699,7 +702,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * 从root组件递归查找x,y所在的组件，注意是正在被设计的组件，因此其name属性必须不为空
      */
     private XCreator xCreatorAt(int x, int y, XCreator root, XCreator[] except) {
-    	if (root == null || !root.isVisible()) {
+        if (root == null || !root.isVisible()) {
             return null;
         }
         x -= root.getX();
@@ -755,21 +758,21 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * 刷新底层容器
      */
     public void refreshRoot() {
-    	// 撤销恢复操作都会refreshRoot，这时候的target.getContainer里的widget会和之前不一样，所以不用root判断来取
-    	XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(this.getTarget().getContainer());
+        // 撤销恢复操作都会refreshRoot，这时候的target.getContainer里的widget会和之前不一样，所以不用root判断来取
+        XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(this.getTarget().getContainer());
         // 布局默认都是1，底层的border改为0，不然没意义
         this.getTarget().getContainer().setMargin(new PaddingMargin(0,0,0,0));
         formLayoutContainer.setBorder(null);
         if (formLayoutContainer.acceptType(XWBorderLayout.class)) {
-        	WBorderLayout borderLayout = (WBorderLayout) formLayoutContainer.toData();
+            WBorderLayout borderLayout = (WBorderLayout) formLayoutContainer.toData();
 
             Widget northWidget = borderLayout.getLayoutWidget(WBorderLayout.NORTH);
-        	Widget centerWidget = borderLayout.getLayoutWidget(WBorderLayout.CENTER);
+            Widget centerWidget = borderLayout.getLayoutWidget(WBorderLayout.CENTER);
             //本身含有，这儿得先清空再加
             formLayoutContainer.removeAll();
 
             refreshNorth(northWidget, formLayoutContainer);
-        	refreshCenter(centerWidget, formLayoutContainer);
+            refreshCenter(centerWidget, formLayoutContainer);
 
         }  else {
             formLayoutContainer.setSize(LARGE_PREFERRED_SIZE);
@@ -778,42 +781,42 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     private void refreshNorth(Widget northWidget, XLayoutContainer formLayoutContainer) {
-    		// 如果没有参数界面, 那么就处理下高度以及参数界面的按钮要点亮
-    		if (northWidget == null) {
-    			paraComponent = null;
-    			paraHeight = 0;
-    			FormParaWidgetPane.getInstance(this);
-    			return;
-    		}
-
-    		XLayoutContainer northContainer = (XLayoutContainer) XCreatorUtils.createXCreator(northWidget);
-    		paraHeight = ((XWBorderLayout)formLayoutContainer).toData().getNorthSize();
-    		paraComponent = northContainer;
-    		northContainer.setSize(0,paraHeight);
-    		formLayoutContainer.add(northContainer, WBorderLayout.NORTH);
-    	}
-
-    	private void refreshCenter(Widget centerWidget, XLayoutContainer formLayoutContainer) {
-    		// 不存在center块, 说明是新建的模板
-    		if (centerWidget == null) {
-    			XLayoutContainer layoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(new WFitLayout("body"));
-    			layoutContainer.setSize(LARGE_PREFERRED_SIZE);
-    			setRootComponent(layoutContainer);
-    			formLayoutContainer.add(rootComponent, WBorderLayout.CENTER);
-    			return;
-    		}
-
-    		XLayoutContainer centerContainer = (XLayoutContainer) XCreatorUtils.createXCreator(centerWidget);
-    		Dimension d = new Dimension();
-    		d.width = ((WFitLayout) centerWidget).getContainerWidth();
-    		d.height = ((WFitLayout) centerWidget).getContainerHeight();
-    		centerContainer.setSize(d);
-    		formLayoutContainer.setSize(d.width, d.height + paraHeight);
-    		setRootComponent(centerContainer);
-    		// 再次打开时，layout下root，有内边距的话组件加上
-    		LayoutUtils.layoutContainer(centerContainer);
-    		formLayoutContainer.add(rootComponent, WBorderLayout.CENTER);
+        // 如果没有参数界面, 那么就处理下高度以及参数界面的按钮要点亮
+        if (northWidget == null) {
+            paraComponent = null;
+            paraHeight = 0;
+            FormParaWidgetPane.getInstance(this);
+            return;
         }
+
+        XLayoutContainer northContainer = (XLayoutContainer) XCreatorUtils.createXCreator(northWidget);
+        paraHeight = ((XWBorderLayout)formLayoutContainer).toData().getNorthSize();
+        paraComponent = northContainer;
+        northContainer.setSize(0,paraHeight);
+        formLayoutContainer.add(northContainer, WBorderLayout.NORTH);
+    }
+
+    private void refreshCenter(Widget centerWidget, XLayoutContainer formLayoutContainer) {
+        // 不存在center块, 说明是新建的模板
+        if (centerWidget == null) {
+            XLayoutContainer layoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(new WFitLayout("body"));
+            layoutContainer.setSize(LARGE_PREFERRED_SIZE);
+            setRootComponent(layoutContainer);
+            formLayoutContainer.add(rootComponent, WBorderLayout.CENTER);
+            return;
+        }
+
+        XLayoutContainer centerContainer = (XLayoutContainer) XCreatorUtils.createXCreator(centerWidget);
+        Dimension d = new Dimension();
+        d.width = ((WFitLayout) centerWidget).getContainerWidth();
+        d.height = ((WFitLayout) centerWidget).getContainerHeight();
+        centerContainer.setSize(d);
+        formLayoutContainer.setSize(d.width, d.height + paraHeight);
+        setRootComponent(centerContainer);
+        // 再次打开时，layout下root，有内边距的话组件加上
+        LayoutUtils.layoutContainer(centerContainer);
+        formLayoutContainer.add(rootComponent, WBorderLayout.CENTER);
+    }
 
 
     protected Insets getOutlineInsets() {
@@ -850,7 +853,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 是则返回true
      */
     public boolean isRoot(XCreator comp) {
-        return comp == rootComponent;
+        return comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class);
     }
 
     // 计算鼠标事件e所发生的位置相对根组件的位置关系
@@ -959,8 +962,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     public void startDraggingComponent(XCreator xCreator, MouseEvent lastPressEvent, int x, int y) {
         // 根据所选择的组件的BeanInfo生成相应的AddingModel
         // AddingModel和StateModel不一样，适合当前选择的组件相关的
-    	int creatorWidth = xCreator.getWidth();
-    	int creatorHeight = xCreator.getHeight();
+        int creatorWidth = xCreator.getWidth();
+        int creatorHeight = xCreator.getHeight();
         this.addingModel = new AddingModel(xCreator, x, y);
         TransferHandler handler = new DesignerTransferHandler(this, addingModel);
         setTransferHandler(handler);
@@ -1004,9 +1007,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
     }
 
-	/**
-	 * 显示权限编辑界面
-	 */
+    /**
+     * 显示权限编辑界面
+     */
     public void showAuthorityEditPane() {
         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setAuthorityMode(true);
         if (isSupportAuthority()) {
@@ -1020,9 +1023,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-	 * 是否支持权限编辑
-	 * @return 是则返回true
-	 */
+     * 是否支持权限编辑
+     * @return 是则返回true
+     */
     public boolean isSupportAuthority() {
         int size = getSelectionModel().getSelection().size();
         XCreator creator = size == 0 ? getRootComponent() : getSelectionModel().getSelection()
@@ -1033,7 +1036,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     protected void setToolbarButtons(boolean flag) {
         //自适应布局和底层都不能删除
-          DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
+        DesignerContext.getDesignerFrame().checkCombineUp(!(isRoot(getSelectionModel().getSelection().getSelectedCreator()) || flag), NAME_ARRAY_LIST);
     }
 
     private void invalidateLayout() {
@@ -1089,7 +1092,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     public Action[] getActions() {
         if (designer_actions == null) {
-           //先把复制粘贴按钮去掉，只留下删除
+            //先把复制粘贴按钮去掉，只留下删除
 //            designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
 //                    new FormDeleteAction(this)};
             designer_actions = new Action[]{new FormDeleteAction(this)};
@@ -1233,7 +1236,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
 
     public ToolBarMenuDockPlus getToolBarMenuDockPlus() {
-    	return StableFactory.getMarkedInstanceObjectFromClass(BaseJForm.XML_TAG, ToolBarMenuDockPlus.class);
+        return StableFactory.getMarkedInstanceObjectFromClass(BaseJForm.XML_TAG, ToolBarMenuDockPlus.class);
     }
 
     /**

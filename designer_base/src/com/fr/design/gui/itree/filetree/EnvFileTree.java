@@ -2,13 +2,11 @@ package com.fr.design.gui.itree.filetree;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.dnd.DnDConstants;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.fr.design.constants.UIConstants;
-import com.fr.design.event.TemplateTreeDragSource;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -74,7 +72,6 @@ public class EnvFileTree extends RefreshableJTree {
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.setEditable(false);
-        new TemplateTreeDragSource(this, DnDConstants.ACTION_COPY);
 	}
 
 	// CellRenderer

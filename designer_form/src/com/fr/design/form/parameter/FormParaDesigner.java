@@ -110,45 +110,48 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 	public void initBeforeUpEdit() {
 		WidgetToolBarPane.getInstance(this);
 		EastRegionContainerPane.getInstance().replaceDownPane(
-                FormWidgetDetailPane.getInstance(this));
+				FormWidgetDetailPane.getInstance(this));
 		if (!BaseUtils.isAuthorityEditing()) {
+			EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(this));
+			EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
 			EastRegionContainerPane.getInstance().replaceUpPane(
 					WidgetPropertyPane.getInstance(this));
 		} else {
+			EastRegionContainerPane.getInstance().removeParameterPane();
 			showAuthorityEditPane();
 		}
 
 	}
 
-    /**
-     * 创建权限编辑面板
-     * @return 面板
-     */
+	/**
+	 * 创建权限编辑面板
+	 * @return 面板
+	 */
 	public AuthorityEditPane createAuthorityEditPane() {
 		return new FormWidgetAuthorityEditPane(this);
 	}
 
-    /**
-     * 内容属性表面板
-     * @return   内容属性表面板
-     */
+	/**
+	 * 内容属性表面板
+	 * @return   内容属性表面板
+	 */
 	public JPanel getEastUpPane() {
 		return WidgetPropertyPane.getInstance(this);
 	}
 
-    /**
-     *   参数属性表
-     * @return    参数属性表
-     */
+	/**
+	 *   参数属性表
+	 * @return    参数属性表
+	 */
 
 	public JPanel getEastDownPane() {
 		return FormWidgetDetailPane.getInstance(this);
 	}
 
-    /**
-     * 权限编辑面板
-     * @return     权限编辑面板
-     */
+	/**
+	 * 权限编辑面板
+	 * @return     权限编辑面板
+	 */
 	public AuthorityEditPane getAuthorityEditPane() {
 		FormWidgetAuthorityEditPane formWidgetAuthorityEditPane = new FormWidgetAuthorityEditPane(this);
 		formWidgetAuthorityEditPane.populateDetials();
@@ -230,7 +233,8 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		}
 		ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
 				p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
-		ParameterPropertyPane.getInstance().repaintContainer();
+		EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
+
 	}
 
 	/**
@@ -244,9 +248,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		return xx.isEmpty();
 	}
 
-    protected void setToolbarButtons(boolean flag) {
-        DesignerContext.getDesignerFrame().checkCombineUp(!flag, NAME_ARRAY_LIST);
-    }
+	protected void setToolbarButtons(boolean flag) {
+		DesignerContext.getDesignerFrame().checkCombineUp(!flag, NAME_ARRAY_LIST);
+	}
 
 	/**
 	 * 看看参数面板中的控件是否有和模板参数同名的
@@ -308,17 +312,17 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		return SearchQueryCreators(rootContainer);
 	}
 
-    /**
-     * 返回复制粘贴删除等动作
-     * @return 同上
-     */
-    public Action[] getActions() {
-        if (designer_actions == null) {
-            designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-                    new FormDeleteAction(this)};
-        }
-        return designer_actions;
-    }
+	/**
+	 * 返回复制粘贴删除等动作
+	 * @return 同上
+	 */
+	public Action[] getActions() {
+		if (designer_actions == null) {
+			designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+					new FormDeleteAction(this)};
+		}
+		return designer_actions;
+	}
 
 	private boolean SearchQueryCreators(XLayoutContainer rootContainer) {
 		boolean b = false;
@@ -350,9 +354,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		ParameterPropertyPane.getInstance().populateBean(p);
 	}
 
-    /**
-     *  初始化
-     */
+	/**
+	 *  初始化
+	 */
 	public void initWidgetToolbarPane() {
 		WidgetToolBarPane.getInstance(this);
 	}
@@ -374,38 +378,38 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		this.refreshRoot();
 	}
 
-    /**
-     * 报表直接判断底层是否是绝对布局
-     * @return 是则返回true
-     */
-    public boolean hasWAbsoluteLayout() {
-        return this.getTarget().getContainer() instanceof WAbsoluteLayout;
-    }
+	/**
+	 * 报表直接判断底层是否是绝对布局
+	 * @return 是则返回true
+	 */
+	public boolean hasWAbsoluteLayout() {
+		return this.getTarget().getContainer() instanceof WAbsoluteLayout;
+	}
 
-    /**
-     * 刷新底层容器
-     */
-    public void refreshRoot() {
-        XLayoutContainer layoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(this.getTarget()
-                .getContainer());
-        if (layoutContainer == null) {
-            layoutContainer = new XWParameterLayout();
-        }
-        layoutContainer.setSize(LARGE_PREFERRED_SIZE);
-        setRootComponent(layoutContainer);
-    }
+	/**
+	 * 刷新底层容器
+	 */
+	public void refreshRoot() {
+		XLayoutContainer layoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(this.getTarget()
+				.getContainer());
+		if (layoutContainer == null) {
+			layoutContainer = new XWParameterLayout();
+		}
+		layoutContainer.setSize(LARGE_PREFERRED_SIZE);
+		setRootComponent(layoutContainer);
+	}
 
-    /**
-     * 是否是报表的参数面板
-     * @return     是
-     */
-    public boolean isFormParaDesigner(){
-        return true;
-    }
+	/**
+	 * 是否是报表的参数面板
+	 * @return     是
+	 */
+	public boolean isFormParaDesigner(){
+		return true;
+	}
 
-    public XLayoutContainer getParaComponent() {
-        return getRootComponent();
-    }
+	public XLayoutContainer getParaComponent() {
+		return getRootComponent();
+	}
 
 	private void paintLinkParameters(Graphics clipg) {
 		Parameter[] paras = DesignModelAdapter.getCurrentModelAdapter().getParameters();
@@ -490,8 +494,8 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 	public void populateRootSize() {
 		((FormParameterUI) getTarget()).setDesignSize(getRootComponent().getSize());
 		if (getParaComponent().acceptType(XWParameterLayout.class)) {
-	        WParameterLayout layout = (WParameterLayout)getParaComponent().toData();
-	        layout.setDesignWidth(getRootComponent().getWidth());
+			WParameterLayout layout = (WParameterLayout)getParaComponent().toData();
+			layout.setDesignWidth(getRootComponent().getWidth());
 		}
 	}
 
@@ -548,12 +552,12 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		return true;
 	}
 
-    /**
-     * 加入参数
-     * @param parameter 参数        c
-     * @param currentIndex 位置   w
-     * @return 是否加入   s
-     */
+	/**
+	 * 加入参数
+	 * @param parameter 参数        c
+	 * @param currentIndex 位置   w
+	 * @return 是否加入   s
+	 */
 	public boolean addingParameter2Editor(Parameter parameter, int currentIndex) {
 		com.fr.form.ui.Label label = new com.fr.form.ui.Label();
 		String name = parameter.getName();
@@ -574,12 +578,12 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 	}
 
 
-    /**
-     * 加入参数
-     * @param parameter 参数        c
-     * @param currentIndex 位置   w
-     * @return 是否加入   s
-     */
+	/**
+	 * 加入参数
+	 * @param parameter 参数        c
+	 * @param currentIndex 位置   w
+	 * @return 是否加入   s
+	 */
 	public boolean addingParameter2EditorWithQueryButton(Parameter parameter, int currentIndex) {
 		com.fr.form.ui.Label label = new com.fr.form.ui.Label();
 		String name = parameter.getName();
@@ -608,12 +612,12 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		return true;
 	}
 
-    /**
-     * 加入参数
-     * @param parameterArray  参数        c
-     * @param currentIndex 位置   w
-     * @return 是否加入   s
-     */
+	/**
+	 * 加入参数
+	 * @param parameterArray  参数        c
+	 * @param currentIndex 位置   w
+	 * @return 是否加入   s
+	 */
 	public void addingAllParameter2Editor(Parameter[] parameterArray, int currentIndex) {
 		for (int i = 0; i < parameterArray.length; i++) {
 			com.fr.form.ui.Label label = new com.fr.form.ui.Label();
@@ -666,18 +670,18 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 		return true;
 	}
 
-    /**
-     * 工具栏
-     * @return 工具栏面板      g
-     */
+	/**
+	 * 工具栏
+	 * @return 工具栏面板      g
+	 */
 	public JPanel[] toolbarPanes4Form() {
 		return new JPanel[]{FormParaPane.getInstance(this)};
 	}
 
-    /**
-     * 复制等按钮
-     * @return 按钮组 a
-     */
+	/**
+	 * 复制等按钮
+	 * @return 按钮组 a
+	 */
 	public JComponent[] toolBarButton4Form() {
 		return new JComponent[]{new CutAction(this).createToolBarComponent(), new CopyAction(this).createToolBarComponent(), new PasteAction(this).createToolBarComponent(),
 				new FormDeleteAction(this).createToolBarComponent()};

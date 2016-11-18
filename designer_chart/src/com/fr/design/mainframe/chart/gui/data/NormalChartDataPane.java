@@ -133,4 +133,5 @@ public class NormalChartDataPane extends DataContentsPane {
 	public void setSupportCellData(boolean supportCellData) {
 		dataPane.justSupportOneSelect(supportCellData);
 	}
+
 }

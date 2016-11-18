@@ -1,28 +1,23 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.Format;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.style.FormatPane;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
-import com.fr.design.style.FormatPane;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.Format;
 
 /**
  * 数据点提示内容面板，包含系列值、系列百分比
@@ -58,7 +53,7 @@ public class TooltipContentsPane extends BasicPane{
 
 	protected JPanel createJPanel4Value() {
 		if (showValueCB == null) {
-			showValueCB = new UICheckBox(Inter.getLocText("Value"));
+			showValueCB = new UICheckBox(getValueString());
 		}
 		showValueCB.setSelected(true);
 
@@ -75,7 +70,9 @@ public class TooltipContentsPane extends BasicPane{
 		return valuePane;
 	}
 
-
+	protected String getValueString() {
+		return Inter.getLocText("Value");
+	}
 
 	protected Component[] createComponents4PercentValue() {
 		if (showPercent == null) {

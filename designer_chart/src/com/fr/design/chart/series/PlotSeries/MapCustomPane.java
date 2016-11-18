@@ -194,8 +194,13 @@ refreshAreaNameBox();
 		}
 		List<String> columnNameList = tableDataWrappe.calculateColumnNameList();
 
+		Object oldSelected = areaString.getSelectedItem();
 		areaString.removeAllItems();
-		areaString.setItemList(columnNameList);
+
+		for(String item : columnNameList) {
+			areaString.addItem(item);
+		}
+		areaString.getModel().setSelectedItem(oldSelected);
 	}
 
     /**

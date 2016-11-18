@@ -39,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TableDataTreePane extends BasicTableDataTreePane {
@@ -138,6 +139,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         populate(new TableDataSourceOP(tc));
         this.checkButtonEnabled();
     }
+
     protected void initbuttonGroup() {
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
@@ -266,5 +268,32 @@ public class TableDataTreePane extends BasicTableDataTreePane {
      */
     public TableDataTree getDataTree() {
         return dataTree;
+    }
+
+    /**
+     * 合并数据集
+     * @param srcName 数据集来源(比如报表块，就是报表块的名称)
+     * @param tableDataSource 数据集
+     */
+    public void addTableData(String srcName, TableDataSource tableDataSource) {
+        allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
+        DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
+        TableDataSource tds = tc.getBook();
+        Iterator tdIterator = tableDataSource.getTableDataNameIterator();
+        while (tdIterator.hasNext()) {
+            String tdName = (String) tdIterator.next();
+            TableData td = tableDataSource.getTableData(tdName);
+            if (tds.getTableData(tdName) != null || isDsNameRepeaded(tdName)) {//如果有同名的就拼上来源名称
+                tdName = srcName + tdName;
+            }
+            int i = 0;
+            while (tds.getTableData(tdName) != null) {
+                i++;//如果拼上名字后依然已经存在就加编号
+                tdName += i;
+            }
+            tds.putTableData(tdName, td);
+        }
+        tc.parameterChanged();
+        dataTree.refresh();
     }
 }

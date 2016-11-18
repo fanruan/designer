@@ -46,8 +46,8 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] rowSize = { p, p, p};
 		
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(CATENAME), getSingCatePane()},
-				new Component[]{new UILabel(NVALUE), singValuePane = new TinyFormulaPane()},
+				new Component[]{new UILabel(getCateNameString(), SwingConstants.RIGHT), getSingCatePane()},
+				new Component[]{new UILabel(getNValueString(), SwingConstants.RIGHT), singValuePane = new TinyFormulaPane()},
 				new Component[]{null, null}
 		};
 		
@@ -65,6 +65,14 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, cs);
 		
 		this.add(pane, BorderLayout.CENTER);
+	}
+
+	protected String getCateNameString() {
+		return CATENAME;
+	}
+
+	protected String getNValueString() {
+		return NVALUE;
 	}
 	
 	public void populateBean(ChartCollection collection) {

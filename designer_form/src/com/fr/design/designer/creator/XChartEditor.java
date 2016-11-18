@@ -2,26 +2,21 @@ package com.fr.design.designer.creator;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 
 import javax.swing.*;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.designer.beans.events.DesignerEditor;
-import com.fr.form.ui.AbstractBorderStyleWidget;
 import com.fr.form.ui.BaseChartEditor;
 import com.fr.form.ui.Widget;
 import com.fr.design.form.util.XCreatorConstants;
@@ -91,7 +86,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-                        WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+                        WLayoutBorderStyleEditor.class).setI18NName(
                         Inter.getLocText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -237,7 +232,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 			editor.setLayout(null);
 			editor.setOpaque(false);
 
-			coverPanel = new CoverReportPane();
+			coverPanel = new CoverPane();
 			coverPanel.setPreferredSize(this.getPreferredSize());
 			coverPanel.setBounds(this.getBounds());
 

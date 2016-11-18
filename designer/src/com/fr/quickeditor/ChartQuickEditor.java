@@ -16,29 +16,17 @@ import com.fr.design.selection.QuickEditor;
 import java.awt.*;
 
 public class ChartQuickEditor extends QuickEditor<TargetComponent>{
-	private static ChartQuickEditor THIS;
-
     // kunsnat: editingPropertyPane初始化  避开设计器启动, 在用到的时候再初始化.
-	private BaseChartPropertyPane editingPropertyPane = null;
-	
-	public static final ChartQuickEditor getInstance() {
-		if(THIS == null) {
-			THIS = new ChartQuickEditor();
-		}
-		return THIS;
-	}
+	//private BaseChartPropertyPane editingPropertyPane = null;
 
-	private ChartQuickEditor() {
+	public ChartQuickEditor() {
 		setLayout(new BorderLayout());
 		setBorder(null);
 	}
 
 	@Override
 	protected void refresh() {
-		if(editingPropertyPane != null) {
-			remove(editingPropertyPane);
-		}
-		
+		BaseChartPropertyPane editingPropertyPane = null;
 		BaseChartCollection collection = null;
 		if(tc instanceof PolyDesigner) {
 			ChartBlockEditor chartBlockEditor = (ChartBlockEditor)((PolyDesigner)tc).getSelection().getEditor();

@@ -68,11 +68,11 @@ public class LoginWebBridge {
 
     public static com.fr.design.extra.LoginWebBridge getHelper() {
         if (helper != null) {
-                return helper;
+            return helper;
         }
         synchronized (com.fr.design.extra.LoginWebBridge.class) {
             if (helper == null) {
-                    helper = new com.fr.design.extra.LoginWebBridge();
+                helper = new com.fr.design.extra.LoginWebBridge();
             }
             return helper;
         }
@@ -118,14 +118,13 @@ public class LoginWebBridge {
         if(!StringUtils.isEmpty(this.userName)){
             updateMessageCount();
         }
-        DesignerEnvManager.getEnvManager().setBBSName(userName);
         this.userName = userName;
     }
 
     /**
      * 定时取后台论坛消息
      */
-    private void updateMessageCount(){
+    public void updateMessageCount(){
         //启动获取消息更新的线程
         //登陆状态, 根据存起来的用户名密码, 每1分钟发起一次请求, 更新消息条数.
         Thread updateMessageThread = new Thread(new Runnable() {
@@ -171,7 +170,7 @@ public class LoginWebBridge {
         }
         this.messageCount = count;
         StringBuilder sb = new StringBuilder();
-        sb.append(StringUtils.BLANK).append(this.userName)
+        sb.append(StringUtils.BLANK).append(DesignerEnvManager.getEnvManager().getBBSName())
                 .append("(").append(this.messageCount)
                 .append(")").append(StringUtils.BLANK);
         DesignerEnvManager.getEnvManager().setInShowBBsName(sb.toString());
@@ -244,7 +243,7 @@ public class LoginWebBridge {
      * @param uiLabel 两边的label显示
      * @return 登录信息标志
      */
-    private String login(String username, String password, UILabel uiLabel) {
+    public String login(String username, String password, UILabel uiLabel) {
         if (!StringUtils.isNotBlank(username) && !StringUtils.isNotBlank(password)) {
             return LOGIN_INFO_EMPTY;
         }
@@ -253,7 +252,7 @@ public class LoginWebBridge {
         }
         String loginResult = login(username, password);
         if (loginResult.equals(LOGININ)) {
-            updateUserInfo(username, password);
+            updateUserInfo(username);
             loginSuccess(username, uiLabel);
             setUserName(username, uiLabel);
         }
@@ -275,10 +274,7 @@ public class LoginWebBridge {
      * @param username 用户名
      * @param password 密码
      */
-    public void updateUserInfo(String username,String password) {
-        DesignerEnvManager.getEnvManager().setBBSName(username);
-        DesignerEnvManager.getEnvManager().setBBSPassword(password);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(username);
+    public void updateUserInfo(String username) {
         this.userName = username;
     }
 
@@ -309,7 +305,7 @@ public class LoginWebBridge {
         });
     }
 
-    public String login(String username, String password) {
+    private String login(String username, String password) {
         try {
             Client uc = new Client();
             String result = uc.uc_user_login(username, password);
@@ -319,6 +315,9 @@ public class LoginWebBridge {
                 int $uid = Integer.parseInt(list.get(0));
                 if ($uid > 0) {
                     DesignerEnvManager.getEnvManager().setBbsUid($uid);
+                    DesignerEnvManager.getEnvManager().setBBSName(username);
+                    DesignerEnvManager.getEnvManager().setInShowBBsName(username);
+                    DesignerEnvManager.getEnvManager().setBBSPassword(password);
                     return LOGININ;//登录成功，0
                 } else if ($uid == -1) {
                     return USERNAME_NOT_EXSIT;//用户名不存在，-1

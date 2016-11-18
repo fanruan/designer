@@ -1,17 +1,19 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.*;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.Icon;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -20,7 +22,6 @@ import java.awt.dnd.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -32,46 +33,98 @@ import java.io.Serializable;
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
     private ElCaseBindInfo bindInfo;
     private MouseEvent lastPressEvent;
+    private JPanel reportPane;
+    private boolean isEdit;
+    private boolean isMarked;
+    private Icon markedMode = IOUtils.readIcon("/com/fr/design/form/images/marked.png");
+    private Icon unMarkedMode = IOUtils.readIcon("/com/fr/design/form/images/unmarked.png");
+    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 60 / 100.0F);
+    private JComponent markedButton = new JComponent() {
+        protected void paintComponent(Graphics g) {
+            markedMode.paintIcon(this, g, 0, 0);
+        }
+    };
+    private JComponent unMarkedButton = new JComponent() {
+        protected void paintComponent(Graphics g) {
+            unMarkedMode.paintIcon(this, g, 0, 0);
+        }
+    };
 
     public ShareWidgetButton(ElCaseBindInfo bindInfo) {
         this.bindInfo = bindInfo;
+        this.setPreferredSize(new Dimension(108, 68));
         initUI();
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        this.setLayout(getCoverLayout());
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         new DragAndDropDragGestureListener(this, DnDConstants.ACTION_COPY_OR_MOVE);
     }
 
-
-    private void initUI() {
-        this.setBackground(Color.WHITE);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        setPreferredSize(new Dimension(110, 70));
-        setLayout(FRGUIPaneFactory.createBorderLayout());
-        ImagePanel imagePanel = new ImagePanel((BufferedImage) bindInfo.getCover());
-
-        this.add(imagePanel, BorderLayout.NORTH);
-        JPanel panel = new JPanel();
-        UILabel label = new UILabel(bindInfo.getName(), SwingConstants.HORIZONTAL);
-        panel.setBackground(new Color(184, 220, 242));
-        panel.add(label);
-        this.add(panel, BorderLayout.SOUTH);
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        Composite oldComposite = g2d.getComposite();
+        g2d.setComposite(composite);
+        g2d.setColor(Color.white);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.setComposite(oldComposite);
+        super.paint(g);
     }
 
-    private class ImagePanel extends JPanel {
-
-        private BufferedImage image;
-
-        public ImagePanel(BufferedImage image) {
-            this.image = image;
-            this.setPreferredSize(new Dimension(110, 50));
+    public void setElementCaseEdit(boolean isEdit) {
+        this.isEdit = isEdit;
+        if (isEdit) {
+            this.add(unMarkedButton, 0);
+            repaint();
         }
 
-        @Override
-        public void paintComponent(Graphics g) {
-            g.drawImage(image, 0, 0, 110, 70, null);
-        }
 
+    }
+
+    private void initUI() {
+
+        reportPane = new JPanel(new BorderLayout());
+        reportPane.add(new UILabel(new ImageIcon(bindInfo.getCover())), BorderLayout.CENTER);
+        JPanel labelPane = new JPanel(new BorderLayout());
+        UILabel label = new UILabel(bindInfo.getName(), UILabel.CENTER);
+        labelPane.setBackground(new Color(184, 220, 242));
+        labelPane.add(label, BorderLayout.CENTER);
+        reportPane.add(labelPane, BorderLayout.SOUTH);
+        add(reportPane);
+    }
+
+    protected LayoutManager getCoverLayout() {
+        return new LayoutManager() {
+
+            @Override
+            public void removeLayoutComponent(Component comp) {
+            }
+
+            @Override
+            public Dimension preferredLayoutSize(Container parent) {
+                return parent.getPreferredSize();
+            }
+
+            @Override
+            public Dimension minimumLayoutSize(Container parent) {
+                return null;
+            }
+
+            @Override
+            public void layoutContainer(Container parent) {
+                int width = parent.getWidth();
+                int height = parent.getHeight();
+                markedButton.setBounds((width - 25), 0, 25, 25);
+                unMarkedButton.setBounds((width - 25), 0, 25, 25);
+                reportPane.setBounds(0, 0, width, height);
+
+
+
+            }
+
+            @Override
+            public void addLayoutComponent(String name, Component comp) {
+            }
+        };
     }
 
     public ElCaseBindInfo getBindInfo() {
@@ -82,9 +135,25 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         this.bindInfo = bindInfo;
     }
 
+    public String getFileName() {
+        return  bindInfo.getName() +"." + bindInfo.getId() + ShareConstants.SUFFIX_MODULE;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (isEdit) {
+            if (isMarked) {
+                remove(markedButton);
+                ShareLoader.getLoader().removeModuleForList(getFileName());
+                isMarked = false;
+            } else {
+                add(markedButton,0);
+                ShareLoader.getLoader().addModuleToList(getFileName());
+                isMarked = true;
+            }
+        }
 
+        repaint();
     }
 
     @Override

@@ -49,8 +49,8 @@ public class ChartSwitchPane extends AbstractAttrNoScrollPane{
 						
 						if(currentChartEditPane != null) {
 							currentChartEditPane.populate(editingChartCollection);// 选中新Plot之后 刷新对应界面, 比如超级链接等, 然后才能update.
-							currentChartEditPane.GoToPane(PaneTitleConstants.CHART_TYPE_TITLE);
-							currentChartEditPane.GoToPane(PaneTitleConstants.CHART_OTHER_TITLE, PaneTitleConstants.CHART_OTHER_TITLE_CHANGE);
+							currentChartEditPane.gotoPane(PaneTitleConstants.CHART_TYPE_TITLE);
+							currentChartEditPane.gotoPane(PaneTitleConstants.CHART_OTHER_TITLE, PaneTitleConstants.CHART_OTHER_TITLE_CHANGE);
 							currentChartEditPane.fire();
 						}
 					}

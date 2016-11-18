@@ -210,8 +210,6 @@ public class LocalePane extends BasicPane {
     /**
 	 * 保存当前编辑的国际化
 	 * 
-	 *
-	 * @date 2014-9-30-下午3:10:30
 	 */
     public void save() {
         Env env = FRContext.getCurrentEnv();

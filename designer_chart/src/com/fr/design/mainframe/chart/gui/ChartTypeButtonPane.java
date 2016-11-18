@@ -1,20 +1,25 @@
 package com.fr.design.mainframe.chart.gui;
 
 import com.fr.base.BaseUtils;
+import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.charttypes.ColumnIndependentChart;
+import com.fr.chart.chartattr.SwitchState;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,8 +38,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int B_W = 52;
     private static final int B_H = 20;
     private static final int COL_COUNT = 3;
+    private static final int P_W = 300;
+    private static final int P_H = 400;
 
     private UIButton addButton;
+    private UIButton configButton;
     private ArrayList<ChartChangeButton> indexList = new ArrayList<ChartChangeButton>();
 
     private JPanel buttonPane;
@@ -43,34 +51,41 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private ComboBoxPane editChartType;
     private UITextField currentEditingEditor = null;
 
-    private boolean mouseOnChartTypeButtonPane = false;
+    private ChartTypePane parent = null;
 
-    /**
-     * 鼠标事件是否在这个面板
-     * @return 返回是否
-     */
-    public boolean isMouseOnChartTypeButtonPane() {
-        return this.mouseOnChartTypeButtonPane;
+    //配置窗口属性
+    private UIMenuNameableCreator configCreator;
+
+    //处理 编辑一个button时,选中另一个button的问题.
+    //stopEditing不能直接relayout,否则click事件不响应了.
+    //所以:stopEditing--选中其他button则响应click之后relayout;普通失焦则直接relayout.
+    private boolean pressOtherButtonWhenEditing = false;
+
+
+//    private AWTEventListener awt = new AWTEventListener() {
+//        public void eventDispatched(AWTEvent event) {
+//            //没有进行鼠标点击，则返回
+//            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
+//                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
+//                    stopEditing();
+//                    if (event.getSource() instanceof ChartChangeButton) {
+//                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
+//                    }
+//                    populateBean(editingCollection);
+//                }
+//            }
+//        }
+//    };
+
+    public ChartTypeButtonPane(ChartTypePane chartTypePane){
+        this();
+        parent = chartTypePane;
     }
-
-    private AWTEventListener awt = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            //没有进行鼠标点击，则返回
-            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
-                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
-                    stopEditing();
-                    if (event.getSource() instanceof ChartChangeButton) {
-                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
-                    }
-                    populateBean(editingCollection);
-                }
-            }
-        }
-    };
 
     public ChartTypeButtonPane() {
         this.setLayout(new BorderLayout());
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
+        configButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/config.png"));
 
         buttonPane = new JPanel();
         this.add(buttonPane, BorderLayout.CENTER);
@@ -80,19 +95,38 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         eastPane.setLayout(new BorderLayout());
 
-        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 20));
-        eastPane.add(addButton, BorderLayout.NORTH);
+        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 15));
+        JPanel button = new JPanel();
+        button.setPreferredSize(new Dimension(45, 20));
+        button.setLayout(new GridLayout(1, 2, 5, 0));
+        button.add(addButton);
+        button.add(configButton);
+        eastPane.add(button, BorderLayout.NORTH);
 
+        initAddButton();
+        initConfigButton();
+        initConfigCreator();
+
+     //   Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigCreator() {
+        configCreator = new UIMenuNameableCreator(Inter.getLocText("Chart-Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
+    }
+
+    private void initAddButton() {
         addButton.setPreferredSize(new Dimension(20, 20));
         addButton.addActionListener(addListener);
-        addButton.addMouseListener(mouseListener);
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    private void initConfigButton() {
+        configButton.setPreferredSize(new Dimension(20, 20));
+        configButton.addActionListener(configListener);
     }
 
     ActionListener addListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            mouseOnChartTypeButtonPane = true;
             String name = getNewChartName();
             ChartChangeButton button = new ChartChangeButton(name);// some set selected
 
@@ -101,25 +135,50 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             indexList.add(button);
 
             if (editingCollection != null) {
-                Chart[] barChart = ColumnIndependentChart.columnChartTypes;
+                //点击添加按钮，则会触发切换状态
+                Chart chart = editingCollection.getChangeStateNewChart();
                 try {
-                    Chart newChart = (Chart) barChart[0].clone();
+                    Chart newChart = (Chart) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
                     editingCollection.addFunctionRecord(newChart);
                 } catch (CloneNotSupportedException e1) {
                     FRLogger.getLogger().error("Error in Clone");
                 }
-
+                checkoutChange();
             }
             layoutPane(buttonPane);
         }
     };
 
-    MouseListener mouseListener = new MouseAdapter() {
+    //获取图表收集器的状态
+    private void checkoutChange(){
+        editingCollection.calculateMultiChartMode();
+        if (parent != null){
+            parent.reactorChartTypePane(editingCollection);
+        }
+        //检查是否可以配置切换
+        configButton.setEnabled(editingCollection.changeEnable());
+    }
+
+    ActionListener configListener = new ActionListener() {
         @Override
-        public void mouseExited(MouseEvent e) {
-            super.mouseExited(e);
-            mouseOnChartTypeButtonPane = false;
+        public void actionPerformed(ActionEvent e) {
+            UIMenuNameableCreator ui = configCreator.clone();
+            final BasicBeanPane pane = ui.getPane();
+            pane.populateBean(editingCollection);
+            UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
+                @Override
+                public void doOk() {
+                    pane.updateBean(editingCollection);
+                }
+
+                @Override
+                public void doCancel() {
+
+                }
+            });
+            dialog.setSize(P_W, P_H);
+            dialog.setVisible(true);
         }
     };
 
@@ -246,17 +305,17 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         }
 
         layoutPane(buttonPane);
-        checkAddButtonVisible();
+        checkConfigButtonVisible();
+        //更新切换面板
+        checkoutChange();
     }
 
-    private void checkAddButtonVisible() {
+    private void checkConfigButtonVisible() {
         addButton.setVisible(true);
         //新建一个collection
-        if(editingCollection != null && editingCollection.getChartCount() == 1){
-            //vanChart 不支持图表切换 目前
-            if(!ComparatorUtils.equals(editingCollection.getSelectedChart().getClass(), Chart.class)){
-                addButton.setVisible(false);
-            }
+        if(editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChart() != null){
+            //Chart 不支持图表切换
+            configButton.setVisible(editingCollection.getSelectedChart().supportChange());
         }
     }
 
@@ -277,12 +336,19 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         if (currentEditingEditor != null) {
             String newName = currentEditingEditor.getText();
             int selectedIndex = editingCollection.getSelectedIndex();
+            ChartChangeButton button = indexList.get(selectedIndex);
+            button.isMoveOn = false;
             if (!ComparatorUtils.equals(editingCollection.getChartName(selectedIndex), newName)) {
                 editingCollection.setChartName(selectedIndex, newName);
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
+                button.changeChartName(newName);
             }
             buttonPane.remove(currentEditingEditor);
             currentEditingEditor = null;
+
+            if(!pressOtherButtonWhenEditing) {
+                layoutPane(buttonPane);
+            }
         }
     }
 
@@ -300,17 +366,36 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             buttonName = name;
             this.setToolTipText(name);
-            nameField.addActionListener(new ActionListener() {
+            nameField.addActionListener(new ActionListener() {//enter
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    pressOtherButtonWhenEditing = false;
                     stopEditing();
-                    populateBean(editingCollection);
+                }
+            });
+
+            nameField.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {//编辑状态lost才走这边
+                    if (currentEditingEditor != null ) {
+                        stopEditing();
+                    }
                 }
             });
         }
 
         public String getButtonName() {
             return buttonName;
+        }
+
+        private void changeChartName(String name) {
+            this.setText(name);
+            buttonName = name;
         }
 
         public Dimension getPreferredSize() {
@@ -367,11 +452,17 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     for (int i = 0; i < count; i++) {
                         if (ComparatorUtils.equals(getButtonName(), editingCollection.getChartName(i))) {
                             editingCollection.removeNameObject(i);
+                            if (i <= editingCollection.getSelectedIndex()){
+                                editingCollection.setSelectedIndex(editingCollection.getSelectedIndex()-1);
+                            }
                             break;
                         }
                     }
                 }
             }
+
+            //获取图表收集器的状态
+            checkoutChange();
 
             relayoutPane();
         }
@@ -386,17 +477,20 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     mouseClick(e);
-                    mouseOnChartTypeButtonPane = true;
+                    if(pressOtherButtonWhenEditing){
+                        relayoutPane();
+                        pressOtherButtonWhenEditing = false;
+                    }
                 }
 
                 public void mouseEntered(MouseEvent e) {
                     checkMoveOn(true);
-                    mouseOnChartTypeButtonPane = true;
+                    pressOtherButtonWhenEditing = currentEditingEditor != null;
                 }
 
                 public void mouseExited(MouseEvent e) {
                     checkMoveOn(false);
-                    mouseOnChartTypeButtonPane = false;
+                    pressOtherButtonWhenEditing = false;
                 }
             };
         }
@@ -422,9 +516,17 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (isEnabled()) {
                 noSelected();
+                //记录改变前的plotID
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();
+
+                //需要先更新，最后重构面板
+                //重构面板
+                if (parent != null ){
+                    parent.reLayoutEditPane(lastPlotID, editingCollection);
+                }
             }
         }
 

@@ -41,6 +41,14 @@ public abstract class QuickEditor<T extends TargetComponent> extends JComponent 
 
 	protected abstract void refresh();
 
+
+	/**
+	 * for 关闭时候释放
+	 */
+	public void release () {
+		tc = null;
+	}
+
 	public static QuickEditor DEFAULT_EDITOR = new QuickEditor() {
 
 		@Override

@@ -6,8 +6,8 @@ import com.fr.base.chart.Glyph;
 import com.fr.chart.chartglyph.DataSeries;
 import com.fr.chart.chartglyph.PlotGlyph;
 import com.fr.design.chart.gui.ChartComponent;
-import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.module.DesignModuleFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,8 +35,8 @@ public class DataSeriesActiveGlyph extends ActiveGlyph {
     	if(chartComponent.getEditingChart() == null) {
     		return;
     	}
-    	
-    	ChartEditPane.getInstance().GoToPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_SERIES_TITLE);
+
+        DesignModuleFactory.getChartPropertyPane().getChartEditPane().gotoPane(PaneTitleConstants.CHART_STYLE_TITLE, PaneTitleConstants.CHART_STYLE_SERIES_TITLE);
     }
 
 	@Override

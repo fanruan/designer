@@ -29,7 +29,7 @@ public abstract class VariableResolverAdapter implements VariableResolver {
 				// 空值参数
 				"NULL", "NOFILTER",
 				// request变量
-				CalculatorProvider.REPORT_NAME, CalculatorProvider.SERVLET_URL, CalculatorProvider.SERVER_SCHEMA, CalculatorProvider.SERVER_NAME,
+				CalculatorProvider.REPORT_NAME, CalculatorProvider.FORMLET_NAME, CalculatorProvider.SERVLET_URL, CalculatorProvider.SERVER_SCHEMA, CalculatorProvider.SERVER_NAME,
 				CalculatorProvider.SERVER_PORT, CalculatorProvider.SERVER_URL, CalculatorProvider.CONTEXT_PATH, CalculatorProvider.SESSION_ID
 		};
 	}

@@ -28,6 +28,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -247,6 +248,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                     ComparatorUtils.equals(editingComponent.getClass(), NoSupportAuthorityEdit.class) ? editingComponent : createAuthorityEditPane());
         } else {
             EastRegionContainerPane.getInstance().replaceUpPane(editingComponent);
+
         }
     }
 
@@ -607,8 +609,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
             return;
         }
+
         if (formDesign.isReportBlockEditing()) {
             if (elementCaseDesign != null) {
+                EastRegionContainerPane.getInstance().removeParameterPane();
                 EastRegionContainerPane.getInstance().replaceDownPane(elementCaseDesign.getEastDownPane());
                 EastRegionContainerPane.getInstance().replaceUpPane(elementCaseDesign.getEastUpPane());
                 return;
@@ -616,7 +620,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         }
 
         EastRegionContainerPane.getInstance().replaceUpPane(WidgetPropertyPane.getInstance(formDesign));
-
+        EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(formDesign));
+        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(formDesign).getPreferredSize().height);
         if (EastRegionContainerPane.getInstance().getDownPane() == null) {
             new Thread() {
                 public void run() {
@@ -636,6 +641,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             pane.setLayout(new BorderLayout());
             pane.add(FormWidgetDetailPane.getInstance(formDesign), BorderLayout.CENTER);
             EastRegionContainerPane.getInstance().replaceDownPane(pane);
+
         }
     }
 
@@ -653,7 +659,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 是则返回true
      */
     public boolean isSelectRootPane() {
-        return formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator();
+        return (formDesign.getRootComponent() == formDesign.getSelectionModel().getSelection().getSelectedCreator())
+                || (formDesign.getSelectionModel().getSelection().getSelectedCreator().acceptType(XWAbsoluteBodyLayout.class));
 
     }
 
