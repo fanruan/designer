@@ -40,14 +40,14 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             return;
         }
         final Form formTpl = jf.getTarget();
-        FormMobileAttr mobileAttr = formTpl.getReportMobileAttr();
+        FormMobileAttr mobileAttr = formTpl.getFormMobileAttr();
 
         final FormMobileAttrPane mobileAttrPane = new FormMobileAttrPane();
         mobileAttrPane.populateBean(mobileAttr);
         BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
-                formTpl.setReportMobileAttr(mobileAttrPane.updateBean());
+                formTpl.setFormMobileAttr(mobileAttrPane.updateBean());
                 jf.fireTargetModified();
             }
         });
