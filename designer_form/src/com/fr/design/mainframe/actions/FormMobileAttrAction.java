@@ -9,8 +9,8 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.form.main.Form;
+import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.general.Inter;
-import com.fr.report.mobile.ElementCaseMobileAttr;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,23 +35,23 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-//        final JForm jf = getEditingComponent();
-//        if (jf == null) {
-//            return;
-//        }
-//        final Form formTpl = jf.getTarget();
-//        ElementCaseMobileAttr mobileAttr = formTpl.getReportMobileAttr();
-//
-//        final FormMobileAttrPane mobileAttrPane = new FormMobileAttrPane();
-//        mobileAttrPane.populateBean(mobileAttr);
-//        BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
-//            @Override
-//            public void doOk() {
-//                formTpl.setReportMobileAttr(mobileAttrPane.updateBean());
-//                jf.fireTargetModified();
-//            }
-//        });
-//        dialog.setVisible(true);
+        final JForm jf = getEditingComponent();
+        if (jf == null) {
+            return;
+        }
+        final Form formTpl = jf.getTarget();
+        FormMobileAttr mobileAttr = formTpl.getReportMobileAttr();
+
+        final FormMobileAttrPane mobileAttrPane = new FormMobileAttrPane();
+        mobileAttrPane.populateBean(mobileAttr);
+        BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+            @Override
+            public void doOk() {
+                formTpl.setReportMobileAttr(mobileAttrPane.updateBean());
+                jf.fireTargetModified();
+            }
+        });
+        dialog.setVisible(true);
     }
 
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {

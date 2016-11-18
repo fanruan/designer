@@ -2,8 +2,8 @@ package com.fr.design.form.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.general.Inter;
-import com.fr.report.mobile.ElementCaseMobileAttr;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * Created by fanglei on 2016/11/17.
  */
-public class FormMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
+public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
     //工具栏容器
     private MobileToolBarPane mobileToolBarPane;
 
@@ -33,16 +33,16 @@ public class FormMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
     }
 
     @Override
-    public void populateBean(ElementCaseMobileAttr ob) {
+    public void populateBean(FormMobileAttr ob) {
         if (ob == null) {
-            ob = new ElementCaseMobileAttr();
+            ob = new FormMobileAttr();
         }
         this.mobileToolBarPane.populateBean(ob);
     }
 
     @Override
-    public ElementCaseMobileAttr updateBean() {
-        ElementCaseMobileAttr caseMobileAttr = new ElementCaseMobileAttr();
+    public FormMobileAttr updateBean() {
+        FormMobileAttr caseMobileAttr = new FormMobileAttr();
         this.mobileToolBarPane.updateBean(caseMobileAttr);
         return caseMobileAttr;
     }
