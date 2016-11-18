@@ -20,7 +20,6 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.AuthorityToolBarPane;
-import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.*;
@@ -245,7 +244,6 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         isdelayItem.setSelected(reportParameterAttr.isDelayPlaying());
         isshowWindowItem.setSelected(reportParameterAttr.isShowWindow());
         isEditing = true;
-        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
         ParameterBridge bridge = paraDesignEditor.getParaComponent();
         if (parameterUI != null) {
             bridge.setDelayDisplayContent(reportParameterAttr.isDelayPlaying());
