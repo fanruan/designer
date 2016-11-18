@@ -22,7 +22,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.AuthorityToolBarPane;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JWorkBook;
-import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.*;
 import com.fr.design.module.DesignModuleFactory;
