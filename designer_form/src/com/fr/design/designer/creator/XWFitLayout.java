@@ -21,6 +21,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
@@ -380,6 +381,7 @@ public class XWFitLayout extends XLayoutContainer {
 				needAddWidth = Math.max(needAddWidth, MIN_WIDTH-width);
 			}
 		}
+		creator.adjustCompWidth((double) creator.getBounds().width / rec.width);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
 	
@@ -503,6 +505,7 @@ public class XWFitLayout extends XLayoutContainer {
 				needAddHeight = Math.max(needAddHeight, MIN_HEIGHT-h);
 			}
 		}
+		creator.adjustCompHeight((double) creator.getBounds().height / rec.height);
 		toData().setBounds(creator.toData(), creator.getBounds());
 	}
 	
@@ -685,7 +688,10 @@ public class XWFitLayout extends XLayoutContainer {
     	if (isRefreshing) {
             return;
         }
-    	LayoutUtils.layoutContainer(this);
+		//当前的body布局为绝对布局的时候不要doLayout
+		if (toData().getBodyLayoutType() != WBodyLayoutType.ABSOLUTE){
+			LayoutUtils.layoutContainer(this);
+		}
     	WFitLayout layout = this.toData();
     	//自适应布局新增控件后，其他控件位置也会变
 		XWidgetCreator creator = (XWidgetCreator) e.getChild();
@@ -834,7 +840,7 @@ public class XWFitLayout extends XLayoutContainer {
      * 处理自适应布局的directions
      * @param xcreator 组件
      */
-    private void dealDirections(XCreator xcreator, boolean isInit) {
+    public void dealDirections(XCreator xcreator, boolean isInit) {
     	if (xcreator == null) {
             return;
         }

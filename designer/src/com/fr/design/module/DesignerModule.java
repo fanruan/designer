@@ -111,17 +111,17 @@ public class DesignerModule extends DesignModule {
      */
 
     private void registerCellEditor() {
-        ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.getInstance());
-        ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.getInstance());
-        ActionFactory.registerCellEditor(Formula.class, CellStringQuickEditor.getInstance());
-        ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.getInstance());
-        ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.getInstance());
-        ActionFactory.registerCellEditor(DSColumn.class, CellDScolumnEditor.getInstance());
-        ActionFactory.registerCellEditor(Image.class, CellImageQuickEditor.getInstance());
-        ActionFactory.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
-        ActionFactory.registerCellEditor(BufferedImage.class, CellImageQuickEditor.getInstance());
+        ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditor(Formula.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.class);
+        ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.class);
+        ActionFactory.registerCellEditor(DSColumn.class, CellDSColumnEditor.class);
+        ActionFactory.registerCellEditor(Image.class, CellImageQuickEditor.class);
+        ActionFactory.registerCellEditor(BiasTextPainter.class, CellBiasTextPainterEditor.class);
+        ActionFactory.registerCellEditor(BufferedImage.class, CellImageQuickEditor.class);
 
-        ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.getInstance());
+        ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
@@ -139,14 +139,13 @@ public class DesignerModule extends DesignModule {
      * kunnat: 注册悬浮选中Editor
      */
     private void registerFloatEditor() {
-        FloatStringQuickEditor floatStringQuickEditor = new FloatStringQuickEditor();
-        ActionFactory.registerFloatEditor(String.class, floatStringQuickEditor);
-        ActionFactory.registerFloatEditor(Formula.class, floatStringQuickEditor);
+        ActionFactory.registerFloatEditor(String.class, FloatStringQuickEditor.class);
+        ActionFactory.registerFloatEditor(Formula.class, FloatStringQuickEditor.class);
 
         FloatImageQuickEditor floatImageQuickEditor = new FloatImageQuickEditor();
-        ActionFactory.registerFloatEditor(Image.class, floatImageQuickEditor);
-        ActionFactory.registerFloatEditor(BufferedImage.class, floatImageQuickEditor);
-        ActionFactory.registerChartFloatEditorInEditor(ChartQuickEditor.getInstance());
+        ActionFactory.registerFloatEditor(Image.class, FloatImageQuickEditor.class);
+        ActionFactory.registerFloatEditor(BufferedImage.class, FloatImageQuickEditor.class);
+        ActionFactory.registerChartFloatEditorInEditor(ChartQuickEditor.class);
     }
 
     /**

@@ -1,0 +1,3 @@
+form name
+http://localhost:8080/WebReport/ReportServer?formlet=Form1.frm£¬
+formName is Form1.frm

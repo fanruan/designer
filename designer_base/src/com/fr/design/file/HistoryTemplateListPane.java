@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import com.fr.design.constants.UIConstants;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -24,9 +25,11 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.UIList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.project.ProjectConstants;
@@ -102,6 +105,9 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
      * @param selected 选择的
      */
     public void closeSelectedReport(JTemplate<?, ?> selected) {
+        DesignModuleFactory.clearChartPropertyPane();
+        DesignTableDataManager.closeTemplate(selected);
+        GeneralContext.removeEnvWillChangedListener(selected.getFullPathName());
         if (contains(selected) == -1) {
             return;
         }

@@ -5,12 +5,11 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.FormElementCaseEditorProcessor;
+import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.CoverReportPane;
-import com.fr.design.mainframe.EditingMouseListener;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
@@ -18,7 +17,9 @@ import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
 import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
+import com.fr.form.ui.ElementCaseEditorProvider;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
@@ -32,10 +33,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.Set;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
     private UILabel imageLable;
-    private JPanel coverPanel;
+    private CoverReportPane coverPanel;
 	private FormDesigner designer;
 	//缩略图
 	private BufferedImage thumbnailImage;
@@ -96,9 +98,21 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
+
+		//这边有个插件兼容问题,之后还是要改回process才行
+		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
+		for (FormElementCaseEditorProvider provider : set) {
+			if (provider == null) {
+				continue;
+			}
+			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			FormProvider formProvider = designer.getTarget();
+			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
+			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+		}
 
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
@@ -114,11 +128,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		}
 		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : editor.getReportFitAttr();
 		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
-
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
 		}
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+
+		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 	}
 
 	@Override
@@ -181,11 +195,17 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
      * @param display     是否
      */
     public void  displayCoverPane(boolean display){
-        coverPanel.setVisible(display);
-        coverPanel.setPreferredSize(editor.getPreferredSize());
-        coverPanel.setBounds(editor.getBounds());
-        editor.repaint();
-    }
+		coverPanel.setVisible(display);
+		coverPanel.setBounds(1, 1, (int) editor.getBounds().getWidth(), (int) editor.getBounds().getHeight());
+		editor.repaint();
+	}
+
+	/**
+	 * 销毁帮助提示框
+	 */
+	public void destroyHelpDialog(){
+		coverPanel.destroyHelpDialog();
+	}
 
     public JComponent getCoverPane(){
         return coverPanel;
@@ -262,8 +282,13 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	 * @param e 点击事件
 	 */
 	public void respondClick(EditingMouseListener editingMouseListener,MouseEvent e){
+		HelpDialogManager.getInstance().setPane(coverPanel);
 		super.respondClick(editingMouseListener, e);
-		switchTab(e,editingMouseListener);
+		if (this.isHelpBtnOnFocus()) {
+			coverPanel.setMsgDisplay(e);
+		} else {
+			switchTab(e, editingMouseListener);
+		}
 	}
 
 
@@ -279,5 +304,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new ElementCasePropertyUI(this)};
+	}
+
+	@Override
+	public void setXDescrption(String msg) {
+		coverPanel.setHelpMsg(msg);
 	}
 }

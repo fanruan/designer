@@ -64,7 +64,7 @@ public class XWTabFitLayout extends XWFitLayout {
 				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
 					        .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                       .setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                       .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                     };
 	}

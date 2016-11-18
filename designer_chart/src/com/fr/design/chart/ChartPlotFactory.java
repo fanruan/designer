@@ -72,7 +72,7 @@ public class ChartPlotFactory {
                 .setAxisPaneCls(XYChartStyleAxisPane.class)
                 .setDataLabelPaneClass(XYDataLabelPane.class));
         map.put(FunnelPlot.class.getName(), new FactoryObject()
-                .setDataLabelPaneClass(PieDataLabelPane.class));
+                .setDataLabelPaneClass(FunnelDataLabelPane.class));
     }
 
     private ChartPlotFactory() {

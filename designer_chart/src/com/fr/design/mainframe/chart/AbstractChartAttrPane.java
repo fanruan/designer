@@ -32,4 +32,5 @@ public abstract class AbstractChartAttrPane extends AbstractAttrNoScrollPane {
 	public void refreshChartDataPane(ChartCollection collection){
 
 	}
+
 }

@@ -25,7 +25,7 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 	protected JPanel cardPane;
 
 	protected List<FurtherBasicBeanPane<? extends T>> cards;
-	private String[] cardNames;
+	protected String[] cardNames;
 	
 	public UIComboBoxPane() {
 		cards = initPaneList();
@@ -49,6 +49,19 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
             addComboBoxItem(cards, i);
 		}
 
+		addItemChangeEvent();
+
+		initLayout();
+
+		jcb.setSelectedIndex(0);
+	}
+
+	public FurtherBasicBeanPane<? extends T> getSelectedPane(){
+		return cards.get(jcb.getSelectedIndex());
+	}
+
+
+	protected void addItemChangeEvent() {
 		jcb.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -57,10 +70,6 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 				cl.show(cardPane, cardNames[jcb.getSelectedIndex()]);
 			}
 		});
-
-		initLayout();
-
-		jcb.setSelectedIndex(0);
 	}
 
 	protected UIComboBox createComboBox() {
@@ -117,6 +126,8 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		}
 	}
 
+
+
 	@Override
 	public T updateBean() {
 		return cards.get(jcb.getSelectedIndex()).updateBean();
@@ -142,4 +153,7 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		return this.cards;
 	}
 
+	public void clear() {
+		reset();
+	}
 }

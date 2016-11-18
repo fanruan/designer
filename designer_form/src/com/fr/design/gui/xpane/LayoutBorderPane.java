@@ -280,7 +280,7 @@ public class LayoutBorderPane extends BasicPane {
             Constants.LINE_THICK, //3px
             };
 
-    public final static String[] BORDER_TYPE = new String[]{Inter.getLocText("FR-Designer-Widget-Style_Standard"), Inter.getLocText("FR-Designer-Widget-Style_Title")};
+    public final static String[] BORDER_TYPE = new String[]{Inter.getLocText("FR-Designer-Widget-Style_Standard"), Inter.getLocText("FR-Designer-Widget-Style_Custom")};
     public final static String[] BORDER_STYLE= new String[]{Inter.getLocText("FR-Designer-Widget-Style_Common"), Inter.getLocText("FR-Designer-Widget-Style_Shadow")};
 
     private final static Dimension BUTTON_SIZE = new Dimension(24, 20);

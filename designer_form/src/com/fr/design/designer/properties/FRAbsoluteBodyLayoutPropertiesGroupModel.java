@@ -9,6 +9,7 @@ import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBodyLayoutType;
+import com.fr.general.FRLogger;
 import com.fr.general.FRScreen;
 import com.fr.general.Inter;
 
@@ -92,48 +93,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
             } else {
                 if (row == 0) {
                     if (state == WBodyLayoutType.FIT.getTypeValue()) {
-                        XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
-                        //备份一下组件间隔
-                        int compInterval = xfl.toData().getCompInterval();
-                        Component[] components = xwAbsoluteLayout.getComponents();
-
-                        Arrays.sort(components, new ComparatorComponentLocation());
-
-                        xfl.getLayoutAdapter().removeBean(xwAbsoluteLayout, xwAbsoluteLayout.getWidth(), xwAbsoluteLayout.getHeight());
-                        xfl.remove(xwAbsoluteLayout);
-                        xfl.toData().setLayoutType(WBodyLayoutType.FIT);
-
-                        for (Component comp : components) {
-                            XCreator xCreator = (XCreator)comp;
-                            if (xCreator.shouldScaleCreator()){
-                                XLayoutContainer parentPanel = xCreator.initCreatorWrapper(xCreator.getHeight());
-                                xfl.add(parentPanel, xCreator.toData().getWidgetName());
-                                continue;
-                            }
-                            xfl.add(xCreator);
-                        }
-                        //这边计算的时候会先把组件间隔去掉
-                        moveComponents2FitLayout(xfl);
-                        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-                        formDesigner.getSelectionModel().setSelectedCreator(xfl);
-                        xfl.convert();
-                        LayoutUtils.layoutContainer(xfl);
-                        xfl.adjustCreatorsWhileSlide(xfl.getContainerPercent() - 1.0);
-
-                        for (int i = 0; i < components.length; i++) {
-                            Component comp = xfl.getComponent(i);
-                            XCreator creator = (XCreator) comp;
-                            creator.setBackupBound(components[i].getBounds());
-                        }
-
-                        //把组件间隔加上
-                        if (xfl.toData().getCompInterval() != compInterval) {
-                            xfl.moveContainerMargin();
-                            xfl.moveCompInterval(xfl.getAcualInterval());
-                            xfl.toData().setCompInterval(compInterval);
-                            xfl.addCompInterval(xfl.getAcualInterval());
-                        }
-                        return true;
+                        return switch2FitBodyLayout();
                     }
                 }
                 if (row == 1) {
@@ -168,11 +128,62 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         return true;
     }
 
-    //把绝对布局中的元素按规则移动到自适应布局中
+    private boolean switch2FitBodyLayout() {
+        try {
+            XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
+            //备份一下组件间隔
+            int compInterval = xfl.toData().getCompInterval();
+            Component[] components = xwAbsoluteLayout.getComponents();
+
+            Arrays.sort(components, new ComparatorComponentLocation());
+
+            xfl.getLayoutAdapter().removeBean(xwAbsoluteLayout, xwAbsoluteLayout.getWidth(), xwAbsoluteLayout.getHeight());
+            xfl.remove(xwAbsoluteLayout);
+
+            for (Component comp : components) {
+                XCreator xCreator = (XCreator) comp;
+                if (xCreator.shouldScaleCreator()) {
+                    XLayoutContainer parentPanel = xCreator.initCreatorWrapper(xCreator.getHeight());
+                    xfl.add(parentPanel, xCreator.toData().getWidgetName());
+                    parentPanel.updateChildBound(xfl.getActualMinHeight());
+                    continue;
+                }
+                xfl.add(xCreator);
+            }
+            //这边计算的时候会先把组件间隔去掉
+            moveComponents2FitLayout(xfl);
+            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+            formDesigner.getSelectionModel().setSelectedCreator(xfl);
+
+            for (int i = 0; i < components.length; i++) {
+                Component comp = xfl.getComponent(i);
+                XCreator creator = (XCreator) comp;
+                creator.setBackupBound(components[i].getBounds());
+            }
+
+            //把组件间隔加上
+            if (xfl.toData().getCompInterval() != compInterval) {
+                xfl.moveContainerMargin();
+                xfl.moveCompInterval(xfl.getAcualInterval());
+                xfl.toData().setCompInterval(compInterval);
+                xfl.addCompInterval(xfl.getAcualInterval());
+            }
+            xfl.toData().setLayoutType(WBodyLayoutType.FIT);
+            return true;
+        }
+        catch (Exception e){
+            FRLogger.getLogger().error(e.getMessage());
+            return false;
+        }
+    }
+
+    // 把绝对布局中的元素按规则移动到自适应布局中
+    // 规则：各元素按顺序放置，其中每行最多4个元素，超出则换行，各元素均分body的高度和宽度
     private void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
         int eachRowCount = 4;
         Component[] components = xwFitLayout.getComponents();
         if (components.length <= 1){
+            xwFitLayout.updateBoundsWidget();
             return;
         }
         int layoutWidth = xwFitLayout.getWidth() - xwFitLayout.toData().getMargin().getLeft() - xwFitLayout.toData().getMargin().getRight();
@@ -211,6 +222,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                 ((XWCardMainBorderLayout)components[i]).recalculateChildWidth(components[i].getWidth());
                 ((XWCardMainBorderLayout)components[i]).recalculateChildHeight(components[i].getHeight());
             }
+            xwFitLayout.dealDirections((XCreator)components[i], false);
         }
         xwFitLayout.updateBoundsWidget();
     }

@@ -1,40 +1,49 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import com.fr.data.impl.TreeNodeWrapper;
-import com.fr.design.data.DataCreatorUI;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.*;
-
-import com.fr.general.NameObject;
 import com.fr.data.impl.TableDataDictionary;
 import com.fr.data.impl.TreeAttr;
 import com.fr.data.impl.TreeNodeAttr;
+import com.fr.data.impl.TreeNodeWrapper;
+import com.fr.design.data.DataCreatorUI;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
+import com.fr.design.gui.frpane.tree.layer.config.LayerDataControlPane;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.TreeDataCardPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
+import com.fr.form.ui.tree.LayerConfig;
 import com.fr.general.Inter;
+import com.fr.general.NameObject;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Arrays;
 
 public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	private JTreeControlPane controlPane;
+
 	private JTreeAutoBuildPane autoBuildPane;
+
+	/**
+	 * 新的分层构建方式
+	 */
+	private LayerDataControlPane layerDataControlPane;
+
 	private UIComboBox buildBox;
+
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1762889323082827111L;
 
-	private String[] buildWay = new String[] { Inter.getLocText("FR-Designer_Layer-Build"),
-		Inter.getLocText("FR-Designer_Auto-Build") };
+	private String[] buildWay = new String[]{Inter.getLocText("FR-Designer_DataTable-Build"),
+		Inter.getLocText("FR-Designer_Auto-Build"), Inter.getLocText("FR-Designer_Layer-Build")};
 
 	public TreeSettingPane(boolean isEditor) {
 		this.initComponents(isEditor);
@@ -58,14 +67,30 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		controlPane = new JTreeControlPane(new NameableCreator[] { treeNode },
 			new TreeDataCardPane(), isEditor);
 		autoBuildPane = new JTreeAutoBuildPane();
+		layerDataControlPane = new LayerDataControlPane();
 		this.add(buildWayPanel, BorderLayout.NORTH);
 		cardChanged(0);
 	}
 
 	private void cardChanged(int index) {
+
 		this.remove(controlPane);
 		this.remove(autoBuildPane);
-		this.add(index == 0 ? controlPane : autoBuildPane, BorderLayout.CENTER);
+		this.remove(layerDataControlPane);
+		switch (index) {
+			case 0:
+				this.add(layerDataControlPane);
+				break;
+			case 1:
+				this.add(autoBuildPane);
+				break;
+			case 2:
+				this.add(controlPane);
+
+				break;
+			default:
+				break;
+		}
 		validate();
 		repaint();
 		revalidate();
@@ -101,8 +126,17 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 			buildBox.setSelectedIndex(1);
 			TableDataDictionary dictionary = treeEditor.getDictionary();
 			autoBuildPane.populate(dictionary);
-		} else {
+		} else if (treeEditor.isLayerBuild()) {
 			buildBox.setSelectedIndex(0);
+			java.util.List<LayerConfig> layerConfigList = treeEditor.getLayerConfigs();
+			LayerConfig[] layerConfigs = new LayerConfig[layerConfigList.size()];
+			int i = 0;
+			for (LayerConfig layerConfig : layerConfigList) {
+				layerConfigs[i++] = layerConfig;
+			}
+			this.layerDataControlPane.populate(new NameObject("Tree Layer Data", layerConfigs));
+		} else {
+			buildBox.setSelectedIndex(2);
 		}
 	}
 
@@ -121,10 +155,12 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		if (buildBox.getSelectedIndex() == 1) {
 			TableDataDictionary dictionary = this.autoBuildPane.update();
 			te.setAutoBuild(true);
+			te.setLayerBuild(false);
 			te.setDictionary(dictionary);
 			te.setNodeOrDict(dictionary);
-		} else {
+		} else if (buildBox.getSelectedIndex() == 2) {
 			te.setAutoBuild(false);
+			te.setLayerBuild(false);
 			NameObject no = this.controlPane.update();
 			if (no != null) {
 				TreeEditor editor = (TreeEditor) no.getObject();
@@ -141,6 +177,11 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 				te.setNodeOrDict(editor.getTreeNodeAttr());
 				te.setPerformanceFirst(editor.isPerformanceFirst());
 			}
+		} else {
+			LayerConfig[] configs = (LayerConfig[]) layerDataControlPane.update().getObject();
+			te.setAutoBuild(false);
+			te.setLayerBuild(true);
+			te.setLayerConfigs(Arrays.asList(configs));
 		}
 		return te;
 	}
@@ -150,11 +191,14 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	 * @return
 	 */
 	public Object updateTreeNodeAttrs() {
-		if(buildBox.getSelectedIndex() == 0) {
+
+		if (buildBox.getSelectedIndex() == 2) {
 			NameObject no = controlPane.update();
 			if (no != null) {
 				return no.getObject();
 			}
+		} else if (buildBox.getSelectedIndex() == 0) {
+			return layerDataControlPane.update();
 		} else {
 			return autoBuildPane.update();
 		}
@@ -170,15 +214,17 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 		if (buildBox.getSelectedIndex() == 1) {
 			TableDataDictionary dictionary = this.autoBuildPane.update();
 			tcb.setAutoBuild(true);
-			tcb.setDictionary(dictionary);
-			tcb.setNodeOrDict(dictionary);
-		} else {
-			tcb.setAutoBuild(false);
-			NameObject no = this.controlPane.update();
-			if (no != null) {
-				if (no.getObject() instanceof TreeComboBoxEditor) {
-					return (TreeComboBoxEditor) no.getObject();
-				}
+            tcb.setLayerBuild(false);
+            tcb.setDictionary(dictionary);
+            tcb.setNodeOrDict(dictionary);
+        } else if (buildBox.getSelectedIndex() == 2) {
+            tcb.setAutoBuild(false);
+            tcb.setLayerBuild(false);
+            NameObject no = this.controlPane.update();
+            if (no != null) {
+                if (no.getObject() instanceof TreeComboBoxEditor) {
+                    return (TreeComboBoxEditor) no.getObject();
+                }
 
 				TreeEditor editor = (TreeEditor) no.getObject();
 				tcb.setAllowBlank(editor.isAllowBlank());
@@ -194,7 +240,12 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 				tcb.setNodeOrDict(editor.getTreeNodeAttr());
 				tcb.setPerformanceFirst(editor.isPerformanceFirst());
 			}
-		}
+		}else {
+            LayerConfig[] configs = (LayerConfig[]) layerDataControlPane.update().getObject();
+            tcb.setAutoBuild(false);
+            tcb.setLayerBuild(true);
+            tcb.setLayerConfigs(Arrays.asList(configs));
+        }
 		return tcb;
 	}
 
@@ -204,12 +255,15 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	 */
 	public void populate(Object nodeOrDict) {
 		if(nodeOrDict instanceof TreeNodeAttr[] || nodeOrDict instanceof TreeNodeWrapper) {
-			buildBox.setSelectedIndex(0);
+			buildBox.setSelectedIndex(2);
 			NameObject no = new NameObject("name", nodeOrDict);
 			controlPane.populate(no);
 		} else if(nodeOrDict instanceof TableDataDictionary) {
 			buildBox.setSelectedIndex(1);
 			autoBuildPane.populate((TableDataDictionary)nodeOrDict);
+		} else if (nodeOrDict instanceof NameObject) {
+			buildBox.setSelectedIndex(0);
+			layerDataControlPane.populate((NameObject) nodeOrDict);
 		}
 	}
 }

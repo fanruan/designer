@@ -36,34 +36,7 @@ public class ComponentTree extends JTree {
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
         this.refreshTreeRoot();
-        TreePath[] paths = getSelectedTreePath();
         addTreeSelectionListener(designer);
-        setSelectionPaths(paths);
-
-        designer.addDesignerEditListener(new TreeDesignerEditAdapter());
-        this.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu(e);
-                }
-            }
-        });
         setEditable(true);
     }
 
@@ -124,19 +97,6 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath);
     }
 
-    private void popupMenu(MouseEvent e) {
-        TreePath path = this.getSelectionPath();
-        if (path == null) {
-            return;
-        }
-        Component component = (Component) path.getLastPathComponent();
-        if (!(component instanceof XCreator)) {
-            return;
-        }
-        ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, (XCreator) component);
-        JPopupMenu menu = adapter.getContextPopupMenu(e);
-        menu.show(this, e.getX(), e.getY());
-    }
 
     /**
      * 刷新
@@ -159,40 +119,7 @@ public class ComponentTree extends JTree {
         return paths;
     }
 
-    private class TreeDesignerEditAdapter implements DesignerEditListener {
 
-        @Override
-        public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-                TreePath[] paths = getSelectedTreePath();
-
-                if (paths.length == 1) {
-                    setAndScrollSelectionPath(paths[0]);
-                } else {
-                    setSelectionPaths(paths);
-                }
-            }  else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED) {
-                ComponentTree.this.refreshUI();
-                TreePath[] paths = getSelectedTreePath();
-
-                if (paths.length == 1) {
-                    setAndScrollSelectionPath(paths[0]);
-                } else {
-                    setSelectionPaths(paths);
-                }
-                ComponentTree.this.repaint();
-
-            }  else {
-                ComponentTree.this.refreshUI();
-                ComponentTree.this.repaint();
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return o.getClass() == this.getClass();
-        }
-    }
 
 
     /**
@@ -277,12 +204,14 @@ public class ComponentTree extends JTree {
                 creator.notShowInComponentTree(path);
             }
             //绝对布局作为body的时候不显示自适应布局父层
-            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)
-                    && (parent.getParent() != null)
-                    && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
-                parent = parent.getParent().getParent();
-                continue;
+            if (((XCreator) parent).acceptType(XWAbsoluteBodyLayout.class)) {
+                if ((parent.getParent() != null)
+                        && ((XCreator)parent.getParent()).acceptType(XWFitLayout.class)){
+                    parent = parent.getParent().getParent();
+                    continue;
+                }
             }
+
             parent = parent.getParent();
         }
         Object[] components = path.toArray();

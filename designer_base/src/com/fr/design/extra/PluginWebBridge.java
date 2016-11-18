@@ -530,6 +530,17 @@ public class PluginWebBridge {
     }
 
     /**
+     * 插件管理部分的登陆的回调处理
+     * @param username
+     * @param password
+     * @param callback
+     */
+    public void defaultLogin(String username, String password, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password, uiLabel));
+        new Thread(task).start();
+    }
+
+    /**
      * 弹出QQ授权页面
      */
     public void showQQ() {

@@ -7,8 +7,8 @@ import com.fr.form.ui.container.WBodyLayoutType;
  */
 public class FRLayoutTypeItems implements ItemProvider{
     public static final Item[] ITEMS = new Item[] {
-            new Item(WBodyLayoutType.FIT.description(), WBodyLayoutType.FIT.getTypeValue())/*,
-            new Item(WBodyLayoutType.ABSOLUTE.description(), WBodyLayoutType.ABSOLUTE.getTypeValue())*/};
+            new Item(WBodyLayoutType.FIT.description(), WBodyLayoutType.FIT.getTypeValue()),
+            new Item(WBodyLayoutType.ABSOLUTE.description(), WBodyLayoutType.ABSOLUTE.getTypeValue())};
 
     public Item[] getItems() {
         return ITEMS;

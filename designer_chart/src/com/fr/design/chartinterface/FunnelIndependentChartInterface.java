@@ -3,6 +3,8 @@ package com.fr.design.chartinterface;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
+import com.fr.design.chart.series.SeriesCondition.impl.FunnelPlotDataSeriesConditionPane;
+import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -32,6 +34,10 @@ public class FunnelIndependentChartInterface extends AbstractIndependentChartUIW
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new FunnelSeriesPane(parent, plot);
+    }
+
+    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+        return new FunnelPlotDataSeriesConditionPane();
     }
 
     /**

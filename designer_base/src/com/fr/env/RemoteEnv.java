@@ -31,8 +31,6 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
-import com.fr.plugin.dependence.PluginServiceCreator;
-import com.fr.plugin.dependence.PluginServiceManager;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -2104,5 +2102,48 @@ public class RemoteEnv implements Env {
     @Override
     public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
 
+    }
+
+    @Override
+    public File[] loadREUFile() throws Exception {
+        File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
+                "fr_share");
+        StableUtils.deleteFile(target);
+        StableUtils.mkdirs(target);
+        File cacheDir = null;
+        File zip = null;
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "design_read_reufile");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+
+            HttpClient client = createHttpMethod(para);
+            InputStream input = client.getResponseStream();
+            zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
+            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "fr_share");
+            StableUtils.deleteFile(cacheDir);
+            StableUtils.mkdirs(cacheDir);
+            StableUtils.makesureFileExist(zip);
+            FileOutputStream out = new FileOutputStream(zip);
+            IOUtils.copyBinaryTo(input, out);
+            out.flush();
+            out.close();
+            IOUtils.unzip(zip, cacheDir.getAbsolutePath(), EncodeConstants.ENCODING_GBK);//先解压到临时目录
+            if (cacheDir.exists() && cacheDir.isDirectory()) {
+                return cacheDir.listFiles(new FilenameFilter() {
+                    public boolean accept(File file, String s) {
+                        return s.endsWith("reu");
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+        } finally {
+            StableUtils.deleteFile(zip);
+        }
+        return new File[0];
     }
 }

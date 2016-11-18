@@ -248,7 +248,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             });
             df.setVisible(true);
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error(e.getMessage(), e);
             if (!isException) {
                 showDesignerFrame(args, df, true);
             } else {
