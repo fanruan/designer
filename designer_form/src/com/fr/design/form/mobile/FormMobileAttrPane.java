@@ -15,6 +15,8 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
     //工具栏容器
     private MobileToolBarPane mobileToolBarPane;
 
+    static final int paddingHeight = 10;
+
     public FormMobileAttrPane() {
         this.initComponents();
     }
@@ -26,7 +28,6 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
         jPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.mobileToolBarPane = new MobileToolBarPane();
         //设置一个JPanel包裹mobileToolBarPane这个Panel，让jPanel的高度等于mobileToolBarPane高度加10，再放入this中
-        final int paddingHeight = 10;
         jPanel.setPreferredSize(new Dimension(0, (int)this.mobileToolBarPane.getPreferredSize().getHeight() + paddingHeight));
         jPanel.add("North", mobileToolBarPane);
         this.add(jPanel);
