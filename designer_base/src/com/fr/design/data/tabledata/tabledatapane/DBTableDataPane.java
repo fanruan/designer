@@ -28,6 +28,7 @@ import com.fr.design.gui.syntax.ui.rtextarea.RTextScrollPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.script.Calculator;
@@ -125,9 +126,12 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 				}
 			}
 		});
-
-		this.add(connectionTableProcedurePane, BorderLayout.WEST);
-		this.add(sqlSplitPane, BorderLayout.CENTER);
+		box.setMinimumSize(new Dimension(310, 400));
+		// 使用SplitPane
+		JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, connectionTableProcedurePane, sqlSplitPane);
+		mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
+		mainSplitPane.setOneTouchExpandable(true);
+		this.add(mainSplitPane, BorderLayout.CENTER);
 	}
 
     private boolean isPreviewOrRefreshButton (FocusEvent e) {
