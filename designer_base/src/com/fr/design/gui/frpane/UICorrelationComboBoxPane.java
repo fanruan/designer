@@ -46,6 +46,7 @@ import com.fr.stable.StringUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
+    private static final Dimension DIALOG_SIZE = new Dimension(500, 500);
     private JPopupMenu popMenu;
     private UIMenuTable tablePane;
     private UIButton addButton;
@@ -79,6 +80,9 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         }
     }
 
+    protected Dimension getDialogSize() {
+        return DIALOG_SIZE;
+    }
 
     /**
      * 刷新下拉列表和按钮
@@ -120,7 +124,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
                                 fireTargetChanged();
                             }
                         });
-                        dialog.setSize(500, 500);
+                        dialog.setSize(getDialogSize());
                         GUICoreUtils.centerWindow(dialog);
                         dialog.setVisible(true);
                     }
@@ -202,7 +206,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
                         fireTargetChanged();
                     }
                 });
-                dialog.setSize(500, 500);
+                dialog.setSize(getDialogSize());
                 dialog.setVisible(true);
             } else {
                 popMenu.show(UICorrelationComboBoxPane.this, addButton.getX() + 1, addButton.getY() + addButton.getHeight());
