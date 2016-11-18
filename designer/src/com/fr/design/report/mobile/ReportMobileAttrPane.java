@@ -1,6 +1,7 @@
 package com.fr.design.report.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.general.Inter;
 import com.fr.report.mobile.ElementCaseMobileAttr;
 
@@ -16,22 +17,30 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
     private MobileUseHtmlGroupPane htmlGroupPane;
 
+    //工具栏容器
+    private MobileToolBarPane mobileToolBarPane;
+
     public ReportMobileAttrPane() {
         initComponents();
     }
 
     private void initComponents() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         AppFitPreviewPane appFitPreviewPane = new AppFitPreviewPane();
-
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         appFitBrowserPane = new AppFitBrowserPane();
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
-        this.add(appFitBrowserPane);
+        jPanel.add(appFitBrowserPane);
 
-        this.add(htmlGroupPane = new MobileUseHtmlGroupPane());
+        jPanel.add(htmlGroupPane = new MobileUseHtmlGroupPane());
 
-        this.add(appFitPreviewPane);
+        jPanel.add(mobileToolBarPane = new MobileToolBarPane());
+
+        jPanel.add(appFitPreviewPane);
+        UIScrollPane scrollPane = new UIScrollPane(jPanel);
+        this.add(scrollPane);
     }
 
     @Override
@@ -40,7 +49,7 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
             ob = new ElementCaseMobileAttr();
         }
         appFitBrowserPane.populateBean(ob);
-
+        mobileToolBarPane.populateBean(ob);
         htmlGroupPane.populateBean(ob);
 
     }
@@ -48,7 +57,7 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
     @Override
     public ElementCaseMobileAttr updateBean() {
         ElementCaseMobileAttr caseMobileAttr = appFitBrowserPane.updateBean();
-
+        mobileToolBarPane.updateBean(caseMobileAttr);
         htmlGroupPane.updateBean(caseMobileAttr);
 
         return caseMobileAttr;
