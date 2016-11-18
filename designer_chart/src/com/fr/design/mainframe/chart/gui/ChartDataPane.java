@@ -72,7 +72,7 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	public boolean isSupportCellData() {
 		return supportCellData;
 	}
-	
+
 	/**
 	 * 设置数据界面是否支持单元格
 	 */
@@ -109,5 +109,4 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	public void refreshChartDataPane(ChartCollection collection){
 		this.populate(collection);
 	}
-
 }
