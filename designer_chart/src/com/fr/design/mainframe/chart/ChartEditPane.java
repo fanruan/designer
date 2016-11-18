@@ -168,7 +168,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     }
 
     protected ChartDataPane createChartDataPane(String plotID) {
-        return ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
+        ChartDataPane chartDataPane = ChartTypeInterfaceManager.getInstance().getChartDataPane(plotID, listener);
+        chartDataPane.setSupportCellData(dataPane4SupportCell.isSupportCellData());
+        return chartDataPane;
     }
 
     protected void addTypePane() {
