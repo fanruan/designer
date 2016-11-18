@@ -1,4 +1,4 @@
-package com.fr.design.report.mobile;
+package com.fr.design.dialog.mobile;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -13,6 +13,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 这个类要被复用，移动到design_base中去
+ */
 public class MobileRadioCheckPane extends BasicBeanPane<Boolean> {
 
 	private List<UICheckBox> checkBoxes = new ArrayList<UICheckBox>();
@@ -26,16 +29,16 @@ public class MobileRadioCheckPane extends BasicBeanPane<Boolean> {
 		double[] rowSize = {p};
 		double[] columnSize = {p,p};
 
-		UICheckBox checkBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Open"));
-		checkBox.setSelected(true);
+		UICheckBox checkBox = new UICheckBox(title);
+		checkBox.setSelected(false);
 		
 		checkBoxes.add(checkBox);
 
 		Component[][] components = new Component[][]{
-                new Component[]{new UILabel(title), checkBox}
+                new Component[]{checkBox}
         };
         JPanel fitOpsPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        fitOpsPane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
+        fitOpsPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
 
         this.add(fitOpsPane);
 	}
