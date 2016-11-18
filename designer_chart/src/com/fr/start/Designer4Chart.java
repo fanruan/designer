@@ -388,8 +388,8 @@ public class Designer4Chart extends BaseDesigner {
         return new ShortCut[]{
                 new ChartWebAction(),
                 SeparatorDef.DEFAULT,
-                new ChartFeedBackAciton(),
-                SeparatorDef.DEFAULT,
+                //new ChartFeedBackAciton(),
+                //SeparatorDef.DEFAULT,
                 new UpdateOnlineAction(),
                 new AboutAction()
         };
