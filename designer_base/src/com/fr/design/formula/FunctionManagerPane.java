@@ -132,7 +132,7 @@ public class FunctionManagerPane extends BasicPane {
             JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
             this.add(northPane, BorderLayout.NORTH);
             JPanel reportletNamePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            classNameTextField = new UITextField(28);
+            classNameTextField = new UITextField(25);
             reportletNamePane.add(classNameTextField);
             UIButton browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
             browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width,  classNameTextField.getPreferredSize().height));

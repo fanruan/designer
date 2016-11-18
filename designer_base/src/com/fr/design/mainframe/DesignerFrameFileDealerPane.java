@@ -27,6 +27,7 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -42,6 +43,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -411,7 +413,14 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             });
 
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
-            cancelButton.setBounds(250, 90, 60, 25);
+
+            // mod by anchore 16/11/16
+            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
+                cancelButton.setBounds(250, 90, 80, 25);
+            } else {
+                cancelButton.setBounds(180, 90, 80, 25);
+            }
+            //cancelButton.setBounds(250, 90, 60, 25);
             cancelButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     jd.dispose();

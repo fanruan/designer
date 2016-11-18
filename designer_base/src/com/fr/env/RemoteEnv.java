@@ -31,6 +31,7 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
+import com.fr.share.ShareConstants;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -1535,6 +1536,7 @@ public class RemoteEnv implements Env {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_resource");
         para.put("resource", mgr.fileName());
+        para.put("class_name", mgr.getClass().getName());
         para.put("current_uid", this.createUserID());
         para.put("currentUsername", this.getUser());
 
@@ -2107,7 +2109,7 @@ public class RemoteEnv implements Env {
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
-                "fr_share");
+                ShareConstants.DIR_SHARE_CACHE);
         StableUtils.deleteFile(target);
         StableUtils.mkdirs(target);
         File cacheDir = null;
@@ -2122,7 +2124,7 @@ public class RemoteEnv implements Env {
             HttpClient client = createHttpMethod(para);
             InputStream input = client.getResponseStream();
             zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
-            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "fr_share");
+            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), ShareConstants.DIR_SHARE_CACHE);
             StableUtils.deleteFile(cacheDir);
             StableUtils.mkdirs(cacheDir);
             StableUtils.makesureFileExist(zip);
@@ -2145,5 +2147,66 @@ public class RemoteEnv implements Env {
             StableUtils.deleteFile(zip);
         }
         return new File[0];
+    }
+
+    @Override
+    public boolean installREUFile(File reuFile) {
+//        if (reuFile == null) {
+//            return false;
+//        }
+//        try {
+//            HashMap<String, String> para = new HashMap<String, String>();
+//            para.put("op", "fr_remote_design");
+//            para.put("cmd", "design_install_reufile");
+//            para.put("current_uid", this.createUserID());
+//            para.put("currentUsername", this.getUser());
+//            para.put("reuFileName", reuFile.getName());
+//
+//            HttpClient client = createHttpMethod(para);
+//            client.setContent(IOUtils.inputStream2Bytes(new FileInputStream(reuFile)));
+//            InputStream input = execute4InputStream(client);
+//            return ComparatorUtils.equals(stream2String(input), "true");
+//        } catch (Exception e) {
+//            return false;
+//        }
+        return false;
+    }
+
+    @Override
+    public boolean removeREUFilesByName(String fileName) {
+        if (StringUtils.isEmpty(fileName)) {
+            return true;
+        }
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "design_remove_reufile");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+            para.put("reuFileName", fileName);
+
+            HttpClient client = createHttpMethod(para);
+            InputStream input = execute4InputStream(client);
+            return ComparatorUtils.equals(stream2String(input), "true");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public String getSharePath() {
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "design_get_share_path");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+
+            HttpClient client = createHttpMethod(para);
+            InputStream input = execute4InputStream(client);
+            return stream2String(input);
+        } catch (Exception e) {
+            return StringUtils.EMPTY;
+        }
     }
 }
