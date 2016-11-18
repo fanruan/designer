@@ -3,7 +3,6 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.general.Inter;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -103,7 +102,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Insert"), 'I');
         menuDef.setAnchor(MenuHandler.INSERT);
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));
