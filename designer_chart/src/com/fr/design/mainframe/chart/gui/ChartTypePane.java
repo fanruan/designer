@@ -304,7 +304,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		Chart chart = collection.getSelectedChart();
 		this.remove(leftContentPane);
 		initContentPane();
-		this.removeAttributeChangeListener();
+
 		buttonPane.populateBean(collection);
 		chartTypePane.populateBean(chart);
 		//remove面板之后，就需要重构下拉框

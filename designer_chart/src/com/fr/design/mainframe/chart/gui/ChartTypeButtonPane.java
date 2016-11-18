@@ -275,8 +275,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                     break;
                 }
             }
-            if (editChartType != null) {
-                editChartType.populateBean(editingCollection.getSelectedChart());
+            //切换时重新更新整个面板
+            if (parent != null) {
+                parent.populate(editingCollection);
             }
         }
     }
