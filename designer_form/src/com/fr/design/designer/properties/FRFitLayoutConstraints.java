@@ -128,6 +128,7 @@ public class FRFitLayoutConstraints implements ConstraintsGroupModel {
             Rectangle backupBounds = getBounds();
             FRFitLayoutAdapter layoutAdapter = (FRFitLayoutAdapter) AdapterBus.searchLayoutAdapter(formDesigner, xCreator);
             if (layoutAdapter != null) {
+                layoutAdapter.setEdit(true);
                 layoutAdapter.calculateBounds(backupBounds, bounds, xCreator, row, difference);
             }
             return true;
