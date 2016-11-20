@@ -1,8 +1,8 @@
 package com.fr.design.mainframe;
 
 
-
 import com.fr.form.ui.ElCaseBindInfo;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -25,5 +25,4 @@ public class ShareWidgetPane extends JPanel {
             this.setPreferredSize(new Dimension(240, rowCount * 80));
         }
     }
-
 }
