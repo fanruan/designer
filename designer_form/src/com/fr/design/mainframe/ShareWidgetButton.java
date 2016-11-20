@@ -1,12 +1,10 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.*;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.icon.IconPathConstants;
-import com.fr.form.share.ShareConstants;
+import com.fr.share.ShareConstants;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.form.ui.Widget;
