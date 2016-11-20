@@ -26,7 +26,7 @@ public class WebManagerPaneFactory {
     }
 
     public BasicPane createPluginPane() {
-        if (StableUtils.getMajorJavaVersion() != 8) {
+        if (StableUtils.getMajorJavaVersion() == 8) {
             return new ShopManagerPane(new ShopPaneConfig() {
                 @Override
                 String getMainJS() {

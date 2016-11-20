@@ -257,69 +257,11 @@ public class FormWidgetDetailPane extends FormDockView{
         downloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
                 initPopMenu();
             }
         });
         return downloadButton;
     }
-=======
-                UIPopupMenu menu = new UIPopupMenu();
-                UIMenuItem downloadItem = new UIMenuItem(Inter.getLocText("FR-Designer_Download_Template"), BaseUtils.readIcon("/com/fr/design/form/images/download icon.png"));
-                UIMenuItem installItem = new UIMenuItem(Inter.getLocText("FR-Designer_Install_Template"), BaseUtils.readIcon("/com/fr/design/form/images/install icon.png"));
-                UIMenuItem deleteItem = new UIMenuItem(Inter.getLocText("FR-Designer_Delete_Template"), BaseUtils.readIcon("/com/fr/design/form/images/delete icon.png"));
-
-                menu.add(downloadItem);
-                menu.add(installItem);
-                menu.add(deleteItem);
-
-                downloadItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String url = SiteCenter.getInstance().acquireUrlByKind("reuse.url");
-                        if (StringUtils.isEmpty(url)) {
-                            FRContext.getLogger().info("The URL is empty!");
-                            return;
-                        }
-                        try {
-                            Desktop.getDesktop().browse(new URI(url));
-                        } catch (IOException exp) {
-                            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                        } catch (URISyntaxException exp) {
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                        } catch (Exception exp) {
-                            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                            FRContext.getLogger().error("Can not open the browser for URL:  " + url);
-                        }
-
-                    }
-                });
-
-                installItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JFileChooser fileChooser = new JFileChooser();
-                        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                        fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new JLabel(), Inter.getLocText("FR-Designer_Select"));
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            final File chosenFile = fileChooser.getSelectedFile();
-                            installFromDiskZipFile(chosenFile);
-
-                        }
-                    }
-                });
-
-                deleteItem.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        deleteFromDiskZipFile();
-                    }
-                });
-
-                GUICoreUtils.showPopupMenu(menu, tabbedPane, tabbedPane.getX() + OFFSET_X, OFFSET_Y);
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
 
     /**
      * 初始化下拉面板
@@ -403,7 +345,6 @@ public class FormWidgetDetailPane extends FormDockView{
 
     }
 
-<<<<<<< HEAD
     private void replaceButtonPanel(boolean isEdit) {
         this.isEdit = isEdit;
         if (isEdit) {
@@ -413,18 +354,6 @@ public class FormWidgetDetailPane extends FormDockView{
             menutPanel.remove(resetPanel);
             menutPanel.add(initEditButtonPane(), BorderLayout.EAST);
             ShareLoader.getLoader().resetRemovedModuleList();
-=======
-    private void installFromDiskZipFile(File chosenFile) {
-        try {
-            ShareLoader.getLoader().installModuleFromDiskZipFile(chosenFile);
-            refreshShareMoudule();
-            elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
-            refreshDownPanel(false);
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_OK"));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Share_Module_Error"));
-            FRLogger.getLogger().error(e.getMessage(), e);
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
         }
 
 

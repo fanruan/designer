@@ -31,10 +31,7 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginLoader;
-<<<<<<< HEAD
 import com.fr.share.ShareConstants;
-=======
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
@@ -2112,11 +2109,7 @@ public class RemoteEnv implements Env {
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
-<<<<<<< HEAD
                 ShareConstants.DIR_SHARE_CACHE);
-=======
-                "fr_share");
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
         StableUtils.deleteFile(target);
         StableUtils.mkdirs(target);
         File cacheDir = null;
@@ -2131,11 +2124,7 @@ public class RemoteEnv implements Env {
             HttpClient client = createHttpMethod(para);
             InputStream input = client.getResponseStream();
             zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
-<<<<<<< HEAD
             cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), ShareConstants.DIR_SHARE_CACHE);
-=======
-            cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "fr_share");
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
             StableUtils.deleteFile(cacheDir);
             StableUtils.mkdirs(cacheDir);
             StableUtils.makesureFileExist(zip);
@@ -2159,7 +2148,6 @@ public class RemoteEnv implements Env {
         }
         return new File[0];
     }
-<<<<<<< HEAD
 
     @Override
     public boolean installREUFile(File reuFile) {
@@ -2221,6 +2209,4 @@ public class RemoteEnv implements Env {
             return StringUtils.EMPTY;
         }
     }
-=======
->>>>>>> 86c666e44132d7f8fa1727a6d78965b2423ce510
 }
