@@ -3,7 +3,6 @@ package com.fr.design.gui.icontainer;
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -217,8 +216,8 @@ public class UIResizableContainer extends JPanel {
                 }
             } else if (direction == Constants.LEFT) {
                 if(isDownPaneVisible){
-                    if (toolPaneY > getHeight() - toolPaneHeight) {
-                        toolPaneY = getHeight() - toolPaneHeight;
+                    if (toolPaneY > getHeight() - toolPaneHeight - getParameterPaneHeight()) {
+                        toolPaneY = getHeight() - toolPaneHeight - getParameterPaneHeight();
                     }
                     parameterPane.setBounds(20, 0, 230, getParameterPaneHeight());
                     upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, toolPaneY);
