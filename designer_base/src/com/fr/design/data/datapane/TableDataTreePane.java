@@ -38,6 +38,7 @@ import java.awt.dnd.DnDConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -276,7 +277,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
      * @param tableDataSource 数据集
      */
     public Map<String, String> addTableData(String srcName, TableDataSource tableDataSource) {
-        Map<String,String> tdNameMap=new HashMap<>();
+        Map<String, String> tdNameMap = new HashMap<>();
         allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
         DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
         TableDataSource tds = tc.getBook();
@@ -300,6 +301,6 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         }
         tc.parameterChanged();
         dataTree.refresh();
-        return tdNameMap;
+        return  Collections.unmodifiableMap(tdNameMap);
     }
 }
