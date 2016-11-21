@@ -26,6 +26,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
+import java.util.Map;
 
 /**
  * 添加模式下鼠标事件处理器。
@@ -88,7 +89,9 @@ public class FormCreatorDropTarget extends DropTarget {
                 SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
                 ElCaseBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
-                    TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(),sharableEditor.getTableDataSource());
+                    Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
+                    //合并数据集之后,可能会有数据集名称变化，做一下联动
+                    sharableEditor.batchRenameTdName(tdNameMap);
                 }
             }
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
