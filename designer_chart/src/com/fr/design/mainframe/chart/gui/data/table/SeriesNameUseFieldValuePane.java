@@ -11,6 +11,7 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
@@ -76,12 +77,12 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p, p};
-        UILabel Label1 = new UILabel(Inter.getLocText("Chart-Series_Name") + ":", SwingConstants.RIGHT);
-        Label1.setPreferredSize(new Dimension(75, 20));
+        UILabel Label1 = new UILabel(Inter.getLocText("FR-Chart-Series_Name") + ":", SwingConstants.RIGHT);
+        Label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         UILabel Label2 = new UILabel(Inter.getLocText("Chart-Series_Value") + ":", SwingConstants.RIGHT);
-        Label2.setPreferredSize(new Dimension(75, 20));
+        Label2.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         UILabel Label3 = new UILabel(Inter.getLocText("Chart-Summary_Method") + ":", SwingConstants.RIGHT);
-        Label3.setPreferredSize(new Dimension(75, 20));
+        Label3.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         Component[][] components = getUseComponent(Label1, Label2, Label3);
 
         centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 4, 6);

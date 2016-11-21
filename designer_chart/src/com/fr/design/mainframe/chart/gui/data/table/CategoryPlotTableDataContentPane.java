@@ -42,7 +42,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		JPanel categoryPane = new JPanel(new BorderLayout(4,0));
 		categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
         UILabel label1 = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name") + ":", SwingConstants.RIGHT) ;
-        label1.setPreferredSize(new Dimension(75,20));
+        label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
         categoryCombox.setPreferredSize(new Dimension(100,20));
 
         categoryCombox.addItem(Inter.getLocText("Chart-Use_None"));

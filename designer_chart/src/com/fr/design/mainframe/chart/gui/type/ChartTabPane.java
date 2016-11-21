@@ -2,6 +2,7 @@ package com.fr.design.mainframe.chart.gui.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.dialog.MultiTabPane;
+import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.mainframe.chart.gui.style.legend.AutoSelectedPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
@@ -15,6 +16,7 @@ import java.awt.*;
 public abstract class ChartTabPane extends MultiTabPane<Chart> {
 
     private static final long serialVersionUID = 8633385688766835240L;
+    private boolean setTooltip = true;
 
     @Override
     protected void initLayout() {
@@ -24,6 +26,26 @@ public abstract class ChartTabPane extends MultiTabPane<Chart> {
         this.setLayout(new BorderLayout(0, 4));
         this.add(tabPanel, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    //日文环境下,显示不全的,用tooltip
+    private void setSomeTooltipText() {
+        for(int i = 0, size = paneList.size(); i<size; i++){
+            String tooltip = paneList.get(i).getTitle();
+            UIToggleButton button = tabPane.getButton(i);
+            if(button.getPreferredSize().getWidth() > button.getSize().getWidth()) {
+                button.setToolTipText(tooltip);
+            }
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        if(setTooltip) {
+            setSomeTooltipText();
+            setTooltip = false;
+        }
     }
 
     @Override

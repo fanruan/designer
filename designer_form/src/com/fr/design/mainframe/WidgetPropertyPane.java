@@ -38,7 +38,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private EventPropertyTable eventTable;
     private List<AbstractPropertyTable> widgetPropertyTables;
     private FormDesigner designer;
-    private ComponentTree componentTree;
     private JPanel wsp;
     private MobileWidgetTable mobileWidgetTable;
     private MobileBodyWidgetTable mobileBodyWidgetTable;
@@ -122,8 +121,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             clearDockingView();
             return;
         }
-
-        componentTree = new ComponentTree(designer);
         widgetPropertyTables = new ArrayList<AbstractPropertyTable>();
         propertyTable = new WidgetPropertyTable(designer);
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));

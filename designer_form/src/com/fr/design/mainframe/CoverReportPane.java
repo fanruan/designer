@@ -3,7 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
-import com.fr.form.share.ShareConstants;
+import com.fr.share.ShareConstants;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;

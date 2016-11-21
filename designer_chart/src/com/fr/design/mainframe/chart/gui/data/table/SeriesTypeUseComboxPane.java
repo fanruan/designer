@@ -48,7 +48,7 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
         this.setLayout(new BorderLayout(4, LayoutConstants.VGAP_MEDIUM));
         JPanel northPane = new JPanel(new BorderLayout(4, 0));
         UILabel label1 = new UILabel(Inter.getLocText("ChartF-Series_Name_From") + ":", SwingConstants.RIGHT);
-        label1.setPreferredSize(new Dimension(75, 20));
+        label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{jcb, null, null, label1, null}));
         northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 1));
         this.add(northPane, BorderLayout.NORTH);
