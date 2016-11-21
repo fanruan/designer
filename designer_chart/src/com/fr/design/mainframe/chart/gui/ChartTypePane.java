@@ -294,7 +294,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	// TODO: 2016/11/17 因为现在populate面板时会重新构造面板，所以每次都需要重构
 	private boolean needReactor(ChartCollection collection) {
 		/*return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();*/
-		return true;
+		return !ComparatorUtils.equals(collection.getState(), SwitchState.DEFAULT);
 	}
 
 	/**
