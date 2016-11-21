@@ -387,16 +387,29 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             oldName = oldName.replaceAll(suffix, "");
 
             jd = new JDialog();
-            jd.setLayout(null);
+            jd.setLayout(new GridLayout(2, 2));
             jd.setModal(true);
-            UILabel newNameLable = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
-            newNameLable.setBounds(20, 10, 130, 30);
+            UILabel newNameLabel = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
+//            newNameLabel.setBounds(20, 10, 130, 30);
+            newNameLabel.setPreferredSize(new Dimension(150, 20));
             jt = new UITextField(oldName);
             jt.getDocument().addDocumentListener(getdoDocumentListener());
             jt.selectAll();
-            jt.setBounds(130, 15, 150, 20);
-            jd.add(newNameLable);
-            jd.add(jt);
+//            jt.setBounds(130, 15, 150, 20);
+            jt.setPreferredSize(new Dimension(150, 20));
+
+            JPanel tmp = new JPanel();
+            tmp.add(newNameLabel);
+            JPanel newNamePanel = new JPanel(new BorderLayout());
+            newNamePanel.add(tmp, BorderLayout.SOUTH);
+            jd.add(newNamePanel);
+
+            tmp = new JPanel();
+            tmp.add(jt);
+            JPanel jtPanel = new JPanel(new BorderLayout());
+            jtPanel.add(tmp, BorderLayout.SOUTH);
+            jd.add(jtPanel);
+
             addUITextFieldListener(nodeFile, path);
 
             hintsLabel = new UILabel();
@@ -405,7 +418,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             hintsLabel.setVisible(false);
 
             confirmButton = new UIButton(Inter.getLocText("FR-Designer_Confirm"));
-            confirmButton.setBounds(180, 90, 60, 25);
+//            confirmButton.setBounds(180, 90, 60, 25);
+            confirmButton.setPreferredSize(new Dimension(80, 30));
             confirmButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     confirmClose(nodeFile, path);
@@ -413,23 +427,25 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             });
 
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
+//            cancelButton.setBounds(250, 90, 60, 25);
+            cancelButton.setPreferredSize(new Dimension(80, 30));
 
-            // mod by anchore 16/11/21
-            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
-                cancelButton.setBounds(250, 90, 80, 25);
-            } else {
-                cancelButton.setBounds(250, 90, 60, 25);
-            }
             cancelButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     jd.dispose();
                 }
             });
 
-            jd.add(cancelButton);
-            jd.add(confirmButton);
-            jd.add(hintsLabel);
-            jd.setSize(340, 180);
+            jd.add(new JPanel());
+
+            JPanel btPanel = new JPanel(new BorderLayout());
+            tmp = new JPanel();
+            tmp.add(confirmButton);
+            tmp.add(cancelButton);
+            btPanel.add(tmp, BorderLayout.SOUTH);
+            jd.add(btPanel);
+
+            jd.setSize(380, 200);
             jd.setTitle(Inter.getLocText("FR-Designer_Rename"));
             jd.setResizable(false);
             jd.setAlwaysOnTop(true);
