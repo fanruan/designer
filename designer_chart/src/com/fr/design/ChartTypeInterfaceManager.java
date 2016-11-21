@@ -274,8 +274,18 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     public String getTitle4PopupWindow(String priority, String plotID){
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)){
             IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
-            return   provider.getPlotTypePane().title4PopupWindow();
+            return provider.getPlotTypePane().title4PopupWindow();
+        }
 
+        //兼容老的插件
+        if (chartTypeInterfaces != null) {
+            Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                String defaultPriority = (String) entry.getKey();
+                if (chartTypeInterfaces.get(defaultPriority).containsKey(plotID))
+                return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypePane().title4PopupWindow();
+            }
         }
         return new String();
     }
