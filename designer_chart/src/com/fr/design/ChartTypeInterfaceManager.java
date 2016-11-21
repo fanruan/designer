@@ -273,7 +273,6 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
      */
     public String getTitle4PopupWindow(String priority, String plotID){
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)){
-            HashMap<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
             IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
             return   provider.getPlotTypePane().title4PopupWindow();
 
