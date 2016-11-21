@@ -283,8 +283,9 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             while (iterator.hasNext()) {
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String defaultPriority = (String) entry.getKey();
-                if (chartTypeInterfaces.get(defaultPriority).containsKey(plotID))
-                return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypePane().title4PopupWindow();
+                if (chartTypeInterfaces.get(defaultPriority).containsKey(plotID)) {
+                    return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypePane().title4PopupWindow();
+                }
             }
         }
         return new String();
