@@ -56,6 +56,11 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
                 this.add(formulaTextFieldButton, BorderLayout.EAST);
             }
 
+            @Override
+            protected boolean dealEmpty() {
+                return false;
+            }
+
             public void okEvent() {
                 checkBoxUse();
             }

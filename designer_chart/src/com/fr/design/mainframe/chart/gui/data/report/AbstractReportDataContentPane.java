@@ -3,8 +3,8 @@ package com.fr.design.mainframe.chart.gui.data.report;
 import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.UICorrelationPane;
@@ -154,6 +154,11 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 					public void okEvent() {
 						seriesPane.stopCellEditing();
 						seriesPane.fireTargetChanged();
+					}
+
+					@Override
+					protected boolean dealEmpty() {
+						return false;
 					}
 				};
 				editorComponent.setBackground(UIConstants.FLESH_BLUE);
