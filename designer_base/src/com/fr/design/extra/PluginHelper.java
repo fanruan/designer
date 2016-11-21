@@ -15,6 +15,7 @@ import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 
@@ -47,6 +48,9 @@ public class PluginHelper {
      * @param p  下载百分比处理
      */
     public static void downloadPluginFile(String id, String username, String password, Process<Double> p) throws Exception {
+        if (!PluginHelper.invalidUser(id, username, password)) {
+            return;
+        }
         HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();
@@ -69,6 +73,16 @@ public class PluginHelper {
             writer.close();
         } else {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Connect_Server_Error"));
+        }
+    }
+
+    private static boolean invalidUser(String id, String username, String password) {
+        if (StringUtils.isEmpty(id)) {
+            return false;
+        } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
+            return false;
+        } else {
+            return true;
         }
     }
 
