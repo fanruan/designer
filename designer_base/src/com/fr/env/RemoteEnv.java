@@ -514,8 +514,10 @@ public class RemoteEnv implements Env {
     }
 
     private void stopLogTimer() {
-        logTimer.cancel();
-        logTimer = null;
+        if(logTimer != null) {
+            logTimer.cancel();
+            logTimer = null;
+        }
     }
 
     /**
