@@ -56,15 +56,11 @@ public class FormCreatorDropTarget extends DropTarget {
     private void adding(int x, int y) {
         // 当前鼠标所在的组件
         XCreator hoveredComponent = designer.getComponentAt(x, y);
-
         // 获取该组件所在的焦点容器
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(hoveredComponent);
-
         //cardTagLayout里用到
         container.stopAddingState(designer);
-
         boolean success = false;
-
         if (container != null) {
             // 如果是容器，则调用其acceptComponent接受组件
             AddingModel model = designer.getAddingModel();
@@ -77,7 +73,6 @@ public class FormCreatorDropTarget extends DropTarget {
             }
             cancelPromptWidgetForbidEnter();
         }
-
         if (success) {
             // 如果添加成功，则触发相应事件
             XCreator xCreator = container.acceptType(XWParameterLayout.class) ? designer.getParaComponent() : designer.getRootComponent();
@@ -101,7 +96,6 @@ public class FormCreatorDropTarget extends DropTarget {
         } else {
             Toolkit.getDefaultToolkit().beep();
         }
-
         // 取消提示
         designer.setPainter(null);
         // 切换添加状态到普通状态
@@ -132,53 +126,58 @@ public class FormCreatorDropTarget extends DropTarget {
         //提示组件是否可以拖入
         promptUser(x, y, container);
         if (container != null) {
-            HoverPainter painter = null;
 
-            if (container != current || designer.getPainter() == null) {
-                // 如果焦点容器不是当前容器
-                if (current != null) {
-                    // 取消前一个焦点容器的提示渲染器
-                    designer.setPainter(null);
-                }
-                //获取painter的时候要考虑布局之间嵌套的问题
-                XLayoutContainer xLayoutContainer = container.getTopLayout();
-                if (xLayoutContainer != null && xLayoutContainer.getParent() != null
-                        && ((XLayoutContainer) xLayoutContainer.getParent()).acceptType(XWAbsoluteLayout.class)) {
-                    if (!xLayoutContainer.isEditable()) {
-                        xLayoutContainer = (XLayoutContainer) xLayoutContainer.getParent();
-                    }
-                }
-                painter = AdapterBus.getContainerPainter(designer,
-                        xLayoutContainer != null && xLayoutContainer.acceptType(XWAbsoluteLayout.class) ? xLayoutContainer : container);
+            dealWithContainer(x, y, container);
 
-                // 为界面设计器设置提示渲染提示器
-                designer.setPainter(painter);
-
-                // 将当前容器更新为新的容器
-                current = container;
-            } else {
-                // 获取当前设计界面的提示渲染器
-                Painter p = designer.getPainter();
-                if (p instanceof HoverPainter) {
-                    painter = (HoverPainter) p;
-                }
-            }
-
-            if (painter != null) {
-                // 为提示渲染器设置焦点位置、区域等渲染参数
-                Rectangle rect = ComponentUtils.getRelativeBounds(container);
-                rect.x -= designer.getArea().getHorizontalValue();
-                rect.y -= designer.getArea().getVerticalValue();
-                painter.setRenderingBounds(rect);
-                painter.setHotspot(new Point(x, y));
-                painter.setCreator(addingModel.getXCreator());
-            }
         } else {
             // 如果鼠标不在任何组件上，则取消提示器
             designer.setPainter(null);
             current = null;
         }
         designer.repaint();
+    }
+
+    private void dealWithContainer(int x, int y, XLayoutContainer container) {
+        HoverPainter painter = null;
+
+        if (container != current || designer.getPainter() == null) {
+            // 如果焦点容器不是当前容器
+            if (current != null) {
+                // 取消前一个焦点容器的提示渲染器
+                designer.setPainter(null);
+            }
+            //获取painter的时候要考虑布局之间嵌套的问题
+            XLayoutContainer xLayoutContainer = container.getTopLayout();
+            if (xLayoutContainer != null && xLayoutContainer.getParent() != null
+                    && ((XLayoutContainer) xLayoutContainer.getParent()).acceptType(XWAbsoluteLayout.class)) {
+                if (!xLayoutContainer.isEditable()) {
+                    xLayoutContainer = (XLayoutContainer) xLayoutContainer.getParent();
+                }
+            }
+            painter = AdapterBus.getContainerPainter(designer,
+                    xLayoutContainer != null && xLayoutContainer.acceptType(XWAbsoluteLayout.class) ? xLayoutContainer : container);
+
+            // 为界面设计器设置提示渲染提示器
+            designer.setPainter(painter);
+
+            // 将当前容器更新为新的容器
+            current = container;
+        } else {
+            // 获取当前设计界面的提示渲染器
+            Painter p = designer.getPainter();
+            if (p instanceof HoverPainter) {
+                painter = (HoverPainter) p;
+            }
+        }
+        if (painter != null) {
+            // 为提示渲染器设置焦点位置、区域等渲染参数
+            Rectangle rect = ComponentUtils.getRelativeBounds(container);
+            rect.x -= designer.getArea().getHorizontalValue();
+            rect.y -= designer.getArea().getVerticalValue();
+            painter.setRenderingBounds(rect);
+            painter.setHotspot(new Point(x, y));
+            painter.setCreator(addingModel.getXCreator());
+        }
     }
 
     private void promptUser(int x, int y, XLayoutContainer container) {
