@@ -290,7 +290,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
             }
             int i = 0;
             while (tds.getTableData(tdName) != null) {
-                i++;//如果拼上名字后依然已经存在就加编号 
+                i++;//如果拼上名字后依然已经存在就加编号
                 tdName += i;
             }
             tds.putTableData(tdName, td);
