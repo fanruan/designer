@@ -157,8 +157,8 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 					}
 
 					@Override
-					protected boolean dealEmpty() {
-						return false;
+					protected void populateTextField(Formula fm) {
+						formulaTextField.setText(fm.getContent());
 					}
 				};
 				editorComponent.setBackground(UIConstants.FLESH_BLUE);

@@ -56,11 +56,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 					@Override
 					public void doOk() {
 						Formula fm = formulaPane.update();
-						if (dealEmpty() && fm.getContent().length() <= 1) {
-							formulaTextField.setText("$$$");
-						} else {
-							formulaTextField.setText(fm.getContent());
-						}
+						populateTextField(fm);
 						okEvent();
 					}
 				}).setVisible(true);
@@ -69,8 +65,12 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 		initLayout();
 	}
 
-	protected boolean dealEmpty() {
-		return true;
+	protected void populateTextField(Formula fm) {
+		if (fm.getContent().length() <= 1) {
+			formulaTextField.setText("$$$");
+		} else {
+			formulaTextField.setText(fm.getContent());
+		}
 	}
 
 	protected void initLayout() {
