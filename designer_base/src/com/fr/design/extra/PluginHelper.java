@@ -48,10 +48,7 @@ public class PluginHelper {
      * @param p  下载百分比处理
      */
     public static void downloadPluginFile(String id, String username, String password, Process<Double> p) throws Exception {
-        if (StringUtils.isEmpty(id)) {
-            return;
-        }
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+        if (!PluginHelper.invalidUser(id, username, password)) {
             return;
         }
         HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
@@ -76,6 +73,16 @@ public class PluginHelper {
             writer.close();
         } else {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Connect_Server_Error"));
+        }
+    }
+
+    private static boolean invalidUser(String id, String username, String password) {
+        if (StringUtils.isEmpty(id)) {
+            return false;
+        } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
+            return false;
+        } else {
+            return true;
         }
     }
 
