@@ -163,7 +163,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String priority = (String) entry.getKey();
                 String imagePath = getIconPath(priority, plotID);
-                if (!StringUtils.isEmpty(imagePath)) {
+                if (StringUtils.isNotEmpty(imagePath)) {
                     return imagePath;
                 }
             }
