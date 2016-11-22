@@ -391,35 +391,44 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             jd.setModal(true);
             UILabel newNameLabel = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
 //            newNameLabel.setBounds(20, 10, 130, 30);
-            newNameLabel.setPreferredSize(new Dimension(150, 20));
+            newNameLabel.setMinimumSize(new Dimension(150, 27));
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             jt = new UITextField(oldName);
             jt.getDocument().addDocumentListener(getdoDocumentListener());
             jt.selectAll();
 //            jt.setBounds(130, 15, 150, 20);
             jt.setPreferredSize(new Dimension(150, 20));
 
-            JPanel tmp = new JPanel();
-            tmp.add(newNameLabel);
-            JPanel newNamePanel = new JPanel(new BorderLayout());
-            newNamePanel.add(tmp, BorderLayout.SOUTH);
+            JPanel newNamePanel = new JPanel();
+            newNamePanel.setLayout(new BoxLayout(newNamePanel, BoxLayout.X_AXIS));
+            newNamePanel.add(Box.createHorizontalGlue());
+            newNamePanel.add(newNameLabel);
+            newNamePanel.add(Box.createHorizontalStrut(5));
             jd.add(newNamePanel);
 
-            tmp = new JPanel();
-            tmp.add(jt);
-            JPanel jtPanel = new JPanel(new BorderLayout());
-            jtPanel.add(tmp, BorderLayout.SOUTH);
+            JPanel jtPanel = new JPanel();
+            jtPanel.setLayout(new BoxLayout(jtPanel, BoxLayout.Y_AXIS));
+            JPanel containJt = new JPanel(new BorderLayout());
+            containJt.add(jt, BorderLayout.WEST);
+            containJt.setMaximumSize(new Dimension(200, 20));
+            jtPanel.add(Box.createVerticalGlue());
+            jtPanel.add(containJt);
+            jtPanel.add(Box.createVerticalGlue());
             jd.add(jtPanel);
 
             addUITextFieldListener(nodeFile, path);
 
             hintsLabel = new UILabel();
             hintsLabel.setBounds(20, 50, 250, 30);
+            hintsLabel.setMaximumSize(new Dimension(200, 30));
+            hintsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             hintsLabel.setForeground(Color.RED);
             hintsLabel.setVisible(false);
 
             confirmButton = new UIButton(Inter.getLocText("FR-Designer_Confirm"));
 //            confirmButton.setBounds(180, 90, 60, 25);
-            confirmButton.setPreferredSize(new Dimension(80, 30));
+            confirmButton.setMinimumSize(new Dimension(60, 25));
+            confirmButton.setMaximumSize(new Dimension(60, 25));
             confirmButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     confirmClose(nodeFile, path);
@@ -428,7 +437,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
 //            cancelButton.setBounds(250, 90, 60, 25);
-            cancelButton.setPreferredSize(new Dimension(80, 30));
+            cancelButton.setMinimumSize(new Dimension(60, 25));
+            cancelButton.setMaximumSize(new Dimension(60, 25));
 
             cancelButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -436,13 +446,18 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 }
             });
 
-            jd.add(new JPanel());
+            JPanel hintsPanel = new JPanel();
+            hintsPanel.setLayout(new BorderLayout());
+            hintsPanel.add(hintsLabel, BorderLayout.EAST);
+            jd.add(hintsLabel);
 
             JPanel btPanel = new JPanel(new BorderLayout());
-            tmp = new JPanel();
-            tmp.add(confirmButton);
-            tmp.add(cancelButton);
-            btPanel.add(tmp, BorderLayout.SOUTH);
+            btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
+            btPanel.add(Box.createHorizontalGlue());
+            btPanel.add(confirmButton);
+            btPanel.add(Box.createHorizontalStrut(15));
+            btPanel.add(cancelButton);
+            btPanel.add(Box.createHorizontalStrut(20));
             jd.add(btPanel);
 
             jd.setSize(380, 200);
