@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data.report;
 
+import com.fr.base.Formula;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;
@@ -54,6 +55,11 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
                 formulaTextField.setPreferredSize(new Dimension(100, 20));
                 this.add(formulaTextField, BorderLayout.CENTER);
                 this.add(formulaTextFieldButton, BorderLayout.EAST);
+            }
+
+            @Override
+            protected void populateTextField(Formula fm) {
+                formulaTextField.setText(fm.getContent());
             }
 
             public void okEvent() {

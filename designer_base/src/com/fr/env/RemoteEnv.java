@@ -2116,6 +2116,7 @@ public class RemoteEnv implements Env {
         StableUtils.mkdirs(target);
         File cacheDir = null;
         File zip = null;
+        OutputStream out = null;
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "fr_remote_design");
@@ -2124,16 +2125,15 @@ public class RemoteEnv implements Env {
             para.put("currentUsername", this.getUser());
 
             HttpClient client = createHttpMethod(para);
-            InputStream input = client.getResponseStream();
+            InputStream input = client.getResponseStream();//拿到服务端传过来的整个共享文件夹的压缩文件的文件流
             zip = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), "share.zip");
             cacheDir = new File(StableUtils.pathJoin(CacheManager.getProviderInstance().getCacheDirectory().getAbsolutePath()), ShareConstants.DIR_SHARE_CACHE);
             StableUtils.deleteFile(cacheDir);
             StableUtils.mkdirs(cacheDir);
             StableUtils.makesureFileExist(zip);
-            FileOutputStream out = new FileOutputStream(zip);
-            IOUtils.copyBinaryTo(input, out);
-            out.flush();
-            out.close();
+            out = new FileOutputStream(zip);
+            IOUtils.copyBinaryTo(input, out);//放到本地缓存目录下
+
             IOUtils.unzip(zip, cacheDir.getAbsolutePath(), EncodeConstants.ENCODING_GBK);//先解压到临时目录
             if (cacheDir.exists() && cacheDir.isDirectory()) {
                 return cacheDir.listFiles(new FilenameFilter() {
@@ -2146,6 +2146,10 @@ public class RemoteEnv implements Env {
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         } finally {
+            if (out != null) {
+                out.flush();
+                out.close();
+            }
             StableUtils.deleteFile(zip);
         }
         return new File[0];
@@ -2153,25 +2157,33 @@ public class RemoteEnv implements Env {
 
     @Override
     public boolean installREUFile(File reuFile) {
-//        if (reuFile == null) {
-//            return false;
-//        }
-//        try {
-//            HashMap<String, String> para = new HashMap<String, String>();
-//            para.put("op", "fr_remote_design");
-//            para.put("cmd", "design_install_reufile");
-//            para.put("current_uid", this.createUserID());
-//            para.put("currentUsername", this.getUser());
-//            para.put("reuFileName", reuFile.getName());
-//
-//            HttpClient client = createHttpMethod(para);
-//            client.setContent(IOUtils.inputStream2Bytes(new FileInputStream(reuFile)));
-//            InputStream input = execute4InputStream(client);
-//            return ComparatorUtils.equals(stream2String(input), "true");
-//        } catch (Exception e) {
-//            return false;
-//        }
-        return false;
+        if (reuFile == null) {
+            return false;
+        }
+        File tempFile = new File(CacheManager.getProviderInstance().getCacheDirectory(), "temp_remote");
+        IOUtils.unzip(reuFile, tempFile.getAbsolutePath());
+        String shareXMLName = StableUtils.pathJoin(tempFile.getAbsolutePath(), ShareConstants.NAME_XML_MODULE);
+        String helpXMLName = StableUtils.pathJoin(tempFile.getAbsolutePath(), ShareConstants.NAME_XML_HELP);
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "design_install_reufile");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+            para.put("reuFileName", reuFile.getName());
+
+            HttpClient client = createHttpMethod(para);
+            client.setContent(IOUtils.inputStream2Bytes(new FileInputStream(new File(shareXMLName))));
+            InputStream input = execute4InputStream(client);
+            client.release();
+            para.put("isComplete", "true");
+            HttpClient client1 = createHttpMethod(para);
+            client1.setContent(IOUtils.inputStream2Bytes(new FileInputStream(new File(helpXMLName))));
+            InputStream input1 = execute4InputStream(client1);
+            return ComparatorUtils.equals(stream2String(input), "true") && ComparatorUtils.equals(stream2String(input1), "true");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

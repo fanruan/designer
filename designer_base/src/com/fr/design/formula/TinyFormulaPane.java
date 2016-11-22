@@ -42,7 +42,7 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 
 		// 添加一公式编辑器按钮
 		formulaTextFieldButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-		formulaTextFieldButton.setToolTipText(Inter.getLocText("Formula") + "...");
+		formulaTextFieldButton.setToolTipText(Inter.getLocText("FR-Designer_Formula") + "...");
 		formulaTextFieldButton.setPreferredSize(new Dimension(24, 20));
 		formulaTextFieldButton.setOpaque(false);
 		formulaTextFieldButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -56,17 +56,21 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 					@Override
 					public void doOk() {
 						Formula fm = formulaPane.update();
-						if (fm.getContent().length() <= 1) {
-							formulaTextField.setText("$$$");
-						} else {
-							formulaTextField.setText(fm.getContent());
-						}
+						populateTextField(fm);
 						okEvent();
 					}
 				}).setVisible(true);
 			}
 		});
 		initLayout();
+	}
+
+	protected void populateTextField(Formula fm) {
+		if (fm.getContent().length() <= 1) {
+			formulaTextField.setText("$$$");
+		} else {
+			formulaTextField.setText(fm.getContent());
+		}
 	}
 
 	protected void initLayout() {
