@@ -428,11 +428,11 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     }
 
     /**
-     * 合并数据集
+     * 合并数据集并返回自动更改数据集名字的新老名字键值对
      * @param srcName 数据集来源(比如报表块，就是报表块的名称)
      * @param tableDataSource 数据集
      */
-    public void addTableData(String srcName, TableDataSource tableDataSource) {
-
+    public Map<String, String> addTableData(String srcName, TableDataSource tableDataSource) {
+         return new HashMap<>(0);
     }
 }
