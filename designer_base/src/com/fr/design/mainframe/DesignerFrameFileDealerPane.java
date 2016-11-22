@@ -390,13 +390,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             jd.setLayout(new GridLayout(2, 2));
             jd.setModal(true);
             UILabel newNameLabel = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
-//            newNameLabel.setBounds(20, 10, 130, 30);
             newNameLabel.setMinimumSize(new Dimension(150, 27));
             newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             jt = new UITextField(oldName);
             jt.getDocument().addDocumentListener(getdoDocumentListener());
             jt.selectAll();
-//            jt.setBounds(130, 15, 150, 20);
             jt.setPreferredSize(new Dimension(150, 20));
 
             JPanel newNamePanel = new JPanel();
@@ -426,9 +424,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             hintsLabel.setVisible(false);
 
             confirmButton = new UIButton(Inter.getLocText("FR-Designer_Confirm"));
-//            confirmButton.setBounds(180, 90, 60, 25);
-            confirmButton.setMinimumSize(new Dimension(60, 25));
-            confirmButton.setMaximumSize(new Dimension(60, 25));
+            confirmButton.setPreferredSize(new Dimension(80, 25));
+            confirmButton.setMinimumSize(new Dimension(80, 25));
+            confirmButton.setMaximumSize(new Dimension(80, 25));
             confirmButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     confirmClose(nodeFile, path);
@@ -436,9 +434,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             });
 
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
-//            cancelButton.setBounds(250, 90, 60, 25);
-            cancelButton.setMinimumSize(new Dimension(60, 25));
-            cancelButton.setMaximumSize(new Dimension(60, 25));
+            cancelButton.setPreferredSize(new Dimension(80, 25));
+            cancelButton.setMinimumSize(new Dimension(80, 25));
+            cancelButton.setMaximumSize(new Dimension(80, 25));
 
             cancelButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -455,7 +453,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
             btPanel.add(Box.createHorizontalGlue());
             btPanel.add(confirmButton);
-            btPanel.add(Box.createHorizontalStrut(15));
+            btPanel.add(Box.createHorizontalStrut(5));
             btPanel.add(cancelButton);
             btPanel.add(Box.createHorizontalStrut(20));
             jd.add(btPanel);
