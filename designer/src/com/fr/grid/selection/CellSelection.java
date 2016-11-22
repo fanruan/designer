@@ -237,7 +237,7 @@ public class CellSelection extends Selection {
             list.add((TemplateCellElement) cellElement.deriveCellElement(cellElement.getColumn() - column, cellElement.getRow() - row));
         }
 
-        transferable.addObject(new CellElementsClip(this.columnSpan, this.rowSpan, list.toArray(new TemplateCellElement[list.size()])));
+        transferable.addObject(new CellElementsClip(this.column, this.row, this.columnSpan, this.rowSpan, list.toArray(new TemplateCellElement[list.size()])));
     }
 
     /**
