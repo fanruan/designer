@@ -61,22 +61,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     //所以:stopEditing--选中其他button则响应click之后relayout;普通失焦则直接relayout.
     private boolean pressOtherButtonWhenEditing = false;
 
-
-//    private AWTEventListener awt = new AWTEventListener() {
-//        public void eventDispatched(AWTEvent event) {
-//            //没有进行鼠标点击，则返回
-//            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
-//                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
-//                    stopEditing();
-//                    if (event.getSource() instanceof ChartChangeButton) {
-//                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
-//                    }
-//                    populateBean(editingCollection);
-//                }
-//            }
-//        }
-//    };
-
     public ChartTypeButtonPane(ChartTypePane chartTypePane){
         this();
         parent = chartTypePane;
@@ -440,25 +424,22 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         }
 
         private void deleteAButton() {
+            //先重构属性，在重构面板，否则面板在重构过程中，会重新将属性中的切换图表加到indexList中，导致面板无法删除
+            if (editingCollection != null) {
+                int count = editingCollection.getChartCount();
+                for (int i = 0; i < count; i++) {
+                    if (ComparatorUtils.equals(getButtonName(), editingCollection.getChartName(i))) {
+                        editingCollection.removeNameObject(i);
+                        break;
+                    }
+                }
+            }
+
             if (indexList.contains(this) && indexList.size() > 1) {
                 indexList.remove(this);
-
                 if (this.isSelected()) {
                     indexList.get(0).setSelected(true);
                     changeCollectionSelected(indexList.get(0).getButtonName());
-                }
-
-                if (editingCollection != null) {
-                    int count = editingCollection.getChartCount();
-                    for (int i = 0; i < count; i++) {
-                        if (ComparatorUtils.equals(getButtonName(), editingCollection.getChartName(i))) {
-                            editingCollection.removeNameObject(i);
-                            if (i <= editingCollection.getSelectedIndex()){
-                                editingCollection.setSelectedIndex(editingCollection.getSelectedIndex()-1);
-                            }
-                            break;
-                        }
-                    }
                 }
             }
 
