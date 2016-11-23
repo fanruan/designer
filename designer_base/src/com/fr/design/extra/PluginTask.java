@@ -77,9 +77,7 @@ public class PluginTask<T> extends Task<T> {
      */
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
-            String a = old.replaceAll("\n", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'");
-            System.out.println(a);
-            return a;
+            return old.replaceAll("\n", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'");
         }
         return StringUtils.EMPTY;
     }
