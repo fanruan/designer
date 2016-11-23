@@ -29,19 +29,19 @@ public class WebManagerPaneFactory {
         if (StableUtils.getMajorJavaVersion() == 8) {
             return new ShopManagerPane(new ShopPaneConfig() {
                 @Override
-                String getMainJS() {
+                String setMainJS() {
                     String relativePath = "/scripts/store/web/index.html";
                     return StableUtils.pathJoin(new File(installHome).getAbsolutePath(), relativePath);
                 }
 
                 @Override
-                String getScriptsId() {
+                String setScriptsId() {
                     return "shop_scripts";
                 }
 
                 @Override
-                JFXPanel getWebPane() {
-                    return new PluginWebPane(getMainJS());
+                JFXPanel setWebPane() {
+                    return new PluginWebPane(setMainJS());
                 }
 
             });
@@ -61,19 +61,19 @@ public class WebManagerPaneFactory {
     public BasicPane createReusePane() {
         return new ShopManagerPane(new ShopPaneConfig() {
             @Override
-            String getMainJS() {
+            String setMainJS() {
                 String relativePath = "/scripts/store/reuse/index.html";
                 return StableUtils.pathJoin(new File(installHome).getAbsolutePath(), relativePath);
             }
 
             @Override
-            String getScriptsId() {
+            String setScriptsId() {
                 return "reuse_scripts";
             }
 
             @Override
-            JFXPanel getWebPane() {
-                return new ReuseWebPane(getMainJS());
+            JFXPanel setWebPane() {
+                return new ReuseWebPane(setMainJS());
             }
         });
     }
