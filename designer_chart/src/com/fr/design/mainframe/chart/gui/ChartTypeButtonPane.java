@@ -61,22 +61,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     //所以:stopEditing--选中其他button则响应click之后relayout;普通失焦则直接relayout.
     private boolean pressOtherButtonWhenEditing = false;
 
-
-    /*private AWTEventListener awt = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            //没有进行鼠标点击，则返回
-            if (event instanceof MouseEvent && ((MouseEvent) event).getClickCount() > 0) {
-                if (currentEditingEditor != null && !ComparatorUtils.equals(event.getSource(), currentEditingEditor)) {
-                    stopEditing();
-                    if (event.getSource() instanceof ChartChangeButton) {
-                        ((ChartChangeButton) event.getSource()).mouseClick((MouseEvent) event);
-                    }
-                    populateBean(editingCollection);
-                }
-            }
-        }
-    };*/
-
     public ChartTypeButtonPane(ChartTypePane chartTypePane){
         this();
         parent = chartTypePane;
