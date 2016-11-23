@@ -446,9 +446,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 for (int i = 0; i < count; i++) {
                     if (ComparatorUtils.equals(getButtonName(), editingCollection.getChartName(i))) {
                         editingCollection.removeNameObject(i);
-                        /*if (i <= editingCollection.getSelectedIndex()){
-                            editingCollection.setSelectedIndex(editingCollection.getSelectedIndex()-1);
-                        }*/
                         break;
                     }
                 }
