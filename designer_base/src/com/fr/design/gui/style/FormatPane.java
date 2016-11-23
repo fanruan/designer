@@ -121,7 +121,7 @@ public class FormatPane extends AbstractBasicStylePane {
     private void iniSampleLable() {
         Border innterborder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
         Font tmpFont = null;
-        Border border = BorderFactory.createTitledBorder(innterborder, Inter.getLocText("StyleFormat-Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
+        Border border = BorderFactory.createTitledBorder(innterborder, Inter.getLocText("FR-Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue()) {
 
             @Override
@@ -159,7 +159,7 @@ public class FormatPane extends AbstractBasicStylePane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Format");
+        return Inter.getLocText("FR-Base_Format");
     }
 
     /**
