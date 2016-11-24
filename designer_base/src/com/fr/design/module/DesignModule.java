@@ -62,7 +62,7 @@ public abstract class DesignModule extends TopModule {
 	 * @return 国际化文件路径
 	 */
 	public String[] getLocaleFile() {
-		return ArrayUtils.EMPTY_STRING_ARRAY;
+		return new String[]{"com/fr/design/locale/designer"};
 	}
 
 	public Class<?>[] actionsForInsertCellElement() {
