@@ -17,12 +17,16 @@ import com.fr.report.elementcase.TemplateElementCase;
  * The clip of CellElement.
  */
 public class CellElementsClip implements Cloneable, java.io.Serializable {
+	private int column;
+	private int row;
     private int columnSpan = 0;
     private int rowSpan = 0;
     
     private TemplateCellElement[] clips;
 
-    public CellElementsClip(int columnSpan, int rowSpan, TemplateCellElement[] clips) {
+    public CellElementsClip(int column, int row, int columnSpan, int rowSpan, TemplateCellElement[] clips) {
+		this.column = column;
+		this.row = row;
     	this.columnSpan = columnSpan;
     	this.rowSpan = rowSpan;
     	
@@ -81,10 +85,20 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
     			column + cellElement.getColumn(), row + cellElement.getRow()		
     		), false);
     	}
-    	
+    	//设置单元格的宽高
+    	pasteWidthAndHeight(ec, column, row, columnSpan, rowSpan);
     	return new CellSelection(column, row, columnSpan, rowSpan);
     }
-    
+
+    public  void pasteWidthAndHeight(TemplateElementCase ec, int column, int row, int columnSpan, int rowSpan){
+			for(int i = 0; i<columnSpan; i++){
+				for(int j = 0; j<rowSpan; j++){
+					ec.setColumnWidth(column + i, ec.getColumnWidth(this.column + i));
+					ec.setRowHeight(row + j, ec.getRowHeight(this.row + j));
+				}
+			}
+	}
+
     public void pasteAtRegion(TemplateElementCase ec, 
     		int startColumn, int startRow, 
     		int column, int row,
