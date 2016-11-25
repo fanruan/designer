@@ -58,7 +58,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     protected void initBorderStyle() {
     	LayoutBorderStyle style = toData().getBorderStyle();
         if (style != null && style.getBorder() != Constants.LINE_NONE) {
-            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.isCorner() ? style.getRoundRadius() : noneSize));
+            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.isCorner() ? style.getBorderRadius() : noneSize));
         } else {
             this.setBorder(DEFALUTBORDER);
         }

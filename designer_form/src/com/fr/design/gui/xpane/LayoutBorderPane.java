@@ -505,7 +505,7 @@ public class LayoutBorderPane extends BasicPane {
         LayoutBorderStyle style = new LayoutBorderStyle();
         style.setType(borderTypeCombo.getSelectedIndex());
         style.setBorderStyle(borderStyleCombo.getSelectedIndex());
-        style.setRoundRadius((int)borderCornerSpinner.getValue());
+        style.setBorderRadius((int)borderCornerSpinner.getValue());
         style.setBorder(currentLineCombo.getSelectedLineStyle());
         style.setColor(currentLineColorPane.getColor());
         style.setBackground(backgroundPane.update());
@@ -573,7 +573,7 @@ public class LayoutBorderPane extends BasicPane {
                 paintPreviewPane();
             }
         });
-        this.borderCornerSpinner.setValue(borderStyle.getRoundRadius());
+        this.borderCornerSpinner.setValue(borderStyle.getBorderRadius());
         this.borderCornerSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
