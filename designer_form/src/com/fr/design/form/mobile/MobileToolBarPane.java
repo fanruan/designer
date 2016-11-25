@@ -58,7 +58,7 @@ public class MobileToolBarPane extends BasicBeanPane<FormMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Mobile-Toolbar");
+        return Inter.getLocText("FR-Designer_Mobile-ToolBar");
     }
 
 }
