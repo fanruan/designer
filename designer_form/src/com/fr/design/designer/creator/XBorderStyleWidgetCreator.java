@@ -27,8 +27,7 @@ import com.fr.stable.StringUtils;
  */
 
 public class XBorderStyleWidgetCreator extends XWidgetCreator{
-    private int cornerSize = 15;
-    private int noneSize = 0;
+	private int noneSize = 0;
 
 	protected static final Dimension BORDER_PREFERRED_SIZE = new Dimension(250, 150);
 
@@ -59,7 +58,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     protected void initBorderStyle() {
     	LayoutBorderStyle style = toData().getBorderStyle();
         if (style != null && style.getBorder() != Constants.LINE_NONE) {
-            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.isCorner() ? cornerSize : noneSize));
+            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.isCorner() ? style.getRoundRadius() : noneSize));
         } else {
             this.setBorder(DEFALUTBORDER);
         }

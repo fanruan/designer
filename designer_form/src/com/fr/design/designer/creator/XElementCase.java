@@ -84,7 +84,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
 						.setI18NName(Inter.getLocText("Form-Widget_Name")),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-						WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+						WLayoutBorderStyleEditor.class).setI18NName(
 						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
@@ -94,7 +94,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 					}
 				}),
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-						.setRendererClass(PaddingMarginCellRenderer.class).setI18NName(Inter.getLocText("FR-Layout_Padding"))
+						.setI18NName(Inter.getLocText("FR-Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))

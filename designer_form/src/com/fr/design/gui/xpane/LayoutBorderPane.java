@@ -19,6 +19,7 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.style.BackgroundNoImagePane;
 import com.fr.design.gui.style.BackgroundSpecialPane;
 import com.fr.design.gui.style.FRFontPane;
@@ -67,7 +68,8 @@ public class LayoutBorderPane extends BasicPane {
     private UIComboBox borderStyleCombo;
     //边框粗细
     private LineComboBox currentLineCombo;
-    
+    //边框圆角
+    private UISpinner borderCornerSpinner;
     //边框颜色
     private UIColorButton currentLineColorPane;
     //主体背景
@@ -136,7 +138,17 @@ public class LayoutBorderPane extends BasicPane {
 		this.currentLineCombo = currentLineCombo;
 	}
 
-	public UIColorButton getCurrentLineColorPane() {
+
+    public UISpinner getBorderCornerSpinner() {
+        return borderCornerSpinner;
+    }
+
+    public void setBorderCornerSpinner(UISpinner borderCornerSpinner) {
+        this.borderCornerSpinner = borderCornerSpinner;
+    }
+
+
+    public UIColorButton getCurrentLineColorPane() {
 		return currentLineColorPane;
 	}
 
@@ -337,6 +349,7 @@ public class LayoutBorderPane extends BasicPane {
         this.borderStyleCombo = new UIComboBox(BORDER_STYLE);
         this.currentLineCombo = new LineComboBox(BORDER_LINE_STYLE_ARRAY);
         this.currentLineColorPane = new UIColorButton(null);
+        this.borderCornerSpinner = new UISpinner(0,1000,1,0);
         currentLineColorPane.setUI(getButtonUI(currentLineColorPane));
         currentLineColorPane.set4ToolbarButton();
         currentLineColorPane.setPreferredSize(new Dimension(20,20));
@@ -356,6 +369,7 @@ public class LayoutBorderPane extends BasicPane {
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Render_Style")), borderStyleCombo},
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Border_Line")), currentLineCombo},
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Border_Color")), buttonPane},
+                {new UILabel(Inter.getLocText("plugin-ChartF_Radius")+":"),borderCornerSpinner},
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Body_Background")), backgroundPane},
                 {new UILabel(""),new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Alpha"))},
                 {new UILabel(""),transparencyPane},
@@ -373,6 +387,7 @@ public class LayoutBorderPane extends BasicPane {
     protected JPanel initBodyRightTopPane(){
         this.borderTypeCombo = new UIComboBox(BORDER_TYPE);
         this.borderStyleCombo = new UIComboBox(BORDER_STYLE);
+        this.borderCornerSpinner = new UISpinner(0,1000,1,0);
         this.currentLineCombo = new LineComboBox(BORDER_LINE_STYLE_ARRAY);
         this.currentLineColorPane = new UIColorButton(null);
 
@@ -490,11 +505,12 @@ public class LayoutBorderPane extends BasicPane {
         LayoutBorderStyle style = new LayoutBorderStyle();
         style.setType(borderTypeCombo.getSelectedIndex());
         style.setBorderStyle(borderStyleCombo.getSelectedIndex());
+        style.setRoundRadius((int)borderCornerSpinner.getValue());
         style.setBorder(currentLineCombo.getSelectedLineStyle());
         style.setColor(currentLineColorPane.getColor());
         style.setBackground(backgroundPane.update());
         style.setAlpha((float)(numberDragPane.updateBean()/maxNumber));
-
+        style.setCorner(true);
         WidgetTitle title = style.getTitle() == null ? new WidgetTitle() : style.getTitle();
         title.setTextObject(formulaPane.updateBean());
         FRFont frFont = title.getFrFont();
@@ -554,6 +570,13 @@ public class LayoutBorderPane extends BasicPane {
         this.borderStyleCombo.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                paintPreviewPane();
+            }
+        });
+        this.borderCornerSpinner.setValue(borderStyle.getRoundRadius());
+        this.borderCornerSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
                 paintPreviewPane();
             }
         });
