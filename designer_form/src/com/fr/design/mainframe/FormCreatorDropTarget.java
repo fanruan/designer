@@ -15,6 +15,7 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
+import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.SharableElementCaseEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
@@ -79,6 +80,7 @@ public class FormCreatorDropTarget extends DropTarget {
             //SetSelection时要确保选中的是最顶层的布局
             //tab布局添加的时候是初始化了XWCardLayout，实际上最顶层的布局是XWCardMainBorderLayout
             XCreator addingXCreator = addingModel.getXCreator();
+            Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
                 SharableElementCaseEditor sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
@@ -86,10 +88,11 @@ public class FormCreatorDropTarget extends DropTarget {
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
-                    sharableEditor.batchRenameTdName(tdNameMap);
+                    //共享的组件拿的时候都是克隆的,这边改拖拽中克隆的对象而非新克隆对象,上面这个新克隆的对象只是为了拿数据集
+                    ElementCaseEditor elementCaseEditor = (ElementCaseEditor) widget;
+                    elementCaseEditor.batchRenameTdName(tdNameMap);
                 }
             }
-            Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             designer.getSelectionModel().setSelectedCreators(
                     FormSelectionUtils.rebuildSelection(xCreator, new Widget[]{widget}));
             designer.getEditListenerTable().fireCreatorModified(addingModel.getXCreator(), DesignerEvent.CREATOR_ADDED);
