@@ -100,20 +100,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
-
-		//这边有个插件兼容问题,之后还是要改回process才行
-		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
-		for (FormElementCaseEditorProvider provider : set) {
-			if (provider == null) {
-				continue;
-			}
-			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-			FormProvider formProvider = designer.getTarget();
-			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
-			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
-			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
-		}
-
+		resolveCompatible(propertyTableEditor);
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
 			return propertyTableEditor;
@@ -131,8 +118,23 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
 		}
-
 		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+	}
+
+
+	private void resolveCompatible (CRPropertyDescriptor[] propertyTableEditor) {
+		//这边有个插件兼容问题,之后还是要改回process才行
+		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
+		for (FormElementCaseEditorProvider provider : set) {
+			if (provider == null) {
+				continue;
+			}
+			this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+			FormProvider formProvider = designer.getTarget();
+			ElementCaseEditorProvider elementCaseEditorProvider = this.toData();
+			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
+			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
+		}
 	}
 
 	@Override
