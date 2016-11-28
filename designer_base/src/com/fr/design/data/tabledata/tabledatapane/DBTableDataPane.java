@@ -57,7 +57,8 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private UICheckBox isShareCheckBox;
 	private MaxMemRowCountPanel maxPanel;
 	private String pageQuery = null;
-	
+	private String customCountQuery = null;
+
 
 	public DBTableDataPane() {
 		this.setLayout(new BorderLayout(4, 4));
@@ -134,23 +135,24 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		this.add(mainSplitPane, BorderLayout.CENTER);
 	}
 
-    private boolean isPreviewOrRefreshButton (FocusEvent e) {
-        if (e.getOppositeComponent() != null) {
-            String name = e.getOppositeComponent().getName();
-            return ComparatorUtils.equals(name, PREVIEW_BUTTON) || ComparatorUtils.equals(name, REFRESH_BUTTON);
-        }
-        return false;
-    }
+	private boolean isPreviewOrRefreshButton (FocusEvent e) {
+		if (e.getOppositeComponent() != null) {
+			String name = e.getOppositeComponent().getName();
+			return ComparatorUtils.equals(name, PREVIEW_BUTTON) || ComparatorUtils.equals(name, REFRESH_BUTTON);
+		}
+		return false;
+	}
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer-DS-Database_Query");
+		return Inter.getLocText("DS-Database_Query");
 	}
 
 	private void refresh() {
-		String[] paramTexts = new String[2];
+		String[] paramTexts = new String[3];
 		paramTexts[0] = sqlTextPane.getText();
 		paramTexts[1] = pageQuery;
+		paramTexts[2] = customCountQuery;
 
 		List<ParameterProvider> existParameterList = editorPane.update();
 		Parameter[] ps = existParameterList == null ? new Parameter[0] : existParameterList.toArray(new Parameter[existParameterList.size()]);
@@ -164,9 +166,11 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		toolBarDef.addShortCut(new PreviewAction());
 		toolBarDef.addShortCut(SeparatorDef.DEFAULT);
 		toolBarDef.addShortCut(new EditPageQueryAction());
-		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
+		toolBarDef.addShortCut(SeparatorDef.DEFAULT);
+		toolBarDef.addShortCut(new EditCustomCountQueryAction());
+		isShareCheckBox = new UICheckBox(Inter.getLocText("Is_Share_DBTableData"));
 		maxPanel = new MaxMemRowCountPanel();
-        maxPanel.setBorder(null);
+		maxPanel.setBorder(null);
 		UIToolbar editToolBar = ToolBarDef.createJToolBar();
 		toolBarDef.updateToolBar(editToolBar);
 		editToolBar.add(isShareCheckBox);
@@ -175,9 +179,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	}
 
 	private void checkParameter() {
-		String[] paramTexts = new String[2];
+		String[] paramTexts = new String[3];
 		paramTexts[0] = sqlTextPane.getText();
 		paramTexts[1] = pageQuery;
+		paramTexts[2] = customCountQuery;
 
 		Parameter[] parameters = ParameterHelper.analyze4Parameters(paramTexts, false);
 
@@ -222,6 +227,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		isShare = dbtabledata.isShare();
 		maxMemeryRow = dbtabledata.getMaxMemRowCount();
 		this.pageQuery = dbtabledata.getPageQuerySql();
+		this.customCountQuery = dbtabledata.getCustomCountQuery();
 
 		this.connectionTableProcedurePane.setSelectedDatabaseConnection(db);
 		this.sqlTextPane.setText(query);
@@ -258,6 +264,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		dbTableData.setShare(isShareCheckBox.isSelected());
 		dbTableData.setMaxMemRowCount(maxPanel.getValue());
 		dbTableData.setPageQuerySql(this.pageQuery);
+		dbTableData.setCustomCountQuery(this.customCountQuery);
 
 		return dbTableData;
 	}
@@ -285,64 +292,88 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		}
 
 		public void actionPerformed(ActionEvent evt) {
-            checkParameter();
-            PreviewTablePane.previewTableData(DBTableDataPane.this.updateBean());
+			checkParameter();
+			PreviewTablePane.previewTableData(DBTableDataPane.this.updateBean());
 		}
 	}
-	
-    private class EditPageQueryAction extends UpdateAction {
-        public EditPageQueryAction() {
-            this.setName(Inter.getLocText("FR-Designer-LayerPageReport_PageQuery"));
-            this.setMnemonic('L');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
-        }
 
-        public void actionPerformed(ActionEvent e) {
-            final PageQueryPane pane = new PageQueryPane();
-            pane.populate(pageQuery);
-            BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
-            dialog.addDialogActionListener(new DialogActionAdapter() {
-                public void doOk() {
-                    pageQuery = pane.update();
-                    checkParameter();
-                }
-            });
-            dialog.setVisible(true);
-        }
-    }
+	private class EditCustomCountQueryAction extends UpdateAction {
+		public EditCustomCountQueryAction() {
+			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_CustomCountQuery"));
+			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
+		}
 
-    private class PageQueryPane extends BasicPane {
-        private SQLEditPane pageQueryPane;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			final QueryPane editPane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_CustomCountQuery"));
+			editPane.populate(customCountQuery);
+			BasicDialog dialog = editPane.showWindow(DesignerContext.getDesignerFrame());
+			dialog.addDialogActionListener(new DialogActionAdapter() {
+				public void doOk() {
+					customCountQuery = editPane.update();
+					checkParameter();
+				}
+			});
+			dialog.setVisible(true);
 
-        public PageQueryPane() {
-            this.initComponents();
-        }
+		}
+	}
 
-        public void initComponents() {
-            this.setLayout(new BorderLayout());
-            pageQueryPane = new SQLEditPane();
-            this.add(new JScrollPane(pageQueryPane));
-        }
+	private class EditPageQueryAction extends UpdateAction {
+		public EditPageQueryAction() {
+			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_PageQuery"));
+			this.setMnemonic('L');
+			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
+		}
 
-        public void populate(String text) {
-            if (StringUtils.isBlank(text)) {
-                return;
-            }
-            pageQueryPane.setText(text);
-        }
+		public void actionPerformed(ActionEvent e) {
+			final QueryPane pane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
+			pane.populate(pageQuery);
+			BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
+			dialog.addDialogActionListener(new DialogActionAdapter() {
+				public void doOk() {
+					pageQuery = pane.update();
+					checkParameter();
+				}
+			});
+			dialog.setVisible(true);
+		}
+	}
 
-        public String update() {
-            String text = pageQueryPane.getText();
-            if (StringUtils.isBlank(text)) {
-                return null;
-            } else {
-                return text;
-            }
-        }
+	private class QueryPane extends BasicPane {
+		private SQLEditPane pageQueryPane;
+		private String title;
+
+		public QueryPane(String title) {
+			this.title = title;
+			this.initComponents();
+		}
+
+		public void initComponents() {
+			this.setLayout(new BorderLayout());
+			pageQueryPane = new SQLEditPane();
+			this.add(new JScrollPane(pageQueryPane));
+		}
+
+		public void populate(String text) {
+			if (StringUtils.isBlank(text)) {
+				return;
+			}
+			pageQueryPane.setText(text);
+		}
+
+		public String update() {
+			String text = pageQueryPane.getText();
+			if (StringUtils.isBlank(text)) {
+				return null;
+			} else {
+				return text;
+			}
+		}
 
 		@Override
 		protected String title4PopupWindow() {
-			return Inter.getLocText("FR-Designer-LayerPageReport_Define_PageQuerySQL");
+			return title;
 		}
-    }
+	}
 }
