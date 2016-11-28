@@ -58,6 +58,7 @@ public class LayoutBorderPane extends BasicPane {
     private static final int RIGHTANGLE_BORDERS = 1;
     private static final int ROUNDED_BORDERS = 2;
     private static final int MAX_WIDTH = 220;
+    private static final int NO_RADIUS = 0;
 
     private LayoutBorderStyle borderStyle = new LayoutBorderStyle();
 
@@ -362,7 +363,7 @@ public class LayoutBorderPane extends BasicPane {
         transparencyPane.add(new UILabel(" %"), BorderLayout.EAST);
 
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p,p,p,p,p,p,p};
+        double[] rowSize = {p,p,p,p,p,p,p,p};
         double[] columnSize = { p, MAX_WIDTH};
         JPanel rightTopContentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Frame_Style")), borderTypeCombo},
@@ -510,7 +511,6 @@ public class LayoutBorderPane extends BasicPane {
         style.setColor(currentLineColorPane.getColor());
         style.setBackground(backgroundPane.update());
         style.setAlpha((float)(numberDragPane.updateBean()/maxNumber));
-        style.setCorner(true);
         WidgetTitle title = style.getTitle() == null ? new WidgetTitle() : style.getTitle();
         title.setTextObject(formulaPane.updateBean());
         FRFont frFont = title.getFrFont();
@@ -774,9 +774,9 @@ public class LayoutBorderPane extends BasicPane {
     	public void populate(LayoutBorderStyle style) {
 			if(style.getBorder() == Constants.LINE_NONE) {
 				group.setSelected(noBorder.getModel(), true);
-			} else if(style.isCorner()) {
-				group.setSelected(RoundedBorder.getModel(), true);
-			} else {
+			} else if(style.getBorderRadius() != NO_RADIUS) {
+                group.setSelected(RoundedBorder.getModel(), true);
+            }  else {
 				group.setSelected(normalBorder.getModel(), true);
 			}
 		}
@@ -817,7 +817,7 @@ public class LayoutBorderPane extends BasicPane {
 					} else {
 						borderStyle.setColor(currentLineColorPane.getColor());
 						borderStyle.setBorder(currentLineCombo.getSelectedLineStyle());
-						borderStyle.setCorner(border != RIGHTANGLE_BORDERS);
+						borderStyle.setBorderRadius((int)borderCornerSpinner.getValue());
 					}
 
                     layoutBorderPreviewPane.repaint();

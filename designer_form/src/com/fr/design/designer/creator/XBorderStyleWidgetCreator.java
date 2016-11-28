@@ -27,8 +27,6 @@ import com.fr.stable.StringUtils;
  */
 
 public class XBorderStyleWidgetCreator extends XWidgetCreator{
-	private int noneSize = 0;
-
 	protected static final Dimension BORDER_PREFERRED_SIZE = new Dimension(250, 150);
 
     public XBorderStyleWidgetCreator(Widget widget, Dimension initSize) {
@@ -58,7 +56,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     protected void initBorderStyle() {
     	LayoutBorderStyle style = toData().getBorderStyle();
         if (style != null && style.getBorder() != Constants.LINE_NONE) {
-            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.isCorner() ? style.getBorderRadius() : noneSize));
+            this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.getBorderRadius()));
         } else {
             this.setBorder(DEFALUTBORDER);
         }
@@ -108,8 +106,8 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     	//标题的边框样式目前是取对应的控件的边框样式
     	title.setBorder(style.getBorder());
     	title.setColor(style.getColor());
-    	title.setCorner(style.isCorner());
-    	
+//    	title.setCorner(style.isCorner());
+
     	WidgetTitle wTitle = style.getTitle();
     	//设置成随机不重复的, 不然都用一个名字的话, 联动只能联动一个
     	title.setWidgetName(wTitle.TITLE_NAME_INDEX + this.toData().getWidgetName());
