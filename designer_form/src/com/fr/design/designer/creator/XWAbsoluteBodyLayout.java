@@ -75,7 +75,7 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("FR-Designer_Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-                        WLayoutBorderStyleEditor.class).setRendererClass(LayoutBorderStyleRenderer.class).setI18NName(
+                        WLayoutBorderStyleEditor.class).setI18NName(
                         Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
