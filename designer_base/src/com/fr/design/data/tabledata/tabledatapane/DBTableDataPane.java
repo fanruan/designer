@@ -145,7 +145,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("DS-Database_Query");
+		return Inter.getLocText("FR-Designer-DS-Database_Query");
 	}
 
 	private void refresh() {
@@ -168,7 +168,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		toolBarDef.addShortCut(new EditPageQueryAction());
 		toolBarDef.addShortCut(SeparatorDef.DEFAULT);
 		toolBarDef.addShortCut(new EditCustomCountQueryAction());
-		isShareCheckBox = new UICheckBox(Inter.getLocText("Is_Share_DBTableData"));
+		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
 		UIToolbar editToolBar = ToolBarDef.createJToolBar();
@@ -297,6 +297,27 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		}
 	}
 
+	private class EditPageQueryAction extends UpdateAction {
+		public EditPageQueryAction() {
+			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_PageQuery"));
+			this.setMnemonic('L');
+			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			final QueryPane pane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
+			pane.populate(pageQuery);
+			BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
+			dialog.addDialogActionListener(new DialogActionAdapter() {
+				public void doOk() {
+					pageQuery = pane.update();
+					checkParameter();
+				}
+			});
+			dialog.setVisible(true);
+		}
+	}
+
 	private class EditCustomCountQueryAction extends UpdateAction {
 		public EditCustomCountQueryAction() {
 			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_CustomCountQuery"));
@@ -316,27 +337,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			});
 			dialog.setVisible(true);
 
-		}
-	}
-
-	private class EditPageQueryAction extends UpdateAction {
-		public EditPageQueryAction() {
-			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_PageQuery"));
-			this.setMnemonic('L');
-			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			final QueryPane pane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_PageQuerySQL"));
-			pane.populate(pageQuery);
-			BasicDialog dialog = pane.showWindow(DesignerContext.getDesignerFrame());
-			dialog.addDialogActionListener(new DialogActionAdapter() {
-				public void doOk() {
-					pageQuery = pane.update();
-					checkParameter();
-				}
-			});
-			dialog.setVisible(true);
 		}
 	}
 
