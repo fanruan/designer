@@ -635,7 +635,7 @@ public class PreferencePane extends BasicPane {
                 if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
                     int rv = JOptionPane.showOptionDialog(
                             null,
-                            Inter.getLocText("FR-Designer-Language_Change_Successful"),
+                            Inter.getLocText("FR-Designer_Language_Change_Successful"),
                             Inter.getLocText("FR-Designer-Plugin_Warning"),
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.INFORMATION_MESSAGE,

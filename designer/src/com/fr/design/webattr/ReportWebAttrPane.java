@@ -58,7 +58,7 @@ public class ReportWebAttrPane extends LoadingBasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("FR-Designer-Template_Web_Attributes");
+    	return Inter.getLocText("FR-Designer_Template_Web_Attributes");
     }
         
     public void populate(ReportWebAttr reportWebAttr) {
