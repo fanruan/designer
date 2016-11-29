@@ -627,69 +627,27 @@ public class PreferencePane extends BasicPane {
         return l;
     }
 
-    /**
-     * 显示窗口
-     *
-     * @param window 窗口
-     * @param l      对话框监听器
-     * @return 对话框
-     */
     @Override
-    public BasicDialog showWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        return showWindow(dg);
-    }
-
-    private class DIALOG extends BasicDialog {
-        public DIALOG(Frame parent) {
-            super(parent, PreferencePane.this);
-            this.setTitle(PreferencePane.this.title4PopupWindow());
-        }
-
-        public DIALOG(Dialog parent) {
-            super(parent, PreferencePane.this);
-            this.setTitle(PreferencePane.this.title4PopupWindow());
-        }
-
-        /**
-         * 确定操作
-         *
-         */
-        @Override
-        public void doOK() {
-            super.doOK();
-            if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
-                int rv = JOptionPane.showOptionDialog(
-                        null,
-                        Inter.getLocText("FR-Designer-Language_Change_Successful"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE,
-                        null,
-                        new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                        null
-                );
-                if (rv == JOptionPane.OK_OPTION) {
-                    RestartHelper.restart();
+    public BasicDialog showWindow(Window window) {
+        return showWindow(window, new DialogActionAdapter() {
+            @Override
+            public void doOk() {
+                if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
+                    int rv = JOptionPane.showOptionDialog(
+                            null,
+                            Inter.getLocText("FR-Designer-Language_Change_Successful"),
+                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                            null
+                    );
+                    if (rv == JOptionPane.OK_OPTION) {
+                        RestartHelper.restart();
+                    }
                 }
             }
-        }
-
-        /**
-         * Check valid.
-         */
-        public void checkValid() throws Exception {
-            PreferencePane.this.checkValid();
-        }
-
+        });
     }
 }
