@@ -646,11 +646,7 @@ public class PreferencePane extends BasicPane {
         if (l != null) {
             dg.addDialogActionListener(l);
         }
-
-        dg.setBasicDialogSize(BasicDialog.DEFAULT);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindow(dg);
     }
 
     private class DIALOG extends BasicDialog {

@@ -39,11 +39,11 @@ public abstract class BasicDialog extends UIDialog {
 		super(parent, pane, isNeedButtonPane);
 	}
 
-	public void setBasicDialogSize(Dimension d) {
+	protected void setBasicDialogSize(Dimension d) {
 		super.setSize(d.width, d.height);
 	}
 
-	public void setBasicDialogSize(int w, int h) {
+	protected void setBasicDialogSize(int w, int h) {
 		super.setSize(w, h);
 	}
 
