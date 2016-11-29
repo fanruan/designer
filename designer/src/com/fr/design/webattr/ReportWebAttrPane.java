@@ -44,16 +44,16 @@ public class ReportWebAttrPane extends LoadingBasicPane {
         //Tabbed Pane
         tabbedPane = new UITabbedPane();
         defaultPane.add(tabbedPane, BorderLayout.CENTER);
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Basic"), commonPane = new CommonPane());
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Printers(Server)"), serverPrintPane = new ReportServerPrinterPane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Basic"), commonPane = new CommonPane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Printers(Server)"), serverPrintPane = new ReportServerPrinterPane());
         
-        tabbedPane.add(Inter.getLocText("WEB-Pagination_Setting"), pageWeb = new PageWebSettingPane());
-        tabbedPane.add(Inter.getLocText("WEB-Write_Setting"), writeWeb = new WriteWebSettingPane());
-        tabbedPane.add(Inter.getLocText("M-Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
+        tabbedPane.add(Inter.getLocText("FR-Designer_Pagination_Setting"), pageWeb = new PageWebSettingPane());
+        tabbedPane.add(Inter.getLocText("FR-Designer_Write_Setting"), writeWeb = new WriteWebSettingPane());
+        tabbedPane.add(Inter.getLocText("FR-Designer_Data_Analysis_Settings"), viewWeb = new ViewWebSettingPane());
         
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Browser_Background"), backgroundPane = new BackgroundPane4Browser());
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_Css"), cssPane = new WebCssPane());
-        tabbedPane.addTab(Inter.getLocText("ReportServerP-Import_JavaScript"), jsPane = new WebJsPane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Browser_Background"), backgroundPane = new BackgroundPane4Browser());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Import_Css"), cssPane = new WebCssPane());
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Import_JavaScript"), jsPane = new WebJsPane());
     }
     
     @Override
