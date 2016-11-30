@@ -7,16 +7,11 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.WebManagerPaneFactory;
+import com.fr.design.extra.WebDialogFactory;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.GlobalListenerProvider;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -131,10 +126,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                         String text = StableUtils.join(plugins, ",") + Inter.getLocText("FR-Designer_Plugin_Should_Update");
                         int r = JOptionPane.showConfirmDialog(null, text, Inter.getLocText("FR-Designer_Plugin_Should_Update_Title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (r == JOptionPane.OK_OPTION) {
-                            BasicPane managerPane = new WebManagerPaneFactory().createPluginPane();
-                            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-                            PluginWebBridge.getHelper().setDialogHandle(dlg);
-                            dlg.setVisible(true);
+                            new WebDialogFactory().createPluginDialog();
                         }
                     }
                     timer.stop();
@@ -149,7 +141,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     protected DesignerFrame createDesignerFrame() {
-    	return new DesignerFrame(this);
+        return new DesignerFrame(this);
     }
 
     protected int getStartPort() {

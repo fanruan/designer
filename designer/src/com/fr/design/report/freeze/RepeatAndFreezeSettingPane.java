@@ -9,16 +9,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.ShopManagerPane;
-import com.fr.design.extra.ShopDialog;
-import com.fr.design.extra.PluginWebBridge;
-import com.fr.design.extra.WebManagerPaneFactory;
+import com.fr.design.extra.WebDialogFactory;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.Inter;
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.stable.ColumnRow;
@@ -552,10 +547,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
             public void actionPerformed(ActionEvent e) {
                 try {
                     //Desktop.getDesktop().browse(new URI(url));
-                    BasicPane managerPane = new WebManagerPaneFactory().createPluginPane();
-                    UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-                    PluginWebBridge.getHelper().setDialogHandle(dlg);
-                    dlg.setVisible(true);
+                    new WebDialogFactory().createPluginDialog();
                     RepeatAndFreezeSettingPane.this.getTopLevelAncestor().setVisible(false);
                 } catch (Exception exp) {
 
