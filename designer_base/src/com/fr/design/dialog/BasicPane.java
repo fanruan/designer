@@ -55,6 +55,19 @@ public abstract class BasicPane extends JPanel {
     /**
      * 显示窗口
      *
+     * @param dg 已添加监听器的对话框实例
+     * @return 对话框
+     */
+    public BasicDialog showWindow(BasicDialog dg) {
+        dg.setBasicDialogSize(BasicDialog.DEFAULT);
+        GUICoreUtils.centerWindow(dg);
+        dg.setResizable(false);
+        return dg;
+    }
+
+    /**
+     * 显示窗口
+     *
      * @param window            窗口
      * @param isNeedButtonsPane 是否需要确定删除按钮
      * @return 对话框

@@ -1,10 +1,13 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -78,6 +81,7 @@ public class PreferencePane extends BasicPane {
     	getLocaledLanguage("Traditional_Chinese_Language", Locale.TRADITIONAL_CHINESE),
         getLocaledLanguage("Korea_Language",Locale.KOREA),
     };
+    private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
 
     //设置是否支持undo
     private UICheckBox supportUndoCheckBox;
@@ -527,6 +531,7 @@ public class PreferencePane extends BasicPane {
 		this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(designerEnvManager.getLogLevel()));
 
         this.languageComboBox.setSelectedItem(LANGUAGE[designerEnvManager.getLanguage()]);
+        designerEnvLanguageIndex = designerEnvManager.getLanguage();
 
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
@@ -620,5 +625,29 @@ public class PreferencePane extends BasicPane {
             }
         }
         return l;
+    }
+
+    @Override
+    public BasicDialog showWindow(Window window) {
+        return showWindow(window, new DialogActionAdapter() {
+            @Override
+            public void doOk() {
+                if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
+                    int rv = JOptionPane.showOptionDialog(
+                            null,
+                            Inter.getLocText("FR-Designer_Language_Change_Successful"),
+                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                            null
+                    );
+                    if (rv == JOptionPane.OK_OPTION) {
+                        RestartHelper.restart();
+                    }
+                }
+            }
+        });
     }
 }
