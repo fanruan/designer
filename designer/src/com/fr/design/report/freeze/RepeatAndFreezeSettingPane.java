@@ -9,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.extra.WebDialogFactory;
+import com.fr.design.extra.WebDialog;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
@@ -547,7 +547,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
             public void actionPerformed(ActionEvent e) {
                 try {
                     //Desktop.getDesktop().browse(new URI(url));
-                    new WebDialogFactory().createPluginDialog();
+                    WebDialog.createPluginDialog();
                     RepeatAndFreezeSettingPane.this.getTopLevelAncestor().setVisible(false);
                 } catch (Exception exp) {
 

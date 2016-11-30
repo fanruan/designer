@@ -24,18 +24,13 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by vito on 2016/9/28.
  */
-public class WebDialogFactory {
+public class WebDialog {
     private static final String LATEST = "latest";
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
+    private static String installHome = StableUtils.getInstallHome();
 
-    private String installHome;
-
-    public WebDialogFactory() {
-        this.installHome = StableUtils.getInstallHome();
-    }
-
-    public void createPluginDialog() {
+    public static void createPluginDialog() {
         UIDialog dlg;
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
             String relativePath = "/scripts/store/web/index.html";
@@ -84,7 +79,7 @@ public class WebDialogFactory {
     }
 
 
-    private Component initTraditionalStore() {
+    private static Component initTraditionalStore() {
         UITabbedPane tabbedPane = new UITabbedPane();
         PluginInstalledPane installedPane = new PluginInstalledPane();
         tabbedPane.addTab(installedPane.tabTitle(), installedPane);
@@ -93,7 +88,7 @@ public class WebDialogFactory {
         return tabbedPane;
     }
 
-    private void downloadShopScripts(final String scriptsId) {
+    private static void downloadShopScripts(final String scriptsId) {
         new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
@@ -143,7 +138,7 @@ public class WebDialogFactory {
         }.execute();
     }
 
-    private void updateShopScripts(final String scriptsId) {
+    private static void updateShopScripts(final String scriptsId) {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
