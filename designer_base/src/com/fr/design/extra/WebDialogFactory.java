@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 public class WebDialogFactory {
     private static final String LATEST = "latest";
     private static final String SHOP_SCRIPTS = "shop_scripts";
+    private static final int VERSION_8 = 8;
 
     private String installHome;
 
@@ -36,7 +37,7 @@ public class WebDialogFactory {
 
     public void createPluginDialog() {
         UIDialog dlg;
-        if (StableUtils.getMajorJavaVersion() >= 8) {
+        if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
             String relativePath = "/scripts/store/web/index.html";
             String mainJsPath = StableUtils.pathJoin(new File(installHome).getAbsolutePath(), relativePath);
             File file = new File(mainJsPath);
