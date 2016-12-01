@@ -1,13 +1,13 @@
 package com.fr.design.extra.plugindependence;
 
 import com.fr.base.FRContext;
-import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.PluginHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.StableUtils;
