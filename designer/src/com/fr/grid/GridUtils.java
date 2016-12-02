@@ -288,7 +288,7 @@ public class GridUtils {
                 }
             }
 
-            elementsTransferable.addObject(new CellElementsClip(cs.getColumn(), cs.getRow(),
+            elementsTransferable.addObject(new CellElementsClip(
                     cs.getColumnSpan(), cs.getRowSpan(), elList.toArray(new TemplateCellElement[elList.size()])
             ));
         }
