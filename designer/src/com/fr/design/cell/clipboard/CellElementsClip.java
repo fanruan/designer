@@ -12,27 +12,32 @@ import com.fr.report.cell.CellElement;
 import com.fr.report.cell.CellElementComparator;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.stable.unit.FU;
 
 /**
  * The clip of CellElement.
  */
 public class CellElementsClip implements Cloneable, java.io.Serializable {
-	private int column;
-	private int row;
     private int columnSpan = 0;
     private int rowSpan = 0;
-    
+    private  FU[] columnWidth;
+    private  FU[] rowHeight;
     private TemplateCellElement[] clips;
 
-    public CellElementsClip(int column, int row, int columnSpan, int rowSpan, TemplateCellElement[] clips) {
-		this.column = column;
-		this.row = row;
+    public CellElementsClip(int columnSpan, int rowSpan, FU[] columnWidth , FU[] rowHeight, TemplateCellElement[] clips) {
     	this.columnSpan = columnSpan;
     	this.rowSpan = rowSpan;
-    	
+    	this.columnWidth = columnWidth ;
+		this.rowHeight = rowHeight;
     	this.clips = clips;
     }
-    
+
+    public CellElementsClip(int columnSpan, int rowSpan, TemplateCellElement[] clips) {
+        this.columnSpan = columnSpan;
+        this.rowSpan = rowSpan;
+        this.clips = clips;
+    }
+
     public String compateExcelPaste() {
     	Arrays.sort(this.clips, CellElementComparator.getRowFirstComparator());
 
@@ -63,9 +68,9 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
 
 		return sbuf.toString();
     }
-    
+
     public CellSelection pasteAt(TemplateElementCase ec, int column, int row) {
-    	
+
     	Iterator cells = ec.intersect(column, row, columnSpan, rowSpan);
 		while (cells.hasNext()) {
 			TemplateCellElement cellElement = (TemplateCellElement)cells.next();
@@ -79,28 +84,30 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
     			FRContext.getLogger().error(e.getMessage(), e);
     			return null;
     		}
-    		
+
     		// peter:因为前面已经将这个位置的元素删除了,所以不需要override了.
     		ec.addCellElement((TemplateCellElement) cellElement.deriveCellElement(
-    			column + cellElement.getColumn(), row + cellElement.getRow()		
+    			column + cellElement.getColumn(), row + cellElement.getRow()
     		), false);
     	}
     	//设置单元格的宽高
-    	pasteWidthAndHeight(ec, column, row, columnSpan, rowSpan);
+        if(this.columnWidth != null && this.rowHeight != null){
+            pasteWidthAndHeight(ec, column, row, columnSpan, rowSpan);
+        }
     	return new CellSelection(column, row, columnSpan, rowSpan);
     }
 
     public  void pasteWidthAndHeight(TemplateElementCase ec, int column, int row, int columnSpan, int rowSpan){
-			for(int i = 0; i<columnSpan; i++){
-				for(int j = 0; j<rowSpan; j++){
-					ec.setColumnWidth(column + i, ec.getColumnWidth(this.column + i));
-					ec.setRowHeight(row + j, ec.getRowHeight(this.row + j));
-				}
+			for(int i = 0; i < columnSpan; i++){
+				ec.setColumnWidth(column + i, columnWidth[i]);
+			}
+			for(int j = 0; j < rowSpan; j++){
+				ec.setRowHeight(row + j, rowHeight[j]);
 			}
 	}
 
-    public void pasteAtRegion(TemplateElementCase ec, 
-    		int startColumn, int startRow, 
+    public void pasteAtRegion(TemplateElementCase ec,
+    		int startColumn, int startRow,
     		int column, int row,
             int columnSpan, int rowSpan) {
         for (int i = 0; i < clips.length; i++) {

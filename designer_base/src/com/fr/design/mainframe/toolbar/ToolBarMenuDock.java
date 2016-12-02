@@ -133,7 +133,9 @@ public abstract class ToolBarMenuDock {
         menuList.addAll(Arrays.asList(menuDefs));
 
         // 添加服务器菜单
-        menuList.add(createServerMenuDef(plus));
+        if (FRContext.getCurrentEnv() != null && FRContext.getCurrentEnv().isRoot()) {
+            menuList.add(createServerMenuDef(plus));
+        }
 
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
@@ -244,11 +246,6 @@ public abstract class ToolBarMenuDock {
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Server"), 'S');
-
-        if (FRContext.getCurrentEnv() == null || !FRContext.getCurrentEnv().isRoot()) {
-            menuDef.addShortCut(new ConnectionListAction());
-            return menuDef;
-        }
 
         if (!BaseUtils.isAuthorityEditing()) {
             menuDef.addShortCut(

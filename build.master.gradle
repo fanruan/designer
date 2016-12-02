@@ -13,7 +13,7 @@ def branchName=buildDir.substring(buildDir.lastIndexOf ("\\")+1)
 task appletJar<<{
 	
 	ant{
-		mkdir(dir:"${libDir}/tmp-${branchName}")
+		mkdir(dir:"./tmp")
 		mkdir(dir:"build/classes/")
 		copy(todir:"build/classes/"){
 			fileset(dir:"${basicDir}/finereport-core-stable/${branchName}/build/classes/main")
@@ -27,8 +27,8 @@ task appletJar<<{
 			fileset(dir:"${basicDir}/finereport-performance-stable/${branchName}/build/classes/main")
 
 		}
-		unjar(src:"${libDir}/${branchName}/3rd.jar",dest:"${libDir}/tmp-${branchName}")
-		unjar(src:"${libDir}/${branchName}/servlet-api.jar",dest:"${libDir}/tmp-${branchName}")
+		unjar(src:"${libDir}/${branchName}/3rd.jar",dest:"./tmp")
+		unjar(src:"${libDir}/${branchName}/servlet-api.jar",dest:"./tmp")
 		jar(jarfile:"build/libs/fr-applet-8.0.jar"){
 			fileset(dir:"build/classes"){
 				exclude(name:"*.*")
@@ -44,7 +44,7 @@ task appletJar<<{
 				exclude(name:"com/fr/start/**")
 				exclude(name:"com/fr/process/**")
 			}
-			fileset(dir:"${libDir}/tmp-${branchName}"){
+			fileset(dir:"./tmp"){
 				include(name:"javax/mail/**")
 				include(name:"javax/servlet/**")
 				include(name:"org/freehep/**")
@@ -60,7 +60,7 @@ task appletJar<<{
 				include(name:"com/fr/web/attr/*.class")
 			}
 		}
-		delete(dir:"${libDir}/tmp-${branchName}")
+		delete(dir:"./tmp")
 		def jdk6home=	"D:/FineReport/develop/java/jdk1.6u35"
 		def keystore="frapplet.store"
 		def keycert="fr.cert"

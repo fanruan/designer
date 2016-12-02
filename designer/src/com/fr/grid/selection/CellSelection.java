@@ -33,6 +33,7 @@ import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StableUtils;
+import com.fr.stable.unit.FU;
 
 import javax.swing.*;
 import java.awt.*;
@@ -236,8 +237,15 @@ public class CellSelection extends Selection {
             TemplateCellElement cellElement = (TemplateCellElement) cells.next();
             list.add((TemplateCellElement) cellElement.deriveCellElement(cellElement.getColumn() - column, cellElement.getRow() - row));
         }
-
-        transferable.addObject(new CellElementsClip(this.column, this.row, this.columnSpan, this.rowSpan, list.toArray(new TemplateCellElement[list.size()])));
+        FU [] columnWidth = new FU[columnSpan];
+        FU [] rowHeight = new FU[rowSpan];
+        for(int i = 0; i < columnSpan; i++){
+            columnWidth[i] = ec.getColumnWidth(this.column + i);
+        }
+        for(int j = 0; j < rowSpan; j++){
+            rowHeight[j] = ec.getRowHeight(this.row + j);
+        }
+        transferable.addObject(new CellElementsClip(this.columnSpan, this.rowSpan, columnWidth, rowHeight, list.toArray(new TemplateCellElement[list.size()])));
     }
 
     /**
