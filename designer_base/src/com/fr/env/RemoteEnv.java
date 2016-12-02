@@ -2069,9 +2069,9 @@ public class RemoteEnv implements Env {
      *
      * @param plugin
      */
-    public File getPluginFilePath(Plugin plugin) {
+    public String getPluginFilePath(Plugin plugin) {
 
-        return null;
+        return StringUtils.EMPTY;
     }
 
     public void readPluginLicenses() throws Exception {
