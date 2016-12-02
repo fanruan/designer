@@ -40,8 +40,9 @@ public class DownLoadDependenceUI implements ActionListener {
     private boolean flag = true;
 
     // 定义加载窗口大小
-    private final int LOAD_WIDTH = 455;
-    private final int LOAD_HEIGHT = 295;
+    private static final int LOAD_WIDTH = 455;
+
+    private static final int LOAD_HEIGHT = 295;
 
     //安装环境相关信息
     private String currentID;
