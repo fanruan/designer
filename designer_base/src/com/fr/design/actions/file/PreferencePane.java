@@ -644,6 +644,7 @@ public class PreferencePane extends BasicPane {
                             null
                     );
                     if (rv == JOptionPane.OK_OPTION) {
+                        DesignerEnvManager.getEnvManager().saveXMLFile();
                         RestartHelper.restart();
                     }
                 }
