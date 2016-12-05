@@ -9,8 +9,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.Inter;
 import com.fr.io.exporter.Exporter;
-import com.fr.io.exporter.PDFExporter;
-import com.fr.io.exporter.pdfstream.PDFStreamExporter;
+import com.fr.web.core.reserve.PDFExporterFactory;
 
 /**
  * Export pdf
@@ -29,7 +28,8 @@ public class PDFExportAction extends AbstractExportAction {
 
     @Override
 	protected Exporter getExporter() {
-        return new PDFStreamExporter();
+
+        return PDFExporterFactory.getPDFExporter();
     }
 
     @Override
