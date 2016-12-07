@@ -2,16 +2,17 @@ package com.fr.design.extra.plugindependence;
 
 import com.fr.base.FRContext;
 import com.fr.design.extra.PluginHelper;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.plugin.PluginConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
 
@@ -42,7 +45,10 @@ public class DownLoadDependenceUI implements ActionListener {
     // 定义加载窗口大小
     private static final int LOAD_WIDTH = 455;
 
+    private static final int INCIDENT_WIDTH = 15;
+
     private static final int LOAD_HEIGHT = 295;
+
 
     //安装环境相关信息
     private String currentID;
@@ -69,8 +75,8 @@ public class DownLoadDependenceUI implements ActionListener {
         // 创建标签,并在标签上放置一张图片
         BufferedImage image = IOUtils.readImage("/com/fr/design/extra/plugindependence/image/background.png");
         ImageIcon imageIcon = new ImageIcon(image);
-        label = new JLabel(imageIcon);
-        label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT - 15);
+        label = new UILabel(imageIcon);
+        label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT - INCIDENT_WIDTH);
 
         progressbar = new JProgressBar();
         // 显示当前进度值信息
@@ -81,7 +87,7 @@ public class DownLoadDependenceUI implements ActionListener {
         progressbar.setForeground(new Color(0x38aef5));
         // 设置进度条的背景色
         progressbar.setBackground(new Color(188, 190, 194));
-        progressbar.setBounds(0, LOAD_HEIGHT - 15, LOAD_WIDTH, 15);
+        progressbar.setBounds(0, LOAD_HEIGHT - INCIDENT_WIDTH, LOAD_WIDTH, INCIDENT_WIDTH);
         progressbar.setMinimum(0);
         progressbar.setMaximum(totalSize);
         progressbar.setValue(0);
@@ -250,7 +256,8 @@ public class DownLoadDependenceUI implements ActionListener {
     }
 
     public void installOnline()throws PluginDependenceException {
-        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_Plugin") + Inter.getLocText("FR-Designer-Need") + Inter.getLocText("FR-Designer-Dependence") + Inter.getLocText("FR-Designer-Support") + "," + Inter.getLocText("FR-Designer-Dependence_Need_Install")  + "(" + showFileLength() + " m)?", "install tooltip", JOptionPane.YES_NO_OPTION);
+
+        int choose = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer-Plugin_DownLoadMessage", showFileLength()), "install tooltip", JOptionPane.YES_NO_OPTION);
         if (choose == 0) {//下载安装
             if (!connectToServer()) {
                 throw new PluginDependenceException(Inter.getLocText("FR-Designer-Dependence_Connect_Server_Error"));
