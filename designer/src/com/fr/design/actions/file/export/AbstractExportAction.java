@@ -5,7 +5,6 @@ package com.fr.design.actions.file.export;
 
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
-import com.fr.io.exporter.pdfstream.PDFStreamExporter;
 import com.fr.page.PageSetProvider;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.gui.iprogressbar.FRProgressBar;
@@ -94,10 +93,10 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                 FRLogger.getLogger().error("Error In Make New File");
             }
             fileChooserPane = null;
-            FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("Prepare_Export") + "!");
+            FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("FR-Designer_Prepare_Export") + "!");
 
             (progressbar = new FRProgressBar(createExportWork(file, tpl, parameterMap), designerFrame,
-                    Inter.getLocText("Exporting"), "", 0, 100)).start();
+                    Inter.getLocText("FR-Designer_Exporting"), "", 0, 100)).start();
         }
     }
 
@@ -117,13 +116,13 @@ public abstract class AbstractExportAction extends JWorkBookAction {
                     fileOutputStream.close();
                     this.setProgress(100);
 
-                    FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("Finish_Export") + "!");
+                    FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("FR-Designer_Finish_Export") + "!");
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            Inter.getLocText("Exported_successfully") + "\n" + filePath);
+                            Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + filePath);
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Export_failed") + "\n" + filePath);
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
                 }
                 return null;
             }
@@ -140,7 +139,7 @@ public abstract class AbstractExportAction extends JWorkBookAction {
         if (exporter instanceof AppExporter) {
             AppExporter appExporter = (AppExporter) exporter;
             if (exporter instanceof ExcelExporter || exporter instanceof CSVExporter
-                    || exporter instanceof PDFExporter || exporter instanceof PDFStreamExporter || exporter instanceof WordExporter) {
+                || exporter instanceof PDFExporterProcessor || exporter instanceof WordExporter) {
                 ReportHelper.clearFormulaResult(tpl);// 清空rpt中的公式计算结果
 
                 appExporter.export(fileOutputStream, tpl.execute(parameterMap, ActorFactory.getActor(ActorConstants.TYPE_PAGE)

@@ -2063,6 +2063,17 @@ public class RemoteEnv implements Env {
 
     }
 
+
+    /**
+     * 获取插件的配置目录
+     *
+     * @param plugin
+     */
+    public String getPluginFilePath(Plugin plugin) {
+
+        return StringUtils.EMPTY;
+    }
+
     public void readPluginLicenses() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();

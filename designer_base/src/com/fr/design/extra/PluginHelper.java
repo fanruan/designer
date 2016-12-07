@@ -7,6 +7,7 @@ import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
+import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
 import com.fr.plugin.dependence.PluginDependence;
