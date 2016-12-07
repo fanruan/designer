@@ -25,6 +25,7 @@ import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.Authorize;
@@ -85,7 +86,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         for (int i = 0; i < typeName.length; i++) {
             String plotID = typeName[i].getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
-            if(rowChart == null) {
+            if(ArrayUtils.isEmpty(rowChart)) {
                 continue;
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
@@ -163,7 +164,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String priority = (String) entry.getKey();
                 String imagePath = getIconPath(priority, plotID);
-                if (!StringUtils.isEmpty(imagePath)) {
+                if (StringUtils.isNotEmpty(imagePath)) {
                     return imagePath;
                 }
             }
