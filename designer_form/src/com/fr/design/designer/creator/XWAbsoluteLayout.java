@@ -96,7 +96,6 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		if(screenValue != FormArea.DEFAULT_SLIDER){
 			this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
 		}
-		widget.setDesigningResolution(scrnsize);
 	}
 
 	/**
@@ -208,7 +207,33 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			}
 		}
 	}
-	
+
+	/**
+	 * 更新子组件的Bound
+	 * 这边主要用于绝对布局子组件在适应区域选项时
+	 * 涉及到的不同分辨率下缩放
+	 * @param minHeight 最小高度
+	 */
+	@Override
+	public void updateChildBound(int minHeight) {
+		double prevContainerPercent = FRScreen.getByDimension(toData().getDesigningResolution()).getValue() / FormArea.DEFAULT_SLIDER;
+		if (toData().getCompState() == 0 && prevContainerPercent != containerPercent) {
+			for (int i = 0; i < this.getComponentCount(); i++) {
+				XCreator creator = getXCreator(i);
+				Rectangle rec = new Rectangle(creator.getBounds());
+				rec.x = (int)(rec.x / prevContainerPercent * containerPercent);
+				rec.y = (int)(rec.y / prevContainerPercent * containerPercent);
+				rec.height = (int)(rec.height / prevContainerPercent * containerPercent);
+				rec.width = (int)(rec.width / prevContainerPercent * containerPercent);
+				BoundsWidget wgt = toData().getBoundsWidget(creator.toData());
+				wgt.setBounds(rec);
+				creator.setBounds(rec);
+				creator.updateChildBound(minHeight);
+			}
+		}
+		toData().setDesigningResolution(Toolkit.getDefaultToolkit().getScreenSize());
+	}
+
 	/**
 	 * 增加对齐线
 	 * @param connector 对齐线
