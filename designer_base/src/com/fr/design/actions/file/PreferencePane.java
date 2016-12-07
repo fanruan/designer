@@ -83,6 +83,8 @@ public class PreferencePane extends BasicPane {
     };
     private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
 
+    private boolean languageChanged; // 是否修改了设计器语言设置
+
     //设置是否支持undo
     private UICheckBox supportUndoCheckBox;
     //设置最大撤销次数
@@ -627,25 +629,35 @@ public class PreferencePane extends BasicPane {
         return l;
     }
 
+    // 如果语言设置改变了，则显示重启对话框
+    public void showRestartDialog() {
+        if (!languageChanged) {
+            return;
+        }
+        int rv = JOptionPane.showOptionDialog(
+                null,
+                Inter.getLocText("FR-Designer_Language_Change_Successful"),
+                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+                null
+        );
+        if (rv == JOptionPane.OK_OPTION) {
+            RestartHelper.restart();
+        }
+    }
+
     @Override
     public BasicDialog showWindow(Window window) {
         return showWindow(window, new DialogActionAdapter() {
             @Override
             public void doOk() {
                 if (languageComboBox.getSelectedIndex() != designerEnvLanguageIndex) {
-                    int rv = JOptionPane.showOptionDialog(
-                            null,
-                            Inter.getLocText("FR-Designer_Language_Change_Successful"),
-                            Inter.getLocText("FR-Designer-Plugin_Warning"),
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                            null
-                    );
-                    if (rv == JOptionPane.OK_OPTION) {
-                        RestartHelper.restart();
-                    }
+                    languageChanged = true;
+                } else {
+                    languageChanged = false;
                 }
             }
         });
