@@ -9,7 +9,7 @@ sourceCompatibility=1.7
 version='8.0'
 //生成jar包重命名
 jar{
-	baseName='fr-designer-core'
+	baseName='fr-designer-chart'
 }
 
 
