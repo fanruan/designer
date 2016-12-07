@@ -87,10 +87,10 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
             FRLogger.getLogger().error("Error In Make New File");
         }
         fileChooserPane = null;
-        FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("Prepare_Export") + "!");
+        FRContext.getLogger().info("\"" + file.getName() + "\"" + Inter.getLocText("FR-Designer_Prepare_Export") + "!");
 
         (progressbar = new FRProgressBar(createExportWork(file, tpl, parameterMap), designerFrame,
-                Inter.getLocText("Exporting"), "", 0, 100)).start();
+                Inter.getLocText("FR-Designer_Exporting"), "", 0, 100)).start();
 	}
 	
 	private boolean isOk(int saveValue){
@@ -136,13 +136,13 @@ public class EmbeddedFormExportExportAction extends JTemplateAction<JForm>{
                     fileOutputStream.close();
                     this.setProgress(100);
 
-                    FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("Finish_Export") + "!");
+                    FRContext.getLogger().info("\"" + fileGetName + "\"" + Inter.getLocText("FR-Designer_Finish_Export") + "!");
                     JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            Inter.getLocText("Exported_successfully") + "\n" + filePath);
+                            Inter.getLocText("FR-Designer_Exported_successfully") + "\n" + filePath);
                 } catch (Exception exp) {
                     this.setProgress(100);
                     FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Export_failed") + "\n" + filePath);
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Export_failed") + "\n" + filePath);
                 }
                 return null;
             }

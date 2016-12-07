@@ -34,7 +34,7 @@ public class PDFExportAction extends AbstractExportAction {
 
     @Override
 	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"pdf"}, Inter.getLocText("Export-PDF"));
+        return new ChooseFileFilter(new String[]{"pdf"}, Inter.getLocText("FR-Designer_Export-PDF"));
     }
 
     @Override
