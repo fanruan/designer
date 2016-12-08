@@ -235,6 +235,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 			}
 			XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
 			layout.updateBoundsWidget(creator);
+			updateCreatorBackBound();
 			LayoutUtils.layoutRootContainer(container);
 		}else{
 			fixAbsolute(creator, x, y);
