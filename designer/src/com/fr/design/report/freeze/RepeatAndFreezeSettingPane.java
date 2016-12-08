@@ -8,12 +8,14 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.extra.WebDialog;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.env.RemoteEnv;
 import com.fr.general.Inter;
 import com.fr.page.ReportPageAttrProvider;
 import com.fr.stable.ColumnRow;
@@ -211,13 +213,13 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel freezePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         //自适应插件
-        JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Attention"));
-
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(Inter.getLocText("FR-Designer_Form-Fit-Tip"));
-        infoPane.add(actionLabel, BorderLayout.SOUTH);
-
+        if (shouldShowTip()) {
+            JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Attention"));
+            BoxCenterAligmentPane actionLabel = getURLActionLabel(Inter.getLocText("FR-Designer_Form-Fit-Tip"));
+            infoPane.add(actionLabel, BorderLayout.SOUTH);
+            this.add(infoPane, BorderLayout.SOUTH);
+        }
         outfreezePanel.add(freezePanel);
-        this.add(infoPane, BorderLayout.SOUTH);
         // 重复打印部分
         // 重复打印标题的起始行
         JPanel labelPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -239,6 +241,10 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         initPageRwoListener();
         initPageColListener();
         initWriteListener();
+    }
+
+    private boolean shouldShowTip() {
+        return !(FRContext.getCurrentEnv() instanceof RemoteEnv) && FRContext.isChineseEnv();
     }
 
     protected void initWriteListener() {
