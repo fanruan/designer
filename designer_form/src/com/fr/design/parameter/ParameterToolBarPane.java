@@ -29,18 +29,18 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private UIButton addAll;
 	private UILabel label;
 	private int breakid;
-	
+
 	private static final int GAP_H = 4;
 	private static final int GAP_V = 6;
 	private static final int GAP_BV = 4;
 	private static final int BUTTON_HEIGHT = 20;
 	private static final int WIDTH = 225;
-	
+
 	private static final int L_H = 18;
 
 	public ParameterToolBarPane() {
 		this.setLayout(new FlowParameterPaneLayout());
-		
+
 		label = new UILabel() {
 			private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
 		this.add(label);
-		
+
 		addAll = new UIButton(Inter.getLocText("FR-Designer_Add_all"));
 		this.add(addAll);
 
@@ -63,7 +63,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	protected String title4PopupWindow() {
 		return null;
 	}
-	
+
 	public Parameter getTargetParameter(UIButton button) {
 		int index = parameterSelectedLabellist.indexOf(button);
 		if(index < 0 || index > parameterList.length - 1) {
@@ -76,9 +76,9 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	public void populateBean(Parameter[] parameterArray) {
 		parameterSelectedLabellist.clear();
 		this.removeAll();
-		
+
 		this.add(label);
-		
+
 		if (parameterArray.length == 0) {
 			this.setVisible(false);
 			this.repaint();
@@ -86,14 +86,14 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 		} else {
 			this.setVisible(true);
 		}
-		
+
 		parameterList = parameterArray;
 		for (int i = 0; i < parameterList.length; i++) {
 			UIButton parameterSelectedLabel = new UIButton(parameterList[i].getName());
 			parameterSelectedLabellist.add(parameterSelectedLabel);
 			this.add(parameterSelectedLabel);
 		}
-		
+
 		for(UIButton parameterSelectedLabel : parameterSelectedLabellist) {
 			parameterSelectedLabel.addMouseListener(paraMouseListner);
 		}
@@ -130,9 +130,9 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 		public Dimension preferredLayoutSize(Container parent) {
 			int w = parent.getWidth();
-			
+
 			layoutContainer(parent);
-			
+
 			int h= ((parameterSelectedLabellist.size() == 0) ? L_H : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
 			return new Dimension(w, h);
 		}
@@ -145,9 +145,9 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 			int width = parent.getWidth() == 0 ? WIDTH : parent.getWidth();
 			int x = 0;
 			int y = L_H + GAP_H;
-			
+
 			label.setBounds(0, 0, width, L_H);
-			
+
 			breakid = 1;
 			for (UIButton tab : parameterSelectedLabellist) {
 				Dimension dim = tab.getPreferredSize();
@@ -156,9 +156,9 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 					x = 0;
 					y += (dim.height + GAP_V);
 				}
-				
+
 				tab.setBounds(x, y, dim.width, dim.height);
-				
+
 				x += (dim.width + GAP_H);
 			}
 			addAll.setBounds(0, y + GAP_V + BUTTON_HEIGHT, width, addAll.getPreferredSize().height);
