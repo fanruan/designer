@@ -67,38 +67,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator)comp).getTopLayout();
 		if(topLayout != null){
 			if (topLayout.isEditable()){
-				//判断有没有和当前控件重叠
-				//先计算当前控件的位置
-				int creatorX, creatorY;
-				if (XCreatorUtils.getParentXLayoutContainer(creator) != null) {
-
-					Rectangle creatorRectangle = ComponentUtils.getRelativeBounds(creator);
-					creatorX = creatorRectangle.x;
-					creatorY = creatorRectangle.y;
-				} else {
-					int w = creator.getWidth() / 2;
-					int h = creator.getHeight() / 2;
-					creatorX = x - w;
-					creatorY = y - h;
-				}
-				//再判断和布局中其他控件重叠
-				Rectangle curRec = new Rectangle(creatorX, creatorY, creator.getWidth(), creator.getHeight());
-				WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout)topLayout.toData();
-				for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
-					WAbsoluteLayout.BoundsWidget temp = (WAbsoluteLayout.BoundsWidget) wAbsoluteLayout.getWidget(i);
-					Rectangle rectangle = temp.getBounds();
-					if (curRec.intersects(rectangle)){
-						return false;
-					}
-				}
-				if (creatorX < 0
-						|| creatorX + creator.getWidth() > container.getWidth()
-						|| creatorY < 0
-						|| creatorY + creator.getHeight() > container.getHeight()) {
-					return false;
-				}
-				return x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
-						&& creator.getWidth() <= container.getWidth();
+				return topLayoutAccept(creator, x, y, topLayout);
 			}
 			//绝对布局嵌套，处于内层，不可编辑，不添加，topLayout只能获取到最外层可编辑的布局
 			else if (((XLayoutContainer)topLayout.getParent()).acceptType(XWAbsoluteLayout.class)) {
@@ -113,6 +82,42 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		}
 
 		return false;
+	}
+
+	//toplayout假如可以编辑的话就往里面添加组件
+	private boolean topLayoutAccept(XCreator creator, int x, int y, XLayoutContainer topLayout) {
+		//判断有没有和当前控件重叠
+		//先计算当前控件的位置
+		int creatorX, creatorY;
+		if (XCreatorUtils.getParentXLayoutContainer(creator) != null) {
+
+            Rectangle creatorRectangle = ComponentUtils.getRelativeBounds(creator);
+            creatorX = creatorRectangle.x;
+            creatorY = creatorRectangle.y;
+        } else {
+            int w = creator.getWidth() / 2;
+            int h = creator.getHeight() / 2;
+            creatorX = x - w;
+            creatorY = y - h;
+        }
+		//再判断和布局中其他控件重叠
+		Rectangle curRec = new Rectangle(creatorX, creatorY, creator.getWidth(), creator.getHeight());
+		WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout)topLayout.toData();
+		for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
+            WAbsoluteLayout.BoundsWidget temp = (WAbsoluteLayout.BoundsWidget) wAbsoluteLayout.getWidget(i);
+            Rectangle rectangle = temp.getBounds();
+            if (curRec.intersects(rectangle)){
+                return false;
+            }
+        }
+		if (creatorX < 0 || creatorX + creator.getWidth() > container.getWidth()) {
+            return false;
+        }
+		if (creatorY < 0 || creatorY + creator.getHeight() > container.getHeight()){
+            return false;
+        }
+		return x >= 0 && y >= 0 && creator.getHeight() <= container.getHeight()
+                && creator.getWidth() <= container.getWidth();
 	}
 
 	/**
@@ -156,6 +161,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		return !ComparatorUtils.equals(trisectAreaDirect, 0);
 	}
 
+	//当前绝对布局不可编辑，就当成一个控件，组件添加在周围
 	private boolean acceptWidget(XCreator creator, int x, int y){
 		isFindRelatedComps = false;
 		//拖入组件判断时，先判断是否为交叉点区域，其次三等分区域，再次平分区域
