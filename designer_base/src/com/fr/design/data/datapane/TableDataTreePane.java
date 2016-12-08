@@ -38,6 +38,7 @@ import java.awt.dnd.DnDConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -275,13 +276,15 @@ public class TableDataTreePane extends BasicTableDataTreePane {
      * @param srcName 数据集来源(比如报表块，就是报表块的名称)
      * @param tableDataSource 数据集
      */
-    public void addTableData(String srcName, TableDataSource tableDataSource) {
+    public Map<String, String> addTableData(String srcName, TableDataSource tableDataSource) {
+        Map<String, String> tdNameMap = new HashMap<>();
         allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
         DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
         TableDataSource tds = tc.getBook();
         Iterator tdIterator = tableDataSource.getTableDataNameIterator();
         while (tdIterator.hasNext()) {
             String tdName = (String) tdIterator.next();
+            String oldName = tdName;
             TableData td = tableDataSource.getTableData(tdName);
             if (tds.getTableData(tdName) != null || isDsNameRepeaded(tdName)) {//如果有同名的就拼上来源名称
                 tdName = srcName + tdName;
@@ -292,8 +295,12 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 tdName += i;
             }
             tds.putTableData(tdName, td);
+            if (!ComparatorUtils.equals(oldName, tdName)) {
+                tdNameMap.put(oldName, tdName);
+            }
         }
         tc.parameterChanged();
         dataTree.refresh();
+        return  Collections.unmodifiableMap(tdNameMap);
     }
 }

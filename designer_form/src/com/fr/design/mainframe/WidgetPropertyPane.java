@@ -10,17 +10,14 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.EventPropertyTable;
 import com.fr.design.designer.properties.WidgetPropertyTable;
-import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -38,7 +35,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private EventPropertyTable eventTable;
     private List<AbstractPropertyTable> widgetPropertyTables;
     private FormDesigner designer;
-    private ComponentTree componentTree;
     private JPanel wsp;
     private MobileWidgetTable mobileWidgetTable;
     private MobileBodyWidgetTable mobileBodyWidgetTable;
@@ -122,8 +118,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             clearDockingView();
             return;
         }
-
-        componentTree = new ComponentTree(designer);
         widgetPropertyTables = new ArrayList<AbstractPropertyTable>();
         propertyTable = new WidgetPropertyTable(designer);
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(propertyTable));
