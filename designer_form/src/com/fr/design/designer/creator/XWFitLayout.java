@@ -159,7 +159,10 @@ public class XWFitLayout extends XLayoutContainer {
 			creator.updateChildBound(getActualMinHeight());
 		}
 		// 布局内部组件放大缩小后，都是乘以百分比后取整，可能会产生空隙，此处调整容器
-		this.setSize(containerW + margin.getLeft() + margin.getRight(), containerH + margin.getTop() + margin.getBottom());
+		this.setSize(
+				containerW + (int)(margin.getLeft() * (1.0+percent) + margin.getRight() * (1.0+percent)),
+				containerH + (int)(margin.getTop() * (1.0+percent) + margin.getBottom() * (1.0+percent))
+		);
 		updateCreatorsBackupBound();
 		// 间隔也按显示大小比例调整
 		if (!hasCalGap) {
@@ -239,7 +242,7 @@ public class XWFitLayout extends XLayoutContainer {
 		posX.add(margin.getLeft());
 		int width = this.getWidth() - margin.getLeft() - margin.getRight();
 		int containW = (int) (width / perc);
-		posX.add(containW);
+		posX.add(containW + margin.getLeft());
 		for (int i=0, len=this.getComponentCount(); i < len; i++) {
 			int x = this.getComponent(i).getX();
 			int finalX = (int) (x / perc);
@@ -265,7 +268,7 @@ public class XWFitLayout extends XLayoutContainer {
 		posY.add(margin.getTop());
 		int height = this.getHeight() - margin.getTop() - margin.getBottom();
 		int containH = (int) (height / perc);
-		posY.add(containH);
+		posY.add(containH + margin.getTop());
 		for (int i=0, len=this.getComponentCount(); i < len; i++) {
 			int y = this.getComponent(i).getY();
 			int finalY = (int) (y / perc);

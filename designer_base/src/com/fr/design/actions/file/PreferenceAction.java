@@ -38,6 +38,7 @@ public class PreferenceAction extends UpdateAction {
 				DesignerEnvManager.getEnvManager().saveXMLFile();
 				JTemplate jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
 				jt.refreshToolArea();
+				preferencePane.showRestartDialog();
 			}
 		});	
 		

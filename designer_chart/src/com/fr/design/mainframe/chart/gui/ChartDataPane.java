@@ -1,21 +1,23 @@
 package com.fr.design.mainframe.chart.gui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-
-import com.fr.design.chart.report.GisMapDataPane;
-import com.fr.design.chart.report.MapDataPane;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.GisMapPlot;
 import com.fr.chart.chartattr.MapPlot;
+import com.fr.design.chart.report.GisMapDataPane;
+import com.fr.design.chart.report.MapDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class ChartDataPane extends AbstractChartAttrPane {
+
+	public static final int LABEL_WIDTH = 85;
+	public static final int LABEL_HEIGHT = 20;
 	
 	protected DataContentsPane contentsPane;
 	protected AttributeChangeListener listener;
@@ -78,6 +80,9 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	 */
 	public void setSupportCellData(boolean supportCellData) {
 		this.supportCellData = supportCellData;
+		if(contentsPane != null) {
+			contentsPane.setSupportCellData(supportCellData);
+		}
 	}
 	
 	/**
