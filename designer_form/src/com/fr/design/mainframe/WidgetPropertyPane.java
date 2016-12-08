@@ -181,8 +181,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.setOpaque(true);
         tabbedPane.setBorder(null);
         tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
-        tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
-        tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Properties"), psp);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), esp);
         tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
     }
 
