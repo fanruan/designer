@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.event.UIObserverListener;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
@@ -21,7 +23,9 @@ import com.fr.main.parameter.ReportParameterAttr;
 /**
  * Report Parameter
  */
-public class ReportParameterAction extends JWorkBookAction {
+public class ReportParameterAction extends JWorkBookAction{
+
+    private UIObserverListener uiObserverListener = null;
 
     public ReportParameterAction(JWorkBook jwb) {
         super(jwb);
@@ -62,6 +66,9 @@ public class ReportParameterAction extends JWorkBookAction {
                 jwb.fireTargetModified();
                 jwb.updateReportParameterAttr();
                 jwb.populateReportParameterAttr();
+
+                //点击确定会后，需要出发插件界面的更新
+                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireElementCasePane();
             }
         });
         parameterArrayDialog.setVisible(true);
