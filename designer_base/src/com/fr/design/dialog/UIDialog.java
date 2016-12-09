@@ -1,7 +1,6 @@
 package com.fr.design.dialog;
 
 import com.fr.base.FRContext;
-import com.fr.design.event.UIObserver;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
