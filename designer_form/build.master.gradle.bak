@@ -47,6 +47,16 @@ def dataContent ={def dir ->
 			}
 		}
 }
+FileTree f1=fileTree(dir:'../../',include:"finereport-*-stable/${branchName}/build/libs/*.jar");
+f1.each{File file->
+	println "----------${file.path}"
+}
+
+FileTree f2=fileTree(dir:"../../../finereport-lib-stable/${branchName}",include:'**/*.jar')
+f2.each{File file->
+	println "----------${file.path}"
+}
+
 
 //将非.java文件复制到classes文件夹下 参与打包
 task copyFile(type:Copy,dependsOn:compileJava){
