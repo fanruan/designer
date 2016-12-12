@@ -60,6 +60,13 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		if (comp == null){
 			return false;
 		}
+		//参数面板内的组件不允许拖往绝对布局中
+		if (creator.getParent() != null && ((XCreator)creator.getParent()).acceptType(XWParameterLayout.class)){
+			Rectangle rec = creator.getBounds();
+			rec.y = creator.getParent().getHeight() - rec.height;
+			creator.setBounds(rec);
+			return false;
+		}
 		//判断下组件能不能拖入绝对布局
 		if (!creator.canEnterIntoAbsolutePane()){
 			return false;
