@@ -114,5 +114,4 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	public void refreshChartDataPane(ChartCollection collection){
 		this.populate(collection);
 	}
-
 }

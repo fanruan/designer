@@ -11,14 +11,26 @@ public abstract class ShopPaneConfig {
     private JFXPanel webPane;
 
     public ShopPaneConfig() {
-        this.mainJS = getMainJS();
-        this.scriptsId = getScriptsId();
-        this.webPane = getWebPane();
+        this.mainJS = setMainJS();
+        this.scriptsId = setScriptsId();
+        this.webPane = setWebPane();
     }
 
-    abstract String getMainJS();
+    abstract String setMainJS();
 
-    abstract String getScriptsId();
+    abstract String setScriptsId();
 
-    abstract JFXPanel getWebPane();
+    abstract JFXPanel setWebPane();
+
+    public String getMainJS() {
+        return mainJS;
+    }
+
+    public String getScriptsId() {
+        return scriptsId;
+    }
+
+    public JFXPanel getWebPane() {
+        return webPane;
+    }
 }

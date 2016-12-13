@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import java.util.ArrayList;
 
 /**
- * Created by lp on 2016/8/16.
+ *  Created by lp on 2016/8/16.
  */
 public class UserLoginContext {
     private static ArrayList<LoginContextListener> fireLoginContextListener = new ArrayList<LoginContextListener>();
