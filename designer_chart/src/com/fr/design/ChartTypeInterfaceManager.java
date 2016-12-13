@@ -38,7 +38,7 @@ import javax.swing.*;
 import java.util.*;
 
 /**
- * Created by eason on 14/12/29.
+ *  Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
 
@@ -495,7 +495,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 extraChartDesignInterfaceList.add(tagName);
             }
             if (IndependentChartUIProvider.XML_TAG.equals(tagName)) {
-                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("priority", ChartTypeManager.DEFAULT_PRIORITY),reader.getAttrAsString("plotID", ""), simplify);
+                addChartInterface(reader.getAttrAsString("class", ""), reader.getAttrAsString("priority", ChartTypeManager.CHART_PRIORITY),reader.getAttrAsString("plotID", ""), simplify);
             }
         }
     }
