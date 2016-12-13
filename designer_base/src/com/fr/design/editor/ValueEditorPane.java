@@ -106,6 +106,15 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         return currentEditor;
     }
 
+    public int getCurrentEditorIndex() {
+        for (int i = 0;i < cards.length; i++){
+            if (cards[i].getClass() == currentEditor.getClass()){
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public void setCurrentEditor(int i) {
         this.add(arrowButton, BorderLayout.WEST);
         currentEditor = this.cards[i];

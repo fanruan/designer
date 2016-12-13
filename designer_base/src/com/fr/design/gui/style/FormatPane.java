@@ -4,10 +4,10 @@ import com.fr.base.CoreDecimalFormat;
 import com.fr.base.GraphHelper;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
-import com.fr.design.constants.UIConstants;
 import com.fr.data.core.FormatField;
 import com.fr.data.core.FormatField.FormatContents;
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -81,16 +81,7 @@ public class FormatPane extends AbstractBasicStylePane {
 
         };
         typeComboBox = new UIComboBox(types);
-        UIComboBoxRenderer render = new UIComboBoxRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Integer) {
-                    label.setText(" " + FormatField.getInstance().getName((Integer) value));
-                }
-                return label;
-            }
-        };
+        UIComboBoxRenderer render = createComBoxRender();
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
         contentPane.add(sampleLabel, BorderLayout.NORTH);
@@ -114,11 +105,23 @@ public class FormatPane extends AbstractBasicStylePane {
 
     }
 
+    protected UIComboBoxRenderer createComBoxRender(){
+        return new UIComboBoxRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Integer) {
+                    label.setText(" " + FormatField.getInstance().getName((Integer) value));
+                }
+                return label;
+            }
+        };
+    }
 
     private void iniSampleLable() {
         Border innterborder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
         Font tmpFont = null;
-        Border border = BorderFactory.createTitledBorder(innterborder, Inter.getLocText("StyleFormat-Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
+        Border border = BorderFactory.createTitledBorder(innterborder, Inter.getLocText("FR-Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue()) {
 
             @Override
@@ -156,7 +159,7 @@ public class FormatPane extends AbstractBasicStylePane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Format");
+        return Inter.getLocText("FR-Base_Format");
     }
 
     /**

@@ -11,6 +11,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.ilist.TableViewList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
@@ -28,7 +29,7 @@ import java.awt.event.*;
  */
 public class ConnectionTableProcedurePane extends BasicPane {
 	private static int WIDTH = 155;
-    private ConnectionComboBoxPanel connectionComboBox;
+	private ConnectionComboBoxPanel connectionComboBox;
 	private UICheckBox tableCheckBox;
 	private UICheckBox viewCheckBox;
 	private UITextField searchField;
@@ -37,16 +38,16 @@ public class ConnectionTableProcedurePane extends BasicPane {
 
 	public ConnectionTableProcedurePane() {
 		this.setLayout(new BorderLayout(4, 4));
-		connectionComboBox = new ConnectionComboBoxPanel(com.fr.data.impl.Connection.class){
-            protected void refreshItems(){
-                super.refreshItems();
-                if (tableViewList != null) {
-                    search();
-                }
-            }
-        };
+		connectionComboBox = new ConnectionComboBoxPanel(com.fr.data.impl.Connection.class) {
+			protected void refreshItems() {
+				super.refreshItems();
+				if (tableViewList != null) {
+					search();
+				}
+			}
+		};
 		tableViewList = new TableViewList();
-        ToolTipManager.sharedInstance().registerComponent(tableViewList);
+		ToolTipManager.sharedInstance().registerComponent(tableViewList);
 		connectionComboBox.addComboBoxActionListener(filter);
 		tableViewList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
@@ -54,8 +55,8 @@ public class ConnectionTableProcedurePane extends BasicPane {
 					Object obj = tableViewList.getSelectedValue();
 					TableProcedure tableProcedure = null;
 					if (obj instanceof TableProcedure) {
-						tableProcedure = (TableProcedure)obj;
-					}else {
+						tableProcedure = (TableProcedure) obj;
+					} else {
 						return;
 					}
 					for (int i = 0; i < ConnectionTableProcedurePane.this.listeners.size(); i++) {
@@ -79,7 +80,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		this.add(connectionComboBox, BorderLayout.NORTH);
 		this.add(tableViewListPane, BorderLayout.CENTER);
 		this.add(filterPane, BorderLayout.SOUTH);
-        this.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
+		this.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
 	}
 
 	protected JPanel createCheckBoxgroupPane() {
@@ -89,28 +90,42 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		tableCheckBox.setSelected(true);
 		tableCheckBox.addActionListener(filter);
 		first.add(tableCheckBox);
-		first.add(new UILabel(Inter.getLocText("Table"), BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING));
 
 		JPanel second = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		viewCheckBox = new UICheckBox();
 		viewCheckBox.setSelected(true);
 		viewCheckBox.addActionListener(filter);
 		second.add(viewCheckBox);
-		second.add(new UILabel(Inter.getLocText("SQL-View"), BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING));
 
+		// 根据环境是否为中文设置不同的显示
+		if (GeneralContext.isChineseEnv()) {
+			first.add(new UILabel(Inter.getLocText("FR-Designer_SQL-Table"),
+					BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING));
+			second.add(new UILabel(Inter.getLocText("FR-Designer_SQL-View"),
+					BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING));
+		} else {
+			UILabel ui1 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING);
+			UILabel ui2 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING);
+			ui1.setToolTipText(Inter.getLocText("FR-Designer_SQL-Table"));
+			ui2.setToolTipText(Inter.getLocText("FR-Designer_SQL-View"));
+			first.add(ui1);
+			second.add(ui2);
+		}
 		checkBoxgroupPane.add(first);
 		checkBoxgroupPane.add(second);
 
 		return checkBoxgroupPane;
 	}
 
-    /**
-     * 给 itemComboBox 加上 itemListener
-     * @param itemListener
-     */
-    public void addItemListener(ItemListener itemListener) {
-        connectionComboBox.itemComboBox.addItemListener(itemListener);
-    }
+	/**
+	 * 给 itemComboBox 加上 itemListener
+	 * 
+	 * @param itemListener
+	 */
+	public void addItemListener(ItemListener itemListener) {
+		connectionComboBox.itemComboBox.addItemListener(itemListener);
+	}
+
 	private DocumentListener searchListener = new DocumentListener() {
 
 		@Override
@@ -146,13 +161,13 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		String[] types = ArrayUtils.EMPTY_STRING_ARRAY;
 		if (tableCheckBox != null) {
 			if (tableCheckBox.isSelected()) {
-				types = (String[])ArrayUtils.add(types, TableProcedure.TABLE);
+				types = (String[]) ArrayUtils.add(types, TableProcedure.TABLE);
 			}
 			if (viewCheckBox.isSelected()) {
-				types = (String[])ArrayUtils.add(types, TableProcedure.VIEW);
+				types = (String[]) ArrayUtils.add(types, TableProcedure.VIEW);
 			}
 		} else {
-			types = (String[])ArrayUtils.add(types, TableProcedure.PROCEDURE);
+			types = (String[]) ArrayUtils.add(types, TableProcedure.PROCEDURE);
 		}
 		tableViewList.populate(selectedObj, searchField.getText().trim(), types);
 	}
@@ -162,10 +177,10 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		return "Connection";
 	}
 
-    /**
-     *
-     * @param l
-     */
+	/**
+	 *
+	 * @param l
+	 */
 	public void addDoubleClickListener(DoubleClickSelectedNodeOnTreeListener l) {
 		this.listeners.add(l);
 	}
@@ -179,10 +194,11 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	}
 
 	public static interface DoubleClickSelectedNodeOnTreeListener {
-        /**
-         * 处理双击事件
-         * @param target
-         */
-        public void actionPerformed(TableProcedure target);
+		/**
+		 * 处理双击事件
+		 * 
+		 * @param target
+		 */
+		public void actionPerformed(TableProcedure target);
 	}
 }

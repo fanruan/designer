@@ -42,7 +42,16 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     public static final String WIDGETPANEICONPATH = "/com/fr/web/images/form/resources/layout_absolute.png";
     private static final int DEPENDING_SCOPE = 3;
     private HoverPainter painter;
+    //区分拖拽和编辑宽高
+    private boolean isEdit;
 
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
     /**
      * 构造函数
      *
@@ -411,13 +420,15 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的坐标值
     private int adjustCoordinateByDependingLine(int coordinate, int[] coordinates) {
-        for (int i = 0; i < coordinates.length; i++) {
-            if (coordinate == coordinates[i]) {
-                continue;
-            }
-            if (coordinate > coordinates[i] - DEPENDING_SCOPE && coordinate < coordinates[i] + DEPENDING_SCOPE) {
-                coordinate = coordinates[i];
-                break;
+        if(!isEdit) {
+            for (int i = 0; i < coordinates.length; i++) {
+                if (coordinate == coordinates[i]) {
+                    continue;
+                }
+                if (coordinate > coordinates[i] - DEPENDING_SCOPE && coordinate < coordinates[i] + DEPENDING_SCOPE) {
+                    coordinate = coordinates[i];
+                    break;
+                }
             }
         }
         return coordinate;
@@ -425,10 +436,12 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的距离
     private int adjustDiffByDependingLine(int coordinate, int[] coordinates, int diff) {
-        for (int i = 0; i < coordinates.length; i++) {
-            if (coordinate + diff > coordinates[i] - DEPENDING_SCOPE && coordinate + diff < coordinates[i] + DEPENDING_SCOPE) {
-                diff = coordinates[i] - coordinate;
-                break;
+        if(!isEdit) {
+            for (int i = 0; i < coordinates.length; i++) {
+                if (coordinate + diff > coordinates[i] - DEPENDING_SCOPE && coordinate + diff < coordinates[i] + DEPENDING_SCOPE) {
+                    diff = coordinates[i] - coordinate;
+                    break;
+                }
             }
         }
         return diff;

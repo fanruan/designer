@@ -10,17 +10,14 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.EventPropertyTable;
 import com.fr.design.designer.properties.WidgetPropertyTable;
-import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -114,7 +111,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
     @Override
     public void refreshDockingView() {
-
         designer = this.getEditingFormDesigner();
         removeAll();
         if (designer == null) {
@@ -132,7 +128,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         eventTable.setBorder(null);
         UIScrollPane esp = new UIScrollPane(eventTable);
         esp.setBorder(null);
-
         wsp = FRGUIPaneFactory.createBorderLayout_S_Pane();
         wsp.setBorder(null);
         mobileWidgetTable = new MobileWidgetTable(designer);
@@ -144,7 +139,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         centerPane.add(mobileBodyWidgetTable,BODY);
         if(hasSelectParaPane(designer)){
             cardLayout.show(centerPane,PARA);
-
         } else {
             cardLayout.show(centerPane,BODY);
         }
@@ -153,19 +147,23 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         wsp.add(downPanel,BorderLayout.CENTER);
 
         UITabbedPane tabbedPane = new UITabbedPane();
-
-        tabbedPane.setOpaque(true);
-        tabbedPane.setBorder(null);
-        tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
-        tabbedPane.addTab(Inter.getLocText("Form-Properties"), psp);
-        tabbedPane.addTab(Inter.getLocText("Form-Events"), esp);
-        tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
-
+        initTabPane(psp, esp, tabbedPane);
         WidgetPropertyUIProvider[] widgetAttrProviders = getExtraPropertyUIProviders();
+        addWidgetAttr(widgetAttrProviders);
+        add(tabbedPane, BorderLayout.CENTER);
+        propertyTable.initPropertyGroups(null);
+        eventTable.refresh();
+        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
+            propertyTable.initPropertyGroups(designer);
+        }
+        isrefresh = false;
+    }
+
+    private void addWidgetAttr(WidgetPropertyUIProvider[] widgetAttrProviders) {
         if (widgetAttrProviders.length == 0) {
-            UILabel upLabel = new UILabel(Inter.getLocText("FR-Widget_Mobile_Table"),SwingConstants.CENTER);
+            UILabel upLabel = new UILabel(Inter.getLocText("FR-Widget_Mobile_Table"), SwingConstants.CENTER);
             upLabel.setBorder(BorderFactory.createEmptyBorder(6,0,6,0));
-            wsp.add(upLabel,BorderLayout.NORTH);
+            wsp.add(upLabel, BorderLayout.NORTH);
         } else {
             for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
                 AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
@@ -177,13 +175,15 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
             }
         }
-        add(tabbedPane, BorderLayout.CENTER);
-        propertyTable.initPropertyGroups(null);
-        eventTable.refresh();
-        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
-            propertyTable.initPropertyGroups(designer);
-        }
-        isrefresh = false;
+    }
+
+    private void initTabPane(UIScrollPane psp, UIScrollPane esp, UITabbedPane tabbedPane) {
+        tabbedPane.setOpaque(true);
+        tabbedPane.setBorder(null);
+        tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Properties"), psp);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), esp);
+        tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
     }
 
     //

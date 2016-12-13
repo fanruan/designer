@@ -4,10 +4,13 @@
 
 package com.fr.design.menu;
 
+import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,7 +66,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M_Close_Current");
+            return Inter.getLocText("FR-Designer_Close");
         }
 
         @Override
@@ -80,7 +83,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Save");
+            return Inter.getLocText("FR-Designer_Save");
         }
 
         @Override
@@ -148,7 +151,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Export");
+            return Inter.getLocText("FR-Designer_Export");
         }
 
         @Override
@@ -183,7 +186,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Export-Excel-Page");
+            return Inter.getLocText("FR-Engine_Export-Excel-Page");
         }
 
         @Override
@@ -201,7 +204,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Export-Excel-Simple");
+            return Inter.getLocText("FR-Engine_Export-Excel-Simple");
         }
 
         @Override
@@ -219,7 +222,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Export-Excel-PageToSheet");
+            return Inter.getLocText("FR-Engine_Export-Excel-PageToSheet");
         }
 
         @Override
@@ -362,7 +365,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("ExportAndOutput");
+            return Inter.getLocText("FR-Designer_ExportAndOutput");
         }
 
         @Override
@@ -379,7 +382,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return "EXCEL"+Inter.getLocText("ExportAndOutput");
+            return "EXCEL"+Inter.getLocText("FR-Designer_ExportAndOutput");
         }
 
         @Override
@@ -413,7 +416,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-SwitchWorkspace");
+            return Inter.getLocText("FR-Designer_M-SwitchWorkspace");
         }
 
         @Override
@@ -430,7 +433,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Exit");
+            return Inter.getLocText("FR-Designer_M-Exit");
         }
 
         @Override
@@ -448,7 +451,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Template");
+            return Inter.getLocText("FR-Designer_M-Template");
         }
 
         @Override
@@ -639,7 +642,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("ReportColumns-Columns");
+            return Inter.getLocText("FR-Designer_ReportColumns-Columns");
         }
 
         @Override
@@ -657,7 +660,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Repeat-Freeze");
+            return Inter.getLocText("FR-Designer_M-Repeat-Freeze");
         }
 
         @Override
@@ -675,7 +678,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Frozen");
+            return Inter.getLocText("FR-Engine_Frozen");
         }
 
         @Override
@@ -710,7 +713,14 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
+
+            // mod by anchore 16/11/16
+            if (ComparatorUtils.equals(Locale.JAPAN, GeneralContext.getLocale())) {
+                return Inter.getLocText(new String[]{"FR-Engine_RP_Authority_Edit", "Allow"});
+            } else {
+                return Inter.getLocText(new String[]{"Allow", "FR-Engine_RP_Authority_Edit"});
+            }
+            //return Inter.getLocText(new String[]{"Allow", "DashBoard-Potence", "Edit"});
         }
 
         @Override
@@ -727,7 +737,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("M-Cell");
+            return Inter.getLocText("FR-Designer_Cell");
         }
 
         @Override
@@ -761,7 +771,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Widget-Settings");
+            return Inter.getLocText("FR-Designer_Widget-Settings");
         }
 
         @Override
@@ -795,7 +805,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Condition_Attributes");
+            return Inter.getLocText("FR-Designer_Condition_Attributes");
         }
 
         @Override
@@ -812,7 +822,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Present");
+            return Inter.getLocText("FR-Chart-Style_Present");
         }
 
         @Override
@@ -880,7 +890,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Currency_Line");
+            return Inter.getLocText("FR-Designer_Currency_Line");
         }
 
         @Override

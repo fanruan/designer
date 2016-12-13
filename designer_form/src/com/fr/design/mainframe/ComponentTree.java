@@ -97,6 +97,7 @@ public class ComponentTree extends JTree {
         scrollPathToVisible(treepath);
     }
 
+
     /**
      * 刷新
      */

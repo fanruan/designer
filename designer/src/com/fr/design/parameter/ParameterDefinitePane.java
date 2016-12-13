@@ -454,13 +454,13 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      */
     public ShortCut[] shortcut4FileMenu() {
         return (ShortCut[]) ArrayUtils.addAll(BaseUtils.isAuthorityEditing() ?
-                new ShortCut[]{new SaveTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
-                        new UndoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
-                        new RedoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())} :
-                new ShortCut[]{new SaveTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
-                        new SaveAsTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
-                        new UndoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
-                        new RedoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())},
+                        new ShortCut[]{new SaveTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
+                                new UndoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
+                                new RedoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())} :
+                        new ShortCut[]{new SaveTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
+                                new SaveAsTemplateAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
+                                new UndoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()),
+                                new RedoAction(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())},
                 new ShortCut[0]
         );
     }

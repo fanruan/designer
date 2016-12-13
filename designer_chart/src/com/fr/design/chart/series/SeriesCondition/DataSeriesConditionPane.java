@@ -27,11 +27,20 @@ import java.util.Iterator;
  * Time   : 上午9:16
  */
 public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAttr> {
+    protected Plot plot;
 
-	
-    public DataSeriesConditionPane() {
+    public DataSeriesConditionPane(Plot plot) {
+        this.plot = plot;
         initAvailableActionList();
         initComponents();
+    }
+
+    public void setPlot(Plot plot) {
+        this.plot = plot;
+    }
+
+    public DataSeriesConditionPane() {
+        this(null);
     }
 
     private void initAvailableActionList() {
