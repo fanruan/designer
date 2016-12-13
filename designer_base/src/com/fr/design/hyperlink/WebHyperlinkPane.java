@@ -167,4 +167,36 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
             return ParameterTableModel.CHART_METER_USE;
         }
     }
+
+	public WebHyperNorthPane getNorthPane() {
+		return northPane;
+	}
+
+	public void setNorthPane(WebHyperNorthPane northPane) {
+		this.northPane = northPane;
+	}
+
+	public ReportletParameterViewPane getParameterViewPane() {
+		return parameterViewPane;
+	}
+
+	public void setParameterViewPane(ReportletParameterViewPane parameterViewPane) {
+		this.parameterViewPane = parameterViewPane;
+	}
+
+	public UICheckBox getUseCJKCheckBox() {
+		return useCJKCheckBox;
+	}
+
+	public void setUseCJKCheckBox(UICheckBox useCJKCheckBox) {
+		this.useCJKCheckBox = useCJKCheckBox;
+	}
+
+	public UICheckBox getExtendParametersCheckBox() {
+		return extendParametersCheckBox;
+	}
+
+	public void setExtendParametersCheckBox(UICheckBox extendParametersCheckBox) {
+		this.extendParametersCheckBox = extendParametersCheckBox;
+	}
 }
