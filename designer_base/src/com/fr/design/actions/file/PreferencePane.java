@@ -1,11 +1,13 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -29,9 +31,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * 选项对话框
@@ -72,19 +72,19 @@ public class PreferencePane extends BasicPane {
     private static final String DISPLAY_EQUALS = "+";
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
-
+    
     private static final FRLevel[] LOG = {FRLevel.SEVERE, FRLevel.WARNING, FRLevel.INFO, FRLevel.DEBUG};
-    private static java.util.List<String> LANGUAGE = new ArrayList<>();
-    static {
-        Map<Locale, String> map = Inter.getSupportLocaleMap();
-        LANGUAGE.add(Inter.getLocText("FR-Designer_Language_Default"));
-        for(Locale locale : map.keySet()){
-            LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
-        }
+    private static final String[] LANGUAGE = {Inter.getLocText("FR-Designer_Language_Default"),
+    	getLocaledLanguage("Simplified_Chinese_Language", Locale.SIMPLIFIED_CHINESE), 
+    	getLocaledLanguage("English_Language", Locale.ENGLISH),
+    	getLocaledLanguage("Japanese_Language", Locale.JAPAN),
+    	getLocaledLanguage("Traditional_Chinese_Language", Locale.TRADITIONAL_CHINESE),
+        getLocaledLanguage("Korea_Language",Locale.KOREA),
     };
-
     private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
+
     private boolean languageChanged; // 是否修改了设计器语言设置
+
     //设置是否支持undo
     private UICheckBox supportUndoCheckBox;
     //设置最大撤销次数
@@ -154,7 +154,7 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + Inter.getLocText("FR-Designer_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(Inter.getLocText(message, sign));
         oraclePane.add(oracleSpace);
-
+        
         JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Product_improve"));
         joinProductImprove = new UICheckBox(Inter.getLocText("FR-Designer_Join_Product_improve"));
         improvePane.add(joinProductImprove);
@@ -164,12 +164,12 @@ public class PreferencePane extends BasicPane {
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
     }
-
+    
     private static String getLocaledLanguage(String key, Locale locale){
-        StringBuilder sb = new StringBuilder();
-        sb.append(Inter.getLocText(key)).append("(");
-        sb.append(Inter.getLocText(key, locale)).append(")");
-        return sb.toString();
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(Inter.getLocText(key)).append("(");
+    	sb.append(Inter.getLocText(key, locale)).append(")");
+    	return sb.toString();
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -361,7 +361,7 @@ public class PreferencePane extends BasicPane {
         JPanel LanguagePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Choose_Language"));
         generalPane.add(languageAndDashBoard_pane);
         languageAndDashBoard_pane.add(LanguagePane);
-        languageComboBox = new UIComboBox(LANGUAGE.toArray());
+        languageComboBox = new UIComboBox(LANGUAGE);
         languageComboBox.setFont(FRFont.getInstance("Dialog", Font.PLAIN, 12));//为了在中文系统中显示韩文
         ActionLabel languageLabel = new ActionLabel(Inter.getLocText("FR-Designer_Designer_Language"));
         languageLabel.addActionListener(new ActionListener() {
@@ -530,10 +530,11 @@ public class PreferencePane extends BasicPane {
 
         this.logExportDirectoryField.setText(designerEnvManager.getLogLocation());
 
-        this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(designerEnvManager.getLogLevel()));
+		this.logLevelComboBox.setSelectedItem(FRLevel.getByLevel(designerEnvManager.getLogLevel()));
 
-        this.languageComboBox.setSelectedItem(LANGUAGE.get(designerEnvManager.getLanguage()));
+        this.languageComboBox.setSelectedItem(LANGUAGE[designerEnvManager.getLanguage()]);
         designerEnvLanguageIndex = designerEnvManager.getLanguage();
+
         this.pageLengthComboBox.setSelectedIndex(designerEnvManager.getPageLengthUnit());
         this.reportLengthComboBox.setSelectedIndex(designerEnvManager.getReportLengthUnit());
 
@@ -619,8 +620,8 @@ public class PreferencePane extends BasicPane {
     private int getLanguageInt() {
         int l = 0;
         String lang = (String) this.languageComboBox.getSelectedItem();
-        for (int i = 0; i < LANGUAGE.size(); i++) {
-            if (ComparatorUtils.equals(lang, LANGUAGE.get(i))) {
+        for (int i = 0; i < LANGUAGE.length; i++) {
+            if (ComparatorUtils.equals(lang, LANGUAGE[i])) {
                 l = i;
                 break;
             }
@@ -628,21 +629,20 @@ public class PreferencePane extends BasicPane {
         return l;
     }
 
-
     // 如果语言设置改变了，则显示重启对话框
     public void showRestartDialog() {
         if (!languageChanged) {
             return;
         }
         int rv = JOptionPane.showOptionDialog(
-                null,
-                Inter.getLocText("FR-Designer_Language_Change_Successful"),
-                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                null
+            null,
+            Inter.getLocText("FR-Designer_Language_Change_Successful"),
+            Inter.getLocText("FR-Designer-Plugin_Warning"),
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
+            null
         );
         if (rv == JOptionPane.OK_OPTION) {
             RestartHelper.restart();
