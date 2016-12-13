@@ -38,7 +38,7 @@ import javax.swing.*;
 import java.util.*;
 
 /**
- * Created by eason on 14/12/29.
+ *  Created by eason on 14/12/29.
  */
 public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraChartDesignClassManagerProvider {
 
