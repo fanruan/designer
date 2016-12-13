@@ -11,13 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
@@ -45,6 +39,7 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.DatasourceManager;
 import com.fr.general.Inter;
 import com.fr.script.Calculator;
@@ -119,8 +114,13 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
         // 左边的Panel,上面是选择DatabaseConnection的ComboBox,下面DatabaseConnection对应的Table
         initconnectionTableProcedurePane();
         this.setLayout(new BorderLayout(4, 4));
-        this.add(connectionTableProcedurePane, BorderLayout.WEST);
-        this.add(sqlSplitPane, BorderLayout.CENTER);
+        connectionTableProcedurePane.setMinimumSize(new Dimension(155, 500));
+        box.setMinimumSize(new Dimension(310, 400));
+        // 使用SplitPane
+        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, connectionTableProcedurePane, sqlSplitPane);
+        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
+        mainSplitPane.setOneTouchExpandable(true);
+        this.add(mainSplitPane, BorderLayout.CENTER);
     }
 
     private void initconnectionTableProcedurePane() {
