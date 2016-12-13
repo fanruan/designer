@@ -40,7 +40,7 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 		
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);
-		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters"), null));
+		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameters"), null));
 		
 		useCJKCheckBox = new UICheckBox(Inter.getLocText("Hyperlink-Use_CJK_to_encode_parameter"));
         extendParametersCheckBox = new UICheckBox(Inter.getLocText("Hyperlink-Extends_Report_Parameters"));
