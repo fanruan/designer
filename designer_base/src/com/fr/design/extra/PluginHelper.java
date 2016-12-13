@@ -49,9 +49,6 @@ public class PluginHelper {
      * @param p  下载百分比处理
      */
     public static void downloadPluginFile(String id, String username, String password, Process<Double> p) throws Exception {
-        if (!PluginHelper.invalidUser(id, username, password)) {
-            return;
-        }
         HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();

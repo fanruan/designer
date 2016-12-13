@@ -291,8 +291,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		paneState.setPaneState(collection.getState());
 	}
 
+	// TODO: 2016/11/17 因为现在populate面板时会重新构造面板，所以每次都需要重构
 	private boolean needReactor(ChartCollection collection) {
-		return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();
+		/*return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();*/
+		return true;
 	}
 
 	/**
@@ -300,8 +302,15 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 */
 	public void populate(ChartCollection collection) {
 		Chart chart = collection.getSelectedChart();
+		this.remove(leftContentPane);
+		initContentPane();
+
 		buttonPane.populateBean(collection);
 		chartTypePane.populateBean(chart);
+		//remove面板之后，就需要重构下拉框
+		reactorChartTypePane(collection);
+
+		this.initAllListeners();
 	}
 
 	/**

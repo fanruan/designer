@@ -27,6 +27,7 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -42,6 +43,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -385,25 +387,46 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             oldName = oldName.replaceAll(suffix, "");
 
             jd = new JDialog();
-            jd.setLayout(null);
+            jd.setLayout(new GridLayout(2, 2));
             jd.setModal(true);
-            UILabel newNameLable = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
-            newNameLable.setBounds(20, 10, 130, 30);
+            UILabel newNameLabel = new UILabel(Inter.getLocText("FR-Designer_Enter-New-FileName"));
+            newNameLabel.setMinimumSize(new Dimension(150, 27));
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             jt = new UITextField(oldName);
             jt.getDocument().addDocumentListener(getdoDocumentListener());
             jt.selectAll();
-            jt.setBounds(130, 15, 150, 20);
-            jd.add(newNameLable);
-            jd.add(jt);
+            jt.setPreferredSize(new Dimension(150, 20));
+
+            JPanel newNamePanel = new JPanel();
+            newNamePanel.setLayout(new BoxLayout(newNamePanel, BoxLayout.X_AXIS));
+            newNamePanel.add(Box.createHorizontalGlue());
+            newNamePanel.add(newNameLabel);
+            newNamePanel.add(Box.createHorizontalStrut(5));
+            jd.add(newNamePanel);
+
+            JPanel jtPanel = new JPanel();
+            jtPanel.setLayout(new BoxLayout(jtPanel, BoxLayout.Y_AXIS));
+            JPanel containJt = new JPanel(new BorderLayout());
+            containJt.add(jt, BorderLayout.WEST);
+            containJt.setMaximumSize(new Dimension(200, 20));
+            jtPanel.add(Box.createVerticalGlue());
+            jtPanel.add(containJt);
+            jtPanel.add(Box.createVerticalGlue());
+            jd.add(jtPanel);
+
             addUITextFieldListener(nodeFile, path);
 
             hintsLabel = new UILabel();
             hintsLabel.setBounds(20, 50, 250, 30);
+            hintsLabel.setMaximumSize(new Dimension(200, 30));
+            hintsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             hintsLabel.setForeground(Color.RED);
             hintsLabel.setVisible(false);
 
             confirmButton = new UIButton(Inter.getLocText("FR-Designer_Confirm"));
-            confirmButton.setBounds(180, 90, 60, 25);
+            confirmButton.setPreferredSize(new Dimension(80, 25));
+            confirmButton.setMinimumSize(new Dimension(80, 25));
+            confirmButton.setMaximumSize(new Dimension(80, 25));
             confirmButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     confirmClose(nodeFile, path);
@@ -411,17 +434,31 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             });
 
             UIButton cancelButton = new UIButton(Inter.getLocText("FR-Designer_Cancel"));
-            cancelButton.setBounds(250, 90, 60, 25);
+            cancelButton.setPreferredSize(new Dimension(80, 25));
+            cancelButton.setMinimumSize(new Dimension(80, 25));
+            cancelButton.setMaximumSize(new Dimension(80, 25));
+
             cancelButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     jd.dispose();
                 }
             });
 
-            jd.add(cancelButton);
-            jd.add(confirmButton);
+            JPanel hintsPanel = new JPanel();
+            hintsPanel.setLayout(new BorderLayout());
+            hintsPanel.add(hintsLabel, BorderLayout.EAST);
             jd.add(hintsLabel);
-            jd.setSize(340, 180);
+
+            JPanel btPanel = new JPanel(new BorderLayout());
+            btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
+            btPanel.add(Box.createHorizontalGlue());
+            btPanel.add(confirmButton);
+            btPanel.add(Box.createHorizontalStrut(5));
+            btPanel.add(cancelButton);
+            btPanel.add(Box.createHorizontalStrut(20));
+            jd.add(btPanel);
+
+            jd.setSize(380, 200);
             jd.setTitle(Inter.getLocText("FR-Designer_Rename"));
             jd.setResizable(false);
             jd.setAlwaysOnTop(true);

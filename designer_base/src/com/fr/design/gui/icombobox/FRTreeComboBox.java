@@ -91,6 +91,15 @@ public class FRTreeComboBox extends UIComboBox {
         return this.tree;
     }
 
+    /**
+     * 自定义那些那些node可以选中，默认情况下所有node节点都可以选中
+     * @param node
+     * @return
+     */
+    protected boolean customSelectable(DefaultMutableTreeNode node){
+        return true;
+    }
+
     public void setTree(JTree tree) {
         this.tree = tree;
         if (tree != null) {
@@ -403,6 +412,12 @@ public class FRTreeComboBox extends UIComboBox {
             if (comboBox.onlyLeafSelectable && !node.isLeaf()) {
                 return;
             }
+
+            //自定义node是否可选择
+            if (!comboBox.customSelectable(node)){
+                return;
+            }
+
             comboBox.setSelectedItem(treePath);
             togglePopup();
             MenuSelectionManager.defaultManager().clearSelectedPath();
