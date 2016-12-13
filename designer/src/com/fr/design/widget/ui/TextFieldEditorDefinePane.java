@@ -61,7 +61,11 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         regPane.getRegComboBox().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 RegExp regExp = (RegExp) regPane.getRegComboBox().getSelectedItem();
-				getRegErrorMsgTextField().setEnabled(regExp.errorMessageEditable());
+                if (!StringUtils.isNotEmpty(regExp.toRegText())) {
+                    getRegErrorMsgTextField().setEnabled(false);
+                } else {
+                    getRegErrorMsgTextField().setEnabled(true);
+                }
 
             }
         });

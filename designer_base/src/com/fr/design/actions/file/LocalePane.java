@@ -4,32 +4,28 @@
 
 package com.fr.design.actions.file;
 
-import java.awt.BorderLayout;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
+import com.fr.base.Env;
+import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.UITabbedPane;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.file.filetree.FileNode;
+import com.fr.general.*;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.project.ProjectConstants;
 
-import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
-import com.fr.base.Env;
-import com.fr.base.FRContext;
-import com.fr.design.gui.frpane.UITabbedPane;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.dialog.BasicPane;
-import com.fr.file.filetree.FileNode;
-import com.fr.general.*;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.bridge.StableFactory;
-import com.fr.stable.project.ProjectConstants;
+import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author : richie
@@ -53,8 +49,8 @@ public class LocalePane extends BasicPane {
         add(tabbedPane, BorderLayout.CENTER);
 
         predefineTableModel = new DefaultTableModel() {
-            public boolean isCellEditable(int row, int column) {
-                return column == 0;
+            public boolean isCellEditable(int col, int row) {
+                return false;
             }
         };
 
@@ -111,39 +107,23 @@ public class LocalePane extends BasicPane {
     }
 
     private void initPredefinedProperties() {
-
-        Map<Locale, String> supportLocaleMap = Inter.getSupportLocaleMap();
-
-        String[] localeFiles = StableFactory.getLocaleFiles();
-
-
+        Map<Locale, LocalePackage> map = Inter.getPredefinedPackageMap();
+        LocalePackage chinese = map.get(Locale.SIMPLIFIED_CHINESE);
 
         List<String> sortKeys = new ArrayList<String>();
 
 
-        for (String path : localeFiles) {
-            ResourceBundle chineseBundle = loadResourceBundle(path, Locale.SIMPLIFIED_CHINESE);
-            sortKeys.addAll(chineseBundle.keySet());
+        Set<ResourceBundle> bundles = chinese.getKindsOfResourceBundle();
+        for (ResourceBundle bundle : bundles) {
+            sortKeys.addAll(bundle.keySet());
         }
         Collections.sort(sortKeys);
 
-        Map<Locale, List<ResourceBundle>> localeResourceBundleMap = new HashMap<Locale, List<ResourceBundle>>();
-        for (Map.Entry<Locale, String> entry : supportLocaleMap.entrySet()) {
-            Locale locale = entry.getKey();
-            List<ResourceBundle> list = new ArrayList<>();
-            for (String path : localeFiles) {
-                ResourceBundle chineseBundle = loadResourceBundle(path, locale);
-                list.add(chineseBundle);
-            }
-            localeResourceBundleMap.put(locale, list);
-        }
-
         Map<Locale, Vector<String>> data = new HashMap<Locale, Vector<String>>();
-        for (Map.Entry<Locale, List<ResourceBundle>> entry : localeResourceBundleMap.entrySet()) {
+        for (Map.Entry<Locale, LocalePackage> entry : map.entrySet()) {
             Vector<String> column = new Vector<String>();
-            List<ResourceBundle> rbs = entry.getValue();
             for (String key : sortKeys) {
-                column.add(readText(rbs, key));
+                column.add(entry.getValue().getLocText(key));
             }
             data.put(entry.getKey(), column);
         }
@@ -156,19 +136,6 @@ public class LocalePane extends BasicPane {
         for (Map.Entry<Locale, Vector<String>> entry : data.entrySet()) {
             predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
         }
-    }
-
-    private String readText(List<ResourceBundle> rbs, String key) {
-        for (ResourceBundle rb : rbs) {
-            if (rb.containsKey(key)) {
-                return rb.getString(key);
-            }
-        }
-        return null;
-    }
-
-    private ResourceBundle loadResourceBundle(String dir, Locale locale) {
-        return ResourceBundle.getBundle(dir, locale, Inter.class.getClassLoader());
     }
 
     private void initCustomProperties() throws Exception {
@@ -207,9 +174,22 @@ public class LocalePane extends BasicPane {
         }
     }
 
+    private Properties loadLocaleProperties(String name) {
+        Properties properties = new Properties();
+        InputStream inputStream = IOUtils.readResource("/com/fr/general/locale/" + name);
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        return properties;
+    }
+
     /**
 	 * 保存当前编辑的国际化
 	 * 
+	 *
+	 * @date 2014-9-30-下午3:10:30
 	 */
     public void save() {
         Env env = FRContext.getCurrentEnv();
