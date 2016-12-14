@@ -188,7 +188,7 @@ public class MapCubeLayerPane extends BasicBeanPane<String>{
 					  while(names.hasNext()) {
 						  Object name = names.next();
                           String layName = editingAttr.getLayerTo(Utils.objectToString(name));
-                          if(ArrayUtils.contains(ChartConstants.NONE_KEYS, layName)) {// kunsnat: 考虑切换设计器语言.
+                          if(ArrayUtils.contains(ChartConstants.getNoneKeys(), layName)) {// kunsnat: 考虑切换设计器语言.
                               layName = StringUtils.EMPTY;
                           }
 						  list.add(new Object[]{name, layName});
@@ -230,7 +230,7 @@ public class MapCubeLayerPane extends BasicBeanPane<String>{
             while(names.hasNext()) {
                 Object name = names.next();
                 String layName = editingAttr.getLayerTo(Utils.objectToString(name));
-                if(ArrayUtils.contains(ChartConstants.NONE_KEYS, layName)) {// kunsnat: 考虑切换设计器语言.
+                if(ArrayUtils.contains(ChartConstants.getNoneKeys(), layName)) {// kunsnat: 考虑切换设计器语言.
                     layName = StringUtils.EMPTY;
                 }
                 list.add(new Object[]{name, layName});

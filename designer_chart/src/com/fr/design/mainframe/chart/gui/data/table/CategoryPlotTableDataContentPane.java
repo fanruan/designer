@@ -113,7 +113,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		}
 		Object categoryName = categoryCombox.getSelectedItem();
 
-        if(ArrayUtils.contains(ChartConstants.NONE_KEYS, categoryName)) {
+        if(ArrayUtils.contains(ChartConstants.getNoneKeys(), categoryName)) {
             dataDefinition.setCategoryName(StringUtils.EMPTY);
         } else {
 		    dataDefinition.setCategoryName(categoryName == null ? null : categoryName.toString());
