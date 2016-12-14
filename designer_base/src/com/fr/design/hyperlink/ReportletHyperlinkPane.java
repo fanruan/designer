@@ -104,7 +104,7 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
 
     }
 
-    private class HyperlinkParametersAction extends UITableEditAction {
+    protected class HyperlinkParametersAction extends UITableEditAction {
         public HyperlinkParametersAction() {
             this.setName(Inter.getLocText(new String[]{"Reportlet", "Parameter"}));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"));
@@ -207,4 +207,27 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
         }
     }
 
+    public ReporletHyperNorthPane getNorthPane() {
+        return northPane;
+    }
+
+    public void setNorthPane(ReporletHyperNorthPane northPane) {
+        this.northPane = northPane;
+    }
+
+    public ReportletParameterViewPane getParameterViewPane() {
+        return parameterViewPane;
+    }
+
+    public void setParameterViewPane(ReportletParameterViewPane parameterViewPane) {
+        this.parameterViewPane = parameterViewPane;
+    }
+
+    public UICheckBox getExtendParametersCheckBox() {
+        return extendParametersCheckBox;
+    }
+
+    public void setExtendParametersCheckBox(UICheckBox extendParametersCheckBox) {
+        this.extendParametersCheckBox = extendParametersCheckBox;
+    }
 }

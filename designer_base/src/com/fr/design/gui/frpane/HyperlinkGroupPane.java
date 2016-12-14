@@ -13,12 +13,12 @@ import com.fr.js.JavaScript;
 import com.fr.js.NameJavaScript;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.PluginManager;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * 超级链接 界面.
@@ -34,23 +34,26 @@ public class HyperlinkGroupPane extends JListControlPane {
      * @return 返回Nameable按钮数组.
      */
     public NameableCreator[] createNameableCreators() {
+        Map<String, NameableCreator> nameCreators = new TreeMap<String, NameableCreator>();
         NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
+        for (NameableCreator creator : creators) {
+            nameCreators.put(creator.menuName(), creator);
+        }
         PluginManager.getInstance().setExtensionPoint(HyperlinkPluginAction.XML_TAG);
         ArrayList<UpdateAction> templateArrayLisy = PluginManager.getInstance().getResultList();
 //        if (templateArrayLisy.isEmpty()) {
 //            return creators;
 //        }
-        NameableCreator[] pluginCreators = new NameableCreator[templateArrayLisy.size()];
         for (int i = 0; i < templateArrayLisy.size(); i++) {
-            pluginCreators[i] = ((HyperlinkPluginAction) templateArrayLisy.get(i)).getHyperlinkCreator();
+            NameableCreator nameableCreator = ((HyperlinkPluginAction) templateArrayLisy.get(i)).getHyperlinkCreator();
+            nameCreators.put(nameableCreator.menuName(), nameableCreator);
         }
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        List<NameableCreator> creatorList = new ArrayList<NameableCreator>();
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
-            creatorList.add(nc);
+            nameCreators.put(nc.menuName(), nc);
         }
-        return ArrayUtils.addAll(creatorList.toArray(new NameableCreator[creatorList.size()]), ArrayUtils.addAll(creators, pluginCreators));
+        return nameCreators.values().toArray(new NameableCreator[nameCreators.size()]);
     }
 
     /**

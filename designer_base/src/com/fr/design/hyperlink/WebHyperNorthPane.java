@@ -51,10 +51,10 @@ public class WebHyperNorthPane extends AbstractHyperlinkPane<WebHyperlink> {
         urlPane.add(urlTextField);
         urlTextField.setText(ProductConstants.WEBSITE_URL);
 
-        UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
+        //UILabel label = new UILabel(Inter.getLocText(new String[]{"Example","Or"}, new String[]{":http://www.baidu.com","/main.jsp"}));
         JPanel urlWithHelp = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
         urlWithHelp.add(GUICoreUtils.createNamedPane(urlPane, "URL:"));
-        urlWithHelp.add(label);
+        //urlWithHelp.add(label);
 
         if(this.needRenamePane){
             headerPane.setLayout(new BorderLayout(LayoutConstants.VGAP_LARGE,LayoutConstants.VGAP_SMALL));
