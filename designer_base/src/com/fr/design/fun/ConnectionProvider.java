@@ -12,7 +12,8 @@ public interface ConnectionProvider extends Mutable {
 
     public static final String XML_TAG = "ConnectionProvider";
 
-    int CURRENT_LEVEL = 1;
+    // 2016-12-14 1 -> 2 , 增加connection.feature方法导致不兼容.
+    int CURRENT_LEVEL = 2;
 
     /**
      * 数据连接弹出菜单的名字
