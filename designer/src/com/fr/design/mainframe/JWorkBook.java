@@ -463,7 +463,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(Inter.getLocText("FR-Designer_Permissions_Edition")),
                 BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
