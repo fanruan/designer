@@ -21,7 +21,7 @@ import com.fr.main.parameter.ReportParameterAttr;
 /**
  * Report Parameter
  */
-public class ReportParameterAction extends JWorkBookAction {
+public class ReportParameterAction extends JWorkBookAction{
 
     public ReportParameterAction(JWorkBook jwb) {
         super(jwb);
@@ -62,6 +62,7 @@ public class ReportParameterAction extends JWorkBookAction {
                 jwb.fireTargetModified();
                 jwb.updateReportParameterAttr();
                 jwb.populateReportParameterAttr();
+
             }
         });
         parameterArrayDialog.setVisible(true);
