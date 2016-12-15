@@ -743,7 +743,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 }
                 EastRegionContainerPane.getInstance().replaceUpPane(QuickEditorRegion.getInstance());
             } else {
-                fireElementCasePane();
+                ElementCasePane casePane = ((ReportComponent) delegate4ToolbarMenuAdapter()).elementCasePane;
+                if (casePane != null) {
+                    casePane.fireSelectionChangeListener();
+                }
             }
         }
         if (BaseUtils.isAuthorityEditing()) {
@@ -752,13 +755,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         }
 
         centerPane.needToShowCoverAndHidPane();
-    }
-
-    public void fireElementCasePane() {
-        ElementCasePane casePane = ((ReportComponent) delegate4ToolbarMenuAdapter()).elementCasePane;
-        if (casePane != null) {
-            casePane.fireSelectionChangeListener();
-        }
     }
 
     @Override

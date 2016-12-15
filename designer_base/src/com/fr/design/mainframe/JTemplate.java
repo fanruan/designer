@@ -325,10 +325,6 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         fireSuperTargetModified();
     }
 
-    public void fireElementCasePane(){
-        return;
-    }
-
     protected boolean accept(Object o){
     	return true;
     }
