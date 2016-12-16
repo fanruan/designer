@@ -1,5 +1,7 @@
 package com.fr.design.hyperlink;
 
+import com.fr.general.ComparatorUtils;
+
 /**
  * Created by ibm on 2016/10/13.
  */
@@ -25,6 +27,18 @@ public enum HyperlinkTargetFrame {
             }
         }
         return BLANK_FRAME;
+    }
+
+    public static int convert(String name) {
+        if (arrayOfValues == null) {
+            arrayOfValues = HyperlinkTargetFrame.values();
+        }
+        for (HyperlinkTargetFrame hyperlinkTargetFrame : HyperlinkTargetFrame.values()) {
+            if (ComparatorUtils.equals(hyperlinkTargetFrame.getName(), name)) {
+                return hyperlinkTargetFrame.getIndex();
+            }
+        }
+        return BLANK_FRAME.getIndex();
     }
 
 
