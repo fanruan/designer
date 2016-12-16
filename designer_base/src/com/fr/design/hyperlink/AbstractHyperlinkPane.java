@@ -115,17 +115,7 @@ public abstract class AbstractHyperlinkPane<T extends Hyperlink> extends BasicBe
 	@Override
 	public void populateBean(T link) {
 		String name = link.getTargetFrame();
-		if ("_self".equals(name)) {
-			targetFrameComboBox.setSelectedIndex(SELF);
-		} else if ("_dialog".equals(name)) {
-			targetFrameComboBox.setSelectedIndex(DIALOG);
-		} else if ("_blank".equals(name)) {
-			targetFrameComboBox.setSelectedIndex(NEW_WINDOW);
-		} else {
-			DefaultComboBoxModel model = (DefaultComboBoxModel) targetFrameComboBox.getModel();
-			model.addElement(name);
-			targetFrameComboBox.setSelectedItem(name);
-		}
+		targetFrameComboBox.setSelectedIndex(HyperlinkTargetFrame.convert(name));
 		heightTextFiled.setText(String.valueOf(link.getHeight() == 0 ? DEFAULT_H_VALUE : link.getHeight()));
 		widthTextFiled.setText(String.valueOf(link.getWidth() == 0 ? DEFAULT_V_VALUE : link.getWidth()));
 		populateSubHyperlinkBean(link);
