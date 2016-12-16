@@ -200,19 +200,17 @@ public class FormParaWidgetPane extends JPanel {
         chartPopUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (chartTypeWindow == null) {
-                    JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    WidgetOption[] chartOptions = loadChartOptions();
-                    for (WidgetOption chartOption : chartOptions) {
-                        componentsPara.add(new ToolBarButton(chartOption));
-                    }
-                    int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
-                    int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
-                    componentsPara.setPreferredSize(new Dimension(x, y));
-                    chartTypeWindow = new PopUpWindow(componentsPara, Inter.getLocText("FR-Designer-Form-ToolBar_Chart"));
-                    chartTypeWindow.setLocation((int) jSeparatorLayout.getLocationOnScreen().getX() + 1, (int) jSeparatorLayout.getLocationOnScreen().getY());
-                    chartTypeWindow.setSize(chartTypeWindow.getPreferredSize());
+                JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                WidgetOption[] chartOptions = loadChartOptions();
+                for (WidgetOption chartOption : chartOptions) {
+                    componentsPara.add(new ToolBarButton(chartOption));
                 }
+                int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
+                int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
+                componentsPara.setPreferredSize(new Dimension(x, y));
+                chartTypeWindow = new PopUpWindow(componentsPara, Inter.getLocText("FR-Designer-Form-ToolBar_Chart"));
+                chartTypeWindow.setLocation((int) jSeparatorLayout.getLocationOnScreen().getX() + 1, (int) jSeparatorLayout.getLocationOnScreen().getY());
+                chartTypeWindow.setSize(chartTypeWindow.getPreferredSize());
                 chartTypeWindow.setVisible(true);
             }
         });
