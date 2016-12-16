@@ -45,7 +45,7 @@ public class FormParaWidgetPane extends JPanel {
     //预定义控件最多显示20行
     private int preWidgetShowMaxRow = 20;
     //显示8个图表组件
-    private static final int commonChartNum = 8;
+    private static final int COMMON_CHAR_NUM = 8;
     //显示10个普通控件
     private int commonWidgetNum = 10;
     private JSeparator jSeparatorPara;
@@ -113,7 +113,7 @@ public class FormParaWidgetPane extends JPanel {
         int totalChartNums = loadChartOptions().length;
         if (totalChartNums > 0) {
             JPanel chartTypePane = new JPanel(new FlowLayout());
-            for (int i = 0; i < commonChartNum; i++) {
+            for (int i = 0; i < COMMON_CHAR_NUM; i++) {
                 chartTypePane.add(new ToolBarButton(loadChartOptions()[i]));
             }
             add(createChartCombinationPane(chartTypePane, Inter.getLocText("FR-Designer-Form-ToolBar_Chart")));
@@ -206,8 +206,8 @@ public class FormParaWidgetPane extends JPanel {
                     for (WidgetOption chartOption : chartOptions) {
                         componentsPara.add(new ToolBarButton(chartOption));
                     }
-                    int x = commonChartNum * (widgetButtonWidth + smallGAP);
-                    int y = (int) Math.ceil(chartOptions.length / ((double) commonChartNum)) * (widgetButtonHeight + smallGAP);
+                    int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
+                    int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
                     componentsPara.setPreferredSize(new Dimension(x, y));
                     chartTypeWindow = new PopUpWindow(componentsPara, Inter.getLocText("FR-Designer-Form-ToolBar_Chart"));
                     chartTypeWindow.setLocation((int) jSeparatorLayout.getLocationOnScreen().getX() + 1, (int) jSeparatorLayout.getLocationOnScreen().getY());
