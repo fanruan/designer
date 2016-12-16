@@ -11,6 +11,7 @@ import com.fr.design.extra.WebDialog;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
+import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.fun.GlobalListenerProvider;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
@@ -223,6 +224,17 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             } else {
                 file = FILEFactory.createFILE(FILEFactory.ENV_PREFIX
                         + DesignerEnvManager.getEnvManager().getLastOpenFile());
+            }
+
+            //启动时打开指定文件的接口
+            DesignerStartOpenFileProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerStartOpenFileProcessor.XML_TAG);
+            if (processor != null) {
+                FILE f = processor.fileToShow();
+                if (f != null) {
+                    file = f;//避免null
+                } else {
+                    isException = true;//此时有文件nullpointer异常，执行打开空文件
+                }
             }
             if (file.exists() && !isException) {
                 df.openTemplate(file);
