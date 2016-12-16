@@ -1,5 +1,7 @@
 package com.fr.design.beans;
 
+import com.fr.stable.StringUtils;
+
 /**
  * 
  * @author zhou
@@ -17,8 +19,10 @@ public abstract class FurtherBasicBeanPane<T> extends BasicBeanPane<T> {
 	 * title应该是一个属性，不只是对话框的标题时用到，与其他组件结合时，也会用得到
 	 * @return 绥化狂标题
 	 */
-	@Override
-	public abstract String title4PopupWindow();
+	@Deprecated
+	public String title4PopupWindow(){
+		return StringUtils.EMPTY;
+	}
 
 	/**
 	 * 重置

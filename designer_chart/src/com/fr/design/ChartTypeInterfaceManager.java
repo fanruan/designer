@@ -259,7 +259,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
             while (iterator.hasNext()){
                 Map.Entry entry = (Map.Entry) iterator.next();
                 IndependentChartUIProvider provider = (IndependentChartUIProvider) entry.getValue();
-                names[i++] = provider.getPlotTypePane().title4PopupWindow();
+                names[i++] = provider.getPlotTypeTitle4PopupWindow();
             }
             return names;
         }
@@ -274,7 +274,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     public String getTitle4PopupWindow(String priority, String plotID){
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority) && chartTypeInterfaces.get(priority).containsKey(plotID)){
             IndependentChartUIProvider provider = chartTypeInterfaces.get(priority).get(plotID);
-            return provider.getPlotTypePane().title4PopupWindow();
+            return provider.getPlotTypeTitle4PopupWindow();
         }
 
         //兼容老的插件
@@ -284,7 +284,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 Map.Entry entry = (Map.Entry) iterator.next();
                 String defaultPriority = (String) entry.getKey();
                 if (chartTypeInterfaces.get(defaultPriority).containsKey(plotID)) {
-                    return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypePane().title4PopupWindow();
+                    return chartTypeInterfaces.get(defaultPriority).get(plotID).getPlotTypeTitle4PopupWindow();
                 }
             }
         }
@@ -332,7 +332,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         while (chartUI.hasNext()) {
             Map.Entry chartUIEntry = (Map.Entry) chartUI.next();
             IndependentChartUIProvider provider = (IndependentChartUIProvider) chartUIEntry.getValue();
-            names[index++] = provider.getPlotTypePane().title4PopupWindow();
+            names[index++] = provider.getPlotTypeTitle4PopupWindow();
         }
         return index;
     }
