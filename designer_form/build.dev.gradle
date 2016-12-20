@@ -20,7 +20,7 @@ sourceSets{
 		main{
 			java{
 				srcDirs=["${srcDir}/src",
-"${srcDir}/../designer/src"]
+					"${srcDir}/../designer/src"]
 			}
 		}
 }
