@@ -50,7 +50,7 @@ public class PreviewTableModel extends AbstractTableModel {
             maxRowCount = rowCount;
         }
         final int finalRowCount = maxRowCount;
-        DataModel dm = new DataModel() {
+        DataModel dm = new AbstractDataModel() {
 
             @Override
             public void release() throws Exception {
