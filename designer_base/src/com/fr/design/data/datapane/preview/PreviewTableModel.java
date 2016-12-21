@@ -149,7 +149,7 @@ public class PreviewTableModel extends AbstractTableModel {
         }
 
         public String getColumnName(int column) {
-            return Inter.getLocText("Error");
+            return Inter.getLocText("FR-Designer_Error");
         }
 
         public int getColumnCount() {
