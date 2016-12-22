@@ -26,7 +26,7 @@ public class NewPresentAction extends PresentCheckBoxAction {
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
         if (!ComparatorUtils.equals(this.itemName, "NOPRESENT")) {
-            CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("Present"), this.itemName);
+            CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("FR-Designer_Present"), this.itemName);
         } else {
             TemplateCellElement ce = getSelectedCellElement();
             // 只有原来ce设置了形态的情况下才有undo操作
