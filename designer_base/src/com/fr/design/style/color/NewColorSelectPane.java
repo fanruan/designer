@@ -87,15 +87,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 		centerPane.add(row1Pane);
 
 		// 取色按钮
-		UIButton pickColorButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/gui/colorSelectPane/colorPicker.png"));
-		pickColorButton.setPreferredSize(new Dimension(16, 16));
-		pickColorButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		pickColorButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doPickColor();
-			}
-		});
+		PickColorButton pickColorButton = new PickColorButton(this);
 		row1Pane.add(pickColorButton, BorderLayout.WEST);
 
 		// 最近使用
@@ -222,14 +214,6 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 	 */
 	public void updateUsedColor(){
 		usedColorPane.updateUsedColor();
-	}
-
-	/**
-	 * 打开取色框，开始取色
-	 */
-	public void doPickColor() {
-		ColorPicker colorPicker = new ColorPicker(this);
-		colorPicker.start();
 	}
 
 }
