@@ -376,6 +376,6 @@ public class XWTabFitLayout extends XWFitLayout {
 	 */
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		return null;
+		return new WidgetPropertyUIProvider[0];
 	}
 }
