@@ -99,11 +99,4 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
         initBorderStyle();
     }
 
-    /**
-     * 返回一个“绝对布局”字符串
-     * @return
-     */
-    public String getTitle() {
-        return Inter.getLocText("FR-Designer_AbsoluteLayout");
-    }
 }

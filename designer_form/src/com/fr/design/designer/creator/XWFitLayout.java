@@ -1179,13 +1179,5 @@ public class XWFitLayout extends XLayoutContainer {
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
 	}
-
-	/**
-	 * 返回一个“自适应布局”字符串
-	 * @return
-	 */
-	public String getTitle() {
-		return Inter.getLocText("FR-Designer-Layout_Adaptive_Layout");
-	}
 	
 }

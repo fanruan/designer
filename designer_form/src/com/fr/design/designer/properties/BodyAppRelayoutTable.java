@@ -53,7 +53,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 			FRContext.getLogger().error(e.getMessage());
 		}
 
-		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(xCreator.getTitle(), xCreator, propertyTableEditor, designer)));
+		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Properties_Mobile"), xCreator, propertyTableEditor, designer)));
 
 		TableModel model = new BeanTableModel();
 		setModel(model);

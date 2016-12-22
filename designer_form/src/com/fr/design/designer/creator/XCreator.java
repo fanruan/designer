@@ -618,10 +618,4 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		return;
 	}
 
-	/**
-	 * 给子类XWFitLayout和XWAbsoluteBodyLayout提供一个获取标题的方法
-	 */
-	public String getTitle() {
-		return null;
-	}
 }
