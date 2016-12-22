@@ -73,7 +73,7 @@ public class NewPresentAction extends PresentCheckBoxAction {
             try {
                 Class clazz = GeneralUtils.classForName(itemName);
                 if (itemName.equals(currentPresent.getClass().getName())) {
-                    return StableUtils.classInstanceOf(currentPresent.getClass(), clazz);
+                    return StableUtils.objectInstanceOf(currentPresent, clazz);
                 }
             } catch (Exception e) {
                 return "NOPRESENT".equals(itemName) && currentPresent == null;
