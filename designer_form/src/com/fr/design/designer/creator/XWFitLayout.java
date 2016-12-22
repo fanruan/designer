@@ -25,6 +25,7 @@ import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
+import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -1177,6 +1178,14 @@ public class XWFitLayout extends XLayoutContainer {
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
+	}
+
+	/**
+	 * 返回一个“自适应布局”字符串
+	 * @return
+	 */
+	public String getTitle() {
+		return Inter.getLocText("FR-Designer-Layout_Adaptive_Layout");
 	}
 	
 }

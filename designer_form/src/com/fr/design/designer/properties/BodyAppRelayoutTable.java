@@ -53,7 +53,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 			FRContext.getLogger().error(e.getMessage());
 		}
 
-		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer-Layout_Adaptive_Layout"), xCreator, propertyTableEditor, designer)));
+		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(xCreator.getTitle(), xCreator, propertyTableEditor, designer)));
 
 		TableModel model = new BeanTableModel();
 		setModel(model);
@@ -65,7 +65,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 	 * 单元格tooltip
 	 * 属性名悬浮提示 
 	 * 
-	 * @param 鼠标点击事件
+	 * @param event 鼠标点击事件
 	 * @return 单元格tooltip
 	 */
 	public String getToolTipText(MouseEvent event) {
