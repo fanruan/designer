@@ -2,7 +2,9 @@ package com.fr.design.designer.creator;
 
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRAbsoluteBodyLayoutAdapter;
+import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
@@ -88,7 +90,13 @@ public class XWAbsoluteBodyLayout extends XWAbsoluteLayout {
     }
 
     @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
+    }
+
+    @Override
     protected void initStyle() {
         initBorderStyle();
     }
+
 }

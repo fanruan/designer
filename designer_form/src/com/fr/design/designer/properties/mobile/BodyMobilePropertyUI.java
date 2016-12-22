@@ -1,6 +1,7 @@
 package com.fr.design.designer.properties.mobile;
 
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.properties.BodyAppRelayoutTable;
 import com.fr.design.fun.impl.AbstractWidgetPropertyUIProvider;
@@ -16,6 +17,10 @@ public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     public BodyMobilePropertyUI(XWFitLayout xwFitLayout) {
         this.xCreator = xwFitLayout;
+    }
+
+    public BodyMobilePropertyUI(XWAbsoluteBodyLayout xwAbsoluteBodyLayout) {
+        this.xCreator = xwAbsoluteBodyLayout;
     }
 
     @Override
