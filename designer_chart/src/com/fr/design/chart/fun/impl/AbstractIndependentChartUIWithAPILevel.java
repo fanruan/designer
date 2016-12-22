@@ -57,4 +57,12 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
+
+    /**
+     * plot面板的标题
+     * 插件兼容
+     */
+    public String getPlotTypeTitle4PopupWindow(){
+        return getPlotTypePane().title4PopupWindow();
+    }
 }
