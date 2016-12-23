@@ -69,21 +69,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		this.add(centerPane, BorderLayout.CENTER);
 
-		// 第一行，1个取色按钮 + 7个最近使用的颜色
-		JPanel row1Pane = new JPanel(FRGUIPaneFactory.createBorderLayout());
-		row1Pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 0));
-		row1Pane.setPreferredSize(new Dimension(135, 24));  // 宽度为 16 * 8 + 7
-		centerPane.add(row1Pane);
-
-		// 取色按钮
-		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON16, true);
-
-		row1Pane.add(pickColorButton, BorderLayout.WEST);
-
-		// 最近使用
-		UsedColorPane usedColorPane = new UsedColorPane(1, 7, ColorSelectConfigManager.getInstance().getColors(),this);
-		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 8));
-		row1Pane.add(usedColorPane.getPane());
+		centerPane.add(getRow1Pane());
 		
 		JPanel menuColorPane1 = new JPanel();
 		centerPane.add(menuColorPane1);
@@ -111,6 +97,23 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		centerPane1.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 8));
 		centerPane1.add(customButton, BorderLayout.NORTH);
 		centerPane.add(centerPane1);
+	}
+
+	// 第一行，1个取色按钮 + 7个最近使用的颜色
+	private JPanel getRow1Pane() {
+		JPanel row1Pane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+		row1Pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 0));
+		row1Pane.setPreferredSize(new Dimension(135, 24));  // 宽度为 16 * 8 + 7
+
+		// 取色按钮
+		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON16, true);
+		row1Pane.add(pickColorButton, BorderLayout.WEST);
+
+		// 最近使用
+		UsedColorPane usedColorPane = new UsedColorPane(1, 7, ColorSelectConfigManager.getInstance().getColors(),this);
+		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 8));
+		row1Pane.add(usedColorPane.getPane());
+		return row1Pane;
 	}
 
     protected Color[] getColorArray(){

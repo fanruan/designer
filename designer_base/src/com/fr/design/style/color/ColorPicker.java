@@ -50,11 +50,11 @@ public class ColorPicker extends JDialog implements ActionListener
         this.setAlwaysOnTop(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        System.out.println("Construced ColorPicker.");
     }
 
     public void start() {
-        timer = new Timer(1000/FPS, this);
+        int timeCycle = 1000 / FPS;
+        timer = new Timer(timeCycle, this);
         timer.start();
         hideCursor();
 //        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
@@ -160,8 +160,9 @@ class ColorPickerPanel extends JPanel
 
     public Color getPixelColor(Point mousePos) {
         int rgb = screenImage.getRGB(mousePos.x, mousePos.y);
-        int R = (rgb & 0xff0000) >> 16;
-        int G = (rgb & 0xff00) >> 8;
+        int shiftStep = 8;  // 右移的比特位
+        int R = (rgb & 0xff0000) >> shiftStep * 2;
+        int G = (rgb & 0xff00) >> shiftStep;
         int B = (rgb & 0xff);
         return new Color(R, G, B);
     }
