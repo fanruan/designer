@@ -14,7 +14,9 @@ import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
@@ -366,5 +368,14 @@ public class XWTabFitLayout extends XWFitLayout {
 	@Override
 	public XLayoutContainer getTopLayout() {
 		return this.getBackupParent().getTopLayout();
+	}
+
+	/**
+	 * 重写这个方法，解决tab块底下仍然显示手机重布局的bug
+	 * @return
+	 */
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		return new WidgetPropertyUIProvider[0];
 	}
 }

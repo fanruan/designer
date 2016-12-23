@@ -617,4 +617,5 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	public void adjustCompHeight(double percent) {
 		return;
 	}
+
 }
