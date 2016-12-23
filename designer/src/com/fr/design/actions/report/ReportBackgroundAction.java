@@ -5,6 +5,7 @@ package com.fr.design.actions.report;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.BasicDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ReportComponent;
 import com.fr.design.menu.KeySetUtils;
@@ -36,14 +37,16 @@ public class ReportBackgroundAction extends ReportComponentAction<ReportComponen
         }
         final ReportBackgroundPane bPane = new ReportBackgroundPane();
         bPane.populate(ReportUtils.getReportSettings(reportPane.getTemplateReport()));
-        bPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+        BasicDialog bDialog = bPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 
             @Override
 			public void doOk() {
                 bPane.update(reportPane.getTemplateReport().getReportSettings());
                 reportPane.fireTargetModified();
             }
-        }).setVisible(true);
+        });
+        bDialog.setModal(false);
+        bDialog.setVisible(true);
         return false;
     }
 }

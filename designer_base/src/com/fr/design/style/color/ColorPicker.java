@@ -58,6 +58,7 @@ public class ColorPicker extends JDialog implements ActionListener
         timer = new Timer(1000/FPS, this);
         timer.start();
         hideCursor();
+        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
     }
 
     /**

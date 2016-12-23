@@ -87,7 +87,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 		centerPane.add(row1Pane);
 
 		// 取色按钮
-		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON18);
+		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON16);
 
 		row1Pane.add(pickColorButton, BorderLayout.WEST);
 
