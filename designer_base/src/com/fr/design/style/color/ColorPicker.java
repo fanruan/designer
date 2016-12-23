@@ -5,6 +5,8 @@ package com.fr.design.style.color;
  */
 //import com.fr.design.dialog.UIDialog;
 
+import com.fr.base.BaseUtils;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
@@ -32,14 +34,9 @@ public class ColorPicker extends JDialog implements ActionListener
 
     private Boolean setColorRealTime;  // 实时设定颜色值
 
-//    private UIDialog modalDialog;  // 对上层模态对话框的引用
-
     /**
      * 构造函数，创建一个取色框窗体
      */
-    public ColorPicker(ColorSelectable colorSelectable) {
-        this(colorSelectable, false);
-    }
     public ColorPicker(ColorSelectable colorSelectable, Boolean setColorRealTime)
     {
         setUndecorated(true); // 去掉窗体边缘
@@ -60,17 +57,7 @@ public class ColorPicker extends JDialog implements ActionListener
     public void start() {
         timer = new Timer(1000/FPS, this);
         timer.start();
-//        if (!this.hasFocus()) {
-//            // 此时的焦点应该在模态对话框上
-//            modalDialog = (UIDialog)KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
-//            System.out.println("1 modalDialog is modal? " + modalDialog.isModal());
-//            modalDialog.setModal(false);
-//            System.out.println("2 modalDialog is modal? " + modalDialog.isModal());
-//            System.out.println("1 has focus? " + this.hasFocus());
-//            modalDialog.transferFocus();
-//            System.out.println("2 has focus? " + this.hasFocus());
-//            System.out.println("current focus: " + KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
-//        }
+        hideCursor();
     }
 
     /**
@@ -80,10 +67,9 @@ public class ColorPicker extends JDialog implements ActionListener
     public void actionPerformed(ActionEvent e) {
         updateLocation();
         colorToSet = colorPickerPanel.getPixelColor(mousePos);
-        if (setColorRealTime) {
+        if (setColorRealTime && !colorSelectable.getColor().equals(colorToSet)) {
             colorSelectable.setColor(colorToSet);
         }
-//        System.out.println("hasFocus? " + this.hasFocus());
     }
 
     public void updateLocation() {
@@ -110,19 +96,13 @@ public class ColorPicker extends JDialog implements ActionListener
     public void pickComplete() {
         timer.stop();
         colorSelectable.setColor(colorToSet);
-//        if (modalDialog != null) {
-//            modalDialog.setModal(true);
-//        }
         this.dispose();
     }
 
     // 隐藏鼠标光标
     public void hideCursor() {
         Image imageCursor = Toolkit.getDefaultToolkit().getImage("");
-//        Image img = new BufferedImage()
         Cursor cu = Toolkit.getDefaultToolkit().createCustomCursor(imageCursor, new Point(0,0), "cursor");
-//        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-//                imageCursor, new Point(16, 16), "stick"));
         setCursor(cu);
     }
 
@@ -139,6 +119,7 @@ public class ColorPicker extends JDialog implements ActionListener
 class ColorPickerPanel extends JPanel
 {
     private BufferedImage screenImage;
+    private Image colorPickerFrame;  // 取色框的边框图案
     private int colorPickerSize;  // 取色框尺寸
     private int locationX;  // 取色框 x 坐标
     private int locationY;  // 取色框 y 坐标
@@ -162,6 +143,7 @@ class ColorPickerPanel extends JPanel
         screenImage = robot.createScreenCapture(new Rectangle(0, 0, Toolkit
                 .getDefaultToolkit().getScreenSize().width, Toolkit
                 .getDefaultToolkit().getScreenSize().height));
+        colorPickerFrame = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPickerFrame.png");
         this.scaleFactor = scaleFactor;
     }
 
@@ -194,6 +176,7 @@ class ColorPickerPanel extends JPanel
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
         double pixelCount = (double)colorPickerSize / scaleFactor;  // 取色器一条边上的放大后的像素点个数（可以是小数）
         // 关键处理代码
         g2d.drawImage(
@@ -209,16 +192,6 @@ class ColorPickerPanel extends JPanel
                 this
         );
 
-        g2d.setColor(Color.white);
-        g2d.drawOval(1, 1, 188, 188);
-        g2d.drawOval(2, 2, 186, 186);
-        g2d.setColor(Color.black);
-        g2d.drawOval(0, 0, 190, 190);
-        g2d.drawOval(3, 3, 184, 184);
-
-        g2d.setColor(Color.white);
-        g2d.drawRect(86, 86, 18, 18);
-        g2d.setColor(Color.black);
-        g2d.drawRect(87, 87, 16, 16);
+        g2d.drawImage(colorPickerFrame, 0, 0, this);
     }
 }

@@ -710,13 +710,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         hexPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         hexPanel.add(new UILabel("#"));
         hexPanel.add(field);
-        PickColorButton pickColorButton = new PickColorButton(PickColorButton.IconType.ICON18);
-        pickColorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doPickColor();
-            }
-        });
+        PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON18, true);
         hexPanel.add(pickColorButton);
 
         mainPanel.add(hslAndRgbPanel, BorderLayout.CENTER);
@@ -1080,14 +1074,6 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
     }
 
     public void colorSetted(ColorCell cc) {
-    }
-
-    /**
-     * 打开取色框，开始取色
-     */
-    public void doPickColor() {
-        ColorPicker colorPicker = new ColorPicker(this, true);
-        colorPicker.start();
     }
 
 }
