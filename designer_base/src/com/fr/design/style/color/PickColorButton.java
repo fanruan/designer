@@ -4,34 +4,27 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by plough on 2016/12/22.
  */
 public class PickColorButton extends UIButton {
-    private ColorSelectable colorSelectable;
 
-    public PickColorButton(ColorSelectable colorSelectable) {
-        super(BaseUtils.readIcon("/com/fr/design/images/gui/colorSelectPane/colorPicker.png"));
+    public PickColorButton(IconType iconType) {
+        super();
 
-        this.colorSelectable = colorSelectable;
-
-        this.setPreferredSize(new Dimension(16, 16));
+        if (iconType == IconType.ICON16) {
+            this.setIcon(BaseUtils.readIcon("/com/fr/design/images/gui/colorSelectPane/colorPicker16.png"));
+            this.setPreferredSize(new Dimension(16, 16));
+        } else {
+            this.setIcon(BaseUtils.readIcon("/com/fr/design/images/gui/colorSelectPane/colorPicker18.png"));
+            this.setPreferredSize(new Dimension(18, 18));
+        }
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doPickColor();
-            }
-        });
     }
-    /**
-     * 打开取色框，开始取色
-     */
-    public void doPickColor() {
-        ColorPicker colorPicker = new ColorPicker(colorSelectable);
-        colorPicker.start();
+
+    //  取色器按钮使用的图标
+    public enum IconType {
+        ICON16, ICON18
     }
 }

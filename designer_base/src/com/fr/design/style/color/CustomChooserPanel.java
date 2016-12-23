@@ -10,10 +10,9 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.MemoryImageSource;
+import javax.swing.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +44,7 @@ import com.fr.general.Inter;
  *
  * @author focus
  */
-class CustomChooserPanel extends AbstractColorChooserPanel {
+class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelectable {
     /**
      * The gradient image displayed.
      */
@@ -117,6 +116,8 @@ class CustomChooserPanel extends AbstractColorChooserPanel {
     private transient UIBasicSpinner bbSpinner;
 
     private transient UITextField field;
+
+//    private transient PickColorButton pickColorButton;
 
 
     /**
@@ -709,6 +710,14 @@ class CustomChooserPanel extends AbstractColorChooserPanel {
         hexPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         hexPanel.add(new UILabel("#"));
         hexPanel.add(field);
+        PickColorButton pickColorButton = new PickColorButton(PickColorButton.IconType.ICON18);
+        pickColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                doPickColor();
+            }
+        });
+        hexPanel.add(pickColorButton);
 
         mainPanel.add(hslAndRgbPanel, BorderLayout.CENTER);
         mainPanel.add(hexPanel, BorderLayout.SOUTH);
@@ -1060,6 +1069,25 @@ class CustomChooserPanel extends AbstractColorChooserPanel {
 
         trackImage = createImage(new MemoryImageSource(TRACK_WIDTH, IMG_HEIGHT,
                 trackPix, 0, TRACK_WIDTH));
+    }
+
+    public Color getColor() {
+        return getColorSelectionModel().getSelectedColor();
+    }
+
+    public void setColor(Color color) {
+        getColorSelectionModel().setSelectedColor(color);
+    }
+
+    public void colorSetted(ColorCell cc) {
+    }
+
+    /**
+     * 打开取色框，开始取色
+     */
+    public void doPickColor() {
+        ColorPicker colorPicker = new ColorPicker(this, true);
+        colorPicker.start();
     }
 
 }

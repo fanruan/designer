@@ -137,7 +137,7 @@ public class ColorSelectDialog extends MiddleChartDialog{
 	public static void showDialog(Frame owner,ColorSelectDetailPane pane,Color initialColor,ColorSelectable selectePane){
 		ColorTracker okListener = new ColorTracker(pane);
 		ColorSelectDialog dialog = new ColorSelectDialog(owner,pane,initialColor,okListener,selectePane);
-		dialog.setModal(true);
+//		dialog.setModal(true);
 		dialog.show();
 	}
 

@@ -3,6 +3,8 @@ package com.fr.design.style.color;
 /**
  * Created by plough on 2016/12/22.
  */
+//import com.fr.design.dialog.UIDialog;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
@@ -28,10 +30,17 @@ public class ColorPicker extends JDialog implements ActionListener
     private Point mousePos;  // 鼠标的绝对坐标
     private Color colorToSet;  // 暂存要设置的颜色值
 
+    private Boolean setColorRealTime;  // 实时设定颜色值
+
+//    private UIDialog modalDialog;  // 对上层模态对话框的引用
+
     /**
      * 构造函数，创建一个取色框窗体
      */
-    public ColorPicker(ColorSelectable colorSelectable)
+    public ColorPicker(ColorSelectable colorSelectable) {
+        this(colorSelectable, false);
+    }
+    public ColorPicker(ColorSelectable colorSelectable, Boolean setColorRealTime)
     {
         setUndecorated(true); // 去掉窗体边缘
         setResizable(false);
@@ -39,17 +48,29 @@ public class ColorPicker extends JDialog implements ActionListener
         setShape(shape);
         container.add(colorPickerPanel);
         addMouseListener(new MouseFunctions());
-        addMouseMotionListener(new MouseMotionFunctions());
         updateSize(colorPickerSize);
         this.colorSelectable = colorSelectable;
+        this.setColorRealTime = setColorRealTime;
         this.setAlwaysOnTop(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        System.out.println("Construced ColorPicker.");
     }
 
     public void start() {
         timer = new Timer(1000/FPS, this);
         timer.start();
+//        if (!this.hasFocus()) {
+//            // 此时的焦点应该在模态对话框上
+//            modalDialog = (UIDialog)KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+//            System.out.println("1 modalDialog is modal? " + modalDialog.isModal());
+//            modalDialog.setModal(false);
+//            System.out.println("2 modalDialog is modal? " + modalDialog.isModal());
+//            System.out.println("1 has focus? " + this.hasFocus());
+//            modalDialog.transferFocus();
+//            System.out.println("2 has focus? " + this.hasFocus());
+//            System.out.println("current focus: " + KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
+//        }
     }
 
     /**
@@ -59,6 +80,10 @@ public class ColorPicker extends JDialog implements ActionListener
     public void actionPerformed(ActionEvent e) {
         updateLocation();
         colorToSet = colorPickerPanel.getPixelColor(mousePos);
+        if (setColorRealTime) {
+            colorSelectable.setColor(colorToSet);
+        }
+//        System.out.println("hasFocus? " + this.hasFocus());
     }
 
     public void updateLocation() {
@@ -85,6 +110,9 @@ public class ColorPicker extends JDialog implements ActionListener
     public void pickComplete() {
         timer.stop();
         colorSelectable.setColor(colorToSet);
+//        if (modalDialog != null) {
+//            modalDialog.setModal(true);
+//        }
         this.dispose();
     }
 
@@ -102,15 +130,9 @@ public class ColorPicker extends JDialog implements ActionListener
     {
         public void mousePressed(MouseEvent e)
         {
+            System.out.println("Mouse Pressed!");
             pickComplete();
         }
-    }
-
-    private class MouseMotionFunctions extends MouseMotionAdapter
-    {
-//        public void mouseMoved(MouseEvent e) {
-//            hideCursor();
-//        }
     }
 }
 
@@ -187,12 +209,11 @@ class ColorPickerPanel extends JPanel
                 this
         );
 
-        g2d.setColor(Color.black);
-        g2d.drawOval(0, 0, 190, 190);
         g2d.setColor(Color.white);
         g2d.drawOval(1, 1, 188, 188);
         g2d.drawOval(2, 2, 186, 186);
         g2d.setColor(Color.black);
+        g2d.drawOval(0, 0, 190, 190);
         g2d.drawOval(3, 3, 184, 184);
 
         g2d.setColor(Color.white);
@@ -200,6 +221,4 @@ class ColorPickerPanel extends JPanel
         g2d.setColor(Color.black);
         g2d.drawRect(87, 87, 16, 16);
     }
-
-
 }
