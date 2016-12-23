@@ -3,7 +3,6 @@ package com.fr.design.style.color;
 /**
  * Created by plough on 2016/12/22.
  */
-//import com.fr.design.dialog.UIDialog;
 
 import com.fr.base.BaseUtils;
 
@@ -58,7 +57,7 @@ public class ColorPicker extends JDialog implements ActionListener
         timer = new Timer(1000/FPS, this);
         timer.start();
         hideCursor();
-        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
+//        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
     }
 
     /**
@@ -111,7 +110,6 @@ public class ColorPicker extends JDialog implements ActionListener
     {
         public void mousePressed(MouseEvent e)
         {
-            System.out.println("Mouse Pressed!");
             pickComplete();
         }
     }
@@ -192,7 +190,6 @@ class ColorPickerPanel extends JPanel
                 locationY + (int)((colorPickerSize + pixelCount) * 0.5) + 1,     // 源矩形的第二个角的y坐标
                 this
         );
-
         g2d.drawImage(colorPickerFrame, 0, 0, this);
     }
 }
