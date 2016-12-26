@@ -100,7 +100,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
-		resolveCompatible(propertyTableEditor);
+		propertyTableEditor = resolveCompatible(propertyTableEditor);
 		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
 		if (processor == null) {
 			return propertyTableEditor;
@@ -122,7 +122,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	}
 
 
-	private void resolveCompatible (CRPropertyDescriptor[] propertyTableEditor) {
+	private CRPropertyDescriptor[] resolveCompatible (CRPropertyDescriptor[] propertyTableEditor) {
 		//这边有个插件兼容问题,之后还是要改回process才行
 		Set<FormElementCaseEditorProvider> set = ExtraDesignClassManager.getInstance().getArray(AbstractFormElementCaseEditorProvider.MARK_STRING);
 		for (FormElementCaseEditorProvider provider : set) {
@@ -135,6 +135,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 			PropertyDescriptor[] extraEditor = provider.createPropertyDescriptor(this.data.getClass(), formProvider, elementCaseEditorProvider);
 			propertyTableEditor = (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraEditor);
 		}
+		return propertyTableEditor;
 	}
 
 	@Override
