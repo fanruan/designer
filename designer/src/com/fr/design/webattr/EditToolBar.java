@@ -7,6 +7,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.fun.ExportToolBarProvider;
+import com.fr.design.fun.ExtraButtonToolBarProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -29,6 +30,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetManager;
 import com.fr.general.Background;
 import com.fr.general.Inter;
+import com.fr.plugin.weixin.send.SendWeixinButton;
 import com.fr.report.web.button.Export;
 import com.fr.report.web.button.PDFPrint;
 import com.fr.report.web.button.Print;
@@ -326,7 +328,9 @@ public class EditToolBar extends BasicPane {
 		private IconDefinePane iconPane;
 		private UIButton button;
 		private JavaScriptActionPane javaScriptPane;
-		private ExportToolBarProvider[] exportToolBarProviders; 
+		private ExportToolBarProvider[] exportToolBarProviders;
+
+		private ExtraButtonToolBarProvider[] extraButtonToolBarProviders;
 
 		private ChangeListener changeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -385,6 +389,12 @@ public class EditToolBar extends BasicPane {
 			// centerPane.add("editexcel", editExcel);
 			centerPane.add(getCpane(), "appendcount");
 			centerPane.add(getSubmitPane(), "submit");
+
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			extraButtonToolBarProviders = extraButtonSet.toArray(new ExtraButtonToolBarProvider[set.size()]);
+			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
+				extraButtonToolBarProviders[i].updateCenterPane(centerPane);
+			}
 
 			this.add(centerPane, BorderLayout.CENTER);
 		}
@@ -479,7 +489,6 @@ public class EditToolBar extends BasicPane {
 			return submitPane;
 		}
 
-
 		@Override
 		protected String title4PopupWindow() {
 			return "Button";
@@ -527,6 +536,10 @@ public class EditToolBar extends BasicPane {
 				populateSubmit();
 			} else if (widget instanceof CustomToolBarButton) {
 				populateCustomToolBarButton();
+			}
+
+			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
+				extraButtonToolBarProviders[i].populate(widget, card, centerPane);
 			}
 		}
 		
@@ -613,6 +626,11 @@ public class EditToolBar extends BasicPane {
 			if (widget instanceof Button) {
 				updateDefault();
 			}
+
+			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
+				extraButtonToolBarProviders[i].update(widget);
+			}
+
 			return widget;
 		}
 		
