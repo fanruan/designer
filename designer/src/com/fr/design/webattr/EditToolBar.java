@@ -30,7 +30,6 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetManager;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.plugin.weixin.send.SendWeixinButton;
 import com.fr.report.web.button.Export;
 import com.fr.report.web.button.PDFPrint;
 import com.fr.report.web.button.Print;
