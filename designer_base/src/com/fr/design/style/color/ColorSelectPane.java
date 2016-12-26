@@ -106,7 +106,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		row1Pane.setPreferredSize(new Dimension(135, 24));  // 宽度为 16 * 8 + 7
 
 		// 取色按钮
-		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON16, true);
+		UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON16, true);
 		row1Pane.add(pickColorButton, BorderLayout.WEST);
 
 		// 最近使用

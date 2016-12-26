@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.*;
 import java.awt.image.MemoryImageSource;
-import javax.swing.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +19,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -31,6 +29,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
@@ -710,7 +709,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         hexPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         hexPanel.add(new UILabel("#"));
         hexPanel.add(field);
-        PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON18, true);
+        UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
         hexPanel.add(pickColorButton);
 
         mainPanel.add(hslAndRgbPanel, BorderLayout.CENTER);

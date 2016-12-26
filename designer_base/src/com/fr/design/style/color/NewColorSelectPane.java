@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.gui.ibutton.UIButton;
@@ -87,8 +86,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 		centerPane.add(row1Pane);
 
 		// 取色按钮
-		PickColorButton pickColorButton = new PickColorButton(this, PickColorButton.IconType.ICON16);
-
+		UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON16);
 		row1Pane.add(pickColorButton, BorderLayout.WEST);
 
 		// 最近使用
