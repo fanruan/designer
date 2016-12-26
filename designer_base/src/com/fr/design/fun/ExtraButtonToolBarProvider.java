@@ -13,7 +13,7 @@ import java.awt.*;
  */
 public interface ExtraButtonToolBarProvider extends Mutable {
 
-    String XML_TAG = "ButtonToolBarProvider";
+    String XML_TAG = "ExtraButtonToolBarProvider";
 
     int CURRENT_LEVEL = 1;
 
