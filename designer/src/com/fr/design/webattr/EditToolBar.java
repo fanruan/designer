@@ -200,7 +200,7 @@ public class EditToolBar extends BasicPane {
 				toolBarButton.setWidget(widget);
 				if (widget instanceof Button) {
 					String iconname = ((Button) widget).getIconName();
-					if (!StringUtils.isBlank(iconname)) {
+					if (StringUtils.isNotBlank(iconname)) {
 						Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(iconname);
 						toolBarButton.setIcon(new ImageIcon(iimage));
 					}
