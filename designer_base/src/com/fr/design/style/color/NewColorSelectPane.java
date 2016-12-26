@@ -78,10 +78,21 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 		// center
 		JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		this.add(centerPane, BorderLayout.CENTER);
-		
+
+		// 第一行，1个取色按钮 + 7个最近使用的颜色
+		JPanel row1Pane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+		row1Pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 0));
+		row1Pane.setPreferredSize(new Dimension(135, 16));  // 宽度为 16 * 8 + 7
+		centerPane.add(row1Pane);
+
+		// 取色按钮
+		UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON16);
+		row1Pane.add(pickColorButton, BorderLayout.WEST);
+
 		// 最近使用
-		usedColorPane = new UsedColorPane(1, 8, ColorSelectConfigManager.getInstance().getColors(),this);
-		centerPane.add(usedColorPane.getPane());
+		usedColorPane = new UsedColorPane(1, 7, ColorSelectConfigManager.getInstance().getColors(),this);
+		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 8));
+		row1Pane.add(usedColorPane.getPane());
 		
 		JPanel menuColorPane1 = new JPanel();
 		centerPane.add(menuColorPane1);
@@ -203,5 +214,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 	public void updateUsedColor(){
 		usedColorPane.updateUsedColor();
 	}
+
+
 
 }
