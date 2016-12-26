@@ -329,8 +329,6 @@ public class EditToolBar extends BasicPane {
 		private JavaScriptActionPane javaScriptPane;
 		private ExportToolBarProvider[] exportToolBarProviders;
 
-		private ExtraButtonToolBarProvider[] extraButtonToolBarProviders;
-
 		private ChangeListener changeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (isVerify.isSelected()) {
@@ -390,9 +388,8 @@ public class EditToolBar extends BasicPane {
 			centerPane.add(getSubmitPane(), "submit");
 
 			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
-			extraButtonToolBarProviders = extraButtonSet.toArray(new ExtraButtonToolBarProvider[set.size()]);
-			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
-				extraButtonToolBarProviders[i].updateCenterPane(centerPane);
+			for(ExtraButtonToolBarProvider provider : extraButtonSet){
+				provider.updateCenterPane(centerPane);
 			}
 
 			this.add(centerPane, BorderLayout.CENTER);
@@ -537,8 +534,9 @@ public class EditToolBar extends BasicPane {
 				populateCustomToolBarButton();
 			}
 
-			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
-				extraButtonToolBarProviders[i].populate(widget, card, centerPane);
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			for(ExtraButtonToolBarProvider provider : extraButtonSet){
+				provider.populate(widget, card, centerPane);
 			}
 		}
 		
@@ -626,8 +624,9 @@ public class EditToolBar extends BasicPane {
 				updateDefault();
 			}
 
-			for(int i=0; i<ArrayUtils.getLength(extraButtonToolBarProviders); i++){
-				extraButtonToolBarProviders[i].update(widget);
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			for(ExtraButtonToolBarProvider provider : extraButtonSet){
+				provider.update(widget);
 			}
 
 			return widget;
