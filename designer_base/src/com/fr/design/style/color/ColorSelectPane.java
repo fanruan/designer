@@ -3,10 +3,7 @@
  */
 package com.fr.design.style.color;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -71,10 +68,8 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		// center
 		JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		this.add(centerPane, BorderLayout.CENTER);
-		
-		// 最近使用
-		UsedColorPane pane = new UsedColorPane(1, 8, ColorSelectConfigManager.getInstance().getColors(),this);
-		centerPane.add(pane.getPane());
+
+		centerPane.add(getRow1Pane());
 		
 		JPanel menuColorPane1 = new JPanel();
 		centerPane.add(menuColorPane1);
@@ -102,6 +97,23 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		centerPane1.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 8));
 		centerPane1.add(customButton, BorderLayout.NORTH);
 		centerPane.add(centerPane1);
+	}
+
+	// 第一行，1个取色按钮 + 7个最近使用的颜色
+	private JPanel getRow1Pane() {
+		JPanel row1Pane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+		row1Pane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 0));
+		row1Pane.setPreferredSize(new Dimension(135, 24));  // 宽度为 16 * 8 + 7
+
+		// 取色按钮
+		UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON16, true);
+		row1Pane.add(pickColorButton, BorderLayout.WEST);
+
+		// 最近使用
+		UsedColorPane usedColorPane = new UsedColorPane(1, 7, ColorSelectConfigManager.getInstance().getColors(),this);
+		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 8));
+		row1Pane.add(usedColorPane.getPane());
+		return row1Pane;
 	}
 
     protected Color[] getColorArray(){
