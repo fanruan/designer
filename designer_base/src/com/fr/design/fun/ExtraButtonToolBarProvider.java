@@ -8,7 +8,6 @@ import java.awt.*;
 
 /**
  * 报表工具栏设计器端拓展，用于配置按钮额外属性
- *
  * Created by harry on 2016-12-23.
  */
 public interface ExtraButtonToolBarProvider extends Mutable {
@@ -18,7 +17,6 @@ public interface ExtraButtonToolBarProvider extends Mutable {
     int CURRENT_LEVEL = 1;
 
     /**
-     *
      * 用于添加属性面板
      *
      * @param centerPane 面板
@@ -26,11 +24,10 @@ public interface ExtraButtonToolBarProvider extends Mutable {
     void updateCenterPane(JPanel centerPane);
 
     /**
-     *
      * 更新界面
      *
-     * @param widget 控件
-     * @param card 卡片布局
+     * @param widget     控件
+     * @param card       卡片布局
      * @param centerPane 面板
      */
     void populate(Widget widget, CardLayout card, JPanel centerPane);
