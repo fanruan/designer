@@ -26,12 +26,14 @@ public class ColorPicker extends JDialog implements ActionListener
 
     private Timer timer;  // 用于定时重绘
     private int FPS = 45;  // 重绘取色器的频率
+    private int timeCycle = 1000 / FPS;  // 时钟周期
 
     private ColorSelectable colorSelectable;
     private Point mousePos;  // 鼠标的绝对坐标
     private Color colorToSet;  // 暂存要设置的颜色值
 
     private Boolean setColorRealTime;  // 实时设定颜色值
+
 
     /**
      * 构造函数，创建一个取色框窗体
@@ -53,7 +55,6 @@ public class ColorPicker extends JDialog implements ActionListener
     }
 
     public void start() {
-        int timeCycle = 1000 / FPS;
         timer = new Timer(timeCycle, this);
         timer.start();
         hideCursor();
@@ -125,6 +126,12 @@ class ColorPickerPanel extends JPanel
     private int scaleFactor;  // 放大倍数
     private Robot robot;
 
+    // getPixelColor 常数
+    private static int SHIFT_STEP = 8;  // 比特位右移步长
+    private static int AND_R = 0xff0000;
+    private static int AND_G = 0xff00;
+    private static int AND_B = 0xff;
+
     /**
      * 带参数的构造函数
      * @param scaleFactor  放大倍数
@@ -160,10 +167,9 @@ class ColorPickerPanel extends JPanel
 
     public Color getPixelColor(Point mousePos) {
         int rgb = screenImage.getRGB(mousePos.x, mousePos.y);
-        int shiftStep = 8;  // 右移的比特位
-        int R = (rgb & 0xff0000) >> shiftStep * 2;
-        int G = (rgb & 0xff00) >> shiftStep;
-        int B = (rgb & 0xff);
+        int R = (rgb & AND_R) >> SHIFT_STEP * 2;
+        int G = (rgb & AND_G) >> SHIFT_STEP;
+        int B = (rgb & AND_B);
         return new Color(R, G, B);
     }
 
