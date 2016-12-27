@@ -43,15 +43,6 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
         contentDBManiPane = new ArrayList();
         contentDBManiPane.add(createDBManipulationPane());
         paneList.add(new Commit2DBJavaScriptPane(this, contentDBManiPane));
-        paneList.add(new ProcessJSImplPane() {
-                         private static final long serialVersionUID = 1;
-
-                         @Override
-                         protected Editor[] getCorrespondEditors() {
-                             return isForm() ? ValueEditorPaneFactory.formEditors() : ValueEditorPaneFactory.extendedEditors();
-                         }
-                     }
-        );
         paneList.add(initEmaiPane());
         Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
         if (javaScriptActionProviders != null) {
@@ -179,10 +170,10 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
      * 生成界面默认的组建
      *
      * @return 返回生成的面板
-     */
-    public static JavaScriptActionPane createDefault() {
-        return new JavaScriptActionPane() {
 
+     */
+            public static JavaScriptActionPane createDefault() {
+                return new JavaScriptActionPane() {
             @Override
             public DBManipulationPane createDBManipulationPane() {
                 return new DBManipulationPane();

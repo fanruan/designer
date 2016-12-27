@@ -155,6 +155,7 @@ public class CellWidgetCardPane extends BasicPane {
      */
     public void checkValid() throws Exception {
         currentEditorDefinePane.checkValid();
+        eventTabPane.checkValid();
     }
 
     //:jackie  如果选择的项有形态，则将形态面板加入tab面板

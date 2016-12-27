@@ -45,4 +45,9 @@ public abstract class ListenerUpdatePane extends BasicBeanPane<Listener> {
 		
 		return editing;
 	}
+
+	@Override
+	public void checkValid() throws Exception{
+		actionPane.checkValid();
+	}
 }
