@@ -195,7 +195,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 chartUIList.put(plotID, provider);
                 chartTypeInterfaces.put(priority, chartUIList);
             }else {
-                CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap> chartUIList = chartTypeInterfaces.get(priority);
+                Map<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
                 if (!chartUIList.containsKey(plotID)) {
                     chartUIList.put(plotID, provider);
                 }
@@ -265,7 +265,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         }
         String[] names = new String[getChartSize(priority)];
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
-            CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap> chartUIList = chartTypeInterfaces.get(priority);
+            Map<String, IndependentChartUIProvider> chartUIList = chartTypeInterfaces.get(priority);
             Iterator iterator = chartUIList.entrySet().iterator();
             int i = 0;
             while (iterator.hasNext()){
