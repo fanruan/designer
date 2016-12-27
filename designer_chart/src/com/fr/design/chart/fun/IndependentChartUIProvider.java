@@ -84,5 +84,10 @@ public interface IndependentChartUIProvider extends Level {
      */
     String getIconPath();
 
+    /**
+     * plot面板的标题
+     */
+    String getPlotTypeTitle4PopupWindow();
+
 
 }

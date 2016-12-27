@@ -91,8 +91,8 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	
     	this.add(buttonPane, BorderLayout.SOUTH);
     	
-    	ok = new UIButton(Inter.getLocText("OK"));
-    	cancel = new UIButton(Inter.getLocText("Cancel"));
+    	ok = new UIButton(Inter.getLocText("FR-Designer_Button_OK"));
+    	cancel = new UIButton(Inter.getLocText("FR-Designer_Button_Cancel"));
     	
     	buttonPane.add(ok);
     	buttonPane.add(cancel);
@@ -137,7 +137,7 @@ public class ColorSelectDialog extends MiddleChartDialog{
 	public static void showDialog(Frame owner,ColorSelectDetailPane pane,Color initialColor,ColorSelectable selectePane){
 		ColorTracker okListener = new ColorTracker(pane);
 		ColorSelectDialog dialog = new ColorSelectDialog(owner,pane,initialColor,okListener,selectePane);
-		dialog.setModal(true);
+//		dialog.setModal(true);
 		dialog.show();
 	}
 

@@ -52,7 +52,7 @@ public class WorkBookModelAdapter extends DesignModelAdapter<WorkBook, JWorkBook
 	public Parameter[] getTableDataParameters() {
 		TableDataSource source = this.getBook();
 		Calculator c = Calculator.createCalculator();
-		c.setAttribute(TableDataSource.class, source);
+		c.setAttribute(TableDataSource.KEY, source);
 		java.util.List<ParameterProvider> list = new java.util.ArrayList<ParameterProvider>();
 		java.util.Iterator<String> nameIt = this.getBook().getTableDataNameIterator();
 		while (nameIt.hasNext()) {

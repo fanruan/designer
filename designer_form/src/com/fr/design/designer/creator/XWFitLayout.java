@@ -25,6 +25,7 @@ import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
+import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 /**
