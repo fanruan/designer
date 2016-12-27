@@ -6,13 +6,15 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.fun.JavaScriptActionProvider;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -22,19 +24,14 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.form.event.Listener;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.js.Commit2DBJavaScript;
-import com.fr.js.CustomActionJavaScript;
-import com.fr.js.EmailJavaScript;
-import com.fr.js.FormSubmitJavaScript;
 import com.fr.js.JavaScript;
-import com.fr.js.JavaScriptImpl;
 
 public class ListenerEditPane extends BasicBeanPane<Listener> {
 	private UITextField nameText;
 	private UIComboBox styleBox;
 	private CardLayout card;
+	private List<FurtherBasicBeanPane<? extends JavaScript>> cards;
 	private JPanel hyperlinkPane;
 	
 	private JavaScriptImplPane javaScriptPane;
@@ -45,11 +42,11 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	// 发送邮件
 	private EmailPane emailPane;
 	
-	private static final String JS = Inter.getLocText("JavaScript");
-	private static final String FORMSUBMIT = Inter.getLocText("JavaScript-Form_Submit");
-	private static final String DBCOMMIT = Inter.getLocText("JavaScript-Commit_to_Database");
-	private static final String CUSTOMACTION= Inter.getLocText(new String[]{"Custom", "RWA-Submit"});
-	private static final String EMAIL = Inter.getLocText("Email_sentEmail");
+	private static final String JS = Inter.getLocText("FR-Designer_JavaScript");
+	private static final String FORMSUBMIT = Inter.getLocText("FR-Designer_JavaScript_Form_Submit");
+	private static final String DBCOMMIT = Inter.getLocText("FR-Designer_JavaScript_Commit_to_Database");
+	private static final String CUSTOMACTION= Inter.getLocText(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
+	private static final String EMAIL = Inter.getLocText("FR-Designer_Email_sentEmail");
 	
 	private Listener listener;
 	
@@ -66,6 +63,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	 * @param defaultArgs 初始化参数
 	 */
 	public void initComponents(String[] defaultArgs) {
+		cards = new ArrayList<FurtherBasicBeanPane<? extends JavaScript>>();
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel namePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		nameText = new UITextField(8);
@@ -74,19 +72,14 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		String[] style = {JS, DBCOMMIT, CUSTOMACTION,EMAIL};
 		styleBox = new UIComboBox(style);
 		namePane.add(styleBox);
-		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + Inter.getLocText("Event_Name") + ":"), nameText, new UILabel("    " + Inter.getLocText("Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
-		namePane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Event_Name_Type")));
+		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + Inter.getLocText("FR-Designer_Event_Name") + ":"), nameText, new UILabel("    " + Inter.getLocText("FR-Designer_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
+		namePane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_Event_Name_Type")));
 		this.add(namePane, BorderLayout.NORTH);
-		
 		card = new CardLayout();
 		hyperlinkPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 		hyperlinkPane.setLayout(card);
-		// js
 		javaScriptPane = new JavaScriptImplPane(defaultArgs);
 		hyperlinkPane.add(JS, javaScriptPane);
-//		formSubmitScriptPane = new FormSubmitJavaScriptPane(JavaScriptActionPane.defaultJavaScriptActionPane
-//				.createCallButton());
-//		hyperlinkPane.add(FORMSUBMIT, formSubmitScriptPane);
 		// 提交入库
         List dbmaniList = new ArrayList();
         dbmaniList.add(autoCreateDBManipulationPane());
@@ -96,21 +89,37 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		// 自定义事件
 		customActionPane = new CustomActionPane();
 		hyperlinkPane.add(CUSTOMACTION, customActionPane);
-		
 		// 发送邮件
 		emailPane = new EmailPane();
 		hyperlinkPane.add(EMAIL,emailPane);
-	
-		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("JavaScript_Set")));
+		cards.add(javaScriptPane);
+		cards.add(commit2DBJavaScriptPane);
+		cards.add(customActionPane);
+		cards.add(emailPane);
+		//其他事件
+		addOtherEvent();
+		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_JavaScript_Set")));
 		this.add(hyperlinkPane);
-		
 		styleBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				card.show(hyperlinkPane, styleBox.getSelectedItem().toString());
 			}
 		});
 	}
-	
+
+	private void addOtherEvent(){
+		Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
+		if (javaScriptActionProviders != null) {
+			for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
+				FurtherBasicBeanPane pane = jsp.getJavaScriptActionPane();
+				String title = pane.title4PopupWindow();
+				styleBox.addItem(title);
+				hyperlinkPane.add(title, pane);
+				cards.add(pane);
+			}
+		}
+	}
+
     /**
      *  根据有无单元格创建 DBManipulationPane
      * @return   有单元格。有智能添加单元格等按钮，返回 SmartInsertDBManipulationPane
@@ -122,7 +131,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Event_Set");
+		return Inter.getLocText("FR-Designer_Event_Set");
 	}
 	
 	@Override
@@ -131,47 +140,28 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		if (this.listener == null) {
 			this.listener = new Listener();
 		}
-		
 		this.nameText.setText(listener.getEventName());
-		
 		JavaScript js = listener.getAction();
-		if (js instanceof JavaScriptImpl) {
-			styleBox.setSelectedItem(JS);
-			card.show(hyperlinkPane, JS);
-			javaScriptPane.populateBean((JavaScriptImpl)js);
-		} else if (js instanceof FormSubmitJavaScript){
-			styleBox.setSelectedItem(FORMSUBMIT);
-			card.show(hyperlinkPane, FORMSUBMIT);
-			formSubmitScriptPane.populateBean((FormSubmitJavaScript)js);
-		} else if (js instanceof Commit2DBJavaScript) {
-			styleBox.setSelectedItem(DBCOMMIT);
-			card.show(hyperlinkPane, DBCOMMIT);
-			commit2DBJavaScriptPane.populateBean((Commit2DBJavaScript)js);
-		}  else if (js instanceof EmailJavaScript){
-			styleBox.setSelectedItem(EMAIL);
-			card.show(hyperlinkPane, EMAIL);
-			emailPane.populateBean((EmailJavaScript)js);
-		} else if (js instanceof CustomActionJavaScript){
-			styleBox.setSelectedItem(CUSTOMACTION);
-			card.show(hyperlinkPane, CUSTOMACTION);
-			customActionPane.populateBean((CustomActionJavaScript) js);
+		for (int i = 0; i < this.cards.size(); i++) {
+			FurtherBasicBeanPane pane = cards.get(i);
+			if (pane.accept(js)) {
+				styleBox.setSelectedItem(pane.title4PopupWindow());
+				card.show(hyperlinkPane, pane.title4PopupWindow());
+				pane.populateBean(js);
+				return;
+			}
 		}
 	}
-	
+
+	public void checkValid() throws Exception{
+		this.cards.get(this.styleBox.getSelectedIndex()).checkValid();
+	}
+
 	@Override
 	public Listener updateBean(){
 		this.listener.setEventName(this.nameText.getText());
-		if (ComparatorUtils.equals(styleBox.getSelectedItem(), JS)) {
-			this.listener.setAction(javaScriptPane.updateBean());
-		} else if (ComparatorUtils.equals(styleBox.getSelectedItem(), FORMSUBMIT)) {
-			this.listener.setAction(formSubmitScriptPane.updateBean());
-		} else if (ComparatorUtils.equals(styleBox.getSelectedItem(), DBCOMMIT)) {
-			this.listener.setAction(commit2DBJavaScriptPane.updateBean());
-		} else if (ComparatorUtils.equals(styleBox.getSelectedItem(),EMAIL)){
-			this.listener.setAction(emailPane.updateBean());
-		} else if (ComparatorUtils.equals(styleBox.getSelectedItem(), CUSTOMACTION)){
-			this.listener.setAction(customActionPane.updateBean());
-		}
+		FurtherBasicBeanPane<? extends JavaScript> pane = this.cards.get(this.styleBox.getSelectedIndex());
+		this.listener.setAction(pane.updateBean());
 		return this.listener;
 	}
 }
