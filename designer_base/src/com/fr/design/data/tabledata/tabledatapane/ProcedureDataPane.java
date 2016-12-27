@@ -316,7 +316,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             }
 
             StoreProcedureParameter[] newparameters;
-            newparameters = FRContext.getCurrentEnv().getStoreProcedureDeclarationParameters(connectionname, tableName[tableName.length - 1], parameterDefaultValue);
+            newparameters = FRContext.getCurrentEnv().getStoreProcedureDeclarationParameters(connectionname, tableName, parameterDefaultValue);
 
 
             editorPane.populate(newparameters);
