@@ -20,10 +20,10 @@ public class ChartTypeInterfaceCloseableHandler extends CloseableInvocationHandl
     @Override
     protected boolean invokeIsClosed() {
 
-        return super.invokeIsClosed() && containsChart();
+        //UI对应的chart如果关闭或者不存在，则UI关闭
+        return super.invokeIsClosed() || !containsChart();
     }
 
-    //UI对应的chart如果关闭或者不存在，则UI关闭
     private boolean containsChart() {
 
         return ChartTypeManager.getInstance().containsPlot(plotID);
