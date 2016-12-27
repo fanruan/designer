@@ -133,6 +133,12 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		return cards.get(jcb.getSelectedIndex()).updateBean();
 	}
 
+	@Override
+	public void checkValid() throws Exception {
+		cards.get(jcb.getSelectedIndex()).checkValid();
+
+	}
+
 	public int getSelectedIndex() {
 		return jcb.getSelectedIndex();
 	}

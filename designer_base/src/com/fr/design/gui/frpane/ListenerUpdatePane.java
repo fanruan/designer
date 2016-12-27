@@ -29,7 +29,7 @@ public abstract class ListenerUpdatePane extends BasicBeanPane<Listener> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Event");
+		return Inter.getLocText("FR-Designer_Event");
 	}
 
     @Override
@@ -44,5 +44,10 @@ public abstract class ListenerUpdatePane extends BasicBeanPane<Listener> {
 		editing.setAction(actionPane.updateBean());
 		
 		return editing;
+	}
+
+	@Override
+	public void checkValid() throws Exception{
+		actionPane.checkValid();
 	}
 }
