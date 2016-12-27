@@ -42,11 +42,11 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	// 发送邮件
 	private EmailPane emailPane;
 	
-	private static final String JS = Inter.getLocText("JavaScript");
-	private static final String FORMSUBMIT = Inter.getLocText("JavaScript-Form_Submit");
-	private static final String DBCOMMIT = Inter.getLocText("JavaScript-Commit_to_Database");
-	private static final String CUSTOMACTION= Inter.getLocText(new String[]{"Custom", "RWA-Submit"});
-	private static final String EMAIL = Inter.getLocText("Email_sentEmail");
+	private static final String JS = Inter.getLocText("FR-Designer_JavaScript");
+	private static final String FORMSUBMIT = Inter.getLocText("FR-Designer_JavaScript_Form_Submit");
+	private static final String DBCOMMIT = Inter.getLocText("FR-Designer_JavaScript_Commit_to_Database");
+	private static final String CUSTOMACTION= Inter.getLocText(new String[]{"FR-Designer_JavaScript_Custom", "FR-Designer_RWA_Submit"});
+	private static final String EMAIL = Inter.getLocText("FR-Designer_Email_sentEmail");
 	
 	private Listener listener;
 	
@@ -72,19 +72,14 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		String[] style = {JS, DBCOMMIT, CUSTOMACTION,EMAIL};
 		styleBox = new UIComboBox(style);
 		namePane.add(styleBox);
-		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + Inter.getLocText("Event_Name") + ":"), nameText, new UILabel("    " + Inter.getLocText("Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
-		namePane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("Event_Name_Type")));
+		namePane = GUICoreUtils.createFlowPane(new Component[]{new UILabel("  " + Inter.getLocText("FR-Designer_Event_Name") + ":"), nameText, new UILabel("    " + Inter.getLocText("FR-Designer_Event_Type") + ":"), styleBox}, FlowLayout.LEFT);
+		namePane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_Event_Name_Type")));
 		this.add(namePane, BorderLayout.NORTH);
-		
 		card = new CardLayout();
 		hyperlinkPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 		hyperlinkPane.setLayout(card);
-		// js
 		javaScriptPane = new JavaScriptImplPane(defaultArgs);
 		hyperlinkPane.add(JS, javaScriptPane);
-//		formSubmitScriptPane = new FormSubmitJavaScriptPane(JavaScriptActionPane.defaultJavaScriptActionPane
-//				.createCallButton());
-//		hyperlinkPane.add(FORMSUBMIT, formSubmitScriptPane);
 		// 提交入库
         List dbmaniList = new ArrayList();
         dbmaniList.add(autoCreateDBManipulationPane());
@@ -94,7 +89,6 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		// 自定义事件
 		customActionPane = new CustomActionPane();
 		hyperlinkPane.add(CUSTOMACTION, customActionPane);
-		
 		// 发送邮件
 		emailPane = new EmailPane();
 		hyperlinkPane.add(EMAIL,emailPane);
@@ -102,7 +96,18 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 		cards.add(commit2DBJavaScriptPane);
 		cards.add(customActionPane);
 		cards.add(emailPane);
+		//其他事件
+		addOtherEvent();
+		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_JavaScript_Set")));
+		this.add(hyperlinkPane);
+		styleBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				card.show(hyperlinkPane, styleBox.getSelectedItem().toString());
+			}
+		});
+	}
 
+	private void addOtherEvent(){
 		Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
 		if (javaScriptActionProviders != null) {
 			for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
@@ -113,17 +118,8 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 				cards.add(pane);
 			}
 		}
-
-		hyperlinkPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("JavaScript_Set")));
-		this.add(hyperlinkPane);
-
-		styleBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				card.show(hyperlinkPane, styleBox.getSelectedItem().toString());
-			}
-		});
 	}
-	
+
     /**
      *  根据有无单元格创建 DBManipulationPane
      * @return   有单元格。有智能添加单元格等按钮，返回 SmartInsertDBManipulationPane
@@ -135,7 +131,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return Inter.getLocText("Event_Set");
+		return Inter.getLocText("FR-Designer_Event_Set");
 	}
 	
 	@Override
