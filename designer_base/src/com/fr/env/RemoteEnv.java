@@ -513,8 +513,10 @@ public class RemoteEnv implements Env {
     }
 
     private void stopLogTimer() {
-        logTimer.cancel();
-        logTimer = null;
+        if(logTimer != null) {
+            logTimer.cancel();
+            logTimer = null;
+        }
     }
 
     /**
@@ -2061,6 +2063,17 @@ public class RemoteEnv implements Env {
      */
     public void writePlugin(Plugin plugin) throws Exception {
 
+    }
+
+
+    /**
+     * 获取插件的配置目录
+     *
+     * @param plugin
+     */
+    public String getPluginFilePath(Plugin plugin) {
+
+        return StringUtils.EMPTY;
     }
 
     public void readPluginLicenses() throws Exception {
