@@ -12,7 +12,7 @@ public interface ConnectionProvider extends Mutable {
 
     public static final String XML_TAG = "ConnectionProvider";
 
-    int CURRENT_LEVEL = 1;
+    int CURRENT_LEVEL = 2;
 
     /**
      * 数据连接弹出菜单的名字
