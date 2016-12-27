@@ -50,15 +50,15 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
                 new CRPropertyDescriptor("horziontalAttr", this.xCreator.toData().getClass()).setEditorClass(MobileFitEditor.class)
                         .setRendererClass(MobileFitRender.class)
                         .setI18NName(Inter.getLocText("FR-Designer_Mobile-Horizontal"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit-App")),
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit")),
                 new CRPropertyDescriptor("verticalAttr", this.xCreator.toData().getClass()).setEditorClass(MobileFitEditor.class)
                         .setRendererClass(MobileFitRender.class)
                         .setI18NName(Inter.getLocText("FR-Designer_Mobile-Vertical"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit-App")),
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit")),
                 new CRPropertyDescriptor("heightRestrict", this.xCreator.toData().getClass()).setEditorClass(InChangeBooleanEditor.class)
                         .setI18NName(Inter.getLocText("Form-EC_heightrestrict"))
                         .setRendererClass(BooleanRender.class)
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit-App"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit"))
         };
         List<CRPropertyDescriptor> defaultList = new ArrayList<>();
 
@@ -96,7 +96,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         }
 
 
-        groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Fit-App"), xCreator, propertyTableEditor, designer)));
+        groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(Inter.getLocText("FR-Designer_Fit"), xCreator, propertyTableEditor, designer)));
 
         TableModel model = new BeanTableModel();
         setModel(model);

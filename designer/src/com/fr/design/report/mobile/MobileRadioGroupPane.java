@@ -34,6 +34,7 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
         defaultRadio.setSelected(true);
         UIRadioButton horizonRadio = new UIRadioButton(MobileFitAttrState.HORIZONTAL.description());
         UIRadioButton verticalRadio = new UIRadioButton(MobileFitAttrState.VERTICAL.description());
+//        UIRadioButton bidirectionalRadio = new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description());
         UIRadioButton notFitRadio = new UIRadioButton(MobileFitAttrState.NONE.description());
 
         addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio);
