@@ -25,6 +25,9 @@ import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
+import com.fr.design.extra.ChartTypeInterfaceCloseableHandler;
+import com.fr.plugin.proxy.PluginInstanceProxyFactory;
+import com.fr.plugin.proxy.PluginInvocationHandler;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
@@ -33,6 +36,7 @@ import com.fr.stable.fun.Authorize;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.stable.plugin.PluginReadListener;
 import com.fr.stable.plugin.PluginSimplify;
+import com.fr.stable.plugin.closeable.Closeable;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 
@@ -213,24 +217,27 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
                 if (authorize != null) {
                     PluginLicenseManager.getInstance().registerPaid(authorize, simplify);
                 }
-                IndependentChartUIProvider provider = (IndependentChartUIProvider) clazz.newInstance();
-                if (PluginCollector.getCollector().isError(provider, IndependentChartUIProvider.CURRENT_API_LEVEL, simplify.getPluginName()) || !containsChart(plotID)) {
+                IndependentChartUIProvider provider = getProxyObj(plotID, simplify, clazz);
+                if (PluginCollector.getCollector().isError(provider, IndependentChartUIProvider.CURRENT_API_LEVEL, simplify.getPluginName())) {
                     PluginMessage.remindUpdate(className);
                 } else {
-                    ChartTypeInterfaceManager.getInstance().addChartTypeInterface(provider, priority, plotID);
+                    addChartTypeInterface(provider, priority, plotID);
                 }
             } catch (ClassNotFoundException e) {
                 FRLogger.getLogger().error("class not found:" + e.getMessage());
             } catch (IllegalAccessException | InstantiationException e) {
                 FRLogger.getLogger().error("object create error:" + e.getMessage());
+            } catch (NoSuchMethodException e) {
+                FRLogger.getLogger().error(e.getMessage());
             }
         }
     }
 
-    //UI对应的chart如果没有加载,UI也不必加进去了
-    private boolean containsChart(String plotID) {
+    private IndependentChartUIProvider getProxyObj(String plotID, PluginSimplify simplify, Class<?> clazz) throws IllegalAccessException, InstantiationException, NoSuchMethodException {
 
-        return ChartTypeManager.getInstance().containsPlot(plotID);
+        PluginInstanceProxyFactory factory = new PluginInstanceProxyFactory(clazz, simplify);
+        PluginInvocationHandler handler = new ChartTypeInterfaceCloseableHandler(plotID);
+        return (IndependentChartUIProvider) factory.addProxy(Closeable.class, handler).getProxyObj();
     }
 
 
