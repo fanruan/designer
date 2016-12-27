@@ -20,7 +20,6 @@ public class ChartTypeInterfaceCloseableHandler extends CloseableInvocationHandl
     @Override
     protected boolean invokeIsClosed() {
 
-        //找不到Plugin对象时，默认是关闭的
         return super.invokeIsClosed() && containsChart();
     }
 
