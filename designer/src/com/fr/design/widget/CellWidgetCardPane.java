@@ -51,8 +51,8 @@ public class CellWidgetCardPane extends BasicPane {
         formPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eventTabPane = new WidgetEventPane(pane);
         formPane.add(eventTabPane, BorderLayout.CENTER);
-        tabbedPane.add(Inter.getLocText("Attribute"), attriPane);
-        tabbedPane.add(Inter.getLocText("Form-Editing_Listeners"), formPane);
+        tabbedPane.add(Inter.getLocText("FR-Designer_Attribute"), attriPane);
+        tabbedPane.add(Inter.getLocText("FR-Designer_Form_Editing_Listeners"), formPane);
 
         presPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         cardPaneForPresent = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -88,7 +88,7 @@ public class CellWidgetCardPane extends BasicPane {
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
-        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Form-Basic_Properties"));
+        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
         northPane.add(basic);
         basic.add(widgetPropertyPane);
         attriPane.add(northPane, BorderLayout.NORTH);
@@ -155,13 +155,14 @@ public class CellWidgetCardPane extends BasicPane {
      */
     public void checkValid() throws Exception {
         currentEditorDefinePane.checkValid();
+        eventTabPane.checkValid();
     }
 
     //:jackie  如果选择的项有形态，则将形态面板加入tab面板
     private void addPresPane(boolean add) {
         if (add) {
             tabbedPane.add(this.presPane, 1);
-            tabbedPane.setTitleAt(1, Inter.getLocText("DS-Dictionary"));
+            tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_DS_Dictionary"));
         } else {
             tabbedPane.remove(presPane);
         }
@@ -170,7 +171,7 @@ public class CellWidgetCardPane extends BasicPane {
     private void addTreeSettingPane(boolean add) {
         if (add) {
             tabbedPane.add(this.cardPaneForTreeSetting, 1);
-            tabbedPane.setTitleAt(1, Inter.getLocText("Create_Tree"));
+            tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_Create_Tree"));
         } else {
             tabbedPane.remove(this.cardPaneForTreeSetting);
         }
