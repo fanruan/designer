@@ -65,6 +65,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Fit-App");
+        return Inter.getLocText("FR-Designer_Mobile-Attr");
     }
 }
