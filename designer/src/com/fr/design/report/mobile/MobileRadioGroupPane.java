@@ -37,10 +37,10 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
         UIRadioButton bidirectionalRadio = new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description());
         UIRadioButton notFitRadio = new UIRadioButton(MobileFitAttrState.NONE.description());
 
-        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, bidirectionalRadio, notFitRadio);
+        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(title), defaultRadio, horizonRadio, verticalRadio, bidirectionalRadio, notFitRadio}
+                new Component[]{new UILabel(title), defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio}
         };
         JPanel fitOpsPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         fitOpsPane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
