@@ -148,7 +148,7 @@ public abstract class ToolBarMenuDock {
 	
 	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
         Locale locale = FRContext.getLocale();
-        Locale [] locales =supportCommunityLocales();
+        Locale [] locales = supportCommunityLocales();
         for(int i = 0; i < locales.length; i++) {
             if(locale.equals(locales[i])){
                 menuList.add(createCommunityMenuDef());
@@ -160,9 +160,8 @@ public abstract class ToolBarMenuDock {
 	public Locale[] supportCommunityLocales() {
         return new Locale[]{
                 Locale.CHINA,
-                Locale.JAPAN,
                 Locale.TAIWAN,
-                Locale.US,
+                Locale.US
         };
     }
 
