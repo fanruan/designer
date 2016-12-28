@@ -1656,12 +1656,12 @@ public class RemoteEnv implements Env {
     }
 
     @Override
-    public StoreProcedureParameter[] getStoreProcedureDeclarationParameters(String connectionName, String[] databaseName, String parameterDefaultValue) throws Exception {
+    public StoreProcedureParameter[] getStoreProcedureDeclarationParameters(String connectionName, String databaseName, String parameterDefaultValue) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_sp_parameters");
-        para.put("__name__", StringUtils.join(".", databaseName));
+        para.put("__name__", databaseName);
         para.put("__default_value__", parameterDefaultValue);
         para.put("connectionName", connectionName);
 

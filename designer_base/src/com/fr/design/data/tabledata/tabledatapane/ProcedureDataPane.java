@@ -299,7 +299,6 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             text = StringUtils.EMPTY;
         }
         text = text.trim();
-        String[] tableName = text.split("\\.");
         String connectionname = this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName();
         try {
             String procedureText = FRContext.getCurrentEnv().getProcedureText(this.connectionTableProcedurePane.getSelectedDatabaseConnnectonName(), text);
@@ -307,16 +306,16 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             // 获取参数默认值，例如：NAME in varchar2 default 'SCOTT'，默认值为SCOTT
             String parameterDefaultValue = "";
             if (StringUtils.isNotEmpty(procedureText)) {
-            	int index_begin = procedureText.indexOf("BEGIN");
-            	
-            	//from sam: 默认值只会在begin之前声明, 不然会把所有的存储过程里带'xx'的都作为默认值
-            	String defaulValueStr = index_begin == -1 ? procedureText : procedureText.substring(0, index_begin);
-            	String[] strs = defaulValueStr.split("\'");
+                int index_begin = procedureText.indexOf("BEGIN");
+
+                //from sam: 默认值只会在begin之前声明, 不然会把所有的存储过程里带'xx'的都作为默认值
+                String defaulValueStr = index_begin == -1 ? procedureText : procedureText.substring(0, index_begin);
+                String[] strs = defaulValueStr.split("\'");
                 parameterDefaultValue = strs.length > 1 ? strs[1] : parameterDefaultValue;
             }
 
             StoreProcedureParameter[] newparameters;
-            newparameters = FRContext.getCurrentEnv().getStoreProcedureDeclarationParameters(connectionname, tableName, parameterDefaultValue);
+            newparameters = FRContext.getCurrentEnv().getStoreProcedureDeclarationParameters(connectionname, text, parameterDefaultValue);
 
 
             editorPane.populate(newparameters);
