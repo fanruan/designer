@@ -75,7 +75,7 @@ public class AppFitBrowserPane extends BasicBeanPane<ElementCaseMobileAttr> {
 
     @Override
     protected String title4PopupWindow() {
-        return Inter.getLocText("FR-Designer_Fit-App");
+        return Inter.getLocText("FR-Designer_Fit");
     }
 
     private ActionListener getAppPreviewActionListener() {

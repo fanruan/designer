@@ -1,11 +1,11 @@
 package com.fr.design.report.mobile;
 
+import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -28,22 +28,22 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
     private void initComponents(String title) {
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
-        double[] columnSize = {p, p, p, p, p};
+        double[] columnSize = {p, p, p, p, p, p};
 
         UIRadioButton defaultRadio = new UIRadioButton(MobileFitAttrState.DEFAULT.description());
         defaultRadio.setSelected(true);
         UIRadioButton horizonRadio = new UIRadioButton(MobileFitAttrState.HORIZONTAL.description());
         UIRadioButton verticalRadio = new UIRadioButton(MobileFitAttrState.VERTICAL.description());
+        UIRadioButton bidirectionalRadio = new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description());
         UIRadioButton notFitRadio = new UIRadioButton(MobileFitAttrState.NONE.description());
 
-        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio);
+        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(title), defaultRadio, horizonRadio, verticalRadio, notFitRadio}
+                new Component[]{new UILabel(title), defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio}
         };
         JPanel fitOpsPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         fitOpsPane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
-
         this.add(fitOpsPane);
     }
 
