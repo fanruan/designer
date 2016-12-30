@@ -5,6 +5,7 @@ package com.fr.design.style.color;
  */
 
 import com.fr.base.BaseUtils;
+import com.fr.general.FRLogger;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -69,7 +70,7 @@ public class ColorPicker extends JDialog implements ActionListener
             try {
                 Thread.sleep(100);  // 等待弹窗关闭
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                FRLogger.getLogger().error(e.getMessage());
             }
             colorPickerPanel.captureScreen();
         }
