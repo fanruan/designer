@@ -19,7 +19,7 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
     //h5解析容器
     private MobileUseHtmlGroupPane mobileUseHtmlGroupPane;
 
-    static final int paddingHeight = 10;
+    static final int PADDINGHEIGHT = 10;
 
     public FormMobileAttrPane() {
         this.initComponents();
@@ -38,8 +38,8 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
         this.mobileToolBarPane = new MobileToolBarPane();
         this.mobileUseHtmlGroupPane = new MobileUseHtmlGroupPane();
         //设置一个JPanel包裹mobileToolBarPane这个Panel，让jPanel的高度等于mobileToolBarPane高度加10，再放入this中
-        jPanel1.setPreferredSize(new Dimension(0, (int)this.mobileToolBarPane.getPreferredSize().getHeight() + paddingHeight));
-        jPanel2.setPreferredSize(new Dimension(0, (int)this.mobileUseHtmlGroupPane.getPreferredSize().getHeight() + paddingHeight));
+        jPanel1.setPreferredSize(new Dimension(0, (int)this.mobileToolBarPane.getPreferredSize().getHeight() + PADDINGHEIGHT));
+        jPanel2.setPreferredSize(new Dimension(0, (int)this.mobileUseHtmlGroupPane.getPreferredSize().getHeight() + PADDINGHEIGHT));
         jPanel1.add("North", this.mobileUseHtmlGroupPane);
         jPanel2.add("North", this.mobileToolBarPane);
         this.add("North", jPanel1);
