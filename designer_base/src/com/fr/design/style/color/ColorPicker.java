@@ -61,6 +61,18 @@ public class ColorPicker extends JDialog implements ActionListener
         timer = new Timer(timeCycle, this);
         timer.start();
         hideCursor();
+
+        // 如果要求实时变化，确保先关闭弹窗，再截屏
+        // 主要针对"图案"选项卡中的"前景"、"背景"
+        if (this.setColorRealTime) {
+            colorSelectable.setColor(Color.WHITE);  // setColor 可以关闭弹窗
+            try {
+                Thread.sleep(100);  // 等待弹窗关闭
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            colorPickerPanel.captureScreen();
+        }
 //        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
     }
 
@@ -71,7 +83,7 @@ public class ColorPicker extends JDialog implements ActionListener
     public void actionPerformed(ActionEvent e) {
         updateLocation();
         colorToSet = colorPickerPanel.getPixelColor(mousePos);
-        if (setColorRealTime && !colorSelectable.getColor().equals(colorToSet)) {
+        if (setColorRealTime && (colorSelectable.getColor() == null || !colorSelectable.getColor().equals(colorToSet))) {
             colorSelectable.setColor(colorToSet);
         }
     }
@@ -147,6 +159,15 @@ class ColorPickerPanel extends JPanel
      */
     public ColorPickerPanel(int scaleFactor)
     {
+        colorPickerFrame = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPickerFrame.png");
+        this.scaleFactor = scaleFactor;
+        captureScreen();
+    }
+
+    /**
+     * 截屏
+     */
+    public void captureScreen() {
         try
         {
             robot = new Robot();
@@ -158,8 +179,6 @@ class ColorPickerPanel extends JPanel
         screenImage = robot.createScreenCapture(new Rectangle(0, 0, Toolkit
                 .getDefaultToolkit().getScreenSize().width, Toolkit
                 .getDefaultToolkit().getScreenSize().height));
-        colorPickerFrame = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPickerFrame.png");
-        this.scaleFactor = scaleFactor;
     }
 
     /**
