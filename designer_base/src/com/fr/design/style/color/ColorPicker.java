@@ -49,7 +49,10 @@ public class ColorPicker extends JDialog implements ActionListener
         updateSize(colorPickerSize);
         this.colorSelectable = colorSelectable;
         this.setColorRealTime = setColorRealTime;
+        start();
+        this.setModal(true);
         this.setAlwaysOnTop(true);
+        updateLocation();
         this.setVisible(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }

@@ -37,16 +37,14 @@ public class ReportBackgroundAction extends ReportComponentAction<ReportComponen
         }
         final ReportBackgroundPane bPane = new ReportBackgroundPane();
         bPane.populate(ReportUtils.getReportSettings(reportPane.getTemplateReport()));
-        BasicDialog bDialog = bPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+        bPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 
             @Override
 			public void doOk() {
                 bPane.update(reportPane.getTemplateReport().getReportSettings());
                 reportPane.fireTargetModified();
             }
-        });
-        bDialog.setModal(false);
-        bDialog.setVisible(true);
+        }).setVisible(true);
         return false;
     }
 }
