@@ -94,9 +94,11 @@ public class ColorPicker extends JDialog implements ActionListener
         validate();    // 更新所有子控件
     }
 
-    public void pickComplete() {
+    public void pickComplete(Boolean setColor) {
         timer.stop();
-        colorSelectable.setColor(colorToSet);
+        if (setColor) {
+            colorSelectable.setColor(colorToSet);
+        }
         this.dispose();
     }
 
@@ -111,7 +113,11 @@ public class ColorPicker extends JDialog implements ActionListener
     {
         public void mousePressed(MouseEvent e)
         {
-            pickComplete();
+            if (e.getButton() == e.BUTTON1) {  // 左键确定
+                pickComplete(true);
+            } else {
+                pickComplete(false);
+            }
         }
     }
 }
