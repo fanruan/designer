@@ -127,13 +127,8 @@ public class ColorPicker extends JDialog implements ActionListener
 
     private class MouseFunctions extends MouseAdapter
     {
-        public void mousePressed(MouseEvent e)
-        {
-            if (e.getButton() == e.BUTTON1) {  // 左键确定
-                pickComplete(true);
-            } else {
-                pickComplete(false);
-            }
+        public void mousePressed(MouseEvent e) {
+            pickComplete(e.getButton() == e.BUTTON1);  // 左键确定
         }
     }
 }
