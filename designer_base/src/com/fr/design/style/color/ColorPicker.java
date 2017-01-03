@@ -32,6 +32,7 @@ public class ColorPicker extends JDialog implements ActionListener
     private ColorSelectable colorSelectable;
     private Point mousePos;  // 鼠标的绝对坐标
     private Color colorToSet;  // 暂存要设置的颜色值
+    private Color initColor;  // 保存初始颜色。实时模式下，如果取消取色操作，则重设为初始颜色
 
     private Boolean setColorRealTime;  // 实时设定颜色值
 
@@ -66,6 +67,7 @@ public class ColorPicker extends JDialog implements ActionListener
         // 如果要求实时变化，确保先关闭弹窗，再截屏
         // 主要针对"图案"选项卡中的"前景"、"背景"
         if (this.setColorRealTime) {
+            initColor = colorSelectable.getColor();
             colorSelectable.setColor(Color.WHITE);  // setColor 可以关闭弹窗
             try {
                 Thread.sleep(100);  // 等待弹窗关闭
@@ -114,6 +116,8 @@ public class ColorPicker extends JDialog implements ActionListener
         timer.stop();
         if (setColor) {
             colorSelectable.setColor(colorToSet);
+        } else if (setColorRealTime) {
+            colorSelectable.setColor(initColor);
         }
         this.dispose();
     }
