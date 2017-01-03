@@ -71,6 +71,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     public void populate(FRFont frFont) {
+        removeAllComboBoxListener();
         if (frFont == null) {
             return;
         }
@@ -83,6 +84,11 @@ public class ChartTextAttrPane extends BasicPane {
         if (fontColor != null) {
             fontColor.setColor(frFont.getForeground());
         }
+    }
+
+    private void removeAllComboBoxListener() {
+        fontNameComboBox.removeChangeListener();
+        fontSizeComboBox.removeChangeListener();
     }
 
     /**
