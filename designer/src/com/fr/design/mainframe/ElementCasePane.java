@@ -851,7 +851,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     protected void initInputActionMap() {
         InputMap inputMapAncestor = this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        ActionMap actionMap = this.getActionMap()   ;
+        ActionMap actionMap = this.getActionMap();
         // clearReportPage old values.
         inputMapAncestor.clear();
         actionMap.clear();
