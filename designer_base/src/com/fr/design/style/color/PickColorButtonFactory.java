@@ -4,8 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Created by plough on 2016/12/22.
@@ -28,11 +27,10 @@ public class PickColorButtonFactory {
         }
         pickColorButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        pickColorButton.addActionListener(new ActionListener() {
+        pickColorButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                ColorPicker colorPicker = new ColorPicker(colorSelectable, setColorRealTime);
-                colorPicker.start();
+            public void mousePressed(MouseEvent e) {
+                new ColorPicker(colorSelectable, setColorRealTime);
             }
         });
 
