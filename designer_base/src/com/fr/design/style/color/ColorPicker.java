@@ -110,7 +110,7 @@ public class ColorPicker extends JDialog implements ActionListener
         validate();    // 更新所有子控件
     }
 
-    public void pickComplete(Boolean setColor) {
+    public void pickComplete(boolean setColor) {
         timer.stop();
         if (setColor) {
             colorSelectable.setColor(colorToSet);
