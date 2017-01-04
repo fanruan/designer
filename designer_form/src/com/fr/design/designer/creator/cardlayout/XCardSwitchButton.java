@@ -42,25 +42,28 @@ import com.fr.general.Inter;
  */
 public class XCardSwitchButton extends XButton {
 
-	private XWCardLayout cardLayout;
-	private XWCardTagLayout tagLayout;
-	
 	private static final int LEFT_GAP = 16;
 	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
+
+	//设置的图片类型
 	private static final String COLORBACKGROUNDTYPE = "ColorBackground";
 	private static final String DEFAULTTYPE = "default";
 
+	//默认颜色
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
 	public static final Color CHOOSED_GRAL = new Color(222,222,222);
-	
+
 	private static final int MIN_SIZE = 1;
-	
+
 	// 删除按钮识别区域偏移量
 	private static final int RIGHT_OFFSET = 15;
 	private static final int TOP_OFFSET = 25;
-	
+
 	// tab按钮里的字体因为按钮内部的布局看起来比正常的要小，加个调整量
 	private static final int FONT_SIZE_ADJUST = 2;
+
+	private XWCardLayout cardLayout;
+	private XWCardTagLayout tagLayout;
 
 	private Background selectBackground;
 	private boolean isCustomStyle;
