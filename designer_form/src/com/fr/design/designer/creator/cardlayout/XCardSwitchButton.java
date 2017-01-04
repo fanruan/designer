@@ -11,7 +11,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.Icon;
+import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.background.ColorBackground;
@@ -33,6 +33,7 @@ import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
+import com.fr.general.Inter;
 
 /**
  *
@@ -146,6 +147,12 @@ public class XCardSwitchButton extends XButton {
 	
 	//删除card，同时修改其他switchbutton和tabfit的index
 	private void deleteCard(XCardSwitchButton button,int index){
+		String titleName = button.getContentLabel().getText();
+		int value = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer_ConfirmDialog_Content") + "“" + titleName + "”",
+				Inter.getLocText("FR-Designer_ConfirmDialog_Title"),JOptionPane.YES_NO_OPTION);
+		if (value != JOptionPane.OK_OPTION) {
+			return;
+		}
 		tagLayout.remove(button);
 		// 先清除该tab内部组件，否在再显示上有样式的残留
 		XWTabFitLayout tabLayout = (XWTabFitLayout)cardLayout.getComponent(index);
