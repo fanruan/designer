@@ -57,10 +57,16 @@ public class XCardSwitchButton extends XButton {
 	
 	// tab按钮里的字体因为按钮内部的布局看起来比正常的要小，加个调整量
 	private static final int FONT_SIZE_ADJUST = 2;
+
+	private Background selectBackground;
+	protected boolean isCustomStyle;
 	
 	
 	
 	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
+	private static String COLORBACKGROUNDTYPE = "ColorBackground";
+	private static String DEFAULTTYPE = "default";
+
 	private Icon closeIcon = MOUSE_COLSE;
 	
 	public XWCardTagLayout getTagLayout() {
@@ -77,6 +83,22 @@ public class XCardSwitchButton extends XButton {
 
 	public void setCardLayout(XWCardLayout cardLayout) {
 		this.cardLayout = cardLayout;
+	}
+
+	public boolean isCustomStyle() {
+		return isCustomStyle;
+	}
+
+	public void setCustomStyle(boolean customStyle) {
+		isCustomStyle = customStyle;
+	}
+
+	public Background getSelectBackground() {
+		return selectBackground;
+	}
+
+	public void setSelectBackground(Background selectBackground) {
+		this.selectBackground = selectBackground;
 	}
 
 	public XCardSwitchButton(CardSwitchButton widget, Dimension initSize) {
@@ -134,6 +156,7 @@ public class XCardSwitchButton extends XButton {
 		
 		// 切换到当前tab按钮对应的tabFitLayout
 		XWTabFitLayout tabFitLayout = (XWTabFitLayout) cardLayout.getComponent(index);
+		tabFitLayout.setxCardSwitchButton(this);
 		selectionModel.setSelectedCreator(tabFitLayout);
 		
 		if (editingMouseListener.stopEditing()) {
@@ -248,16 +271,22 @@ public class XCardSwitchButton extends XButton {
 	//画背景
 	private void drawBackgorund(){
         CardSwitchButton button = (CardSwitchButton)this.toData();
-        ColorBackground background;
-        if(button.isShowButton()){
-        	this.rebuid();
-        	background = ColorBackground.getInstance(CHOOSED_GRAL);
-        	this.setContentBackground(background);
-        }else{
-        	this.rebuid();
-        	background = ColorBackground.getInstance(NORMAL_GRAL);
-        	this.setContentBackground(background);
-        }
+		Background currentBackground;
+		currentBackground = this.getSelectBackground();
+		//这边就是button的背景图片,图片的是image,默认的是color,所以不应该是针对null的判断
+		String type = currentBackground != null? currentBackground.getBackgroundType() : DEFAULTTYPE;
+		if (type.equals(COLORBACKGROUNDTYPE) || type.equals(DEFAULTTYPE)) {
+			ColorBackground background;
+			if(button.isShowButton()){
+				this.rebuid();
+				background = ColorBackground.getInstance(CHOOSED_GRAL);
+				this.setContentBackground(background);
+			}else{
+				this.rebuid();
+				background = ColorBackground.getInstance(NORMAL_GRAL);
+				this.setContentBackground(background);
+			}
+		}
 	}
 	
 	//画标题
@@ -279,10 +308,12 @@ public class XCardSwitchButton extends XButton {
 		label.setForeground(font.getForeground());
 		Background background = title.getBackground();
 		if (background != null) {
-			if(button.isShowButton()){
-	        	background = ColorBackground.getInstance(CHOOSED_GRAL);
-	        	this.setContentBackground(background);
-			}else{
+			if(button.isShowButton() && selectBackground != null){
+				this.setContentBackground(selectBackground);
+			}else if (button.isShowButton() && selectBackground == null){
+				background = ColorBackground.getInstance(CHOOSED_GRAL);
+				this.setContentBackground(background);
+			} else {
 				this.setContentBackground(background);
 			}
 		}
