@@ -148,7 +148,6 @@ public class XCardAddButton extends XButton{
     	//设置标题
     	titleButton.setText(getTabTitleName());
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton,dimension,cardLayout,tagLayout);
-    	titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
 
@@ -162,6 +161,8 @@ public class XCardAddButton extends XButton{
 	private void showNewTab(EditingMouseListener editingMouseListener,int index){
 		SelectionModel selectionModel = editingMouseListener.getSelectionModel();
 		XWTabFitLayout tabFitLayout = (XWTabFitLayout) cardLayout.getComponent(index);
+		XCardSwitchButton xCardSwitchButton = (XCardSwitchButton) this.tagLayout.getComponent(index);
+		tabFitLayout.setxCardSwitchButton(xCardSwitchButton);
 		selectionModel.setSelectedCreator(tabFitLayout);
 	}
 	
