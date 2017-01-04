@@ -47,8 +47,8 @@ public class XCardSwitchButton extends XButton {
 	
 	private static final int LEFT_GAP = 16;
 	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
-	private static String COLORBACKGROUNDTYPE = "ColorBackground";
-	private static String DEFAULTTYPE = "default";
+	private static final String COLORBACKGROUNDTYPE = "ColorBackground";
+	private static final String DEFAULTTYPE = "default";
 
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
 	public static final Color CHOOSED_GRAL = new Color(222,222,222);
