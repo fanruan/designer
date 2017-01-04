@@ -59,7 +59,7 @@ public class XCardSwitchButton extends XButton {
 	private static final int FONT_SIZE_ADJUST = 2;
 
 	private Background selectBackground;
-	protected boolean isCustomStyle;
+	private boolean isCustomStyle;
 	
 	
 	
