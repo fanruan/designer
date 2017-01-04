@@ -46,6 +46,10 @@ public class XCardSwitchButton extends XButton {
 	private XWCardTagLayout tagLayout;
 	
 	private static final int LEFT_GAP = 16;
+	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
+	private static String COLORBACKGROUNDTYPE = "ColorBackground";
+	private static String DEFAULTTYPE = "default";
+
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
 	public static final Color CHOOSED_GRAL = new Color(222,222,222);
 	
@@ -60,12 +64,7 @@ public class XCardSwitchButton extends XButton {
 
 	private Background selectBackground;
 	private boolean isCustomStyle;
-	
-	
-	
-	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
-	private static String COLORBACKGROUNDTYPE = "ColorBackground";
-	private static String DEFAULTTYPE = "default";
+
 
 	private Icon closeIcon = MOUSE_COLSE;
 	
