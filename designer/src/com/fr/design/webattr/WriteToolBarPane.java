@@ -76,7 +76,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{colorBox, colorButton}, FlowLayout.LEFT));
 
-        unloadCheck = new UICheckBox(Inter.getLocText(new String[]{"Event-unloadcheck", "Tooltips"}));
+        unloadCheck = new UICheckBox(Inter.getLocText("FR-Designer_Unload_Check"));
         unloadCheck.setSelected(true);
 
         showWidgets = new UICheckBox(Inter.getLocText("FR-Designer_Event_ShowWidgets"));
