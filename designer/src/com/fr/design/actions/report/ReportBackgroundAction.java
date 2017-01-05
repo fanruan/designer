@@ -5,6 +5,7 @@ package com.fr.design.actions.report;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.BasicDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ReportComponent;
 import com.fr.design.menu.KeySetUtils;

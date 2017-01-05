@@ -68,8 +68,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		
 		buttonPane = new ChartTypeButtonPane(this);
 		content.add(buttonPane, BorderLayout.NORTH);
-		
-		chartTypePane = new ComboBoxPane();
+
+		if (editingCollection != null) {
+			relayoutChartTypePane(editingCollection);
+		}else {
+			chartTypePane = new ComboBoxPane();
+		}
+
 		BasicScrollPane scrollPane = new BasicScrollPane() {
 			@Override
 			protected JPanel createContentPane() {
@@ -192,7 +197,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			});
 		}
 
-		public void reactor(ChartCollection collection){
+		public void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
 			Chart chart = collection.getSelectedChart();
 			String chartID = chart.getPriority();
@@ -201,6 +206,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			}
 			//第一步就是重构cardNames
 			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
+			//下拉框重构开始。为了防止重构是触发update
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.REACTOR);
 			//重构下拉框选项
 			reactorComboBox();
 			//重新选择选中的下拉项
@@ -208,6 +215,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String plotID = chart.getPlot().getPlotID();
 			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
+			//下拉框重构结束
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.DEFAULT);
 			//重新选中
 			checkPlotPane();
 		}
@@ -218,13 +227,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		private void reactorComboBox() {
-			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
-			fcb.setItemEvenType(ItemEventType.REACTOR);
-			fcb.removeAllItems();
+			jcb.removeAllItems();
 			for (int i = 0; i < this.cardNames.length; i++) {
-				fcb.addItem(cardNames[i]);
+				jcb.addItem(cardNames[i]);
 			}
-			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
 
 		@Override
@@ -278,9 +284,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	}
 
 
-	public void reactorChartTypePane(ChartCollection collection){
-		if (needReactor(collection)) {
-			chartTypePane.reactor(collection);
+	public void relayoutChartTypePane(ChartCollection collection){
+		if (needRelayout(collection)) {
+			chartTypePane.relayout(collection);
 			//设置面板切换状态
 			updatePaneState(collection);
 		}
@@ -292,7 +298,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	}
 
 	// TODO: 2016/11/17 因为现在populate面板时会重新构造面板，所以每次都需要重构
-	private boolean needReactor(ChartCollection collection) {
+	private boolean needRelayout(ChartCollection collection) {
 		/*return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();*/
 		return true;
 	}
@@ -301,14 +307,14 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * 更新界面属性 用于展示
 	 */
 	public void populate(ChartCollection collection) {
+		editingCollection = collection;
+
 		Chart chart = collection.getSelectedChart();
 		this.remove(leftContentPane);
 		initContentPane();
 
 		buttonPane.populateBean(collection);
 		chartTypePane.populateBean(chart);
-		//remove面板之后，就需要重构下拉框
-		reactorChartTypePane(collection);
 
 		this.initAllListeners();
 	}

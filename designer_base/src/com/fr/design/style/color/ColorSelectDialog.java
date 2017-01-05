@@ -91,8 +91,8 @@ public class ColorSelectDialog extends MiddleChartDialog{
     	
     	this.add(buttonPane, BorderLayout.SOUTH);
     	
-    	ok = new UIButton(Inter.getLocText("OK"));
-    	cancel = new UIButton(Inter.getLocText("Cancel"));
+    	ok = new UIButton(Inter.getLocText("FR-Designer_Button_OK"));
+    	cancel = new UIButton(Inter.getLocText("FR-Designer_Button_Cancel"));
     	
     	buttonPane.add(ok);
     	buttonPane.add(cancel);
