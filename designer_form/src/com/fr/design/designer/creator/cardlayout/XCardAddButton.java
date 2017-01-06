@@ -1,13 +1,12 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -147,6 +146,7 @@ public class XCardAddButton extends XButton{
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
     	//设置标题
     	titleButton.setText(getTabTitleName());
+        titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton,dimension,cardLayout,tagLayout);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
