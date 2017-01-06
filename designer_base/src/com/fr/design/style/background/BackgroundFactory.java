@@ -34,32 +34,32 @@ public class BackgroundFactory {
 
     private static void registerUniversal(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
-                .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("Background-Null")));
+                .setType(NullBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Null")));
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("Color")));
+                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
         map.put(TextureBackground.class, BackgroundUIWrapper.create()
-                .setType(TextureBackgroundPane.class).setTitle(Inter.getLocText("Background-Texture")));
+                .setType(TextureBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Texture")));
         map.put(PatternBackground.class, BackgroundUIWrapper.create()
-                .setType(PatternBackgroundPane.class).setTitle(Inter.getLocText("Background-Pattern")));
+                .setType(PatternBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Pattern")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("Gradient-Color")));
+                .setType(GradientBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Gradient_Color")));
     }
 
     private static void registerImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("Image")));
+                .setType(ImageBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
     private static void registerBrowserImageBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(ImageBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("Image")));
+                .setType(ImageBackgroundPane4Browser.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
     }
 
     private static void registerButtonBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map){
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("Color")));
+                .setType(ColorBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Color")));
         map.put(ImageBackground.class, BackgroundUIWrapper.create()
-                .setType(ImageButtonBackgroundPane.class).setTitle(Inter.getLocText("Image")));
+                .setType(ImageButtonBackgroundPane.class).setTitle(Inter.getLocText("FR-Designer_Background_Image")));
 
     }
 

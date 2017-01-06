@@ -34,10 +34,10 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
     private ImageFileChooser imageFileChooser = null;
     protected UILabel imageSizeLabel = new UILabel();
 
-    protected JRadioButton defaultRadioButton = null;
-    protected JRadioButton tiledRadioButton = null;
-    private JRadioButton extendRadioButton = null;
-    private JRadioButton adjustRadioButton = null;
+    protected UIRadioButton defaultRadioButton = null;
+    protected UIRadioButton tiledRadioButton = null;
+    private UIRadioButton extendRadioButton = null;
+    private UIRadioButton adjustRadioButton = null;
 
     public ImageBackgroundPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -46,7 +46,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(previewContainerPane, BorderLayout.CENTER);
 
-        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Preview"));
+        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Preview"));
         previewOwnerPane.setLayout(new BorderLayout());
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
         previewContainerPane.add(initSelectFilePane(), BorderLayout.EAST);
@@ -66,7 +66,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
 
         UIButton selectPictureButton = new UIButton(
-                Inter.getLocText("Image-Select_Picture"));
+                Inter.getLocText("FR-Designer_Background_Image_Select"));
         selectFilePane.add(selectPictureButton, BorderLayout.NORTH);
         selectPictureButton.setMnemonic('S');
         selectPictureButton.addActionListener(selectPictureActionListener);
@@ -74,10 +74,10 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.add(layoutPane, BorderLayout.CENTER);
 
         //布局
-        defaultRadioButton = new UIRadioButton(Inter.getLocText("Default"));
-        tiledRadioButton = new UIRadioButton(Inter.getLocText("Image-Titled"));
-        extendRadioButton = new UIRadioButton(Inter.getLocText("Image-Extend"));
-        adjustRadioButton = new UIRadioButton(Inter.getLocText("Image-Adjust"));
+        defaultRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer-StyleAlignment_Layout_Default"));
+        tiledRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer-StyleAlignment_Layout_Image_Titled"));
+        extendRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer-StyleAlignment_Layout_Image_Extend"));
+        adjustRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer-StyleAlignment_Layout_Image_Adjust"));
 
         defaultRadioButton.addActionListener(layoutActionListener);
         tiledRadioButton.addActionListener(layoutActionListener);
@@ -85,7 +85,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         adjustRadioButton.addActionListener(layoutActionListener);
 
         JPanel jp = new JPanel(new GridLayout(4, 1, 15, 15));
-        for (JRadioButton button : imageLayoutButtons()) {
+        for (UIRadioButton button : imageLayoutButtons()) {
             jp.add(button);
         }
         layoutPane.add(jp);
@@ -100,8 +100,8 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         return selectFilePane;
     }
 
-    protected JRadioButton[] imageLayoutButtons() {
-        return new JRadioButton[]{
+    protected UIRadioButton[] imageLayoutButtons() {
+        return new UIRadioButton[]{
                 defaultRadioButton,
                 tiledRadioButton,
                 extendRadioButton,

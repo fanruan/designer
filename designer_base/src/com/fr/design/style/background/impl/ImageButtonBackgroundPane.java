@@ -1,6 +1,5 @@
 package com.fr.design.style.background.impl;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ImageBackground;
 import com.fr.design.gui.ibutton.UIButton;
@@ -45,9 +44,9 @@ public class ImageButtonBackgroundPane extends ImageBackgroundPane {
     }
 
     private void initButton() {
-        chooseButton = new UIButton(Inter.getLocText("Image-Select_Picture"));
+        chooseButton = new UIButton(Inter.getLocText("FR-Designer_Background_Image_Select"));
         chooseButton.addActionListener(selectPictureActionListener);
-        clearButton = new UIButton(Inter.getLocText("Clear"));
+        clearButton = new UIButton(Inter.getLocText("FR-Designer_Background_Clear"));
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 previewPane.setImage(null);
