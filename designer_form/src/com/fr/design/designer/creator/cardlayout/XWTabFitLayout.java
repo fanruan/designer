@@ -42,7 +42,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
-	public static final Color CHOOSED_GRAL = new Color(222,222,222);
+	private static final String WIDGET_NAME = "widgetName";
+	private static final String MARGIN = "margin";
 	private Dimension referDim;
 	private Background initialBackground;
 	private Background overBackground;
@@ -105,7 +106,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		checkButonType();
 		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
-		return ArrayUtils.addAll(super.supportedDescriptor(), crp);
+		return ArrayUtils.addAll(defaultDescriptor(), crp);
 	}
 
 	protected CRPropertyDescriptor[] getisCustomStyle() throws IntrospectionException {
@@ -193,6 +194,23 @@ public class XWTabFitLayout extends XWFitLayout {
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		return crPropertyDescriptors[i];
+	}
+
+	protected CRPropertyDescriptor[] defaultDescriptor() throws IntrospectionException {
+		if (super.supportedDescriptor().length < 3) {
+			return null;
+		}
+		CRPropertyDescriptor[] crPropertyDescriptors = {
+				super.supportedDescriptor()[0],
+				super.supportedDescriptor()[2]
+		};
+		CRPropertyDescriptor widgetName = super.supportedDescriptor()[0];
+		CRPropertyDescriptor margin = super.supportedDescriptor()[2];
+		if (widgetName.getName().equals(WIDGET_NAME) && margin.getName().equals(MARGIN)) {
+			return crPropertyDescriptors;
+		} else {
+			return null;
+		}
 	}
 
 	private void checkButonType() {
