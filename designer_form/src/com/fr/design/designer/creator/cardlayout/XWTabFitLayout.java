@@ -197,20 +197,11 @@ public class XWTabFitLayout extends XWFitLayout {
 	}
 
 	protected CRPropertyDescriptor[] defaultDescriptor() throws IntrospectionException {
-		if (super.supportedDescriptor().length < 3) {
-			return null;
-		}
 		CRPropertyDescriptor[] crPropertyDescriptors = {
-				super.supportedDescriptor()[0],
-				super.supportedDescriptor()[2]
+				super.createWidgetNameDescriptor(),
+				super.createMarginDescriptor()
 		};
-		CRPropertyDescriptor widgetName = super.supportedDescriptor()[0];
-		CRPropertyDescriptor margin = super.supportedDescriptor()[2];
-		if (widgetName.getName().equals(WIDGET_NAME) && margin.getName().equals(MARGIN)) {
-			return crPropertyDescriptors;
-		} else {
-			return null;
-		}
+		return crPropertyDescriptors;
 	}
 
 	private void checkButonType() {
