@@ -11,6 +11,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -71,6 +72,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     public void populate(FRFont frFont) {
+        UIObserverListener listener = fontNameComboBox == null ? null : fontNameComboBox.getUiObserverListener();
         removeAllComboBoxListener();
         if (frFont == null) {
             return;
@@ -84,11 +86,19 @@ public class ChartTextAttrPane extends BasicPane {
         if (fontColor != null) {
             fontColor.setColor(frFont.getForeground());
         }
+
+        //更新结束后，注册监听器
+        registerAllComboBoxListener(listener);
     }
 
     private void removeAllComboBoxListener() {
         fontNameComboBox.removeChangeListener();
         fontSizeComboBox.removeChangeListener();
+    }
+
+    private void registerAllComboBoxListener(UIObserverListener listener) {
+        fontNameComboBox.registerChangeListener(listener);
+        fontSizeComboBox.registerChangeListener(listener);
     }
 
     /**
