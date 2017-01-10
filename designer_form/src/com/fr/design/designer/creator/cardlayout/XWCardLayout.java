@@ -198,8 +198,7 @@ public class XWCardLayout extends XLayoutContainer {
 		firstBtn.setText(Inter.getLocText("FR-Designer_Title") + 0);
 		firstBtn.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
 		xTag.setCurrentCard(firstBtn);
-		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1),this,xTag);
-		firstBtn.setCustomStyle(true);
+		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1), this, xTag);
 		xFirstBtn.setBackupParent(xTag);
 		
 		return xFirstBtn;
