@@ -374,7 +374,7 @@ public class XCardSwitchButton extends XButton {
 			this.setSize(dimension);
 			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
-			tempCard.setDefaultWidth(cardWidth);
+			//tempCard.setDefaultWidth(cardWidth);
 		}
 	}
 
