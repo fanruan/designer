@@ -27,6 +27,7 @@ import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
+import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -41,11 +42,12 @@ public class XWTabFitLayout extends XWFitLayout {
 	private static final int MIN_SIZE = 1;
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
-	public static final Color NORMAL_GRAL = new Color(236,236,236);
+	private static final Color NORMAL_GRAL = new Color(236,236,236);
 	private Dimension referDim;
 	private Background initialBackground;
 	private Background overBackground;
 	private Background clickBackground;
+	private FRFont font;
 	private XCardSwitchButton xCardSwitchButton;
 
 	public Dimension getReferDim() {
@@ -78,6 +80,15 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	public void setClickBackground(Background clickBackground) {
 		this.clickBackground = clickBackground;
+	}
+
+	@Override
+	public FRFont getFont() {
+		return font;
+	}
+
+	public void setFont(FRFont font) {
+		this.font = font;
 	}
 
 	public XCardSwitchButton getxCardSwitchButton() {
