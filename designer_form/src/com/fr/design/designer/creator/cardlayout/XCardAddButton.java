@@ -31,7 +31,7 @@ public class XCardAddButton extends XButton{
 	
 	private static final int START_INDEX = 3;
 	private static final int INDEX = 0;
-	
+	private static final int DEFAULT_BUTTON_WIDTH = 80;
 	
 	private static Icon ADD_ICON = BaseUtils.readIcon("/com/fr/design/form/images/add.png");
 	private Icon addIcon = ADD_ICON;
@@ -139,8 +139,7 @@ public class XCardAddButton extends XButton{
 	//新增tab
 	private void addTab(int index){
 		Dimension dimension = new Dimension();
-		XCardSwitchButton button = (XCardSwitchButton) this.tagLayout.getComponent(INDEX);
-		dimension.width = button.getWidth();
+		dimension.width = DEFAULT_BUTTON_WIDTH;
     	
 		String cardLayoutName = cardLayout.toData().getWidgetName();
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);

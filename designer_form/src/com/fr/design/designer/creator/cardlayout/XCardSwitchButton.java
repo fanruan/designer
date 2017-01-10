@@ -3,13 +3,11 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -34,6 +32,7 @@ import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import sun.font.FontDesignMetrics;
 
 /**
  *
@@ -338,4 +337,48 @@ public class XCardSwitchButton extends XButton {
 		return this.getBackupParent().getTopLayout();
 	}
 	
+    public void setTabsAndAdjust() {
+        if (this.tagLayout == null) {
+            return;
+        }
+        int tabLength = this.tagLayout.getComponentCount();
+        Map<Integer, Integer> cardWidth = new HashMap<>();
+        Map<Integer, Integer> cardHeight = new HashMap<>();
+        for (int i = 0; i < tabLength; i++) {
+            XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
+            CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
+            String tempText = tempCard.getText();
+            Font f = ((CardSwitchButton)this.toData()).getFont();
+            FontMetrics fm = FontDesignMetrics.getMetrics(f);
+            cardWidth.put(i,fm.stringWidth(tempText));
+            cardHeight.put(i,fm.getHeight());
+        }
+        adjustTabs(tabLength, cardWidth, cardHeight);
+    }
+    
+    public void adjustTabs(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+        int tempX = 0;
+        for (int i = 0; i < tabLength; i++) {
+            Rectangle rectangle = this.tagLayout.getComponent(i).getBounds();
+            Integer cardWidth = width.get(i) + SIDE_OFFSET;
+            Integer cardHeight = height.get(i) + HEIGHT_OFFSET;
+            rectangle.setSize(cardWidth, cardHeight);
+            rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
+            tempX += cardWidth;
+            this.tagLayout.getComponent(i).setBounds(rectangle);
+            Dimension dimension = new Dimension();
+            dimension.setSize(cardWidth, cardHeight);
+            this.getContentLabel().setSize(dimension);
+            this.setSize(dimension);
+            XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
+            CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
+            tempCard.setDefaultWidth(cardWidth);
+        }
+    }
+    
+    @Override
+    public void doLayout() {
+        super.doLayout();
+        setTabsAndAdjust();
+    }
 }
