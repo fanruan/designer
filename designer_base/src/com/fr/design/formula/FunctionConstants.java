@@ -11,6 +11,8 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.fun.FunctionGroupDefineProvider;
+import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.script.Function;
 import com.fr.stable.script.FunctionDef;
 
@@ -96,7 +98,13 @@ public abstract class FunctionConstants {
 			}
             Collections.addAll(all, PLUGIN.getDescriptions());
             Collections.addAll(all, CUSTOM.getDescriptions());
-			
+            //hugh:自定义函数分组
+            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionGroupDefineProvider.MARK_STRING);
+            if(!groups.isEmpty()){
+            	for(Mutable group : groups){
+            		Collections.addAll(all, ((FunctionGroup)group).getDescriptions());
+            	}
+            }
 			java.util.Collections.sort(all, NameAndDescriptionComparator);
 			
 			return all.toArray(new NameAndDescription[all.size()]);
