@@ -70,7 +70,7 @@ public class NormalChartDataPane extends DataContentsPane {
 
 					@Override
 					protected List<FurtherBasicBeanPane<? extends ChartCollection>> initPaneList() {
-						tableDataPane = new TableDataPane(parent);
+						tableDataPane = getTableDataPane(parent);
 						reportDataPane = new ReportDataPane(parent);
 						List<FurtherBasicBeanPane<? extends ChartCollection>> paneList = new ArrayList<FurtherBasicBeanPane<? extends ChartCollection>>();
 						paneList.add(tableDataPane);
@@ -94,6 +94,10 @@ public class NormalChartDataPane extends DataContentsPane {
 			}
 		};
 
+	}
+
+	protected TableDataPane getTableDataPane(ChartDataPane chartDataPane) {
+		return new TableDataPane(chartDataPane);
 	}
 
 	/**
