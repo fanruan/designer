@@ -11,6 +11,7 @@ import java.util.*;
 import javax.swing.*;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -353,7 +354,7 @@ public class XCardSwitchButton extends XButton {
 			CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
 			String tempText = tempCard.getText();
 			Font f = ((CardSwitchButton)this.toData()).getFont();
-			FontMetrics fm = Toolkit.getDefaultToolkit().getFontMetrics(f);
+			FontMetrics fm = GraphHelper.getFontMetrics(f);
 			cardWidth.put(i,fm.stringWidth(tempText));
 			cardHeight.put(i,fm.getHeight());
 		}
