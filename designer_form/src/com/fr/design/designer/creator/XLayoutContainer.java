@@ -10,8 +10,6 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.design.parameter.ParameterBridge;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WLayout;
@@ -80,6 +78,27 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                     };
 	}
+
+    /**
+     * 控件名属性
+     * @return
+     * @throws IntrospectionException
+     */
+    public CRPropertyDescriptor createWidgetNameDescriptor() throws IntrospectionException {
+        return new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
+                .getLocText("FR-Designer_Form-Widget_Name"));
+    }
+
+    /**
+     * 边距属性
+     * @return
+     * @throws IntrospectionException
+     */
+    public CRPropertyDescriptor createMarginDescriptor() throws IntrospectionException {
+        return new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
+                .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+    }
 
     /**
      *   返回对应的wlayout

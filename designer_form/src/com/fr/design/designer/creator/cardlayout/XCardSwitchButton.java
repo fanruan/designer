@@ -6,8 +6,7 @@ package com.fr.design.designer.creator.cardlayout;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -58,6 +57,9 @@ public class XCardSwitchButton extends XButton {
 	private static final int RIGHT_OFFSET = 15;
 	private static final int TOP_OFFSET = 25;
 
+	//这边先不计算button的高度,涉及到layout那边的整体高度,先用之前的固定高度
+	private static final int DEFAULT_BUTTON_HEIGHT = 36;
+
 	// tab按钮里的字体因为按钮内部的布局看起来比正常的要小，加个调整量
 	private static final int FONT_SIZE_ADJUST = 2;
 
@@ -69,7 +71,6 @@ public class XCardSwitchButton extends XButton {
 
 	private Background selectBackground;
 	private boolean isCustomStyle;
-
 
 	private Icon closeIcon = MOUSE_COLSE;
 	
@@ -169,6 +170,7 @@ public class XCardSwitchButton extends XButton {
 			editingMouseListener.startEditing(this,
 					adapter.getDesignerEditor(), adapter);
 		}
+		setTabsAndAdjust();
 	}
 	
 	//删除card，同时修改其他switchbutton和tabfit的index
@@ -258,6 +260,7 @@ public class XCardSwitchButton extends XButton {
 	
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+		setTabsAndAdjust();
         Graphics2D g2d = (Graphics2D) g;
         drawBackgorund();
         drawTitle();
@@ -359,22 +362,27 @@ public class XCardSwitchButton extends XButton {
 	}
 
 	public void adjustTabs(int tabLength, Map<Integer, Integer> width, Map<Integer, Integer> height) {
+		if (width == null) {
+			return;
+		}
 		int tempX = 0;
 		for (int i = 0; i < tabLength; i++) {
-		Rectangle rectangle = this.tagLayout.getComponent(i).getBounds();
+			Rectangle rectangle = this.tagLayout.getComponent(i).getBounds();
 			Integer cardWidth = width.get(i) + SIDE_OFFSET;
-			Integer cardHeight = height.get(i) + HEIGHT_OFFSET;
+			//先用这边的固定高度
+			Integer cardHeight = DEFAULT_BUTTON_HEIGHT;
 			rectangle.setSize(cardWidth, cardHeight);
 			rectangle.setBounds(tempX, 0, cardWidth, cardHeight);
 			tempX += cardWidth;
 			this.tagLayout.getComponent(i).setBounds(rectangle);
 			Dimension dimension = new Dimension();
 			dimension.setSize(cardWidth, cardHeight);
-			this.getContentLabel().setSize(dimension);
-			this.setSize(dimension);
 			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
-			CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
-			//tempCard.setDefaultWidth(cardWidth);
+			UILabel label = temp.getContentLabel();
+			label.setSize(dimension);
+			temp.setContentLabel(label);
+			temp.setSize(dimension);
+			temp.setPreferredSize(new Dimension(cardWidth, cardHeight));
 		}
 	}
 
