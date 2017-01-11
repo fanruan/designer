@@ -1,4 +1,4 @@
-package com.fr.design.formula;
+package com.fr.design.fun;
 
 import com.fr.design.formula.FunctionGroup;
 import com.fr.stable.fun.mark.Mutable;
