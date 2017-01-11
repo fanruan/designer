@@ -31,7 +31,6 @@ import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
-import sun.font.FontDesignMetrics;
 
 /**
  *
@@ -354,7 +353,7 @@ public class XCardSwitchButton extends XButton {
 			CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
 			String tempText = tempCard.getText();
 			Font f = ((CardSwitchButton)this.toData()).getFont();
-			FontMetrics fm = FontDesignMetrics.getMetrics(f);
+			FontMetrics fm = Toolkit.getDefaultToolkit().getFontMetrics(f);
 			cardWidth.put(i,fm.stringWidth(tempText));
 			cardHeight.put(i,fm.getHeight());
 		}
