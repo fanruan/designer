@@ -62,6 +62,8 @@ public class XCardSwitchButton extends XButton {
 	// tab按钮里的字体因为按钮内部的布局看起来比正常的要小，加个调整量
 	private static final int FONT_SIZE_ADJUST = 2;
 
+	private static final int SIDE_OFFSET = 57;
+
 	private XWCardLayout cardLayout;
 	private XWCardTagLayout tagLayout;
 
