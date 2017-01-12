@@ -1,7 +1,6 @@
 package com.fr.design.formula;
 
 import com.fr.base.FRContext;
-import com.fr.design.fun.FunctionGroupDefineProvider;
 import com.fr.file.FunctionManager;
 import com.fr.file.FunctionManagerProvider;
 import com.fr.function.*;
@@ -99,7 +98,7 @@ public abstract class FunctionConstants {
             Collections.addAll(all, PLUGIN.getDescriptions());
             Collections.addAll(all, CUSTOM.getDescriptions());
             //hugh:自定义函数分组
-            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionGroupDefineProvider.MARK_STRING);
+            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionGroup.MARK_STRING);
             if(!groups.isEmpty()){
             	for(Mutable group : groups){
             		Collections.addAll(all, ((FunctionGroup)group).getDescriptions());
