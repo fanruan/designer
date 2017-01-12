@@ -1,6 +1,7 @@
 package com.fr.design.formula;
 
 import com.fr.base.FRContext;
+import com.fr.design.fun.FunctionGroupDefineProvider;
 import com.fr.file.FunctionManager;
 import com.fr.file.FunctionManagerProvider;
 import com.fr.function.*;
@@ -11,7 +12,6 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.fun.FunctionGroupDefineProvider;
 import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.script.Function;
 import com.fr.stable.script.FunctionDef;
