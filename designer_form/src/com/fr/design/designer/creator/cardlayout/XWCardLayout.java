@@ -287,7 +287,7 @@ public class XWCardLayout extends XLayoutContainer {
 				new CRPropertyDescriptor("carousel", this.data.getClass())
 					.setEditorClass(BooleanEditor.class)
 					.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
-					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Tab_carousel")
+					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
 					.setPropertyChangeListener(new PropertyChangeAdapter() {
 						@Override
 						public void propertyChange() {
@@ -298,7 +298,7 @@ public class XWCardLayout extends XLayoutContainer {
 				new CRPropertyDescriptor("carouselInterval", this.data.getClass())
 					.setEditorClass(DoubleEditor.class)
 					.setI18NName(Inter.getLocText("FR-Designer_carouselInterval"))
-					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Tab_carousel")
+					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
 		};
 	}
 
@@ -307,7 +307,7 @@ public class XWCardLayout extends XLayoutContainer {
 				new CRPropertyDescriptor("carousel", this.data.getClass())
 						.setEditorClass(BooleanEditor.class)
 						.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Tab_carousel")
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 					@Override
 					public void propertyChange() {
