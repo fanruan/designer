@@ -126,7 +126,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 
 		popupWin = this.getColorControlWindow();
 
-		GUICoreUtils.showPopupMenu(popupWin, this, 0, this.getSize().height);
+		GUICoreUtils.showPopupMenu(popupWin, this, -70, this.getSize().height);
 	}
 
 	/**
