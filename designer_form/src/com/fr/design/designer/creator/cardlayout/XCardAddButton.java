@@ -1,13 +1,12 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -32,6 +31,7 @@ public class XCardAddButton extends XButton{
 	
 	private static final int START_INDEX = 3;
 	private static final int INDEX = 0;
+	private static final int DEFAULT_BUTTON_WIDTH = 80;
 	
 	
 	private static Icon ADD_ICON = BaseUtils.readIcon("/com/fr/design/form/images/add.png");
@@ -140,18 +140,18 @@ public class XCardAddButton extends XButton{
 	//新增tab
 	private void addTab(int index){
 		Dimension dimension = new Dimension();
-		XCardSwitchButton button = (XCardSwitchButton) this.tagLayout.getComponent(INDEX);
-		dimension.width = button.getWidth();
+		dimension.width = DEFAULT_BUTTON_WIDTH;
     	
 		String cardLayoutName = cardLayout.toData().getWidgetName();
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
     	//设置标题
     	titleButton.setText(getTabTitleName());
-    	XCardSwitchButton showButton = new XCardSwitchButton(titleButton,dimension,cardLayout,tagLayout);
+		titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
+    	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
+		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
 
-    	
     	this.tagLayout.setCurrentCard(titleButton);
     	this.tagLayout.setTabFitIndex(index);
     	this.tagLayout.add(showButton);
