@@ -5,6 +5,7 @@ import java.beans.IntrospectionException;
 
 import javax.swing.border.Border;
 
+import com.fr.base.ScreenResolution;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -15,6 +16,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
@@ -164,6 +166,13 @@ public class XWTabFitLayout extends XWFitLayout {
 						new PropertyChangeAdapter() {
 							@Override
 							public void propertyChange() {
+								font = ((WTabFitLayout) data).getFont();
+								CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+								cardSwitchButton.setFont(font);
+								UILabel uiLabel = xCardSwitchButton.getLabel();
+								uiLabel.setFont(font.applyResolutionNP(ScreenResolution.getScreenResolution()));
+								uiLabel.setForeground(font.getForeground());
+								xCardSwitchButton.setLabel(uiLabel);
 							}
 						}),
 		};
