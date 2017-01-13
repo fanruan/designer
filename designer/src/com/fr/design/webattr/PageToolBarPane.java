@@ -27,8 +27,8 @@ import java.util.List;
 
 public class PageToolBarPane extends AbstractEditToolBarPane {
 	
-	private UIRadioButton centerRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Center", "Display"}));
-	private UIRadioButton leftRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Left", "Display"}));
+	private UIRadioButton centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
+	private UIRadioButton leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
 	
 	private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar"));
 	private UICheckBox isShowAsImageBox;

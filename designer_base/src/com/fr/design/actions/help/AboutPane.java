@@ -3,6 +3,7 @@
  */
 package com.fr.design.actions.help;
 
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
@@ -26,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
+import java.util.Locale;
 
 public class AboutPane extends JPanel {
     private static final String FINEREPORT = "FineReport";
@@ -66,12 +68,17 @@ public class AboutPane extends JPanel {
                         Inter.getLocText("FR-Designer-Basic_Activation_Key_Copy_OK")
                 }));
 
-        if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
-            boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
+        // 英文去掉服务电话和 QQ
+        if (FRContext.getLocale() == Locale.ENGLISH || FRContext.getLocale() == Locale.US || FRContext.getLocale() == Locale.UK){
+            // do nothing
+        } else {
+            if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
+                boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
+                contentPane.add(boxCenterAlignmentPane);
+            }
+            boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ:" + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
             contentPane.add(boxCenterAlignmentPane);
         }
-        boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ:" + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
-        contentPane.add(boxCenterAlignmentPane);
 
         BoxCenterAligmentPane actionLabel = getURLActionLabel(ProductConstants.WEBSITE_URL);
         BoxCenterAligmentPane emailLabel = getEmailActionLabel(ProductConstants.SUPPORT_EMAIL);

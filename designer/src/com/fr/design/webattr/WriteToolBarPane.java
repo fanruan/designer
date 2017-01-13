@@ -39,8 +39,8 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
     private UIRadioButton topRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Top"));
     private UIRadioButton bottomRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Bottom"));
     private UILabel sheetShowLocationLabel = new UILabel("sheet" + Inter.getLocText(new String[]{"Label", "Page_Number", "Display position"}) + ":");
-    private UIRadioButton centerRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Center", "Display"}));
-    private UIRadioButton leftRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Left", "Display"}));
+    private UIRadioButton centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
+    private UIRadioButton leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
     private UILabel rptShowLocationLabel = new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":", UILabel.LEFT);
     private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar"));
     private UIButton editToolBarButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));

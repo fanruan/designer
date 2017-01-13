@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.*;
 
+import com.fr.base.GraphHelper2;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.event.DocumentEvent;
@@ -49,7 +50,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
         //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("Allow_Blank"));
-        allowBlankCheckBox.setPreferredSize(new Dimension(75, 30));
+        allowBlankCheckBox.setPreferredSize(new Dimension(GraphHelper2.locTextStringWidth("Allow_Blank") + 30, 30));
         allowBlankCheckBox.addItemListener(new ItemListener() {
 
             @Override
@@ -128,7 +129,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         JPanel firstPane = GUICoreUtils.createFlowPane(new JComponent[]{allowBlankCheckBox}, FlowLayout.LEFT, 5);
         validatePane.add(firstPane);
         JPanel secondPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), errorMsgTextField}, FlowLayout.LEFT, 24);
-        secondPane.setPreferredSize(new Dimension(310, 23));
+        secondPane.setPreferredSize(new Dimension(400, 23));
         validatePane.add(secondPane);
     }
 

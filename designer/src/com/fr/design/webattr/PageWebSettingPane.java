@@ -36,8 +36,8 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 
 	@Override
 	protected JPanel createOtherSetPane() {
-		centerRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Center", "Display"}));
-		leftRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Left", "Display"}));
+		centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
+		leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
 		ButtonGroup buttonGroup = new ButtonGroup();
 		leftRadioButton.setSelected(true);
 		buttonGroup.add(centerRadioButton);
