@@ -7,11 +7,11 @@ import com.fr.function.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
-import com.fr.script.FunctionDefContainer;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.fun.FunctionDefContainer;
 import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.script.Function;
 import com.fr.stable.script.FunctionDef;
@@ -25,8 +25,49 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public abstract class FunctionConstants {
+import javax.swing.DefaultListModel;
 
+public abstract class FunctionConstants {
+	
+	/**
+	 * 将函数分组插件中的函数添加到对应的列表中
+	 * @param listModel
+	 */
+	public static void addFunctionGroupFromPlugins(DefaultListModel listModel){
+		//hugh:自定义函数分组
+        Set<Mutable> containers = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
+        if(!containers.isEmpty()){
+        	for(Mutable container : containers){
+        		listModel.addElement(createFunctionGroup((FunctionDefContainer)container));
+        	}
+        }
+	}
+	
+	/**
+	 * 创建一个新的分组
+	 * @param container
+	 * @return
+	 */
+	private static FunctionGroup createFunctionGroup(final FunctionDefContainer container){
+		return new FunctionGroup() {
+	        @Override
+	        public String getGroupName() {
+	            return container.getGroupName();
+	        }
+
+	        @Override
+	        public NameAndDescription[] getDescriptions() {
+	            FunctionDef[] fs = container.getFunctionDefs();
+	            int count = fs.length;
+	            FunctionDefNAD[] nads = new FunctionDefNAD[count];
+	            for (int i = 0; i < count; i ++) {
+	                nads[i] = new FunctionDefNAD(fs[i]);
+	            }
+	            return nads;
+	        }
+	    };
+	}
+	
     public static FunctionGroup PLUGIN = new FunctionGroup() {
         @Override
         public String getGroupName() {
