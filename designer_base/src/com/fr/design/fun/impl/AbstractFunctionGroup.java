@@ -3,17 +3,18 @@ package com.fr.design.fun.impl;
 import com.fr.design.formula.FunctionDefNAD;
 import com.fr.design.formula.FunctionGroup;
 import com.fr.design.formula.NameAndDescription;
+import com.fr.script.FunctionDefContainer;
 import com.fr.stable.fun.mark.API;
 import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.script.FunctionDef;
 
 
-@API(level = FunctionGroup.CURRENT_LEVEL)
-public abstract class AbstractFunctionGroup implements Mutable, FunctionGroup {
+@API(level = FunctionDefContainer.CURRENT_LEVEL)
+public abstract class AbstractFunctionGroup implements Mutable, FunctionGroup,FunctionDefContainer {
 	
 	@Override
 	public int currentAPILevel() {
-		return CURRENT_LEVEL;
+		return FunctionDefContainer.CURRENT_LEVEL;
 	}
 	
 	@Override
@@ -32,6 +33,7 @@ public abstract class AbstractFunctionGroup implements Mutable, FunctionGroup {
         return nads;
 	}
 	
+	@Override
 	public FunctionDef[]  getFunctionDefs(){
 		return new FunctionDef[0];
 	}

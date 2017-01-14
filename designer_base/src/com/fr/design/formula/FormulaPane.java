@@ -23,6 +23,7 @@ import com.fr.general.Inter;
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
 import com.fr.plugin.ExtraClassManager;
+import com.fr.script.FunctionDefContainer;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.mark.Mutable;
@@ -619,7 +620,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
              functionTypeListModel.addElement(FunctionConstants.CUSTOM);
              functionTypeListModel.addElement(FunctionConstants.PLUGIN);
              //hugh:自定义函数分组
-             Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionGroup.MARK_STRING);
+             Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
              if(!groups.isEmpty()){
              	for(Mutable group : groups){
              		functionTypeListModel.addElement(group);

@@ -7,6 +7,7 @@ import com.fr.function.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.ExtraClassManager;
+import com.fr.script.FunctionDefContainer;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
@@ -98,7 +99,7 @@ public abstract class FunctionConstants {
             Collections.addAll(all, PLUGIN.getDescriptions());
             Collections.addAll(all, CUSTOM.getDescriptions());
             //hugh:自定义函数分组
-            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionGroup.MARK_STRING);
+            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
             if(!groups.isEmpty()){
             	for(Mutable group : groups){
             		Collections.addAll(all, ((FunctionGroup)group).getDescriptions());
