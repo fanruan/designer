@@ -140,10 +140,10 @@ public abstract class FunctionConstants {
             Collections.addAll(all, PLUGIN.getDescriptions());
             Collections.addAll(all, CUSTOM.getDescriptions());
             //hugh:自定义函数分组
-            Set<Mutable> groups = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
-            if(!groups.isEmpty()){
-            	for(Mutable group : groups){
-            		Collections.addAll(all, ((FunctionGroup)group).getDescriptions());
+            Set<Mutable> containers = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
+            if(!containers.isEmpty()){
+            	for(Mutable container : containers){
+            		Collections.addAll(all,createFunctionGroup(((FunctionDefContainer)container)).getDescriptions());
             	}
             }
 			java.util.Collections.sort(all, NameAndDescriptionComparator);
