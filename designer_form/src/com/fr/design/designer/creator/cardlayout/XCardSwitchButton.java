@@ -12,6 +12,7 @@ import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -70,7 +71,7 @@ public class XCardSwitchButton extends XButton {
 
 	private Background selectBackground;
 	private boolean isCustomStyle;
-
+	private UILabel label;
 
 	private Icon closeIcon = MOUSE_COLSE;
 	
@@ -104,6 +105,14 @@ public class XCardSwitchButton extends XButton {
 
 	public void setSelectBackground(Background selectBackground) {
 		this.selectBackground = selectBackground;
+	}
+
+	public UILabel getLabel() {
+		return label;
+	}
+
+	public void setLabel(UILabel label) {
+		this.label = label;
 	}
 
 	public XCardSwitchButton(CardSwitchButton widget, Dimension initSize) {
@@ -161,7 +170,8 @@ public class XCardSwitchButton extends XButton {
 		
 		// 切换到当前tab按钮对应的tabFitLayout
 		XWTabFitLayout tabFitLayout = (XWTabFitLayout) cardLayout.getComponent(index);
-		tabFitLayout.setxCardSwitchButton(this);
+		XCardSwitchButton xCardSwitchButton = (XCardSwitchButton) this.tagLayout.getComponent(index);
+		tabFitLayout.setxCardSwitchButton(xCardSwitchButton);
 		selectionModel.setSelectedCreator(tabFitLayout);
 		
 		if (editingMouseListener.stopEditing()) {
@@ -307,7 +317,7 @@ public class XCardSwitchButton extends XButton {
 
 		// 标题部分
 		WidgetTitle title = style.getTitle();
-		FRFont font = title.getFrFont();
+		FRFont font = button.getFont();
 		FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
 		UILabel label = this.getContentLabel();
 		label.setFont(newFont);
@@ -377,9 +387,13 @@ public class XCardSwitchButton extends XButton {
 			this.tagLayout.getComponent(i).setBounds(rectangle);
 			Dimension dimension = new Dimension();
 			dimension.setSize(cardWidth, cardHeight);
+			CardSwitchButton cardSwitchButton = (CardSwitchButton) temp.toData();
+			FRFont frFont = cardSwitchButton.getFont();
 			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			UILabel label = temp.getContentLabel();
 			label.setSize(dimension);
+			label.setFont(frFont.applyResolutionNP(ScreenResolution.getScreenResolution()));
+			label.setForeground(frFont.getForeground());
 			temp.setContentLabel(label);
 			temp.setSize(dimension);
 			temp.setPreferredSize(new Dimension(cardWidth, cardHeight));
@@ -391,4 +405,10 @@ public class XCardSwitchButton extends XButton {
         super.doLayout();
         setTabsAndAdjust();
     }
+
+	@Override
+	protected void initXCreatorProperties() {
+		super.initXCreatorProperties();
+		label = this.getContentLabel();
+	}
 }
