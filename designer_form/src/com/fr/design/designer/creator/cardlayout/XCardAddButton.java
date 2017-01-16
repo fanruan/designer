@@ -147,11 +147,11 @@ public class XCardAddButton extends XButton{
     	//设置标题
     	titleButton.setText(getTabTitleName());
 		titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
-    	XCardSwitchButton showButton = new XCardSwitchButton(titleButton,dimension,cardLayout,tagLayout);
+    	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
+		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
 
-    	
     	this.tagLayout.setCurrentCard(titleButton);
     	this.tagLayout.setTabFitIndex(index);
     	this.tagLayout.add(showButton);
