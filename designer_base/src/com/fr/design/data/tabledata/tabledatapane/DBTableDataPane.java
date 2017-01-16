@@ -7,6 +7,7 @@ import com.fr.base.ParameterHelper;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.impl.NameDatabaseConnection;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
@@ -17,6 +18,7 @@ import com.fr.design.data.datapane.sqlpane.SQLEditPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.fun.DBTableDataMenuHandler;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -34,7 +36,6 @@ import com.fr.general.Inter;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -53,11 +54,11 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private ConnectionTableProcedurePane connectionTableProcedurePane;
 	private UITableEditorPane<ParameterProvider> editorPane;
 
+	private DBTableDataMenuHandler dbTableDataMenuHandler;
 	private SQLEditPane sqlTextPane;
 	private UICheckBox isShareCheckBox;
 	private MaxMemRowCountPanel maxPanel;
 	private String pageQuery = null;
-	private String customCountQuery = null;
 
 
 	public DBTableDataPane() {
@@ -149,11 +150,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	}
 
 	private void refresh() {
-		String[] paramTexts = new String[3];
+		String[] paramTexts = new String[2];
 		paramTexts[0] = sqlTextPane.getText();
 		paramTexts[1] = pageQuery;
-		paramTexts[2] = customCountQuery;
-
+		String queryText = null;
 		List<ParameterProvider> existParameterList = editorPane.update();
 		Parameter[] ps = existParameterList == null ? new Parameter[0] : existParameterList.toArray(new Parameter[existParameterList.size()]);
 
@@ -166,8 +166,11 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		toolBarDef.addShortCut(new PreviewAction());
 		toolBarDef.addShortCut(SeparatorDef.DEFAULT);
 		toolBarDef.addShortCut(new EditPageQueryAction());
-		toolBarDef.addShortCut(SeparatorDef.DEFAULT);
-		toolBarDef.addShortCut(new EditCustomCountQueryAction());
+		dbTableDataMenuHandler = ExtraDesignClassManager.getInstance().getSingle(DBTableDataMenuHandler.MARK_STRING);
+		if (dbTableDataMenuHandler != null) {
+			toolBarDef.addShortCut(SeparatorDef.DEFAULT);
+			toolBarDef.addShortCut(dbTableDataMenuHandler.createQueryAction());
+		}
 		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
@@ -179,11 +182,9 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	}
 
 	private void checkParameter() {
-		String[] paramTexts = new String[3];
+		String[] paramTexts = new String[2];
 		paramTexts[0] = sqlTextPane.getText();
 		paramTexts[1] = pageQuery;
-		paramTexts[2] = customCountQuery;
-
 		Parameter[] parameters = ParameterHelper.analyze4Parameters(paramTexts, false);
 
 		if (parameters.length < 1 && editorPane.update().size() < 1) {
@@ -210,6 +211,9 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	@Override
 	public void populateBean(DBTableData dbtabledata) {
+		if (dbTableDataMenuHandler != null) {
+			dbTableDataMenuHandler.setDBTableData(dbtabledata);
+		}
 		ParameterProvider[] parameters = null;
 
 		Calculator c = Calculator.createCalculator();
@@ -227,8 +231,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		isShare = dbtabledata.isShare();
 		maxMemeryRow = dbtabledata.getMaxMemRowCount();
 		this.pageQuery = dbtabledata.getPageQuerySql();
-		this.customCountQuery = dbtabledata.getCustomCountQuery();
-
 		this.connectionTableProcedurePane.setSelectedDatabaseConnection(db);
 		this.sqlTextPane.setText(query);
 		this.sqlTextPane.requestFocus();
@@ -264,8 +266,9 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		dbTableData.setShare(isShareCheckBox.isSelected());
 		dbTableData.setMaxMemRowCount(maxPanel.getValue());
 		dbTableData.setPageQuerySql(this.pageQuery);
-		dbTableData.setCustomCountQuery(this.customCountQuery);
-
+		if (dbTableDataMenuHandler != null) {
+			dbTableData.setCustomCountQuery(dbTableDataMenuHandler.getDbTableData().getCustomCountQuery());
+		}
 		return dbTableData;
 	}
 
@@ -315,28 +318,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 				}
 			});
 			dialog.setVisible(true);
-		}
-	}
-
-	private class EditCustomCountQueryAction extends UpdateAction {
-		public EditCustomCountQueryAction() {
-			this.setName(Inter.getLocText("FR-Designer-LayerPageReport_CustomCountQuery"));
-			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/text.png"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			final QueryPane editPane = new QueryPane(Inter.getLocText("FR-Designer-LayerPageReport_Define_CustomCountQuery"));
-			editPane.populate(customCountQuery);
-			BasicDialog dialog = editPane.showWindow(DesignerContext.getDesignerFrame());
-			dialog.addDialogActionListener(new DialogActionAdapter() {
-				public void doOk() {
-					customCountQuery = editPane.update();
-					checkParameter();
-				}
-			});
-			dialog.setVisible(true);
-
 		}
 	}
 
