@@ -30,12 +30,12 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
         double[] rowSize = {p};
         double[] columnSize = {p, p, p, p, p, p};
 
-        RadioButton defaultRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.DEFAULT.description()), MobileFitAttrState.DEFAULT.getState());
+        RadioButton defaultRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.DEFAULT.description()), MobileFitAttrState.DEFAULT);
         defaultRadio.getRadioButton().setSelected(true);
-        RadioButton horizonRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.HORIZONTAL.description()), MobileFitAttrState.HORIZONTAL.getState());
-        RadioButton verticalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.VERTICAL.description()), MobileFitAttrState.VERTICAL.getState());
-        RadioButton bidirectionalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description()), MobileFitAttrState.BIDIRECTIONAL.getState());
-        RadioButton notFitRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.NONE.description()), MobileFitAttrState.NONE.getState());
+        RadioButton horizonRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.HORIZONTAL.description()), MobileFitAttrState.HORIZONTAL);
+        RadioButton verticalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.VERTICAL.description()), MobileFitAttrState.VERTICAL);
+        RadioButton bidirectionalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description()), MobileFitAttrState.BIDIRECTIONAL);
+        RadioButton notFitRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.NONE.description()), MobileFitAttrState.NONE);
 
         addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
 
@@ -135,9 +135,9 @@ class RadioButton {
     private UIRadioButton radioButton;
     private int index;
 
-    RadioButton(UIRadioButton radioButton, int index) {
+    RadioButton(UIRadioButton radioButton, MobileFitAttrState mobileFitAttrState) {
         this.radioButton = radioButton;
-        this.index = index;
+        this.index = mobileFitAttrState.getState();
     }
 
     public UIRadioButton getRadioButton() {
