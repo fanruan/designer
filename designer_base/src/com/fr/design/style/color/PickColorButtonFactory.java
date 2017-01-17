@@ -2,7 +2,6 @@ package com.fr.design.style.color;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -24,6 +23,7 @@ public class PickColorButtonFactory {
         } else {
             pickColorButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/gui/colorPicker/colorPicker18.png"));
             pickColorButton.setPreferredSize(new Dimension(18, 18));
+            pickColorButton.setBorderPainted(false);
         }
         pickColorButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 

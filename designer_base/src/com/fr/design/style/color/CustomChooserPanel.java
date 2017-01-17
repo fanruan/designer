@@ -713,7 +713,6 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         JPanel buttonPane = new JPanel(new BorderLayout());
         buttonPane.add(pickColorButton, BorderLayout.WEST);
         rightPane.add(buttonPane, BorderLayout.SOUTH);
-//        rightPane.add(pickColorButton, BorderLayout.SOUTH);
         container.add(rightPane);
 
         return container;
