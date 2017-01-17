@@ -395,9 +395,9 @@ public class XCardSwitchButton extends XButton {
 			this.tagLayout.getComponent(i).setBounds(rectangle);
 			Dimension dimension = new Dimension();
 			dimension.setSize(cardWidth, cardHeight);
+			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			CardSwitchButton cardSwitchButton = (CardSwitchButton) temp.toData();
 			FRFont frFont = cardSwitchButton.getFont();
-			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			UILabel label = temp.getContentLabel();
 			label.setSize(dimension);
 			label.setFont(frFont.applyResolutionNP(ScreenResolution.getScreenResolution()));
