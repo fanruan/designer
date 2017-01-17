@@ -153,7 +153,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		String[] paramTexts = new String[2];
 		paramTexts[0] = sqlTextPane.getText();
 		paramTexts[1] = pageQuery;
-		String queryText = null;
 		List<ParameterProvider> existParameterList = editorPane.update();
 		Parameter[] ps = existParameterList == null ? new Parameter[0] : existParameterList.toArray(new Parameter[existParameterList.size()]);
 
