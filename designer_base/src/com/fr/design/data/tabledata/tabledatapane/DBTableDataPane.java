@@ -267,7 +267,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		dbTableData.setMaxMemRowCount(maxPanel.getValue());
 		dbTableData.setPageQuerySql(this.pageQuery);
 		if (dbTableDataMenuHandler != null) {
-			dbTableData.setCustomCountQuery(dbTableDataMenuHandler.getDbTableData().getCustomCountQuery());
+			dbTableData.setDataQueryProcessor(dbTableDataMenuHandler.getDbTableData().getDataQueryProcessor());
 		}
 		return dbTableData;
 	}
