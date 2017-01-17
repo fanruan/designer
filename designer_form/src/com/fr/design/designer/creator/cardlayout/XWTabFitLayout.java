@@ -237,6 +237,9 @@ public class XWTabFitLayout extends XWFitLayout {
 			this.xCardSwitchButton.setCustomStyle(false);
 			this.xCardSwitchButton.setSelectBackground(bg);
 			this.xCardSwitchButton.getLabel().setFont(DEFAULTFT);
+			cardSwitchButton.setInitialBackground(null);
+			cardSwitchButton.setClickBackground(null);
+			cardSwitchButton.setOverBackground(null);
 			cardSwitchButton.setFont(DEFAULT_FRFT);
 		} else {
 			Background initialBackground = cardSwitchButton.getInitialBackground();

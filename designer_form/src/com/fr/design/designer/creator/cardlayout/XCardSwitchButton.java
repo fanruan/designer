@@ -376,7 +376,7 @@ public class XCardSwitchButton extends XButton {
             XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
             String tempText = tempCard.getText();
-            Font f = ((CardSwitchButton)this.toData()).getFont();
+			Font f = tempCard.getFont();
 			FontMetrics fm = GraphHelper.getFontMetrics(f);
             cardWidth.put(i,fm.stringWidth(tempText));
             cardHeight.put(i,fm.getHeight());
