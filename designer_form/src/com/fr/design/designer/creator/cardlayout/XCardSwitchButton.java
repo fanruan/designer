@@ -251,7 +251,9 @@ public class XCardSwitchButton extends XButton {
 		Point position = button.getLocation();
 		int width = button.getWidth();
 		int height = button.getHeight();
-		
+
+		ey = ey % DEFAULT_BUTTON_HEIGHT;
+
 		// 鼠标进入按钮右侧删除图标区域
 		double recX = position.getX() + (width - RIGHT_OFFSET);
 		double recY = position.getY() + (height - TOP_OFFSET);
@@ -337,6 +339,12 @@ public class XCardSwitchButton extends XButton {
 	
 	//删除tab布局
 	private void deleteTabLayout(SelectionModel selectionModel,FormDesigner designer){
+		String titleName = this.getContentLabel().getText();
+		int value = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer_ConfirmDialog_Content") + "“" + titleName + "”",
+				Inter.getLocText("FR-Designer_ConfirmDialog_Title"),JOptionPane.YES_NO_OPTION);
+		if (value != JOptionPane.OK_OPTION) {
+			return;
+		}
 		XLayoutContainer mainLayout = this.cardLayout.getBackupParent();
 		if(mainLayout != null){
 			selectionModel.setSelectedCreator(mainLayout);
