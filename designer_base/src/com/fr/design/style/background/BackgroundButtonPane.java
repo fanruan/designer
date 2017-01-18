@@ -4,8 +4,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 
-import java.util.HashMap;
-
 /**
  * Created by ibm on 2017/1/5.
  */
@@ -52,8 +50,4 @@ public class BackgroundButtonPane extends BackgroundPane {
         return quickPane;
     }
 
-    public void populate(Background background) {
-        cacheMap = new HashMap<>();
-        super.populate(background);
-    }
 }

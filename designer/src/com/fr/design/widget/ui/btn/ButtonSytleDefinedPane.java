@@ -106,9 +106,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
 			editButton.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					if (choosePane == null) {
-						choosePane = new BackgroundButtonPane();
-					}
+					choosePane = new BackgroundButtonPane();
 					BasicDialog dlg = choosePane.showWindow(SwingUtilities
 							.getWindowAncestor(ButtonSytleDefinedPane.this));
 					dlg.addDialogActionListener(new DialogActionAdapter() {
