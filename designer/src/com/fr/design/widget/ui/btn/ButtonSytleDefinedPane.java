@@ -1,12 +1,13 @@
 package com.fr.design.widget.ui.btn;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+
+import com.fr.base.background.ColorBackground;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -18,7 +19,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.gui.frpane.ImgChoosePane;
+import com.fr.design.style.background.BackgroundButtonPane;
 import com.fr.form.ui.FreeButton;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -44,9 +45,9 @@ public class ButtonSytleDefinedPane extends BasicPane {
 
 		JPanel buttonStylePane = new JPanel();
 		buttonStylePane.setLayout(new BorderLayout());
-		initBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Initial") + ":", Inter.getLocText("The_initial_background_of_the_button"));
-		overBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Over") + ":", Inter.getLocText("Mouse_move-background"));
-		clickBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Click") + ":",  Inter.getLocText("Mouse_move-background"));
+		initBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Initial") + ":", Inter.getLocText("FR-Designer_Initial_Background_Tips"));
+		overBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Over") + ":", Inter.getLocText("FR-Designer_Mouse_Move_Tips"));
+		clickBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Click") + ":",  Inter.getLocText("FR-Designer_Mouse_Click_Tips"));
 
 		JPanel table = FRGUIPaneFactory.createYBoxEmptyBorderPane();
 		table.setBorder(new TitledBorder(Inter.getLocText(new String[]{"Custom", "Form-Button", "Style"})));
@@ -84,7 +85,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
 
 	class BackgroundPane extends JPanel {
 		private UIButton editButton;
-		private ImgChoosePane choosePane;
+		private BackgroundButtonPane choosePane;
 		private Background background;
 		private UILabel ImagePreviewPane;
 
@@ -101,13 +102,11 @@ public class ButtonSytleDefinedPane extends BasicPane {
 			ImagePreviewPane.setPreferredSize(new Dimension(100, 20));
 			this.add(ImagePreviewPane);
 
-			editButton = new UIButton(Inter.getLocText("Edit"));
+			editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
 			editButton.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					if (choosePane == null) {
-						choosePane = new ImgChoosePane();
-					}
+					choosePane = new BackgroundButtonPane();
 					BasicDialog dlg = choosePane.showWindow(SwingUtilities
 							.getWindowAncestor(ButtonSytleDefinedPane.this));
 					dlg.addDialogActionListener(new DialogActionAdapter() {
@@ -116,7 +115,10 @@ public class ButtonSytleDefinedPane extends BasicPane {
 							populate(choosePane.update());
 						}
 					});
-					choosePane.populate((ImageBackground) BackgroundPane.this.background);
+					if(BackgroundPane.this.background == null){
+						BackgroundPane.this.background = new ColorBackground();
+					}
+					choosePane.populate((Background) BackgroundPane.this.background);
 					dlg.setVisible(true);
 				}
 			});
@@ -125,15 +127,22 @@ public class ButtonSytleDefinedPane extends BasicPane {
 		
 		public void populate(Background background) {
 			this.background = background;
+
 			if (background instanceof ImageBackground && ((ImageBackground) background).getImage() != null) {
 				ImagePreviewPane.setIcon(new ImageIcon(((ImageBackground) background).getImage()));
-			} else {
+			} else if(background instanceof ColorBackground && ((ColorBackground) background).getColor() != null){
 				ImagePreviewPane.setIcon(null);
+				ImagePreviewPane.setOpaque(true);
+				ImagePreviewPane.setBackground(((ColorBackground) background).getColor());
+			}else{
+				ImagePreviewPane.setIcon(null);
+				ImagePreviewPane.setOpaque(false);
+				ImagePreviewPane.setBackground(null);
 			}
 		}
 
-		public ImageBackground update() {
-			return (ImageBackground) background;
+		public Background update() {
+			return background;
 		}
 	}
 }
