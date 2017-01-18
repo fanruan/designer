@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.general.data.index.Index;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
 
-    private List<RadioButton> radioButtons = new ArrayList<RadioButton>();
+    private List<IndexRadioButton> radioButtons = new ArrayList<IndexRadioButton>();
 
     public MobileRadioGroupPane(String title) {
         initComponents(title);
@@ -30,23 +31,23 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
         double[] rowSize = {p};
         double[] columnSize = {p, p, p, p, p, p};
 
-        RadioButton defaultRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.DEFAULT.description()), MobileFitAttrState.DEFAULT);
-        defaultRadio.getRadioButton().setSelected(true);
-        RadioButton horizonRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.HORIZONTAL.description()), MobileFitAttrState.HORIZONTAL);
-        RadioButton verticalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.VERTICAL.description()), MobileFitAttrState.VERTICAL);
-        RadioButton bidirectionalRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description()), MobileFitAttrState.BIDIRECTIONAL);
-        RadioButton notFitRadio = new RadioButton(new UIRadioButton(MobileFitAttrState.NONE.description()), MobileFitAttrState.NONE);
+        IndexRadioButton defaultRadio = new IndexRadioButton(MobileFitAttrState.DEFAULT.description(), MobileFitAttrState.DEFAULT);
+        defaultRadio.setSelected(true);
+        IndexRadioButton horizonRadio = new IndexRadioButton(MobileFitAttrState.HORIZONTAL.description(), MobileFitAttrState.HORIZONTAL);
+        IndexRadioButton verticalRadio = new IndexRadioButton(MobileFitAttrState.VERTICAL.description(), MobileFitAttrState.VERTICAL);
+        IndexRadioButton bidirectionalRadio = new IndexRadioButton(MobileFitAttrState.BIDIRECTIONAL.description(), MobileFitAttrState.BIDIRECTIONAL);
+        IndexRadioButton notFitRadio = new IndexRadioButton(MobileFitAttrState.NONE.description(), MobileFitAttrState.NONE);
 
         addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
 
         Component[][] components = new Component[][]{
                 new Component[] {
                         new UILabel(title),
-                        defaultRadio.getRadioButton(),
-                        horizonRadio.getRadioButton(),
-                        verticalRadio.getRadioButton(),
-                        bidirectionalRadio.getRadioButton(),
-                        notFitRadio.getRadioButton()
+                        defaultRadio,
+                        horizonRadio,
+                        verticalRadio,
+                        bidirectionalRadio,
+                        notFitRadio
                 }
         };
         JPanel fitOpsPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -54,11 +55,11 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
         this.add(fitOpsPane);
     }
 
-    private void addToButtonGroup(RadioButton... radios) {
+    private void addToButtonGroup(IndexRadioButton... radios) {
         ButtonGroup buttonGroup = new ButtonGroup();
-        for (RadioButton radio : radios) {
+        for (IndexRadioButton radio : radios) {
             radioButtons.add(radio);
-            buttonGroup.add(radio.getRadioButton());
+            buttonGroup.add(radio);
         }
     }
 
@@ -66,8 +67,8 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
      * 设置按钮状态
      */
     public void setEnabled(boolean enabled) {
-        for (RadioButton radioButton : radioButtons) {
-            radioButton.getRadioButton().setEnabled(enabled);
+        for (IndexRadioButton radioButton : radioButtons) {
+            radioButton.setEnabled(enabled);
         }
     }
 
@@ -78,7 +79,7 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
      */
     public int getSelectRadioIndex() {
         for (int i = 0, len = radioButtons.size(); i < len; i++) {
-            if (radioButtons.get(i).getRadioButton().isSelected()) {
+            if (radioButtons.get(i).isSelected()) {
                 return radioButtons.get(i).getRadioButtonIndex();
             }
         }
@@ -94,9 +95,9 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
             return;
         }
 
-        for (RadioButton radioButton : this.radioButtons) {
+        for (IndexRadioButton radioButton : this.radioButtons) {
             if (radioButton.getRadioButtonIndex() == index) {
-                radioButton.getRadioButton().setSelected(true);
+                radioButton.setSelected(true);
             }
         }
     }
@@ -105,8 +106,8 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
      * 给所有的按钮加上监听
      */
     public void addActionListener(ActionListener actionListener) {
-        for (RadioButton radioButton : radioButtons) {
-            radioButton.getRadioButton().addActionListener(actionListener);
+        for (IndexRadioButton radioButton : radioButtons) {
+            radioButton.addActionListener(actionListener);
         }
     }
 
@@ -131,21 +132,12 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
  * created by fanglei on 2017/1/16
  * 不再用radioButtonGroup的数组下标作为index，而是给每个按钮传入MobileFitAttrState的枚举值
  */
-class RadioButton {
-    private UIRadioButton radioButton;
+class IndexRadioButton extends UIRadioButton {
     private int index;
 
-    RadioButton(UIRadioButton radioButton, MobileFitAttrState mobileFitAttrState) {
-        this.radioButton = radioButton;
+    IndexRadioButton(String text, MobileFitAttrState mobileFitAttrState) {
+        super(text);
         this.index = mobileFitAttrState.getState();
-    }
-
-    public UIRadioButton getRadioButton() {
-        return this.radioButton;
-    }
-
-    public void setUIReadioButton(UIRadioButton radioButton) {
-        this.radioButton = radioButton;
     }
 
     public int getRadioButtonIndex() {
