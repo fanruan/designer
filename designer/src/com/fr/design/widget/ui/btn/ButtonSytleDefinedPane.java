@@ -45,9 +45,9 @@ public class ButtonSytleDefinedPane extends BasicPane {
 
 		JPanel buttonStylePane = new JPanel();
 		buttonStylePane.setLayout(new BorderLayout());
-		initBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Initial") + ":", Inter.getLocText("The_initial_background_of_the_button"));
-		overBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Over") + ":", Inter.getLocText("Mouse_move-background"));
-		clickBackgroundPane = new BackgroundPane(Inter.getLocText("Background-Click") + ":",  Inter.getLocText("Mouse_move-background"));
+		initBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Initial") + ":", Inter.getLocText("FR-Designer_Initial_Background_Tips"));
+		overBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Over") + ":", Inter.getLocText("FR-Designer_Mouse_Move_Tips"));
+		clickBackgroundPane = new BackgroundPane(Inter.getLocText("FR-Designer_Background-Click") + ":",  Inter.getLocText("FR-Designer_Mouse_Click_Tips"));
 
 		JPanel table = FRGUIPaneFactory.createYBoxEmptyBorderPane();
 		table.setBorder(new TitledBorder(Inter.getLocText(new String[]{"Custom", "Form-Button", "Style"})));
@@ -102,7 +102,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
 			ImagePreviewPane.setPreferredSize(new Dimension(100, 20));
 			this.add(ImagePreviewPane);
 
-			editButton = new UIButton(Inter.getLocText("Edit"));
+			editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
 			editButton.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
