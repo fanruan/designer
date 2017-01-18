@@ -47,6 +47,7 @@ public class XCardSwitchButton extends XButton {
 	//设置的图片类型
 	private static final String COLORBACKGROUNDTYPE = "ColorBackground";
 	private static final String DEFAULTTYPE = "default";
+	private static final String DEFAULT_FONT_NAME = "SimSun";
 
 	//默认颜色
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
@@ -65,6 +66,7 @@ public class XCardSwitchButton extends XButton {
 	private static final int FONT_SIZE_ADJUST = 2;
 
 	private static final int SIDE_OFFSET = 57;
+	private static final int FONT_SIZE = 9;
 
 	private XWCardLayout cardLayout;
 	private XWCardTagLayout tagLayout;
@@ -251,7 +253,9 @@ public class XCardSwitchButton extends XButton {
 		Point position = button.getLocation();
 		int width = button.getWidth();
 		int height = button.getHeight();
-		
+
+		ey = ey % DEFAULT_BUTTON_HEIGHT;
+
 		// 鼠标进入按钮右侧删除图标区域
 		double recX = position.getX() + (width - RIGHT_OFFSET);
 		double recY = position.getY() + (height - TOP_OFFSET);
@@ -318,6 +322,9 @@ public class XCardSwitchButton extends XButton {
 		// 标题部分
 		WidgetTitle title = style.getTitle();
 		FRFont font = button.getFont();
+		if (font == null) {
+			font = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
+		}
 		FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
 		UILabel label = this.getContentLabel();
 		label.setFont(newFont);
@@ -337,6 +344,12 @@ public class XCardSwitchButton extends XButton {
 	
 	//删除tab布局
 	private void deleteTabLayout(SelectionModel selectionModel,FormDesigner designer){
+		String titleName = this.getContentLabel().getText();
+		int value = JOptionPane.showConfirmDialog(null, Inter.getLocText("FR-Designer_ConfirmDialog_Content") + "“" + titleName + "”",
+				Inter.getLocText("FR-Designer_ConfirmDialog_Title"),JOptionPane.YES_NO_OPTION);
+		if (value != JOptionPane.OK_OPTION) {
+			return;
+		}
 		XLayoutContainer mainLayout = this.cardLayout.getBackupParent();
 		if(mainLayout != null){
 			selectionModel.setSelectedCreator(mainLayout);
@@ -363,7 +376,7 @@ public class XCardSwitchButton extends XButton {
             XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
             String tempText = tempCard.getText();
-            Font f = ((CardSwitchButton)this.toData()).getFont();
+			Font f = tempCard.getFont();
 			FontMetrics fm = GraphHelper.getFontMetrics(f);
             cardWidth.put(i,fm.stringWidth(tempText));
             cardHeight.put(i,fm.getHeight());
@@ -387,9 +400,12 @@ public class XCardSwitchButton extends XButton {
 			this.tagLayout.getComponent(i).setBounds(rectangle);
 			Dimension dimension = new Dimension();
 			dimension.setSize(cardWidth, cardHeight);
+			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			CardSwitchButton cardSwitchButton = (CardSwitchButton) temp.toData();
 			FRFont frFont = cardSwitchButton.getFont();
-			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
+			if (frFont == null) {
+				frFont = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
+			}
 			UILabel label = temp.getContentLabel();
 			label.setSize(dimension);
 			label.setFont(frFont.applyResolutionNP(ScreenResolution.getScreenResolution()));

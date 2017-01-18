@@ -45,6 +45,9 @@ public class XWTabFitLayout extends XWFitLayout {
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
 	private static final Color NORMAL_GRAL = new Color(236,236,236);
+	private static final String DEFAULT_FONT_NAME = "SimSun";
+	public final static Font DEFAULTFT = new Font("Song_TypeFace",0,12);
+	public final static FRFont DEFAULT_FRFT = FRFont.getInstance(DEFAULT_FONT_NAME, 0, 9);
 	private Dimension referDim;
 	private Background initialBackground;
 	private Background overBackground;
@@ -229,16 +232,24 @@ public class XWTabFitLayout extends XWFitLayout {
 		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
 		Background bg;
 		bg = ColorBackground.getInstance(NORMAL_GRAL);
+		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 		if (!isStyle) {
 			this.xCardSwitchButton.setCustomStyle(false);
 			this.xCardSwitchButton.setSelectBackground(bg);
+			this.xCardSwitchButton.getLabel().setFont(DEFAULTFT);
+			cardSwitchButton.setInitialBackground(null);
+			cardSwitchButton.setClickBackground(null);
+			cardSwitchButton.setOverBackground(null);
+			cardSwitchButton.setFont(DEFAULT_FRFT);
 		} else {
-			CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 			Background initialBackground = cardSwitchButton.getInitialBackground();
 			bg = initialBackground == null ? bg : initialBackground;
 			this.xCardSwitchButton.setSelectBackground(bg);
 			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
+			if (font != null) {
+				cardSwitchButton.setFont(font);
+			}
 		}
 	}
 
