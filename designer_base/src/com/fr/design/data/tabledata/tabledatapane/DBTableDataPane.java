@@ -59,6 +59,8 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private UICheckBox isShareCheckBox;
 	private MaxMemRowCountPanel maxPanel;
 	private String pageQuery = null;
+	private DBTableData dbTableData;
+
 
 
 	public DBTableDataPane() {
@@ -210,8 +212,9 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 	@Override
 	public void populateBean(DBTableData dbtabledata) {
+		this.dbTableData = dbtabledata;
 		if (dbTableDataMenuHandler != null) {
-			dbTableDataMenuHandler.setDBTableData(dbtabledata);
+			dbTableDataMenuHandler.populate(dbtabledata);
 		}
 		ParameterProvider[] parameters = null;
 
@@ -254,7 +257,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		List<ParameterProvider> parameterList = editorPane.update();
 		Parameter[] parameters = parameterList.toArray(new Parameter[parameterList.size()]);
 
-		DBTableData dbTableData = new DBTableData();
 		dbTableData.setDatabase(new NameDatabaseConnection(dbName));
 
 		// p:必须先设置Parameters数组，因为setQuery里面会自动设置的
@@ -266,7 +268,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		dbTableData.setMaxMemRowCount(maxPanel.getValue());
 		dbTableData.setPageQuerySql(this.pageQuery);
 		if (dbTableDataMenuHandler != null) {
-			dbTableData.setDataQueryProcessor(dbTableDataMenuHandler.getDbTableData().getDataQueryProcessor());
+			dbTableDataMenuHandler.update();
 		}
 		return dbTableData;
 	}
