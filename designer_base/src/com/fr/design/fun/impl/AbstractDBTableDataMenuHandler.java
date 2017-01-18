@@ -23,12 +23,12 @@ public abstract class AbstractDBTableDataMenuHandler implements DBTableDataMenuH
     }
 
     @Override
-    public DBTableData getDbTableData() {
+    public DBTableData update() {
         return null;
     }
 
     @Override
-    public void setDBTableData(DBTableData dbTableData) {
+    public void populate(DBTableData dbTableData) {
 
     }
 }

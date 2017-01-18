@@ -14,11 +14,9 @@ public interface DBTableDataMenuHandler extends Immutable {
 
     UpdateAction createQueryAction();
 
-    DBTableData getDbTableData();
+    void populate(DBTableData dbTableData);
 
-    void setDBTableData(DBTableData dbTableData);
-
-
+    DBTableData update();
 
 
 }
