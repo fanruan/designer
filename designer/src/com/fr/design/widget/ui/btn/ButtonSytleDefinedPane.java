@@ -1,12 +1,13 @@
 package com.fr.design.widget.ui.btn;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+
+import com.fr.base.background.ColorBackground;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -18,7 +19,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.gui.frpane.ImgChoosePane;
+import com.fr.design.style.background.BackgroundButtonPane;
 import com.fr.form.ui.FreeButton;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -84,7 +85,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
 
 	class BackgroundPane extends JPanel {
 		private UIButton editButton;
-		private ImgChoosePane choosePane;
+		private BackgroundButtonPane choosePane;
 		private Background background;
 		private UILabel ImagePreviewPane;
 
@@ -106,7 +107,7 @@ public class ButtonSytleDefinedPane extends BasicPane {
 
 				public void actionPerformed(ActionEvent e) {
 					if (choosePane == null) {
-						choosePane = new ImgChoosePane();
+						choosePane = new BackgroundButtonPane();
 					}
 					BasicDialog dlg = choosePane.showWindow(SwingUtilities
 							.getWindowAncestor(ButtonSytleDefinedPane.this));
@@ -116,7 +117,10 @@ public class ButtonSytleDefinedPane extends BasicPane {
 							populate(choosePane.update());
 						}
 					});
-					choosePane.populate((ImageBackground) BackgroundPane.this.background);
+					if(BackgroundPane.this.background == null){
+						BackgroundPane.this.background = new ColorBackground();
+					}
+					choosePane.populate((Background) BackgroundPane.this.background);
 					dlg.setVisible(true);
 				}
 			});
@@ -125,15 +129,22 @@ public class ButtonSytleDefinedPane extends BasicPane {
 		
 		public void populate(Background background) {
 			this.background = background;
+
 			if (background instanceof ImageBackground && ((ImageBackground) background).getImage() != null) {
 				ImagePreviewPane.setIcon(new ImageIcon(((ImageBackground) background).getImage()));
-			} else {
+			} else if(background instanceof ColorBackground && ((ColorBackground) background).getColor() != null){
 				ImagePreviewPane.setIcon(null);
+				ImagePreviewPane.setOpaque(true);
+				ImagePreviewPane.setBackground(((ColorBackground) background).getColor());
+			}else{
+				ImagePreviewPane.setIcon(null);
+				ImagePreviewPane.setOpaque(false);
+				ImagePreviewPane.setBackground(null);
 			}
 		}
 
-		public ImageBackground update() {
-			return (ImageBackground) background;
+		public Background update() {
+			return background;
 		}
 	}
 }
