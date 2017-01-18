@@ -163,18 +163,6 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 	 * void
 	 */
 	public void adjustComponentWidth(){
-		int btnNum = this.getComponentCount();
-		int tagLayoutWidth = this.getWidth();
-		int allBtnWidth = btnNum * CardSwitchButton.DEF_WIDTH + btnNum;
-		int size = CardSwitchButton.DEF_WIDTH;
-		if(tagLayoutWidth - allBtnWidth < CardSwitchButton.DEF_WIDTH){
-			size = (tagLayoutWidth - CardSwitchButton.DEF_WIDTH - btnNum)/btnNum;
-		}
-		WCardTagLayout layout = (WCardTagLayout)this.toData();
-		for(int i=0;i<btnNum;i++){
-			CardSwitchButton button = layout.getSwitchButton(i);
-			layout.setWidthAtWidget(button, size);
-		}
 	}
 	
 	
