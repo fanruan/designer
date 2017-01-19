@@ -111,7 +111,7 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
 		row1Pane.setPreferredSize(new Dimension(135, 24));  // 宽度为 16 * 8 + 7
 
 		// 最近使用
-		UsedColorPane usedColorPane = new UsedColorPane(1, 8, 1, true, ColorSelectConfigManager.getInstance().getColors(),this);
+		UsedColorPane usedColorPane = new UsedColorPane(1, 8, 1, ColorSelectConfigManager.getInstance().getColors(), this, true, true);
 		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
 		row1Pane.add(usedColorPane.getPane());
 		return row1Pane;

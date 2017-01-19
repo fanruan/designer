@@ -85,7 +85,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
 		row1Pane.setPreferredSize(new Dimension(135, 16));  // 宽度为 16 * 8 + 7
 		centerPane.add(row1Pane);
 		// 最近使用
-		usedColorPane = new UsedColorPane(1, 8, 1, true, ColorSelectConfigManager.getInstance().getColors(),this);
+		usedColorPane = new UsedColorPane(1, 8, 1, ColorSelectConfigManager.getInstance().getColors(), this, true, false);
 		usedColorPane.getPane().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
 		row1Pane.add(usedColorPane.getPane());
 		

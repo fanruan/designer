@@ -21,6 +21,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import com.fr.design.gui.ibutton.SpecialUIButton;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -706,7 +707,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         mainPanel.add(hexPanel, BorderLayout.SOUTH);
 
         JPanel rightPane = new JPanel(new BorderLayout());
-        UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
+        SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
         JPanel blankArea = new JPanel();
         blankArea.setPreferredSize(new Dimension(100, 175));
         rightPane.add(blankArea, BorderLayout.CENTER);

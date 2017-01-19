@@ -7,7 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.SpecialUIButton;
 
 public class UsedColorPane extends BasicPane{
 
@@ -21,6 +21,8 @@ public class UsedColorPane extends BasicPane{
 	private int reserveCells;
 	// 是否需要取色器按钮
 	private boolean needPickColorButton;
+	// 是否在取色时实时设定颜色
+	private boolean setColorRealTime;
 	// 最近使用颜色
 	private Object[] colors;
 	// 最近使用面板
@@ -46,21 +48,23 @@ public class UsedColorPane extends BasicPane{
 	 * @param rows 行
 	 * @param columns 列
 	 * @param reserveCells 留白的单元格个数
-	 * @param needPickColorButton 是否需要加上取色器按钮
 	 * @param colors 最近使用的颜色
+	 * @param needPickColorButton 是否需要加上取色器按钮
+	 * @param setColorRealTime 取色器是否实时设定颜色
 	 */
-	public UsedColorPane(int rows,int columns,int reserveCells, boolean needPickColorButton, Object[] colors,ColorSelectable selectable){
+	public UsedColorPane(int rows,int columns,int reserveCells, Object[] colors, ColorSelectable selectable, boolean needPickColorButton, boolean setColorRealTime){
 		this.columns = columns;
 		this.rows = rows;
 		this.reserveCells = reserveCells;
-		this.needPickColorButton = needPickColorButton;
 		this.colors = colors;
 		this.selectable = selectable;
+		this.needPickColorButton = needPickColorButton;
+		this.setColorRealTime = setColorRealTime;
 		initialComponents();
 	}
 
 	public UsedColorPane(int rows,int columns, Object[] colors,ColorSelectable selectable){
-		this(rows, columns, 0, false, colors, selectable);
+		this(rows, columns, 0, colors, selectable, false, false);
 	}
 	
 	private void initialComponents(){
@@ -74,7 +78,7 @@ public class UsedColorPane extends BasicPane{
 		int i = 0;
 		if (needPickColorButton) {
 			// 取色按钮
-			UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(selectable, PickColorButtonFactory.IconType.ICON16, true);
+			SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(selectable, PickColorButtonFactory.IconType.ICON16, setColorRealTime);
 			panel.add(pickColorButton);
 			i++;
 			this.reserveCells += 1;
