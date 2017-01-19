@@ -22,7 +22,7 @@ import com.fr.general.Inter;
  * @author: august
  * */
 public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
-	public Parameter[] parameterList;
+	private Parameter[] parameterList;
 	private ArrayList<UIButton> parameterSelectedLabellist = new ArrayList<UIButton>();
 	private MouseListener paraMouseListner;
 	private UIButton addAll;
