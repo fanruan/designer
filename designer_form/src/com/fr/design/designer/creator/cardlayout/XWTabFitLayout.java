@@ -1,12 +1,11 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.beans.IntrospectionException;
 
 import javax.swing.border.Border;
 
+import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -14,19 +13,25 @@ import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
-import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
+import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
+import com.fr.design.mainframe.widget.editors.FontEditor;
+import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
+import com.fr.design.mainframe.widget.renderer.FontCellRenderer;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.general.Background;
+import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
+
 
 /**
  * @author focus
@@ -37,8 +42,13 @@ public class XWTabFitLayout extends XWFitLayout {
 	private static final int MIN_SIZE = 1;
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
+	private static final Color NORMAL_GRAL = new Color(236,236,236);
 	private Dimension referDim;
-	
+	private Background initialBackground;
+	private Background overBackground;
+	private Background clickBackground;
+	private FRFont font;
+	private XCardSwitchButton xCardSwitchButton;
 
 	public Dimension getReferDim() {
 		return referDim;
@@ -46,6 +56,47 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	public void setReferDim(Dimension referDim) {
 		this.referDim = referDim;
+	}
+
+	public Background getInitialBackground() {
+		return initialBackground;
+	}
+
+	public void setInitialBackground(Background initialBackground) {
+		this.initialBackground = initialBackground;
+	}
+
+	public Background getOverBackground() {
+		return overBackground;
+	}
+
+	public void setOverBackground(Background overBackground) {
+		this.overBackground = overBackground;
+	}
+
+	public Background getClickBackground() {
+		return clickBackground;
+	}
+
+	public void setClickBackground(Background clickBackground) {
+		this.clickBackground = clickBackground;
+	}
+
+	@Override
+	public FRFont getFont() {
+		return font;
+	}
+
+	public void setFont(FRFont font) {
+		this.font = font;
+	}
+
+	public XCardSwitchButton getxCardSwitchButton() {
+		return xCardSwitchButton;
+	}
+
+	public void setxCardSwitchButton(XCardSwitchButton xCardSwitchButton) {
+		this.xCardSwitchButton = xCardSwitchButton;
 	}
 
 	public XWTabFitLayout(){
@@ -62,15 +113,126 @@ public class XWTabFitLayout extends XWFitLayout {
 	* @throws IntrospectionException
 	*/
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-	return  new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-					        .getLocText("FR-Designer_Form-Widget_Name")),
-                new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
-                       .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
-                       .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-                    };
+		checkButonType();
+		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
+		return ArrayUtils.addAll(defaultDescriptor(), crp);
 	}
-	
+
+	protected CRPropertyDescriptor[] getisCustomStyle() throws IntrospectionException {
+		return new CRPropertyDescriptor[]{
+				//标题样式
+				creatNonListenerStyle(0).setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						checkButonType();
+					}
+				}),
+				//初始背景
+				creatNonListenerStyle(1).setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						initialBackground = ((WTabFitLayout) data).getInitialBackground();
+						xCardSwitchButton.setSelectBackground(null);
+						xCardSwitchButton.setSelectBackground(initialBackground);
+						CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+						cardSwitchButton.setInitialBackground(initialBackground);
+					}
+				}),
+				//鼠标浮动背景
+				creatNonListenerStyle(2).setPropertyChangeListener(
+						new PropertyChangeAdapter() {
+							@Override
+							public void propertyChange() {
+								overBackground = ((WTabFitLayout) data).getOverBackground();
+								CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+								cardSwitchButton.setOverBackground(overBackground);
+							}
+						}),
+				//鼠标点击背景
+				creatNonListenerStyle(3).setPropertyChangeListener(
+						new PropertyChangeAdapter() {
+							@Override
+							public void propertyChange() {
+								clickBackground = ((WTabFitLayout) data).getClickBackground();
+								CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+								cardSwitchButton.setClickBackground(clickBackground);
+							}
+						}
+				),
+				//字体
+				creatNonListenerStyle(4).setPropertyChangeListener(
+						new PropertyChangeAdapter() {
+							@Override
+							public void propertyChange() {
+							}
+						}),
+		};
+	}
+
+	protected CRPropertyDescriptor[] getisnotCustomStyle() throws IntrospectionException {
+		return new CRPropertyDescriptor[]{
+				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
+						Inter.getLocText(new String[]{"Title", "Style"})).setEditorClass(
+						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						checkButonType();
+					}
+				})
+		};
+
+	}
+
+	protected CRPropertyDescriptor creatNonListenerStyle(int i) throws IntrospectionException{
+		CRPropertyDescriptor[] crPropertyDescriptors = {
+				new CRPropertyDescriptor("customStyle", this.data.getClass()).setI18NName(
+						Inter.getLocText(new String[]{"Title", "Style"})).setEditorClass(
+						ButtonTypeEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("initialBackground", this.data.getClass()).setEditorClass(
+						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Initial")).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("overBackground", this.data.getClass()).setEditorClass(
+						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Over")).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("clickBackground", this.data.getClass()).setEditorClass(
+						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Click")).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+				new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_FRFont"))
+						.setEditorClass(FontEditor.class).setRendererClass(FontCellRenderer.class).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+		};
+		return crPropertyDescriptors[i];
+	}
+
+	protected CRPropertyDescriptor[] defaultDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crPropertyDescriptors = {
+				super.createWidgetNameDescriptor(),
+				super.createMarginDescriptor()
+		};
+		return crPropertyDescriptors;
+	}
+
+	private void checkButonType() {
+		if (this.xCardSwitchButton == null) {
+			return;
+		}
+		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
+		Background bg;
+		bg = ColorBackground.getInstance(NORMAL_GRAL);
+		if (!isStyle) {
+			this.xCardSwitchButton.setCustomStyle(false);
+			this.xCardSwitchButton.setSelectBackground(bg);
+		} else {
+			CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
+			Background initialBackground = cardSwitchButton.getInitialBackground();
+			bg = initialBackground == null ? bg : initialBackground;
+			this.xCardSwitchButton.setSelectBackground(bg);
+			this.xCardSwitchButton.setCustomStyle(true);
+			cardSwitchButton.setCustomStyle(true);
+		}
+	}
+
 	@Override
 	public LayoutAdapter getLayoutAdapter() {
 		return new FRTabFitLayoutAdapter(this);

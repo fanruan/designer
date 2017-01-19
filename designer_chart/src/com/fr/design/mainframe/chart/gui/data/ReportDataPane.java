@@ -21,7 +21,7 @@ public class ReportDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		this.parent = parent;
 	}
 	
-	private AbstractReportDataContentPane getContentPane(Chart chart) {
+	protected AbstractReportDataContentPane getContentPane(Chart chart) {
 		if(chart == null) {
 			return null;
 		}

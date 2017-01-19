@@ -1,17 +1,16 @@
 package com.fr.design.mainframe.widget.accessibles;
 
 import java.awt.Dimension;
-
 import javax.swing.SwingUtilities;
-
-import com.fr.base.background.ImageBackground;
+import com.fr.base.background.ColorBackground;
 import com.fr.design.mainframe.widget.wrappers.BackgroundWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.gui.frpane.ImgChoosePane;
+import com.fr.design.style.background.BackgroundButtonPane;
+import com.fr.general.Background;
 
 public class AccessibleImgBackgroundEditor extends UneditableAccessibleEditor {
-	private ImgChoosePane choosePane;
+	private BackgroundButtonPane choosePane;
 	
 	public AccessibleImgBackgroundEditor() {
 		super(new BackgroundWrapper());
@@ -20,7 +19,7 @@ public class AccessibleImgBackgroundEditor extends UneditableAccessibleEditor {
 	@Override
 	protected void showEditorPane() {
 		if (choosePane == null) {
-			choosePane = new ImgChoosePane();
+			choosePane = new BackgroundButtonPane();
 			choosePane.setPreferredSize(new Dimension(600, 400));
 		}
 		BasicDialog dlg = choosePane.showWindow(SwingUtilities.getWindowAncestor(this));
@@ -32,7 +31,7 @@ public class AccessibleImgBackgroundEditor extends UneditableAccessibleEditor {
 				fireStateChanged();
 			}
 		});
-		choosePane.populate(getValue() instanceof ImageBackground ? (ImageBackground) getValue() : null);
+		choosePane.populate(getValue() instanceof Background ? (Background) getValue() : new ColorBackground());
 		dlg.setVisible(true);
 	}
 }

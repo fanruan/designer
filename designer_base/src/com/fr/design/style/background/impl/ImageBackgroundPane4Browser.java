@@ -1,5 +1,6 @@
 package com.fr.design.style.background.impl;
 
+import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -15,9 +16,9 @@ public class ImageBackgroundPane4Browser extends ImageBackgroundPane {
     }
 
     @Override
-    protected JRadioButton[] imageLayoutButtons() {
+    protected UIRadioButton[] imageLayoutButtons() {
 
-        return (JRadioButton[]) ArrayUtils.addAll(super.imageLayoutButtons(), new JRadioButton[] {
+        return (UIRadioButton[]) ArrayUtils.addAll(super.imageLayoutButtons(), new UIRadioButton[] {
                 defaultRadioButton,
                 tiledRadioButton,
         });
