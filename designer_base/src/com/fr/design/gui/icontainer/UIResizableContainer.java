@@ -5,6 +5,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.collections.utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class UIResizableContainer extends JPanel {
     private int preferredWidth = 240;
     private int toolPaneY = 300;
     private int toolPaneHeight = 10;
+    private int bottomHeight = 30;
 
     private JComponent upPane;
     private JComponent downPane;
@@ -209,7 +211,7 @@ public class UIResizableContainer extends JPanel {
                 if(isDownPaneVisible){
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, toolPaneY);
                     horizontToolPane.setBounds(0, toolPaneY, containerWidth - toolPaneHeight, toolPaneHeight);
-                    downPane.setBounds(0, toolPaneY + toolPaneHeight, containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight-30);
+                    downPane.setBounds(0, toolPaneY + toolPaneHeight, containerWidth - toolPaneHeight, parent.getHeight() - toolPaneY - toolPaneHeight - bottomHeight);
                     verticalToolPane.setBounds(containerWidth - toolPaneHeight, 0, toolPaneHeight, getHeight());
                 }else{
                     upPane.setBounds(0, 0, containerWidth - toolPaneHeight, getHeight());
