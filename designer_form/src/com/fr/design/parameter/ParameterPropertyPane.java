@@ -84,8 +84,7 @@ public class ParameterPropertyPane extends JPanel{
 					public void run() {
 						if (paraPane.isWithQueryButton()) {
 							paraPane.addingParameter2Editor(toolbarPane.getTargetParameter(parameterSelectedLabel));
-						}
-						else {
+						} else {
 							paraPane.addingParameter2EditorWithQueryButton(toolbarPane.getTargetParameter(parameterSelectedLabel));
 						}
 					}
