@@ -14,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 
 public class UIResizableContainer extends JPanel {
     private static final long serialVersionUID = 1854340560790476907L;
+    private static final int MAX_PARA_HEIGHT = 240;
     private int containerWidth = 240;
     private int preferredWidth = 240;
     private int toolPaneY = 300;
@@ -139,7 +140,7 @@ public class UIResizableContainer extends JPanel {
      * @param height
      */
     public void setParameterHeight(int height) {
-        paraHeight = hasParameterPane? height : 0;
+        paraHeight = hasParameterPane? Math.min(height, MAX_PARA_HEIGHT) : 0;
         refreshContainer();
 
     }

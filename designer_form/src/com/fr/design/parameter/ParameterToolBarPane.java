@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeListener;
 
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
@@ -23,7 +22,7 @@ import com.fr.general.Inter;
  * @author: august
  * */
 public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
-	private Parameter[] parameterList;
+	public Parameter[] parameterList;
 	private ArrayList<UIButton> parameterSelectedLabellist = new ArrayList<UIButton>();
 	private MouseListener paraMouseListner;
 	private UIButton addAll;
@@ -35,7 +34,6 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private static final int GAP_BV = 4;
 	private static final int BUTTON_HEIGHT = 20;
 	private static final int WIDTH = 225;
-
 	private static final int L_H = 18;
 
 	public ParameterToolBarPane() {
@@ -133,7 +131,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 			layoutContainer(parent);
 
-			int h= ((parameterSelectedLabellist.size() == 0) ? L_H : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
+			int h= ((parameterSelectedLabellist.size() == 0) ? 0 : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
 			return new Dimension(w, h);
 		}
 
