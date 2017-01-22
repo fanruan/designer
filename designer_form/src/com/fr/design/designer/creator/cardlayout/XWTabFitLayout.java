@@ -111,17 +111,6 @@ public class XWTabFitLayout extends XWFitLayout {
 	public XWTabFitLayout(WTabFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
 	}
-	
-	/**
-	*  得到属性名
-	 * @return 属性名
-	* @throws IntrospectionException
-	*/
-	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		checkButonType();
-		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
-		return ArrayUtils.addAll(defaultDescriptor(), crp);
-	}
 
 	protected CRPropertyDescriptor[] getisCustomStyle() throws IntrospectionException {
 		return new CRPropertyDescriptor[]{
