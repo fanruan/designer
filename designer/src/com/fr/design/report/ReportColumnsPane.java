@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.GraphHelper;
 import com.fr.base.GraphHelper2;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.border.UITitledBorder;
@@ -114,7 +115,8 @@ public class ReportColumnsPane extends BasicPane{
         FRFont uiLableFont = FRFont.getInstance(FONT_NAME, Font.PLAIN, FONT_SIZE);
         uiLabel.setFont(uiLableFont);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        int uiLabelWidth = GraphHelper2.locTextStringWidth("FR-Designer_ReportColumns-Columns", uiLableFont);
+        int uiLabelWidth = GraphHelper.getLocTextWidth("FR-Designer_ReportColumns-Columns", uiLableFont);
+
         uiLabel.setPreferredSize(new Dimension(uiLabelWidth, 20));
         north.add(uiLabel,BorderLayout.WEST);
         JPanel buttonGroupPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 23,11));
