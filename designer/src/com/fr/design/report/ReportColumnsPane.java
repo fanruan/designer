@@ -19,9 +19,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
-import com.fr.base.GraphHelper2;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;

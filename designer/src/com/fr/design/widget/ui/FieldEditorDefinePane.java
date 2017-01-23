@@ -7,7 +7,6 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 
 import com.fr.base.GraphHelper;
-import com.fr.base.GraphHelper2;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.event.DocumentEvent;
