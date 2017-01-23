@@ -15,6 +15,7 @@ import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * CellEditor used to edit Date object.
@@ -59,7 +60,10 @@ public class DateEditor extends Editor<Date> {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		uiDatePicker = new UIDatePicker();
 		if (format) {
-			uiDatePicker.setStyle(uiDatePicker.STYLE_CN_DATE);
+			int dateStyle = (FRContext.getLocale() == Locale.ENGLISH
+					|| FRContext.getLocale() == Locale.US
+					|| FRContext.getLocale() == Locale.UK) ? uiDatePicker.STYLE_EN_DATE : uiDatePicker.STYLE_CN_DATE;
+			uiDatePicker.setStyle(dateStyle);
 			uiDatePicker.setEditable(false);
 		}
 		uiDatePicker.addItemListener(new ItemListener() {

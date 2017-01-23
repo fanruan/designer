@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.SpecialUIButton;
 
 public class UsedColorPane extends BasicPane{
 
@@ -16,6 +17,12 @@ public class UsedColorPane extends BasicPane{
 	private int columns;
 	// 最近使用面板行数
 	private int rows;
+	// 留白的单元格数量
+	private int reserveCells;
+	// 是否需要取色器按钮
+	private boolean needPickColorButton;
+	// 是否在取色时实时设定颜色
+	private boolean setColorRealTime;
 	// 最近使用颜色
 	private Object[] colors;
 	// 最近使用面板
@@ -40,14 +47,24 @@ public class UsedColorPane extends BasicPane{
 	 * 
 	 * @param rows 行
 	 * @param columns 列
+	 * @param reserveCells 留白的单元格个数
 	 * @param colors 最近使用的颜色
+	 * @param needPickColorButton 是否需要加上取色器按钮
+	 * @param setColorRealTime 取色器是否实时设定颜色
 	 */
-	public UsedColorPane(int rows,int columns,Object[] colors,ColorSelectable selectable){
+	public UsedColorPane(int rows,int columns,int reserveCells, Object[] colors, ColorSelectable selectable, boolean needPickColorButton, boolean setColorRealTime){
 		this.columns = columns;
 		this.rows = rows;
+		this.reserveCells = reserveCells;
 		this.colors = colors;
 		this.selectable = selectable;
+		this.needPickColorButton = needPickColorButton;
+		this.setColorRealTime = setColorRealTime;
 		initialComponents();
+	}
+
+	public UsedColorPane(int rows,int columns, Object[] colors,ColorSelectable selectable){
+		this(rows, columns, 0, colors, selectable, false, false);
 	}
 	
 	private void initialComponents(){
@@ -57,9 +74,25 @@ public class UsedColorPane extends BasicPane{
 		panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 8));
 		Color[] colors = ColorSelectConfigManager.getInstance().getColors();
 		int size = colors.length;
-		for (int i = 0; i < total; i++) {
+
+		int i = 0;
+		if (needPickColorButton) {
+			// 取色按钮
+			SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(selectable, PickColorButtonFactory.IconType.ICON16, setColorRealTime);
+			panel.add(pickColorButton);
+			i++;
+			this.reserveCells += 1;
+		}
+		while (i < this.reserveCells) {
+			ColorCell cc = new ColorCell(DEFAULT_COLOR, selectable);
+			cc.setVisible(false);
+			panel.add(cc);
+			i++;
+		}
+		while (i < total) {
 			Color color = i < size ? colors[size-1-i]: DEFAULT_COLOR;
 			panel.add(new ColorCell(color == null ? DEFAULT_COLOR : color, selectable));
+			i++;
 		}
 		this.pane = panel;
 	}
@@ -72,7 +105,7 @@ public class UsedColorPane extends BasicPane{
 		int total = columns * rows;
 		Color[] colors = ColorSelectConfigManager.getInstance().getColors();
 		int size = colors.length;
-		for(int i=0; i<total; i++){
+		for(int i=this.reserveCells; i<total; i++){
 			ColorCell cell = (ColorCell) this.pane.getComponent(i);
 			Color color = i < size ? colors[size-1-i]: DEFAULT_COLOR;
 			cell.setColor(color == null ? DEFAULT_COLOR : color);

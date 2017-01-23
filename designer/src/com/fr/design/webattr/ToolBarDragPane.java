@@ -126,25 +126,9 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 				}
 			}
 		});
-		layoutTable = new JTable(toolbarButtonTableModel);
-		layoutTable.setDefaultRenderer(Object.class, tableRenderer);
-		layoutTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		layoutTable.setColumnSelectionAllowed(false);
-		layoutTable.setRowSelectionAllowed(false);
-		layoutTable.setBackground(Color.white);
-		layoutTable.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() > 1 && !(SwingUtilities.isRightMouseButton(e)) && isEnabled) {
-					WidgetOption no = (WidgetOption)layoutTable.getValueAt(layoutTable.getSelectedRow(), layoutTable.getSelectedColumn());
-					Widget widget = no.createWidget();
-					ToolBarButton tb = new ToolBarButton(no.optionIcon(), widget);
-					tb.setNameOption(no);
-					northToolBar.add(tb);
-					northToolBar.validate();
-					northToolBar.repaint();
-				}
-			}
-		});
+
+		initLayoutTable();
+
 		JPanel center = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		center.setBackground(Color.white);
 		center.add(topButton, BorderLayout.NORTH);
@@ -177,6 +161,33 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		this.add(new JScrollPane(movePane), BorderLayout.CENTER);
 		isUseToolBarCheckBox.setSelected(true);
 	}
+
+	private void initLayoutTable() {
+		layoutTable = new JTable(toolbarButtonTableModel);
+		layoutTable.setDefaultRenderer(Object.class, tableRenderer);
+		layoutTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		layoutTable.setColumnSelectionAllowed(false);
+		layoutTable.setRowSelectionAllowed(false);
+		layoutTable.setBackground(Color.white);
+		int columnWidth = Integer.parseInt(Inter.getLocText("FR-Designer_LayoutTable_Column_Width"));
+		for (int i = 0; i < layoutTable.getColumnModel().getColumnCount(); i++) {
+			layoutTable.getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
+		}
+		layoutTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() > 1 && !(SwingUtilities.isRightMouseButton(e)) && isEnabled) {
+					WidgetOption no = (WidgetOption)layoutTable.getValueAt(layoutTable.getSelectedRow(), layoutTable.getSelectedColumn());
+					Widget widget = no.createWidget();
+					ToolBarButton tb = new ToolBarButton(no.optionIcon(), widget);
+					tb.setNameOption(no);
+					northToolBar.add(tb);
+					northToolBar.validate();
+					northToolBar.repaint();
+				}
+			}
+		});
+	}
+
 
 	private boolean isSelectedtable() {
 		for (int i = 0; i < layoutTable.getColumnCount(); i++) {
