@@ -45,15 +45,15 @@ public class PageWebSettingPane extends WebSettingPane<WebPage> {
 		JPanel buttonpane = new JPanel(FRGUIPaneFactory.createBoxFlowLayout());
 		buttonpane.add(centerRadioButton);
 		buttonpane.add(leftRadioButton);
-		isShowAsImageBox = new UICheckBox(Inter.getLocText("Is_Paint_Page"));
-		isAutoScaleBox = new UICheckBox(Inter.getLocText("IS_Auto_Scale"));
-		isTDHeavyBox = new UICheckBox(Inter.getLocText("IS_TD_HEAVY_EXPORT"), false);
+		isShowAsImageBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Paint_Page"));
+		isAutoScaleBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_Auto_Scale"));
+		isTDHeavyBox = new UICheckBox(Inter.getLocText("FR-Designer_IS_TD_HEAVY_EXPORT"), false);
 		double p = TableLayout.PREFERRED;
 		double[] columnSize = { p,p,p};
 		double[] rowSize = { p, p,p,p };
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
-                new Component[]{new UILabel(Inter.getLocText("PageSetup-Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":", UILabel.RIGHT), buttonpane,null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_PageSetup_Page") + ":", UILabel.RIGHT), isShowAsImageBox, isAutoScaleBox},
                 new Component[]{null, isTDHeavyBox, null}
         };
 

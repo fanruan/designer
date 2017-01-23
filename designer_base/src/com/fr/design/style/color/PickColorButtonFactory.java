@@ -13,6 +13,8 @@ import java.awt.event.*;
  */
 public class PickColorButtonFactory {
     private static int iconSize;
+    private static final int SIZE_16 = 16;
+    private static final int SIZE_18 = 18;
     private static IconType iconType;
     private static Image iconImage;
 
@@ -26,10 +28,10 @@ public class PickColorButtonFactory {
 
         if (iconType == IconType.ICON16) {
             iconImage = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPicker16.png");
-            iconSize = 16;
+            iconSize = SIZE_16;
         } else {
             iconImage = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPicker18.png");
-            iconSize = 18;
+            iconSize = SIZE_18;
             pickColorButton.setBorderPainted(false);
         }
         pickColorButton.setPreferredSize(new Dimension(iconSize, iconSize));

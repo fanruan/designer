@@ -73,7 +73,7 @@ public class AboutPane extends JPanel {
             // do nothing
         } else {
             if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
-                boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
+                boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
                 contentPane.add(boxCenterAlignmentPane);
             }
             boxCenterAlignmentPane = new BoxCenterAligmentPane("QQ:" + SiteCenter.getInstance().acquireUrlByKind("help.qq"));
@@ -110,12 +110,12 @@ public class AboutPane extends JPanel {
     }
     
     private String getCopyRight(){
-       return append(Inter.getLocText("About-CopyRight"), COPYRIGHT_LABEL, 
+       return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
     		   ProductConstants.HISTORY, StringUtils.BLANK, ProductConstants.COMPANY_NAME);
     }
 
     private String getBuildTitle() {
-        return append(ProductConstants.APP_NAME, Inter.getLocText("About-Version"),
+        return append(ProductConstants.APP_NAME, Inter.getLocText("FR-Designer_About_Version"),
                 StringUtils.BLANK, ProductConstants.RELEASE_VERSION, BUILD_PREFIX);
     }
     
