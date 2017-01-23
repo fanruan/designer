@@ -1,5 +1,6 @@
 package com.fr.design.parameter;
 
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
@@ -13,13 +14,12 @@ import java.awt.event.MouseEvent;
 
 public class ParameterPropertyPane extends JPanel{
 	private ParameterToolBarPane toolbarPane;
-
-//	private JWorkBook workbook;
+	private BasicScrollPane basicScrollPane;
 	private ParaDefinitePane paraPane;
 
 	public static ParameterPropertyPane THIS;
 	private boolean isEditing = false;
-	
+
 	public static final ParameterPropertyPane getInstance() {
 		if(THIS == null) {
 			THIS = new ParameterPropertyPane();
@@ -43,12 +43,26 @@ public class ParameterPropertyPane extends JPanel{
 
 	public ParameterPropertyPane() {
 		toolbarPane = new ParameterToolBarPane();
+		basicScrollPane = new BasicScrollPane() {
+			@Override
+			protected JPanel createContentPane() {
+				return toolbarPane;
+			}
 
+			@Override
+			public void populateBean(Object ob) {
+
+			}
+
+			@Override
+			protected String title4PopupWindow() {
+				return null;
+			}
+		};
 		initParameterListener();
-
         this.setLayout(new BorderLayout(0, 6));
         this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        this.add(toolbarPane, BorderLayout.CENTER);
+        this.add(basicScrollPane, BorderLayout.CENTER);
 	}
 	
 	private void setEditor(FormDesigner editor) {
@@ -68,9 +82,9 @@ public class ParameterPropertyPane extends JPanel{
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						if (paraPane.isWithQueryButton())
+						if (paraPane.isWithQueryButton()) {
 							paraPane.addingParameter2Editor(toolbarPane.getTargetParameter(parameterSelectedLabel));
-						else {
+						} else {
 							paraPane.addingParameter2EditorWithQueryButton(toolbarPane.getTargetParameter(parameterSelectedLabel));
 						}
 					}
