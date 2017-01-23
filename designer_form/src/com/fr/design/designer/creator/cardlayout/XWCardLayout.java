@@ -6,13 +6,16 @@ package com.fr.design.designer.creator.cardlayout;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRCardLayoutAdapter;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.*;
 import com.fr.design.form.layout.FRCardLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.CardTagWLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
+import com.fr.design.mainframe.widget.editors.DoubleEditor;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
@@ -22,6 +25,7 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.core.PropertyChangeAdapter;
 
@@ -39,6 +43,8 @@ public class XWCardLayout extends XLayoutContainer {
 	private CardLayout cardLayout;
 	private boolean initFlag = true;
 	private static final int NORTH = 0;
+	private FormDesigner designer;
+
 	//默认蓝色标题背景
 	private static final Color TITLE_COLOR = new Color(51, 132, 240);
 
@@ -197,9 +203,9 @@ public class XWCardLayout extends XLayoutContainer {
 		CardSwitchButton firstBtn = new CardSwitchButton(widgetName);
 		firstBtn.setText(Inter.getLocText("FR-Designer_Title") + 0);
 		firstBtn.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
-		xTag.setCurrentCard(firstBtn);
-		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1),this,xTag);
 		firstBtn.setCustomStyle(true);
+		xTag.setCurrentCard(firstBtn);
+		XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1), this, xTag);
 		xFirstBtn.setBackupParent(xTag);
 		
 		return xFirstBtn;
@@ -264,35 +270,75 @@ public class XWCardLayout extends XLayoutContainer {
 	public boolean hasTitleStyle() {
 		return true;
 	}
-	
-	
-	/**
-	*  得到属性名
-	 * @return 属性名
-	* @throws IntrospectionException
-	*/
-	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-	return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
-                       .getLocText("FR-Designer_Form-Widget_Name")).setPropertyChangeListener(new PropertyChangeAdapter(){
-                    	   
-                    	   @Override
-                    	   public void propertyChange(){
-                    		   WCardLayout cardLayout = toData();
-                    		   changeRalateSwitchCardname(cardLayout.getWidgetName());
-                    	   }
-                       }),
-               new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
-            		   CardTagWLayoutBorderStyleEditor.class).setI18NName(
-                       Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
-                       .setPropertyChangeListener(new PropertyChangeAdapter() {
 
-                            @Override
-                            public void propertyChange() {
-                           	initStyle();
-                           }
-                        }),
-                    };
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = null;
+		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+	}
+
+	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
+		return new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("carousel", this.data.getClass())
+						.setEditorClass(BooleanEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+						designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
+					}
+				}),
+				new CRPropertyDescriptor("carouselInterval", this.data.getClass())
+						.setEditorClass(DoubleEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer_carouselInterval"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+		};
+	}
+
+	public CRPropertyDescriptor[] getisnotCarousel() throws IntrospectionException {
+		return new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("carousel", this.data.getClass())
+						.setEditorClass(BooleanEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+						designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
+					}
+				})
+		};
+	}
+
+	public CRPropertyDescriptor[] getDefaultDescriptor() throws IntrospectionException {
+		return new CRPropertyDescriptor[] {
+				new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
+						.getLocText("FR-Designer_Form-Widget_Name")).setPropertyChangeListener(new PropertyChangeAdapter(){
+
+					@Override
+					public void propertyChange(){
+						WCardLayout cardLayout = toData();
+						changeRalateSwitchCardname(cardLayout.getWidgetName());
+					}
+				}),
+				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
+						CardTagWLayoutBorderStyleEditor.class).setI18NName(
+						Inter.getLocText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
+
+					@Override
+					public void propertyChange() {
+						initStyle();
+					}
+				})
+		};
 	}
 	
 	//初始化样式

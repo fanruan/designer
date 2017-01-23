@@ -20,6 +20,7 @@ import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
@@ -229,5 +230,10 @@ public class FloatSelection extends Selection {
         QuickEditor editor = ActionFactory.getFloatEditor(value.getClass());
         editor.populate(tc);
         return editor;
+    }
+
+    @Override
+    public void populatePropertyPane(ElementCasePane ePane) {
+        CellElementPropertyPane.getInstance().removeAll();
     }
 }

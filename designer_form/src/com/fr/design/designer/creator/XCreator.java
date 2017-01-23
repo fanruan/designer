@@ -426,7 +426,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
      */
     public boolean acceptType(Class<?>... acceptTypes) {
         for (Class<?> type : acceptTypes) {
-            if (StableUtils.classInstanceOf(this.getClass(), type)) {
+            if (StableUtils.objectInstanceOf(this, type)) {
                 return true;
             }
         }

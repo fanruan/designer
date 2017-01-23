@@ -1,12 +1,13 @@
-package com.fr.design.report.mobile;
+package com.fr.design.dialog.mobile;
 
-import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.stable.StringUtils;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,36 +16,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/5/16/0016.
+ * 由于MobileUserHtmlGroupPane 现在在report和form中均会用到，会出现重复代码，故放入base中
+ * Created by fanglei on 2016/12/28.
  */
-public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
+public abstract class MobileUseHtmlGroupBeanPane<T> extends BasicBeanPane<T> {
 
     private List<UIRadioButton> radioButtons = new ArrayList<UIRadioButton>();
 
-    public MobileRadioGroupPane(String title) {
-        initComponents(title);
+    public MobileUseHtmlGroupBeanPane() {
+        initComponents();
     }
 
-    private void initComponents(String title) {
+    private void initComponents() {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setBorder(UITitledBorder.createBorderWithTitle(this.title4PopupWindow()));
+
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p};
-        double[] columnSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p};
+        double[] columnSize = {p, p, p};
 
-        UIRadioButton defaultRadio = new UIRadioButton(MobileFitAttrState.DEFAULT.description());
-        defaultRadio.setSelected(true);
-        UIRadioButton horizonRadio = new UIRadioButton(MobileFitAttrState.HORIZONTAL.description());
-        UIRadioButton verticalRadio = new UIRadioButton(MobileFitAttrState.VERTICAL.description());
-        UIRadioButton bidirectionalRadio = new UIRadioButton(MobileFitAttrState.BIDIRECTIONAL.description());
-        UIRadioButton notFitRadio = new UIRadioButton(MobileFitAttrState.NONE.description());
+        UIRadioButton useApp = new UIRadioButton(Inter.getLocText("FR-mobile_native_analysis"));
+        useApp.setSelected(true);
+        UIRadioButton useHTML5 = new UIRadioButton(Inter.getLocText("FR-mobile_html_analysis"));
 
-        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
+        addToButtonGroup(useApp, useHTML5);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(title), defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio}
+                new Component[]{new UILabel(Inter.getLocText("FR-mobile_analysis_style")), useApp, useHTML5},
+                new Component[]{new UILabel(Inter.getLocText("FR-mobile_analysis_annotation")), null, null}
         };
-        JPanel fitOpsPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        fitOpsPane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
-        this.add(fitOpsPane);
+        JPanel usePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        usePane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
+
+        this.add(usePane);
     }
 
     private void addToButtonGroup(UIRadioButton... radios) {
@@ -101,18 +105,8 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
     }
 
     @Override
-    public void populateBean(MobileFitAttrState ob) {
-        selectIndexButton(ob.getState());
-    }
-
-    @Override
-    public MobileFitAttrState updateBean() {
-        int index = getSelectRadioIndex();
-        return MobileFitAttrState.parse(index);
-    }
-
-    @Override
     protected String title4PopupWindow() {
-        return StringUtils.EMPTY;
+        return Inter.getLocText("FR-mobile_report_analysis");
     }
 }
+

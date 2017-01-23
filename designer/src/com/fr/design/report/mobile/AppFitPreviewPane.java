@@ -35,10 +35,12 @@ public class AppFitPreviewPane extends BasicPane{
         cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png")));
         cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png")));
         cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png")));
         cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png")));
         cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png")));
         cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png")));
         cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png")));
+        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png")));
     }
 
     private void initComponents() {

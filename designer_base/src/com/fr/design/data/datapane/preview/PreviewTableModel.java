@@ -50,7 +50,7 @@ public class PreviewTableModel extends AbstractTableModel {
             maxRowCount = rowCount;
         }
         final int finalRowCount = maxRowCount;
-        DataModel dm = new DataModel() {
+        DataModel dm = new AbstractDataModel() {
 
             @Override
             public void release() throws Exception {
@@ -100,7 +100,7 @@ public class PreviewTableModel extends AbstractTableModel {
         } catch (TableDataException e) {
             FRContext.getLogger().error(e.getMessage(), e);
             DesignUtils.errorMessage(e.getMessage());
-            return Inter.getLocText("Error");
+            return Inter.getLocText("FR-Designer_Error");
         }
     }
 
@@ -149,7 +149,7 @@ public class PreviewTableModel extends AbstractTableModel {
         }
 
         public String getColumnName(int column) {
-            return Inter.getLocText("Error");
+            return Inter.getLocText("FR-Designer_Error");
         }
 
         public int getColumnCount() {
@@ -166,7 +166,7 @@ public class PreviewTableModel extends AbstractTableModel {
 
     private String checkType(int column) {
         if (dateIndexs.contain(column)) {
-            String s = Inter.getLocText("Date");
+            String s = Inter.getLocText("FR-Designer_Date");
             return ("(" + s + ")");
         }
 
@@ -187,23 +187,23 @@ public class PreviewTableModel extends AbstractTableModel {
         if (o == null) {
             s = "?";
         } else if (o instanceof String) {
-            s = Inter.getLocText("Parameter-String");
+            s = Inter.getLocText("FR-Designer_Parameter_String");
             if (FRContext.getCurrentEnv() instanceof RemoteEnv && dataModel instanceof EmbeddedTDDataModel) {
                 Class clzz = ((EmbeddedTDDataModel) dataModel).getColumnClass(column);
                 if (Number.class.isAssignableFrom(clzz)) {
-                    s = Inter.getLocText("Number");//bigdecimal
+                    s = Inter.getLocText("FR-Designer_Number");//bigdecimal
                 } else if (java.sql.Date.class.isAssignableFrom(clzz)) {
-                    s = Inter.getLocText("Date");
+                    s = Inter.getLocText("FR-Designer_Date");
                 }
             }
         } else if (o instanceof Integer) {
-            s = Inter.getLocText("Integer");
+            s = Inter.getLocText("FR-Designer_Integer");
         } else if (o instanceof Double || o instanceof Float) {
-            s = Inter.getLocText("Double");
+            s = Inter.getLocText("FR-Designer_Double");
         } else if (o instanceof java.sql.Date || o instanceof java.util.Date) {
-            s = Inter.getLocText("Date");
+            s = Inter.getLocText("FR-Designer_Date");
         } else if (o instanceof Number) {
-            s = Inter.getLocText("Number");//bigdecimal
+            s = Inter.getLocText("FR-Designer_Number");//bigdecimal
         } else {
             s = "?";
         }

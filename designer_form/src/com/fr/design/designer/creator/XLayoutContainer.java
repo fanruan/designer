@@ -82,6 +82,27 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
 	}
 
     /**
+     * 控件名属性
+     * @return
+     * @throws IntrospectionException
+     */
+    public CRPropertyDescriptor createWidgetNameDescriptor() throws IntrospectionException {
+        return new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
+                .getLocText("FR-Designer_Form-Widget_Name"));
+    }
+
+    /**
+     * 边距属性
+     * @return
+     * @throws IntrospectionException
+     */
+    public CRPropertyDescriptor createMarginDescriptor() throws IntrospectionException {
+        return new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
+                .setI18NName(Inter.getLocText("FR-Designer_Layout-Padding"))
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+    }
+
+    /**
      *   返回对应的wlayout
      * @return wlayout控件
      */
