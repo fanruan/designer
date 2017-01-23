@@ -271,6 +271,16 @@ public class XWCardLayout extends XLayoutContainer {
 		return true;
 	}
 
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = null;
+		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+	}
+
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
 		return new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("carousel", this.data.getClass())

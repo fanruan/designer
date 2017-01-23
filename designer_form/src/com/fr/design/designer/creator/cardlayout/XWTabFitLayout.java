@@ -112,6 +112,16 @@ public class XWTabFitLayout extends XWFitLayout {
 		super(widget, initSize);
 	}
 
+	/**
+	 *  得到属性名
+	 * @return 属性名
+	 * @throws IntrospectionException
+	 */
+	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
+		CRPropertyDescriptor[] crp = null;
+		return ArrayUtils.addAll(defaultDescriptor(), crp);
+	}
+
 	protected CRPropertyDescriptor[] getisCustomStyle() throws IntrospectionException {
 		return new CRPropertyDescriptor[]{
 				//标题样式
