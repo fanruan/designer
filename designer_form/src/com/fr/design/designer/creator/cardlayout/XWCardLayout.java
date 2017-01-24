@@ -270,15 +270,14 @@ public class XWCardLayout extends XLayoutContainer {
 	public boolean hasTitleStyle() {
 		return true;
 	}
-	
-	
+
 	/**
-	*  得到属性名
+	 *  得到属性名
 	 * @return 属性名
-	* @throws IntrospectionException
-	*/
+	 * @throws IntrospectionException
+	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
+		CRPropertyDescriptor[] crp = null;
 		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
 	}
 
