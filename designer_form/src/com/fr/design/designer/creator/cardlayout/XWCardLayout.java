@@ -277,7 +277,7 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @throws IntrospectionException
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = null;
+		CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
 		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
 	}
 
