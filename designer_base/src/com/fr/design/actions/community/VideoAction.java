@@ -46,7 +46,7 @@ public class VideoAction extends UpdateAction
 		try {
 			Desktop.getDesktop().browse(new URI(url));
 		} catch (IOException exp) {
-			JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
+			JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
 			FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
 		} catch (URISyntaxException exp) {
 			FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
