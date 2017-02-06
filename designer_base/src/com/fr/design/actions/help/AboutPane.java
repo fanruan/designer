@@ -81,7 +81,7 @@ public class AboutPane extends JPanel {
         }
 
         BoxCenterAligmentPane actionLabel = getURLActionLabel(ProductConstants.WEBSITE_URL);
-        BoxCenterAligmentPane emailLabel = getEmailActionLabel(ProductConstants.SUPPORT_EMAIL);
+        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("register.email", ProductConstants.SUPPORT_EMAIL));
         
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
