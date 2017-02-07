@@ -277,8 +277,22 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @throws IntrospectionException
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
-		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+		//嵌套的tab组件，内层的不支持轮播属性，屏蔽属性表
+		if(!isNested()) {
+			CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
+			return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+		}else{
+			return getDefaultDescriptor();
+		}
+	}
+
+	/**
+	 * 判断当前tab组件是不是嵌套的
+	 * @return 嵌套与否
+	 */
+	private boolean isNested(){
+		XLayoutContainer xLayoutContainer = this.getBackupParent().getBackupParent();
+		return xLayoutContainer != null && xLayoutContainer.acceptType(XWTabFitLayout.class);
 	}
 
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
