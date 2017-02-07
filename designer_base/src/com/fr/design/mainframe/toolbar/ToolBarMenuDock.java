@@ -160,9 +160,7 @@ public abstract class ToolBarMenuDock {
 	public Locale[] supportCommunityLocales() {
         return new Locale[]{
                 Locale.CHINA,
-                Locale.JAPAN,
                 Locale.TAIWAN,
-                Locale.US,
         };
     }
 
@@ -314,6 +312,10 @@ public abstract class ToolBarMenuDock {
     public ShortCut[] createHelpShortCuts() {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
+        // 英文，把 video 的链接放到 Help 下面
+        if (FRContext.getLocale().equals(Locale.US)) {
+            shortCuts.add(new VideoAction());
+        }
         shortCuts.add(SeparatorDef.DEFAULT);
         //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
