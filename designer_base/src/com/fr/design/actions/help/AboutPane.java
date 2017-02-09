@@ -69,7 +69,7 @@ public class AboutPane extends JPanel {
                 }));
 
         // 英文去掉服务电话和 QQ
-        if (FRContext.getLocale() == Locale.ENGLISH || FRContext.getLocale() == Locale.US || FRContext.getLocale() == Locale.UK){
+        if (FRContext.getLocale().equals(Locale.US)){
             // do nothing
         } else {
             if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
@@ -80,7 +80,15 @@ public class AboutPane extends JPanel {
             contentPane.add(boxCenterAlignmentPane);
         }
 
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website", ProductConstants.WEBSITE_URL));
+        String locale; // SiteCenter 取值的 key 后缀
+        if (FRContext.getLocale().equals(Locale.US)) {
+            locale = ".en";
+        } else if (FRContext.getLocale().equals(Locale.JAPAN)) {
+            locale = ".jp";
+        } else {
+            locale = "";
+        }
+        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website" + locale, ProductConstants.WEBSITE_URL));
         BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("register.email", ProductConstants.SUPPORT_EMAIL));
         
         contentPane.add(actionLabel);
@@ -111,7 +119,7 @@ public class AboutPane extends JPanel {
     
     private String getCopyRight(){
        return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
-    		   ProductConstants.HISTORY, StringUtils.BLANK, ProductConstants.COMPANY_NAME);
+    		   ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {
