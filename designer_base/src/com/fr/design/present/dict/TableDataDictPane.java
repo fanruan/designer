@@ -95,7 +95,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("DS-TableData") + ":", UILabel.RIGHT), firstLine},
+                new Component[]{new UILabel("  " + Inter.getLocText("FR-Engine_DS-TableData") + ":", UILabel.RIGHT), firstLine},
                 new Component[]{new UILabel(Inter.getLocText("Actual_Value") + ":", UILabel.RIGHT), keyColumnPane},
                 new Component[]{new UILabel(Inter.getLocText("Display_Value") + ":", UILabel.RIGHT), valueDictPane}
         };
