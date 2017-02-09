@@ -400,7 +400,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(Inter.getLocText(new String[]{"Polybolck", "Edit"}));
+            return polyToolBar(Inter.getLocText("FR-Designer_Polyblock_Edit"));
         }
     }
 
