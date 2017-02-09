@@ -3,7 +3,9 @@ package com.fr.design.mainframe.cell.settingpane;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Locale;
 
+import com.fr.base.FRContext;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ilable.UILabel;
 
@@ -123,8 +125,14 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         String[] AjustRowTypes = new String[]{
                 Inter.getLocText("No"), Inter.getLocText("Utils-Row_Height"), Inter.getLocText("Utils-Column_Width"), Inter.getLocText("Default")};
         autoshrik = new UIButtonGroup(AjustRowTypes);
-        autoshrik.setTwoLine();
-        autoshrik.setLayout(new GridLayout(2, 2, 1, 1));
+        if (FRContext.getLocale().equals(Locale.US)) {
+            // 英文显示不全，故每行一个按钮
+            autoshrik.setFourLine();
+            autoshrik.setLayout(new GridLayout(4, 1, 1, 1));
+        } else {
+            autoshrik.setTwoLine();
+            autoshrik.setLayout(new GridLayout(2, 2, 1, 1));
+        }
 
         previewCellContent = new UICheckBox(Inter.getLocText("CellWrite-Preview_Cell_Content"));
         printAndExportContent = new UICheckBox(Inter.getLocText("CellWrite-Print_Content"));
