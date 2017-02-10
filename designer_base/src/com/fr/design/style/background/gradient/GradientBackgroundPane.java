@@ -55,12 +55,12 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		centerPane.add(innercenterPane);
 		innercenterPane.add(new UILabel(Inter.getLocText("Gradient-Direction") + ":"));
 
-		left2right = new UIRadioButton(Inter.getLocText("PageSetup-Landscape"));
+		left2right = new UIRadioButton(Inter.getLocText("FR-Designer_PageSetup_Horizontal"));
 		innercenterPane.add(left2right);
 		left2right.setSelected(true);
 		left2right.addActionListener(reviewListener);
 
-		top2bottom = new UIRadioButton(Inter.getLocText("PageSetup-Portrait"));
+		top2bottom = new UIRadioButton(Inter.getLocText("FR-Designer_PageSetup_Vertical"));
 		innercenterPane.add(top2bottom);
 		top2bottom.addActionListener(reviewListener);
 
