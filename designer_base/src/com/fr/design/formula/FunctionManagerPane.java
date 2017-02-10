@@ -159,10 +159,7 @@ public class FunctionManagerPane extends BasicPane {
             descriptionArea.setWrapStyleWord(true);
             descriptionArea.setLineWrap(true);
             northPane.add(descriptionArea);
-            descriptionArea.setText(Inter.getLocText(new String[]{"Function-The_class_must_inherit","Fuction-The_compiled_class_should_be_copied_to",
-            		"Function-J2EE_server", "Directory", "Function-Source_Code", "Example"}, 
-            		new String[]{" \"com.fr.script.AbstractFunction\".", "\n", " \"" + File.separator + "WEB-INF" + File.separator + "classes\"",
-            		",", ".\n", ":" + FRContext.getCurrentEnv().getPath() + File.separator + "classes"}));
+            descriptionArea.setText(Inter.getLocText("FR-Designer_Function_Description_Area_Text", File.separator, File.separator, FRContext.getCurrentEnv().getPath() + File.separator));
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
             this.add(descriptionPane, BorderLayout.SOUTH);
             descriptionPane.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
