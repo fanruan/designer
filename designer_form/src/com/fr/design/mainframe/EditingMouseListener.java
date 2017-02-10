@@ -511,9 +511,6 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e    鼠标事件
      */
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() != MouseEvent.BUTTON1) {
-			return;
-		}
 		XCreator creator = designer.getComponentAt(e);
 
 		creator = processTopLayoutMouseClick(creator);
