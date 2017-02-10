@@ -60,17 +60,26 @@ public class TutorialAction extends UpdateAction {
      */
     public void actionPerformed(ActionEvent evt) {
         Locale locale = FRContext.getLocale();
-        if (ComparatorUtils.equals(locale, Locale.CHINA) || ComparatorUtils.equals(locale, Locale.TAIWAN)){
-            HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("help"));
+        String helpKey = "";
+
+        if (ComparatorUtils.equals(locale, Locale.CHINA) || ComparatorUtils.equals(locale, Locale.TAIWAN)) {
+            helpKey = "help";
+        } else if (ComparatorUtils.equals(locale, Locale.US)) {
+            helpKey = "help.en";
+        }
+
+        if (!helpKey.isEmpty()) {
+            HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(helpKey));
             if(client.getResponseCode() != -1) {
                 try {
-                	 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("help")));
+                	 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind(helpKey)));
                     return;
                 } catch (Exception e) {
                     //出了异常的话, 依然打开本地教程
                 }
             }
         }
+
         if (OperatingSystem.isMacOS()) {
             nativeExcuteMacInstallHomePrograms("helptutorial.app");
         }
