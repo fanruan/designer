@@ -78,23 +78,23 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         double p = TableLayout.PREFERRED;
         double[] rowSize1 = {p, p, p, p, p, p, p};
         double[] columnSize1 = {p, f};
-        UILabel autoAdjustLabel = new UILabel(Inter.getLocText("Auto_Adjust_Size") + ":", SwingConstants.RIGHT);
+        UILabel autoAdjustLabel = new UILabel(Inter.getLocText("FR-Designer_Auto_Adjust_Size") + ":", SwingConstants.RIGHT);
         autoAdjustLabel.setVerticalAlignment(UILabel.TOP);
         Component[][] components1 = new Component[][]{
                 new Component[]{autoAdjustLabel, autoshrik},
-                new Component[]{new UILabel(Inter.getLocText("Preview") + ":", SwingConstants.RIGHT), previewCellContent},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Preview") + ":", SwingConstants.RIGHT), previewCellContent},
                 new Component[]{new UILabel(Inter.getLocText("CellWrite-Print_Export") + ":", SwingConstants.RIGHT), printAndExportContent},
                 new Component[]{null, printAndExportBackground},
-                new Component[]{new UILabel(Inter.getLocText("Show_Content") + ":", SwingConstants.RIGHT), showContent},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Show_Content") + ":", SwingConstants.RIGHT), showContent},
                 new Component[]{null, fileNamePane},
-                new Component[]{new UILabel(Inter.getLocText("CellWrite-ToolTip") + ":", SwingConstants.RIGHT), tooltipTextField},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip") + ":", SwingConstants.RIGHT), tooltipTextField},
         };
         JPanel northContentPane = TableLayoutHelper.createTableLayoutPane(components1, rowSize1, columnSize1);
         double[] rowSize2 = {p, p, p, p, p, p};
         double[] columnSize2 = {p, f};
         Component[][] components2 = new Component[][]{
                 new Component[]{new JSeparator(JSeparator.HORIZONTAL), null},
-                new Component[]{new UILabel(Inter.getLocText("Pagination")), null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Pagination")), null},
                 new Component[]{pageBeforeRowCheckBox, pageAfterRowCheckBox},
                 new Component[]{pageBeforeColumnCheckBox, pageAfterColumnCheckBox},
                 new Component[]{canBreakOnPaginateCheckBox, null},
@@ -123,7 +123,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private JPanel createNormal() {
         String[] AjustRowTypes = new String[]{
-                Inter.getLocText("No"), Inter.getLocText("Utils-Row_Height"), Inter.getLocText("Utils-Column_Width"), Inter.getLocText("Default")};
+                Inter.getLocText("FR-Designer_No"), Inter.getLocText("Utils-Row_Height"), Inter.getLocText("Utils-Column_Width"), Inter.getLocText("FR-Designer_DEFAULT")};
         autoshrik = new UIButtonGroup(AjustRowTypes);
         if (FRContext.getLocale().equals(Locale.US)) {
             // 英文显示不全，故每行一个按钮
@@ -138,13 +138,13 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         printAndExportContent = new UICheckBox(Inter.getLocText("CellWrite-Print_Content"));
         printAndExportBackground = new UICheckBox(Inter.getLocText("CellWrite-Print_Background"));
 
-        showContent = new UIComboBox(new String[]{Inter.getLocText("Default"), Inter.getLocText("CellWrite-Show_As_Image"), Inter.getLocText("CellWrite-Show_As_HTML"),
-                Inter.getLocText("ShowAsDownload")});
+        showContent = new UIComboBox(new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("CellWrite-Show_As_Image"), Inter.getLocText("CellWrite-Show_As_HTML"),
+                Inter.getLocText("FR-Designer_Show_As_Download")});
         final CardLayout fileNameLayout = new CardLayout();
         final JPanel fileNamePane = new JPanel(fileNameLayout);
         JPanel fileNameCCPane = new JPanel(new BorderLayout(4, 0));
 
-        fileNameCCPane.add(new UILabel(Inter.getLocText("FileNameForDownload")), BorderLayout.WEST);
+        fileNameCCPane.add(new UILabel(Inter.getLocText("FR-Designer_File_Name_For_Download")), BorderLayout.WEST);
         fileNameTextField = new UITextField();
 
         tooltipTextField = new UITextField();
@@ -194,13 +194,13 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     }
 
     private void initAllNames() {
-        autoshrik.setGlobalName(Inter.getLocText("Auto_Adjust_Size"));
-        previewCellContent.setGlobalName(Inter.getLocText("Preview"));
+        autoshrik.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Size"));
+        previewCellContent.setGlobalName(Inter.getLocText("FR-Designer_Preview"));
         printAndExportContent.setGlobalName(Inter.getLocText("CellWrite-Preview_Cell_Content"));
         printAndExportBackground.setGlobalName(Inter.getLocText("CellWrite-Print_Background"));
-        showContent.setGlobalName(Inter.getLocText("Show_Content"));
-        fileNameTextField.setGlobalName(Inter.getLocText("Show_Content"));
-        tooltipTextField.setGlobalName(Inter.getLocText("CellWrite-ToolTip"));
+        showContent.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
+        fileNameTextField.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
+        tooltipTextField.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_ToolTip"));
         pageBeforeRowCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_Before_Row"));
         pageAfterRowCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_After_Row"));
         pageBeforeColumnCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_Before_Column"));
@@ -232,10 +232,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         } else if (cellGUIAttr.isShowAsHTML()) {
             showContent.setSelectedItem(Inter.getLocText("CellWrite-Show_As_HTML"));
         } else if (cellGUIAttr.isShowAsDownload()) {
-            showContent.setSelectedItem(Inter.getLocText("ShowAsDownload"));
+            showContent.setSelectedItem(Inter.getLocText("FR-Designer_Show_As_Download"));
             fileNameTextField.setText(cellGUIAttr.getFileName());
         } else {
-            showContent.setSelectedItem(Inter.getLocText("Default"));
+            showContent.setSelectedItem(Inter.getLocText("FR-Designer_DEFAULT"));
         }
         tooltipTextField.setText(cellGUIAttr.getTooltipText());
         CellPageAttr cellPageAttr = cellElement.getCellPageAttr(); // 分页
@@ -280,11 +280,11 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellGUIAttr = new CellGUIAttr();
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("Auto_Adjust_Size"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Size"))) {
             cellGUIAttr.setAdjustMode(autoshrik.getSelectedIndex());
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("Preview"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Preview"))) {
             cellGUIAttr.setPreviewContent(previewCellContent.isSelected());
         }
 
@@ -296,7 +296,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellGUIAttr.setPrintBackground(printAndExportBackground.isSelected());
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("Show_Content"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Show_Content"))) {
             cellGUIAttr.setShowAsDefault(showContent.getSelectedIndex() == 0);
             cellGUIAttr.setShowAsImage(showContent.getSelectedIndex() == 1);
             cellGUIAttr.setShowAsHTML(showContent.getSelectedIndex() == 2);
@@ -308,7 +308,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             }
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-ToolTip"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_ToolTip"))) {
             if (tooltipTextField.getText() == null || tooltipTextField.getText().trim().length() <= 0) {
                 cellGUIAttr.setTooltipText(fieldName);
             } else {
