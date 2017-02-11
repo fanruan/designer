@@ -34,6 +34,8 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 	private static final int MIN_SIZE = 1;
 	
 	private String tagName = "Tab";
+
+	private boolean switchingTab = false;
 	
 	//增加一个tabNameIndex防止tabFitLayout重名
 	private int tabFitIndex = 0;
@@ -63,6 +65,14 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 		this.tagName = tagName;
 	}
 
+	public boolean isSwitchingTab() {
+		return switchingTab;
+	}
+
+	public void setSwitchingTab(boolean switchingTab) {
+		this.switchingTab = switchingTab;
+	}
+
 	private XWCardLayout cardLayout;
 	
 	public XWCardTagLayout(WCardTagLayout widget, Dimension initSize){
@@ -89,6 +99,10 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 	 */
 	public void componentAdded(ContainerEvent e) {
 		super.componentAdded(e);
+
+		if (isSwitchingTab()){
+			return;
+		}
 		
 		if(this.cardLayout == null){
 			initCardLayout();
