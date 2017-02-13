@@ -53,7 +53,7 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
 
         //初次打开软件时从xml文件中获取历史颜色信息
         if (init) {
-            ColorSelectConfigManagerProvider manager = colorSelectConfigManager.getProviderInstance();
+            ColorSelectConfigManagerProvider manager = ColorSelectConfigManager.getProviderInstance();
             this.colors = manager.getColorsFromFile();
             init = false;
         }
@@ -93,7 +93,7 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
 
         /*@author yaohwu*/
         //将历史颜色信息保存到xml文件中去
-        ColorSelectConfigManagerProvider manager = colorSelectConfigManager.getProviderInstance();
+        ColorSelectConfigManagerProvider manager = ColorSelectConfigManager.getProviderInstance();
         if (colors != null && !colors.isEmpty()) {
             manager.setColorsToFile(colors);
         }
