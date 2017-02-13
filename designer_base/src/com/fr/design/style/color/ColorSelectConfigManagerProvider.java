@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface ColorSelectConfigManagerProvider extends RemoteXMLFileManagerProvider {
 
-    public List<Color> getColorsFromFile();
-    public void setColorsToFile(List<Color> colors);
+    List<Color> getColorsFromFile();
+
+    void setColorsToFile(List<Color> colors);
 }
