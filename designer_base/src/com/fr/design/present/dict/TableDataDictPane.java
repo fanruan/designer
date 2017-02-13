@@ -77,7 +77,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
             }
         });
         keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Engine_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
     }
@@ -158,7 +158,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         columnIndexEditor1.addItemListener(itemListener);
         keyColumnPane.setEditors(new Editor[]{columnNameEditor1, columnIndexEditor1}, columnNames[0]);
 
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Engine_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         formulaEditor.addChangeListener(new ChangeListener() {
 
