@@ -69,7 +69,7 @@ public class AboutPane extends JPanel {
                 }));
 
         // 英文去掉服务电话和 QQ
-        if (FRContext.getLocale() == Locale.ENGLISH || FRContext.getLocale() == Locale.US || FRContext.getLocale() == Locale.UK){
+        if (FRContext.getLocale().equals(Locale.US)){
             // do nothing
         } else {
             if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
@@ -80,8 +80,8 @@ public class AboutPane extends JPanel {
             contentPane.add(boxCenterAlignmentPane);
         }
 
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website", ProductConstants.WEBSITE_URL));
-        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("register.email", ProductConstants.SUPPORT_EMAIL));
+        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
+        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL));
         
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
@@ -111,7 +111,7 @@ public class AboutPane extends JPanel {
     
     private String getCopyRight(){
        return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
-    		   ProductConstants.HISTORY, StringUtils.BLANK, ProductConstants.COMPANY_NAME);
+    		   ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {
