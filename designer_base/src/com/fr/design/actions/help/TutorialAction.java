@@ -59,20 +59,13 @@ public class TutorialAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        Locale locale = FRContext.getLocale();
-        String helpKey = "";
+        String helpURL = SiteCenter.getInstance().acquireUrlByKind("help." + FRContext.getLocale());
 
-        if (ComparatorUtils.equals(locale, Locale.CHINA) || ComparatorUtils.equals(locale, Locale.TAIWAN)) {
-            helpKey = "help";
-        } else if (ComparatorUtils.equals(locale, Locale.US)) {
-            helpKey = "help.en";
-        }
-
-        if (!helpKey.isEmpty()) {
-            HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(helpKey));
+        if (helpURL != null) {
+            HttpClient client = new HttpClient(helpURL);
             if(client.getResponseCode() != -1) {
                 try {
-                	 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind(helpKey)));
+                	 Desktop.getDesktop().browse(new URI(helpURL));
                     return;
                 } catch (Exception e) {
                     //出了异常的话, 依然打开本地教程

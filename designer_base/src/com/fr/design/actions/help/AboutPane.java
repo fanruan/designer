@@ -80,16 +80,8 @@ public class AboutPane extends JPanel {
             contentPane.add(boxCenterAlignmentPane);
         }
 
-        String locale; // SiteCenter 取值的 key 后缀
-        if (FRContext.getLocale().equals(Locale.US)) {
-            locale = ".en";
-        } else if (FRContext.getLocale().equals(Locale.JAPAN)) {
-            locale = ".jp";
-        } else {
-            locale = "";
-        }
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website" + locale, ProductConstants.WEBSITE_URL));
-        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("register.email", ProductConstants.SUPPORT_EMAIL));
+        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
+        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL));
         
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
