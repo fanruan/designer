@@ -124,7 +124,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                 public void actionPerformed(ActionEvent e) {
                     String[] plugins = PluginCollector.getCollector().getErrorPlugins();
                     if (ArrayUtils.isNotEmpty(plugins)) {
-                        String text = StableUtils.join(plugins, ",") + Inter.getLocText("FR-Designer_Plugin_Should_Update");
+                        String text = StableUtils.join(plugins, ",") + ": " + Inter.getLocText("FR-Designer_Plugin_Should_Update_Please_Contact_Developer");
                         int r = JOptionPane.showConfirmDialog(null, text, Inter.getLocText("FR-Designer_Plugin_Should_Update_Title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (r == JOptionPane.OK_OPTION) {
                             WebDialog.createPluginDialog();
