@@ -182,7 +182,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
     private void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
         int eachRowCount = 4;
         Component[] components = xwFitLayout.getComponents();
-        if (components.length <= 1){
+        if (components.length == 0){
             xwFitLayout.updateBoundsWidget();
             return;
         }
