@@ -26,8 +26,11 @@ import java.util.Comparator;
 public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPropertiesGroupModel {
     private LayoutTypeEditor layoutTypeEditor;
     private LayoutTypeRenderer layoutTypeRenderer;
+
     //默认body是0,自适应布局;1,绝对布局.
     private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
+    private static final int EACH_ROW_COUNT = 4;
+
     public FRAbsoluteBodyLayoutPropertiesGroupModel(XWAbsoluteBodyLayout xwAbsoluteBodyLayout) {
         super(xwAbsoluteBodyLayout);
     }
@@ -180,7 +183,6 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
     // 把绝对布局中的元素按规则移动到自适应布局中
     // 规则：各元素按顺序放置，其中每行最多4个元素，超出则换行，各元素均分body的高度和宽度
     private void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
-        int eachRowCount = 4;
         Component[] components = xwFitLayout.getComponents();
         if (components.length == 0){
             xwFitLayout.updateBoundsWidget();
@@ -191,17 +193,17 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         int leftMargin = xwFitLayout.toData().getMargin().getLeft();
         int topMargin = xwFitLayout.toData().getMargin().getTop();
         xwFitLayout.toData().setCompInterval(0);
-        int row = (components.length / eachRowCount) + (components.length % eachRowCount == 0 ? 0 : 1);
+        int row = (components.length / EACH_ROW_COUNT) + (components.length % EACH_ROW_COUNT == 0 ? 0 : 1);
         //最后一行的列数不定
-        int column = components.length % eachRowCount == 0 ? eachRowCount : components.length % eachRowCount;
-        int componentWidth = layoutWidth / eachRowCount;
+        int column = components.length % EACH_ROW_COUNT == 0 ? EACH_ROW_COUNT : components.length % EACH_ROW_COUNT;
+        int componentWidth = layoutWidth / EACH_ROW_COUNT;
         int componentHeight = layoutHeight / row;
         for(int i = 0;i < row - 1;i++){
-            for(int j = 0;j < eachRowCount;j++){
-                components[eachRowCount * i + j].setBounds(
+            for(int j = 0;j < EACH_ROW_COUNT;j++){
+                components[EACH_ROW_COUNT * i + j].setBounds(
                         leftMargin + componentWidth * j,
                         topMargin + componentHeight * i,
-                        j == eachRowCount - 1 ? layoutWidth - componentWidth * (eachRowCount - 1) : componentWidth,
+                        j == EACH_ROW_COUNT - 1 ? layoutWidth - componentWidth * (EACH_ROW_COUNT - 1) : componentWidth,
                         componentHeight
                 );
             }
@@ -210,7 +212,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
         int lastRowWidth = layoutWidth / column;
         int lastRowHeight = layoutHeight - componentHeight * (row - 1);
         for (int i = 0;i < column;i++) {
-            components[eachRowCount * (row - 1) + i].setBounds(
+            components[EACH_ROW_COUNT * (row - 1) + i].setBounds(
                     leftMargin + lastRowWidth * i,
                     topMargin + componentHeight * (row - 1),
                     i == column - 1 ? layoutWidth - lastRowWidth * (column - 1) : lastRowWidth,
