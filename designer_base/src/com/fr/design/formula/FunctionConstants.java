@@ -34,10 +34,16 @@ public abstract class FunctionConstants {
 	 * @param listModel
 	 */
 	public static void addFunctionGroupFromPlugins(DefaultListModel listModel){
-		//hugh:自定义函数分组
+		//hugh:自定义函数分组,分组名不允许重复
         Set<Mutable> containers = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
+        List<String> nameList = new ArrayList<String>();
         if(!containers.isEmpty()){
         	for(Mutable container : containers){
+        		String name = ((FunctionDefContainer)container).getGroupName();
+        		if(nameList.contains(name)){
+        			continue;
+        		}
+        		nameList.add(name);
         		listModel.addElement(createFunctionGroup((FunctionDefContainer)container));
         	}
         }
