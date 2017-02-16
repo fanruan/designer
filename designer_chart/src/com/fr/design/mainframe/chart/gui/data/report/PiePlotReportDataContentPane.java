@@ -24,7 +24,7 @@ public class PiePlotReportDataContentPane extends AbstractReportDataContentPane 
 	public PiePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		
-		this.add(new BoldFontTextLabel(Inter.getLocText("Data_Filter")), "0,4,2,4");
+		this.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter")), "0,4,2,4");
 		this.add(filterPane = new ChartDataFilterPane(new PiePlot(), parent), "0,6,2,4");
 	}
 	
