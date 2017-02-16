@@ -45,6 +45,8 @@ public class TabMovePrevAction extends FormUndoableAction {
             currentButton.setIndex(currentIndex - 1);
             currentTab.setIndex(currentIndex - 1);
             currentTab.setTabNameIndex(currentIndex - 1);
+            xwCardLayout.toData().setShowIndex(currentIndex - 1);
+            xwCardLayout.showCard();
             xwCardTagLayout.setSwitchingTab(false);
         }catch (Exception e){
             xwCardTagLayout.setSwitchingTab(false);
