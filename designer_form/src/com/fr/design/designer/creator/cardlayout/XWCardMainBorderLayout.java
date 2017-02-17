@@ -18,8 +18,8 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.container.WBorderLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 

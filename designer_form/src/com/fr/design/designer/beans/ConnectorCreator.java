@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import com.fr.form.ui.container.WLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-
+import com.fr.form.ui.widget.BoundsWidget;
 
 public class ConnectorCreator {
 	

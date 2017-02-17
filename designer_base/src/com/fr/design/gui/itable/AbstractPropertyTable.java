@@ -26,7 +26,7 @@ import com.fr.general.Inter;
  */
 public abstract class AbstractPropertyTable extends JTable {
 
-    // 属性分组
+    // // 所有数据组, 把数据分组，一个可折叠的项里面的所有行 为一组
     protected ArrayList<PropertyGroup> groups;
     protected TableModel default_table_model;
 	// 属性表被选中的行加一个浅蓝色的背景
@@ -35,23 +35,34 @@ public abstract class AbstractPropertyTable extends JTable {
 	public static final int PROPERTY_TABLE_ROW_HEIGHT = 22;
 
     public AbstractPropertyTable() {
-        this.setRowHeight(PROPERTY_TABLE_ROW_HEIGHT);
+        this.setTableProperties();
+        this.initPopup();
+        default_table_model = new DefaultTableModel();
+        this.setModel(default_table_model);
+    }
+
+    /**
+     * 设置表格属性
+     */
+    private void setTableProperties() {
         JTableHeader header = getTableHeader();
         header.setReorderingAllowed(false);
         header.setPreferredSize(new Dimension(0, PROPERTY_TABLE_ROW_HEIGHT));
         header.setDefaultRenderer(new HeaderRenderer());
+        this.setRowHeight(PROPERTY_TABLE_ROW_HEIGHT);
         this.setGridColor(new Color(212, 208, 200));
         this.setSelectionBackground(PROPERTY_SELECTION_BACKGROUND);
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setColumnSelectionAllowed(false);
         this.setRowSelectionAllowed(true);
         this.setFillsViewportHeight(true);
-        this.initPopup();
-        default_table_model = new DefaultTableModel();
-        this.setModel(default_table_model);
         this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
+    /**
+     * 在这个函数里面初始化表格数据再repaint
+     * @param source
+     */
     public abstract void initPropertyGroups(Object source);
 
     public void fireValueChanged(Object old_value, boolean success, Object newValue) {
@@ -64,24 +75,26 @@ public abstract class AbstractPropertyTable extends JTable {
 
     @Override
     public TableCellRenderer getCellRenderer(int row, int column) {
+        //如果数据组不为空
         if (groups != null) {
             Point pIndex = getGroupIndex(row);
             if (pIndex == null){
                 return super.getCellRenderer(row, column);
             }
+            //拿出当前行所在的那个属性组
             PropertyGroup group = groups.get(pIndex.x);
+            //如果是标题行
             if (pIndex.y == 0) {
-                if (column == 0) {
-                    return group.getFirstRenderer();
-                } else {
-                    return group.getSecondRenderer();
-                }
+                //采用group中定义好的标题行渲染器
+                return group.getRenderer();
             } else {
+                //如果是非标题行第一列，采用默认渲染器
                 if (column == 0) {
                 	return super.getCellRenderer(row, column);
 				} else {
 					TableCellRenderer renderer = group.getModel().getRenderer(pIndex.y - 1);
 					if (renderer instanceof Component) {
+                        //如果这个渲染器是继承自Component，根据当前行列是否可编辑决定该控件是否可用
 						((Component) renderer).setEnabled(isCellEditable(row, column));
 					}
 					return renderer;
@@ -115,6 +128,12 @@ public abstract class AbstractPropertyTable extends JTable {
         }
     }
 
+    /**
+     * 看懂了。。写个注释先
+     * 获取当前row行的Point(x, y), x代表当前row行是属于groups中的第x个组，y代表当前row行所在的第x组里面的第y行
+     * @param row
+     * @return
+     */
     private Point getGroupIndex(int row) {
         int count = 0;
         for (int i = 0; i < groups.size(); i++) {
@@ -135,6 +154,10 @@ public abstract class AbstractPropertyTable extends JTable {
 
         this.addMouseListener(new MouseAdapter() {
 
+            /**
+             * 如果点到标题行就要触发折叠事件
+             * @param e
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!e.isPopupTrigger() && groups != null) {
@@ -148,6 +171,11 @@ public abstract class AbstractPropertyTable extends JTable {
                 }
             }
 
+            /**
+             * 这个mousePressed和上面的mouseClicked唯一不同的地方是单双击和e.getX() < 10 的判断
+             * 这个意思应该就是说点到图标（加号减号），立即触发折叠效果，否则点其他处要双击才能触发
+             * @param e
+             */
             @Override
             public void mousePressed(MouseEvent e) {
                 if (!e.isPopupTrigger() && groups != null) {
@@ -163,16 +191,27 @@ public abstract class AbstractPropertyTable extends JTable {
         });
     }
 
+    /**
+     * 切换属性组折叠属性true/false
+     * @param groupIndex
+     */
     private void toggleCollapse(int groupIndex) {
         PropertyGroup group = groups.get(groupIndex);
         group.setCollapsed(!group.isCollapsed());
+        //这里获取表格的父控件是为了当表格被折叠了后，装表格的父控件也要相应的重新布局一下
+        //比如折叠之后表格行数应该比原来的少，占用父容器空间应该小点，不重新布局父容器，表格大小不会改变
         Container parent = AbstractPropertyTable.this.getParent();
         if (parent != null) {
-            parent.doLayout();
+//            parent.doLayout(); // 这里还是用revalidate吧。。daLayout有时候会失效不知道为什么
+            parent.revalidate();
         }
         repaint();
     }
 
+    /**
+     * BeanTableModel类，提供表格数据
+     * 它的所有数据来源均来自PropertyGroup中的AbstractPropertyGroupModel中的descriptor
+     */
     public class BeanTableModel extends AbstractTableModel {
 
         @Override

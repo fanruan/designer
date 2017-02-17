@@ -7,12 +7,12 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.stable.Constants;
 import com.fr.base.GraphHelper;
 import com.fr.design.designer.beans.ConnectorCreator;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.form.ui.Connector;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 public class ConnectorHelper {
 	//这个类是用来画连接线的，暂时用不到
