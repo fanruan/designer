@@ -30,6 +30,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 	private static final int SIZE_2 = 2;
 	private static final int SIZE_4 = 4;
 	private static final int SIZE_6 = 6;
+	private static final int POPUP_MENU_SHIFT = -70;
 	private Color color = Color.BLACK;
 	private ColorControlWindow popupWin;
 	private EventListenerList colorChangeListenerList = new EventListenerList();
@@ -126,7 +127,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 
 		popupWin = this.getColorControlWindow();
 
-		GUICoreUtils.showPopupMenu(popupWin, this, 0, this.getSize().height);
+		GUICoreUtils.showPopupMenu(popupWin, this, POPUP_MENU_SHIFT, this.getSize().height);
 	}
 
 	/**

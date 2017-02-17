@@ -255,7 +255,12 @@ public class XWCardLayout extends XLayoutContainer {
         creator.setDirections(null);
         WCardLayout layout = this.toData();
         Widget w = creator.toData();
-        layout.addWidget(w);
+
+		for (int i = 0, count = this.getComponentCount(); i < count; i++) {
+			if (creator == this.getComponent(i)) {
+				layout.addWidget(w, i);
+			}
+		}
     }
 
 	@Override
@@ -270,35 +275,48 @@ public class XWCardLayout extends XLayoutContainer {
 	public boolean hasTitleStyle() {
 		return true;
 	}
-	
-	
+
 	/**
-	*  得到属性名
+	 *  得到属性名
 	 * @return 属性名
-	* @throws IntrospectionException
-	*/
+	 * @throws IntrospectionException
+	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
-		return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+		//嵌套的tab组件，内层的不支持轮播属性，屏蔽属性表
+		if(!isNested()) {
+			CRPropertyDescriptor[] crp = ((WCardLayout) data).isCarousel() ? getisCarousel() : getisnotCarousel();
+			return ArrayUtils.addAll(getDefaultDescriptor(), crp);
+		}else{
+			return getDefaultDescriptor();
+		}
+	}
+
+	/**
+	 * 判断当前tab组件是不是嵌套的
+	 * @return 嵌套与否
+	 */
+	private boolean isNested(){
+		XLayoutContainer xLayoutContainer = this.getBackupParent().getBackupParent();
+		return xLayoutContainer != null && xLayoutContainer.acceptType(XWTabFitLayout.class);
 	}
 
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
 		return new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("carousel", this.data.getClass())
-					.setEditorClass(BooleanEditor.class)
-					.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
-					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
-					.setPropertyChangeListener(new PropertyChangeAdapter() {
-						@Override
-						public void propertyChange() {
-							designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-							designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
-						}
+						.setEditorClass(BooleanEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer_setCarousel"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+						.setPropertyChangeListener(new PropertyChangeAdapter() {
+					@Override
+					public void propertyChange() {
+						designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+						designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
+					}
 				}),
 				new CRPropertyDescriptor("carouselInterval", this.data.getClass())
-					.setEditorClass(DoubleEditor.class)
-					.setI18NName(Inter.getLocText("FR-Designer_carouselInterval"))
-					.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+						.setEditorClass(DoubleEditor.class)
+						.setI18NName(Inter.getLocText("FR-Designer_carouselInterval"))
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
 		};
 	}
 
@@ -326,7 +344,7 @@ public class XWCardLayout extends XLayoutContainer {
 					@Override
 					public void propertyChange(){
 						WCardLayout cardLayout = toData();
-						changeRalateSwitchCardname(cardLayout.getWidgetName());
+						changeRelateSwitchCardName(cardLayout.getWidgetName());
 					}
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
@@ -376,8 +394,8 @@ public class XWCardLayout extends XLayoutContainer {
     	}
     }
     
-    //修改相关SwtchButton所绑定的cardLayout控件名
-	private void changeRalateSwitchCardname(String cardLayoutName) {
+    //修改相关SwitchButton所绑定的cardLayout控件名
+	private void changeRelateSwitchCardName(String cardLayoutName) {
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout) this.getBackupParent();
 		WCardMainBorderLayout border = borderLayout.toData();
 		WCardTitleLayout titleLayout = border.getTitlePart();
@@ -400,7 +418,6 @@ public class XWCardLayout extends XLayoutContainer {
 		SelectionModel selectionModel = designer.getSelectionModel();
 		selectionModel.setSelectedCreator(mainLayout);
 		selectionModel.deleteSelection();
-		return;
 	}
 	@Override
 	public void setBorder(Border border) {

@@ -5,6 +5,7 @@ import java.beans.IntrospectionException;
 
 import javax.swing.border.Border;
 
+import com.fr.base.ScreenResolution;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -15,6 +16,7 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
@@ -28,6 +30,7 @@ import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -43,6 +46,9 @@ public class XWTabFitLayout extends XWFitLayout {
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
 	private static final Color NORMAL_GRAL = new Color(236,236,236);
+	private static final String DEFAULT_FONT_NAME = "SimSun";
+	public final static Font DEFAULTFT = new Font("Song_TypeFace",0,12);
+	public final static FRFont DEFAULT_FRFT = FRFont.getInstance(DEFAULT_FONT_NAME, 0, 9);
 	private Dimension referDim;
 	private Background initialBackground;
 	private Background overBackground;
@@ -106,12 +112,12 @@ public class XWTabFitLayout extends XWFitLayout {
 	public XWTabFitLayout(WTabFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
 	}
-	
+
 	/**
-	*  得到属性名
+	 *  得到属性名
 	 * @return 属性名
-	* @throws IntrospectionException
-	*/
+	 * @throws IntrospectionException
+	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		checkButonType();
 		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
@@ -164,6 +170,13 @@ public class XWTabFitLayout extends XWFitLayout {
 						new PropertyChangeAdapter() {
 							@Override
 							public void propertyChange() {
+								font = ((WTabFitLayout) data).getFont();
+								CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+								cardSwitchButton.setFont(font);
+								UILabel uiLabel = xCardSwitchButton.getLabel();
+								uiLabel.setFont(font.applyResolutionNP(ScreenResolution.getScreenResolution()));
+								uiLabel.setForeground(font.getForeground());
+								xCardSwitchButton.setLabel(uiLabel);
 							}
 						}),
 		};
@@ -215,21 +228,45 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	private void checkButonType() {
 		if (this.xCardSwitchButton == null) {
+			//假如为空，默认获取第一个tab的cardBtn属性
+			try {
+				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
+			}catch (Exception e){
+				FRLogger.getLogger().error(e.getMessage());
+			}
 			return;
 		}
 		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
 		Background bg;
 		bg = ColorBackground.getInstance(NORMAL_GRAL);
+		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 		if (!isStyle) {
 			this.xCardSwitchButton.setCustomStyle(false);
 			this.xCardSwitchButton.setSelectBackground(bg);
+			this.xCardSwitchButton.getLabel().setFont(DEFAULTFT);
+			cardSwitchButton.setInitialBackground(null);
+			cardSwitchButton.setClickBackground(null);
+			cardSwitchButton.setOverBackground(null);
+			cardSwitchButton.setFont(DEFAULT_FRFT);
 		} else {
-			CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 			Background initialBackground = cardSwitchButton.getInitialBackground();
 			bg = initialBackground == null ? bg : initialBackground;
 			this.xCardSwitchButton.setSelectBackground(bg);
 			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
+			if (font != null) {
+				cardSwitchButton.setFont(font);
+			}
+			if (this.initialBackground != null){
+				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
+				cardSwitchButton.setInitialBackground(this.initialBackground);
+			}
+			if (this.overBackground != null){
+				cardSwitchButton.setOverBackground(this.overBackground);
+			}
+			if (this.clickBackground != null) {
+				cardSwitchButton.setClickBackground(this.clickBackground);
+			}
 		}
 	}
 

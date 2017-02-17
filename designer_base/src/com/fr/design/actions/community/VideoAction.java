@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
@@ -32,22 +33,27 @@ public class VideoAction extends UpdateAction
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		  String url = SiteCenter.getInstance().acquireUrlByKind("bbs.video");
-	        if (StringUtils.isEmpty(url)) {
-	            FRContext.getLogger().info("The URL is empty!");
-	            return;
-	        }
-	        try {
-	            Desktop.getDesktop().browse(new URI(url));
-	        } catch (IOException exp) {
-	            JOptionPane.showMessageDialog(null, Inter.getLocText("Set_default_browser"));
-	            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-	        } catch (URISyntaxException exp) {
-	            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-	        } catch (Exception exp) {
-	            FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
-	            FRContext.getLogger().error("Can not open the browser for URL:  " + url);
-	        }
+		String url;
+		if (FRContext.getLocale().equals(Locale.US)) {
+			url = SiteCenter.getInstance().acquireUrlByKind("bbs.video.en");
+		} else {
+	  		url = SiteCenter.getInstance().acquireUrlByKind("bbs.video");
+		}
+		if (StringUtils.isEmpty(url)) {
+			FRContext.getLogger().info("The URL is empty!");
+			return;
+		}
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (IOException exp) {
+			JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+			FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+		} catch (URISyntaxException exp) {
+			FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+		} catch (Exception exp) {
+			FRContext.getLogger().errorWithServerLevel(exp.getMessage(), exp);
+			FRContext.getLogger().error("Can not open the browser for URL:  " + url);
+		}
 
 	}
 	  public static final MenuKeySet VIDEO = new MenuKeySet() {
