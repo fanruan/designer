@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class MoveUtils {
 
 	public static final int SORPTION_UNIT = 5;
+    private static final int EQUIDISTANTLINE_UNIT = 4;
 
 	public static WidgetForbidWindow widgetForbidWindow = new WidgetForbidWindow();
 
@@ -479,10 +480,10 @@ public class MoveUtils {
 	}
 
 	private static void processEquidistantLinesList(PlacePointing pEquidistantX, PlacePointing pEquidistantY, Rectangle operatingRectangle){
-		EquidistantLine[] equidistantLines1 = new EquidistantLine[4];
+		EquidistantLine[] equidistantLines1 = new EquidistantLine[EQUIDISTANTLINE_UNIT];
 		//先按方向处理，只保留四个方向上距离最近
 		for(int count = 0; count < equidistantLines.size(); count++){
-			for (int direction = 0; direction < 4; direction++){
+			for (int direction = 0; direction < EQUIDISTANTLINE_UNIT; direction++){
 				if(equidistantLines.get(count).getDirection() == (direction + 1)){//direction 1,2,3,4 分别对应top,left,bottom,right
 					if(equidistantLines1[direction] != null
 							&& equidistantLines1[direction].getDistance() > equidistantLines.get(count).getDistance()
