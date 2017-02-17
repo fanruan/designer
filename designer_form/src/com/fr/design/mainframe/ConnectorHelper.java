@@ -19,6 +19,8 @@ public class ConnectorHelper {
 	
 	public static final int NEAR = 5;
 	private static double ratio = 0.5;
+    // TODO 为了消除魔术数错误，我不清楚这个15代表什么，先这样命名了，原作者看到了请改一下
+	private final static int magicNumber1 = 15;
 	private ArrayList<Point> drawingPoint;
 	private FormDesigner designer;
 	private boolean drawing;
@@ -67,7 +69,6 @@ public class ConnectorHelper {
 		ConnectorCreator cc = new ConnectorCreator(designer.getTarget().getContainer(), new Point(startPoint), new Point(endPoint));
 		ArrayList<Point> p = cc.createPointList();
 		long e = System.currentTimeMillis();
-		System.out.println("useTime:" + (e - s));
 		return p;
 	}
 
@@ -87,7 +88,7 @@ public class ConnectorHelper {
 	public void createDefalutLine() {
 		if (drawingPoint != null
 				&& drawingPoint.size() > 1
-				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > 15) {
+				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > magicNumber1) {
 			((XWAbsoluteLayout) designer.getRootComponent()).addConnector(new Connector().addAll(drawingPoint));
 		}
 		drawingPoint = null;

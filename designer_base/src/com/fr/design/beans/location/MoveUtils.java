@@ -83,7 +83,7 @@ public class MoveUtils {
 		 * 获取designer内部组件是否重叠的标志位
 		 * @return 重叠
 		 */
-		boolean getWidgetsIntersects();
+		boolean isWidgetsIntersects(); //TODO 消除PMD检查错误，把getWidgetsIntersects改成isWidgetsIntersects
 
 		/**
 		 * 获取designer相对屏幕的位置

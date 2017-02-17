@@ -96,7 +96,7 @@ public class MobileWidgetTable extends JTable {
         @Override
         public void mousePressed(MouseEvent e) {
             getInstance().setCellSelected();
-            if (selectedRow == 0 && !e.isPopupTrigger() && e.getClickCount() == 1 && e.getX() < 10){ // 如果是点击在第一行
+            if (selectedRow == 0 && !e.isPopupTrigger() && e.getClickCount() == 1 && e.getX() < WIDGET_TABLE_ROW_HEIGHT / 2){ // 如果是点击在第一行
                     toggleCollapse();
             }
         }
@@ -268,9 +268,10 @@ public class MobileWidgetTable extends JTable {
             //WCardLayout里面并不是控件，而仍然是容器TabFitLayout，故要向下获取控件
             //WCardTitlelLayout是XWCardLayout的标题容器，里面同样不是控件，不能获取MobileList
             //WTitleLayout是标题容器，比如图表的标题，里面是图表控件和Label标题控件，但是不需要获取MobileList
-            if (selectedModel.acceptType(WCardLayout.class) || selectedModel.acceptType(WCardTitleLayout.class)
-            || selectedModel.acceptType(WTitleLayout.class) || selectedModel.acceptType(WCardMainBorderLayout.class)) {
-                return new String[0][0];
+            if (selectedModel.acceptType(WCardLayout.class) || selectedModel.acceptType(WCardTitleLayout.class)) {
+                if (selectedModel.acceptType(WTitleLayout.class) || selectedModel.acceptType(WCardMainBorderLayout.class)) {
+                    return new String[0][0];
+                }
             }
             ArrayList<String> strings = ((WLayout)selectedModel).getMobileWidgetList();
             String[][] widgetName = new String[strings.size() + 1][1];

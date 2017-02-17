@@ -231,7 +231,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			);
 			g2d.setColor(Color.BLACK);
 			//画编辑文字
-			g2d.drawString(Inter.getLocText("Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 		}
 	}
 
