@@ -295,9 +295,9 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 判断当前tab组件是不是嵌套的
 	 * @return 嵌套与否
 	 */
-	private boolean isNested(){
+	private boolean isNested() {
 		XLayoutContainer xLayoutContainer = this.getBackupParent().getBackupParent();
-		return xLayoutContainer != null && xLayoutContainer.acceptType(XWTabFitLayout.class);
+		return xLayoutContainer == null || xLayoutContainer.acceptType(XWTabFitLayout.class);
 	}
 
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {

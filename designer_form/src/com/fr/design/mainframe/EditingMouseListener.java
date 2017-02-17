@@ -11,6 +11,7 @@ import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
@@ -518,6 +519,10 @@ public class EditingMouseListener extends MouseInputAdapter {
      */
 	public void mouseClicked(MouseEvent e) {
 		XCreator creator = designer.getComponentAt(e);
+
+		if (e.getButton() != MouseEvent.BUTTON1 && !creator.acceptType(XCardSwitchButton.class)) {
+			return;
+		}
 
 		creator = processTopLayoutMouseClick(creator);
 
