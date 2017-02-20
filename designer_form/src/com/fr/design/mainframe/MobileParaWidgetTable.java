@@ -82,9 +82,6 @@ class MobileParaWidgetTable extends JTable {
         add(moveComponent);
     }
 
-    /**
-     * 设置表格属性
-     */
     private void setTableProperties() {
         JTableHeader header = getTableHeader();
         header.setReorderingAllowed(false);

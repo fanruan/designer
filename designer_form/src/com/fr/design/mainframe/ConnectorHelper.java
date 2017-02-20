@@ -19,8 +19,7 @@ public class ConnectorHelper {
 	
 	public static final int NEAR = 5;
 	private static double ratio = 0.5;
-    // TODO 为了消除魔术数错误，我不清楚这个15代表什么，先这样命名了，原作者看到了请改一下
-	private final static int MAGICNUMBER = 15;
+	private final static int ADSORPTION = 15; // 吸附距离
 	private ArrayList<Point> drawingPoint;
 	private FormDesigner designer;
 	private boolean drawing;
@@ -88,7 +87,7 @@ public class ConnectorHelper {
 	public void createDefalutLine() {
 		if (drawingPoint != null
 				&& drawingPoint.size() > 1
-				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > MAGICNUMBER) {
+				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > ADSORPTION) {
 			((XWAbsoluteLayout) designer.getRootComponent()).addConnector(new Connector().addAll(drawingPoint));
 		}
 		drawingPoint = null;

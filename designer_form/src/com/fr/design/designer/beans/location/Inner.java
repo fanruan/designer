@@ -46,12 +46,10 @@ public class Inner extends AccessDirection {
 		return new Point(x, y);
 	}
 
-    //TODO 原先这个类是通过一个new一个匿名类继承RectangleDesigner接口实现的，但是报了方法超过50行的PMD错误
-    //TODO 暂时就先这样命名，请原作者看到后重新命名
-	private class RectangleDesigner1 implements RectangleDesigner {
+	private class RectDesigner implements RectangleDesigner {
 		private FormDesigner designer = null;
 
-		public RectangleDesigner1(FormDesigner designer) {
+		public RectDesigner(FormDesigner designer) {
 			this.designer = designer;
 		}
 
@@ -101,7 +99,7 @@ public class Inner extends AccessDirection {
 		 * @return 重叠
 		 */
 		@Override
-		public boolean isWidgetsIntersects() {
+		public boolean isWidgetsIntersected() {
 			return designer.isWidgetsIntersect();
 		}
 
@@ -138,7 +136,7 @@ public class Inner extends AccessDirection {
 
 	@Override
 	protected void sorptionPoint(Point point, Rectangle current_bounds, final FormDesigner designer) {
-		RectangleDesigner1 rd = new RectangleDesigner1(designer);
+		RectDesigner rd = new RectDesigner(designer);
 		//判断当前操作的是不是参数面板，要特殊处理
 		boolean isParameterLayout = ((XCreator)(designer.getSelectionModel().getSelection().getSelectedCreator().getParent())).acceptType(XWParameterLayout.class);
 		point.setLocation(MoveUtils.sorption(point.x, point.y, current_bounds.width, current_bounds.height, rd, isParameterLayout));

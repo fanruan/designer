@@ -170,7 +170,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 		 * @return 重叠
 		 */
 		@Override
-		public boolean isWidgetsIntersects() {
+		public boolean isWidgetsIntersected() {
 			return false;
 		}
 

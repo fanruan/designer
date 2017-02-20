@@ -12,11 +12,13 @@ public class PropertyGroup {
     private GroupModel model; // 描述这个属性组中的数据model
     private String name; // 这组属性的标题名称
     private boolean collapsed; // 这组属性是否折叠
-    private GroupRenderer renderer; // 属性标题渲染器
+    private GroupRenderer renderer1;
+    private GroupRenderer renderer2;
 
     public PropertyGroup(GroupModel model) {
         this(model.getGroupName(), model, false);
-        renderer = new GroupRenderer();
+        renderer1 = new GroupRenderer();
+        renderer2 = new GroupRenderer();
     }
 
     public PropertyGroup(String name, GroupModel model, boolean collapsed) {
@@ -49,8 +51,12 @@ public class PropertyGroup {
         this.collapsed = collapsed;
     }
 
-    public TableCellRenderer getRenderer() {
-        return renderer;
+    public TableCellRenderer getFirstRenderer() {
+        return renderer1;
+    }
+
+    public TableCellRenderer getSecondRenderer() {
+        return renderer2;
     }
 
 }

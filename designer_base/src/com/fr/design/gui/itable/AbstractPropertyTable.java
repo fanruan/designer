@@ -28,23 +28,17 @@ public abstract class AbstractPropertyTable extends JTable {
 
     // // 所有数据组, 把数据分组，一个可折叠的项里面的所有行 为一组
     protected ArrayList<PropertyGroup> groups;
-    protected TableModel default_table_model;
 	// 属性表被选中的行加一个浅蓝色的背景
 	public static final Color PROPERTY_SELECTION_BACKGROUND = new Color(153, 204, 255);
 	// 属性表的行高
 	public static final int PROPERTY_TABLE_ROW_HEIGHT = 22;
-    private static final int PROPERTY_ICON_WIDTH = 10;
 
     public AbstractPropertyTable() {
         this.setTableProperties();
         this.initPopup();
-        default_table_model = new DefaultTableModel();
-        this.setModel(default_table_model);
+        this.setModel(new DefaultTableModel());
     }
 
-    /**
-     * 设置表格属性
-     */
     private void setTableProperties() {
         JTableHeader header = getTableHeader();
         header.setReorderingAllowed(false);
@@ -86,8 +80,11 @@ public abstract class AbstractPropertyTable extends JTable {
             PropertyGroup group = groups.get(pIndex.x);
             //如果是标题行
             if (pIndex.y == 0) {
-                //采用group中定义好的标题行渲染器
-                return group.getRenderer();
+                if (column == 0) {
+                    return group.getFirstRenderer();
+                } else {
+                    return group.getSecondRenderer();
+                }
             } else {
                 //如果是非标题行第一列，采用默认渲染器
                 if (column == 0) {
@@ -183,7 +180,7 @@ public abstract class AbstractPropertyTable extends JTable {
                     int row = AbstractPropertyTable.super.rowAtPoint(e.getPoint());
                     if (row != -1) {
                         Point pIndex = getGroupIndex(row);
-                        if (pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < PROPERTY_ICON_WIDTH) {
+                        if (pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < 10) {
                             toggleCollapse(pIndex.x);
                         }
                     }
