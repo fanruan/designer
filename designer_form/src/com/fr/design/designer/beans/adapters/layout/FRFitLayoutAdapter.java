@@ -277,6 +277,10 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         super.clearCompsList();
     }
 
+    protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout){
+        return mainLayout.getBounds();
+    }
+
     private Rectangle adjustBackupBound(Rectangle backupBound, XWCardMainBorderLayout mainLayout) {
         // 参数界面高度对纵坐标产生的影响
         JForm jform = (JForm) (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
@@ -284,7 +288,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
             backupBound.y -= jform.getFormDesign().getParaHeight();
         }
 
-        Rectangle rec = mainLayout.getBounds();
+        Rectangle rec = getLayoutBound(mainLayout);
         // XWTabLayout里面的横纵坐标收到外层XWCardMainBorderLayout的横纵坐标影响
         // 减掉之后可以按照它原来的逻辑执行
         backupBound.x -= rec.x;
