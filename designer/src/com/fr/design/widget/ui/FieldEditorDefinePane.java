@@ -20,7 +20,7 @@ import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
-    private static final int ALLOW_BLANK_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("FR-Designer_Allow_Blank") + 30;
+    private static final int ALLOW_BLANK_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("FR-Designer_Allow_Null") + 30;
     private static final int ALLOW_BLANK_CHECK_BOX_HEIGHT = 30;
     private UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
@@ -39,7 +39,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         initRegErrorMsgTextField();
 
         //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
-        allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Blank"));
+        allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
         allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
         allowBlankCheckBox.addItemListener(new ItemListener() {
 
