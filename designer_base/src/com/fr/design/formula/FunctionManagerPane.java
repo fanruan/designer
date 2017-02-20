@@ -20,6 +20,7 @@ import com.fr.file.FunctionManagerProvider;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.script.FunctionDef;
 
@@ -160,8 +161,8 @@ public class FunctionManagerPane extends BasicPane {
             descriptionArea.setLineWrap(true);
             northPane.add(descriptionArea);
 
-            String path1 = getEscapePath(File.separator + "WEB-INF" + File.separator + "classes");
-            String path2 = getEscapePath(FRContext.getCurrentEnv().getPath() + File.separator + "classes");
+            String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
+            String path2 = getEscapePath(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
             descriptionArea.setText(Inter.getLocText("FR-Designer_Function_Description_Area_Text", path1, path2));
 
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
