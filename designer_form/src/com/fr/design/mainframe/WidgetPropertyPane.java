@@ -33,6 +33,8 @@ import java.util.Set;
  */
 public class WidgetPropertyPane extends FormDockView implements BaseWidgetPropertyPane {
 
+    private static final String PARA = "para";
+    private static final String BODY = "body";
     private WidgetPropertyTable propertyTable; // 控件的属性表
     private EventPropertyTable eventTable; // 控件的事件表
     private List<AbstractPropertyTable> widgetPropertyTables; // 这个变量应该是保存控件拓展的属性tab
@@ -46,8 +48,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private JPanel centerPane; // 此centerPane采用的是cardLayout布局，装载着mobileWidgetTable和mobileBodyWidgetTable
     private CardLayout cardLayout; // 卡片布局，选中参数面板时显示mobileWidgetTable，选中body时显示mobileBodyWidgetTable
     private JTableHeader header;//把表头单独get出来作为一个组件
-    private static final String PARA = "para";
-    private static final String BODY = "body";
 
     public static WidgetPropertyPane getInstance() {
         if (HOLDER.singleton == null) {

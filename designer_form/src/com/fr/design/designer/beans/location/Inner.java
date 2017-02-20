@@ -89,7 +89,7 @@ public class Inner extends AccessDirection {
 		 * @param isIntersects 是否重叠
 		 */
 		@Override
-		public void setWidgetsIntersects(boolean isIntersects) {
+		public void setWidgetsIntersected(boolean isIntersects) {
 			designer.setWidgetsIntersect(isIntersects);
 		}
 

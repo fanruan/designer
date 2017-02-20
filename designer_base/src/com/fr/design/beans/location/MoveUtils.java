@@ -78,7 +78,7 @@ public class MoveUtils {
 		 * 设置designer内部组件是否重叠的标志位
 		 * @param isIntersects 是否重叠
 		 */
-		void setWidgetsIntersects(boolean isIntersects);
+		void setWidgetsIntersected(boolean isIntersects);
 
 		/**
 		 * 获取designer内部组件是否重叠的标志位
@@ -358,10 +358,10 @@ public class MoveUtils {
 			if(designer.getDesignerLocationOnScreen() != null) {
 				displayForbidWindow(x + designer.getDesignerLocationOnScreen().x, y + designer.getDesignerLocationOnScreen().y);
 			}
-			designer.setWidgetsIntersects(true);
+			designer.setWidgetsIntersected(true);
 		}
 		else{
-			designer.setWidgetsIntersects(false);
+			designer.setWidgetsIntersected(false);
 			hideForbidWindow();
 		}
 	}

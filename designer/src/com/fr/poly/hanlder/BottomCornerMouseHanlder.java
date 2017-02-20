@@ -161,7 +161,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 		 * @param isIntersects 是否重叠
 		 */
 		@Override
-		public void setWidgetsIntersects(boolean isIntersects) {
+		public void setWidgetsIntersected(boolean isIntersects) {
 		}
 
 		/**
