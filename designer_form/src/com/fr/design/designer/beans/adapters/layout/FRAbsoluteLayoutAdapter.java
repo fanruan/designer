@@ -12,7 +12,7 @@ import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.container.WBodyLayoutType;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 
@@ -111,7 +111,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		Rectangle curRec = new Rectangle(creatorX, creatorY, creator.getWidth(), creator.getHeight());
 		WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout)topLayout.toData();
 		for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
-            WAbsoluteLayout.BoundsWidget temp = (WAbsoluteLayout.BoundsWidget) wAbsoluteLayout.getWidget(i);
+            BoundsWidget temp = (BoundsWidget) wAbsoluteLayout.getWidget(i);
             Rectangle rectangle = temp.getBounds();
             if (curRec.intersects(rectangle)){
                 return false;
