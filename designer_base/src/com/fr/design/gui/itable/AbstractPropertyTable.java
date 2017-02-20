@@ -32,6 +32,7 @@ public abstract class AbstractPropertyTable extends JTable {
 	public static final Color PROPERTY_SELECTION_BACKGROUND = new Color(153, 204, 255);
 	// 属性表的行高
 	public static final int PROPERTY_TABLE_ROW_HEIGHT = 22;
+    private static final int PROPERTY_ICON_WIDTH = 10;
 
     public AbstractPropertyTable() {
         this.setTableProperties();
@@ -180,7 +181,7 @@ public abstract class AbstractPropertyTable extends JTable {
                     int row = AbstractPropertyTable.super.rowAtPoint(e.getPoint());
                     if (row != -1) {
                         Point pIndex = getGroupIndex(row);
-                        if (pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < 10) {
+                        if (pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < PROPERTY_ICON_WIDTH) {
                             toggleCollapse(pIndex.x);
                         }
                     }
