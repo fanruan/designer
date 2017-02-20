@@ -19,37 +19,37 @@ import java.util.*;
  * Created by zhouping on 2016/8/18.
  */
 public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
-    private static final int COMP_TOP = 1;
-    private static final int COMP_BOTTOM = 2;
-    private static final int COMP_LEFT = 3;
-    private static final int COMP_RIGHT = 4;
+    protected static final int COMP_TOP = 1;
+    protected static final int COMP_BOTTOM = 2;
+    protected static final int COMP_LEFT = 3;
+    protected static final int COMP_RIGHT = 4;
     private static final int COMP_LEFT_TOP = 5;
     private static final int COMP_LEFT_BOTTOM = 6;
     private static final int COMP_RIGHT_TOP = 7;
     private static final int COMP_RIGHT_BOTTOM = 8;
     private static final int INDEX_ZERO = 0;
 
-    private static final double TOP_HALF = 0.25;
-    private static final double BOTTOM_HALF = 0.75;
-    private static final int DEFAULT_AREA_LENGTH = 5; //判断交叉区域范围的默认长度
-    private static final int BORDER_PROPORTION = 10; //边界三等分或交叉区域大小取组件1/10和默认大小
+    protected static final double TOP_HALF = 0.25;
+    protected static final double BOTTOM_HALF = 0.75;
+    protected static final int DEFAULT_AREA_LENGTH = 5; //判断交叉区域范围的默认长度
+    protected static final int BORDER_PROPORTION = 10; //边界三等分或交叉区域大小取组件1/10和默认大小
 
-    private int trisectAreaDirect = 0;
+    protected int trisectAreaDirect = 0;
     private int crossPointAreaDirect = 0;
     // 增加删除拉伸控件用的临时list
-    private java.util.List<Component> rightComps;
-    private java.util.List<Component> leftComps;
-    private java.util.List<Component> downComps;
-    private java.util.List<Component> upComps;
+    protected java.util.List<Component> rightComps;
+    protected java.util.List<Component> leftComps;
+    protected java.util.List<Component> downComps;
+    protected java.util.List<Component> upComps;
     // 三等分时计算对应侧的组件
-    private boolean isFindRelatedComps = false;
+    protected boolean isFindRelatedComps = false;
     // 渲染时只计算对应的bounds而不调整
     private boolean isCalculateChildPos = false;
     private int[] childPosition = null; //painter用的位置
-    private int minWidth = 0; // 最小尺寸，由于屏幕百分比里不同，显示的最小大小也不同
-    private int minHeight = 0;
-    private int actualVal = 0;  // 存在间隔时，add move drag 判断对齐等都要考虑
-    private PaddingMargin margin; // 布局容器边距
+    protected int minWidth = 0; // 最小尺寸，由于屏幕百分比里不同，显示的最小大小也不同
+    protected int minHeight = 0;
+    protected int actualVal = 0;  // 存在间隔时，add move drag 判断对齐等都要考虑
+    protected PaddingMargin margin; // 布局容器边距
 
     /**
      * 在添加组件状态时，当鼠标移动到某个容器上方时，如果该容器有布局管理器，则会调用该布局
