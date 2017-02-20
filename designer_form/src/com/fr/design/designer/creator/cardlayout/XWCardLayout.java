@@ -296,8 +296,14 @@ public class XWCardLayout extends XLayoutContainer {
 	 * @return 嵌套与否
 	 */
 	private boolean isNested() {
-		XLayoutContainer xLayoutContainer = this.getBackupParent().getBackupParent();
-		return xLayoutContainer == null || xLayoutContainer.acceptType(XWTabFitLayout.class);
+		XCreator xCreator = (XCreator)this.getBackupParent().getParent();
+		while (xCreator != null) {
+			if (xCreator.acceptType(XWCardMainBorderLayout.class)) {
+				return true;
+			}
+			xCreator = (XCreator) xCreator.getParent();
+		}
+		return false;
 	}
 
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
