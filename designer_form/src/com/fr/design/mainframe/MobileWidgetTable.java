@@ -3,7 +3,7 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -14,11 +14,8 @@ import javax.swing.table.*;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.GroupRenderer;
-import com.fr.design.gui.itable.HeaderRenderer;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.*;
-import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -112,7 +109,7 @@ public class MobileWidgetTable extends JTable {
             moveComponent.setVisible(false);
             int toIndex = e.getY() < GAP ? 0 : (int)Math.rint((e.getY() - GAP)/WIDGET_TABLE_ROW_HEIGHT) + 1;
             //当鼠标放开时，将选中的容器调整至新的顺序
-            ((WLayout)designer.getSelectionModel().getSelection().getSelectedCreator().toData()).adjustOrder(selectedRow - 1, toIndex - 1);
+            ((WSortLayout)designer.getSelectionModel().getSelection().getSelectedCreator().toData()).adjustOrder(selectedRow - 1, toIndex - 1);
             //拿取排序后表格数据，然后重绘表格
             getInstance().refreshData();
             getInstance().repaint();
@@ -261,20 +258,12 @@ public class MobileWidgetTable extends JTable {
         }
 
         // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
-        if (selectedModel.acceptType(WLayout.class)) {
-            //WCardLayout里面并不是控件，而仍然是容器TabFitLayout，故要向下获取控件
-            //WCardTitlelLayout是XWCardLayout的标题容器，里面同样不是控件，不能获取MobileList
-            //WTitleLayout是标题容器，比如图表的标题，里面是图表控件和Label标题控件，但是不需要获取MobileList
-            if (selectedModel.acceptType(WCardLayout.class) || selectedModel.acceptType(WCardTitleLayout.class)) {
-                if (selectedModel.acceptType(WTitleLayout.class) || selectedModel.acceptType(WCardMainBorderLayout.class)) {
-                    return new String[0][0];
-                }
-            }
-            ArrayList<String> strings = ((WLayout)selectedModel).getMobileWidgetList();
-            String[][] widgetName = new String[strings.size() + 1][1];
+        if (selectedModel.acceptType(WSortLayout.class)) {
+            List<String> mobileWidgetList = ((WSortLayout)selectedModel).getOrderedMobileWidgetList();
+            String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
             widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
-            for (int i = 0; i < strings.size(); i++) {
-                widgetName[i + 1][0] = strings.get(i);
+            for (int i = 0; i < mobileWidgetList.size(); i++) {
+                widgetName[i + 1][0] = mobileWidgetList.get(i);
             }
             return widgetName;
         } else {

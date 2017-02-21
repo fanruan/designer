@@ -245,7 +245,7 @@ class MobileParaWidgetTable extends JTable {
     	}
     	
     	WParameterLayout para = (WParameterLayout) (paraContainer.toData());
-        return para.getWidgetNameTag(); // TODO 从这个函数开始看，可以看到后台如何决定拖动后的控件顺序的
+        return para.getWidgetNameTag();
     }
 
     /**
