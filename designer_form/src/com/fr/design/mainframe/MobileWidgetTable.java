@@ -259,11 +259,11 @@ public class MobileWidgetTable extends JTable {
 
         // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
         if (selectedModel.acceptType(WSortLayout.class)) {
-            List<String> mobileWidgetLists = ((WSortLayout)selectedModel).getOrderedMobileWidgetList();
-            String[][] widgetName = new String[mobileWidgetLists.size() + 1][1];
+            List<String> mobileWidgetList = ((WSortLayout)selectedModel).getOrderedMobileWidgetList();
+            String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
             widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
-            for (int i = 0; i < mobileWidgetLists.size(); i++) {
-                widgetName[i + 1][0] = mobileWidgetLists.get(i);
+            for (int i = 0; i < mobileWidgetList.size(); i++) {
+                widgetName[i + 1][0] = mobileWidgetList.get(i);
             }
             return widgetName;
         } else {
