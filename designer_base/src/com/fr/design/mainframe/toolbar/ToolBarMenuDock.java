@@ -148,7 +148,7 @@ public abstract class ToolBarMenuDock {
 	
 	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
         Locale locale = FRContext.getLocale();
-        Locale [] locales = supportCommunityLocales();
+        Locale [] locales =supportCommunityLocales();
         for(int i = 0; i < locales.length; i++) {
             if(locale.equals(locales[i])){
                 menuList.add(createCommunityMenuDef());
@@ -161,7 +161,6 @@ public abstract class ToolBarMenuDock {
         return new Locale[]{
                 Locale.CHINA,
                 Locale.TAIWAN,
-                Locale.US
         };
     }
 
@@ -313,6 +312,11 @@ public abstract class ToolBarMenuDock {
     public ShortCut[] createHelpShortCuts() {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
+        // 英文，把 video 和帮助文档放到 Help 下面
+        if (FRContext.getLocale().equals(Locale.US)) {
+            shortCuts.add(new VideoAction());
+            shortCuts.add(new TutorialAction());
+        }
         shortCuts.add(SeparatorDef.DEFAULT);
         //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
@@ -397,7 +401,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(Inter.getLocText(new String[]{"Polybolck", "Edit"}));
+            return polyToolBar(Inter.getLocText("FR-Designer_Polyblock_Edit"));
         }
     }
 
