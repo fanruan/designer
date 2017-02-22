@@ -18,6 +18,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.gui.imenu.UIPopupMenu;
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.mainframe.JTemplate;
@@ -683,5 +684,10 @@ public class CellSelection extends Selection {
         }
         editor.populate(tc);
         return editor;
+    }
+
+    @Override
+    public void populatePropertyPane(ElementCasePane ePane) {
+        CellElementPropertyPane.getInstance().reInit(ePane);
     }
 }

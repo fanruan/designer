@@ -102,12 +102,23 @@ public class CellElementPropertyPane extends DockingView {
         return element;
     }
 
+    public void removeAll() {
+        this.remove(titlePane);
+        this.remove(cellElementEditPane);
+    }
+
+    public void reInit(ElementCasePane ePane) {
+        this.add(titlePane, BorderLayout.NORTH);
+        this.add(cellElementEditPane, BorderLayout.CENTER);
+        cellElementEditPane.populate(ePane);
+    }
+
     public void populate(ElementCasePane ePane) {
     	 TemplateElementCase elementCase = ePane.getEditingElementCase();
          if (elementCase == null) {
              return;
          }
-         cellElementEditPane.populate(ePane);
+         ePane.getSelection().populatePropertyPane(ePane);
     }
 
     @Override
