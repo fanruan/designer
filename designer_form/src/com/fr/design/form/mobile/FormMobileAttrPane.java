@@ -36,7 +36,7 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
         jPanel2.setLayout(FRGUIPaneFactory.createBorderLayout());
         jPanel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.mobileToolBarPane = new MobileToolBarPane();
-        this.mobileUseHtmlGroupPane = new MobileUseHtmlGroupPane();
+        this.mobileUseHtmlGroupPane = new MobileUseHtmlGroupPane(Inter.getLocText("FR-mobile_form_analysis_annotation"));
         //设置一个JPanel包裹mobileToolBarPane这个Panel，让jPanel的高度等于mobileToolBarPane高度加10，再放入this中
         jPanel1.setPreferredSize(new Dimension(0, (int)this.mobileToolBarPane.getPreferredSize().getHeight() + PADDINGHEIGHT));
         jPanel2.setPreferredSize(new Dimension(0, (int)this.mobileUseHtmlGroupPane.getPreferredSize().getHeight() + PADDINGHEIGHT));
