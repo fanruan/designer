@@ -37,8 +37,6 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
     private UILabel imageLable;
     private CoverReportPane coverPanel;
 	private FormDesigner designer;
-	//缩略图
-	private BufferedImage thumbnailImage;
 	private static BufferedImage DEFAULT_BACKGROUND;
 
 	static{

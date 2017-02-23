@@ -1,7 +1,6 @@
 package com.fr.design.module;
 
 import com.fr.base.FRContext;
-import com.fr.general.ModuleContext;
 import com.fr.base.io.XMLEncryptUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.bridge.DesignToolbarProvider;
@@ -10,12 +9,14 @@ import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.actions.NewFormAction;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
+import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.file.FILE;
 import com.fr.form.main.Form;
+import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
-import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 
 import java.util.HashMap;
 
@@ -40,6 +41,8 @@ public class FormDesignerModule extends DesignModule {
         DesignModuleFactory.registerParameterReader(new FormParameterReader());
 
         registerData4Designer();
+
+        StableFactory.registerMarkedObject(ElementCaseThumbnailProcessor.MARK_STRING, new ElementCaseThumbnail());
     }
     
     private void registerData4Designer(){

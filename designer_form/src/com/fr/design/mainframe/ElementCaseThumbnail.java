@@ -1,7 +1,7 @@
-package com.fr.design.mainframe.form;
+package com.fr.design.mainframe;
 
+import com.fr.form.stable.fun.AbstractECThumbnailProcessor;
 import com.fr.general.xml.GeneralXMLTools;
-import com.fr.stable.fun.impl.AbstractECThumbnailProcessor;
 import com.fr.stable.xml.XMLableReader;
 
 import java.awt.*;
