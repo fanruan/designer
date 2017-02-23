@@ -19,10 +19,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
-import com.fr.design.mainframe.form.FormECCompositeProvider;
-import com.fr.design.mainframe.form.FormECDesignerProvider;
-import com.fr.design.mainframe.form.FormElementCaseDesigner;
-import com.fr.design.mainframe.form.FormReportComponentComposite;
+import com.fr.design.mainframe.form.*;
 import com.fr.design.mainframe.loghandler.DesignerLogImpl;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -46,6 +43,7 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.fun.ElementCaseThumbnailProcessor;
 import com.fr.stable.fun.LogProvider;
 import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.script.CalculatorProviderContext;
@@ -100,6 +98,7 @@ public class DesignerModule extends DesignModule {
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
         ExtraClassManager.getInstance().addMutable(LogProvider.MARK_STRING, DesignerLogImpl.getInstance(), PluginSimplify.NULL);
+        ExtraClassManager.getInstance().setImmutable(ElementCaseThumbnailProcessor.MARK_STRING, new ElementCaseThumbnail(), PluginSimplify.NULL);
     }
 
     private void registerOtherPane() {
