@@ -29,7 +29,7 @@ public class WestRegionContainerPane extends UIResizableContainer {
         super(DesignerFrameFileDealerPane.getInstance(), Constants.RIGHT);
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
-            public void success() {
+            public void success(Status status) {
                 setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
             }
         });
