@@ -87,6 +87,8 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 
 	// //////////////////////////Just4CellSelection///////////////////////////////
 	public abstract boolean containsColumnRow(ColumnRow cr);
+
+	public abstract void populatePropertyPane(ElementCasePane ePane);
 	
 
 	@Override

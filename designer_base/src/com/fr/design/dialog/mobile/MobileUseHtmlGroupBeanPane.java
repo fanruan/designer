@@ -45,6 +45,8 @@ public abstract class MobileUseHtmlGroupBeanPane<T> extends BasicBeanPane<T> {
                 new Component[]{new UILabel(Inter.getLocText("FR-mobile_analysis_style")), useApp, useHTML5},
                 new Component[]{new UILabel(annotation), null, null}
         };
+        FR-mobile_form_analysis_annotation=annotation\: You can use this attribute to control the analysis of the form in the APP
+                
         JPanel usePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         usePane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
 

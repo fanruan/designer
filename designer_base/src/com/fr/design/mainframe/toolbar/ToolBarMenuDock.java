@@ -10,7 +10,9 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
-import com.fr.design.actions.help.*;
+import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.TutorialAction;
+import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
@@ -28,7 +30,6 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
@@ -161,6 +162,7 @@ public abstract class ToolBarMenuDock {
         return new Locale[]{
                 Locale.CHINA,
                 Locale.TAIWAN,
+                Locale.US
         };
     }
 

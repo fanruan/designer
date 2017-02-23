@@ -107,7 +107,7 @@ public class XYScatterPlotTableDataContentPane extends AbstractTableDataContentP
 		Object resultX = xCombox.getSelectedItem();
 		Object resultY = yCombox.getSelectedItem();
 
-        if(resultName == null || ArrayUtils.contains(ChartConstants.NONE_KEYS, resultName)) {
+        if(resultName == null || ArrayUtils.contains(ChartConstants.getNoneKeys(), resultName)) {
             definition.setSeriesName(StringUtils.EMPTY);
         } else {
 			definition.setSeriesName(resultName.toString());
