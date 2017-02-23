@@ -137,7 +137,7 @@ public class BubblePlotTableDataContentPane extends AbstractTableDataContentPane
         Object resultY = yCombox.getSelectedItem();
         Object resultSize = bubbleSize.getSelectedItem();
 
-        if(resultName == null || ArrayUtils.contains(ChartConstants.NONE_KEYS, resultName)) {
+        if(resultName == null || ArrayUtils.contains(ChartConstants.getNoneKeys(), resultName)) {
             definition.setSeriesName(StringUtils.EMPTY);
         } else {
             definition.setSeriesName(resultName.toString());

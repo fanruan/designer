@@ -206,6 +206,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			}
 			//第一步就是重构cardNames
 			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
+			//下拉框重构开始。为了防止重构是触发update
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.REACTOR);
 			//重构下拉框选项
 			reactorComboBox();
 			//重新选择选中的下拉项
@@ -213,6 +215,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String plotID = chart.getPlot().getPlotID();
 			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
+			//下拉框重构结束
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.DEFAULT);
 			//重新选中
 			checkPlotPane();
 		}
@@ -223,13 +227,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		private void reactorComboBox() {
-			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
-			fcb.setItemEvenType(ItemEventType.REACTOR);
-			fcb.removeAllItems();
+			jcb.removeAllItems();
 			for (int i = 0; i < this.cardNames.length; i++) {
-				fcb.addItem(cardNames[i]);
+				jcb.addItem(cardNames[i]);
 			}
-			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
 
 		@Override
