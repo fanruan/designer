@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import com.fr.form.ui.container.WLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-
+import com.fr.form.ui.widget.BoundsWidget;
 
 public class ConnectorCreator {
 	
 	public static final int UNIT = 10;
 	public static final int SIDE = 2;
 	public static final int CORNER_LOSS = 20;
-	public static final int vector[][] = { { UNIT, 0 }, { -UNIT, 0 }, { 0, UNIT }, { 0, -UNIT } };
+	public static final int VECTOR[][] = { { UNIT, 0 }, { -UNIT, 0 }, { 0, UNIT }, { 0, -UNIT } };
 	
 	private long timeOut = 200;
 	private boolean beyond;
@@ -179,8 +178,8 @@ public class ConnectorCreator {
 		}
 
 		void pushInto() {
-			for (int i = 0; i < vector.length; i++) {
-				Point temp = new Point(p.x + vector[i][0], p.y + vector[i][1]);
+			for (int i = 0; i < VECTOR.length; i++) {
+				Point temp = new Point(p.x + VECTOR[i][0], p.y + VECTOR[i][1]);
 				if (parent != null && parent.x == temp.x && parent.y == temp.y) {
 					continue;
 				}
@@ -192,8 +191,8 @@ public class ConnectorCreator {
 		}
 		
 		boolean reCheck() {
-			for (int i = 0; i < vector.length; i++) {
-				Point temp = new Point(p.x + SIDE * vector[i][0], p.y + SIDE * vector[i][1]);
+			for (int i = 0; i < VECTOR.length; i++) {
+				Point temp = new Point(p.x + SIDE * VECTOR[i][0], p.y + SIDE * VECTOR[i][1]);
 				AssessedPoint ap = new AssessedPoint(temp, this, loss(temp));
 				if (check(temp)) {
 					open.add(ap);

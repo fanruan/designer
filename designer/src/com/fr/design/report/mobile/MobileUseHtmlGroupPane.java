@@ -7,6 +7,10 @@ import com.fr.report.mobile.ElementCaseMobileAttr;
  * Created by kunsnat on 2016/8/3.
  */
 public class MobileUseHtmlGroupPane extends MobileUseHtmlGroupBeanPane<ElementCaseMobileAttr> {
+    public MobileUseHtmlGroupPane(String annotation) {
+        super(annotation);
+    }
+
     @Override
     public void populateBean(ElementCaseMobileAttr mobileAttr) {
         if(mobileAttr != null) {

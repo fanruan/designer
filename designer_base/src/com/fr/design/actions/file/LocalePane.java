@@ -27,6 +27,8 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.*;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.StringUtils;
+import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.project.ProjectConstants;
 
 /**
@@ -51,8 +53,8 @@ public class LocalePane extends BasicPane {
         add(tabbedPane, BorderLayout.CENTER);
 
         predefineTableModel = new DefaultTableModel() {
-            public boolean isCellEditable(int col, int row) {
-                return false;
+            public boolean isCellEditable(int row, int column) {
+                return column == 0;
             }
         };
 
@@ -109,23 +111,39 @@ public class LocalePane extends BasicPane {
     }
 
     private void initPredefinedProperties() {
-        Map<Locale, LocalePackage> map = Inter.getPredefinedPackageMap();
-        LocalePackage chinese = map.get(Locale.SIMPLIFIED_CHINESE);
+
+        Map<Locale, String> supportLocaleMap = Inter.getSupportLocaleMap();
+
+        String[] localeFiles = StableFactory.getLocaleFiles();
+
+
 
         List<String> sortKeys = new ArrayList<String>();
 
 
-        Set<ResourceBundle> bundles = chinese.getKindsOfResourceBundle();
-        for (ResourceBundle bundle : bundles) {
-            sortKeys.addAll(bundle.keySet());
+        for (String path : localeFiles) {
+            ResourceBundle chineseBundle = loadResourceBundle(path, Locale.SIMPLIFIED_CHINESE);
+            sortKeys.addAll(chineseBundle.keySet());
         }
         Collections.sort(sortKeys);
 
+        Map<Locale, List<ResourceBundle>> localeResourceBundleMap = new HashMap<Locale, List<ResourceBundle>>();
+        for (Map.Entry<Locale, String> entry : supportLocaleMap.entrySet()) {
+            Locale locale = entry.getKey();
+            List<ResourceBundle> list = new ArrayList<>();
+            for (String path : localeFiles) {
+                ResourceBundle chineseBundle = loadResourceBundle(path, locale);
+                list.add(chineseBundle);
+            }
+            localeResourceBundleMap.put(locale, list);
+        }
+
         Map<Locale, Vector<String>> data = new HashMap<Locale, Vector<String>>();
-        for (Map.Entry<Locale, LocalePackage> entry : map.entrySet()) {
+        for (Map.Entry<Locale, List<ResourceBundle>> entry : localeResourceBundleMap.entrySet()) {
             Vector<String> column = new Vector<String>();
+            List<ResourceBundle> rbs = entry.getValue();
             for (String key : sortKeys) {
-                column.add(entry.getValue().getLocText(key));
+                column.add(readText(rbs, key));
             }
             data.put(entry.getKey(), column);
         }
@@ -138,6 +156,19 @@ public class LocalePane extends BasicPane {
         for (Map.Entry<Locale, Vector<String>> entry : data.entrySet()) {
             predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
         }
+    }
+
+    private String readText(List<ResourceBundle> rbs, String key) {
+        for (ResourceBundle rb : rbs) {
+            if (rb.containsKey(key)) {
+                return rb.getString(key);
+            }
+        }
+        return null;
+    }
+
+    private ResourceBundle loadResourceBundle(String dir, Locale locale) {
+        return ResourceBundle.getBundle(dir, locale, Inter.class.getClassLoader());
     }
 
     private void initCustomProperties() throws Exception {
@@ -176,22 +207,9 @@ public class LocalePane extends BasicPane {
         }
     }
 
-    private Properties loadLocaleProperties(String name) {
-        Properties properties = new Properties();
-        InputStream inputStream = IOUtils.readResource("/com/fr/general/locale/" + name);
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        return properties;
-    }
-
     /**
 	 * 保存当前编辑的国际化
 	 * 
-	 *
-	 * @date 2014-9-30-下午3:10:30
 	 */
     public void save() {
         Env env = FRContext.getCurrentEnv();
