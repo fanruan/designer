@@ -34,7 +34,7 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
         jPanel.add(appFitBrowserPane);
 
-        jPanel.add(htmlGroupPane = new MobileUseHtmlGroupPane(Inter.getLocText("FR-mobile_analysis_annotation")));
+        jPanel.add(htmlGroupPane = new MobileUseHtmlGroupPane(Inter.getLocText("FR-Designer_Mobile_Report_Analysis_Annotation")));
 
         jPanel.add(mobileToolBarPane = new MobileToolBarPane());
 
