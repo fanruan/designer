@@ -48,7 +48,6 @@ public class XCardSwitchButton extends XButton {
 	//设置的图片类型
 	private static final String COLOR_BACKGROUND_TYPE = "ColorBackground";
 	private static final String DEFAULT_TYPE = "default";
-	private static final String DEFAULT_FONT_NAME = "SimSun";
 
 	//默认颜色
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
@@ -67,7 +66,6 @@ public class XCardSwitchButton extends XButton {
 	private static final int FONT_SIZE_ADJUST = 2;
 
 	private static final int SIDE_OFFSET = 57;
-	private static final int FONT_SIZE = 9;
 
 	private XWCardLayout cardLayout;
 	private XWCardTagLayout tagLayout;
@@ -345,10 +343,7 @@ public class XCardSwitchButton extends XButton {
 
 		// 标题部分
 		WidgetTitle title = style.getTitle();
-		FRFont font = button.getFont();
-		if (font == null) {
-			font = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
-		}
+		FRFont font = title.getFrFont();
 		FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
 		UILabel label = this.getContentLabel();
 		label.setFont(newFont);
@@ -427,9 +422,6 @@ public class XCardSwitchButton extends XButton {
 			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			CardSwitchButton cardSwitchButton = (CardSwitchButton) temp.toData();
 			FRFont frFont = cardSwitchButton.getFont();
-			if (frFont == null) {
-				frFont = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
-			}
 			UILabel label = temp.getContentLabel();
 			label.setSize(dimension);
 			label.setFont(frFont.applyResolutionNP(ScreenResolution.getScreenResolution()));
