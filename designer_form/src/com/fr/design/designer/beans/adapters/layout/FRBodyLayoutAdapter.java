@@ -6,6 +6,7 @@ import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.PaddingMargin;
+import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
 
@@ -639,9 +640,8 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
         * 又通过ComponentUtils.getRelativeBounds()方法获取到了绝对坐标，
         * 再次计算相对坐标，所以将y值重新变成绝对坐标。
         * */
-        if (currentCreator.getParent().getParent().getComponent(0) instanceof XWParameterLayout) {
-            int high = currentCreator.getParent().getParent().getComponent(0).getHeight();
-            y = y + WCardMainBorderLayout.TAB_HEIGHT + high;
+        if (currentCreator.getBackupParent().getLocation().y == WBorderLayout.DEFAULT_SIZE) {
+            y = y + WCardMainBorderLayout.TAB_HEIGHT + WBorderLayout.DEFAULT_SIZE;
         } else {
             y = y + WCardMainBorderLayout.TAB_HEIGHT;
         }

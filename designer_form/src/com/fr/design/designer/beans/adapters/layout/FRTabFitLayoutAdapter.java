@@ -15,6 +15,7 @@ import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRTabFitLayoutPropertiesGroupModel;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
 
@@ -92,16 +93,16 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
     private int adjustY(int y, XWTabFitLayout tabLayout) {
         XWCardLayout cardLayout = (XWCardLayout) tabLayout.getBackupParent();
         LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
-        if (container.getParent().getComponent(0) instanceof XWParameterLayout) {
-            y = y - container.getParent().getComponent(0).getHeight() - container.getParent().getComponent(0).getY();
+        if (container.getLocation().y == WBorderLayout.DEFAULT_SIZE) {
+            y = y - WBorderLayout.DEFAULT_SIZE;
         }
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
-            y -= WCardMainBorderLayout.TAB_HEIGHT;
+            y = y - WCardMainBorderLayout.TAB_HEIGHT;
         }
         return y;
     }
 
-	protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout){
-		return ComponentUtils.getRelativeBounds(mainLayout);
-	}
+    protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout) {
+        return ComponentUtils.getRelativeBounds(mainLayout);
+    }
 }
