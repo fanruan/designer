@@ -4,20 +4,21 @@
 package com.fr.design.designer.beans.adapters.layout;
 
 
-import java.awt.Rectangle;
-
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRTabFitLayoutPropertiesGroupModel;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+
+import java.awt.*;
 
 /**
  * tab布局tabFit适配器
@@ -99,4 +100,8 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
         }
         return y;
     }
+
+	protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout){
+		return ComponentUtils.getRelativeBounds(mainLayout);
+	}
 }

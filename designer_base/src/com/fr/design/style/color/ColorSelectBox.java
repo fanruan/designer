@@ -63,6 +63,7 @@ public class ColorSelectBox extends AbstractSelectBox<Color> implements UIObserv
                 fireDisplayComponent(ColorBackground.getInstance(color));
             }
         });
+        colorPane.setColor(color);
         return colorPane;
     }
 

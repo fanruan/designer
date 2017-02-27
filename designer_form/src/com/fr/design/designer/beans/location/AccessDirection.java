@@ -11,9 +11,10 @@ import com.fr.design.designer.creator.*;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.form.main.Form;
 import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WParameterLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 
 /**
  * @author richer
@@ -66,10 +67,8 @@ public abstract class AccessDirection implements Direction {
 	protected void sorptionPoint(Point point, Rectangle current_bounds,FormDesigner designer) {
 		boolean findInX = current_bounds.getWidth() <= MoveUtils.SORPTION_UNIT ? true : false;
 		boolean findInY = current_bounds.getHeight() <= MoveUtils.SORPTION_UNIT ? true : false;
-
 		WAbsoluteLayout layout =getLayout(designer);
 		FormSelection selection = designer.getSelectionModel().getSelection();
-
 		boolean isWidgetsIntersect = false;
 		for (int i = 0, count = layout.getWidgetCount(); i < count; i++) {
 			BoundsWidget temp = (BoundsWidget) layout.getWidget(i);
@@ -111,7 +110,10 @@ public abstract class AccessDirection implements Direction {
 			}
 		}
 		processRectangleIntersects(designer, point.x, point.y, isWidgetsIntersect);
+		setDesignerStateModelProperties(designer, findInX, findInY, current_bounds, point);
+	}
 
+	private void setDesignerStateModelProperties (FormDesigner designer, boolean findInX, boolean findInY, Rectangle current_bounds, Point point) {
 		designer.getStateModel().setXAbsorptionline(findInX && current_bounds.getWidth() > MoveUtils.SORPTION_UNIT ? Absorptionline.createXAbsorptionline(point.x) : null);
 		designer.getStateModel().setYAbsorptionline(findInY && current_bounds.getHeight() > MoveUtils.SORPTION_UNIT ? Absorptionline.createYAbsorptionline(point.y) : null);
 		designer.getStateModel().setEquidistantLine(null);
