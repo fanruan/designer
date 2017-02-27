@@ -226,7 +226,7 @@ public class GisMapTableDataContentPane4Chart extends FurtherBasicBeanPane<GisMa
 
         if (addressNameBox.getSelectedItem() != null) {
             String adName = Utils.objectToString(addressNameBox.getSelectedItem());
-            if (ArrayUtils.contains(ChartConstants.NONE_KEYS, adName)) {
+            if (ArrayUtils.contains(ChartConstants.getNoneKeys(), adName)) {
                 definition.setAddressName(StringUtils.EMPTY);
             } else {
                 definition.setAddressName(adName);

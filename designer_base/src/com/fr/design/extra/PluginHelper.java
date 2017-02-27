@@ -256,7 +256,7 @@ public class PluginHelper {
         if (PluginLoader.getLoader().isInstalled(plugin)) {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Has_Been_Installed"));
         }
-        if (plugin.isJarExpired()) {
+        if (plugin.checkIfJarExpired()) {
             String jarExpiredInfo = Inter.getLocText(new String[]{"FR-Designer-Plugin_Jar_Expired", ",", "FR-Designer-Plugin_Install_Failed", ",", "FR-Designer-Plugin_Please_Update_Jar", plugin.getRequiredJarTime()});
             FRLogger.getLogger().error(jarExpiredInfo);
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);

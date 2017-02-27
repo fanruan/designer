@@ -10,8 +10,8 @@ import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.form.ui.Label;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetTitle;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WTitleLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.ComparatorUtils;
 
 import java.awt.*;

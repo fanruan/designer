@@ -160,6 +160,14 @@ public class UIComboBox extends JComboBox implements UIObserver, GlobalNameObser
         uiObserverListener = listener;
     }
 
+    public void removeChangeListener(){
+        uiObserverListener = null;
+    }
+
+    public UIObserverListener getUiObserverListener(){
+        return uiObserverListener;
+    }
+
     /**
      * @return
      */

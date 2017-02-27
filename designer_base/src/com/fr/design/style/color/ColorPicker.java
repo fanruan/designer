@@ -7,11 +7,14 @@ package com.fr.design.style.color;
 import com.fr.base.BaseUtils;
 import com.fr.general.FRLogger;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
 
 /**
  * 取色框
