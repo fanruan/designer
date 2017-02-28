@@ -27,6 +27,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
@@ -72,16 +73,25 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private UndoManager authorityUndoManager;
     protected U undoState;
     protected U authorityUndoState = null;
+    protected T template; // 当前模板
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
+    private long openTime = 0L; // 打开模板的时间点（包括新建模板）
+    private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
 
     public JTemplate(T t, String defaultFileName) {
-        this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)));
+        this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
+        initForCollect();
     }
 
     public JTemplate(T t, FILE file) {
+        this(t, file, false);
+    }
+
+    public JTemplate(T t, FILE file, boolean isNewFile) {
         super(t);
+        this.template = t;
         this.previewType = parserPreviewProvider(t.getPreviewType());
         this.editingFILE = file;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -89,7 +99,37 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         this.add(createCenterPane(), BorderLayout.CENTER);
         this.undoState = createUndoState();
         designModel = createDesignModel();
+        // 如果不是新建模板，并且在收集列表中
+        if (!isNewFile && tic.inList(t)) {
+            openTime = System.currentTimeMillis();
+        }
     }
+
+    // 为收集模版信息作准备
+    private void initForCollect() {
+        if (template.getReportletsid() == null) {
+            template.initReportletsid();  // 为新模板设置 reportletsid 属性
+        }
+        if (openTime == 0) {
+            openTime = System.currentTimeMillis();
+        }
+    }
+    private void collectInfo() {  // 执行收集操作
+        long saveTime = System.currentTimeMillis();  // 保存模板的时间点
+        tic.collectInfo(template, this, openTime, saveTime);
+        openTime = saveTime;  // 更新 openTime，准备下一次计算
+    }
+
+    // 获取模板类型。0 代表普通报表，1 代表聚合报表，2 代表表单
+    public abstract int getReportType();
+    // 获取模板格子数
+    public abstract int getCellCount();
+    // 获取模板悬浮元素个数
+    public abstract int getFloatCount();
+    // 获取模板聚合块个数
+    public abstract int getBlockCount();
+    // 获取模板控件数
+    public abstract int getWidgetCount();
 
     public U getUndoState() {
         return undoState;
@@ -439,6 +479,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        collectInfo();
         return this.saveFile();
     }
     
@@ -487,6 +528,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
+            initForCollect();  // 如果是旧模板另存为新模板，则添加 reportletsid
+            collectInfo();
         }
         //更换最近打开
         DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getFullPathName());

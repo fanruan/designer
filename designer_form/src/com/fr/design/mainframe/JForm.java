@@ -38,6 +38,7 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -86,6 +87,35 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public int getMenuState() {
 
         return DesignState.JFORM;
+    }
+
+    // 获取模板类型
+    public int getReportType() {
+        return 2;
+    }
+
+    // 获取模板格子数
+    public int getCellCount() {
+        return 0;
+    }
+    // 获取模板悬浮元素个数
+    public int getFloatCount() {
+        return 0;
+    }
+    // 获取模板聚合块个数
+    public int getBlockCount() {
+        return 0;
+    }
+    // 获取模板控件数
+    public int getWidgetCount() {
+        int widgetCount = 0;
+        for (int i = 0; i < template.getContainer().getWidgetCount(); i++) {
+            WFitLayout wf = (WFitLayout) template.getContainer().getWidget(i);
+            widgetCount += wf.getWidgetCount();
+        }
+        int a = 1;
+        int b = 2;
+        return widgetCount;
     }
 
     @Override
