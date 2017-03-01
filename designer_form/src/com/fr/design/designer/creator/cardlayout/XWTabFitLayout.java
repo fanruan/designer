@@ -1,10 +1,5 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
-import java.beans.IntrospectionException;
-
-import javax.swing.border.Border;
-
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -18,19 +13,21 @@ import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
-import com.fr.design.mainframe.widget.editors.FontEditor;
 import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
-import com.fr.design.mainframe.widget.renderer.FontCellRenderer;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.Background;
-import com.fr.general.FRFont;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.beans.IntrospectionException;
 
 
 /**
@@ -47,7 +44,6 @@ public class XWTabFitLayout extends XWFitLayout {
 	private Background initialBackground;
 	private Background overBackground;
 	private Background clickBackground;
-	private FRFont font;
 	private XCardSwitchButton xCardSwitchButton;
 
 	public Dimension getReferDim() {
@@ -82,15 +78,6 @@ public class XWTabFitLayout extends XWFitLayout {
 		this.clickBackground = clickBackground;
 	}
 
-	@Override
-	public FRFont getFont() {
-		return font;
-	}
-
-	public void setFont(FRFont font) {
-		this.font = font;
-	}
-
 	public XCardSwitchButton getxCardSwitchButton() {
 		return xCardSwitchButton;
 	}
@@ -106,12 +93,12 @@ public class XWTabFitLayout extends XWFitLayout {
 	public XWTabFitLayout(WTabFitLayout widget, Dimension initSize) {
 		super(widget, initSize);
 	}
-	
+
 	/**
-	*  得到属性名
+	 *  得到属性名
 	 * @return 属性名
-	* @throws IntrospectionException
-	*/
+	 * @throws IntrospectionException
+	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		checkButonType();
 		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
@@ -158,14 +145,7 @@ public class XWTabFitLayout extends XWFitLayout {
 								cardSwitchButton.setClickBackground(clickBackground);
 							}
 						}
-				),
-				//字体
-				creatNonListenerStyle(4).setPropertyChangeListener(
-						new PropertyChangeAdapter() {
-							@Override
-							public void propertyChange() {
-							}
-						}),
+				)
 		};
 	}
 
@@ -197,9 +177,6 @@ public class XWTabFitLayout extends XWFitLayout {
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("clickBackground", this.data.getClass()).setEditorClass(
 						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Click")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_FRFont"))
-						.setEditorClass(FontEditor.class).setRendererClass(FontCellRenderer.class).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		return crPropertyDescriptors[i];
@@ -215,21 +192,40 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	private void checkButonType() {
 		if (this.xCardSwitchButton == null) {
+			//假如为空，默认获取第一个tab的cardBtn属性
+			try {
+				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
+			}catch (Exception e){
+				FRLogger.getLogger().error(e.getMessage());
+			}
 			return;
 		}
 		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
 		Background bg;
 		bg = ColorBackground.getInstance(NORMAL_GRAL);
+		CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 		if (!isStyle) {
 			this.xCardSwitchButton.setCustomStyle(false);
 			this.xCardSwitchButton.setSelectBackground(bg);
+			cardSwitchButton.setInitialBackground(null);
+			cardSwitchButton.setClickBackground(null);
+			cardSwitchButton.setOverBackground(null);
 		} else {
-			CardSwitchButton cardSwitchButton = (CardSwitchButton) this.xCardSwitchButton.toData();
 			Background initialBackground = cardSwitchButton.getInitialBackground();
 			bg = initialBackground == null ? bg : initialBackground;
 			this.xCardSwitchButton.setSelectBackground(bg);
 			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
+			if (this.initialBackground != null){
+				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
+				cardSwitchButton.setInitialBackground(this.initialBackground);
+			}
+			if (this.overBackground != null){
+				cardSwitchButton.setOverBackground(this.overBackground);
+			}
+			if (this.clickBackground != null) {
+				cardSwitchButton.setClickBackground(this.clickBackground);
+			}
 		}
 	}
 

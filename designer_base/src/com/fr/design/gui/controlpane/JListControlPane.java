@@ -109,6 +109,10 @@ public abstract class JListControlPane extends JControlPane {
 
     }
 
+    protected void doBeforePopulate(ListModelElement el, Object obj) {
+
+    }
+
     @Override
     protected ShortCut4JControlPane addItemShortCut() {
         ShortCut addItemShortCut;
@@ -832,6 +836,7 @@ public abstract class JListControlPane extends JControlPane {
                         cardPane.add(updatePanes[i], String.valueOf(i));
                     }
                     card.show(cardPane, String.valueOf(i));
+                    doBeforePopulate(el, ob2Populate);
                     updatePanes[i].populateBean(ob2Populate);
                     doWhenPopulate(updatePanes[i]);
                     break;

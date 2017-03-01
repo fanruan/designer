@@ -43,7 +43,7 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		JPanel blankJp = new JPanel();
 		gradientBar = new GradientBar(4, 254);
 		blankJp.add(gradientBar);
-		UILabel jl = new UILabel(Inter.getLocText("Drag_to_select_gradient"));
+		UILabel jl = new UILabel(Inter.getLocText("FR-Designer_Drag_To_Select_Gradient"));
 		jl.setHorizontalAlignment(SwingConstants.CENTER);
 		gradientPanel.add(jl, BorderLayout.NORTH);
 		gradientPanel.add(blankJp, BorderLayout.SOUTH);
@@ -53,14 +53,14 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		JPanel innercenterPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		centerPane.add(new UILabel("           "));
 		centerPane.add(innercenterPane);
-		innercenterPane.add(new UILabel(Inter.getLocText("Gradient-Direction") + ":"));
+		innercenterPane.add(new UILabel(Inter.getLocText("FR-Designer_Gradient_Direction") + ":"));
 
-		left2right = new UIRadioButton(Inter.getLocText("PageSetup-Landscape"));
+		left2right = new UIRadioButton(Inter.getLocText("FR-Designer_PageSetup_Horizontal"));
 		innercenterPane.add(left2right);
 		left2right.setSelected(true);
 		left2right.addActionListener(reviewListener);
 
-		top2bottom = new UIRadioButton(Inter.getLocText("PageSetup-Portrait"));
+		top2bottom = new UIRadioButton(Inter.getLocText("FR-Designer_PageSetup_Vertical"));
 		innercenterPane.add(top2bottom);
 		top2bottom.addActionListener(reviewListener);
 

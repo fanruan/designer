@@ -1,15 +1,7 @@
 package com.fr.design.style.color;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.MemoryImageSource;
 import java.util.regex.Matcher;
@@ -29,6 +21,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import com.fr.design.gui.ibutton.SpecialUIButton;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -709,11 +702,19 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         hexPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         hexPanel.add(new UILabel("#"));
         hexPanel.add(field);
-        UIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
-        hexPanel.add(pickColorButton);
 
         mainPanel.add(hslAndRgbPanel, BorderLayout.CENTER);
         mainPanel.add(hexPanel, BorderLayout.SOUTH);
+
+        JPanel rightPane = new JPanel(new BorderLayout());
+        SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
+        JPanel blankArea = new JPanel();
+        blankArea.setPreferredSize(new Dimension(100, 175));
+        rightPane.add(blankArea, BorderLayout.CENTER);
+        JPanel buttonPane = new JPanel(new BorderLayout());
+        buttonPane.add(pickColorButton, BorderLayout.WEST);
+        rightPane.add(buttonPane, BorderLayout.SOUTH);
+        container.add(rightPane);
 
         return container;
     }

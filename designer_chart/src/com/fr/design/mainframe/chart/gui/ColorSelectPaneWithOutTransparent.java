@@ -19,7 +19,7 @@ public class ColorSelectPaneWithOutTransparent extends ColorSelectPane {
     public void initCenterPaneChildren(JPanel centerPane) {
         JPanel menuColorPane1 = new JPanel();
         centerPane.add(menuColorPane1);
-        menuColorPane1.setLayout(new GridLayout(5, 8, 5, 5));
+        menuColorPane1.setLayout(new GridLayout(3, 8, 5, 5));
         for (int i = 0; i < ChartConstants.MAP_COLOR_ARRAY.length; i++) {
             menuColorPane1.add(new ColorCell(ChartConstants.MAP_COLOR_ARRAY[i], this));
         }
@@ -29,5 +29,15 @@ public class ColorSelectPaneWithOutTransparent extends ColorSelectPane {
 
     protected Color[] getColorArray(){
         return ChartConstants.MAP_COLOR_ARRAY;
+    }
+
+    protected JPanel getMenuColorPane() {
+        JPanel menuColorPane = new JPanel();
+        menuColorPane.setLayout(new GridLayout(0, 8, 1, 1));
+        menuColorPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 8));
+
+        menuColorPane.setPreferredSize(new Dimension(205, 62));
+
+        return menuColorPane;
     }
 }

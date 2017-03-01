@@ -18,8 +18,8 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.container.WBorderLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
@@ -231,7 +231,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			);
 			g2d.setColor(Color.BLACK);
 			//画编辑文字
-			g2d.drawString(Inter.getLocText("Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 		}
 	}
 

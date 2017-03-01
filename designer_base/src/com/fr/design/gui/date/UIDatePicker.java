@@ -31,6 +31,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 	public static final int STYLE_CN_DATE1 = 1;
 	public static final int STYLE_CN_DATETIME = 2;
 	public static final int STYLE_CN_DATETIME1 = 3;
+	public static final int STYLE_EN_DATE = 4;
     public boolean isWillHide = false;
 	/**
 	 * 日期格式类型
@@ -113,6 +114,8 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 				return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			case STYLE_CN_DATETIME1:
 				return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			case STYLE_EN_DATE:
+				return new SimpleDateFormat("MM/dd/yyyy");
 			default:
 				throw new UnsupportedOperationException(
 						"invalid formatStyle parameter!");

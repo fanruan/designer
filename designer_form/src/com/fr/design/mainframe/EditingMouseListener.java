@@ -11,6 +11,7 @@ import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.beans.models.StateModel;
 import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.xpane.ToolTipEditor;
@@ -187,43 +188,46 @@ public class EditingMouseListener extends MouseInputAdapter {
 				designer.selectComponents(e);
 			}
 			if (stateModel.isDragging()) {
-                // 当前鼠标所在的组件
-                XCreator hoveredComponent = designer.getComponentAt(e.getX(), e.getY());
-				if(designer.isWidgetsIntersect() && dragBackupBounds != null && hoveredComponent != null){
-					XCreator selectionXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
-					if(selectionXCreator != null){
-						selectionXCreator.setBounds(dragBackupBounds.x, dragBackupBounds.y, dragBackupBounds.width, dragBackupBounds.height);
-						MoveUtils.hideForbidWindow();
-					}
-				}
-				dragBackupBounds = null;
-                // 拉伸时鼠标拖动过快，导致所在组件获取会为空
-                if (hoveredComponent == null && e.getY() < 0) {
-                	// bug63538
-                	// 不是拖动过快导致的，而是纵坐标为负值导致的，这时参照横坐标为负值时的做法，取边界位置的组件，为鼠标所在点的组件
-                	// 如果直接return，界面上已经进行了拖拽不能恢复
-                	hoveredComponent = designer.getComponentAt(0, 0);
-                }
-                // 获取该组件所在的焦点容器
-                XLayoutContainer container = XCreatorUtils.getHotspotContainer(hoveredComponent);
-
-                if (container != null) {
-                    boolean formSubmit2Adapt = !selectionModel.getSelection().getSelectedCreator().canEnterIntoAdaptPane() 
-                    					&& container.acceptType(XWFitLayout.class);
-                    if ( !formSubmit2Adapt) {
-                        // 如果是处于拖拽状态，则释放组件
-                        stateModel.releaseDragging(e);
-                    } else {
-                        selectionModel.deleteSelection();
-                        designer.setPainter(null);
-                    }
-                    cancelPromptWidgetForbidEnter();
-                }
-
+				mouseDraggingRelease(e);
 			}
 		}
 		lastPressEvent = null;
 		last_creator = null;
+	}
+
+	private void mouseDraggingRelease(MouseEvent e) {
+		// 当前鼠标所在的组件
+		XCreator hoveredComponent = designer.getComponentAt(e.getX(), e.getY());
+		if(designer.isWidgetsIntersect() && dragBackupBounds != null && hoveredComponent != null){
+            XCreator selectionXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+            if(selectionXCreator != null){
+                selectionXCreator.setBounds(dragBackupBounds.x, dragBackupBounds.y, dragBackupBounds.width, dragBackupBounds.height);
+                MoveUtils.hideForbidWindow();
+            }
+        }
+		dragBackupBounds = null;
+		// 拉伸时鼠标拖动过快，导致所在组件获取会为空
+		if (hoveredComponent == null && e.getY() < 0) {
+            // bug63538
+            // 不是拖动过快导致的，而是纵坐标为负值导致的，这时参照横坐标为负值时的做法，取边界位置的组件，为鼠标所在点的组件
+            // 如果直接return，界面上已经进行了拖拽不能恢复
+            hoveredComponent = designer.getComponentAt(0, 0);
+        }
+		// 获取该组件所在的焦点容器
+		XLayoutContainer container = XCreatorUtils.getHotspotContainer(hoveredComponent);
+
+		if (container != null) {
+            boolean formSubmit2Adapt = !selectionModel.getSelection().getSelectedCreator().canEnterIntoAdaptPane()
+                                && container.acceptType(XWFitLayout.class);
+            if ( !formSubmit2Adapt) {
+                // 如果是处于拖拽状态，则释放组件
+                stateModel.releaseDragging(e);
+            } else {
+                selectionModel.deleteSelection();
+                designer.setPainter(null);
+            }
+            cancelPromptWidgetForbidEnter();
+        }
 	}
 
 	/**
@@ -286,33 +290,7 @@ public class EditingMouseListener extends MouseInputAdapter {
 		}
 
         if (component.isReport()) {
-            xElementCase = (XElementCase)component;
-			UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
-            if(designer.getCursor().getType() ==Cursor.HAND_CURSOR) {
-				designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			} // component.getParent() 是报表块所在的XWTitleLayout
-			int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-			int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-			if (e.getX() + GAP - xElementCase.getInsets().left > minX && e.getX() - GAP - xElementCase.getInsets().left < minX + button.getWidth()) {
-				if (e.getY() + GAP - xElementCase.getInsets().top > minY && e.getY() - GAP - xElementCase.getInsets().top < minY + button.getHeight()) {
-					designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				}
-			}
-			xElementCase.setHelpBtnOnFocus(false);
-			if (xElementCase.getCoverPane().getComponentCount() > 1) {
-				JComponent button1 = (JComponent) xElementCase.getCoverPane().getComponent(1);
-				int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
-				int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
-				if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
-					if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
-						designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						xElementCase.setHelpBtnOnFocus(true);
-					}
-				}
-			}
-			xElementCase.displayCoverPane(true);
-            xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
-
+			elementCaseMouseMoved(e, component);
             designer.repaint();
 			return;
         }
@@ -320,6 +298,35 @@ public class EditingMouseListener extends MouseInputAdapter {
 		processChartEditorMouseMove(component, e);
 
 		designer.repaint();
+	}
+
+	private void elementCaseMouseMoved(MouseEvent e, XCreator component) {
+		xElementCase = (XElementCase)component;
+		UIButton button = (UIButton)xElementCase.getCoverPane().getComponent(0);
+		if(designer.getCursor().getType() == Cursor.HAND_CURSOR) {
+            designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        } // component.getParent() 是报表块所在的XWTitleLayout
+		int minX = button.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+		int minY = button.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+		if (e.getX() + GAP - xElementCase.getInsets().left > minX && e.getX() - GAP - xElementCase.getInsets().left < minX + button.getWidth()) {
+            if (e.getY() + GAP - xElementCase.getInsets().top > minY && e.getY() - GAP - xElementCase.getInsets().top < minY + button.getHeight()) {
+                designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+        }
+		xElementCase.setHelpBtnOnFocus(false);
+		if (xElementCase.getCoverPane().getComponentCount() > 1) {
+            JComponent button1 = (JComponent) xElementCase.getCoverPane().getComponent(1);
+            int minX1 = button1.getX() + getParentPositionX(component, 0) - designer.getArea().getHorizontalValue();
+            int minY1 = button1.getY() + getParentPositionY(component, 0) - designer.getArea().getVerticalValue();
+            if (e.getX() + GAP - xElementCase.getInsets().left > minX1 && e.getX() - GAP - xElementCase.getInsets().left < minX1 + button1.getWidth()) {
+                if (e.getY() + GAP - xElementCase.getInsets().top > minY1 && e.getY() - GAP - xElementCase.getInsets().top < minY1 + button1.getHeight()) {
+                    designer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    xElementCase.setHelpBtnOnFocus(true);
+                }
+            }
+        }
+		xElementCase.displayCoverPane(true);
+		xElementCase.setDirections(Direction.TOP_BOTTOM_LEFT_RIGHT);
 	}
 
 	private void setCoverPaneNotDisplay(MouseEvent e, boolean isLinkedHelpDialog) {
@@ -511,10 +518,11 @@ public class EditingMouseListener extends MouseInputAdapter {
      * @param e    鼠标事件
      */
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() != MouseEvent.BUTTON1) {
+		XCreator creator = designer.getComponentAt(e);
+
+		if (e.getButton() != MouseEvent.BUTTON1 && !creator.acceptType(XCardSwitchButton.class)) {
 			return;
 		}
-		XCreator creator = designer.getComponentAt(e);
 
 		creator = processTopLayoutMouseClick(creator);
 

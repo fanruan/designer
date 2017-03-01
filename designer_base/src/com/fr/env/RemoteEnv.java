@@ -1483,6 +1483,8 @@ public class RemoteEnv implements Env {
      * @throws Exception 异常
      */
     public boolean writeSvgFile(SvgProvider svgFile) throws Exception {
+        testServerConnection();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_svg");
@@ -1534,6 +1536,8 @@ public class RemoteEnv implements Env {
      */
     @Override
     public boolean writeResource(XMLFileManagerProvider mgr) throws Exception {
+        testServerConnection();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_resource");

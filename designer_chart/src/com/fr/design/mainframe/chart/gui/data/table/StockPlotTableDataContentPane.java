@@ -160,7 +160,7 @@ public class StockPlotTableDataContentPane extends AbstractTableDataContentPane 
 			openLabel.setText(stockLabel.getOpenLabel());
 			highLabel.setText(stockLabel.getHighLabel());
 			lowLabel.setText(stockLabel.getLowLabel());
-			closeLabel.setText(stockLabel.getLowLabel());
+			closeLabel.setText(stockLabel.getCloseLabel());
 
 			combineCustomEditValue(axisBox, stock.getCateTime());
 			combineCustomEditValue(volumeBox, stock.getVolumnString());
