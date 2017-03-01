@@ -42,9 +42,7 @@ public class ModifyStatusExecutor implements Executor {
                         plugin.setActive(active);
                         try {
                             FRContext.getCurrentEnv().writePlugin(plugin);
-                            /*
-                            *     PluginWebBridge.getHelper().showRestartMessage(plugin.isActive() ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled"));
-                            **/
+                            PluginWebBridge.getHelper().showRestartMessage(plugin.isActive() ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled"));
                         } catch (Exception e) {
                             FRContext.getLogger().error(e.getMessage());
                         }
