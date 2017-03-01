@@ -29,6 +29,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.proxy.PluginProxyCompatibleUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -131,6 +132,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
         toolbarDef.addShortCut(delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getArray(ShortCut.TEMPLATE_TREE);
+        extraShortCuts = PluginProxyCompatibleUtils.toOriObjectHashSet(extraShortCuts);
         for (ShortCut shortCut : extraShortCuts){
             toolbarDef.addShortCut(shortCut);
         }

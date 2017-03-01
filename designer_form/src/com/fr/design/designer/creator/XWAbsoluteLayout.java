@@ -8,39 +8,25 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.LayoutAdapter;
-import com.fr.design.designer.beans.adapters.layout.AbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
-import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
-import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.*;
-import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
-import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.stable.core.PropertyChangeAdapter;
-import org.eclipse.swt.internal.gdip.Rect;
-
-import javax.swing.*;
 
 /**
  * @author richer

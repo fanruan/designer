@@ -23,11 +23,11 @@ public abstract class MobileUseHtmlGroupBeanPane<T> extends BasicBeanPane<T> {
 
     private List<UIRadioButton> radioButtons = new ArrayList<UIRadioButton>();
 
-    public MobileUseHtmlGroupBeanPane() {
-        initComponents();
+    public MobileUseHtmlGroupBeanPane(String annotation) {
+        initComponents(annotation);
     }
 
-    private void initComponents() {
+    private void initComponents(String annotation) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(UITitledBorder.createBorderWithTitle(this.title4PopupWindow()));
 
@@ -43,7 +43,7 @@ public abstract class MobileUseHtmlGroupBeanPane<T> extends BasicBeanPane<T> {
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-mobile_analysis_style")), useApp, useHTML5},
-                new Component[]{new UILabel(Inter.getLocText("FR-mobile_analysis_annotation")), null, null}
+                new Component[]{new UILabel(annotation), null, null}
         };
         JPanel usePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         usePane.setBorder(BorderFactory.createEmptyBorder(10, 13, 10, 10));
