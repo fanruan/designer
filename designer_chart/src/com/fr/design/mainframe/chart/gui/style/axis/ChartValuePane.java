@@ -177,7 +177,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 
         logBaseField = new UITextField(4);
         logBaseField.setText("10");
-        logBaseField.setPreferredSize(new Dimension(50, 20));
+        logBaseField.setPreferredSize(new Dimension(55, 20));
 
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
