@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryPlotReportDataContentPane extends AbstractReportDataContentPane {
@@ -111,20 +110,6 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
         }
 
         filterPane.populateBean(collection);
-    }
-
-    private List getEntryList(NormalReportDataDefinition seriesList) {
-        List list = new ArrayList();
-        for (int i = 0; i < seriesList.size(); i++) {
-            SeriesDefinition seriesEntry = (SeriesDefinition) seriesList.get(i);
-            Object[] nameAndValue = new Object[2];
-            nameAndValue[0] = seriesEntry.getSeriesName();
-            nameAndValue[1] = seriesEntry.getValue();
-            if (nameAndValue[0] != null && nameAndValue[1] != null) {
-                list.add(nameAndValue);
-            }
-        }
-        return list;
     }
 
     public void updateBean(ChartCollection collection) {
