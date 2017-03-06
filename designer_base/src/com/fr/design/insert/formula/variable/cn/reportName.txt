@@ -1,3 +1,1 @@
-报表名字
-假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，
-reportName就是WorkBook1.cpt
+鎶ヨ〃鍚嶅瓧鍋囧璁块棶锛歨ttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt锛宺eportName灏辨槸WorkBook1.cpt
