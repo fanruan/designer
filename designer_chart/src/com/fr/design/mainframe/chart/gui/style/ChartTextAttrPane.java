@@ -30,7 +30,7 @@ public class ChartTextAttrPane extends BasicPane {
     protected UIToggleButton bold;
     protected UIToggleButton italic;
     protected UIColorButton fontColor;
-    public static Integer[] Font_Sizes = new Integer[67];
+    public static Integer[] Font_Sizes = new Integer[FONT_END-FONT_START+1];
     static{
         for(int i = FONT_START; i <= FONT_END; i++){
             Font_Sizes [i - FONT_START] = new Integer(i);
