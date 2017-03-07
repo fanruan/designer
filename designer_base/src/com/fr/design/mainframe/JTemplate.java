@@ -79,6 +79,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private PreviewProvider previewType;
     private long openTime = 0L; // 打开模板的时间点（包括新建模板）
     private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
+    private StringBuilder process = new StringBuilder("");  // 制作模板的过程
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
@@ -102,6 +103,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         // 如果不是新建模板，并且在收集列表中
         if (!isNewFile && tic.inList(t)) {
             openTime = System.currentTimeMillis();
+            process.append(tic.loadProcess(t));
         }
     }
 
@@ -130,6 +132,16 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract int getBlockCount();
     // 获取模板控件数
     public abstract int getWidgetCount();
+
+    // 追加过程记录
+    public void appendProcess(String s) {
+        process.append(s);
+    }
+
+    // 获取过程记录
+    public String getProcess() {
+        return process.toString();
+    }
 
     public U getUndoState() {
         return undoState;

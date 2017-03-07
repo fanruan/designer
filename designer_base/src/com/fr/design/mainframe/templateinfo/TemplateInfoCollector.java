@@ -2,6 +2,7 @@ package com.fr.design.mainframe.templateinfo;
 
 import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
@@ -47,6 +48,22 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             instance = new TemplateInfoCollector();
         }
         return instance;
+    }
+
+    public static void appendProcess(String log) {
+//        System.out.println(log);
+        // 获取当前编辑的模板
+        JTemplate jt = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+        // 追加过程记录
+        jt.appendProcess(log);
+    }
+
+    /**
+     * 加载已经存储的模板过程
+     */
+    public String loadProcess(T t) {
+//        return "";
+        return (String)templateInfoList.get(t.getReportletsid()).get("process");
     }
 
     /**
@@ -106,17 +123,18 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
 
         long timeConsume = saveTime - openTime;
-        // 如果已存有数据，则加上本次编辑时间
+        // 如果已存有数据，则加上之前的累计编辑时间
         if (templateInfo.get("time_consume") != null) {
             timeConsume += (long)templateInfo.get("time_consume");
         }
 
-//        String process;
+        String process = jt.getProcess();
         int cellCount = jt.getCellCount();
         int floatCount = jt.getFloatCount();
         int blockCount = jt.getBlockCount();
         int widgetCount = jt.getWidgetCount();
         templateInfo.put("time_consume", timeConsume);
+        templateInfo.put("process", process);
         templateInfo.put("cell_count", cellCount);
         templateInfo.put("float_count", floatCount);
         templateInfo.put("block_count", blockCount);

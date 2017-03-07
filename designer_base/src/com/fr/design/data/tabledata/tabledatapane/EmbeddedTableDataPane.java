@@ -96,6 +96,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 				selectedChanged();
 			}
 		});
+
 		dataJTable.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				selectedChanged();
