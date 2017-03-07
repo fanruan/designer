@@ -23,6 +23,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 
 public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
+    private  static final int SET_FONT = 6;
     protected UIComboBox fontNameComboBox;
     protected UIComboBox fontSizeComboBox;
 
@@ -45,8 +46,8 @@ public class ChartTextAttrPane extends BasicPane {
         return null;
     }
     public static void setFont_Sizes() {
-        for (int i =0; i < 67;i++){
-            Font_Sizes [i]= new Integer(i+6);
+        for (int i =0; i < Font_Sizes.length;i++){
+            Font_Sizes [i]= new Integer(i+SET_FONT);
         }
     }
 
