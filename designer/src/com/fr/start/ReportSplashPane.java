@@ -19,7 +19,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimerTask;
