@@ -22,7 +22,7 @@ public interface IndependentChartUIProvider extends Level {
 
     String XML_TAG = "IndependentChartUIProvider";
 
-    int CURRENT_API_LEVEL = 3;
+    int CURRENT_API_LEVEL = 4;
 
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
