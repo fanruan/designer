@@ -23,17 +23,20 @@ import com.fr.design.utils.gui.GUICoreUtils;
 
 public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
-    private  static final int SET_FONT = 6;
+    private static final int FONT_START = 6;
+    private static final int FONT_END = 72;
     protected UIComboBox fontNameComboBox;
     protected UIComboBox fontSizeComboBox;
-
     protected UIToggleButton bold;
     protected UIToggleButton italic;
     protected UIColorButton fontColor;
     public static Integer[] Font_Sizes = new Integer[67];
-
+    static{
+        for(int i = FONT_START; i <= FONT_END; i++){
+            Font_Sizes [i - FONT_START] = new Integer(i);
+        }
+    }
     public ChartTextAttrPane() {
-        setFont_Sizes();
         initComponents();
     }
 
@@ -44,11 +47,6 @@ public class ChartTextAttrPane extends BasicPane {
     public String title4PopupWindow() {
         // TODO Auto-generated method stub
         return null;
-    }
-    public static void setFont_Sizes() {
-        for (int i =0; i < Font_Sizes.length;i++){
-            Font_Sizes [i]= new Integer(i+SET_FONT);
-        }
     }
 
     public void populate(TextAttr textAttr) {
