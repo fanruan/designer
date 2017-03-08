@@ -380,6 +380,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
+	 * 重置组件的可见性
+	 * @param visible 可见性
+	 */
+	public void resetVisible(boolean visible){
+		toData().setVisible(visible);
+	}
+
+	/**
 	 * 返回编辑的子组件，scale为其内部组件
 	 * @return 组件
 	 */
