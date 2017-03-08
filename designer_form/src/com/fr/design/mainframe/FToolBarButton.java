@@ -1,12 +1,15 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
-import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.roleAuthority.ReportAndFSManagePane;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetManager;
+import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -17,7 +20,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FToolBarButton extends UIButton implements MouseListener {
+public class FToolBarButton extends JButton implements MouseListener {
     private Widget widget;
     private WidgetOption no;
 
@@ -27,6 +30,7 @@ public class FToolBarButton extends UIButton implements MouseListener {
 
     public FToolBarButton(String text, Icon icon, Widget widget) {
         super(text, icon);
+        init();
         this.widget = widget;
         if (widget instanceof com.fr.form.ui.Button) {
             com.fr.form.ui.Button button = (com.fr.form.ui.Button) widget;
@@ -40,6 +44,11 @@ public class FToolBarButton extends UIButton implements MouseListener {
         }
         this.addMouseListener(this);
         setMargin(new Insets(0, 0, 0, 0));
+    }
+
+    private void init() {
+        setBackground(null);
+        setRolloverEnabled(true);
     }
 
 
@@ -82,8 +91,12 @@ public class FToolBarButton extends UIButton implements MouseListener {
 
 
     protected void paintBorder(Graphics g) {
-        this.setBorderType(UIButton.NORMAL_BORDER);
-        super.paintBorder(g);
+        paintBorder(g, this);
+    }
+
+    protected void paintBorder(Graphics g, FToolBarButton b) {
+        String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
+        GUIPaintUtils.drawBorder((Graphics2D) g, 0, 0, b.getWidth(), b.getHeight(), true, Constants.NULL, b.isDoneAuthorityEdited(selectedRoles));
     }
 
     /**
