@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.GraphHelper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
@@ -20,15 +19,15 @@ import java.awt.event.MouseListener;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FToolBarButton extends JButton implements MouseListener {
+public class FormToolBarButton extends JButton implements MouseListener {
     private Widget widget;
     private WidgetOption no;
 
-    public FToolBarButton(Icon icon, Widget widget) {
+    public FormToolBarButton(Icon icon, Widget widget) {
         this(null, icon, widget);
     }
 
-    public FToolBarButton(String text, Icon icon, Widget widget) {
+    public FormToolBarButton(String text, Icon icon, Widget widget) {
         super(text, icon);
         init();
         this.widget = widget;
@@ -94,7 +93,7 @@ public class FToolBarButton extends JButton implements MouseListener {
         paintBorder(g, this);
     }
 
-    protected void paintBorder(Graphics g, FToolBarButton b) {
+    protected void paintBorder(Graphics g, FormToolBarButton b) {
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
         GUIPaintUtils.drawBorder((Graphics2D) g, 0, 0, b.getWidth(), b.getHeight(), true, Constants.NULL, b.isDoneAuthorityEdited(selectedRoles));
     }
@@ -110,9 +109,9 @@ public class FToolBarButton extends JButton implements MouseListener {
             return;
         }
         if (e.getClickCount() >= 2) {
-            if (this.getParent() instanceof FToolBarPane) {
-                final FToolBarPane tb = (FToolBarPane) this.getParent();
-                final FEditToolBar etb = new FEditToolBar();
+            if (this.getParent() instanceof FormToolBarPane) {
+                final FormToolBarPane tb = (FormToolBarPane) this.getParent();
+                final FormEditToolBar etb = new FormEditToolBar();
                 etb.populate(tb.getFToolBar(), this);
                 BasicDialog dialog = etb.showWindow(DesignerContext.getDesignerFrame());
                 dialog.addDialogActionListener(new DialogActionAdapter() {
@@ -127,7 +126,7 @@ public class FToolBarButton extends JButton implements MouseListener {
 
 
     private void auhtorityMouseAction() {
-        if (this.getParent() instanceof FToolBarPane && this.isEnabled()) {
+        if (this.getParent() instanceof FormToolBarPane && this.isEnabled()) {
             this.setSelected(!this.isSelected());
 
         }

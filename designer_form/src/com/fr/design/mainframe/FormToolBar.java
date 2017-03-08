@@ -10,28 +10,28 @@ import java.util.List;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FToolBar {
-    private List<FToolBarButton> buttonlist = new ArrayList<FToolBarButton>();
+public class FormToolBar {
+    private List<FormToolBarButton> buttonlist = new ArrayList<FormToolBarButton>();
     private Background background = null;
     private boolean isDefault = true;
 
-    public List<FToolBarButton> getButtonlist() {
+    public List<FormToolBarButton> getButtonlist() {
         return buttonlist;
     }
 
-    public void setButtonlist(List<FToolBarButton> buttonlist) {
+    public void setButtonlist(List<FormToolBarButton> buttonlist) {
         if (buttonlist == null || buttonlist.size() < 0) {
-            this.buttonlist = new ArrayList<FToolBarButton>();
+            this.buttonlist = new ArrayList<FormToolBarButton>();
         } else {
             this.buttonlist = buttonlist;
         }
     }
 
-    public void addButton(FToolBarButton toolBarButton) {
+    public void addButton(FormToolBarButton toolBarButton) {
         this.buttonlist.add(toolBarButton);
     }
 
-    public void removeButton(FToolBarButton toolBarButton) {
+    public void removeButton(FormToolBarButton toolBarButton) {
         this.buttonlist.remove(toolBarButton);
     }
 

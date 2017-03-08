@@ -8,12 +8,12 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.FSettingToolBar;
-import com.fr.design.mainframe.FToolBarButton;
-import com.fr.design.mainframe.FToolBarPane;
+import com.fr.design.mainframe.FormSettingToolBar;
+import com.fr.design.mainframe.FormToolBarButton;
+import com.fr.design.mainframe.FormToolBarPane;
 import com.fr.form.ui.Widget;
-import com.fr.form.web.FLocation;
-import com.fr.form.web.FToolBarManager;
+import com.fr.form.web.FormToolBarManager;
+import com.fr.form.web.Location;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
@@ -34,19 +34,19 @@ import java.util.List;
 /**
  * Created by harry on 2017-2-23.
  */
-public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
+public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> {
     private static final int COLUMN = 2;
     private int row = 6;
     private DefaultTableModel toolbarButtonTableModel;
     private JTable layoutTable;
     private UICheckBox isUseToolBarCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Use_ToolBar") + ":"); // 是否使用工具栏
 
-    private FToolBarPane northToolBar;
-    private FToolBarPane southToolBar;
-    private FToolBarManager defaultToolBar;
+    private FormToolBarPane northToolBar;
+    private FormToolBarPane southToolBar;
+    private FormToolBarManager defaultToolBar;
 
 
-    public ECToolBarPane() {
+    public ElementCaseToolBarPane() {
         toolbarButtonTableModel = new TableModel(row ,COLUMN);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -61,11 +61,11 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
                 if (defaultToolBar == null) {
                     return;
                 }
-                FToolBarManager toolBarManager = defaultToolBar;
-                toolBarManager.setToolBarLocation(FLocation.createTopEmbedLocation());
-                FToolBarManager[] tbm = new FToolBarManager[] { toolBarManager };
+                FormToolBarManager toolBarManager = defaultToolBar;
+                toolBarManager.setToolBarLocation(Location.createTopEmbedLocation());
+                FormToolBarManager[] tbm = new FormToolBarManager[] { toolBarManager };
                 populateBean(tbm);
-                ECToolBarPane.this.repaint();
+                ElementCaseToolBarPane.this.repaint();
             }
         });
 
@@ -75,7 +75,7 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
         north.add(aa, BorderLayout.CENTER);
         this.add(north, BorderLayout.NORTH);
 
-        northToolBar = new FToolBarPane();
+        northToolBar = new FormToolBarPane();
         northToolBar.setPreferredSize(new Dimension(ImageObserver.WIDTH, 26));
         northToolBar.setBackground(Color.lightGray);
 
@@ -92,7 +92,7 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
                 if (isSelectedtable()) {
                     WidgetOption no = (WidgetOption)layoutTable.getValueAt(layoutTable.getSelectedRow(), layoutTable.getSelectedColumn());
                     Widget widget = no.createWidget();
-                    FToolBarButton tb = new FToolBarButton(no.optionIcon(), widget);
+                    FormToolBarButton tb = new FormToolBarButton(no.optionIcon(), widget);
                     tb.setNameOption(no);
                     northToolBar.add(tb);
                     northToolBar.validate();
@@ -117,7 +117,7 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
                 if (isSelectedtable()) {
                     WidgetOption no = (WidgetOption)layoutTable.getValueAt(layoutTable.getSelectedRow(), layoutTable.getSelectedColumn());
                     Widget widget = no.createWidget();
-                    FToolBarButton tb = new FToolBarButton(no.optionIcon(), widget);
+                    FormToolBarButton tb = new FormToolBarButton(no.optionIcon(), widget);
                     tb.setNameOption(no);
                     southToolBar.add(tb);
                     southToolBar.validate();
@@ -139,18 +139,18 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
         small.add(layoutTable, BorderLayout.CENTER);
         center.add(small, BorderLayout.CENTER);
         center.add(downButton, BorderLayout.SOUTH);
-        southToolBar = new FToolBarPane();
+        southToolBar = new FormToolBarPane();
         southToolBar.setPreferredSize(new Dimension(ImageObserver.WIDTH, 26));
         southToolBar.setBackground(Color.lightGray);
         JPanel movePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel northContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        FSettingToolBar top = new FSettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Top"), northToolBar);
+        FormSettingToolBar top = new FormSettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Top"), northToolBar);
         northContentPane.add(top, BorderLayout.EAST);
         northContentPane.add(northToolBar, BorderLayout.CENTER);
         northContentPane.setBackground(Color.lightGray);
 
         JPanel southContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        FSettingToolBar bottom = new FSettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Bottom"), southToolBar);
+        FormSettingToolBar bottom = new FormSettingToolBar(Inter.getLocText("FR-Designer_ToolBar_Bottom"), southToolBar);
         southContentPane.add(bottom, BorderLayout.EAST);
         southContentPane.add(southToolBar, BorderLayout.CENTER);
         southContentPane.setBackground(Color.lightGray);
@@ -180,7 +180,7 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
                 if (e.getClickCount() > 1 && !SwingUtilities.isRightMouseButton(e)) {
                     WidgetOption no = (WidgetOption)layoutTable.getValueAt(layoutTable.getSelectedRow(), layoutTable.getSelectedColumn());
                     Widget widget = no.createWidget();
-                    FToolBarButton tb = new FToolBarButton(no.optionIcon(), widget);
+                    FormToolBarButton tb = new FormToolBarButton(no.optionIcon(), widget);
                     tb.setNameOption(no);
                     northToolBar.add(tb);
                     northToolBar.validate();
@@ -207,7 +207,7 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
         return this.isUseToolBarCheckBox.isSelected();
     }
 
-    public void setDefaultToolBar(FToolBarManager defaultToolBar, WidgetOption[] buttonArray) {
+    public void setDefaultToolBar(FormToolBarManager defaultToolBar, WidgetOption[] buttonArray) {
         this.defaultToolBar = defaultToolBar;
         if (buttonArray != null) {
             for (int i = 0; i < buttonArray.length; i++) {
@@ -249,20 +249,20 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
     }
 
     @Override
-    public void populateBean(FToolBarManager[] toolBarManager) {
+    public void populateBean(FormToolBarManager[] toolBarManager) {
         if (ArrayUtils.isEmpty(toolBarManager)) {
-            defaultToolBar.setToolBarLocation(FLocation.createTopEmbedLocation());
-            toolBarManager = new FToolBarManager[] { defaultToolBar };
+            defaultToolBar.setToolBarLocation(Location.createTopEmbedLocation());
+            toolBarManager = new FormToolBarManager[] { defaultToolBar };
         }
         if (ArrayUtils.isEmpty(toolBarManager)) {
             return;
         }
         for (int i = 0; i < toolBarManager.length; i++) {
-            FLocation location = toolBarManager[i].getToolBarLocation();
-            if (location instanceof FLocation.Embed) {
-                if (((FLocation.Embed)location).getPosition() == Constants.TOP) {
+            Location location = toolBarManager[i].getToolBarLocation();
+            if (location instanceof Location.Embed) {
+                if (((Location.Embed)location).getPosition() == Constants.TOP) {
                     northToolBar.populateBean(toolBarManager[i].getToolBar());
-                } else if (((FLocation.Embed)location).getPosition() == Constants.BOTTOM) {
+                } else if (((Location.Embed)location).getPosition() == Constants.BOTTOM) {
                     southToolBar.populateBean(toolBarManager[i].getToolBar());
                 }
             }
@@ -270,25 +270,25 @@ public class ECToolBarPane extends BasicBeanPane<FToolBarManager[]> {
     }
 
     @Override
-    public FToolBarManager[] updateBean() {
+    public FormToolBarManager[] updateBean() {
         if(!isUseToolbar()){
-            return new FToolBarManager[0];
+            return new FormToolBarManager[0];
         }
-        List<FToolBarManager> toolBarManagerList = new ArrayList<FToolBarManager>();
+        List<FormToolBarManager> toolBarManagerList = new ArrayList<FormToolBarManager>();
         if (!northToolBar.isEmpty()) {
-            FToolBarManager north = new FToolBarManager();
+            FormToolBarManager north = new FormToolBarManager();
             north.setToolBar(northToolBar.updateBean());
-            north.setToolBarLocation(FLocation.createTopEmbedLocation());
+            north.setToolBarLocation(Location.createTopEmbedLocation());
             toolBarManagerList.add(north);
         }
 
         if (!southToolBar.isEmpty()) {
-            FToolBarManager south = new FToolBarManager();
+            FormToolBarManager south = new FormToolBarManager();
             south.setToolBar(southToolBar.updateBean());
-            south.setToolBarLocation(FLocation.createBottomEmbedLocation());
+            south.setToolBarLocation(Location.createBottomEmbedLocation());
             toolBarManagerList.add(south);
         }
-        return toolBarManagerList.toArray(new FToolBarManager[toolBarManagerList.size()]);
+        return toolBarManagerList.toArray(new FormToolBarManager[toolBarManagerList.size()]);
     }
 
     private class TableModel extends DefaultTableModel {

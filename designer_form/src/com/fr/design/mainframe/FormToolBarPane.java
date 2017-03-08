@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FToolBarPane extends BasicBeanPane<ToolBar> {
+public class FormToolBarPane extends BasicBeanPane<ToolBar> {
 
-    private FToolBar ftoolbar = new FToolBar();
+    private FormToolBar ftoolbar = new FormToolBar();
 
-    public FToolBarPane() {
+    public FormToolBarPane() {
         super();
         this.initComponent();
     }
@@ -36,13 +36,13 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
      * @param mouselistener 鼠标监听
      */
     public void addAuthorityListener(MouseListener mouselistener) {
-        List<FToolBarButton> list = ftoolbar.getButtonlist();
+        List<FormToolBarButton> list = ftoolbar.getButtonlist();
         for (int i = 0; i < list.size(); i++) {
             list.get(i).addMouseListener(mouselistener);
         }
     }
 
-    public FToolBarPane(FToolBarButton button) {
+    public FormToolBarPane(FormToolBarButton button) {
         super();
         this.initComponent();
         this.add(button);
@@ -70,7 +70,7 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
         return "Toolbar";
     }
 
-    public void setSelectedButton(FToolBarButton button) {
+    public void setSelectedButton(FormToolBarButton button) {
         this.ftoolbar.addButton(button);
     }
 
@@ -82,8 +82,8 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
      * @return 被添加的组件
      */
     public Component add(Component comp) {
-        if (comp instanceof FToolBarButton) {
-            this.ftoolbar.addButton((FToolBarButton) comp);
+        if (comp instanceof FormToolBarButton) {
+            this.ftoolbar.addButton((FormToolBarButton) comp);
         }
         return super.add(comp);
     }
@@ -97,19 +97,19 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
         this.ftoolbar.clearButton();
     }
 
-    protected void setFToolBar(FToolBar ftoolbar) {
+    protected void setFToolBar(FormToolBar ftoolbar) {
         if (ftoolbar == null) {
-            ftoolbar = new FToolBar();
+            ftoolbar = new FormToolBar();
         }
         this.ftoolbar = ftoolbar;
         this.setToolBar(this.ftoolbar.getButtonlist());
     }
 
-    public List<FToolBarButton> getToolBarButtons() {
+    public List<FormToolBarButton> getToolBarButtons() {
         return ftoolbar.getButtonlist();
     }
 
-    protected FToolBar getFToolBar() {
+    protected FormToolBar getFToolBar() {
         return this.ftoolbar;
     }
 
@@ -117,7 +117,7 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
         return this.ftoolbar.getButtonlist().size() <= 0;
     }
 
-    private void setToolBar(List<FToolBarButton> list) {
+    private void setToolBar(List<FormToolBarButton> list) {
         if (list == null || list.size() < 0) {
             return;
         }
@@ -142,7 +142,7 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
                 continue;
             }
 
-            FToolBarButton button = new FToolBarButton(no.optionIcon(), widget);
+            FormToolBarButton button = new FormToolBarButton(no.optionIcon(), widget);
             button.setNameOption(no);
             this.add(button);
             this.validate();
@@ -161,13 +161,13 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() >= 2 && !SwingUtilities.isRightMouseButton(e)) {
-                final FEditToolBar tb = new FEditToolBar();
+                final FormEditToolBar tb = new FormEditToolBar();
                 tb.populate(getFToolBar());
-                BasicDialog dialog = tb.showWindow(SwingUtilities.getWindowAncestor(FToolBarPane.this));
+                BasicDialog dialog = tb.showWindow(SwingUtilities.getWindowAncestor(FormToolBarPane.this));
                 dialog.addDialogActionListener(new DialogActionAdapter() {
                     @Override
                     public void doOk() {
-                        FToolBarPane.this.setFToolBar(tb.update());
+                        FormToolBarPane.this.setFToolBar(tb.update());
                     }
                 });
                 dialog.setVisible(true);
@@ -221,11 +221,11 @@ public class FToolBarPane extends BasicBeanPane<ToolBar> {
             }
 
             Widget widget = data.createWidget();
-            FToolBarButton btn = new FToolBarButton(data.optionIcon(), widget);
+            FormToolBarButton btn = new FormToolBarButton(data.optionIcon(), widget);
             btn.setNameOption(data);
-            FToolBarPane.this.add(btn);
-            FToolBarPane.this.validate();
-            FToolBarPane.this.repaint();
+            FormToolBarPane.this.add(btn);
+            FormToolBarPane.this.validate();
+            FormToolBarPane.this.repaint();
             return true;
         }
 

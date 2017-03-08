@@ -36,14 +36,14 @@ import java.util.*;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FEditToolBar extends BasicPane {
+public class FormEditToolBar extends BasicPane {
 
     private JList list;
     private DefaultListModel listModel;
     private JPanel right;
     private CardLayout card;
     private ButtonPane bp;
-    private FToolBarButton lastButton;
+    private FormToolBarButton lastButton;
     private Background background = null;
     private UICheckBox defaultCheckBox;
 
@@ -52,8 +52,8 @@ public class FEditToolBar extends BasicPane {
             if (lastButton != null) {
                 lastButton.setWidget(bp.update());
             }
-            if (list.getSelectedValue() instanceof FToolBarButton) {
-                lastButton = (FToolBarButton) list.getSelectedValue();
+            if (list.getSelectedValue() instanceof FormToolBarButton) {
+                lastButton = (FormToolBarButton) list.getSelectedValue();
                 if (lastButton.getWidget() instanceof Button) {
                     card.show(right, "button");
                     bp.populate(lastButton.getWidget());
@@ -73,12 +73,12 @@ public class FEditToolBar extends BasicPane {
         public void actionPerformed(ActionEvent arg0) {
             final BackgroundPane backgroundPane = new BackgroundPane();
             BasicDialog dialog = backgroundPane.showWindow(DesignerContext.getDesignerFrame());
-            backgroundPane.populate(FEditToolBar.this.background);
+            backgroundPane.populate(FormEditToolBar.this.background);
             dialog.addDialogActionListener(new DialogActionAdapter() {
                 public void doOk() {
-                    FEditToolBar.this.background = backgroundPane.update();
-                    if (FEditToolBar.this.background != null) {
-                        FEditToolBar.this.defaultCheckBox.setSelected(false);
+                    FormEditToolBar.this.background = backgroundPane.update();
+                    if (FormEditToolBar.this.background != null) {
+                        FormEditToolBar.this.defaultCheckBox.setSelected(false);
                     }
                 }
             });
@@ -86,7 +86,7 @@ public class FEditToolBar extends BasicPane {
         }
     };
 
-    public FEditToolBar() {
+    public FormEditToolBar() {
         initComponent();
     }
 
@@ -138,8 +138,8 @@ public class FEditToolBar extends BasicPane {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-            if (value instanceof FToolBarButton) {
-                FToolBarButton button = (FToolBarButton) value;
+            if (value instanceof FormToolBarButton) {
+                FormToolBarButton button = (FormToolBarButton) value;
                 this.setText(button.getNameOption().optionName());
                 this.setIcon(button.getNameOption().optionIcon());
             }
@@ -152,11 +152,11 @@ public class FEditToolBar extends BasicPane {
         return Inter.getLocText("FR-Designer_Edit");
     }
 
-    public void populate(FToolBar ftoolbar) {
+    public void populate(FormToolBar ftoolbar) {
         this.populate(ftoolbar, null);
     }
 
-    public void populate(FToolBar ftoolbar, FToolBarButton button) {
+    public void populate(FormToolBar ftoolbar, FormToolBarButton button) {
         if (ftoolbar == null) {
             return;
         }
@@ -176,11 +176,11 @@ public class FEditToolBar extends BasicPane {
         this.defaultCheckBox.setSelected(ftoolbar.isDefault() ? true : false);
     }
 
-    public FToolBar update() {
+    public FormToolBar update() {
         if (this.list.getSelectedIndex() > -1) {
             for (int i = 0; i < listModel.getSize(); i++) {
                 this.list.setSelectedIndex(i);
-                FToolBarButton toolBarButton = (FToolBarButton) this.list.getSelectedValue();
+                FormToolBarButton toolBarButton = (FormToolBarButton) this.list.getSelectedValue();
                 Widget widget = this.bp.update();
                 toolBarButton.setWidget(widget);
                 if (widget instanceof Button) {
@@ -192,11 +192,11 @@ public class FEditToolBar extends BasicPane {
                 }
             }
         }
-        java.util.List<FToolBarButton> list = new ArrayList<FToolBarButton>();
+        java.util.List<FormToolBarButton> list = new ArrayList<FormToolBarButton>();
         for (int i = 0; i < listModel.size(); i++) {
-            list.add((FToolBarButton) listModel.get(i));
+            list.add((FormToolBarButton) listModel.get(i));
         }
-        FToolBar ftoolBar = new FToolBar();
+        FormToolBar ftoolBar = new FormToolBar();
         ftoolBar.setButtonlist(list);
 
         ftoolBar.setDefault(this.defaultCheckBox.isSelected());
@@ -284,10 +284,10 @@ public class FEditToolBar extends BasicPane {
          */
         public void actionPerformed(ActionEvent e) {
             int i = list.getSelectedIndex();
-            if (i < 0 || !(listModel.getElementAt(i) instanceof FToolBarButton)) {
+            if (i < 0 || !(listModel.getElementAt(i) instanceof FormToolBarButton)) {
                 return;
             }
-            int val = JOptionPane.showConfirmDialog(FEditToolBar.this, Inter.getLocText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+            int val = JOptionPane.showConfirmDialog(FormEditToolBar.this, Inter.getLocText("FR-Designer_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
             if (val != JOptionPane.YES_OPTION) {
                 return;
             }

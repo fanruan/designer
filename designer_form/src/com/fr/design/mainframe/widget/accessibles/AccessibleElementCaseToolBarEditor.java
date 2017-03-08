@@ -4,9 +4,9 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.mainframe.FormWebWidgetConstants;
-import com.fr.design.mainframe.widget.editors.ECToolBarPane;
-import com.fr.design.mainframe.widget.wrappers.ECToolBarWrapper;
-import com.fr.form.web.FToolBarManager;
+import com.fr.design.mainframe.widget.editors.ElementCaseToolBarPane;
+import com.fr.design.mainframe.widget.wrappers.ElementCaseToolBarWrapper;
+import com.fr.form.web.FormToolBarManager;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -17,17 +17,17 @@ import java.util.List;
 /**
  * Created by harry on 2017-2-23.
  */
-public class AccessibleECToolBarEditor extends UneditableAccessibleEditor {
-    private ECToolBarPane pane;
+public class AccessibleElementCaseToolBarEditor extends UneditableAccessibleEditor {
+    private ElementCaseToolBarPane pane;
 
-    public AccessibleECToolBarEditor() {
-        super(new ECToolBarWrapper());
+    public AccessibleElementCaseToolBarEditor() {
+        super(new ElementCaseToolBarWrapper());
     }
 
     @Override
     protected void showEditorPane() {
         if (pane == null) {
-            pane = new ECToolBarPane();
+            pane = new ElementCaseToolBarPane();
             pane.setDefaultToolBar(getDefaultToolBarManager(), getToolBarInstance());
         }
         BasicDialog dlg = pane.showToolBarWindow(SwingUtilities.getWindowAncestor(this), new DialogActionAdapter() {
@@ -38,18 +38,18 @@ public class AccessibleECToolBarEditor extends UneditableAccessibleEditor {
                 fireStateChanged();
             }
         });
-        FToolBarManager[] managers = (FToolBarManager[]) getValue();
+        FormToolBarManager[] managers = (FormToolBarManager[]) getValue();
         pane.setCheckBoxSelected(ArrayUtils.isNotEmpty(managers));
-        pane.populateBean((FToolBarManager[]) getValue());
+        pane.populateBean((FormToolBarManager[]) getValue());
         dlg.setVisible(true);
     }
 
-    private FToolBarManager getDefaultToolBarManager() {
-        return FToolBarManager.createDefaultToolBar();
+    private FormToolBarManager getDefaultToolBarManager() {
+        return FormToolBarManager.createDefaultToolBar();
     }
 
     private WidgetOption[] getToolBarInstance() {
-        List<WidgetOption> defaultOptions = Arrays.asList(FormWebWidgetConstants.getFormECToolBarInstance());
+        List<WidgetOption> defaultOptions = Arrays.asList(FormWebWidgetConstants.getFormElementCaseToolBarInstance());
         List<WidgetOption> options = new ArrayList<WidgetOption>();
         options.addAll(defaultOptions);
         return options.toArray(new WidgetOption[options.size()]);

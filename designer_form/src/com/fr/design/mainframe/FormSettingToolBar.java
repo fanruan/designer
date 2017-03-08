@@ -16,14 +16,14 @@ import java.awt.event.ActionListener;
 /**
  * Created by harry on 2017-3-2.
  */
-public class FSettingToolBar extends JPanel {
+public class FormSettingToolBar extends JPanel {
     private Icon setIcon = BaseUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnsetting.png");
     private Icon delIcon = BaseUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnclear.png");
     private UIButton setButton;
     private UIButton delButton;
-    private FToolBarPane toolBarPane;
+    private FormToolBarPane toolBarPane;
 
-    public FSettingToolBar(String name,FToolBarPane toolBarPane) {
+    public FormSettingToolBar(String name, FormToolBarPane toolBarPane) {
         super();
         this.setBackground(Color.lightGray);
         this.add(new UILabel(name));
@@ -56,7 +56,7 @@ public class FSettingToolBar extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            final FEditToolBar tb = new FEditToolBar();
+            final FormEditToolBar tb = new FormEditToolBar();
             tb.populate(toolBarPane.getFToolBar());
             BasicDialog dialog = tb.showWindow(DesignerContext.getDesignerFrame());
             dialog.addDialogActionListener(new DialogActionAdapter() {

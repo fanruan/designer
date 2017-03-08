@@ -18,7 +18,7 @@ public class FormWebWidgetConstants {
     private FormWebWidgetConstants() {
     }
 
-    public static WidgetOption[] getFormECToolBarInstance() {
+    public static WidgetOption[] getFormElementCaseToolBarInstance() {
         return new WidgetOption[]{FIRST, PREVIOUS, PAGENAVI, NEXT, LAST, EXPORT, EXCELP, EXCELO, CUSTOM_BUTTON};
     }
 
