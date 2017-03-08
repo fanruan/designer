@@ -6,6 +6,7 @@ package com.fr.aspectj.designer;
  */
 
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.grid.Grid;
 import org.aspectj.lang.reflect.SourceLocation;
 
 import java.awt.event.ActionEvent;
@@ -24,8 +25,8 @@ public aspect TemplateProcessTracker {
             execution(* actionPerformed(ActionEvent)) && args(e);
     pointcut onSetValueAt(Object v, int r, int c) :
             execution(* setValueAt(java.lang.Object, int, int)) && args(v, r, c);
-    pointcut onSetValue4EditingElement(Object v) :
-            execution(* setValue4EditingElement(java.lang.Object)) && args(v);
+    pointcut onSetValue4EditingElement(Grid g, Object v) :
+            call(* setValue4EditingElement(java.lang.Object)) && target(g) && args(v);
 
     //before表示之前的意思
     //这整个表示在MouseAdapter的public void mouseXXX(MouseEvent)方法调用之前，你想要执行的代码
@@ -60,11 +61,11 @@ public aspect TemplateProcessTracker {
 
     }
     //同上
-    before(Object v) : onSetValue4EditingElement(v) {
+    before(Grid g, Object v) : onSetValue4EditingElement(g, v) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
 
 //        String v = "test";
-        String log = String.format("%s:\n%s\nset value: %s\n\n", new Date(), sl, v);
+        String log = String.format("%s:\n%s\nset value: %s at %s\n\n", new Date(), sl, v, g.getEditingCellElement());
         TemplateInfoCollector.appendProcess(log);
 
     }

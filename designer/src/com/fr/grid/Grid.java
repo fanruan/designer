@@ -1068,14 +1068,19 @@ public class Grid extends BaseGridComponent {
     }
 
     /**
+     * @return editingCellElement 的字符串表示
+     */
+    public String getEditingCellElement() {
+        return editingCellElement.toString();
+    }
+
+    /**
      * 将新值赋给editingCellElement
      *
      * @param newValue
      * @return true if the value changed
      */
     private boolean setValue4EditingElement(Object newValue) {
-        String log = String.format("%s:\nGrid.java\nset value: %s at %s\n\n", new Date(), newValue, editingCellElement);
-        TemplateInfoCollector.appendProcess(log);
         if (newValue instanceof TemplateCellElement) {
             TemplateCellElement cellElement = (TemplateCellElement) newValue;
             editingCellElement.setValue(cellElement.getValue());
