@@ -99,12 +99,14 @@ public class FormToolBarButton extends JButton implements MouseListener {
      * @param e 鼠标点击事件
      */
     public void mouseClicked(MouseEvent e) {
+        //该button只在报表块工具栏中使用，
+        //parent只有FormToolBarPane一种，故可以直接强转
+        final FormToolBarPane toolBarPane = (FormToolBarPane) this.getParent();
         if (BaseUtils.isAuthorityEditing()) {
             auhtorityMouseAction();
             return;
         }
         if (e.getClickCount() >= 2) {
-            final FormToolBarPane toolBarPane = (FormToolBarPane) this.getParent();
             final FormEditToolBar editToolBar = new FormEditToolBar();
             editToolBar.populate(toolBarPane.getFToolBar(), this);
             BasicDialog dialog = editToolBar.showWindow(DesignerContext.getDesignerFrame());
@@ -119,11 +121,9 @@ public class FormToolBarButton extends JButton implements MouseListener {
 
 
     private void auhtorityMouseAction() {
-        if (this.getParent() instanceof FormToolBarPane && this.isEnabled()) {
+        if (this.isEnabled()) {
             this.setSelected(!this.isSelected());
-
         }
-
     }
 
     /**
