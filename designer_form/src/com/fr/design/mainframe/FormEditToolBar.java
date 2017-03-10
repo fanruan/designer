@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
@@ -22,6 +21,7 @@ import com.fr.form.ui.*;
 import com.fr.form.ui.Button;
 import com.fr.form.web.button.Export;
 import com.fr.general.Background;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -125,12 +125,12 @@ public class FormEditToolBar extends BasicPane {
         this.add(splitPane);
         list.addListSelectionListener(listSelectionListener);
         JPanel backgroundPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        UIButton bgButton = new UIButton(Inter.getLocText(new String[]{"Background", "Set"}));
-        defaultCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Default", "Background"}));
+        UIButton bgButton = new UIButton(Inter.getLocText("FR-Designer-Output_Background_Set"));
+        defaultCheckBox = new UICheckBox(Inter.getLocText("FR-Designer-Output_Default_Background"));
         bgButton.addActionListener(actioner);
         backgroundPane.add(defaultCheckBox);
         backgroundPane.add(bgButton);
-        backgroundPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText(new String[]{"Background", "Set"})));
+        backgroundPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer-Output_Background_Set")));
         this.add(backgroundPane, BorderLayout.SOUTH);
     }
 
@@ -210,7 +210,7 @@ public class FormEditToolBar extends BasicPane {
         public MoveUpItemAction() {
             this.setName(Inter.getLocText("Utils-Move_Up"));
             this.setMnemonic('U');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
+            this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/up.png"));
         }
 
         /**
@@ -241,7 +241,7 @@ public class FormEditToolBar extends BasicPane {
         public MoveDownItemAction() {
             this.setName(Inter.getLocText("Utils-Move_Down"));
             this.setMnemonic('D');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/down.png"));
+            this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/down.png"));
         }
 
         /**
@@ -275,7 +275,7 @@ public class FormEditToolBar extends BasicPane {
     public class RemoveAction extends UpdateAction {
         public RemoveAction() {
             this.setName(Inter.getLocText("FR-Designer_Delete"));
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
+            this.setSmallIcon(IOUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
         }
 
         /**

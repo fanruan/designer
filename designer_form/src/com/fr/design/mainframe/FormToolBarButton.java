@@ -21,7 +21,7 @@ import java.awt.event.MouseListener;
  */
 public class FormToolBarButton extends JButton implements MouseListener {
     private Widget widget;
-    private WidgetOption no;
+    private WidgetOption widgetOption;
 
     public FormToolBarButton(Icon icon, Widget widget) {
         this(null, icon, widget);
@@ -29,7 +29,8 @@ public class FormToolBarButton extends JButton implements MouseListener {
 
     public FormToolBarButton(String text, Icon icon, Widget widget) {
         super(text, icon);
-        init();
+        setBackground(null);
+        setRolloverEnabled(true);
         this.widget = widget;
         if (widget instanceof com.fr.form.ui.Button) {
             com.fr.form.ui.Button button = (com.fr.form.ui.Button) widget;
@@ -44,12 +45,6 @@ public class FormToolBarButton extends JButton implements MouseListener {
         this.addMouseListener(this);
         setMargin(new Insets(0, 0, 0, 0));
     }
-
-    private void init() {
-        setBackground(null);
-        setRolloverEnabled(true);
-    }
-
 
     /**
      * 改变按钮的权限细粒度状态
@@ -81,11 +76,11 @@ public class FormToolBarButton extends JButton implements MouseListener {
     }
 
     public WidgetOption getNameOption() {
-        return this.no;
+        return this.widgetOption;
     }
 
-    public void setNameOption(WidgetOption no) {
-        this.no = no;
+    public void setNameOption(WidgetOption widgetOption) {
+        this.widgetOption = widgetOption;
     }
 
 
@@ -109,18 +104,16 @@ public class FormToolBarButton extends JButton implements MouseListener {
             return;
         }
         if (e.getClickCount() >= 2) {
-            if (this.getParent() instanceof FormToolBarPane) {
-                final FormToolBarPane tb = (FormToolBarPane) this.getParent();
-                final FormEditToolBar etb = new FormEditToolBar();
-                etb.populate(tb.getFToolBar(), this);
-                BasicDialog dialog = etb.showWindow(DesignerContext.getDesignerFrame());
-                dialog.addDialogActionListener(new DialogActionAdapter() {
-                    public void doOk() {
-                        tb.setFToolBar(etb.update());
+            final FormToolBarPane toolBarPane = (FormToolBarPane) this.getParent();
+            final FormEditToolBar editToolBar = new FormEditToolBar();
+            editToolBar.populate(toolBarPane.getFToolBar(), this);
+            BasicDialog dialog = editToolBar.showWindow(DesignerContext.getDesignerFrame());
+            dialog.addDialogActionListener(new DialogActionAdapter() {
+                public void doOk() {
+                        toolBarPane.setFToolBar(editToolBar.update());
                     }
-                });
-                dialog.setVisible(true);
-            }
+            });
+            dialog.setVisible(true);
         }
     }
 

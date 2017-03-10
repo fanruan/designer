@@ -56,11 +56,11 @@ public class FormToolBar {
     }
 
     public ToolBar getToolBar() {
-        Widget[] n = new Widget[this.getButtonlist().size()];
+        Widget[] widgets = new Widget[this.getButtonlist().size()];
         for (int j = 0; j < this.getButtonlist().size(); j++) {
-            n[j] = this.getButtonlist().get(j).getWidget();
+            widgets[j] = this.getButtonlist().get(j).getWidget();
         }
-        ToolBar toolBar = new ToolBar(n);
+        ToolBar toolBar = new ToolBar(widgets);
         toolBar.setBackground(this.background);
         toolBar.setDefault(this.isDefault);
         return toolBar;

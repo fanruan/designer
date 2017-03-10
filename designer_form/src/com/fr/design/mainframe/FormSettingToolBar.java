@@ -1,11 +1,11 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -17,8 +17,8 @@ import java.awt.event.ActionListener;
  * Created by harry on 2017-3-2.
  */
 public class FormSettingToolBar extends JPanel {
-    private Icon setIcon = BaseUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnsetting.png");
-    private Icon delIcon = BaseUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnclear.png");
+    private Icon setIcon = IOUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnsetting.png");
+    private Icon delIcon = IOUtils.readIcon("com/fr/design/images/toolbarbtn/toolbarbtnclear.png");
     private UIButton setButton;
     private UIButton delButton;
     private FormToolBarPane toolBarPane;

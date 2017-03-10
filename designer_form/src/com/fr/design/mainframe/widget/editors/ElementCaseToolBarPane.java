@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.widget.editors;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
@@ -14,6 +13,7 @@ import com.fr.design.mainframe.FormToolBarPane;
 import com.fr.form.ui.Widget;
 import com.fr.form.web.FormToolBarManager;
 import com.fr.form.web.Location;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
@@ -79,7 +79,7 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
         northToolBar.setPreferredSize(new Dimension(ImageObserver.WIDTH, 26));
         northToolBar.setBackground(Color.lightGray);
 
-        UIButton topButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/arrow/arrow_up.png"));
+        UIButton topButton = new UIButton(IOUtils.readIcon("com/fr/design/images/arrow/arrow_up.png"));
         topButton.setBorder(null);
         topButton.setOpaque(false);
         topButton.setContentAreaFilled(false);
@@ -103,7 +103,7 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
             }
         });
 
-        UIButton downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/arrow/arrow_down.png"));
+        UIButton downButton = new UIButton(IOUtils.readIcon("com/fr/design/images/arrow/arrow_down.png"));
         downButton.setBorder(null);
         downButton.setMargin(null);
         downButton.setOpaque(false);
