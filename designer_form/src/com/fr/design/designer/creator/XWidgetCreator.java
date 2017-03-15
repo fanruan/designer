@@ -147,15 +147,6 @@ public abstract class XWidgetCreator extends XCreator {
 	}
 
 	/**
-	 * 渲染Painter
-	 */
-	public void paint(Graphics g) {
-		//不可见时，按钮.4f透明
-		AlphaComposite composite = this.data.isVisible() ? (AlphaComposite)((Graphics2D)g).getComposite() : AlphaComposite.getInstance(AlphaComposite.SRC_OVER,HALF_OPACITY);
-		((Graphics2D)g).setComposite(composite);
-		super.paint(g);
-	}
-	/**
 	 * 重命名
 	 * 
 	 * @param designer 表单设计器

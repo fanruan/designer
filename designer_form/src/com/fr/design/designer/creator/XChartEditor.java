@@ -85,13 +85,6 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
         return  new CRPropertyDescriptor[] {
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Inter
                         .getLocText("Form-Widget_Name")),
-				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
-						Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
-
-					@Override
-					public void propertyChange() {
-						makeVisible(toData().isVisible());}
-				}),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
                         WLayoutBorderStyleEditor.class).setI18NName(
                         Inter.getLocText("Chart-Style_Name")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")

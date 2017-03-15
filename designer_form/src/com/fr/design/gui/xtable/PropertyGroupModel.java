@@ -53,9 +53,6 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
             if(ComparatorUtils.equals(FormConstants.NAME, properties[row].getName())){
                 creator.resetCreatorName(value.toString());
             }
-            if(ComparatorUtils.equals("visible", properties[row].getName())){
-                creator.resetVisible((boolean) value);
-            }
             properties[row].firePropertyChanged();
             return true;
         } catch (Exception e) {
