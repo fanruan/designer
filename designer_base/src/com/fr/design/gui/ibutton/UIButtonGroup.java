@@ -28,6 +28,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 
 public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 	private boolean isTwoLine = false;
+	private boolean isFourLine = false;
 	private static final long serialVersionUID = 1L;
 	protected List<UIToggleButton> labelButtonList;
 	protected int selectedIndex = -1;
@@ -176,6 +177,10 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 		this.isTwoLine = true;
 	}
 
+	public void setFourLine() {
+		this.isFourLine = true;
+	}
+
 	/**
 	 * paintComponent
 	 *
@@ -201,20 +206,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(UIConstants.LINE_COLOR);
-		if (!isTwoLine) {
-			int width = 0;
-			for (int i = 0; i < labelButtonList.size() - 1; i++) {
-				width += labelButtonList.get(i).getWidth() + 1;
-				int height = labelButtonList.get(i).getHeight();
-				g.drawLine(width, 0, width, height);
-			}
-
-			width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
-
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		} else {
+		if (isTwoLine) {
 			int width = 0;
 			int upCount = (labelButtonList.size() - 1) / 2 + 1;
 			for (int i = 0; i < upCount - 1; i++) {
@@ -227,6 +219,27 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
 			g2d.drawLine(0, getHeight() / 2, width, getHeight() / 2);
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		} else if (isFourLine) {
+			// 4 * 1
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
+			for (int i = 1; i <= 3; i++) {
+				g2d.drawLine(0, getHeight() / 4 * i, getWidth() - 1, getHeight() / 4 * i);
+			}
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		} else {
+			int width = 0;
+			for (int i = 0; i < labelButtonList.size() - 1; i++) {
+				width += labelButtonList.get(i).getWidth() + 1;
+				int height = labelButtonList.get(i).getHeight();
+				g.drawLine(width, 0, width, height);
+			}
+
+			width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
+
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
 

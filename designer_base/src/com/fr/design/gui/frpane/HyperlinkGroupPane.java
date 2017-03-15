@@ -13,6 +13,7 @@ import com.fr.js.JavaScript;
 import com.fr.js.NameJavaScript;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.PluginManager;
+import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class HyperlinkGroupPane extends JListControlPane {
      * @return 返回Nameable按钮数组.
      */
     public NameableCreator[] createNameableCreators() {
-        Map<String, NameableCreator> nameCreators = new TreeMap<String, NameableCreator>();
+        Map<String, NameableCreator> nameCreators = new ListMap<>();
         NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
         for (NameableCreator creator : creators) {
             nameCreators.put(creator.menuName(), creator);

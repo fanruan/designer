@@ -69,7 +69,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		}
 	}
 
-	private AbstractTableDataContentPane getContentPane(Plot plot) {
+	protected AbstractTableDataContentPane getContentPane(Plot plot) {
 		return ChartTypeInterfaceManager.getInstance().getTableDataSourcePane(plot, parent);
 	}
 

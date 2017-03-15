@@ -10,7 +10,9 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
-import com.fr.design.actions.help.*;
+import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.TutorialAction;
+import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
@@ -28,7 +30,6 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
@@ -148,7 +149,7 @@ public abstract class ToolBarMenuDock {
 	
 	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
         Locale locale = FRContext.getLocale();
-        Locale [] locales = supportCommunityLocales();
+        Locale [] locales =supportCommunityLocales();
         for(int i = 0; i < locales.length; i++) {
             if(locale.equals(locales[i])){
                 menuList.add(createCommunityMenuDef());
@@ -313,6 +314,11 @@ public abstract class ToolBarMenuDock {
     public ShortCut[] createHelpShortCuts() {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
+        // 英文，把 video 和帮助文档放到 Help 下面
+        if (FRContext.getLocale().equals(Locale.US)) {
+            shortCuts.add(new VideoAction());
+            shortCuts.add(new TutorialAction());
+        }
         shortCuts.add(SeparatorDef.DEFAULT);
         //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
@@ -397,7 +403,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(Inter.getLocText(new String[]{"Polybolck", "Edit"}));
+            return polyToolBar(Inter.getLocText("FR-Designer_Polyblock_Edit"));
         }
     }
 

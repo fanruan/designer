@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.*;
 
+import com.fr.base.GraphHelper;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.event.DocumentEvent;
@@ -19,6 +20,8 @@ import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
+    private static final int ALLOW_BLANK_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("FR-Designer_Allow_Null") + 30;
+    private static final int ALLOW_BLANK_CHECK_BOX_HEIGHT = 30;
     private UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
     private UITextField errorMsgTextField;
@@ -32,6 +35,24 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
+
+        initRegErrorMsgTextField();
+
+        //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
+        allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
+        allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
+        allowBlankCheckBox.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
+            }
+        });
+
+        initErrorMsgPane();
+    }
+
+    protected void initRegErrorMsgTextField() {
         regErrorMsgTextField = new UITextField(16);
         regErrorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -46,18 +67,9 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
                 regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
             }
         });
+    }
 
-        //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
-        allowBlankCheckBox = new UICheckBox(Inter.getLocText("Allow_Blank"));
-        allowBlankCheckBox.setPreferredSize(new Dimension(75, 30));
-        allowBlankCheckBox.addItemListener(new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
-            }
-        });
-
+    protected void initErrorMsgPane() {
         // 错误信息
         JPanel errorMsgPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         errorMsgPane.add(new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"));
@@ -128,7 +140,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         JPanel firstPane = GUICoreUtils.createFlowPane(new JComponent[]{allowBlankCheckBox}, FlowLayout.LEFT, 5);
         validatePane.add(firstPane);
         JPanel secondPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), errorMsgTextField}, FlowLayout.LEFT, 24);
-        secondPane.setPreferredSize(new Dimension(310, 23));
+        secondPane.setPreferredSize(new Dimension(400, 23));
         validatePane.add(secondPane);
     }
 

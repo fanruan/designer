@@ -1,154 +1,105 @@
 package com.fr.design.mainframe;
 
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.util.EventObject;
+import java.util.List;
 
-import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itable.HeaderRenderer;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWParameterLayout;
-import com.fr.form.ui.Label;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itable.GroupRenderer;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.container.WParameterLayout;
+import com.fr.form.ui.container.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 /**
+ * MobileWidgetTable类主要显示各种容器的控件列表（body，tab，绝对布局快，不包括参数面板）
  * Created with IntelliJ IDEA.
  * User: zx
- * Date: 14-7-9
- * Time: 上午11:26
+ * Date: 14-9-15
+ * Time: 下午4:52
+ * Modified by fanglei at 2017/01/23
  */
 public class MobileWidgetTable extends JTable {
 
     private FormDesigner designer;
-    protected TableModel defaultmodel;
-    private String[][] cellData  ;
-    private String[] headers = {Inter.getLocText("FR-Utils_Label"),Inter.getLocText("Form-Widget_Name")};
-    public static final int WIDGET_TABLE_ROW_HEIGHT = 22;
-    private UILabel moveComponent = new UILabel();
+    private String[][] cellData;
+    private String[] headers = {Inter.getLocText("Form-Widget_Name")};
+    private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
+    private UILabel moveComponent = new UILabel(); // 作为拖动时候随鼠标移动的那个半透明控件
     private int selectedRow = -1;
-    private int GAP = 10;
+    private int GAP = 11;
     private boolean draging = false;
+    private boolean collapsed = false; // 控件列表是否折叠
+
+    @Override
+    public TableCellRenderer getCellRenderer(int row, int column) {
+        //第一行渲染成为标题的样子
+        if (row == 0) {
+            return new GroupRenderer();
+        }
+        return super.getCellRenderer(row, column);
+    }
+
 
     public MobileWidgetTable(FormDesigner designer) {
         this.designer = designer;
-        this.cellData = getData();
-        this.setRowHeight(WIDGET_TABLE_ROW_HEIGHT);
-        JTableHeader header = getTableHeader();
-        header.setReorderingAllowed(false);
-        header.setPreferredSize(new Dimension(0, WIDGET_TABLE_ROW_HEIGHT));
-        header.setDefaultRenderer(new HeaderRenderer());
-        this.setGridColor(new Color(212, 208, 200));
-        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.setColumnSelectionAllowed(false);
-        this.setRowSelectionAllowed(false);
-        this.setFillsViewportHeight(true);
-        this.setDefaultEditor(Object.class,new MobileCellEditor());
-        defaultmodel = new BeanTableModel();
-        this.setModel(defaultmodel);
-        this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TableColumn tc = this.getColumn(this.getColumnName(0));
-        tc.setPreferredWidth(30);
+        cellData = getData();
+        this.setTableProperties();
+        TableModel defaultModel = new BeanTableModel();
+        this.setModel(defaultModel);
         this.repaint();
-        this.setDefaultRenderer(Object.class,new MobileWidgetTableCellRenderer());
-        refresh();
+        this.setDefaultRenderer(Object.class,new DefaultTableCellRenderer());
+        refreshData();
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
         add(moveComponent);
     }
 
+    private void setTableProperties() {
+        JTableHeader header = getTableHeader();
+        header.setReorderingAllowed(false);
+        header.setPreferredSize(new Dimension(0, 0)); // 隐藏表头
+        GroupRenderer headerRenderer = new GroupRenderer();
+        headerRenderer.setPreferredSize(new Dimension(0, 0)); //这行代码隐藏表头。因为要实现折叠效果，表头不好监听事件
+        headerRenderer.setHorizontalAlignment(JLabel.LEFT);
+        header.setDefaultRenderer(headerRenderer);
+
+        this.setRowHeight(WIDGET_TABLE_ROW_HEIGHT);
+        this.setGridColor(new Color(212, 208, 200));
+        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.setColumnSelectionAllowed(false);
+        this.setRowSelectionAllowed(false);
+        this.setFillsViewportHeight(false);
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+
     private MouseAdapter mouseAdapter = new MouseAdapter() {
+        /**
+         * 鼠标按下时处理的事件（设置当前选中的行列）
+         * @param e
+         */
         @Override
-        public void mouseClicked(MouseEvent e) {
-            if(getSelectedRow() != -1 && getSelectedColumn() == 1){
-                String widgetName = cellData[getSelectedRow()][getSelectedColumn()];
-                if (StringUtils.isNotEmpty(widgetName)){
-                    int count = getEditingDesigner().getParaComponent().getComponentCount();
-                    for (int i = 0;i < count ;i++){
-                        XCreator xCreator = (XCreator)getEditingDesigner().getParaComponent().getComponent(i);
-                        Widget widget = xCreator.toData();
-                        if (!widget.acceptType(Label.class) && ComparatorUtils.equals(widgetName,widget.getWidgetName())) {
-                            getEditingDesigner().getSelectionModel().setSelectedCreator(xCreator);
-                            setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                            selectedRow = getSelectedRow();
-                            }
-                        }
-                    }
-                }
-            }
-        public void mouseExited(MouseEvent e) {
-            draging = false;
-            moveComponent.setVisible(false);
-            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            int overColumn = e.getX() < getColumnModel().getColumn(0).getWidth() ? 0 : 1;
-            int overRow = -1;
-            for (int i = 0;i < getRowCount();i++) {
-                if (e.getY() > i * WIDGET_TABLE_ROW_HEIGHT && e.getY() <= (i + 1) * WIDGET_TABLE_ROW_HEIGHT){
-                    overRow = i;
-                }
-            }
-            if (overRow == getSelectedRow() && overColumn == getSelectedColumn() && overColumn !=0) {
-                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-            } else {
-                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        public void mousePressed(MouseEvent e) {
+            getInstance().setCellSelected();
+            if (selectedRow == 0 && !e.isPopupTrigger() && e.getClickCount() == 1 && e.getX() < WIDGET_TABLE_ROW_HEIGHT / 2){ // 如果是点击在第一行
+                    toggleCollapse();
             }
         }
 
-         @Override
-        public void mouseDragged(MouseEvent e) {
-             if (e.getX() < getColumnModel().getColumn(0).getWidth()) {
-                 draging = false;
-                 moveComponent.setVisible(false);
-                 setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-             }
-             int width = getColumnModel().getColumn(1).getWidth();
-             if (getCursor().getType() == Cursor.MOVE_CURSOR){
-                 draging = true;
-                //下面这句话太重要了，拖拽过程中选中的不变
-                 getInstance().setRowSelectionInterval(selectedRow,selectedRow);
-                 moveComponent.setText(getValueAt(getSelectedRow(), getSelectedColumn()).toString());
-                 moveComponent.setLocation(getColumnModel().getColumn(0).getWidth(), e.getY() - GAP);
-                 moveComponent.setPreferredSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
-                 moveComponent.setSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
-                 moveComponent.setVisible(true);
-                 moveComponent.setForeground(Color.lightGray);
-                 moveComponent.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-             }
-        }
+        /**
+         * 鼠标放开时处理的事件（如果是正在拖动则执行换位操作，重新绘制属性表，如果不是则什么也不做）
+         * 所谓的换行就是简单的重新拿到一次表格数据然后重新绘制表格
+         * @param e
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             if(!draging){
@@ -157,11 +108,95 @@ public class MobileWidgetTable extends JTable {
             draging = false;
             moveComponent.setVisible(false);
             int toIndex = e.getY() < GAP ? 0 : (int)Math.rint((e.getY() - GAP)/WIDGET_TABLE_ROW_HEIGHT) + 1;
-            ((WParameterLayout) designer.getParaComponent().toData()).adjustOrder(getSelectedRow(), toIndex);
-            getInstance().setRowSelectionInterval(0,getRowCount() - 1);
-            refresh();
+            //当鼠标放开时，将选中的容器调整至新的顺序
+            ((WSortLayout)designer.getSelectionModel().getSelection().getSelectedCreator().toData()).adjustOrder(selectedRow - 1, toIndex - 1);
+            //拿取排序后表格数据，然后重绘表格
+            getInstance().refreshData();
             getInstance().repaint();
             designer.fireTargetModified();
+            getInstance().setCellSelected();
+        }
+
+        /**
+         * 设置鼠标在属性表区域移动时候的事件
+         * @param e
+         */
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            int overRow = 0;
+            for (int i = 0;i < getRowCount();i++) {
+                if (e.getY() > i * WIDGET_TABLE_ROW_HEIGHT && e.getY() <= (i + 1) * WIDGET_TABLE_ROW_HEIGHT){
+                    overRow = i; //判断鼠标在哪一行
+                }
+            }
+            //如果鼠标移动到当前选中的行上面的时候
+            if (overRow == selectedRow && selectedRow > 0) {
+                //把当前选中的那一行的光标改成(除了第一列)移动样式MOVE_CURSOR
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            } else {
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        }
+
+        /**
+         * 鼠标拖动事件（如果鼠标当前是<code>MOVE_CURSOR</code>状态则执行开始拖动的代码，
+         * 绘制一个<code>moveComponent</code>来跟随鼠标移动）
+         * @param e
+         */
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            int width = getColumnModel().getColumn(0).getWidth();
+            //如果当前选中的行的范围是合理的话，就可以拖动
+            if (selectedRow < getRowCount() && selectedRow > 0){
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                draging = true;
+                moveComponent.setText(getValueAt(selectedRow,0).toString());
+                moveComponent.setLocation(0, e.getY() - GAP);
+                moveComponent.setSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
+                moveComponent.setVisible(true);
+                moveComponent.setForeground(Color.lightGray);
+                moveComponent.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+            }
+        }
+
+        /**
+         * 设置鼠标单击时处理的事件（单击控件列表进入控件属性表）
+         * @param e
+         */
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(selectedRow > 0){
+                //当前点击的控件的名字
+                String widgetName = cellData[selectedRow][0];
+                if (StringUtils.isNotEmpty(widgetName)){
+                    //当前选择的容器
+                	XCreator selectedContainer = designer.getSelectionModel().getSelection().getSelectedCreator();
+                    WLayout selectedWidget = (WLayout)selectedContainer.toData();
+                    //当前选择的容器中的控件数量
+                    int count = selectedWidget.getWidgetCount();
+                    for (int i = 0;i < count ;i++){
+                        XCreator xCreator = (XCreator) selectedContainer.getComponent(i);
+                        Widget widget = xCreator.toData();
+                        if (ComparatorUtils.equals(widgetName, widget.getWidgetName())) {
+                            getEditingDesigner().getSelectionModel().setSelectedCreator(xCreator);
+                        }
+                    }
+                }
+            } else if (selectedRow == 0){ // 如果是点击在第一行
+                if (!e.isPopupTrigger() && e.getClickCount() > 1) {
+                    toggleCollapse();
+                }
+            }
+        }
+
+        /**
+         * 鼠标离开属性表区域事件
+         * @param e
+         */
+        public void mouseExited(MouseEvent e) {
+            draging = false;
+            moveComponent.setVisible(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     };
 
@@ -170,130 +205,83 @@ public class MobileWidgetTable extends JTable {
     }
 
     public FormDesigner getEditingDesigner(){
-         return  designer;
+        return  designer;
     }
 
     /**
-     * 刷新
+     * 设置当前get到的行列的单元格为选中状态
      */
-    public void refresh(){
-         XCreator creator = designer.getSelectionModel().getSelection().getSelectedCreator();
-         cellData = getData();
-        if(creator != null){
-         String widgetName =creator.toData().getWidgetName();
-         int row = -1;
-         int column = -1;
-         for (int i =0; i < cellData.length;i++){
-             if(ComparatorUtils.equals(widgetName, cellData[i][0])){
-                 row = i;
-                 column = 0;
-                 break;
-             }
-             if(ComparatorUtils.equals(widgetName, cellData[i][1])){
-                 row = i;
-                 column = 1;
-                 break;
-             }
-         }
-         selectedRow = row;
-         changeSelection(row,column,false,false);
-         if(row == -1){
-            this.clearSelection();
-         }
+    private void setCellSelected() {
+        selectedRow = getSelectedRow();
+        if (selectedRow != -1) {
+            this.setRowSelectionInterval(selectedRow, selectedRow);
+            this.setColumnSelectionInterval(0, 0);
         }
     }
 
+    /**
+     * 切换属性组折叠属性true/false
+     */
+    private void toggleCollapse() {
+        this.setCollapsed(!this.isCollapsed());
+        //这里获取表格的父控件是为了当表格被折叠了后，装表格的父控件也要相应的重新布局一下
+        //比如折叠之后表格行数应该比原来的少，占用父容器空间应该小点，不重新布局父容器，表格大小不会改变
+        Container parent = MobileWidgetTable.this.getParent();
+        if (parent != null) {
+            parent.revalidate();
+        }
+        repaint();
+    }
+
+    /**
+     * 重新get排序后的数据
+     */
+    public void refreshData(){
+        cellData = getData();
+    }
+
+    /**
+     * 获取选中控件的控件列表
+     *
+     * @return String[][] 二维数组，[0][0]widgetName
+     */
     private String[][] getData(){
-    	XLayoutContainer paraContainer = designer.getParaComponent();
-    	if(paraContainer == null || !paraContainer.acceptType(XWParameterLayout.class)){
-    		return new String[0][0];
-    	}
-    	
-    	WParameterLayout para = (WParameterLayout) (paraContainer.toData());
-        return para.getWidgetNameTag();
-    }
+        if(designer.isFormParaDesigner()){
+            return new String[0][0];
+        }
 
-    private class MobileWidgetTableCellRenderer extends DefaultTableCellRenderer{
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                       boolean hasFocus, int row, int column) {
-            if (getCursor().getType() == Cursor.MOVE_CURSOR){
-                if(selectedRow  > -1 && selectedRow < getRowCount()){
-                    //拖拽过程中选中的不变
-                    getInstance().setRowSelectionInterval(selectedRow,selectedRow);
-                }
+        //选择的控件
+        Widget selectedModel = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
+
+        if(selectedModel == null){
+            return new String[0][0];
+        }
+
+        // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
+        if (selectedModel.acceptType(WSortLayout.class)) {
+            List<String> mobileWidgetList = ((WSortLayout)selectedModel).getOrderedMobileWidgetList();
+            String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
+            widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
+            for (int i = 0; i < mobileWidgetList.size(); i++) {
+                widgetName[i + 1][0] = mobileWidgetList.get(i);
             }
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if (column == 0){
-                UITextField uiTableTextField;
-                if (getSelectedColumn() == column && getSelectedRow() == row){
-                     uiTableTextField = new UITableTextField(value.toString());
-                } else {
-                     uiTableTextField = new UITextField(value.toString());
-                }
-                return uiTableTextField;
-            }
-            return this;
-        }
-
-    }
-    private class MobileCellEditor extends AbstractCellEditor implements TableCellEditor {
-        UITableTextField uiTableTextField;
-        MobileCellEditor(){
-            uiTableTextField = new UITableTextField();
-            uiTableTextField.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusLost(FocusEvent evt) {
-                    stopCellEditing();
-                    designer.fireTargetModified();
-                }
-            });
-            uiTableTextField.getDocument().addDocumentListener(new DocumentListener() {
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    firePropertyChange();
-                }
-
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    firePropertyChange();
-                }
-
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    firePropertyChange();
-                }
-            });
-        }
-
-        /**
-         * cell改变，相应的nametag改变
-         */
-        public void firePropertyChange(){
-            ((WParameterLayout) designer.getParaComponent().toData()).add2NameTagMap(uiTableTextField.getText(),
-                    cellData[getSelectedRow()][1]);
-        }
-
-        public Object getCellEditorValue(){
-            return uiTableTextField.getText();
-        }
-
-        /*
-		 * 双击以编辑
-		 */
-        public boolean isCellEditable(EventObject anEvent) {
-            if (anEvent instanceof MouseEvent) {
-                return ((MouseEvent)anEvent).getClickCount() >= 2;
-            }
-            return true;
-        }
-
-        public Component getTableCellEditorComponent( JTable table,Object value,
-                                                      boolean isSelected,int row,int column){
-            uiTableTextField.setText(value.toString());
-            return uiTableTextField;
+            return widgetName;
+        } else {
+            return new String[0][0];
         }
     }
 
+    public boolean isCollapsed() {
+        return collapsed;
+    }
+
+    public void setCollapsed(boolean collapsed) {
+        this.collapsed = collapsed;
+    }
+
+    /**
+     * 自定义的tableEditor类
+     */
     public class BeanTableModel extends DefaultTableModel {
         public BeanTableModel() {
             super(cellData,headers);
@@ -301,12 +289,15 @@ public class MobileWidgetTable extends JTable {
 
         @Override
         public int getRowCount() {
+            if (isCollapsed()) {
+                return 1;
+            }
             return cellData.length;
         }
 
         @Override
         public int getColumnCount() {
-            return 2;
+            return 1;
         }
 
 
@@ -315,20 +306,16 @@ public class MobileWidgetTable extends JTable {
             if (row >= getRowCount() || column >= getColumnCount()) {
                 return null;
             }
-            Object[] rowValue = cellData[row];
-            if (column > -1 && column < rowValue.length) {
-                return cellData[row][column];
+            if (row == 0) {
+                return (isCollapsed()? "+" : "-") + cellData[row][0];
             }
-            return null;
+
+            return cellData[row][0];
         }
 
         @Override
         public String getColumnName(int column) {
-            if (column == 0) {
-                return headers[0];
-            } else {
-                return headers[1];
-            }
+            return headers[0];
         }
 
 
@@ -338,10 +325,10 @@ public class MobileWidgetTable extends JTable {
                 return;
             }
             if (aValue == null) {
-                cellData[row][column] = null;
+                cellData[row] = null;
                 return;
             }
-            cellData[row][column] = aValue.toString();
+            cellData[row][0] = aValue.toString();
         }
 
         /**
@@ -351,35 +338,9 @@ public class MobileWidgetTable extends JTable {
          * @return 是否可编辑
          */
         public boolean isCellEditable(int row, int column) {
-            if(column ==1){
                 return false;
-            }
-            return true;
         }
 
     }
 
-    private class UITableTextField extends UITextField {
-        public UITableTextField(){
-            super();
-        }
-
-        public UITableTextField(String string){
-            super(string);
-        }
-
-        protected void paintBorder(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            if (this.isFocusOwner()) {
-                g2d.setStroke(new BasicStroke(1.5f));
-            } else {
-                g2d.setStroke(new BasicStroke(1f));
-            }
-            RoundRectangle2D.Double rect = new RoundRectangle2D.Double(0, 0, this.getWidth() - 2, this.getHeight() - 2, 4, 4);
-            g2d.setColor(Color.orange);
-            g2d.draw(rect);
-        }
-
-    }
 }

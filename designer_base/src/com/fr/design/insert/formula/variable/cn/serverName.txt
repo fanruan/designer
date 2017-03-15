@@ -1,3 +1,1 @@
-serverName£¬ÊÇÖ¸·şÎñÆ÷µØÖ·»òÃû³Æ.
-¼ÙÈç·ÃÎÊ£ºhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-serverNameÖ¸µÄÊÇ£ºlocalhost£¬¼´·ÃÎÊ»ú×ÓµÄIP
+serverNameï¼Œæ˜¯æŒ‡æœåŠ¡å™¨åœ°å€æˆ–åç§°.å‡å¦‚è®¿é—®ï¼šhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒserverNameæŒ‡çš„æ˜¯ï¼šlocalhostï¼Œå³è®¿é—®æœºå­çš„IP

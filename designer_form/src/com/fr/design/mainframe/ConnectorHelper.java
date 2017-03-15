@@ -7,18 +7,19 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.stable.Constants;
 import com.fr.base.GraphHelper;
 import com.fr.design.designer.beans.ConnectorCreator;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.form.ui.Connector;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 public class ConnectorHelper {
 	//这个类是用来画连接线的，暂时用不到
 	
 	public static final int NEAR = 5;
 	private static double ratio = 0.5;
+	private final static int ADSORPTION = 15; // 吸附距离
 	private ArrayList<Point> drawingPoint;
 	private FormDesigner designer;
 	private boolean drawing;
@@ -67,7 +68,6 @@ public class ConnectorHelper {
 		ConnectorCreator cc = new ConnectorCreator(designer.getTarget().getContainer(), new Point(startPoint), new Point(endPoint));
 		ArrayList<Point> p = cc.createPointList();
 		long e = System.currentTimeMillis();
-		System.out.println("useTime:" + (e - s));
 		return p;
 	}
 
@@ -87,7 +87,7 @@ public class ConnectorHelper {
 	public void createDefalutLine() {
 		if (drawingPoint != null
 				&& drawingPoint.size() > 1
-				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > 15) {
+				&& ConnectorCreator.getMinimumDistance(drawingPoint.get(0), drawingPoint.get(drawingPoint.size() - 1)) > ADSORPTION) {
 			((XWAbsoluteLayout) designer.getRootComponent()).addConnector(new Connector().addAll(drawingPoint));
 		}
 		drawingPoint = null;
