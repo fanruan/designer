@@ -27,19 +27,38 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static final String FILE_NAME = "tplInfo.ser";
     private static TemplateInfoCollector instance;
     private HashMap<String, HashMap<String, Object>> templateInfoList;
+    private String designerOpenDate;  //设计器最近一次打开日期
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
-        // 先尝试从文件读取
-        try{
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream(getInfoFile()));
-            templateInfoList = (HashMap<String, HashMap<String,Object>>) is.readObject();
-        } catch (FileNotFoundException ex) {
-            // 如果之前没有存储过，则创建新对象
-            templateInfoList = new HashMap<>();
-        } catch (Exception ex) {
-            FRLogger.getLogger().error(ex.getMessage(), ex);
-        }
+//        // 先尝试从文件读取
+//        try{
+//            ObjectInputStream is = new ObjectInputStream(new FileInputStream(getInfoFile()));
+////            templateInfoList = (HashMap<String, HashMap<String,Object>>) is.readObject();
+//            instance = (HashMap<String, HashMap<String,Object>>) is.readObject();
+//        } catch (FileNotFoundException ex) {
+//            // 如果之前没有存储过，则创建新对象
+//            templateInfoList = new HashMap<>();
+//        } catch (Exception ex) {
+//            FRLogger.getLogger().error(ex.getMessage(), ex);
+//        }
+        templateInfoList = new HashMap<>();
+        setDesignerOpenDate();
+    }
+
+    /**
+     * 把设计器最近打开日期设定为当前日期
+     */
+    private void setDesignerOpenDate() {
+        designerOpenDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+    }
+
+    /**
+     * 判断今天是否第一次打开设计器
+     */
+    private boolean designerOpenFirstTime() {
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        return !ComparatorUtils.equals(today, designerOpenDate);
     }
 
     /**
@@ -50,8 +69,21 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     }
 
     public static TemplateInfoCollector getInstance() {
+//        if (instance == null) {
+//            instance = new TemplateInfoCollector();
+//        }
+//        return instance;
         if (instance == null) {
-            instance = new TemplateInfoCollector();
+            // 先尝试从文件读取
+            try{
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(getInfoFile()));
+                instance = (TemplateInfoCollector) is.readObject();
+            } catch (FileNotFoundException ex) {
+                // 如果之前没有存储过，则创建新对象
+                instance = new TemplateInfoCollector();
+            } catch (Exception ex) {
+                FRLogger.getLogger().error(ex.getMessage(), ex);
+            }
         }
         return instance;
     }
@@ -83,8 +115,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            System.out.println("写入：" + templateInfoList);
-            os.writeObject(templateInfoList);
+            System.out.println("写入：" + instance.templateInfoList);
+            os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -99,13 +131,27 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     }
 
     /**
+     * 更新 day_count：打开设计器却未编辑模板的连续日子
+     */
+    private void addDayCount() {
+        if (designerOpenFirstTime()) {
+            for (String key : templateInfoList.keySet()) {
+                HashMap<String, Object> templateInfo = templateInfoList.get(key);
+                int dayCount = (int)templateInfo.get("day_count") + 1;
+                templateInfo.put("day_count", dayCount);
+            }
+            setDesignerOpenDate();
+        }
+    }
+
+    /**
      * 收集模板信息。如果之前没有记录，则新增；如果已有记录，则更新。
      * 同时将最新数据保存到文件中。
      */
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
         HashMap<String, Object> templateInfo;
 
-        long timeConsume = saveTime - openTime;  // 制作模板耗时
+        long timeConsume = ((saveTime - openTime) / 1000);  // 制作模板耗时（单位：s）
         String reportletsid = t.getReportletsid();
 
         if (inList(t)) { // 已有记录
@@ -123,7 +169,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         // 直接覆盖 processMap
         templateInfo.put("processMap", getProcessMap(reportletsid, jt));
 
-        // TODO: 更新模板是否完成的标记
+        // 保存模板时，让 day_count 归零
+        templateInfo.put("day_count", 0);
 
 
         templateInfoList.put(reportletsid, templateInfo);
@@ -138,7 +185,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
         String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
 //        String createTime = new Date(openTime).toString();
-        String createTime = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(Calendar.getInstance().getTime());
+        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
         String jarTime = GeneralUtils.readBuildNO();
         String version = ProductConstants.VERSION;
         consumingMap.put("username", username);
@@ -171,17 +218,19 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      * 发送本地模板信息到服务器
      */
     public void sendTemplateInfo() {
-
+        addDayCount();
         String url1 = "http://cloud.fanruan.com/api/monitor/record_of_make_reports/single";
         ArrayList<HashMap<String, String>> completeTemplatesInfo = getCompleteTemplatesInfo();
         for (HashMap<String, String> templateInfo : completeTemplatesInfo) {
             String jsonConsumingMap = templateInfo.get("jsonConsumingMap");
             String jsonProcessMap = templateInfo.get("jsonProcessMap");
             if (sendSingleTemplateInfo(url1, jsonConsumingMap) && sendSingleTemplateInfo(url1, jsonProcessMap)) {
-                // TODO: 清空记录
+                // 清空记录
                 System.out.println("success");
+                templateInfoList.remove(templateInfo.get("reportletsid"));
             }
         }
+        saveInfo();
 //        //服务器返回true, 说明已经获取成功, 清空当前记录的信息
 //        if (success) {
 //            System.out.println("success");
@@ -217,6 +266,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private ArrayList<HashMap<String, String>> getCompleteTemplatesInfo() {
         ArrayList<HashMap<String, String>> completeTemplatesInfo = new ArrayList<>();
         for (String key : templateInfoList.keySet()) {
+            if ((int)templateInfoList.get(key).get("day_count") <= 15) {  // 未完成模板
+                continue;
+            }
             HashMap<String, String> templateInfo = new HashMap<>();
             HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfoList.get(key).get("consumingMap");
             HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(key).get("processMap");
@@ -234,7 +286,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     public static void main(String[] args) {
         TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
-//        tic.getInfoList();
+        tic.getInfoList();
         tic.sendTemplateInfo();
 
     }
