@@ -16,10 +16,11 @@ import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
 import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.Background;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
@@ -99,7 +100,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @throws IntrospectionException
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = null;
+		checkButonType();
+		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
 		return ArrayUtils.addAll(defaultDescriptor(), crp);
 	}
 
@@ -190,6 +192,12 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	private void checkButonType() {
 		if (this.xCardSwitchButton == null) {
+			//假如为空，默认获取第一个tab的cardBtn属性
+			try {
+				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
+			}catch (Exception e){
+				FRLogger.getLogger().error(e.getMessage());
+			}
 			return;
 		}
 		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();

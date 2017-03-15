@@ -20,6 +20,7 @@ import com.fr.file.FunctionManagerProvider;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.script.FunctionDef;
 
@@ -159,16 +160,21 @@ public class FunctionManagerPane extends BasicPane {
             descriptionArea.setWrapStyleWord(true);
             descriptionArea.setLineWrap(true);
             northPane.add(descriptionArea);
-            descriptionArea.setText(Inter.getLocText(new String[]{"Function-The_class_must_inherit","Fuction-The_compiled_class_should_be_copied_to",
-            		"Function-J2EE_server", "Directory", "Function-Source_Code", "Example"}, 
-            		new String[]{" \"com.fr.script.AbstractFunction\".", "\n", " \"" + File.separator + "WEB-INF" + File.separator + "classes\"",
-            		",", ".\n", ":" + FRContext.getCurrentEnv().getPath() + File.separator + "classes"}));
+
+            String path1 = getEscapePath(File.separator + ProjectConstants.WEBINF_NAME + File.separator + ProjectConstants.CLASSES_NAME);
+            String path2 = getEscapePath(FRContext.getCurrentEnv().getPath() + File.separator + ProjectConstants.CLASSES_NAME);
+            descriptionArea.setText(Inter.getLocText("FR-Designer_Function_Description_Area_Text", path1, path2));
+
             JPanel descriptionPane = FRGUIPaneFactory.createBorderLayout_S_Pane();  //Description Pane
             this.add(descriptionPane, BorderLayout.SOUTH);
             descriptionPane.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
             descriptionPane.add(new UILabel(Inter.getLocText("FR-Designer_Description") + ":"), BorderLayout.NORTH);
             this.descriptionTextArea = new UITextArea(6, 24);
             descriptionPane.add(new JScrollPane(this.descriptionTextArea), BorderLayout.CENTER);
+        }
+
+        private String getEscapePath(String path) {
+            return path.replace("\\", "\\\\");
         }
         
         private ActionListener createEditorButtonActionListener() {

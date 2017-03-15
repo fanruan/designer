@@ -42,8 +42,7 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
 
     @Override
     protected JPanel createOtherSetPane() {
-        colorBox = new UICheckBox(Inter.getLocText(new String[]{"Face_Write", "Current", "Edit", "Row",
-                "Background", "Set"}) + ":");
+        colorBox = new UICheckBox(Inter.getLocText("FR-Designer_Set_BG_Of_Current_Row") + ":");
         colorBox.setSelected(true);
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
         colorBox.addActionListener(new ActionListener() {
@@ -66,15 +65,15 @@ public class WriteWebSettingPane extends WebSettingPane<WebWrite> {
 
         //Sean: 报表显示位置since 706
         rptShowLocationLabel = new UILabel(Inter.getLocText("FR-Designer_Report_Show_Location") + ":", UILabel.LEFT);
-        centerRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Center", "Display"}));
-        leftRadioButton = new UIRadioButton(Inter.getLocText(new String[]{"Left", "Display"}));
+        centerRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Center_Display"));
+        leftRadioButton = new UIRadioButton(Inter.getLocText("FR-Designer_Left_Display"));
         ButtonGroup rptShowButtonGroup = new ButtonGroup();
         leftRadioButton.setSelected(true);
         rptShowButtonGroup.add(centerRadioButton);
         rptShowButtonGroup.add(leftRadioButton);
         JPanel showLocPane = GUICoreUtils.createFlowPane(new Component[]{rptShowLocationLabel, centerRadioButton, leftRadioButton}, FlowLayout.LEFT);
 
-        unloadCheck = new UICheckBox(Inter.getLocText(new String[]{"Event-unloadcheck", "Tooltips"}));
+        unloadCheck = new UICheckBox(Inter.getLocText("FR-Designer_Unload_Check"));
         unloadCheck.setSelected(true);
 
         showWidgets = new UICheckBox(Inter.getLocText(new String[]{"Event-showWidgets"}));

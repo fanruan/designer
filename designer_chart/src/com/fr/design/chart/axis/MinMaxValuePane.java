@@ -42,14 +42,14 @@ public class MinMaxValuePane extends JPanel {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { p, f };
-		double[] rowSize = { p, p, p, p};
+		double[] rowSize = { p, p, p, p, p, p, p, p};
 
 		Component[][] components  = getPanelComponents();
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(components ,rowSize,columnSize);
 		this.setLayout(new BorderLayout());
 		this.add(panel,BorderLayout.CENTER);
 
-		for(int i = 0; i < components.length; i++) {
+		for(int i = 0; i < components.length; i+=2) {
 			((UICheckBox)components[i][0]).addActionListener(new ActionListener() {
 
 				@Override
@@ -57,18 +57,21 @@ public class MinMaxValuePane extends JPanel {
 					checkBoxUse();
 				}
 			});
-			ChartSwingUtils.addListener((UICheckBox)components[i][0], (UITextField)components[i][1]);	
+			ChartSwingUtils.addListener((UICheckBox)components[i][0], (UITextField)components[i+1][0]);
 		}
 	}
-
-    protected Component[][] getPanelComponents() {
-        return 	new Component[][]{
-                new Component[]{minCheckBox, minValueField},
-                new Component[]{maxCheckBox, maxValueField},
-                new Component[]{isCustomMainUnitBox, mainUnitField},
-                new Component[]{isCustomSecUnitBox, secUnitField},
-        };
-    }
+	protected Component[][] getPanelComponents() {
+		return 	new Component[][]{
+				new Component[]{minCheckBox},
+				new Component[]{minValueField},
+				new Component[]{maxCheckBox},
+				new Component[]{maxValueField},
+				new Component[]{isCustomMainUnitBox},
+				new Component[]{mainUnitField},
+				new Component[]{isCustomSecUnitBox},
+				new Component[]{secUnitField},
+		};
+	}
 
 	private void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());

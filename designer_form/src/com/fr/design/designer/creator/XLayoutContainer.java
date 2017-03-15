@@ -10,8 +10,6 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.design.parameter.ParameterBridge;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WLayout;

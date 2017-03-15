@@ -145,7 +145,7 @@ public abstract class XWidgetCreator extends XCreator {
 			this.draw();
 		}
 	}
-	
+
 	/**
 	 * 重命名
 	 * 
