@@ -30,7 +30,8 @@ public aspect TemplateProcessTracker {
     before(MouseEvent e) : onMouseClicked(e) || onMousePressed(e) || onMouseReleased(e) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();//切面对应的代码位置
 
-        String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
     }
     //同上
@@ -41,14 +42,16 @@ public aspect TemplateProcessTracker {
             return;
         }
 
-        String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
 
     }
     //同上
     before(Chart c) : onChartUpdate(c) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
-        String log = String.format("%s:\n%s\n插入新图表：%s\n\n", new Date(), sl, c.getChartName());
+        //String log = String.format("%s:\n%s\n插入新图表：%s\n\n", new Date(), sl, c.getChartName());
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
 
     }

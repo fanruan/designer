@@ -28,7 +28,8 @@ public aspect TemplateProcessTracker {
     before(MouseEvent e) : onMouseClicked(e) || onMousePressed(e) || onMouseReleased(e) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();//切面对应的代码位置
 
-        String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
     }
     //同上
@@ -39,19 +40,17 @@ public aspect TemplateProcessTracker {
             return;
         }
 
-        String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
 
     }
     //同上
     before(Object v, int r, int c) : onSetValueAt(v, r, c) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
-        // !within(LogHandlerBar) 没用, 手动过滤
-//        if (e.getSource().toString().contains("javax.swing.Timer")) {
-//            return;
-//        }
 
-        String log = String.format("%s:\n%s\nset value: %s at (%d, %d)\n\n", new Date(), sl, v, r, c);
+        //String log = String.format("%s:\n%s\nset value: %s at (%d, %d)\n\n", new Date(), sl, v, r, c);
+        String log = "";
         TemplateInfoCollector.appendProcess(log);
 
     }
