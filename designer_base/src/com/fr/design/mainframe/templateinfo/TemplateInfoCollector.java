@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.templateinfo;
 
-import com.fr.base.FRContext;
 import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
@@ -16,7 +15,6 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -31,17 +29,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
-//        // 先尝试从文件读取
-//        try{
-//            ObjectInputStream is = new ObjectInputStream(new FileInputStream(getInfoFile()));
-////            templateInfoList = (HashMap<String, HashMap<String,Object>>) is.readObject();
-//            instance = (HashMap<String, HashMap<String,Object>>) is.readObject();
-//        } catch (FileNotFoundException ex) {
-//            // 如果之前没有存储过，则创建新对象
-//            templateInfoList = new HashMap<>();
-//        } catch (Exception ex) {
-//            FRLogger.getLogger().error(ex.getMessage(), ex);
-//        }
         templateInfoList = new HashMap<>();
         setDesignerOpenDate();
     }
@@ -69,10 +56,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     }
 
     public static TemplateInfoCollector getInstance() {
-//        if (instance == null) {
-//            instance = new TemplateInfoCollector();
-//        }
-//        return instance;
         if (instance == null) {
             // 先尝试从文件读取
             try{
@@ -111,7 +94,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return templateInfoList.containsKey(t.getReportletsid());
     }
 
-    // 将包含所有信息的对象保存到文件
+    /**
+     * 将包含所有信息的对象保存到文件
+     */
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
@@ -121,13 +106,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public HashMap getInfoList() {
-        for (String key : templateInfoList.keySet()) {
-            System.out.println(templateInfoList.get(key));
-        }
-        return templateInfoList;
     }
 
     /**
@@ -148,6 +126,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      * 收集模板信息。如果之前没有记录，则新增；如果已有记录，则更新。
      * 同时将最新数据保存到文件中。
      */
+    @SuppressWarnings("unchecked")
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
         HashMap<String, Object> templateInfo;
 
@@ -184,7 +163,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         String username = DesignerEnvManager.getEnvManager().getBBSName();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
         String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
-//        String createTime = new Date(openTime).toString();
         String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
         String jarTime = GeneralUtils.readBuildNO();
         String version = ProductConstants.VERSION;
@@ -219,24 +197,19 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     public void sendTemplateInfo() {
         addDayCount();
-        String url1 = "http://cloud.fanruan.com/api/monitor/record_of_make_reports/single";
+        String consumingUrl = "http://cloud.fanruan.com/api/monitor/record_of_reports_consuming/single";
+        String processUrl = "http://cloud.fanruan.com/api/monitor/record_of_reports_process/single";
         ArrayList<HashMap<String, String>> completeTemplatesInfo = getCompleteTemplatesInfo();
         for (HashMap<String, String> templateInfo : completeTemplatesInfo) {
             String jsonConsumingMap = templateInfo.get("jsonConsumingMap");
             String jsonProcessMap = templateInfo.get("jsonProcessMap");
-            if (sendSingleTemplateInfo(url1, jsonConsumingMap) && sendSingleTemplateInfo(url1, jsonProcessMap)) {
+            if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
                 System.out.println("success");
                 templateInfoList.remove(templateInfo.get("reportletsid"));
             }
         }
         saveInfo();
-//        //服务器返回true, 说明已经获取成功, 清空当前记录的信息
-//        if (success) {
-//            System.out.println("success");
-//        } else {
-//            System.out.println("fail");
-//        }
     }
 
     private boolean sendSingleTemplateInfo(String url, String content) {
@@ -244,11 +217,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
         para.put("content", content);
-//        para.put("content", "{name:3, age:3}");
-//        HttpClient httpClient = new HttpClient("http://cloud.fanruan.com/api/monitor/record_of_make_reports/single", para, true);
         HttpClient httpClient = new HttpClient(url, para, true);
-
-        //httpClient.setContent(getCompleteTemplatesInfo());
         httpClient.setTimeout(5000);
         httpClient.asGet();
 
@@ -261,7 +230,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return success;
     }
 
-    // 返回已完成的模板信息
+    /**
+     * 返回已完成的模板信息
+     */
     @SuppressWarnings("unchecked")
     private ArrayList<HashMap<String, String>> getCompleteTemplatesInfo() {
         ArrayList<HashMap<String, String>> completeTemplatesInfo = new ArrayList<>();
@@ -277,17 +248,13 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             templateInfo.put("jsonConsumingMap", jsonConsumingMap);
             templateInfo.put("jsonProcessMap", jsonProcessMap);
             templateInfo.put("reportletsid", key);
-            completeTemplatesInfo.add(templateInfo);  // TODO 暂未添加筛选条件
+            completeTemplatesInfo.add(templateInfo);
         }
         return completeTemplatesInfo;
     }
 
-
-
     public static void main(String[] args) {
-        TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
-        tic.getInfoList();
-        tic.sendTemplateInfo();
-
+//        TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
+//        tic.sendTemplateInfo();
     }
 }
