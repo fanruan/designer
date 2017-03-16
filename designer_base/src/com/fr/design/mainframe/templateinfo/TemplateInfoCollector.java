@@ -100,7 +100,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            System.out.println("写入：" + instance.templateInfoList);
+//            System.out.println("写入：" + instance.templateInfoList);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
@@ -205,7 +205,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             String jsonProcessMap = templateInfo.get("jsonProcessMap");
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
-                System.out.println("success");
+//                System.out.println("success");
                 templateInfoList.remove(templateInfo.get("reportletsid"));
             }
         }
@@ -236,21 +236,51 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     @SuppressWarnings("unchecked")
     private ArrayList<HashMap<String, String>> getCompleteTemplatesInfo() {
         ArrayList<HashMap<String, String>> completeTemplatesInfo = new ArrayList<>();
+        ArrayList<String> testTemplateKeys = new ArrayList<>();  // 保存测试模板的key
         for (String key : templateInfoList.keySet()) {
-            if ((int)templateInfoList.get(key).get("day_count") <= 15) {  // 未完成模板
+            HashMap<String, Object> templateInfo = templateInfoList.get(key);
+            if ((int)templateInfo.get("day_count") <= 15) {  // 未完成模板
                 continue;
             }
-            HashMap<String, String> templateInfo = new HashMap<>();
-            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfoList.get(key).get("consumingMap");
-            HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(key).get("processMap");
+            if (isTestTemplate(templateInfo)) {
+                testTemplateKeys.add(key);
+                continue;
+            }
+            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
+            HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get("processMap");
             String jsonConsumingMap = new JSONObject(consumingMap).toString();
             String jsonProcessMap = new JSONObject(processMap).toString();
-            templateInfo.put("jsonConsumingMap", jsonConsumingMap);
-            templateInfo.put("jsonProcessMap", jsonProcessMap);
-            templateInfo.put("reportletsid", key);
-            completeTemplatesInfo.add(templateInfo);
+            HashMap<String, String> jsonTemplateInfo = new HashMap<>();
+            jsonTemplateInfo.put("jsonConsumingMap", jsonConsumingMap);
+            jsonTemplateInfo.put("jsonProcessMap", jsonProcessMap);
+            jsonTemplateInfo.put("reportletsid", key);
+            completeTemplatesInfo.add(jsonTemplateInfo);
+        }
+        // 删除测试模板
+        for (String key : testTemplateKeys) {
+            templateInfoList.remove(key);
+//            System.out.println(key + " is removed...");
         }
         return completeTemplatesInfo;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isTestTemplate(HashMap<String, Object> templateInfo) {
+        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get("processMap");
+        int reportType = (int)processMap.get("report_type");
+        int cellCount = (int)processMap.get("cell_count");
+        int floatCount = (int)processMap.get("float_count");
+        int blockCount = (int)processMap.get("block_count");
+        int widgetCount = (int)processMap.get("widget_count");
+        boolean isTestTemplate = false;
+        if (reportType == 0) {  // 普通报表
+            isTestTemplate = cellCount <= 5 && floatCount <= 1 && widgetCount <= 5;
+        } else if (reportType == 1) {  // 聚合报表
+            isTestTemplate = blockCount <= 1 && widgetCount <= 5;
+        } else {  // 表单(reportType == 2)
+            isTestTemplate = widgetCount <= 1;
+        }
+        return isTestTemplate;
     }
 
     public static void main(String[] args) {
