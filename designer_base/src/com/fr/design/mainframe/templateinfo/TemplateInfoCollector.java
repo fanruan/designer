@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.templateinfo;
 
+import com.fr.base.FRContext;
 import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
@@ -71,7 +72,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return instance;
     }
 
+    private static boolean shouldCollectInfo() {
+        return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
+    }
+
     public static void appendProcess(String log) {
+        if (!shouldCollectInfo()) {
+            return;
+        }
         // 获取当前编辑的模板
         JTemplate jt = DesignerContext.getDesignerFrame().getSelectedJTemplate();
         // 追加过程记录
@@ -100,7 +108,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            System.out.println("写入：" + instance.templateInfoList);
+//            System.out.println("写入：" + instance.templateInfoList);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
@@ -128,6 +136,10 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
+        if (!shouldCollectInfo()) {
+            return;
+        }
+
         HashMap<String, Object> templateInfo;
 
         long timeConsume = ((saveTime - openTime) / 1000);  // 制作模板耗时（单位：s）
