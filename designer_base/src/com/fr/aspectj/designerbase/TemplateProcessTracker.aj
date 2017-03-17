@@ -50,10 +50,6 @@ public aspect TemplateProcessTracker {
     //同上
     before(Object v, int r, int c) : onSetValueAt(v, r, c) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
-        // !within(LogHandlerBar) 没用, 手动过滤
-//        if (e.getSource().toString().contains("javax.swing.Timer")) {
-//            return;
-//        }
 
         //String log = String.format("%s:\n%s\nset value: %s at (%d, %d)\n\n", new Date(), sl, v, r, c);
         String log = "";

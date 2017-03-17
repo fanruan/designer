@@ -109,8 +109,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     // 为收集模版信息作准备
     private void initForCollect() {
-        if (template.getReportletsid() == null) {
-            template.initReportletsid();  // 为新模板设置 reportletsid 属性
+        if (template.getTemplateID() == null) {
+            template.initTemplateID();  // 为新模板设置 templateID 属性
         }
         if (openTime == 0) {
             openTime = System.currentTimeMillis();
@@ -540,7 +540,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
-            initForCollect();  // 如果是旧模板另存为新模板，则添加 reportletsid
+            initForCollect();  // 如果是旧模板另存为新模板，则添加 templateID
             collectInfo();
         }
         //更换最近打开

@@ -83,7 +83,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public String loadProcess(T t) {
-        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(t.getReportletsid()).get("processMap");
+        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(t.getTemplateID()).get("processMap");
         return (String)processMap.get("process");
     }
 
@@ -91,7 +91,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      * 根据模板ID是否在收集列表中，判断是否需要收集当前模板的信息
      */
     public boolean inList(T t) {
-        return templateInfoList.containsKey(t.getReportletsid());
+        return templateInfoList.containsKey(t.getTemplateID());
     }
 
     /**
@@ -100,7 +100,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-//            System.out.println("写入：" + instance.templateInfoList);
+            System.out.println("写入：" + instance.templateInfoList);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
@@ -131,10 +131,10 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         HashMap<String, Object> templateInfo;
 
         long timeConsume = ((saveTime - openTime) / 1000);  // 制作模板耗时（单位：s）
-        String reportletsid = t.getReportletsid();
+        String templateID = t.getTemplateID();
 
         if (inList(t)) { // 已有记录
-            templateInfo = templateInfoList.get(t.getReportletsid());
+            templateInfo = templateInfoList.get(t.getTemplateID());
             // 更新 conusmingMap
             HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
             timeConsume += (long)consumingMap.get("time_consume");  // 加上之前的累计编辑时间
@@ -142,22 +142,22 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
         else {  // 新增
             templateInfo = new HashMap<>();
-            templateInfo.put("consumingMap", getNewConsumingMap(reportletsid, openTime, timeConsume));
+            templateInfo.put("consumingMap", getNewConsumingMap(templateID, openTime, timeConsume));
         }
 
         // 直接覆盖 processMap
-        templateInfo.put("processMap", getProcessMap(reportletsid, jt));
+        templateInfo.put("processMap", getProcessMap(templateID, jt));
 
         // 保存模板时，让 day_count 归零
         templateInfo.put("day_count", 0);
 
 
-        templateInfoList.put(reportletsid, templateInfo);
+        templateInfoList.put(templateID, templateInfo);
 
         saveInfo();  // 每次更新之后，都同步到暂存文件中
     }
 
-    private HashMap<String, Object> getNewConsumingMap(String reportletsid, long openTime, long timeConsume) {
+    private HashMap<String, Object> getNewConsumingMap(String templateID, long openTime, long timeConsume) {
         HashMap<String, Object> consumingMap = new HashMap<>();
 
         String username = DesignerEnvManager.getEnvManager().getBBSName();
@@ -169,7 +169,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         consumingMap.put("username", username);
         consumingMap.put("uuid", uuid);
         consumingMap.put("activitykey", activitykey);
-        consumingMap.put("reportletsid", reportletsid);
+        consumingMap.put("templateID", templateID);
         consumingMap.put("create_time", createTime);
         consumingMap.put("time_consume", timeConsume);
         consumingMap.put("jar_time", jarTime);
@@ -178,10 +178,10 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return consumingMap;
     }
 
-    private HashMap<String, Object> getProcessMap(String reportletsid, JTemplate jt) {
+    private HashMap<String, Object> getProcessMap(String templateID, JTemplate jt) {
         HashMap<String, Object> processMap = new HashMap<>();
 
-        processMap.put("reportletsid", reportletsid);
+        processMap.put("templateID", templateID);
         processMap.put("process", jt.getProcess());
         processMap.put("report_type", jt.getReportType());
         processMap.put("cell_count", jt.getCellCount());
@@ -206,7 +206,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
 //                System.out.println("success");
-                templateInfoList.remove(templateInfo.get("reportletsid"));
+                templateInfoList.remove(templateInfo.get("templateID"));
             }
         }
         saveInfo();
@@ -253,7 +253,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             HashMap<String, String> jsonTemplateInfo = new HashMap<>();
             jsonTemplateInfo.put("jsonConsumingMap", jsonConsumingMap);
             jsonTemplateInfo.put("jsonProcessMap", jsonProcessMap);
-            jsonTemplateInfo.put("reportletsid", key);
+            jsonTemplateInfo.put("templateID", key);
             completeTemplatesInfo.add(jsonTemplateInfo);
         }
         // 删除测试模板
