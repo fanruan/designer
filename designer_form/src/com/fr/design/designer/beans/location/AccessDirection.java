@@ -14,7 +14,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.main.Form;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WParameterLayout;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 /**
  * @author richer

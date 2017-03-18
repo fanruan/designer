@@ -28,8 +28,8 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.ComparatorUtils;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 /**
  * 自适应布局的容器适配器
@@ -1026,7 +1026,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
                 setAdjustedSize(tabLayout, offset, isHor);
                 for (int m = 0; m < tabLayout.getComponentCount(); m++) {
                     XCreator childCreator = tabLayout.getXCreator(m);
-                    BoundsWidget wgt = tabLayout.toData().getBoundsWidget(childCreator.toData());
+                    BoundsWidget wgt = (BoundsWidget) tabLayout.toData().getBoundsWidget(childCreator.toData());
                     wgt.setBounds(tabLayout.getComponent(m).getBounds());
                 }
                 adjustCreatorsSize(percent, tabLayout, isHor);

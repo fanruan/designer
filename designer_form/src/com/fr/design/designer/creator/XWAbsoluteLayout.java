@@ -23,7 +23,7 @@ import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
@@ -154,7 +154,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		if (xCreator.acceptType(XWAbsoluteLayout.class)){
 			((XWAbsoluteLayout) xCreator).updateBoundsWidget();
 		}
-		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
+		BoundsWidget boundsWidget = (BoundsWidget) layout.getBoundsWidget(xCreator.toData());
 		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
 	}
 
@@ -179,7 +179,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			double percentH = ((double) backupBound.height / (double) currentBound.height);
 			for (int index = 0, n = this.getComponentCount(); index < n; index++){
 				XCreator creator = (XCreator) this.getComponent(index);
-				BoundsWidget wgt = layout.getBoundsWidget(creator.toData());
+				BoundsWidget wgt = (BoundsWidget) layout.getBoundsWidget(creator.toData());
 				// 用当前的显示大小计算后调正具体位置
 				Rectangle wgtBound = creator.getBounds();
 				Rectangle rec = calculateBound(wgtBound, percentW, percentH);
@@ -211,7 +211,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 				rec.y = (int)(rec.y / prevContainerPercent * containerPercent);
 				rec.height = (int)(rec.height / prevContainerPercent * containerPercent);
 				rec.width = (int)(rec.width / prevContainerPercent * containerPercent);
-				BoundsWidget wgt = toData().getBoundsWidget(creator.toData());
+				BoundsWidget wgt = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 				wgt.setBounds(rec);
 				creator.setBounds(rec);
 				creator.updateChildBound(minHeight);
@@ -467,7 +467,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			XCreator xCreator = (XCreator) getComponent(i);
 			Rectangle rectangle = xCreator.getBounds();
 			xCreator.setBounds((int) (rectangle.x * percent), rectangle.y, (int) (rectangle.width * percent), rectangle.height);
-			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(xCreator.toData());
 			widget.setBounds(xCreator.getBounds());
 		}
 	}
@@ -483,7 +483,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			XCreator xCreator = (XCreator) getComponent(i);
 			Rectangle rectangle = xCreator.getBounds();
 			xCreator.setBounds(rectangle.x, (int) (rectangle.y * percent), rectangle.width, (int) (rectangle.height * percent));
-			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(xCreator.toData());
 			widget.setBounds(xCreator.getBounds());
 		}
 	}

@@ -19,8 +19,8 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.IOUtils;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
 
 /**
@@ -154,7 +154,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 						tabLayout.getHeight());
 				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
 					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = tabLayout.toData()
+					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
 							.getBoundsWidget(childCreator.toData());
 					wgt.setBounds(tabLayout.getComponent(m).getBounds());
 				}
@@ -189,7 +189,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 						tabLayout.getHeight() + offset);
 				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
 					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = tabLayout.toData()
+					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
 							.getBoundsWidget(childCreator.toData());
 					wgt.setBounds(tabLayout.getComponent(m).getBounds());
 				}
