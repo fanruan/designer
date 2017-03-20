@@ -18,7 +18,7 @@ import java.awt.*;
  * Time: 15:07
  */
 public abstract class JControlPane extends BasicPane implements UnrepeatedNameHelper {
-    protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
+    protected static final int SHORT_WIDTH = 28; //每加一个short Divider位置加28
     protected JPanel controlUpdatePane;
 
     private ShortCut4JControlPane[] shorts;
