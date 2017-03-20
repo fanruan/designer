@@ -8,6 +8,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.*;
 import org.json.JSONObject;
@@ -27,6 +28,10 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static TemplateInfoCollector instance;
     private HashMap<String, HashMap<String, Object>> templateInfoList;
     private String designerOpenDate;  //设计器最近一次打开日期
+    private static final int VALID_CELL_COUNT = 5;  // 有效报表模板的格子数
+    private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
+    private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
+    private static final int ONE_THOUSAND = 1000;
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
@@ -108,11 +113,11 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-//            System.out.println("写入：" + instance.templateInfoList);
+            System.out.println("写入：" + instance.templateInfoList);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            FRLogger.getLogger().error(ex.getMessage());
         }
     }
 
@@ -142,7 +147,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
         HashMap<String, Object> templateInfo;
 
-        long timeConsume = ((saveTime - openTime) / 1000);  // 制作模板耗时（单位：s）
+        long timeConsume = ((saveTime - openTime) / ONE_THOUSAND);  // 制作模板耗时（单位：s）
         String templateID = t.getTemplateID();
 
         if (inList(t)) { // 已有记录
@@ -195,11 +200,13 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
         processMap.put("templateID", templateID);
         processMap.put("process", jt.getProcess());
-        processMap.put("report_type", jt.getReportType());
-        processMap.put("cell_count", jt.getCellCount());
-        processMap.put("float_count", jt.getFloatCount());
-        processMap.put("block_count", jt.getBlockCount());
-        processMap.put("widget_count", jt.getWidgetCount());
+
+        TemplateProcessInfo info = jt.getProcessInfo();
+        processMap.put("report_type", info.getReportType());
+        processMap.put("cell_count", info.getCellCount());
+        processMap.put("float_count", info.getFloatCount());
+        processMap.put("block_count", info.getBlockCount());
+        processMap.put("widget_count", info.getWidgetCount());
 
         return processMap;
     }
@@ -209,15 +216,15 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     public void sendTemplateInfo() {
         addDayCount();
-        String consumingUrl = "http://cloud.fanruan.com/api/monitor/record_of_reports_consuming/single";
-        String processUrl = "http://cloud.fanruan.com/api/monitor/record_of_reports_process/single";
+        String consumingUrl = SiteCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
+        String processUrl = SiteCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
         ArrayList<HashMap<String, String>> completeTemplatesInfo = getCompleteTemplatesInfo();
         for (HashMap<String, String> templateInfo : completeTemplatesInfo) {
             String jsonConsumingMap = templateInfo.get("jsonConsumingMap");
             String jsonProcessMap = templateInfo.get("jsonProcessMap");
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
-//                System.out.println("success");
+                FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
                 templateInfoList.remove(templateInfo.get("templateID"));
             }
         }
@@ -251,7 +258,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         ArrayList<String> testTemplateKeys = new ArrayList<>();  // 保存测试模板的key
         for (String key : templateInfoList.keySet()) {
             HashMap<String, Object> templateInfo = templateInfoList.get(key);
-            if ((int)templateInfo.get("day_count") <= 15) {  // 未完成模板
+            if ((int)templateInfo.get("day_count") <= COMPLETE_DAY_COUNT) {  // 未完成模板
                 continue;
             }
             if (isTestTemplate(templateInfo)) {
@@ -286,9 +293,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         int widgetCount = (int)processMap.get("widget_count");
         boolean isTestTemplate = false;
         if (reportType == 0) {  // 普通报表
-            isTestTemplate = cellCount <= 5 && floatCount <= 1 && widgetCount <= 5;
+            isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
         } else if (reportType == 1) {  // 聚合报表
-            isTestTemplate = blockCount <= 1 && widgetCount <= 5;
+            isTestTemplate = blockCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
         } else {  // 表单(reportType == 2)
             isTestTemplate = widgetCount <= 1;
         }
@@ -296,7 +303,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     }
 
     public static void main(String[] args) {
-//        TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
-//        tic.sendTemplateInfo();
+        TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
+        tic.sendTemplateInfo();
     }
 }

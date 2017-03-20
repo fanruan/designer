@@ -28,6 +28,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
@@ -74,6 +75,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     protected U undoState;
     protected U authorityUndoState = null;
     protected T template; // 当前模板
+    protected TemplateProcessInfo processInfo; // 模板过程的相关信息
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
@@ -122,16 +124,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         openTime = saveTime;  // 更新 openTime，准备下一次计算
     }
 
-    // 获取模板类型。0 代表普通报表，1 代表聚合报表，2 代表表单
-    public abstract int getReportType();
-    // 获取模板格子数
-    public abstract int getCellCount();
-    // 获取模板悬浮元素个数
-    public abstract int getFloatCount();
-    // 获取模板聚合块个数
-    public abstract int getBlockCount();
-    // 获取模板控件数
-    public abstract int getWidgetCount();
+    public abstract TemplateProcessInfo getProcessInfo();
 
     // 追加过程记录
     public void appendProcess(String s) {

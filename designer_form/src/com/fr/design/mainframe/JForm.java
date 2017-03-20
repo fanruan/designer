@@ -23,6 +23,8 @@ import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
+import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
@@ -89,33 +91,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return DesignState.JFORM;
     }
 
-    // 获取模板类型
-    public int getReportType() {
-        return 2;
-    }
-
-    // 获取模板格子数
-    public int getCellCount() {
-        return 0;
-    }
-    // 获取模板悬浮元素个数
-    public int getFloatCount() {
-        return 0;
-    }
-    // 获取模板聚合块个数
-    public int getBlockCount() {
-        return 0;
-    }
-    // 获取模板控件数
-    public int getWidgetCount() {
-        int widgetCount = 0;
-        for (int i = 0; i < template.getContainer().getWidgetCount(); i++) {
-            WFitLayout wf = (WFitLayout) template.getContainer().getWidget(i);
-            widgetCount += wf.getWidgetCount();
+    public TemplateProcessInfo getProcessInfo() {
+        if (processInfo == null) {
+            processInfo = new JFormProcessInfo(template);
         }
-        int a = 1;
-        int b = 2;
-        return widgetCount;
+        return processInfo;
     }
 
     @Override

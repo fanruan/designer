@@ -27,6 +27,8 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.*;
 import com.fr.design.module.DesignModuleFactory;
@@ -130,59 +132,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return centerPane;
     }
 
-    // 获取模板类型
-    public int getReportType() {
-        return template.isElementCaseBook() ? 0 : 1;
-    }
-
-    // 获取模板格子数
-    public int getCellCount() {
-        int cellCount = 0;
-        if (template.isElementCaseBook()) {  // 如果是普通报表
-            for (int i = 0; i < template.getReportCount(); i++) {
-                WorkSheet r = (WorkSheet) template.getReport(i);
-                CellCase cc = r.getBlock().getCellCase();
-                for (int j = 0; j < cc.getRowCount(); j++) {
-                    Iterator iter = cc.getRow(j);
-                    while (iter.hasNext()) {
-                        cellCount ++;
-                        iter.next();
-                    }
-                }
-            }
+    public TemplateProcessInfo getProcessInfo() {
+        if (processInfo == null) {
+            processInfo = new JWorkBookProcessInfo(template);
         }
-        return cellCount;
-    }
-    // 获取模板悬浮元素个数
-    public int getFloatCount() {
-        int chartCount = 0;
-        if (template.isElementCaseBook()) {  // 如果是普通报表
-            for (int i = 0; i < template.getReportCount(); i++) {
-                WorkSheet r = (WorkSheet) template.getReport(i);
-                Iterator fiter = r.getBlock().floatIterator();
-                while (fiter.hasNext()) {
-                    chartCount ++;
-                    fiter.next();
-                }
-            }
-        }
-        return chartCount;
-    }
-    // 获取模板聚合块个数
-    public int getBlockCount() {
-        int blockCount = 0;
-        if (!template.isElementCaseBook()) {  // 如果是聚合报表
-            for (int i = 0; i < template.getReportCount(); i++) {
-                PolyWorkSheet r = (PolyWorkSheet) template.getReport(i);
-                blockCount += r.getBlockCount();
-            }
-        }
-        return blockCount;
-    }
-    // 获取模板控件数
-    public int getWidgetCount() {
-        ParameterUI pui = template.getReportParameterAttr().getParameterUI();
-        return pui == null ? 0 : (pui.getAllWidgets().length - 1);
+        return processInfo;
     }
 
     /**

@@ -320,7 +320,7 @@ public class PluginHelper {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
         //卸载前监听
-        plugin.preUninstall();
+//        plugin.preUninstall();
         PluginLoader.getLoader().deletePlugin(plugin);
         return env.deleteFileFromPluginAndLibFolder(plugin);
     }
