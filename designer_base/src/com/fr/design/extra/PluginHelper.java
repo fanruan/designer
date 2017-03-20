@@ -7,6 +7,7 @@ import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginConfigManager;
 import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
@@ -225,6 +226,8 @@ public class PluginHelper {
         }
         // 删除放解压文件的临时文件夹
         StableUtils.deleteFile(new File(TEMP_PATH));
+        PluginConfigManager.getProviderInstance().pushNewPlugin(plugin);
+        PluginConfigManager.getProviderInstance().syncPluginConfig();
         new SwingWorker<String, Void>() {
 
             @Override
