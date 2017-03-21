@@ -45,7 +45,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
         ChartCollection cc = createChartCollection();
 		
 		chartComponent = new ChartComponent();
-		chartComponent.setPreferredSize(new Dimension(210, 170));// 在单元格弹出时 需要调整保证属性表的大小.
+		chartComponent.setPreferredSize(new Dimension(200, 170));// 在单元格弹出时 需要调整保证属性表的大小.
 		chartComponent.setSupportEdit(false);
 		chartComponent.populate(cc);
 		
