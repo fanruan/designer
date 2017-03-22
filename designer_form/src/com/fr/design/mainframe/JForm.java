@@ -4,10 +4,12 @@ import com.fr.base.BaseUtils;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
-import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.beans.actions.CopyAction;
+import com.fr.design.designer.beans.actions.CutAction;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
+import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
@@ -20,6 +22,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
+import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
@@ -264,10 +267,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
 
-    @Override
     /**
-     *焦点放到JForm
+     * 焦点放到JForm
      */
+    @Override
     public void requestFocus() {
         super.requestFocus();
         formDesign.requestFocus();
@@ -281,12 +284,12 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         formDesign.requestFocus();
     }
 
-    @Override
     /**
      * 保存文件的后缀名
      *
      * @return 返回后缀名
      */
+    @Override
     public String suffix() {
         // daniel改成三个字
         return ".frm";
@@ -319,30 +322,33 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         formDesign.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_SELECTED);
     }
 
-    @Override
+
     /**
-     *复制  f
+     * 复制
      */
+    @Override
     public void copy() {
         this.formDesign.copy();
     }
 
-    @Override
+
     /**
-     *
      * 粘贴
+     *
      * @return 是否成功
      */
+    @Override
     public boolean paste() {
         return this.formDesign.paste();
     }
 
-    @Override
+
     /**
-     *
      * 剪切
+     *
      * @return 是否成功
      */
+    @Override
     public boolean cut() {
         return this.formDesign.cut();
     }
@@ -352,36 +358,38 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     // ////////////////////////////////////////////////////////////////////
 
 
-    @Override
     /**
      * 目标菜单
      *
      * @return 菜单
      */
+    @Override
     public MenuDef[] menus4Target() {
         return this.index == FORM_TAB ?
                 (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.formDesign.menus4Target()) :
                 (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.elementCaseDesign.menus4Target());
     }
 
-    @Override
+
     /**
-     *  模板的工具
+     * 模板的工具
      *
      * @return 工具
      */
+    @Override
     public ToolBarDef[] toolbars4Target() {
         return this.index == FORM_TAB ?
                 this.formDesign.toolbars4Target() :
                 this.elementCaseDesign.toolbars4Target();
     }
 
-    @Override
+
     /**
      * 模板菜单
      *
      * @return 返回菜单
      */
+    @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
             return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
@@ -407,11 +415,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    /**
-     * undo的表单state
-     *
-     *  @return 表单State
-     */
     protected FormUndoState createUndoState() {
         FormUndoState cur = new FormUndoState(this, this.formDesign.getArea());
         if (this.formDesign.isReportBlockEditing()) {
@@ -445,17 +448,15 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     // 假如当前body是绝对布局的话就返回绝对布局body
     private XLayoutContainer selectedBodyLayout() {
         XLayoutContainer rootLayout = formDesign.getRootComponent();
-        for (int i = 0; i < rootLayout.getComponentCount(); i++){
-            if (rootLayout.getXCreator(i).acceptType(XWAbsoluteBodyLayout.class)){
-                rootLayout = (XWAbsoluteBodyLayout)rootLayout.getXCreator(i);
+        for (int i = 0; i < rootLayout.getComponentCount(); i++) {
+            if (rootLayout.getXCreator(i).acceptType(XWAbsoluteBodyLayout.class)) {
+                rootLayout = (XWAbsoluteBodyLayout) rootLayout.getXCreator(i);
             }
         }
         return rootLayout;
     }
+
     @Override
-    /**
-     * 应用undoState的表单数据
-     */
     protected void applyUndoState(FormUndoState u) {
         try {
             //JForm的target重置
@@ -487,19 +488,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    /**
-     *
-     */
     protected FormModelAdapter createDesignModel() {
         return new FormModelAdapter(this);
     }
 
     @Override
-    /**
-     * 表单的工具栏
-     *
-     * @return 表单工具栏
-     */
     public JPanel[] toolbarPanes4Form() {
         return this.index == FORM_TAB ?
                 new JPanel[]{FormParaWidgetPane.getInstance(formDesign)} :
@@ -514,10 +507,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public JComponent[] toolBarButton4Form() {
         return this.index == FORM_TAB ?
                 new JComponent[]{
-                        //自适应布局里的复制粘贴意义不大, 先屏蔽掉
-//        		new CutAction(formDesign).createToolBarComponent(), 
-//        		new CopyAction(formDesign).createToolBarComponent(), 
-//        		new PasteAction(formDesign).createToolBarComponent(),
+                        new CutAction(formDesign).createToolBarComponent(),
+                        new CopyAction(formDesign).createToolBarComponent(),
+                        new PasteAction(formDesign).createToolBarComponent(),
                         new FormDeleteAction(formDesign).createToolBarComponent()} :
                 elementCaseDesign.toolBarButton4Form();
     }

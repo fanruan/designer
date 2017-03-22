@@ -202,7 +202,7 @@ public class EditingMouseListener extends MouseInputAdapter {
             XCreator selectionXCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
             if(selectionXCreator != null){
                 selectionXCreator.setBounds(dragBackupBounds.x, dragBackupBounds.y, dragBackupBounds.width, dragBackupBounds.height);
-                MoveUtils.hideForbidWindow();
+//                MoveUtils.hideForbidWindow();
             }
         }
 		dragBackupBounds = null;

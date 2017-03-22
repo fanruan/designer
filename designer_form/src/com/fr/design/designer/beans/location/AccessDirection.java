@@ -69,7 +69,7 @@ public abstract class AccessDirection implements Direction {
 		boolean findInY = current_bounds.getHeight() <= MoveUtils.SORPTION_UNIT ? true : false;
 		WAbsoluteLayout layout =getLayout(designer);
 		FormSelection selection = designer.getSelectionModel().getSelection();
-		boolean isWidgetsIntersect = false;
+//		boolean isWidgetsIntersect = false;
 		for (int i = 0, count = layout.getWidgetCount(); i < count; i++) {
 			BoundsWidget temp = (BoundsWidget) layout.getWidget(i);
 			if (!temp.isVisible() || selection.contains(temp.getWidget())) {
@@ -105,13 +105,13 @@ public abstract class AccessDirection implements Direction {
 				break;
 			}
 
-			if (current_bounds.intersects(bounds) && !(layout instanceof WParameterLayout)){
-				isWidgetsIntersect = true;
-			}
-		}
-		processRectangleIntersects(designer, point.x, point.y, isWidgetsIntersect);
-		setDesignerStateModelProperties(designer, findInX, findInY, current_bounds, point);
-	}
+//            if (current_bounds.intersects(bounds) && !(layout instanceof WParameterLayout)) {
+//                isWidgetsIntersect = true;
+//            }
+        }
+//		processRectangleIntersects(designer, point.x, point.y, isWidgetsIntersect);
+        setDesignerStateModelProperties(designer, findInX, findInY, current_bounds, point);
+    }
 
 	private void setDesignerStateModelProperties (FormDesigner designer, boolean findInX, boolean findInY, Rectangle current_bounds, Point point) {
 		designer.getStateModel().setXAbsorptionline(findInX && current_bounds.getWidth() > MoveUtils.SORPTION_UNIT ? Absorptionline.createXAbsorptionline(point.x) : null);
@@ -131,18 +131,18 @@ public abstract class AccessDirection implements Direction {
 		return relativeRec;
 	}
 
-	private void processRectangleIntersects(FormDesigner designer, int x, int y, boolean isIntersects){
-		if(isIntersects){
-			if(designer.getLocationOnScreen() != null) {
-				MoveUtils.displayForbidWindow(x + designer.getLocationOnScreen().x, y + designer.getLocationOnScreen().y);
-			}
-			designer.setWidgetsIntersect(true);
-		}
-		else{
-			MoveUtils.hideForbidWindow();
-			designer.setWidgetsIntersect(false);
-		}
-	}
+//	private void processRectangleIntersects(FormDesigner designer, int x, int y, boolean isIntersects){
+//		if(isIntersects){
+//			if(designer.getLocationOnScreen() != null) {
+//				MoveUtils.displayForbidWindow(x + designer.getLocationOnScreen().x, y + designer.getLocationOnScreen().y);
+//			}
+//			designer.setWidgetsIntersect(true);
+//		}
+//		else{
+//			MoveUtils.hideForbidWindow();
+//			designer.setWidgetsIntersect(false);
+//		}
+//	}
 
     private WAbsoluteLayout getLayout(final FormDesigner designer){
         XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(

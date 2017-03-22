@@ -18,7 +18,7 @@ import com.fr.general.Inter;
 public class CopyAction extends TemplateComponentAction {
 	public CopyAction(TargetComponent t) {
 		super(t);
-		
+
         this.setName(Inter.getLocText("M_Edit-Copy"));
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));

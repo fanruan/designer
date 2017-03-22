@@ -155,11 +155,11 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         //只有放到JScrollPanel中去表头才能正常显示，这就是MobileWidgetTable中定义了表头却没有显示的原因！
         //解决方案：MobileWidgetTable实在无法直接放到JScrollPanel中去的时候，应该把表头get出来单独作为一个组件显示
 
-        if(hasSelectParaPane(designer)){
-            cardLayout.show(centerPane,PARA);
+        if (hasSelectParaPane(designer)) {
+            cardLayout.show(centerPane, PARA);
             header = mobileParaWidgetTable.getTableHeader();
         } else {
-            cardLayout.show(centerPane,BODY);
+            cardLayout.show(centerPane, BODY);
             header = mobileWidgetTable.getTableHeader();
         }
         downPanel = new UIScrollPane(centerPane);
@@ -200,6 +200,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
     /**
      * 判断是将拓展的tab放入属性表还是将原来的tab放入属性表
+     *
      * @param widgetAttrProviders 拓展的tab
      */
     private void addWidgetAttr(WidgetPropertyUIProvider[] widgetAttrProviders) {
@@ -219,6 +220,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
     /**
      * 如果是body的拓展属性表，那么要额外加上一张控件顺序表
+     *
      * @return
      */
     private Component getExtraBodyTable(AbstractPropertyTable abstractPropertyTable) {
@@ -243,18 +245,20 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
     }
 
-    //
+
     /**
      * 选中的组件是否在参数面板里
-     * @param designer   设计器
-     * @return     是则返回true
+     *
+     * @param designer 设计器
+     * @return 是则返回true
      */
-    public boolean hasSelectParaPane(FormDesigner designer){
+    public boolean hasSelectParaPane(FormDesigner designer) {
         XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
-        if(xCreator == null){
+        if (xCreator == null) {
             xCreator = designer.getRootComponent();
         }
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(xCreator);
+        //TODO container可能为空，引发空指针异常
         return xCreator.acceptType(XWParameterLayout.class) || container.acceptType(XWParameterLayout.class);
     }
 
@@ -334,8 +338,9 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         }
 
         /**
-         *  响应界面改变事件
-         * @param evt  事件
+         * 响应界面改变事件
+         *
+         * @param evt 事件
          */
         public void fireCreatorModified(DesignerEvent evt) {
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED
@@ -343,11 +348,11 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_ADDED) {
                 int value = downPanel.getVerticalScrollBar().getValue();
-                if(hasSelectParaPane(getEditingFormDesigner())){
-                    cardLayout.show(centerPane,PARA);
+                if (hasSelectParaPane(getEditingFormDesigner())) {
+                    cardLayout.show(centerPane, PARA);
                     mobileParaWidgetTable.refreshData();
                 } else {
-                    cardLayout.show(centerPane,BODY);
+                    cardLayout.show(centerPane, BODY);
                     mobileWidgetTable.refreshData();
                 }
                 //出现滚动条

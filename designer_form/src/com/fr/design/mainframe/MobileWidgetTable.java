@@ -251,7 +251,8 @@ public class MobileWidgetTable extends JTable {
         }
 
         //选择的控件
-        Widget selectedModel = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
+        XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+        Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;
 
         if(selectedModel == null){
             return new String[0][0];

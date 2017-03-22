@@ -279,13 +279,13 @@ public class MoveUtils {
 		}
 	}
 
-	public static void displayForbidWindow(int x, int y) {
-		widgetForbidWindow.showWindow(x, y);
-	}
+//	public static void displayForbidWindow(int x, int y) {
+//		widgetForbidWindow.showWindow(x, y);
+//	}
 
-	public static void hideForbidWindow() {
-		widgetForbidWindow.hideWindow();
-	}
+//	public static void hideForbidWindow() {
+//		widgetForbidWindow.hideWindow();
+//	}
 
 	/**
 	 * 吸附
@@ -319,24 +319,24 @@ public class MoveUtils {
 
 		java.util.List<Rectangle> cacheRecs = new ArrayList<Rectangle>();
 		//是否存在控件重叠
-		boolean isWidgetsIntersects = false;
+//		boolean isWidgetsIntersects = false;
 		while (iterator.hasNext()) {
 			Rectangle bounds = iterator.nextRectangle();
 			cacheRecs.add(bounds);
-			boolean isIntersects = operatingRectangle.intersects(bounds);
+//			boolean isIntersects = operatingRectangle.intersects(bounds);
 			findX(px, bounds, left, right, width);
 			findY(py, bounds, top, bottom, height);
 
 			if(!isParameterLayout){
-				if(isIntersects) {
-					isWidgetsIntersects = true;
-				}
-				else{
+//				if(isIntersects) {
+//					isWidgetsIntersects = true;
+//				}
+//				else{
 					findEquidistantLine(bounds, left, top, height, width);
-				}
+//				}
 			}
 		}
-		showForbiddenWindow(designer, x, y, isWidgetsIntersects);
+		//showForbiddenWindow(designer, x, y, isWidgetsIntersects);
 
 		createXAbsorptionline(px, designer, width, cacheRecs);
 		createYAbsorptionline(py, designer, height, cacheRecs);
@@ -353,18 +353,18 @@ public class MoveUtils {
 		return sorptionPoint;
 	}
 
-	public static void showForbiddenWindow(RectangleDesigner designer, int x, int y, boolean isIntersects){
-		if (isIntersects){
-			if(designer.getDesignerLocationOnScreen() != null) {
-				displayForbidWindow(x + designer.getDesignerLocationOnScreen().x, y + designer.getDesignerLocationOnScreen().y);
-			}
-			designer.setWidgetsIntersected(true);
-		}
-		else{
-			designer.setWidgetsIntersected(false);
-			hideForbidWindow();
-		}
-	}
+//	public static void showForbiddenWindow(RectangleDesigner designer, int x, int y, boolean isIntersects){
+//		if (isIntersects){
+//			if(designer.getDesignerLocationOnScreen() != null) {
+//				displayForbidWindow(x + designer.getDesignerLocationOnScreen().x, y + designer.getDesignerLocationOnScreen().y);
+//			}
+//			designer.setWidgetsIntersected(true);
+//		}
+//		else{
+//			designer.setWidgetsIntersected(false);
+//			hideForbidWindow();
+//		}
+//	}
 
 	private static void createXAbsorptionline(PlacePointing px, RectangleDesigner designer, int width, java.util.List<Rectangle> cacheRecs) {
 		Absorptionline line = null;
