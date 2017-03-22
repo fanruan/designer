@@ -147,7 +147,8 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         designer.addDesignerEditListener(new mobileWidgetDesignerAdapter());
         centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         cardLayout = (CardLayout) centerPane.getLayout();
-        centerPane.add(mobileParaWidgetTable, PARA);// 采用卡片布局的容器必须指定卡片名字，如果没有卡片名字
+        centerPane.add(mobileParaWidgetTable, PARA);
+        // 采用卡片布局的容器必须指定卡片名字，如果没有卡片名字
         // 就会出现：Exception in thread "main" java.lang.IllegalArgumentException:
         // cannot add to layout: constraint must be a string
         // 第二个参数代表卡片的名字。后来show方法调用时通过名字找到要显示的卡片

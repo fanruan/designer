@@ -7,14 +7,12 @@ import java.util.List;
 
 import com.fr.base.FRContext;
 import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
+import com.fr.design.designer.creator.*;
 import com.fr.form.ui.container.WLayout;
+import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.form.ui.Widget;
 
 public class FormSelectionUtils {
@@ -44,7 +42,7 @@ public class FormSelectionUtils {
             Rectangle rec = clipBoard.getSelctionBounds();
             for (XCreator creator : clipBoard.getSelectedCreators()) {
                 try {
-                    Widget copied = copyWidget(designer, creator.toData());
+                    Widget copied = copyWidget(designer, creator);
                     XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
                     // 获取位置
                     Point point = getPasteLocation((AbstractLayoutAdapter) adapter,
@@ -121,17 +119,23 @@ public class FormSelectionUtils {
     }
 
 
-    private static Widget copyWidget(FormDesigner formDesigner, Widget widget) throws
+    private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
             CloneNotSupportedException {
         ArrayList<String> clonedNameList = new ArrayList<String>();
-        Widget copied = (Widget) widget.clone();
+        Widget copied = (Widget) xCreator.toData().clone();
         //重命名拷贝的组件
-        setCopiedName(formDesigner, copied, clonedNameList);
-        if (copied instanceof WLayout) {
-            for (int i = 0; i < ((WLayout) copied).getWidgetCount(); i++) {
-                setCopiedName(formDesigner, ((WLayout) copied).getWidget(i), clonedNameList);
-            }
+        String name = getCopiedName(formDesigner, copied, clonedNameList);
+        if (copied instanceof WTitleLayout) {
+            XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) copied, xCreator.getSize());
+            xwTitleLayout.resetCreatorName(name);
+        } else {
+            copied.setWidgetName(name);
         }
+//        if (copied instanceof WLayout) {
+//            for (int i = 0; i < ((WLayout) copied).getWidgetCount(); i++) {
+//                setCopiedName(formDesigner, ((WLayout) copied).getWidget(i), clonedNameList);
+//            }
+//        }
         return copied;
     }
 
@@ -141,14 +145,15 @@ public class FormSelectionUtils {
      * @param formDesigner
      * @param copied
      * @param clonedNameList
+     * @return name
      */
-    private static void setCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> clonedNameList) {
+    private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> clonedNameList) {
         String name = copied.getWidgetName();
         do {
             name += postfix;
         } while (formDesigner.getTarget().isNameExist(name) || clonedNameList.contains(name));
-        copied.setWidgetName(name);
         clonedNameList.add(name);
+        return name;
     }
 
     public static void rebuildSelection(FormDesigner designer) {
