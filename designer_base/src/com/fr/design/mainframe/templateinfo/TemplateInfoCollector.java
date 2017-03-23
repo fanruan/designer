@@ -113,7 +113,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            System.out.println("写入：" + instance.templateInfoList);
+            FRLogger.getLogger().info("writing: " + instance.templateInfoList);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
