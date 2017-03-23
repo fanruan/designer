@@ -121,10 +121,10 @@ public class FormSelectionUtils {
 
     private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
             CloneNotSupportedException {
-        ArrayList<String> clonedNameList = new ArrayList<String>();
+        ArrayList<String> nameSpace = new ArrayList<String>();
         Widget copied = (Widget) xCreator.toData().clone();
         //重命名拷贝的组件
-        String name = getCopiedName(formDesigner, copied, clonedNameList);
+        String name = getCopiedName(formDesigner, copied, nameSpace);
         if (copied instanceof WTitleLayout) {
             XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) copied, xCreator.getSize());
             xwTitleLayout.resetCreatorName(name);
@@ -144,15 +144,15 @@ public class FormSelectionUtils {
      *
      * @param formDesigner
      * @param copied
-     * @param clonedNameList
+     * @param nameSpace
      * @return name
      */
-    private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> clonedNameList) {
+    private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> nameSpace) {
         String name = copied.getWidgetName();
         do {
             name += postfix;
-        } while (formDesigner.getTarget().isNameExist(name) || clonedNameList.contains(name));
-        clonedNameList.add(name);
+        } while (formDesigner.getTarget().isNameExist(name) || nameSpace.contains(name));
+        nameSpace.add(name);
         return name;
     }
 

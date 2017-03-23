@@ -62,7 +62,7 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
     public void resetCreatorName(String name) {
         super.resetCreatorName(name);
         XCreator child = getXCreator(XWScaleLayout.INDEX);
-        //TODO 这里是怎么实现改名的
+        //实现WTitleLayout的SetWidgetName
         child.toData().setWidgetName(name);
     }
 
