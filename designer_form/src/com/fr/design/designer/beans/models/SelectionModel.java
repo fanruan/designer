@@ -113,12 +113,22 @@ public class SelectionModel {
             XLayoutContainer parent = null;
             if (!hasSelectionComponent()) {
                 if (designer.getClass().equals(FormDesigner.class)) {
-                    //编辑器外面还有两层容器，使用designer.getRootComponent()获取到的是编辑器中层的容器，不是编辑器表层
-                    //当前选择的就是编辑器表层
-                    FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
-                            CLIP_BOARD,
-                            DELTA_X_Y,
-                            DELTA_X_Y);
+
+                    if (selection.getSelectedCreator() instanceof XWFitLayout) {
+                        //相对布局
+                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                                CLIP_BOARD,
+                                DELTA_X_Y,
+                                DELTA_X_Y);
+                    } else {
+                        //绝对布局
+                        //编辑器外面还有两层容器，使用designer.getRootComponent()获取到的是编辑器中层的容器，不是编辑器表层
+                        //当前选择的就是编辑器表层
+                        FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
+                                CLIP_BOARD,
+                                DELTA_X_Y,
+                                DELTA_X_Y);
+                    }
                 } else {
                     //cpt本地组件复用，编辑器就一层，是最底层，使用designer.getRootComponent()就可以获取到
                     //使用selection.getSelectedCreator()也应该是可以获取到的。
@@ -130,9 +140,19 @@ public class SelectionModel {
             } else {
                 //获取到编辑器的表层容器（已选的组件的父容器就是表层容器）
                 parent = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
-                if (parent != null) {
-                    Rectangle rec = selection.getSelctionBounds();
-                    FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
+                if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
+                    //相对布局
+                    if (parent != null) {
+                        Rectangle rec = selection.getSelctionBounds();
+                        FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + rec.width / 2, rec.y +
+                                rec.height - 2);
+                    }
+                } else if (selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
+                    //绝对布局
+                    if (parent != null) {
+                        Rectangle rec = selection.getSelctionBounds();
+                        FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
+                    }
                 }
             }
         } else {
@@ -235,11 +255,21 @@ public class SelectionModel {
      */
     public boolean hasSelectionComponent() {
         if (designer.getClass().equals(FormDesigner.class)) {
-            //frm组件复用选择
-            return selection.getSelectedCreator() != null && !(selection.getSelectedCreator().getParent() instanceof
-                    XWFitLayout);
+            //frm本地组件复用
+            if (selection.getSelectedCreator() == null) {
+                return false;
+            } else if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
+                // 相对布局
+                // 已选：selection.getSelectedCreator().getParent() instanceof @XWFitLayout
+                // 未选：selection.getSelectedCreator() instanceof @XWFitLayout
+                return !(selection.getSelectedCreator() instanceof XWAbsoluteLayout);
+            } else {
+                //绝对布局
+                //已选：selection.getSelectedCreator().getParent() instanceof @XWAbsoluteLayout
+                return selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout;
+            }
         } else {
-            //cpt本地组件复用
+            //cpt本地组件复用,selection.getSelectedCreator().getParent()=@XWParameterLayout instanceof @XWAbsoluteLayout
             return selection.getSelectedCreator() != null && selection.getSelectedCreator().getParent() != null;
         }
     }

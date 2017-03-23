@@ -34,10 +34,11 @@ public class FormSelectionUtils {
      * @param x         x
      * @param y         y
      */
-    public static void paste2Container(FormDesigner designer, XLayoutContainer parent, FormSelection clipBoard, int x,
-                                       int y) {
+    public static void paste2Container(FormDesigner designer, XLayoutContainer parent,
+                                       FormSelection clipBoard, int x, int y) {
         LayoutAdapter adapter = parent.getLayoutAdapter();
         if (parent instanceof XWAbsoluteLayout) {
+            //绝对布局
             designer.getSelectionModel().getSelection().reset();
             Rectangle rec = clipBoard.getSelctionBounds();
             for (XCreator creator : clipBoard.getSelectedCreators()) {
@@ -50,6 +51,29 @@ public class FormSelectionUtils {
                             x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
                             y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
                     boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
+
+                    if (addSuccess) {
+                        designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
+                    }
+
+                } catch (CloneNotSupportedException e) {
+                    FRContext.getLogger().error(e.getMessage(), e);
+                }
+            }
+            rebuildSelection(designer);
+            designer.getEditListenerTable().fireCreatorModified(
+                    designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
+            return;
+        } else if (parent instanceof XWFitLayout) {
+            //相对布局
+            designer.getSelectionModel().getSelection().reset();
+            Rectangle rec = clipBoard.getSelctionBounds();
+            for (XCreator creator : clipBoard.getSelectedCreators()) {
+                try {
+                    Widget copied = copyWidget(designer, creator);
+                    XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                    // TODO 获取位置
+                    boolean addSuccess = adapter.addBean(copiedCreator, x, y);
 
                     if (addSuccess) {
                         designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
