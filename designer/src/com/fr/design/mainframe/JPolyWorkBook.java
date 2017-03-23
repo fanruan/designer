@@ -24,7 +24,6 @@ public class JPolyWorkBook extends JWorkBook {
         super(new WorkBook(new PolyWorkSheet()), DEFAULT_NAME);
         populateReportParameterAttr();
 	}
-	
     
     /**
 	 * 创建sheet名称tab面板
