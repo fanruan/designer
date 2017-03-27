@@ -151,10 +151,11 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { LayoutConstants.CHART_ATTR_TOMARGIN,p,f};
-		double[] rowSize = { p, p,};
+		double[] rowSize = { p, p, p};
 		Component[][] component = new Component[][]{
 				new Component[]{null,initMinMaxValue(),null},
-				new Component[]{null, addLogarithmicPane2ValuePane(), addLogText()},
+				new Component[]{null, addLogarithmicPane2ValuePane(), null},
+				new Component[]{null, null, addLogText()},
 		};
 		return TableLayoutHelper.createTableLayoutPane(component, rowSize, columnSize);
 	}
@@ -173,10 +174,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         JPanel labelLogPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         labelLogPane.add(logBox = new UICheckBox(Inter.getLocText("Logarithmic")+":"));
         labelLogPane.add(new UILabel(Inter.getLocText("Chart_Log_Base")));
-        
+
         logBaseField = new UITextField(4);
         logBaseField.setText("10");
-        logBaseField.setPreferredSize(new Dimension(20, 20));
+        logBaseField.setPreferredSize(new Dimension(55, 20));
 
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -185,7 +186,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         });
 
         ChartSwingUtils.addListener(logBox, logBaseField);
-        
+
         return labelLogPane;
     }
 	

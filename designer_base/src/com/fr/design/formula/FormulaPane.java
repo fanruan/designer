@@ -22,6 +22,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Expression;
@@ -38,12 +39,14 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Locale;
 import java.util.Set;
+
 /**
  * 公式编辑面板
+ *
  * @editor zhou
  * @since 2012-3-29下午1:50:53
  */
-public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
+public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     protected VariableTreeAndDescriptionArea variableTreeAndDescriptionArea;
     protected RSyntaxTextArea formulaTextArea;
@@ -62,17 +65,17 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
     public FormulaPane() {
         initComponents();
     }
-    
-    private void initFormulaTextAreaKeyListener(){
-    	formulaTextArea.addKeyListener(this);
-    	formulaTextArea.addKeyListener(new KeyAdapter() {
+
+    private void initFormulaTextAreaKeyListener() {
+        formulaTextArea.addKeyListener(this);
+        formulaTextArea.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 formulaTextArea.setForeground(Color.black);
                 String text = formulaTextArea.getText();
                 // 判断在中文输入状态是否还包含提示符 要删掉
                 //Tips:You_Can_Input_B1_To_Input_The_Data_Of_The_First_Row_Second_Column
                 String tip = "\n\n\n" + Inter.getLocText("FR-Designer_FormulaPane_Tips");
-                if(text.contains(tip)) {
+                if (text.contains(tip)) {
                     text = text.substring(0, text.indexOf(tip));
                     insertPosition = 0;
                     formulaTextArea.setText(text);
@@ -80,9 +83,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             }
         });
     }
-    
-    private void initFormulaTextAreaMouseListener(){
-    	formulaTextArea.addMouseListener(new MouseAdapter() {
+
+    private void initFormulaTextAreaMouseListener() {
+        formulaTextArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 insertPosition = formulaTextArea.getCaretPosition();
@@ -106,22 +109,24 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             }
         });
     }
-    
-    private void initFormulaTextArea(){
-    	formulaTextArea = new RSyntaxTextArea();
+
+    private void initFormulaTextArea() {
+        formulaTextArea = new RSyntaxTextArea();
         configFormulaArea();
         initFormulaTextAreaKeyListener();
         initFormulaTextAreaMouseListener();
     }
-    
-    private void initKeyWordTextFieldKeyListener(){
-    	keyWordTextField.addKeyListener(new KeyListener() {
+
+    private void initKeyWordTextFieldKeyListener() {
+        keyWordTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -133,9 +138,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             }
         });
     }
-    
-    private void initTipsPane(){
-    	// tipsPane
+
+    private void initTipsPane() {
+        // tipsPane
         JPanel tipsPane = new JPanel(new BorderLayout(4, 4));
         this.add(tipsPane, BorderLayout.EAST);
 
@@ -161,7 +166,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             }
         });
     }
-    
+
     protected void initComponents() {
         this.setLayout(new BorderLayout(4, 4));
         // text
@@ -172,7 +177,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 + "                         ");
         formulaLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         initFormulaTextArea();
-        
+
         UIScrollPane formulaTextAreaScrollPane = new UIScrollPane(formulaTextArea);
         formulaTextAreaScrollPane.setBorder(null);
         textPane.add(formulaLabel, BorderLayout.NORTH);
@@ -259,6 +264,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             this.formulaTextArea.setText(StringUtils.EMPTY);
         }
     }
+
     //hugh:为啥会是10呢？搞不懂~~~
     private static final int KEY_10 = 10;
     //上下左右
@@ -266,6 +272,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
     private static final int KEY_38 = 38;
     private static final int KEY_39 = 39;
     private static final int KEY_40 = 40;
+
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
@@ -452,10 +459,10 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
         formulaTextArea.requestFocus();
         insertPosition = formulaTextArea.getCaretPosition();
     }
-    
+
     @Override
     protected String title4PopupWindow() {
-    	return Inter.getLocText("FormulaD-Formula_Definition");
+        return Inter.getLocText("FormulaD-Formula_Definition");
     }
 
     /**
@@ -561,9 +568,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
         public VariableTreeAndDescriptionArea() {
             this.initComponents();
         }
-        
-        private void initFunctionTypeList(JPanel functionPane){
-        	functionTypeList = new QuickList(functionTypeListModel);
+
+        private void initFunctionTypeList(JPanel functionPane) {
+            functionTypeList = new QuickList(functionTypeListModel);
             UIScrollPane functionTypeScrollPane = new UIScrollPane(functionTypeList);
             functionTypeScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
             functionTypeScrollPane.setPreferredSize(new Dimension(140, 200));
@@ -572,23 +579,23 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             initGroupTypeModel();
             initTypeListSelectionListener();
         }
-        
-        private void initTypeListCellRenderer(){
-        	functionTypeList.setCellRenderer(
-        		new DefaultListCellRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value instanceof FunctionGroup) {
-                        this.setText(((FunctionGroup) value).getGroupName());
-                    }
-                    return this;
-                }
-            });
+
+        private void initTypeListCellRenderer() {
+            functionTypeList.setCellRenderer(
+                    new DefaultListCellRenderer() {
+                        @Override
+                        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                            if (value instanceof FunctionGroup) {
+                                this.setText(((FunctionGroup) value).getGroupName());
+                            }
+                            return this;
+                        }
+                    });
         }
-        
-        private void initTypeListSelectionListener(){
-        	functionTypeList.addListSelectionListener(new ListSelectionListener() {
+
+        private void initTypeListSelectionListener() {
+            functionTypeList.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent evt) {
                     Object selectedValue = ((JList) evt.getSource()).getSelectedValue();
                     if (!(selectedValue instanceof FunctionGroup)) {
@@ -607,22 +614,22 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 }
             });
         }
-        
-        private void initGroupTypeModel(){
-        	 functionTypeListModel.addElement(FunctionConstants.COMMON);
-             for (int i = 0; i < FunctionConstants.EMBFUNCTIONS.length; i++) {
-                 functionTypeListModel.addElement(FunctionConstants.EMBFUNCTIONS[i]);
-             }
-             functionTypeListModel.addElement(FunctionConstants.ALL);
-             functionTypeListModel.addElement(FunctionConstants.CUSTOM);
-             functionTypeListModel.addElement(FunctionConstants.PLUGIN);
-             
-             //hugh: 从函数分组插件中添加分组
-             FunctionConstants.addFunctionGroupFromPlugins(functionTypeListModel);
+
+        private void initGroupTypeModel() {
+            functionTypeListModel.addElement(FunctionConstants.COMMON);
+            for (int i = 0; i < FunctionConstants.EMBFUNCTIONS.length; i++) {
+                functionTypeListModel.addElement(FunctionConstants.EMBFUNCTIONS[i]);
+            }
+            functionTypeListModel.addElement(FunctionConstants.ALL);
+            functionTypeListModel.addElement(FunctionConstants.CUSTOM);
+            functionTypeListModel.addElement(FunctionConstants.PLUGIN);
+
+            //hugh: 从函数分组插件中添加分组
+            FunctionConstants.addFunctionGroupFromPlugins(functionTypeListModel);
         }
-        
-        private void initFunctionNameListCellRenderer(){
-        	functionNameList.setCellRenderer(new DefaultListCellRenderer() {
+
+        private void initFunctionNameListCellRenderer() {
+            functionNameList.setCellRenderer(new DefaultListCellRenderer() {
 
                 @Override
                 public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -633,10 +640,10 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                     return this;
                 }
             });
-        } 
-        
-        private void initFunctionNameListSelectionListener(){
-        	functionNameList.addListSelectionListener(new ListSelectionListener() {
+        }
+
+        private void initFunctionNameListSelectionListener() {
+            functionNameList.addListSelectionListener(new ListSelectionListener() {
 
                 public void valueChanged(ListSelectionEvent evt) {
                     Object selectedValue = functionNameList.getSelectedValue();
@@ -651,9 +658,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 }
             });
         }
-        
-        private void initFunctionNameListMouseListener(){
-        	functionNameList.addMouseListener(new MouseAdapter() {
+
+        private void initFunctionNameListMouseListener() {
+            functionNameList.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     if (evt.getClickCount() >= 2) {
                         Object selectedValue = functionNameList.getSelectedValue();
@@ -675,9 +682,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 }
             });
         }
-        
-        private void initFunctionNameList(JPanel functionPane){
-        	functionNameList = new JList(new DefaultListModel());
+
+        private void initFunctionNameList(JPanel functionPane) {
+            functionNameList = new JList(new DefaultListModel());
             UIScrollPane functionNameScrollPane = new UIScrollPane(functionNameList);
             functionNameScrollPane.setPreferredSize(new Dimension(140, 200));
             functionPane.add(
@@ -688,9 +695,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             initFunctionNameListSelectionListener();
             initFunctionNameListMouseListener();
         }
-        
-        private void initDescriptionTextArea(){
-        	// Description
+
+        private void initDescriptionTextArea() {
+            // Description
             descriptionTextArea = new UITextArea(16, 27);
 
             UIScrollPane desScrollPane = new UIScrollPane(descriptionTextArea);
@@ -710,16 +717,16 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             });
 
         }
-        
-        private StringBuilder getText(TextUserObject selectedValue,String path) throws IOException{
-    		Reader desReader;
-    		StringBuilder desBuf = new StringBuilder();
-    		InputStream desInputStream = BaseUtils.readResource(path+ ((TextUserObject) selectedValue).displayText+".txt");
+
+        private StringBuilder getText(TextUserObject selectedValue, String path) throws IOException {
+            Reader desReader;
+            StringBuilder desBuf = new StringBuilder();
+            InputStream desInputStream = BaseUtils.readResource(path + ((TextUserObject) selectedValue).displayText + ".txt");
             if (desInputStream == null) {
                 String description = "";
                 desReader = new StringReader(description);
             } else {
-                desReader = new InputStreamReader(desInputStream);
+                desReader = new InputStreamReader(desInputStream, EncodeConstants.ENCODING_UTF_8);
             }
             BufferedReader reader = new BufferedReader(desReader);
             String lineText;
@@ -732,12 +739,12 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             reader.close();
             desReader.close();
             return desBuf;
-    	}
-        
-        private void initVariablesTreeSelectionListener(){
-        	variablesTree.addTreeSelectionListener(new TreeSelectionListener() {
-            	public void valueChanged(TreeSelectionEvent e) {
-            		Object selectedValue = ((DefaultMutableTreeNode) variablesTree.getLastSelectedPathComponent()).getUserObject();
+        }
+
+        private void initVariablesTreeSelectionListener() {
+            variablesTree.addTreeSelectionListener(new TreeSelectionListener() {
+                public void valueChanged(TreeSelectionEvent e) {
+                    Object selectedValue = ((DefaultMutableTreeNode) variablesTree.getLastSelectedPathComponent()).getUserObject();
                     if (selectedValue == null) {
                         return;
                     }
@@ -751,7 +758,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                             path = "/com/fr/design/insert/formula/variable/en/";
                         }
                         if (selectedValue instanceof TextUserObject) {
-                        	desBuf = getText((TextUserObject)selectedValue,path);
+                            desBuf = getText((TextUserObject) selectedValue, path);
                         }
                     } catch (IOException exp) {
                         FRContext.getLogger().error(exp.getMessage(), exp);
@@ -761,9 +768,9 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 }
             });
         }
-        
-        private void initVariablesTree(){
-        	 // vairable.
+
+        private void initVariablesTree() {
+            // vairable.
             variablesTree = new JTree();
             UIScrollPane variablesTreePane = new UIScrollPane(variablesTree);
             variablesTreePane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
@@ -773,12 +780,12 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
             variablesTree.setShowsRootHandles(true);
             variablesTree.addMouseListener(applyTextMouseListener);
             variablesTree.setCellRenderer(applyTreeCellRenderer);
-            
+
             initDescriptionTextArea();
-            
+
             initVariablesTreeSelectionListener();
         }
-        
+
         private void initComponents() {
             this.setLayout(new BorderLayout(4, 4));
             // Function
@@ -810,10 +817,10 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
 
         private void showPopupPane() {
             BasicPane basicPane = new BasicPane() {
-            	@Override
-            	protected String title4PopupWindow() {
-            		return Inter.getLocText("FR-Designer_FormulaPane_Function_Detail");
-            	}
+                @Override
+                protected String title4PopupWindow() {
+                    return Inter.getLocText("FR-Designer_FormulaPane_Function_Detail");
+                }
             };
             basicPane.setLayout(FRGUIPaneFactory.createBorderLayout());
             UITextArea desArea = new UITextArea();
@@ -889,7 +896,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 return this;
             }
         };
-        
+
         public void populate(VariableResolver variableResolver) {
             // varibale tree.
             DefaultTreeModel variableModel = (DefaultTreeModel) variablesTree.getModel();
@@ -902,28 +909,28 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula{
                 DefaultMutableTreeNode bindCellNode = new DefaultMutableTreeNode(new TextUserObject("$$$"));
                 rootNode.add(bindCellNode);
             }
-            
+
             rootNode.add(new TextFolderUserObject(Inter.getLocText("FormulaD-Data_Fields"),
-            		BaseUtils.readIcon("/com/fr/design/images/dialog/table.png"),
+                    BaseUtils.readIcon("/com/fr/design/images/dialog/table.png"),
                     variableResolver.resolveColumnNames()).createMutableTreeNode());
-            
+
             // Set cutReport Variable
             rootNode.add(new TextFolderUserObject(Inter.getLocText("FR-Designer_FormulaPane_Variables"),
-            		BaseUtils.readIcon("/com/fr/design/images/dialog/variable.png"),
-            		variableResolver.resolveCurReportVariables()).createMutableTreeNode());
-            
+                    BaseUtils.readIcon("/com/fr/design/images/dialog/variable.png"),
+                    variableResolver.resolveCurReportVariables()).createMutableTreeNode());
+
             rootNode.add(new TextFolderUserObject(Inter.getLocText(new String[]{"Datasource-Datasource", "Parameter"}),
-            		BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
-            		variableResolver.resolveTableDataParameterVariables()).createMutableTreeNode());
-            
+                    BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
+                    variableResolver.resolveTableDataParameterVariables()).createMutableTreeNode());
+
             rootNode.add(new TextFolderUserObject(Inter.getLocText("ParameterD-Report_Parameter"),
-            		BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"),
-            		variableResolver.resolveReportParameterVariables()).createMutableTreeNode());
-            
+                    BaseUtils.readIcon("/com/fr/design/images/m_report/p.gif"),
+                    variableResolver.resolveReportParameterVariables()).createMutableTreeNode());
+
             rootNode.add(new TextFolderUserObject(Inter.getLocText("M_Server-Global_Parameters"),
                     BaseUtils.readIcon("/com/fr/design/images/dialog/parameter.gif"),
                     variableResolver.resolveGlobalParameterVariables()).createMutableTreeNode());
-            
+
             variableModel.reload();
             // Expand
             for (int row = 0; row < this.variablesTree.getRowCount(); row++) {

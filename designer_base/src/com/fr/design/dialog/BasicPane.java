@@ -251,6 +251,30 @@ public abstract class BasicPane extends JPanel {
         return dg;
     }
 
+    /**
+     * 显示窗口
+     *
+     * @param window 窗口
+     * @param l      对话框监听器
+     * @return 对话框
+     */
+    public BasicDialog showToolBarWindow(Window window, DialogActionListener l) {
+        BasicDialog dg;
+        if (window instanceof Frame) {
+            dg = new DIALOG((Frame) window);
+        } else {
+            dg = new DIALOG((Dialog) window);
+        }
+
+        if (l != null) {
+            dg.addDialogActionListener(l);
+        }
+        dg.setBasicDialogSize(BasicDialog.TOOLBAR_SIZE);
+        GUICoreUtils.centerWindow(dg);
+        dg.setResizable(false);
+        return dg;
+    }
+
     protected abstract String title4PopupWindow();
 
     public String getTitle() {
