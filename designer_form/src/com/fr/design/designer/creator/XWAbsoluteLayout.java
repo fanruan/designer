@@ -8,6 +8,7 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fr.design.designer.beans.AdapterBus;
@@ -16,6 +17,7 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.*;
@@ -153,6 +155,14 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		}
 		if (xCreator.acceptType(XWAbsoluteLayout.class)){
 			((XWAbsoluteLayout) xCreator).updateBoundsWidget();
+		}
+		// 如果子组件时tab布局，则tab布局内部的组件的wiget也要更新，否则保存后重新打开大小不对
+		ArrayList<?> childrenList = xCreator.getTargetChildrenList();
+		if(!childrenList.isEmpty()){
+			for(int i=0; i<childrenList.size(); i++){
+				XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList.get(i);
+				tabLayout.updateBoundsWidget();
+			}
 		}
 		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
 		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
