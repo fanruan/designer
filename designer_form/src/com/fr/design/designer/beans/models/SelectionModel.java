@@ -123,7 +123,6 @@ public class SelectionModel {
                         if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
                             Rectangle rec = selection.getRelativeBounds();
                             //Tab布局
-                            System.out.println("ADD: " + (rec.x + rec.width / 2) + "\t" + (rec.y + BORDER_PROPORTION));
                             FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
                                     CLIP_BOARD,
                                     rec.x + rec.width / 2,

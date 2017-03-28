@@ -1,19 +1,18 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.FRContext;
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
+import com.fr.design.designer.beans.events.DesignerEvent;
+import com.fr.design.designer.creator.*;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WTitleLayout;
+import com.fr.general.ComparatorUtils;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.fr.base.FRContext;
-import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
-import com.fr.design.designer.creator.*;
-import com.fr.form.ui.container.WLayout;
-import com.fr.form.ui.container.WTitleLayout;
-import com.fr.general.ComparatorUtils;
-import com.fr.design.designer.beans.LayoutAdapter;
-import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.form.ui.Widget;
 
 public class FormSelectionUtils {
 
@@ -22,10 +21,14 @@ public class FormSelectionUtils {
     private static final int DELAY_Y = 20;
 
     //组件复制时是否已经向左上偏移
-    private static boolean BACK_OFFSET = false;
+    private static boolean backoffset = false;
 
     //组件重命名后缀
-    private static final String postfix = "_c";
+    private static final String POSTFIX = "_c";
+
+    private FormSelectionUtils() {
+
+    }
 
     /**
      * @param designer  编辑器
@@ -67,12 +70,10 @@ public class FormSelectionUtils {
         } else if (parent instanceof XWFitLayout) {
             //相对布局
             designer.getSelectionModel().getSelection().reset();
-            Rectangle rec = clipBoard.getSelctionBounds();
             for (XCreator creator : clipBoard.getSelectedCreators()) {
                 try {
                     Widget copied = copyWidget(designer, creator);
                     XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                    // TODO 获取位置
                     boolean addSuccess = adapter.addBean(copiedCreator, x, y);
 
                     if (addSuccess) {
@@ -104,14 +105,14 @@ public class FormSelectionUtils {
      */
     private static Point getPasteLocation(AbstractLayoutAdapter layoutAdapter, XCreator copiedCreator, int x, int y) {
         //当宽度为奇数时 设置偏移
-        int x_offset = (copiedCreator.getWidth() & 1) == 1 ? 1 : 0;
+        int xoffset = (copiedCreator.getWidth() & 1) == 1 ? 1 : 0;
         //当高度为奇数时 设置偏移
-        int y_offset = (copiedCreator.getHeight() & 1) == 1 ? 1 : 0;
+        int yoffset = (copiedCreator.getHeight() & 1) == 1 ? 1 : 0;
 
         if (!layoutAdapter.accept(copiedCreator, x, y)) {
             XLayoutContainer container = layoutAdapter.getContainer();
-            boolean xOut = x < 0 || x + copiedCreator.getWidth() / 2 + x_offset > container.getWidth();
-            boolean yOut = y < 0 || y + copiedCreator.getHeight() / 2 + y_offset > container.getHeight();
+            boolean xOut = x < 0 || x + copiedCreator.getWidth() / 2 + xoffset > container.getWidth();
+            boolean yOut = y < 0 || y + copiedCreator.getHeight() / 2 + yoffset > container.getHeight();
             /*
              * 组件原始位置位于布局的右下角，
              * 和布局右下边界线紧挨，
@@ -119,12 +120,12 @@ public class FormSelectionUtils {
              * x,y同时越界
              */
             if (xOut && yOut) {
-                x = BACK_OFFSET ? container.getWidth() - copiedCreator.getWidth() / 2 - x_offset
-                        : container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X - x_offset;
-                y = BACK_OFFSET ?
-                        container.getHeight() - copiedCreator.getHeight() / 2 - y_offset
-                        : container.getHeight() - copiedCreator.getHeight() / 2 - DELAY_Y - y_offset;
-                BACK_OFFSET = !BACK_OFFSET;
+                x = backoffset ? container.getWidth() - copiedCreator.getWidth() / 2 - xoffset
+                        : container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X - xoffset;
+                y = backoffset ?
+                        container.getHeight() - copiedCreator.getHeight() / 2 - yoffset
+                        : container.getHeight() - copiedCreator.getHeight() / 2 - DELAY_Y - yoffset;
+                backoffset = !backoffset;
                 return new Point(x, y);
             }
             /*
@@ -134,8 +135,8 @@ public class FormSelectionUtils {
             * x,y中只有一个越界
             */
             else if ((xOut || yOut)) {
-                x = xOut ? container.getWidth() - copiedCreator.getWidth() / 2 - x_offset : x;
-                y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - y_offset : y;
+                x = xOut ? container.getWidth() - copiedCreator.getWidth() / 2 - xoffset : x;
+                y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - yoffset : y;
                 return new Point(x, y);
             }
         }
@@ -143,6 +144,14 @@ public class FormSelectionUtils {
     }
 
 
+    /**
+     * 拷贝组件
+     *
+     * @param formDesigner
+     * @param xCreator
+     * @return
+     * @throws CloneNotSupportedException
+     */
     private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
             CloneNotSupportedException {
         ArrayList<String> nameSpace = new ArrayList<String>();
@@ -155,11 +164,6 @@ public class FormSelectionUtils {
         } else {
             copied.setWidgetName(name);
         }
-//        if (copied instanceof WLayout) {
-//            for (int i = 0; i < ((WLayout) copied).getWidgetCount(); i++) {
-//                setCopiedName(formDesigner, ((WLayout) copied).getWidget(i), clonedNameList);
-//            }
-//        }
         return copied;
     }
 
@@ -172,12 +176,12 @@ public class FormSelectionUtils {
      * @return name
      */
     private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> nameSpace) {
-        String name = copied.getWidgetName();
+        StringBuffer name = new StringBuffer(copied.getWidgetName());
         do {
-            name += postfix;
-        } while (formDesigner.getTarget().isNameExist(name) || nameSpace.contains(name));
-        nameSpace.add(name);
-        return name;
+            name.append(POSTFIX);
+        } while (formDesigner.getTarget().isNameExist(name.toString()) || nameSpace.contains(name.toString()));
+        nameSpace.add(name.toString());
+        return name.toString();
     }
 
     public static void rebuildSelection(FormDesigner designer) {
