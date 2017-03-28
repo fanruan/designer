@@ -26,6 +26,8 @@ import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
+import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
@@ -41,6 +43,7 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -89,6 +92,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public int getMenuState() {
 
         return DesignState.JFORM;
+    }
+
+    public TemplateProcessInfo getProcessInfo() {
+        if (processInfo == null) {
+            processInfo = new JFormProcessInfo(template);
+        }
+        return processInfo;
     }
 
     @Override
