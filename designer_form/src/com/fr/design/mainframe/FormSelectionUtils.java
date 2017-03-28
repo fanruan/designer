@@ -204,14 +204,14 @@ public class FormSelectionUtils {
 
     private static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, List<Widget> selectionWidget,
                                                         ArrayList<XCreator> newSelection) {
-        FormSelectionUtils._rebuild(rootComponent, selectionWidget, newSelection);
+        FormSelectionUtils.rebuild(rootComponent, selectionWidget, newSelection);
         if (newSelection.isEmpty()) {
             newSelection.add(rootComponent);
         }
         return newSelection;
     }
 
-    private static void _rebuild(XCreator root, List<Widget> selectionWidget, List<XCreator> newSelection) {
+    private static void rebuild(XCreator root, List<Widget> selectionWidget, List<XCreator> newSelection) {
         if (selectionWidget.isEmpty()) {
             return;
         }
@@ -238,7 +238,7 @@ public class FormSelectionUtils {
                     }
                 }
                 if (c instanceof XLayoutContainer) {
-                    _rebuild((XLayoutContainer) c, selectionWidget, newSelection);
+                    rebuild((XLayoutContainer) c, selectionWidget, newSelection);
                 }
             }
         }

@@ -43,7 +43,6 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WBorderLayout;
-import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;

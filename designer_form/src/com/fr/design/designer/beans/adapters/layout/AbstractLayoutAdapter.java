@@ -1,8 +1,5 @@
 package com.fr.design.designer.beans.adapters.layout;
 
-import java.awt.LayoutManager;
-
-import com.fr.general.ComparatorUtils;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
@@ -13,6 +10,9 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.general.ComparatorUtils;
+
+import java.awt.*;
 
 public abstract class AbstractLayoutAdapter implements LayoutAdapter {
 

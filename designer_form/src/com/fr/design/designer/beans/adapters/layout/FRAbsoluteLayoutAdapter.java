@@ -1,7 +1,5 @@
 package com.fr.design.designer.beans.adapters.layout;
 
-import java.awt.*;
-
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
@@ -9,12 +7,13 @@ import com.fr.design.designer.beans.painters.FRAbsoluteLayoutPainter;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.BoundsGroupModel;
 import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
-import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+
+import java.awt.*;
 
 public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
     //是不是添加到父容器上
@@ -75,13 +74,13 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator) comp).getTopLayout();
         if (topLayout != null) {
             if (topLayout.isEditable()) {
-                return topLayoutAccept(creator, x, y, topLayout);
+                return topLayoutAccept(creator, x, y);
             }
             //绝对布局嵌套，处于内层，不可编辑，不添加，topLayout只能获取到最外层可编辑的布局
             else if (((XLayoutContainer) topLayout.getParent()).acceptType(XWAbsoluteLayout.class)) {
                 return false;
             } else {
-                return acceptWidget(creator, x, y);
+                return acceptWidget(x, y);
             }
         } else {
             FRLogger.getLogger().error("top layout is null!");
@@ -91,7 +90,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
     }
 
     //topLayout假如可以编辑的话就往里面添加组件
-    private boolean topLayoutAccept(XCreator creator, int x, int y, XLayoutContainer topLayout) {
+    private boolean topLayoutAccept(XCreator creator, int x, int y) {
         //允许组件重叠，可以不判断有没有和当前控件重叠
         //先计算当前控件的位置
         int creatorX, creatorY;
@@ -109,18 +108,6 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
             creatorX = x - w;
             creatorY = y - h;
         }
-        //frm 组件复用允许组件重叠
-        //无须再判断和布局中其他控件重叠
-        //Rectangle curRec = new Rectangle(creatorX, creatorY, creator.getWidth(), creator.getHeight());
-        //WAbsoluteLayout wAbsoluteLayout = (WAbsoluteLayout) topLayout.toData();
-        //for (int i = 0, count = wAbsoluteLayout.getWidgetCount(); i < count; i++) {
-        //BoundsWidget temp = (BoundsWidget) wAbsoluteLayout.getWidget(i);
-        //Rectangle rectangle = temp.getBounds();
-        //if (curRec.intersects(rectangle)) {
-        //允许组件重叠
-        //return false;
-        //}
-        //}
         if (creatorX < 0 || creatorX + creator.getWidth() > container.getWidth()) {
             return false;
         }
@@ -174,11 +161,10 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
     }
 
     //当前绝对布局不可编辑，就当成一个控件，组件添加在周围
-    private boolean acceptWidget(XCreator creator, int x, int y) {
+    private boolean acceptWidget(int x, int y) {
         isFindRelatedComps = false;
         //拖入组件判断时，先判断是否为交叉点区域，其次三等分区域，再次平分区域
         Component comp = container.getComponentAt(x, y);
-        boolean isMatchEdge = false;
         //如果当前处于边缘地带, 那么就把他贴到父容器上
         XLayoutContainer parent = container.findNearestFit();
         container = parent != null ? parent : container;

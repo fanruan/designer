@@ -7,7 +7,6 @@ package com.fr.design.designer.beans.adapters.layout;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
@@ -28,8 +27,6 @@ import java.awt.*;
  * @date 2014-6-24
  */
 public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
-    //标题栏高度对tab布局内部组件的y坐标造成了偏移
-    private static int TAB_HEIGHT = 40;
 
     /**
      * 构造函数

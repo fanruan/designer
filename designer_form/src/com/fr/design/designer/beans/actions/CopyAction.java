@@ -1,13 +1,12 @@
 package com.fr.design.designer.beans.actions;
 
+import com.fr.base.BaseUtils;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.general.Inter;
+
+import javax.swing.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.KeyStroke;
-
-import com.fr.base.BaseUtils;
-import com.fr.general.Inter;
-import com.fr.design.mainframe.FormDesigner;
 
 public class CopyAction extends FormEditAction {
 

@@ -1,11 +1,5 @@
 package com.fr.design.designer.beans.models;
 
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
@@ -20,8 +14,11 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.stable.ArrayUtils;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * 该model保存当前选择的组件和剪切版信息
@@ -30,10 +27,10 @@ public class SelectionModel {
     //被粘贴组件在所选组件位置处往下、往右各错开20像素。执行多次粘贴时，在上一次粘贴的位置处错开20像素。
     private static final int DELTA_X_Y = 20; //粘贴时候的偏移距离
     private static final int BORDER_PROPORTION = 20;
-    private static FormSelection CLIP_BOARD = new FormSelection();
+    private static FormSelection clipboard = new FormSelection();
     private FormDesigner designer;
     private FormSelection selection;
-    private Rectangle hotspot_bounds;
+    private Rectangle hotspotBounds;
 
     public SelectionModel(FormDesigner designer) {
         this.designer = designer;
@@ -45,7 +42,7 @@ public class SelectionModel {
      */
     public void reset() {
         selection.reset();
-        hotspot_bounds = null;
+        hotspotBounds = null;
     }
 
     /**
@@ -54,7 +51,7 @@ public class SelectionModel {
      * @return 是否为空
      */
     public static boolean isEmpty() {
-        return CLIP_BOARD.isEmpty();
+        return clipboard.isEmpty();
     }
 
     /**
@@ -67,7 +64,6 @@ public class SelectionModel {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
         }
-
         // 获取e所在的组件
         XCreator comp = designer.getComponentAt(e);
 
@@ -93,7 +89,7 @@ public class SelectionModel {
      */
     public void cutSelectedCreator2ClipBoard() {
         if (hasSelectionComponent()) {
-            selection.cut2ClipBoard(CLIP_BOARD);
+            selection.cut2ClipBoard(clipboard);
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_CUTED);
             designer.repaint();
         }
@@ -104,7 +100,7 @@ public class SelectionModel {
      */
     public void copySelectedCreator2ClipBoard() {
         if (!selection.isEmpty()) {
-            selection.copy2ClipBoard(CLIP_BOARD);
+            selection.copy2ClipBoard(clipboard);
         }
     }
 
@@ -114,7 +110,7 @@ public class SelectionModel {
      * @return 否
      */
     public boolean pasteFromClipBoard() {
-        if (!CLIP_BOARD.isEmpty()) {
+        if (!clipboard.isEmpty()) {
             XLayoutContainer parent = null;
             //未选
             if (!hasSelectionComponent()) {
@@ -124,14 +120,14 @@ public class SelectionModel {
                             Rectangle rec = selection.getRelativeBounds();
                             //Tab布局
                             FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
-                                    CLIP_BOARD,
+                                    clipboard,
                                     rec.x + rec.width / 2,
                                     rec.y + BORDER_PROPORTION);
                         } else {
                             Rectangle rec = selection.getRelativeBounds();
                             //自适应布局
                             FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                                    CLIP_BOARD,
+                                    clipboard,
                                     rec.x + rec.width / 2,
                                     rec.y + BORDER_PROPORTION);
                         }
@@ -140,7 +136,7 @@ public class SelectionModel {
                         //编辑器外面还有两层容器，使用designer.getRootComponent()获取到的是编辑器中层的容器，不是编辑器表层
                         //当前选择的就是编辑器表层
                         FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
-                                CLIP_BOARD,
+                                clipboard,
                                 DELTA_X_Y,
                                 DELTA_X_Y);
                     }
@@ -148,7 +144,7 @@ public class SelectionModel {
                     //cpt本地组件复用，编辑器就一层，是最底层，使用designer.getRootComponent()就可以获取到
                     //使用selection.getSelectedCreator()也应该是可以获取到的。
                     FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                            CLIP_BOARD,
+                            clipboard,
                             DELTA_X_Y,
                             DELTA_X_Y);
                 }
@@ -157,19 +153,16 @@ public class SelectionModel {
             else {
                 //获取到编辑器的表层容器（已选的组件的父容器就是表层容器）
                 parent = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
-                if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
+                if (parent != null && selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
                     //自适应布局
-                    if (parent != null) {
-                        Rectangle rec = selection.getRelativeBounds();
-                        FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + rec.width / 2, rec.y +
-                                rec.height - BORDER_PROPORTION);
-                    }
-                } else if (selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
+                    Rectangle rec = selection.getRelativeBounds();
+                    FormSelectionUtils.paste2Container(designer, parent, clipboard, rec.x + rec.width / 2, rec.y +
+                            rec.height - BORDER_PROPORTION);
+
+                } else if (parent != null && selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
                     //绝对布局
-                    if (parent != null) {
-                        Rectangle rec = selection.getSelctionBounds();
-                        FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
-                    }
+                    Rectangle rec = selection.getSelctionBounds();
+                    FormSelectionUtils.paste2Container(designer, parent, clipboard, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
                 }
             }
         } else {
@@ -223,14 +216,14 @@ public class SelectionModel {
      * 设置选择区域
      */
     public void setHotspotBounds(Rectangle rect) {
-        hotspot_bounds = rect;
+        hotspotBounds = rect;
     }
 
     /**
      * 获得当前选择区域
      */
     public Rectangle getHotspotBounds() {
-        return hotspot_bounds;
+        return hotspotBounds;
     }
 
     private void removeCreatorFromContainer(XCreator creator, int creatorWidth, int creatorHeight) {
@@ -271,22 +264,28 @@ public class SelectionModel {
      * 其他两层不是靠添加组件就可以编辑的。
      */
     public boolean hasSelectionComponent() {
+        XCreator selectionXCreator = selection.getSelectedCreator();
         if (designer.getClass().equals(FormDesigner.class)) {
             //frm本地组件复用
-            return selection.getSelectedCreator() != null
-                    && !(
+            if (selectionXCreator != null) {
+                if (selectionXCreator.getClass().equals(XWAbsoluteBodyLayout.class)) {
                     //frm绝对布局编辑器
-                    selection.getSelectedCreator().getClass().equals(XWAbsoluteBodyLayout.class)
-                            //Tab布局编辑器
-                            || selection.getSelectedCreator().getClass().equals(XWCardMainBorderLayout.class)
-                            || selection.getSelectedCreator().getClass().equals(XWCardLayout.class)
-                            || selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)
-                            //自适应布局编辑器
-                            || selection.getSelectedCreator().getClass().equals(XWFitLayout.class)
-            );
+                    return false;
+                } else if (selectionXCreator.getClass().equals(XWCardMainBorderLayout.class)
+                        || selectionXCreator.getClass().equals(XWCardLayout.class)
+                        || selectionXCreator.getClass().equals(XWTabFitLayout.class)) {
+                    //Tab布局编辑器
+                    return false;
+                } else {
+                    //自适应布局编辑器
+                    return !selectionXCreator.getClass().equals(XWFitLayout.class);
+                }
+            } else {
+                return false;
+            }
         } else {
             //cpt本地组件复用,selection.getSelectedCreator().getParent()=@XWParameterLayout instanceof @XWAbsoluteLayout
-            return selection.getSelectedCreator() != null && selection.getSelectedCreator().getParent() != null;
+            return selectionXCreator != null && selectionXCreator.getParent() != null;
         }
     }
 
@@ -330,10 +329,9 @@ public class SelectionModel {
             int x = e.getX() + designer.getArea().getHorizontalValue();
             int y = e.getY() + designer.getArea().getVerticalValue();
             dir = getDirection(selection.getRelativeBounds(), x, y);
-            if (selection.size() == 1) {
-                if (!ArrayUtils.contains(selection.getSelectedCreator().getDirections(), dir.getActual())) {
-                    dir = Location.outer;
-                }
+            if (selection.size() == 1 && !ArrayUtils.contains(selection.getSelectedCreator().getDirections(), dir
+                    .getActual())) {
+                dir = Location.outer;
             }
         } else {
             dir = Location.outer;

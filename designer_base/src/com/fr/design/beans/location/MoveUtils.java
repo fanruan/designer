@@ -18,7 +18,7 @@ public class MoveUtils {
     public static final int SORPTION_UNIT = 5;
     private static final int EQUIDISTANTLINE_UNIT = 4;
 
-    public static ArrayList<EquidistantLine> equidistantLines = new ArrayList<>();
+    private static ArrayList<EquidistantLine> equidistantLines = new ArrayList<>();
 
     private MoveUtils() {
 

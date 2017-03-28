@@ -46,7 +46,6 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 
@@ -72,7 +71,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     protected static final ArrayList<String> NAME_ARRAY_LIST = new ArrayList<String>(
             Arrays.asList(new String[]{Inter.getLocText("M_Edit-Cut"), Inter.getLocText("M_Edit-Copy"), Inter.getLocText("M_Edit-Delete")})
     );
-    private static final int BORDER_WIDTH = 6;
     //底层容器的默认大小
     protected static final Dimension LARGE_PREFERRED_SIZE = new Dimension(WBorderLayout.DEFAULT_WIDTH, WBorderLayout.DEFAULT_HEIGHT);
     private int paraHeight = 0;
@@ -84,7 +82,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private XLayoutContainer paraComponent;
     private boolean drawLineMode;
     private FormArea formArea;
-    private ConnectorHelper ConnectorHelper;
+    private ConnectorHelper connectorHelper;
     private boolean isReportBlockEditing = false;
 
     //组件重叠
@@ -107,7 +105,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
-    protected Action[] designer_actions;
+    protected Action[] designerActions;
     private FormDesignerModeForSpecial<?> desigerMode;
     private Action switchAction;
     private FormElementCaseContainerProvider elementCaseContainer;
@@ -763,12 +761,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @param e 鼠标事件
      */
     public void updateDrawLineMode(MouseEvent e) {
-        Point p = ConnectorHelper.getNearWidgetPoint(e);
-        if (p == null) {
-            XComponent comp = getComponentAt(e);
-            if (comp == rootComponent) {
-                p = new Point(e.getX() + formArea.getHorizontalValue(), e.getY() + formArea.getVerticalValue());
-            }
+        Point p = connectorHelper.getNearWidgetPoint(e);
+        if (p == null && getComponentAt(e) == rootComponent) {
+            p = new Point(e.getX() + formArea.getHorizontalValue(), e.getY() + formArea.getVerticalValue());
         }
         stateModel.startDrawLine(p);
     }
@@ -1120,11 +1115,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 同上
      */
     public Action[] getActions() {
-        if (designer_actions == null) {
-            designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+        if (designerActions == null) {
+            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
                     new FormDeleteAction(this)};
         }
-        return designer_actions;
+        return designerActions;
     }
 
     protected Border getOuterBorder() {
@@ -1191,7 +1186,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return ConnectorHelper类
      */
     public ConnectorHelper getDrawLineHelper() {
-        return ConnectorHelper;
+        return connectorHelper;
     }
 
     /**

@@ -313,7 +313,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      */
     public boolean isWithQueryButton() {
         XLayoutContainer rootContainer = this.getRootComponent();
-        return SearchQueryCreators(rootContainer);
+        return searchQueryCreators(rootContainer);
     }
 
     /**
@@ -322,18 +322,18 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      * @return 同上
      */
     public Action[] getActions() {
-        if (designer_actions == null) {
-            designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+        if (designerActions == null) {
+            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
                     new FormDeleteAction(this)};
         }
-        return designer_actions;
+        return designerActions;
     }
 
-    private boolean SearchQueryCreators(XLayoutContainer rootContainer) {
+    private boolean searchQueryCreators(XLayoutContainer rootContainer) {
         boolean b = false;
         for (int i = 0; i < rootContainer.getXCreatorCount(); i++) {
             if (rootContainer.getXCreator(i) instanceof XLayoutContainer) {
-                b = SearchQueryCreators((XLayoutContainer) rootContainer.getXCreator(i));
+                b = searchQueryCreators((XLayoutContainer) rootContainer.getXCreator(i));
             } else if (rootContainer.getXCreator(i) instanceof XFormSubmit) {
                 b = true;
             }

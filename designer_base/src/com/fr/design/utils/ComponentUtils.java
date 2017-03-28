@@ -12,6 +12,9 @@ import java.util.ArrayList;
  */
 public class ComponentUtils {
 
+    private ComponentUtils() {
+    }
+
     public static boolean isComponentVisible(Component comp) {
         if (!comp.isVisible() && !isRootComponent(comp)) {
             return false;
@@ -79,7 +82,7 @@ public class ComponentUtils {
         for (int i = 0; i < count; i++) {
             Component child = container.getComponent(i);
 
-            if (child == target) {
+            if (child.equals(target)) {
                 return i;
             }
         }
@@ -105,10 +108,10 @@ public class ComponentUtils {
      * 计算组件root相对于其顶层容器的可见区域
      */
     public static Rectangle computeVisibleRect(JComponent root) {
-        Rectangle root_bounds = ComponentUtils.getRelativeBounds(root);
+        Rectangle rootBounds = ComponentUtils.getRelativeBounds(root);
         Rectangle rect = computeVisibleRectRel2Root(root);
-        rect.x -= root_bounds.x;
-        rect.y -= root_bounds.y;
+        rect.x -= rootBounds.x;
+        rect.y -= rootBounds.y;
 
         return rect;
     }
