@@ -69,7 +69,7 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
         if (!accept(creator, posX, posY)) {
             return false;
         }
-        // posX，posY是新拖入组件相对于容器的位置，若在tab布局的边缘，则需要把新组件添加到
+        // posX，posY是新拖入组件相对于容器的位置，若在tab布局的边缘，则需要把新组件添加到l
         // 父层自适应布局中，这时候的添加位置就是tab布局所在的位置
         if (this.intersectsEdge(posX, posY, backUpContainer)) {
             if (!ComparatorUtils.equals(backUpContainer.getOuterLayout(), backUpContainer.getBackupParent())) {

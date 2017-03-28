@@ -52,6 +52,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     public void setEdit(boolean edit) {
         isEdit = edit;
     }
+
     /**
      * 构造函数
      *
@@ -277,7 +278,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         super.clearCompsList();
     }
 
-    protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout){
+    protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout) {
         return mainLayout.getBounds();
     }
 
@@ -353,13 +354,13 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 拖拽控件边框后，根据控件的大小尺寸，进行相关组件的调整
      *
      * @param backupBound 边界备份
-     * @param bounds  组件边界
-     * @param xCreator 组件
-     * @param row 选中的行
-     * @param difference 偏移量
+     * @param bounds      组件边界
+     * @param xCreator    组件
+     * @param row         选中的行
+     * @param difference  偏移量
      */
     public void calculateBounds(Rectangle backupBound, Rectangle bounds, XCreator xCreator, int row, int difference) {
-        Rectangle rc = new Rectangle(0,0,0,0);
+        Rectangle rc = new Rectangle(0, 0, 0, 0);
         XLayoutContainer parent = XCreatorUtils.getParentXLayoutContainer(xCreator);
         if (parent != null) {
             Rectangle rec = ComponentUtils.getRelativeBounds(parent);
@@ -370,17 +371,17 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         //处理左右延伸
         switch (row) {
             case 0:
-                if (backupBound.width + backupBound.x == container.getWidth() - margin.getRight() +rc.x) {
+                if (backupBound.width + backupBound.x == container.getWidth() - margin.getRight() + rc.x) {
                     x += difference;
                 }
                 break;
             case 1:
-                if(backupBound.y + backupBound.height == container.getHeight() - margin.getBottom() +rc.y){
+                if (backupBound.y + backupBound.height == container.getHeight() - margin.getBottom() + rc.y) {
                     y += difference;
                 }
                 break;
         }
-        bounds.setLocation(x,y);
+        bounds.setLocation(x, y);
         xCreator.setBackupBound(backupBound);
         xCreator.setBounds(bounds);
         this.fix(xCreator);
@@ -424,7 +425,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的坐标值
     private int adjustCoordinateByDependingLine(int coordinate, int[] coordinates) {
-        if(!isEdit) {
+        if (!isEdit) {
             for (int i = 0; i < coordinates.length; i++) {
                 if (coordinate == coordinates[i]) {
                     continue;
@@ -440,7 +441,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的距离
     private int adjustDiffByDependingLine(int coordinate, int[] coordinates, int diff) {
-        if(!isEdit) {
+        if (!isEdit) {
             for (int i = 0; i < coordinates.length; i++) {
                 if (coordinate + diff > coordinates[i] - DEPENDING_SCOPE && coordinate + diff < coordinates[i] + DEPENDING_SCOPE) {
                     diff = coordinates[i] - coordinate;

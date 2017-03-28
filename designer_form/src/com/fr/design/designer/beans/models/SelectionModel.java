@@ -12,11 +12,15 @@ import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.location.Location;
 import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.cardlayout.XWCardLayout;
+import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.stable.ArrayUtils;
 
 /**
@@ -25,6 +29,7 @@ import com.fr.stable.ArrayUtils;
 public class SelectionModel {
     //被粘贴组件在所选组件位置处往下、往右各错开20像素。执行多次粘贴时，在上一次粘贴的位置处错开20像素。
     private static final int DELTA_X_Y = 20; //粘贴时候的偏移距离
+    private static final int BORDER_PROPORTION = 10;
     private static FormSelection CLIP_BOARD = new FormSelection();
     private FormDesigner designer;
     private FormSelection selection;
@@ -111,15 +116,26 @@ public class SelectionModel {
     public boolean pasteFromClipBoard() {
         if (!CLIP_BOARD.isEmpty()) {
             XLayoutContainer parent = null;
+            //未选
             if (!hasSelectionComponent()) {
                 if (designer.getClass().equals(FormDesigner.class)) {
-
                     if (selection.getSelectedCreator() instanceof XWFitLayout) {
-                        //相对布局
-                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                                CLIP_BOARD,
-                                DELTA_X_Y,
-                                DELTA_X_Y);
+                        if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
+                            Rectangle rec = selection.getRelativeBounds();
+                            //Tab布局
+                            System.out.println("ADD: " + (rec.x + rec.width / 2) + "\t" + (rec.y + BORDER_PROPORTION));
+                            FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
+                                    CLIP_BOARD,
+                                    rec.x + rec.width / 2,
+                                    rec.y + BORDER_PROPORTION);
+                        } else {
+                            Rectangle rec = selection.getRelativeBounds();
+                            //自适应布局
+                            FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                                    CLIP_BOARD,
+                                    rec.x + rec.width / 2,
+                                    rec.y + BORDER_PROPORTION);
+                        }
                     } else {
                         //绝对布局
                         //编辑器外面还有两层容器，使用designer.getRootComponent()获取到的是编辑器中层的容器，不是编辑器表层
@@ -137,15 +153,17 @@ public class SelectionModel {
                             DELTA_X_Y,
                             DELTA_X_Y);
                 }
-            } else {
+            }
+            //已选
+            else {
                 //获取到编辑器的表层容器（已选的组件的父容器就是表层容器）
                 parent = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
                 if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
-                    //相对布局
+                    //自适应布局
                     if (parent != null) {
                         Rectangle rec = selection.getSelctionBounds();
                         FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + rec.width / 2, rec.y +
-                                rec.height - 2);
+                                rec.height - BORDER_PROPORTION);
                     }
                 } else if (selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
                     //绝对布局
@@ -256,18 +274,17 @@ public class SelectionModel {
     public boolean hasSelectionComponent() {
         if (designer.getClass().equals(FormDesigner.class)) {
             //frm本地组件复用
-            if (selection.getSelectedCreator() == null) {
-                return false;
-            } else if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
-                // 相对布局
-                // 已选：selection.getSelectedCreator().getParent() instanceof @XWFitLayout
-                // 未选：selection.getSelectedCreator() instanceof @XWFitLayout
-                return !(selection.getSelectedCreator() instanceof XWAbsoluteLayout);
-            } else {
-                //绝对布局
-                //已选：selection.getSelectedCreator().getParent() instanceof @XWAbsoluteLayout
-                return selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout;
-            }
+            return selection.getSelectedCreator() != null
+                    && !(
+                    //frm绝对布局编辑器
+                    selection.getSelectedCreator().getClass().equals(XWAbsoluteBodyLayout.class)
+                            //Tab布局编辑器
+                            || selection.getSelectedCreator().getClass().equals(XWCardMainBorderLayout.class)
+                            || selection.getSelectedCreator().getClass().equals(XWCardLayout.class)
+                            || selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)
+                            //自适应布局编辑器
+                            || selection.getSelectedCreator().getClass().equals(XWFitLayout.class)
+            );
         } else {
             //cpt本地组件复用,selection.getSelectedCreator().getParent()=@XWParameterLayout instanceof @XWAbsoluteLayout
             return selection.getSelectedCreator() != null && selection.getSelectedCreator().getParent() != null;
