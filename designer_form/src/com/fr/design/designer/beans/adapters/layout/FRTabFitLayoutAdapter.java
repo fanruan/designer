@@ -63,9 +63,11 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
         // 经过accept判断后，container会被改变，先备份
         XLayoutContainer backUpContainer = container;
         Rectangle rect = ComponentUtils.getRelativeBounds(container);
-
+        System.out.println("xy: " + x + "\t" + y);
+        System.out.println(rect);
         int posX = x - rect.x;
         int posY = y - rect.y;
+        System.out.println("pos: " + posX + "\t" + posY);
         if (!accept(creator, posX, posY)) {
             return false;
         }

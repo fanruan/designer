@@ -29,7 +29,7 @@ import com.fr.stable.ArrayUtils;
 public class SelectionModel {
     //被粘贴组件在所选组件位置处往下、往右各错开20像素。执行多次粘贴时，在上一次粘贴的位置处错开20像素。
     private static final int DELTA_X_Y = 20; //粘贴时候的偏移距离
-    private static final int BORDER_PROPORTION = 10;
+    private static final int BORDER_PROPORTION = 20;
     private static FormSelection CLIP_BOARD = new FormSelection();
     private FormDesigner designer;
     private FormSelection selection;
@@ -161,7 +161,7 @@ public class SelectionModel {
                 if (selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
                     //自适应布局
                     if (parent != null) {
-                        Rectangle rec = selection.getSelctionBounds();
+                        Rectangle rec = selection.getRelativeBounds();
                         FormSelectionUtils.paste2Container(designer, parent, CLIP_BOARD, rec.x + rec.width / 2, rec.y +
                                 rec.height - BORDER_PROPORTION);
                     }
