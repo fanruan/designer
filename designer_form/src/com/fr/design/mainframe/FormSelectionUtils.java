@@ -33,63 +33,87 @@ public class FormSelectionUtils {
     /**
      * @param designer  编辑器
      * @param parent    粘贴依据的组件
-     * @param clipBoard 剪贴板内容
+     * @param clipboard 剪贴板内容
      * @param x         x
      * @param y         y
      */
     public static void paste2Container(FormDesigner designer, XLayoutContainer parent,
-                                       FormSelection clipBoard, int x, int y) {
+                                       FormSelection clipboard, int x, int y) {
         LayoutAdapter adapter = parent.getLayoutAdapter();
         if (parent instanceof XWAbsoluteLayout) {
             //绝对布局
-            designer.getSelectionModel().getSelection().reset();
-            Rectangle rec = clipBoard.getSelctionBounds();
-            for (XCreator creator : clipBoard.getSelectedCreators()) {
-                try {
-                    Widget copied = copyWidget(designer, creator);
-                    XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                    // 获取位置
-                    Point point = getPasteLocation((AbstractLayoutAdapter) adapter,
-                            copiedCreator,
-                            x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
-                            y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
-                    boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
-
-                    if (addSuccess) {
-                        designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
-                    }
-
-                } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
-                }
-            }
-            rebuildSelection(designer);
-            designer.getEditListenerTable().fireCreatorModified(
-                    designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
+            absolutePaste(designer, clipboard, adapter, x, y);
             return;
         } else if (parent instanceof XWFitLayout) {
             //相对布局
-            designer.getSelectionModel().getSelection().reset();
-            for (XCreator creator : clipBoard.getSelectedCreators()) {
-                try {
-                    Widget copied = copyWidget(designer, creator);
-                    XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                    boolean addSuccess = adapter.addBean(copiedCreator, x, y);
-
-                    if (addSuccess) {
-                        designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
-                    }
-
-                } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
-                }
-            }
-            rebuildSelection(designer);
-            designer.getEditListenerTable().fireCreatorModified(
-                    designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
+            relativePaste(designer, clipboard, adapter, x, y);
             return;
         }
         Toolkit.getDefaultToolkit().beep();
+    }
+
+    /**
+     * 绝对布局粘贴
+     *
+     * @param designer
+     * @param clipboard
+     * @param adapter
+     * @param x
+     * @param y
+     */
+    private static void absolutePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
+
+        designer.getSelectionModel().getSelection().reset();
+        Rectangle rec = clipboard.getSelctionBounds();
+        for (XCreator creator : clipboard.getSelectedCreators()) {
+            try {
+                Widget copied = copyWidget(designer, creator);
+                XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                // 获取位置
+                Point point = getPasteLocation((AbstractLayoutAdapter) adapter,
+                        copiedCreator,
+                        x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
+                        y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
+                boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
+                if (addSuccess) {
+                    designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
+                }
+            } catch (CloneNotSupportedException e) {
+                FRContext.getLogger().error(e.getMessage(), e);
+            }
+        }
+        rebuildSelection(designer);
+        designer.getEditListenerTable().fireCreatorModified(
+                designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
+
+    }
+
+    /**
+     * 相对布局粘贴
+     *
+     * @param designer
+     * @param clipboard
+     * @param adapter
+     * @param x
+     * @param y
+     */
+    private static void relativePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
+        designer.getSelectionModel().getSelection().reset();
+        for (XCreator creator : clipboard.getSelectedCreators()) {
+            try {
+                Widget copied = copyWidget(designer, creator);
+                XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                boolean addSuccess = adapter.addBean(copiedCreator, x, y);
+                if (addSuccess) {
+                    designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
+                }
+            } catch (CloneNotSupportedException e) {
+                FRContext.getLogger().error(e.getMessage(), e);
+            }
+        }
+        rebuildSelection(designer);
+        designer.getEditListenerTable().fireCreatorModified(
+                designer.getSelectionModel().getSelection().getSelectedCreator(), DesignerEvent.CREATOR_PASTED);
     }
 
     /**
