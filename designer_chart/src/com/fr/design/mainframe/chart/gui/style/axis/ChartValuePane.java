@@ -151,11 +151,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { LayoutConstants.CHART_ATTR_TOMARGIN,p,f};
-		double[] rowSize = { p, p, p};
+		double[] rowSize = {p, p};
 		Component[][] component = new Component[][]{
-				new Component[]{null,initMinMaxValue(),null},
-				new Component[]{null, addLogarithmicPane2ValuePane(), null},
-				new Component[]{null, null, addLogText()},
+                new Component[]{null,initMinMaxValue(),null},
+                new Component[]{null, addLogarithmicPane2ValuePane(), addLogText()},
 		};
 		return TableLayoutHelper.createTableLayoutPane(component, rowSize, columnSize);
 	}

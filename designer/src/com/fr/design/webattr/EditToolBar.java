@@ -329,15 +329,16 @@ public class EditToolBar extends BasicPane {
 		private JavaScriptActionPane javaScriptPane;
 		private ExportToolBarProvider[] exportToolBarProviders;
 
-		private ChangeListener changeListener = new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		private ActionListener actionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				if (isVerify.isSelected()) {
 					failSubmit.setVisible(true);
 				} else {
 					failSubmit.setVisible(false);
+					failSubmit.setSelected(false);
 				}
 			}
-
 		};
 
 		public ButtonPane() {
@@ -481,7 +482,7 @@ public class EditToolBar extends BasicPane {
 			submitPane.add(isVerify);
 			submitPane.add(failSubmit);
 			submitPane.add(isCurSheet);
-			isVerify.addChangeListener(changeListener);
+			isVerify.addActionListener(actionListener);
 			return submitPane;
 		}
 
@@ -573,6 +574,9 @@ public class EditToolBar extends BasicPane {
 			card.show(centerPane, "submit");
 			Submit submit = ((Submit) widget);
 			this.isVerify.setSelected(submit.isVerify());
+			if (!submit.isVerify()) {
+				this.failSubmit.setVisible(false);
+			}
 			this.failSubmit.setSelected(submit.isFailVerifySubmit());
 			this.isCurSheet.setSelected(submit.isOnlySubmitSelect());
 		}
