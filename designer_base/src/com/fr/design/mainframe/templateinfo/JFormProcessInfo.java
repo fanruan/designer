@@ -2,6 +2,7 @@ package com.fr.design.mainframe.templateinfo;
 
 import com.fr.form.main.Form;
 import com.fr.form.ui.container.WFitLayout;
+import com.fr.form.ui.container.WLayout;
 
 /**
  * Created by plough on 2017/3/17.
@@ -32,11 +33,9 @@ public class JFormProcessInfo extends TemplateProcessInfo<Form> {
     public int getWidgetCount() {
         int widgetCount = 0;
         for (int i = 0; i < template.getContainer().getWidgetCount(); i++) {
-            WFitLayout wf = (WFitLayout) template.getContainer().getWidget(i);
-            widgetCount += wf.getWidgetCount();
+            WLayout wl = (WLayout) template.getContainer().getWidget(i);
+            widgetCount += wl.getWidgetCount();
         }
-        int a = 1;
-        int b = 2;
         return widgetCount;
     }
 }
