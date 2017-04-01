@@ -111,7 +111,7 @@ public class SelectionModel {
      */
     public boolean pasteFromClipBoard() {
         if (!clipboard.isEmpty()) {
-            if (!hasSelectionComponent()) {
+            if (!hasSelectedPasteSource()) {
                 //未选
                 unselectedPaste();
             } else {
@@ -275,7 +275,7 @@ public class SelectionModel {
      * 但是编辑窗口的最外层其实是表层@see {@link com.fr.design.designer.creator.XWAbsoluteBodyLayout},
      * 其他两层不是靠添加组件就可以编辑的。
      */
-    public boolean hasSelectionComponent() {
+    public boolean hasSelectedPasteSource() {
         XCreator selectionXCreator = selection.getSelectedCreator();
         if (designer.getClass().equals(FormDesigner.class)) {
             //frm本地组件复用
@@ -286,10 +286,12 @@ public class SelectionModel {
                         || selectionXCreator.getClass().equals(XWTabFitLayout.class);
                 //选中的是否是frm绝对布局编辑器本身
                 boolean absoluteEditor = selectionXCreator.getClass().equals(XWAbsoluteBodyLayout.class);
+                //选中是否是frm绝对画布块编辑器本身
+                boolean absoluteCanvas = selectionXCreator.getClass().equals(XWAbsoluteLayout.class);
                 //选中的是否是相对布局编辑器本身
                 boolean relativeEditor = selectionXCreator.getClass().equals(XWFitLayout.class);
 
-                return !(tabEditor || absoluteEditor || relativeEditor);
+                return !(tabEditor || absoluteEditor || absoluteCanvas || relativeEditor);
             } else {
                 return false;
             }
@@ -297,6 +299,15 @@ public class SelectionModel {
             //cpt本地组件复用,selection.getSelectedCreator().getParent()=@XWParameterLayout instanceof @XWAbsoluteLayout
             return selectionXCreator != null && selectionXCreator.getParent() != null;
         }
+    }
+
+    /**
+     * 是否有组件被选择。如果所选组件是最底层容器，也视为无选择
+     *
+     * @return 是则返回true
+     */
+    public boolean hasSelectionComponent() {
+        return !selection.isEmpty() && selection.getSelectedCreator().getParent() != null;
     }
 
     /**
