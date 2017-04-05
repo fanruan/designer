@@ -117,9 +117,6 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         }
     }
     private void collectInfo() {  // 执行收集操作
-        if (template.getTemplateID() == null) {  // 旧模板
-            return;
-        }
         long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         tic.collectInfo(template, this, openTime, saveTime);
         openTime = saveTime;  // 更新 openTime，准备下一次计算
