@@ -113,7 +113,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            FRLogger.getLogger().info("writing: " + instance.templateInfoList);
+            String log = "";
+            int count = 1;
+            for (String key : templateInfoList.keySet()) {
+                String createTime = ((HashMap)templateInfoList.get(key).get("consumingMap")).get("create_time").toString();
+                log += (count + ". id: " + key + " " + createTime + "\n" + templateInfoList.get(key).toString() + "\n");
+                count ++;
+            }
+            FRLogger.getLogger().info("writing tplInfo: \n" + log);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
