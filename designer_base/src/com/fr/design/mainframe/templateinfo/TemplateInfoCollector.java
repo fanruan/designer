@@ -15,9 +15,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * 做模板的过程和耗时收集，辅助类
@@ -27,6 +25,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static final String FILE_NAME = "tplInfo.ser";
     private static TemplateInfoCollector instance;
     private HashMap<String, HashMap<String, Object>> templateInfoList;
+    private Set<String> removedTemplates;  // 已经从 templateInfoList 中删除过的 id 列表，防止重复收集数据
     private String designerOpenDate;  //设计器最近一次打开日期
     private static final int VALID_CELL_COUNT = 5;  // 有效报表模板的格子数
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
@@ -36,6 +35,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
         templateInfoList = new HashMap<>();
+        removedTemplates = new ListSet<>();
         setDesignerOpenDate();
     }
 
@@ -77,12 +77,15 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return instance;
     }
 
-    private static boolean shouldCollectInfo() {
+    private boolean shouldCollectInfo(T t) {
+        if (t.getTemplateID() == null || instance.removedTemplates.contains(t.getTemplateID())) {  // 旧模板
+            return false;
+        }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
-    public static void appendProcess(String log) {
-        if (!shouldCollectInfo()) {
+    public void appendProcess(T t, String log) {
+        if (!shouldCollectInfo(t)) {
             return;
         }
         // 获取当前编辑的模板
@@ -113,7 +116,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            FRLogger.getLogger().info("writing: " + instance.templateInfoList);
+            String log = "";
+            int count = 1;
+            for (String key : templateInfoList.keySet()) {
+                String createTime = ((HashMap)templateInfoList.get(key).get("consumingMap")).get("create_time").toString();
+                log += (count + ". id: " + key + " " + createTime + "\n" + templateInfoList.get(key).toString() + "\n");
+                count ++;
+            }
+            FRLogger.getLogger().info("writing tplInfo: \n" + log);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
@@ -141,7 +151,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
-        if (!shouldCollectInfo()) {
+        if (!shouldCollectInfo(t)) {
             return;
         }
 
@@ -225,7 +235,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
                 FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
-                templateInfoList.remove(templateInfo.get("templateID"));
+                removeFromTemplateInfoList(templateInfo.get("templateID"));
             }
         }
         saveInfo();
@@ -277,10 +287,16 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
         // 删除测试模板
         for (String key : testTemplateKeys) {
-            templateInfoList.remove(key);
-//            System.out.println(key + " is removed...");
+            removeFromTemplateInfoList(key);
         }
         return completeTemplatesInfo;
+    }
+
+    private void removeFromTemplateInfoList(String key) {
+        templateInfoList.remove(key);
+        removedTemplates.add(key);
+        FRLogger.getLogger().info(key + " is removed...");
+        FRLogger.getLogger().info("removedTemplates: " + removedTemplates);
     }
 
     @SuppressWarnings("unchecked")
