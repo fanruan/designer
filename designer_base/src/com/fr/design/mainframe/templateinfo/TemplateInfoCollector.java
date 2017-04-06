@@ -5,6 +5,7 @@ import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
@@ -78,7 +79,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     }
 
     private boolean shouldCollectInfo(T t) {
-        if (t.getTemplateID() == null || instance.removedTemplates.contains(t.getTemplateID())) {  // 旧模板
+        if (FRContext.getCurrentEnv() instanceof RemoteEnv  // 远程设计不收集数据
+                || t.getTemplateID() == null
+                || instance.removedTemplates.contains(t.getTemplateID())) {  // 旧模板
             return false;
         }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
