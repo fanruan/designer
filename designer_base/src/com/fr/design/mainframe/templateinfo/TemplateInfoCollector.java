@@ -242,6 +242,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
                 // 清空记录
                 FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
                 removeFromTemplateInfoList(templateInfo.get("templateID"));
+            } else {
+                FRLogger.getLogger().info("模板数据发送服务器失败，下次启动设计器时再尝试：" + templateInfo.get("templateID"));
             }
         }
         saveInfo();
