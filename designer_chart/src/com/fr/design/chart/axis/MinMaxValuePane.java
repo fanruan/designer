@@ -52,9 +52,8 @@ public class MinMaxValuePane extends JPanel {
         addComponentListener(components);
     }
 
-    public double[] getRowSize(double p) {
-        double[] rowSize = {p, p, p, p};
-        return rowSize;
+    protected double[] getRowSize(double p) {
+        return new double[]{p, p, p, p};
     }
 
     public void addComponentListener(Component[][] components) {
