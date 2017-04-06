@@ -26,7 +26,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static final String FILE_NAME = "tplInfo.ser";
     private static TemplateInfoCollector instance;
     private HashMap<String, HashMap<String, Object>> templateInfoList;
-    private Set<String> removedTemplates;  // 已经从 templateInfoList 中删除过的 id 列表，防止重复收集数据
     private String designerOpenDate;  //设计器最近一次打开日期
     private static final int VALID_CELL_COUNT = 5;  // 有效报表模板的格子数
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
@@ -36,7 +35,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
         templateInfoList = new HashMap<>();
-        removedTemplates = new ListSet<>();
         setDesignerOpenDate();
     }
 
@@ -85,17 +83,15 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         return instance;
     }
 
-    private boolean shouldCollectInfo(T t) {
-        if (FRContext.getCurrentEnv() instanceof RemoteEnv  // 远程设计不收集数据
-                || t.getTemplateID() == null
-                || instance.removedTemplates.contains(t.getTemplateID())) {  // 旧模板
+    private boolean shouldCollectInfo() {
+        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {  // 远程设计不收集数据
             return false;
         }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
-    public void appendProcess(T t, String log) {
-        if (!shouldCollectInfo(t)) {
+    public void appendProcess(String log) {
+        if (!shouldCollectInfo()) {
             return;
         }
         // 获取当前编辑的模板
@@ -161,7 +157,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
-        if (!shouldCollectInfo(t)) {
+        if (!shouldCollectInfo()) {
             return;
         }
 
@@ -304,9 +300,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     private void removeFromTemplateInfoList(String key) {
         templateInfoList.remove(key);
-        removedTemplates.add(key);
         FRLogger.getLogger().info(key + " is removed...");
-        FRLogger.getLogger().info("removedTemplates: " + removedTemplates);
     }
 
     @SuppressWarnings("unchecked")
