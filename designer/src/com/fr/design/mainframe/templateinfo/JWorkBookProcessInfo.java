@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.templateinfo;
 
-import com.fr.base.io.IOFile;
 import com.fr.base.parameter.ParameterUI;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.cellcase.CellCase;
