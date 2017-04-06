@@ -8,6 +8,7 @@ import com.fr.design.designer.creator.*;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class FormSelectionUtils {
                         x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
                         y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
                 if (!adapter.accept(copiedCreator, point.x, point.y)) {
-                    designer.showMessageDialog("Too large to paste into container");
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Large_To_Paste"));
                     return;
                 }
                 boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
@@ -87,6 +88,10 @@ public class FormSelectionUtils {
             try {
                 Widget copied = copyWidget(designer, creator);
                 XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                if (!adapter.accept(copiedCreator, x, y)) {
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    return;
+                }
                 boolean addSuccess = adapter.addBean(copiedCreator, x, y);
                 if (addSuccess) {
                     designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
