@@ -71,7 +71,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             } catch (FileNotFoundException ex) {
                 // 如果之前没有存储过，则创建新对象
                 instance = new TemplateInfoCollector();
-            } catch (Exception ex) {
+            } catch (InvalidClassException ex) {
+                // 如果 TemplateInfoCollecor 类结构有改动，则放弃之前收集的数据（下次保存时覆盖）
+                // 这种情况主要在开发、测试过程中遇到，正式上线后不应该出现
+                FRLogger.getLogger().error(ex.getMessage());
+                FRLogger.getLogger().info("use a new instance");
+                instance = new TemplateInfoCollector();
+            }
+            catch (Exception ex) {
                 FRLogger.getLogger().error(ex.getMessage(), ex);
             }
         }
