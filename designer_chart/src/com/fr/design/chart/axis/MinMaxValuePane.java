@@ -30,10 +30,6 @@ public class MinMaxValuePane extends JPanel {
     protected UICheckBox isCustomSecUnitBox;
     protected UITextField secUnitField;
 
-    protected double p = TableLayout.PREFERRED;
-    protected double f = TableLayout.FILL;
-    protected double[] columnSize = {p, f};
-    protected double[] rowSize = {p, p, p, p};
 
     public MinMaxValuePane() {
         minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
@@ -45,14 +41,19 @@ public class MinMaxValuePane extends JPanel {
         isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
         secUnitField = new UITextField(6);
 
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+
         Component[][] components = getPanelComponents();
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, getRowSize(), columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, getRowSize(p), columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
         addComponentListener(components);
     }
 
-    public double[] getRowSize() {
+    public double[] getRowSize(double p) {
+        double[] rowSize = {p, p, p, p};
         return rowSize;
     }
 
