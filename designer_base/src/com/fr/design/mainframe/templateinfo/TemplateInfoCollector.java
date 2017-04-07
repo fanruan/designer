@@ -31,6 +31,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
     private static final int ONE_THOUSAND = 1000;
+    static final long serialVersionUID = 2007L;
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
@@ -72,7 +73,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             } catch (InvalidClassException ex) {
                 // 如果 TemplateInfoCollecor 类结构有改动，则放弃之前收集的数据（下次保存时覆盖）
                 // 这种情况主要在开发、测试过程中遇到，正式上线后不应该出现
-                FRLogger.getLogger().error(ex.getMessage());
+                FRLogger.getLogger().info(ex.getMessage());
                 FRLogger.getLogger().info("use a new instance");
                 instance = new TemplateInfoCollector();
             }
