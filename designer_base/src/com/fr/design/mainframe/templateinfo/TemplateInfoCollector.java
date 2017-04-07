@@ -5,6 +5,7 @@ import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
@@ -15,9 +16,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * 做模板的过程和耗时收集，辅助类
@@ -70,18 +69,28 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             } catch (FileNotFoundException ex) {
                 // 如果之前没有存储过，则创建新对象
                 instance = new TemplateInfoCollector();
-            } catch (Exception ex) {
+            } catch (InvalidClassException ex) {
+                // 如果 TemplateInfoCollecor 类结构有改动，则放弃之前收集的数据（下次保存时覆盖）
+                // 这种情况主要在开发、测试过程中遇到，正式上线后不应该出现
+                FRLogger.getLogger().error(ex.getMessage());
+                FRLogger.getLogger().info("use a new instance");
+                instance = new TemplateInfoCollector();
+            }
+            catch (Exception ex) {
                 FRLogger.getLogger().error(ex.getMessage(), ex);
             }
         }
         return instance;
     }
 
-    private static boolean shouldCollectInfo() {
+    private boolean shouldCollectInfo() {
+        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {  // 远程设计不收集数据
+            return false;
+        }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
-    public static void appendProcess(String log) {
+    public void appendProcess(String log) {
         if (!shouldCollectInfo()) {
             return;
         }
@@ -113,7 +122,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private void saveInfo() {
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            FRLogger.getLogger().info("writing: " + instance.templateInfoList);
+            String log = "";
+            int count = 1;
+            for (String key : templateInfoList.keySet()) {
+                String createTime = ((HashMap)templateInfoList.get(key).get("consumingMap")).get("create_time").toString();
+                log += (count + ". id: " + key + " " + createTime + "\n" + templateInfoList.get(key).toString() + "\n");
+                count ++;
+            }
+            FRLogger.getLogger().info("writing tplInfo: \n" + log);
             os.writeObject(instance);
             os.close();
         } catch (Exception ex) {
@@ -225,7 +241,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
                 FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
-                templateInfoList.remove(templateInfo.get("templateID"));
+                removeFromTemplateInfoList(templateInfo.get("templateID"));
+            } else {
+                FRLogger.getLogger().info("send template info failed, will try next time, " + templateInfo.get("templateID"));
             }
         }
         saveInfo();
@@ -277,10 +295,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
         // 删除测试模板
         for (String key : testTemplateKeys) {
-            templateInfoList.remove(key);
-//            System.out.println(key + " is removed...");
+            removeFromTemplateInfoList(key);
         }
         return completeTemplatesInfo;
+    }
+
+    private void removeFromTemplateInfoList(String key) {
+        templateInfoList.remove(key);
+        FRLogger.getLogger().info(key + " is removed...");
     }
 
     @SuppressWarnings("unchecked")
