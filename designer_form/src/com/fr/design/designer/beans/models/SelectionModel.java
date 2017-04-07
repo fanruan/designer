@@ -13,6 +13,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.FormSelectionUtils;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.stable.ArrayUtils;
 
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 public class SelectionModel {
     //被粘贴组件在所选组件位置处往下、往右各错开20像素。执行多次粘贴时，在上一次粘贴的位置处错开20像素。
     private static final int DELTA_X_Y = 20; //粘贴时候的偏移距离
-    private static final int BORDER_PROPORTION = 20;
+    private static final double OFFSET_RELATIVE = 0.80;
     private static FormSelection clipboard = new FormSelection();
     private FormDesigner designer;
     private FormSelection selection;
@@ -111,7 +112,7 @@ public class SelectionModel {
      */
     public boolean pasteFromClipBoard() {
         if (!clipboard.isEmpty()) {
-            if (!hasSelectionComponent()) {
+            if (!hasSelectedPasteSource()) {
                 //未选
                 unselectedPaste();
             } else {
@@ -140,14 +141,14 @@ public class SelectionModel {
                     FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
                             clipboard,
                             rec.x + rec.width / 2,
-                            rec.y + BORDER_PROPORTION);
+                            rec.y + DELTA_X_Y);
                 } else {
                     Rectangle rec = selection.getRelativeBounds();
                     //自适应布局
                     FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
                             clipboard,
                             rec.x + rec.width / 2,
-                            rec.y + BORDER_PROPORTION);
+                            rec.y + DELTA_X_Y);
                 }
             } else {
                 //绝对布局
@@ -172,18 +173,22 @@ public class SelectionModel {
      * 粘贴时选择组件
      */
     private void selectedPaste() {
-        XLayoutContainer parent = null;
+        XLayoutContainer container = null;
         //获取到编辑器的表层容器（已选的组件的父容器就是表层容器）
-        parent = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
-        if (parent != null && selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
+        container = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
+        if (container != null && selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
             //自适应布局
-            Rectangle rec = selection.getRelativeBounds();
-            FormSelectionUtils.paste2Container(designer, parent, clipboard, rec.x + rec.width / 2, rec.y +
-                    rec.height - BORDER_PROPORTION);
-        } else if (parent != null && selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
+            Rectangle selectionRec = selection.getRelativeBounds();
+            Rectangle containerRec = ComponentUtils.getRelativeBounds(container);
+            //计算自适应布局位置
+            int positionX = selectionRec.x - containerRec.x + selectionRec.width / 2;
+            int positionY = (int) (selectionRec.y - containerRec.y + selectionRec.height * OFFSET_RELATIVE);
+
+            FormSelectionUtils.paste2Container(designer, container, clipboard, positionX, positionY);
+        } else if (container != null && selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
             //绝对布局
             Rectangle rec = selection.getSelctionBounds();
-            FormSelectionUtils.paste2Container(designer, parent, clipboard, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
+            FormSelectionUtils.paste2Container(designer, container, clipboard, rec.x + DELTA_X_Y, rec.y + DELTA_X_Y);
         }
     }
 
@@ -198,13 +203,13 @@ public class SelectionModel {
                 if (creator.acceptType(XWParameterLayout.class)) {
                     designer.removeParaComponent();
                 }
-
                 removeCreatorFromContainer(creator, creator.getWidth(), creator.getHeight());
                 creator.removeAll();
                 // 清除被选中的组件
                 selection.reset();
             }
             setSelectedCreator(designer.getRootComponent());
+            FormSelectionUtils.rebuildSelection(designer);
             // 触发事件
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_DELETED);
             designer.repaint();
@@ -275,7 +280,7 @@ public class SelectionModel {
      * 但是编辑窗口的最外层其实是表层@see {@link com.fr.design.designer.creator.XWAbsoluteBodyLayout},
      * 其他两层不是靠添加组件就可以编辑的。
      */
-    public boolean hasSelectionComponent() {
+    public boolean hasSelectedPasteSource() {
         XCreator selectionXCreator = selection.getSelectedCreator();
         if (designer.getClass().equals(FormDesigner.class)) {
             //frm本地组件复用
@@ -286,10 +291,12 @@ public class SelectionModel {
                         || selectionXCreator.getClass().equals(XWTabFitLayout.class);
                 //选中的是否是frm绝对布局编辑器本身
                 boolean absoluteEditor = selectionXCreator.getClass().equals(XWAbsoluteBodyLayout.class);
+                //选中是否是frm绝对画布块编辑器本身
+                boolean absoluteCanvas = selectionXCreator.getClass().equals(XWAbsoluteLayout.class);
                 //选中的是否是相对布局编辑器本身
                 boolean relativeEditor = selectionXCreator.getClass().equals(XWFitLayout.class);
 
-                return !(tabEditor || absoluteEditor || relativeEditor);
+                return !(tabEditor || absoluteEditor || absoluteCanvas || relativeEditor);
             } else {
                 return false;
             }
@@ -297,6 +304,15 @@ public class SelectionModel {
             //cpt本地组件复用,selection.getSelectedCreator().getParent()=@XWParameterLayout instanceof @XWAbsoluteLayout
             return selectionXCreator != null && selectionXCreator.getParent() != null;
         }
+    }
+
+    /**
+     * 是否有组件被选择。如果所选组件是最底层容器，也视为无选择
+     *
+     * @return 是则返回true
+     */
+    public boolean hasSelectionComponent() {
+        return !selection.isEmpty() && selection.getSelectedCreator().getParent() != null;
     }
 
     /**
