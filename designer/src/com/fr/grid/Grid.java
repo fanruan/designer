@@ -10,6 +10,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.event.CellEditorEvent;
@@ -35,6 +36,7 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -1063,6 +1065,13 @@ public class Grid extends BaseGridComponent {
     private boolean isValueEmpty(Object newValue) {
         return (newValue == null || ComparatorUtils.equals(newValue, StringUtils.EMPTY));
 
+    }
+
+    /**
+     * @return editingCellElement 的字符串表示
+     */
+    public String getEditingCellElement() {
+        return editingCellElement.toString();
     }
 
     /**
