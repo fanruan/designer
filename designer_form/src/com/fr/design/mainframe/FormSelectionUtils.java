@@ -192,7 +192,7 @@ public class FormSelectionUtils {
         if (selectWidgets != null) {
             selectionWidget.addAll(Arrays.asList(selectWidgets));
         }
-        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<>());
+        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<XCreator>());
     }
 
     private static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, List<Widget> selectionWidget,
