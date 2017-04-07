@@ -8,6 +8,7 @@ import com.fr.design.designer.creator.*;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.Inter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,11 +18,7 @@ import java.util.List;
 public class FormSelectionUtils {
 
     //组件复制时坐标偏移
-    private static final int DELAY_X = 20;
-    private static final int DELAY_Y = 20;
-
-    //组件复制时是否已经向左上偏移
-    private static boolean backoffset = false;
+    private static final int DELAY_X_Y = 20;
 
     //组件重命名后缀
     private static final String POSTFIX = "_c";
@@ -31,11 +28,7 @@ public class FormSelectionUtils {
     }
 
     /**
-     * @param designer  编辑器
-     * @param parent    粘贴依据的组件
-     * @param clipboard 剪贴板内容
-     * @param x         x
-     * @param y         y
+     * 粘贴到容器
      */
     public static void paste2Container(FormDesigner designer, XLayoutContainer parent,
                                        FormSelection clipboard, int x, int y) {
@@ -54,12 +47,6 @@ public class FormSelectionUtils {
 
     /**
      * 绝对布局粘贴
-     *
-     * @param designer
-     * @param clipboard
-     * @param adapter
-     * @param x
-     * @param y
      */
     private static void absolutePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
 
@@ -74,6 +61,10 @@ public class FormSelectionUtils {
                         copiedCreator,
                         x + creator.getX() - rec.x + copiedCreator.getWidth() / 2,
                         y + creator.getY() - rec.y + copiedCreator.getHeight() / 2);
+                if (!adapter.accept(copiedCreator, point.x, point.y)) {
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Large_To_Paste"));
+                    return;
+                }
                 boolean addSuccess = adapter.addBean(copiedCreator, point.x, point.y);
                 if (addSuccess) {
                     designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
@@ -90,12 +81,6 @@ public class FormSelectionUtils {
 
     /**
      * 相对布局粘贴
-     *
-     * @param designer
-     * @param clipboard
-     * @param adapter
-     * @param x
-     * @param y
      */
     private static void relativePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
         designer.getSelectionModel().getSelection().reset();
@@ -103,6 +88,10 @@ public class FormSelectionUtils {
             try {
                 Widget copied = copyWidget(designer, creator);
                 XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                if (!adapter.accept(copiedCreator, x, y)) {
+                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                    return;
+                }
                 boolean addSuccess = adapter.addBean(copiedCreator, x, y);
                 if (addSuccess) {
                     designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
@@ -118,14 +107,6 @@ public class FormSelectionUtils {
 
     /**
      * 组件复用绝对布局获取粘贴组件位置
-     *
-     * @param layoutAdapter 绝对布局容器AbstractLayoutAdapter
-     * @param copiedCreator 复制的组件
-     * @param x             x=组件x + clonedCreator.getWidth() / 2
-     * @param y             y=组件y + clonedCreator.getHeight() / 2
-     *                      除2的步骤会导致当宽度或者高度为奇数是，中心点向左上各偏移一个像素
-     *                      由于中心点向左上各偏移一个像素，依赖中心点计算的右下点就会相应的想做上偏移一个像素，导致结果不准确
-     * @return 新位置坐标
      */
     private static Point getPasteLocation(AbstractLayoutAdapter layoutAdapter, XCreator copiedCreator, int x, int y) {
         //当宽度为奇数时 设置偏移
@@ -144,12 +125,10 @@ public class FormSelectionUtils {
              * x,y同时越界
              */
             if (xOut && yOut) {
-                x = backoffset ? container.getWidth() - copiedCreator.getWidth() / 2 - xoffset
-                        : container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X - xoffset;
-                y = backoffset ?
-                        container.getHeight() - copiedCreator.getHeight() / 2 - yoffset
-                        : container.getHeight() - copiedCreator.getHeight() / 2 - DELAY_Y - yoffset;
-                backoffset = !backoffset;
+                //向左偏移
+                x = container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X_Y - xoffset;
+                //紧贴下边界
+                y = container.getHeight() - copiedCreator.getHeight() / 2 - yoffset;
                 return new Point(x, y);
             }
             /*
@@ -158,7 +137,7 @@ public class FormSelectionUtils {
             * 距离大于20像素的一侧正常错开。
             * x,y中只有一个越界
             */
-            else if ((xOut || yOut)) {
+            if ((xOut || yOut)) {
                 x = xOut ? container.getWidth() - copiedCreator.getWidth() / 2 - xoffset : x;
                 y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - yoffset : y;
                 return new Point(x, y);
@@ -170,15 +149,10 @@ public class FormSelectionUtils {
 
     /**
      * 拷贝组件
-     *
-     * @param formDesigner
-     * @param xCreator
-     * @return
-     * @throws CloneNotSupportedException
      */
     private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
             CloneNotSupportedException {
-        ArrayList<String> nameSpace = new ArrayList<String>();
+        ArrayList<String> nameSpace = new ArrayList<>();
         Widget copied = (Widget) xCreator.toData().clone();
         //重命名拷贝的组件
         String name = getCopiedName(formDesigner, copied, nameSpace);
@@ -193,14 +167,9 @@ public class FormSelectionUtils {
 
     /**
      * 组件拷贝命名规则
-     *
-     * @param formDesigner
-     * @param copied
-     * @param nameSpace
-     * @return name
      */
     private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> nameSpace) {
-        StringBuffer name = new StringBuffer(copied.getWidgetName());
+        StringBuilder name = new StringBuilder(copied.getWidgetName());
         do {
             name.append(POSTFIX);
         } while (formDesigner.getTarget().isNameExist(name.toString()) || nameSpace.contains(name.toString()));
@@ -209,8 +178,8 @@ public class FormSelectionUtils {
     }
 
     public static void rebuildSelection(FormDesigner designer) {
-        ArrayList<XCreator> newSelection = new ArrayList<XCreator>();
-        List<Widget> widgetList = new ArrayList<Widget>();
+        ArrayList<XCreator> newSelection = new ArrayList<>();
+        List<Widget> widgetList = new ArrayList<>();
         for (XCreator comp : designer.getSelectionModel().getSelection().getSelectedCreators()) {
             widgetList.add(comp.toData());
         }
@@ -219,11 +188,11 @@ public class FormSelectionUtils {
     }
 
     public static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, Widget[] selectWidgets) {
-        List<Widget> selectionWidget = new ArrayList<Widget>();
+        List<Widget> selectionWidget = new ArrayList<>();
         if (selectWidgets != null) {
             selectionWidget.addAll(Arrays.asList(selectWidgets));
         }
-        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<XCreator>());
+        return FormSelectionUtils.rebuildSelection(rootComponent, selectionWidget, new ArrayList<>());
     }
 
     private static ArrayList<XCreator> rebuildSelection(XCreator rootComponent, List<Widget> selectionWidget,
