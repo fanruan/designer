@@ -283,7 +283,6 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
         } else if (isCrossPointArea(parentComp, x, y)) {
             //交叉区域插入组件时，根据具体位置进行上下或者左右或者相邻三个组件的位置大小插入
             fixCrossPointArea(parentComp, child, x, y);
-            //TODO 尽量不要出现这种写法吧？if else条件要么互斥，要么多个if判断return，不要在一条if else语句里面return吧?
             return;
         } else if (isTrisectionArea(parentComp, x, y)) {
             // 在边界三等分区域，就不再和组件二等分了
@@ -320,17 +319,15 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
         int height = creator.getHeight();
         int width = creator.getWidth();
         if (x < 0) {
-            width += x;
-            x = 0;
+            x = container.getX();
         } else if (x + creator.getWidth() > container.getWidth()) {
-            width = container.getWidth() - x;
+            x = container.getWidth() - width;
         }
 
         if (y < 0) {
-            height += y;
-            y = 0;
+            y = container.getY();
         } else if (y + creator.getHeight() > container.getHeight()) {
-            height = container.getHeight() - y;
+            y = container.getHeight() - height;
         }
 
         creator.setBounds(x, y, width, height);
