@@ -5,6 +5,7 @@ import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
@@ -25,17 +26,16 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
     private static final String FILE_NAME = "tplInfo.ser";
     private static TemplateInfoCollector instance;
     private HashMap<String, HashMap<String, Object>> templateInfoList;
-    private Set<String> removedTemplates;  // 已经从 templateInfoList 中删除过的 id 列表，防止重复收集数据
     private String designerOpenDate;  //设计器最近一次打开日期
     private static final int VALID_CELL_COUNT = 5;  // 有效报表模板的格子数
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
     private static final int ONE_THOUSAND = 1000;
+    static final long serialVersionUID = 2007L;
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
         templateInfoList = new HashMap<>();
-        removedTemplates = new ListSet<>();
         setDesignerOpenDate();
     }
 
@@ -70,22 +70,29 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             } catch (FileNotFoundException ex) {
                 // 如果之前没有存储过，则创建新对象
                 instance = new TemplateInfoCollector();
-            } catch (Exception ex) {
+            } catch (InvalidClassException ex) {
+                // 如果 TemplateInfoCollecor 类结构有改动，则放弃之前收集的数据（下次保存时覆盖）
+                // 这种情况主要在开发、测试过程中遇到，正式上线后不应该出现
+                FRLogger.getLogger().info(ex.getMessage());
+                FRLogger.getLogger().info("use a new instance");
+                instance = new TemplateInfoCollector();
+            }
+            catch (Exception ex) {
                 FRLogger.getLogger().error(ex.getMessage(), ex);
             }
         }
         return instance;
     }
 
-    private boolean shouldCollectInfo(T t) {
-        if (t.getTemplateID() == null || instance.removedTemplates.contains(t.getTemplateID())) {  // 旧模板
+    private boolean shouldCollectInfo() {
+        if (FRContext.getCurrentEnv() instanceof RemoteEnv) {  // 远程设计不收集数据
             return false;
         }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
-    public void appendProcess(T t, String log) {
-        if (!shouldCollectInfo(t)) {
+    public void appendProcess(String log) {
+        if (!shouldCollectInfo()) {
             return;
         }
         // 获取当前编辑的模板
@@ -151,7 +158,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void collectInfo(T t, JTemplate jt, long openTime, long saveTime) {
-        if (!shouldCollectInfo(t)) {
+        if (!shouldCollectInfo()) {
             return;
         }
 
@@ -236,6 +243,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
                 // 清空记录
                 FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
                 removeFromTemplateInfoList(templateInfo.get("templateID"));
+            } else {
+                FRLogger.getLogger().info("send template info failed, will try next time, " + templateInfo.get("templateID"));
             }
         }
         saveInfo();
@@ -294,9 +303,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     private void removeFromTemplateInfoList(String key) {
         templateInfoList.remove(key);
-        removedTemplates.add(key);
         FRLogger.getLogger().info(key + " is removed...");
-        FRLogger.getLogger().info("removedTemplates: " + removedTemplates);
     }
 
     @SuppressWarnings("unchecked")
