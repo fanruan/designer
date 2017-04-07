@@ -85,7 +85,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
-        initForCollect();
+        openTime = System.currentTimeMillis();
     }
 
     public JTemplate(T t, FILE file) {
@@ -117,6 +117,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         }
     }
     private void collectInfo() {  // 执行收集操作
+        if (openTime == 0) {  // 旧模板，不收集数据
+            return;
+        }
         long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         tic.collectInfo(template, this, openTime, saveTime);
         openTime = saveTime;  // 更新 openTime，准备下一次计算
@@ -531,7 +534,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
-            initForCollect();  // 如果另存为新模板，则添加 templateID
+            initForCollect();  // 如果保存新模板（新建模板直接保存，或者另存为），则添加 templateID
             collectInfo();
         }
         //更换最近打开

@@ -43,7 +43,7 @@ public class FormCreatorDropTarget extends DropTarget {
      * 当前添加模式对应的model
      */
     private AddingModel addingModel;
-    private final static int GAP = 30;
+    private static final int GAP = 30;
 
     private JWindow promptWindow = new JWindow();
     private UIButton promptButton = new UIButton("", BaseUtils.readIcon(IconPathConstants.FORBID_ICON_PATH));
@@ -59,10 +59,11 @@ public class FormCreatorDropTarget extends DropTarget {
         XCreator hoveredComponent = designer.getComponentAt(x, y);
         // 获取该组件所在的焦点容器
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(hoveredComponent);
-        //cardTagLayout里用到
-        container.stopAddingState(designer);
         boolean success = false;
         if (container != null) {
+            //XWCardTagLayout 切换添加状态到普通状态
+            container.stopAddingState(designer);
+
             // 如果是容器，则调用其acceptComponent接受组件
             AddingModel model = designer.getAddingModel();
 
@@ -129,9 +130,7 @@ public class FormCreatorDropTarget extends DropTarget {
         //提示组件是否可以拖入
         promptUser(x, y, container);
         if (container != null) {
-
             dealWithContainer(x, y, container);
-
         } else {
             // 如果鼠标不在任何组件上，则取消提示器
             designer.setPainter(null);
@@ -197,11 +196,9 @@ public class FormCreatorDropTarget extends DropTarget {
 
     private void promptWidgetForbidEnter(int x, int y, XLayoutContainer container) {
         container.setBorder(BorderFactory.createLineBorder(Color.RED, Constants.LINE_MEDIUM));
-        int screen_X = (int) designer.getArea().getLocationOnScreen().getX();
-        int screen_Y = (int) designer.getArea().getLocationOnScreen().getY();
-        this.promptWindow.setSize(promptWindow.getPreferredSize());
-        this.promptWindow.setPreferredSize(promptWindow.getPreferredSize());
-        promptWindow.setLocation(screen_X + x + GAP, screen_Y + y + GAP);
+        int screenX = designer.getArea().getLocationOnScreen().x;
+        int screenY = designer.getArea().getLocationOnScreen().y;
+        promptWindow.setLocation(screenX + x + GAP, screenY + y + GAP);
         promptWindow.setVisible(true);
     }
 
