@@ -640,11 +640,7 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
         * 又通过ComponentUtils.getRelativeBounds()方法获取到了绝对坐标，
         * 再次计算相对坐标，所以将y值重新变成绝对坐标。
         * */
-        if (currentCreator.getBackupParent().getLocation().y == WBorderLayout.DEFAULT_SIZE) {
-            y = y + WCardMainBorderLayout.TAB_HEIGHT + WBorderLayout.DEFAULT_SIZE;
-        } else {
-            y = y + WCardMainBorderLayout.TAB_HEIGHT;
-        }
+        y = y + WCardMainBorderLayout.TAB_HEIGHT + this.getParaEditorYOffset();
         int tempX = x - rect.x;
         int tempY = y - rect.y;
         int containerX = container.getX();
@@ -674,6 +670,26 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
         }
         return position;
     }
+
+    /**
+     * 获取因为参数面板导致的Y坐标偏移
+     *
+     * @return 参数面板导致的Y坐标偏移
+     */
+    protected int getParaEditorYOffset() {
+        int offset = 0;
+        if (container.getParent() != null) {
+            Component components[] = container.getParent().getComponents();
+            for (Component component : components) {
+                if (component instanceof XWParameterLayout) {
+                    offset = component.getY() + component.getHeight();
+                    break;
+                }
+            }
+        }
+        return offset;
+    }
+
 
     /**
      * 组件交叉区域进行插入时，调整受到变动的其他组件,之前是交叉区域插入也按照三等分逻辑，后面测试中发现有bug，改为和bi一样的鼠标所在侧平分

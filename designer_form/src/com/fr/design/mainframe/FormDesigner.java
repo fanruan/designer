@@ -612,6 +612,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         return true;
     }
 
+    public void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(this, message, Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+        FormSelectionUtils.rebuildSelection(this);
+        repaint();
+    }
+
     /**
      * 保存参数界面的宽度
      *
