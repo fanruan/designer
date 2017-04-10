@@ -55,7 +55,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-public class RemoteEnv implements Env {
+public class RemoteEnv extends AbstractEnv {
     private static final int TIME_OUT = 30 * 1000;
     private static final int PLAIN_SOCKET_PORT = 80;
     private static final int SSL_PORT = 443;
