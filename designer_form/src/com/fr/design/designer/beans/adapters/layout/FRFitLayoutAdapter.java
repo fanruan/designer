@@ -133,7 +133,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         isFindRelatedComps = false;
         //拖入组件判断时，先判断是否为交叉点区域，其次三等分区域，再次平分区域
         Component comp = container.getComponentAt(x, y);
-        if (checkInterval(comp)) {
+        if (comp == null || checkInterval(comp)) {
             return false;
         }
         //如果当前处于边缘地带, 那么就把他贴到父容器上
