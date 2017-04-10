@@ -79,7 +79,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         eastPane.setLayout(new BorderLayout());
 
-        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 15));
+        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
         JPanel button = new JPanel();
         button.setPreferredSize(new Dimension(45, 20));
         button.setLayout(new GridLayout(1, 2, 5, 0));

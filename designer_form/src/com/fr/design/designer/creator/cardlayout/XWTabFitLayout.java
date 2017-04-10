@@ -18,7 +18,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Background;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -425,7 +425,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	private void updateCompsWidget(){
 		for(int m=0;m<this.getComponentCount();m++){
 			XCreator childCreator = this.getXCreator(m);
-			BoundsWidget wgt = this.toData().getBoundsWidget(childCreator.toData());
+			BoundsWidget wgt = (BoundsWidget) this.toData().getBoundsWidget(childCreator.toData());
 			wgt.setBounds(this.getComponent(m).getBounds());
 			wgt.setBackupBounds(this.getComponent(m).getBounds());
 		}
