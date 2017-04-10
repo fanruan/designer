@@ -305,9 +305,12 @@ class MobileParaWidgetTable extends JTable {
         /**
          * cell改变，相应的nametag改变
          */
+
         private void firePropertyChange(){
             ((WParameterLayout) designer.getParaComponent().toData()).add2NameTagMap(uiTableTextField.getText(),
                     cellData[getSelectedRow()][1]);
+            ((WParameterLayout) designer.getParaComponent().toData()).setNameTagModified(cellData[getSelectedRow()][1],
+                    true);
         }
 
         @Override

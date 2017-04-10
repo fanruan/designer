@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.stable.Constants;
 import com.fr.base.GraphHelper;
 import com.fr.design.designer.beans.ConnectorCreator;
