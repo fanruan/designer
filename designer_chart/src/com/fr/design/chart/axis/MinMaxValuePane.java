@@ -30,7 +30,8 @@ public class MinMaxValuePane extends JPanel {
     protected UICheckBox isCustomSecUnitBox;
     protected UITextField secUnitField;
 
-	public MinMaxValuePane() {
+
+    public MinMaxValuePane() {
         minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
         minValueField = new UITextField(6);
         maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
@@ -39,37 +40,45 @@ public class MinMaxValuePane extends JPanel {
         mainUnitField = new UITextField(6);
         isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
         secUnitField = new UITextField(6);
-		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-		double[] columnSize = { p, f };
-        double[] rowSize = { p, p, p, p};
 
-		Component[][] components  = getPanelComponents();
-		JPanel panel = TableLayoutHelper.createTableLayoutPane(components ,rowSize,columnSize);
-		this.setLayout(new BorderLayout());
-		this.add(panel,BorderLayout.CENTER);
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
 
-        for(int i = 0; i < components.length; i++) {
-			((UICheckBox)components[i][0]).addActionListener(new ActionListener() {
+        Component[][] components = getPanelComponents();
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, getRowSize(p), columnSize);
+        this.setLayout(new BorderLayout());
+        this.add(panel, BorderLayout.CENTER);
+        addComponentListener(components);
+    }
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					checkBoxUse();
-				}
-			});
-			ChartSwingUtils.addListener((UICheckBox)components[i][0], (UITextField)components[i][1]);
-		}
-	}
-	protected Component[][] getPanelComponents() {
-		return 	new Component[][]{
+    protected double[] getRowSize(double p) {
+        return new double[]{p, p, p, p};
+    }
+
+    public void addComponentListener(Component[][] components) {
+        for (int i = 0; i < components.length; i++) {
+            ((UICheckBox) components[i][0]).addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    checkBoxUse();
+                }
+            });
+            ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
+        }
+    }
+
+    protected Component[][] getPanelComponents() {
+        return new Component[][]{
                 new Component[]{minCheckBox, minValueField},
                 new Component[]{maxCheckBox, maxValueField},
                 new Component[]{isCustomMainUnitBox, mainUnitField},
                 new Component[]{isCustomSecUnitBox, secUnitField},
-		};
-	}
+        };
+    }
 
-	private void checkBoxUse() {
+	protected void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
 		maxValueField.setEnabled(maxCheckBox.isSelected());
 
@@ -100,7 +109,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMinValue() != null) {
 				minValueField.setText(axis.getMinValue().toString());
 			}
-		} 
+		}
 
 		// 最大值
 		if (axis.isCustomMaxValue()) {
@@ -108,7 +117,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMaxValue() != null) {
 				maxValueField.setText(axis.getMaxValue().toString());
 			}
-		} 
+		}
 
 		// 主次刻度单位
 		if (axis.isCustomMainUnit()) {
@@ -116,7 +125,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMainUnit() != null) {
 				mainUnitField.setText(axis.getMainUnit().toString());
 			}
-		} 
+		}
 
 		if(axis.isCustomSecUnit()) {
 			isCustomSecUnitBox.setSelected(true);
@@ -149,7 +158,7 @@ public class MinMaxValuePane extends JPanel {
 		updateUnit(axis);
 	}
 
-    private void updateUnit(Axis axis) {
+    protected void updateUnit(Axis axis) {
         // 主要刻度
         if (isCustomMainUnitBox.isSelected()){
             String increment = mainUnitField.getText();
