@@ -15,8 +15,6 @@ import com.fr.design.mainframe.FormSelection;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
