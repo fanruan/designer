@@ -235,7 +235,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
             if (creator.hasTitleStyle()) {
                 addParentCreator(creator);
             } else {
-                container.add(creator, creator.toData().getWidgetName());
+                container.add(creator, creator.toData().getWidgetName(),0);
             }
             XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
             layout.updateBoundsWidget(creator);
@@ -246,7 +246,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
             if (creator.shouldScaleCreator() || creator.hasTitleStyle()) {
                 addParentCreator(creator);
             } else {
-                container.add(creator, creator.toData().getWidgetName());
+                container.add(creator, creator.toData().getWidgetName(),0);
             }
             XWFitLayout layout = (XWFitLayout) container;
             // 更新对应的BoundsWidget
@@ -265,7 +265,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 
     private void addParentCreator(XCreator child) {
         XLayoutContainer parentPanel = child.initCreatorWrapper(child.getHeight());
-        container.add(parentPanel, child.toData().getWidgetName());
+        container.add(parentPanel, child.toData().getWidgetName(),0);
     }
 
     /**
