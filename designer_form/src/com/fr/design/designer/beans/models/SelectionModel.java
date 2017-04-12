@@ -149,7 +149,15 @@ public class SelectionModel {
                     int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
                     //选中第一个坐标点坐在的组件
                     selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
-                    pasteFromClipBoard();
+                    if (hasSelectedPasteSource()) {
+                        selectedPaste();
+                    } else {
+                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                                clipboard,
+                                DELTA_X_Y,
+                                DELTA_X_Y);
+                    }
+
                 }
             } else {
                 //绝对布局
