@@ -55,17 +55,21 @@ public class MinMaxValuePane extends JPanel {
 		return new double[]{p, p, p, p};
 	}
 
-	public void addComponentListener(Component[][] components) {
+	protected void addComponentListener(Component[][] components) {
 		for (int i = 0; i < components.length; i++) {
-			((UICheckBox) components[i][0]).addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					checkBoxUse();
-				}
-			});
+			addListener((UICheckBox) components[i][0]);
 			ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
 		}
+	}
+
+	protected void  addListener(UICheckBox checkBox) {
+		checkBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkBoxUse();
+			}
+		});
 	}
 
 	protected Component[][] getPanelComponents() {
@@ -77,7 +81,7 @@ public class MinMaxValuePane extends JPanel {
 		};
 	}
 
-	protected void checkBoxUse() {
+	private void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
 		maxValueField.setEnabled(maxCheckBox.isSelected());
 
@@ -108,7 +112,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMinValue() != null) {
 				minValueField.setText(axis.getMinValue().toString());
 			}
-		} 
+		}
 
 		// 最大值
 		if (axis.isCustomMaxValue()) {
@@ -116,7 +120,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMaxValue() != null) {
 				maxValueField.setText(axis.getMaxValue().toString());
 			}
-		} 
+		}
 
 		// 主次刻度单位
 		if (axis.isCustomMainUnit()) {
@@ -124,7 +128,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMainUnit() != null) {
 				mainUnitField.setText(axis.getMainUnit().toString());
 			}
-		} 
+		}
 
 		if(axis.isCustomSecUnit()) {
 			isCustomSecUnitBox.setSelected(true);
