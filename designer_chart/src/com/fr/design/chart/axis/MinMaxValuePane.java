@@ -53,18 +53,22 @@ public class MinMaxValuePane extends JPanel {
 	protected double[] getRowSize(double p) {
 		return new double[]{p, p, p, p};
 	}
-	public void addComponentListener(Component[][] components) {
-		for (int i = 0; i < components.length; i++) {
-			((UICheckBox) components[i][0]).addActionListener(new ActionListener() {
+    public void addComponentListener(Component[][] components) {
+        for (int i = 0; i < components.length; i++) {
+            addListener((UICheckBox) components[i][0]);
+            ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
+        }
+    }
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					checkBoxUse();
-				}
-			});
-			ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
-		}
-	}
+    protected void  addListener(UICheckBox checkBox) {
+        checkBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkBoxUse();
+            }
+        });
+    }
 
 	protected Component[][] getPanelComponents() {
 		return 	new Component[][]{
@@ -75,7 +79,7 @@ public class MinMaxValuePane extends JPanel {
 		};
 	}
 
-	protected void checkBoxUse() {
+	private void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
 		maxValueField.setEnabled(maxCheckBox.isSelected());
 
