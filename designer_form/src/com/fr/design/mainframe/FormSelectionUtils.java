@@ -3,8 +3,10 @@ package com.fr.design.mainframe;
 import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
@@ -83,14 +85,26 @@ public class FormSelectionUtils {
      * 相对布局粘贴
      */
     private static void relativePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
+
+        //@see FRTabFitLayoutAdapter
+        Rectangle tabContainerRect = ComponentUtils.getRelativeBounds(designer.getSelectionModel().getSelection()
+                .getSelectedCreator().getParent());
+
         designer.getSelectionModel().getSelection().reset();
         for (XCreator creator : clipboard.getSelectedCreators()) {
             try {
                 Widget copied = copyWidget(designer, creator);
                 XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                if (!adapter.accept(copiedCreator, x, y)) {
-                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
-                    return;
+                if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
+                    if (!adapter.accept(copiedCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
+                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                        return;
+                    }
+                } else {
+                    if (!adapter.accept(copiedCreator, x, y)) {
+                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                        return;
+                    }
                 }
                 boolean addSuccess = adapter.addBean(copiedCreator, x, y);
                 if (addSuccess) {

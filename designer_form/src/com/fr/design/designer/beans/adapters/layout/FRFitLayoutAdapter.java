@@ -274,12 +274,8 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     }
 
     private Rectangle adjustBackupBound(Rectangle backupBound, XWCardMainBorderLayout mainLayout) {
-        // 参数界面高度对纵坐标产生的影响
-        JForm jform = (JForm) (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
-        if (jform.getFormDesign().getParaComponent() != null) {
-            backupBound.y -= jform.getFormDesign().getParaHeight();
-        }
-
+        // zhouping: REPORT-2334 表单tab布局中图表放大缩小会明显
+        // 这边不需要单独处理参数面板高度了，下面的方法中获取的是XWCardMainBorderLayout相对坐标
         Rectangle rec = getLayoutBound(mainLayout);
         // XWTabLayout里面的横纵坐标收到外层XWCardMainBorderLayout的横纵坐标影响
         // 减掉之后可以按照它原来的逻辑执行
