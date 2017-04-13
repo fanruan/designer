@@ -53,7 +53,7 @@ public class MinMaxValuePane extends JPanel {
 	protected double[] getRowSize(double p) {
 		return new double[]{p, p, p, p};
 	}
-    public void addComponentListener(Component[][] components) {
+    protected void addComponentListener(Component[][] components) {
         for (int i = 0; i < components.length; i++) {
             addListener((UICheckBox) components[i][0]);
             ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
