@@ -22,6 +22,7 @@ public abstract class AbstractPainter implements HoverPainter {
 
     /**
      * 构造函数
+     *
      * @param container 容器
      */
     public AbstractPainter(XLayoutContainer container) {
@@ -32,23 +33,25 @@ public abstract class AbstractPainter implements HoverPainter {
     public void setHotspot(Point p) {
         hotspot = p;
     }
-    
+
     /**
-     *  画初始区域
-     *  @param g 画图类
-     *  @param startX 起始x位置
-     *  @param startY 起始y位置
+     * 画初始区域
+     *
+     * @param g      画图类
+     * @param startX 起始x位置
+     * @param startY 起始y位置
      */
-	public void paint(Graphics g, int startX, int startY) {
-		if(hotspot_bounds != null){
-			drawHotspot(g, hotspot_bounds.x, hotspot_bounds.y, hotspot_bounds.width, hotspot_bounds.height, Color.lightGray, true, false);
-		}
-	}
-    
-	/**
-	 * 设置边界
-	 * @param rect 位置
-	 */
+    public void paint(Graphics g, int startX, int startY) {
+        if (hotspot_bounds != null) {
+            drawHotspot(g, hotspot_bounds.x, hotspot_bounds.y, hotspot_bounds.width, hotspot_bounds.height, Color.lightGray, true, false);
+        }
+    }
+
+    /**
+     * 设置边界
+     *
+     * @param rect 位置
+     */
     @Override
     public void setRenderingBounds(Rectangle rect) {
         hotspot_bounds = rect;
@@ -63,12 +66,12 @@ public abstract class AbstractPainter implements HoverPainter {
         Color bColor = accept ? XCreatorConstants.LAYOUT_HOTSPOT_COLOR : XCreatorConstants.LAYOUT_FORBIDDEN_COLOR;
         drawHotspot(g, x, y, width, height, bColor, accept, false);
     }
-    
+
     /**
      * 自适应布局那边渲染提示，要画整个背景，不是画边框
      */
     protected void drawRegionBackground(Graphics g, int x, int y, int width, int height, Color bColor, boolean accept) {
-    	drawHotspot(g, x, y, width, height, bColor, accept, true);
+        drawHotspot(g, x, y, width, height, bColor, accept, true);
     }
 
     protected void drawHotspot(Graphics g, int x, int y, int width, int height, Color bColor, boolean accept, boolean drawBackground) {
@@ -81,13 +84,13 @@ public abstract class AbstractPainter implements HoverPainter {
         if (!accept) {
             g2d.drawString(Inter.getLocText("Cannot-Add_To_This_Area") + "!", x + width / 3, y + height / 2);
         } else if (drawBackground) {
-        	 g2d.fillRect(x, y, width, height);
+            g2d.fillRect(x, y, width, height);
         } else {
-        	g2d.drawRect(x, y, width, height);
+            g2d.drawRect(x, y, width, height);
         }
         g2d.setStroke(backup);
         g2d.setColor(color);
     }
-    
-    
+
+
 }

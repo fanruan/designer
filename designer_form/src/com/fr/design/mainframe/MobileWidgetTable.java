@@ -36,7 +36,7 @@ public class MobileWidgetTable extends JTable {
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
     private UILabel moveComponent = new UILabel(); // 作为拖动时候随鼠标移动的那个半透明控件
     private int selectedRow = -1;
-    private int GAP = 11;
+    private static final int GAP = 11;
     private boolean draging = false;
     private boolean collapsed = false; // 控件列表是否折叠
 
@@ -57,7 +57,7 @@ public class MobileWidgetTable extends JTable {
         TableModel defaultModel = new BeanTableModel();
         this.setModel(defaultModel);
         this.repaint();
-        this.setDefaultRenderer(Object.class,new DefaultTableCellRenderer());
+        this.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
         refreshData();
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
@@ -90,8 +90,8 @@ public class MobileWidgetTable extends JTable {
         @Override
         public void mousePressed(MouseEvent e) {
             getInstance().setCellSelected();
-            if (selectedRow == 0 && !e.isPopupTrigger() && e.getClickCount() == 1 && e.getX() < WIDGET_TABLE_ROW_HEIGHT / 2){ // 如果是点击在第一行
-                    toggleCollapse();
+            if (selectedRow == 0 && !e.isPopupTrigger() && e.getClickCount() == 1 && e.getX() < WIDGET_TABLE_ROW_HEIGHT / 2) { // 如果是点击在第一行
+                toggleCollapse();
             }
         }
 
@@ -102,14 +102,14 @@ public class MobileWidgetTable extends JTable {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
-            if(!draging){
+            if (!draging) {
                 return;
             }
             draging = false;
             moveComponent.setVisible(false);
-            int toIndex = e.getY() < GAP ? 0 : (int)Math.rint((e.getY() - GAP)/WIDGET_TABLE_ROW_HEIGHT) + 1;
+            int toIndex = e.getY() < GAP ? 0 : (int) Math.rint((e.getY() - GAP) / WIDGET_TABLE_ROW_HEIGHT) + 1;
             //当鼠标放开时，将选中的容器调整至新的顺序
-            ((WSortLayout)designer.getSelectionModel().getSelection().getSelectedCreator().toData()).adjustOrder(selectedRow - 1, toIndex - 1);
+            ((WSortLayout) designer.getSelectionModel().getSelection().getSelectedCreator().toData()).adjustOrder(selectedRow - 1, toIndex - 1);
             //拿取排序后表格数据，然后重绘表格
             getInstance().refreshData();
             getInstance().repaint();
@@ -124,8 +124,8 @@ public class MobileWidgetTable extends JTable {
         @Override
         public void mouseMoved(MouseEvent e) {
             int overRow = 0;
-            for (int i = 0;i < getRowCount();i++) {
-                if (e.getY() > i * WIDGET_TABLE_ROW_HEIGHT && e.getY() <= (i + 1) * WIDGET_TABLE_ROW_HEIGHT){
+            for (int i = 0; i < getRowCount(); i++) {
+                if (e.getY() > i * WIDGET_TABLE_ROW_HEIGHT && e.getY() <= (i + 1) * WIDGET_TABLE_ROW_HEIGHT) {
                     overRow = i; //判断鼠标在哪一行
                 }
             }
@@ -147,10 +147,10 @@ public class MobileWidgetTable extends JTable {
         public void mouseDragged(MouseEvent e) {
             int width = getColumnModel().getColumn(0).getWidth();
             //如果当前选中的行的范围是合理的话，就可以拖动
-            if (selectedRow < getRowCount() && selectedRow > 0){
+            if (selectedRow < getRowCount() && selectedRow > 0) {
                 setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
                 draging = true;
-                moveComponent.setText(getValueAt(selectedRow,0).toString());
+                moveComponent.setText(getValueAt(selectedRow, 0).toString());
                 moveComponent.setLocation(0, e.getY() - GAP);
                 moveComponent.setSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
                 moveComponent.setVisible(true);
@@ -165,16 +165,16 @@ public class MobileWidgetTable extends JTable {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(selectedRow > 0){
+            if (selectedRow > 0) {
                 //当前点击的控件的名字
                 String widgetName = cellData[selectedRow][0];
-                if (StringUtils.isNotEmpty(widgetName)){
+                if (StringUtils.isNotEmpty(widgetName)) {
                     //当前选择的容器
-                	XCreator selectedContainer = designer.getSelectionModel().getSelection().getSelectedCreator();
-                    WLayout selectedWidget = (WLayout)selectedContainer.toData();
+                    XCreator selectedContainer = designer.getSelectionModel().getSelection().getSelectedCreator();
+                    WLayout selectedWidget = (WLayout) selectedContainer.toData();
                     //当前选择的容器中的控件数量
                     int count = selectedWidget.getWidgetCount();
-                    for (int i = 0;i < count ;i++){
+                    for (int i = 0; i < count; i++) {
                         XCreator xCreator = (XCreator) selectedContainer.getComponent(i);
                         Widget widget = xCreator.toData();
                         if (ComparatorUtils.equals(widgetName, widget.getWidgetName())) {
@@ -182,7 +182,7 @@ public class MobileWidgetTable extends JTable {
                         }
                     }
                 }
-            } else if (selectedRow == 0){ // 如果是点击在第一行
+            } else if (selectedRow == 0) { // 如果是点击在第一行
                 if (!e.isPopupTrigger() && e.getClickCount() > 1) {
                     toggleCollapse();
                 }
@@ -200,12 +200,12 @@ public class MobileWidgetTable extends JTable {
         }
     };
 
-    public MobileWidgetTable getInstance(){
+    public MobileWidgetTable getInstance() {
         return this;
     }
 
-    public FormDesigner getEditingDesigner(){
-        return  designer;
+    public FormDesigner getEditingDesigner() {
+        return designer;
     }
 
     /**
@@ -236,7 +236,7 @@ public class MobileWidgetTable extends JTable {
     /**
      * 重新get排序后的数据
      */
-    public void refreshData(){
+    public void refreshData() {
         cellData = getData();
     }
 
@@ -245,21 +245,22 @@ public class MobileWidgetTable extends JTable {
      *
      * @return String[][] 二维数组，[0][0]widgetName
      */
-    private String[][] getData(){
-        if(designer.isFormParaDesigner()){
+    private String[][] getData() {
+        if (designer.isFormParaDesigner()) {
             return new String[0][0];
         }
 
         //选择的控件
-        Widget selectedModel = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
+        XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+        Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;
 
-        if(selectedModel == null){
+        if (selectedModel == null) {
             return new String[0][0];
         }
 
         // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
         if (selectedModel.acceptType(WSortLayout.class)) {
-            List<String> mobileWidgetList = ((WSortLayout)selectedModel).getOrderedMobileWidgetList();
+            List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
             String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
             widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
             for (int i = 0; i < mobileWidgetList.size(); i++) {
@@ -284,7 +285,7 @@ public class MobileWidgetTable extends JTable {
      */
     public class BeanTableModel extends DefaultTableModel {
         public BeanTableModel() {
-            super(cellData,headers);
+            super(cellData, headers);
         }
 
         @Override
@@ -307,7 +308,7 @@ public class MobileWidgetTable extends JTable {
                 return null;
             }
             if (row == 0) {
-                return (isCollapsed()? "+" : "-") + cellData[row][0];
+                return (isCollapsed() ? "+" : "-") + cellData[row][0];
             }
 
             return cellData[row][0];
@@ -332,13 +333,14 @@ public class MobileWidgetTable extends JTable {
         }
 
         /**
-         *  是否可编辑
-         * @param row 行号
-         * @param column    列号
+         * 是否可编辑
+         *
+         * @param row    行号
+         * @param column 列号
          * @return 是否可编辑
          */
         public boolean isCellEditable(int row, int column) {
-                return false;
+            return false;
         }
 
     }

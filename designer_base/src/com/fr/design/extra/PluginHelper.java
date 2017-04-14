@@ -322,6 +322,8 @@ public class PluginHelper {
         if (plugin == null || env == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
+        //卸载前监听
+        plugin.preUninstall();
         PluginLoader.getLoader().deletePlugin(plugin);
         return env.deleteFileFromPluginAndLibFolder(plugin);
     }
