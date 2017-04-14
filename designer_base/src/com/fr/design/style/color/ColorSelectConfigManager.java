@@ -84,6 +84,9 @@ public class ColorSelectConfigManager extends XMLFileManager implements ColorSel
      * @param color 颜色
      */
     public void addToColorQueue(Color color) {
+        if(color == null){
+            return;
+        }
         // 过滤重复的最近使用颜色
         // 因为有个后进先出的问题，最近使用的颜色需要放到最前面所以没用set
         if (colors.contains(color)) {
