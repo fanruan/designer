@@ -27,6 +27,8 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
@@ -72,16 +74,27 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private UndoManager authorityUndoManager;
     protected U undoState;
     protected U authorityUndoState = null;
+    protected T template; // 当前模板
+    protected TemplateProcessInfo processInfo; // 模板过程的相关信息
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
+    private long openTime = 0L; // 打开模板的时间点（包括新建模板）
+    private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
+    private StringBuilder process = new StringBuilder("");  // 制作模板的过程
 
     public JTemplate(T t, String defaultFileName) {
-        this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)));
+        this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
+        openTime = System.currentTimeMillis();
     }
 
     public JTemplate(T t, FILE file) {
+        this(t, file, false);
+    }
+
+    public JTemplate(T t, FILE file, boolean isNewFile) {
         super(t);
+        this.template = t;
         this.previewType = parserPreviewProvider(t.getPreviewType());
         this.editingFILE = file;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -89,6 +102,39 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         this.add(createCenterPane(), BorderLayout.CENTER);
         this.undoState = createUndoState();
         designModel = createDesignModel();
+        // 如果不是新建模板，并且在收集列表中
+        if (!isNewFile && tic.inList(t)) {
+            openTime = System.currentTimeMillis();
+            process.append(tic.loadProcess(t));
+        }
+    }
+
+    // 为收集模版信息作准备
+    private void initForCollect() {
+        template.initTemplateID();  // 为新模板设置 templateID 属性
+        if (openTime == 0) {
+            openTime = System.currentTimeMillis();
+        }
+    }
+    private void collectInfo() {  // 执行收集操作
+        if (openTime == 0) {  // 旧模板，不收集数据
+            return;
+        }
+        long saveTime = System.currentTimeMillis();  // 保存模板的时间点
+        tic.collectInfo(template, this, openTime, saveTime);
+        openTime = saveTime;  // 更新 openTime，准备下一次计算
+    }
+
+    public abstract TemplateProcessInfo getProcessInfo();
+
+    // 追加过程记录
+    public void appendProcess(String s) {
+        process.append(s);
+    }
+
+    // 获取过程记录
+    public String getProcess() {
+        return process.toString();
     }
 
     public U getUndoState() {
@@ -439,6 +485,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        collectInfo();
         return this.saveFile();
     }
     
@@ -482,11 +529,14 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
     
     protected boolean saveNewFile(FILE editingFILE, String oldName){
-        this.editingFILE = editingFILE;
+        // 在保存之前，初始化 templateID
+        initForCollect();  // 如果保存新模板（新建模板直接保存，或者另存为），则添加 templateID
 
+        this.editingFILE = editingFILE;
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
+            collectInfo();
         }
         //更换最近打开
         DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getFullPathName());

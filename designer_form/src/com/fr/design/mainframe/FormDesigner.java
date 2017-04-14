@@ -6,7 +6,10 @@ import com.fr.design.DesignState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.Painter;
+import com.fr.design.designer.beans.actions.CopyAction;
+import com.fr.design.designer.beans.actions.CutAction;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
+import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.adapters.layout.FRParameterLayoutAdapter;
 import com.fr.design.designer.beans.events.CreatorEventListenerTable;
 import com.fr.design.designer.beans.events.DesignerEditListener;
@@ -43,7 +46,6 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 
@@ -65,11 +67,10 @@ import java.util.List;
 /**
  * 设计界面组件。该组件是界面设计工具的核心，主要负责的是被设计界面的显示，界面设计操作状态的 显示，编辑状态的显示等等。
  */
-public class FormDesigner extends TargetComponent<Form> implements TreeSelectionListener, InvocationHandler, BaseFormDesigner ,ParaDefinitePane{
+public class FormDesigner extends TargetComponent<Form> implements TreeSelectionListener, InvocationHandler, BaseFormDesigner, ParaDefinitePane {
     protected static final ArrayList<String> NAME_ARRAY_LIST = new ArrayList<String>(
             Arrays.asList(new String[]{Inter.getLocText("M_Edit-Cut"), Inter.getLocText("M_Edit-Copy"), Inter.getLocText("M_Edit-Delete")})
     );
-    private static final int BORDER_WIDTH = 6;
     //底层容器的默认大小
     protected static final Dimension LARGE_PREFERRED_SIZE = new Dimension(WBorderLayout.DEFAULT_WIDTH, WBorderLayout.DEFAULT_HEIGHT);
     private int paraHeight = 0;
@@ -81,7 +82,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private XLayoutContainer paraComponent;
     private boolean drawLineMode;
     private FormArea formArea;
-    private ConnectorHelper ConnectorHelper;
+    private ConnectorHelper connectorHelper;
     private boolean isReportBlockEditing = false;
 
     //组件重叠
@@ -104,7 +105,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
-    protected Action[] designer_actions;
+    protected Action[] designerActions;
     private FormDesignerModeForSpecial<?> desigerMode;
     private Action switchAction;
     private FormElementCaseContainerProvider elementCaseContainer;
@@ -159,7 +160,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         ParameterPropertyPane.getInstance().populateBean(this);
     }
 
-    public Parameter[] getNoRepeatParas(Parameter[] paras){
+    public Parameter[] getNoRepeatParas(Parameter[] paras) {
         List<Parameter> paraList = new ArrayList<Parameter>();
         java.util.Set set = new java.util.HashSet();
         for (Parameter p : paras) {
@@ -171,23 +172,23 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         return paraList.toArray(new Parameter[paraList.size()]);
     }
 
-    public void setParameterArray(Parameter[] ps){
+    public void setParameterArray(Parameter[] ps) {
         parameterArray = ps;
     }
 
 
-    public Parameter[] getParameterArray(){
+    public Parameter[] getParameterArray() {
         return parameterArray;
     }
 
     /**
      * 刷新参数
      */
-    public void refreshParameter(){
+    public void refreshParameter() {
         XLayoutContainer rootContainer = this.getParaComponent();
-        if (rootContainer != null){
+        if (rootContainer != null) {
             java.util.List<String> namelist = new ArrayList<String>();
-            rootContainer.getAllXCreatorNameList(rootContainer,namelist);
+            rootContainer.getAllXCreatorNameList(rootContainer, namelist);
             // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
             // 与已有的参数列表比较 如果已经存在 就除去
             Parameter[] ps = getParameterArray();
@@ -201,7 +202,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(this).getPreferredSize().height);
     }
 
-    private void removeSame(Parameter[] parameters, List<String> namelist){
+    private void removeSame(Parameter[] parameters, List<String> namelist) {
         for (Parameter parameter : parameters) {
             for (String name : namelist) {
                 if (name.equalsIgnoreCase(parameter.getName())) {
@@ -214,20 +215,22 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 是否有查询按钮
-     * @return   有无查询按钮
+     *
+     * @return 有无查询按钮
      */
-    public boolean isWithQueryButton(){
+    public boolean isWithQueryButton() {
         XLayoutContainer rootContainer = this.getParaComponent();
         return rootContainer != null && rootContainer.SearchQueryCreators(rootContainer);
     }
 
     /**
      * 加入参数到参数面板
+     *
      * @param parameter 参数
      * @return 是否加入
      */
-    public void addingParameter2Editor(Parameter parameter){
-        if(getParaComponent() == null){
+    public void addingParameter2Editor(Parameter parameter) {
+        if (getParaComponent() == null) {
             addParaPaneTooltips();
             return;
         }
@@ -242,11 +245,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
         if (!(this.autoAddComponent(xLabel, H_COMPONENT_GAP * (currentIndex % NUM_IN_A_LINE)
                 + FIRST_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP * (currentIndex / NUM_IN_A_LINE)))) {
-            return ;
+            return;
         }
         if (!(this.autoAddComponent(xCreator, H_COMPONENT_GAP * (currentIndex % NUM_IN_A_LINE)
                 + SECOND_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP * (currentIndex / NUM_IN_A_LINE)))) {
-            return ;
+            return;
         }
         currentIndex++;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
@@ -256,11 +259,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 加入参数到参数面板，有查询按钮
+     *
      * @param parameter 参数
      * @return 是否加入
      */
-    public void addingParameter2EditorWithQueryButton(Parameter parameter){
-        if(getParaComponent() == null){
+    public void addingParameter2EditorWithQueryButton(Parameter parameter) {
+        if (getParaComponent() == null) {
             addParaPaneTooltips();
             return;
         }
@@ -276,12 +280,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
         if (!(this.autoAddComponent(xLabel, FIRST_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
-            return ;
+            return;
         }
 
         if (!(this.autoAddComponent(xCreator, SECOND_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
-            return ;
+            return;
         }
         FormSubmitButton formSubmitButton = new FormSubmitButton();
         formSubmitButton.setWidgetName("Search");
@@ -289,7 +293,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         xCreator = XCreatorUtils.createXCreator(formSubmitButton);
         if (!(this.autoAddComponent(xCreator, 270, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
-            return ;
+            return;
         }
         currentIndex = currentIndex + NUM_IN_A_LINE - currentIndex % NUM_IN_A_LINE;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
@@ -300,8 +304,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     /**
      * 一键添加所有参数
      */
-    public void addingAllParameter2Editor(){
-        if(getParaComponent() == null){
+    public void addingAllParameter2Editor() {
+        if (getParaComponent() == null) {
             addParaPaneTooltips();
             return;
         }
@@ -350,16 +354,17 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         EastRegionContainerPane.getInstance().refreshDownPane();
     }
 
-    private void addParaPaneTooltips(){
-        JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),Inter.getLocText("FR-Designer-Form-Please_Drag_ParaPane"),
+    private void addParaPaneTooltips() {
+        JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer-Form-Please_Drag_ParaPane"),
                 Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 
     /**
      * 自动添加组件
-     * @param xCreator  组件
-     * @param x 横坐标
-     * @param y  纵坐标
+     *
+     * @param xCreator 组件
+     * @param x        横坐标
+     * @param y        纵坐标
      * @return 是否添加成功
      */
     public boolean autoAddComponent(XCreator xCreator, int x, int y) {
@@ -375,10 +380,11 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 在参数很多时，全部添加的时候，可以向下一次排版，若去掉就会在参数面板堆到一起
+     *
      * @param creator 组件
-     * @param x  长度
-     * @param y 长度
-     * @param layout 布局
+     * @param x       长度
+     * @param y       长度
+     * @param layout  布局
      * @return 是否扩展
      */
     public boolean prepareForAdd(XCreator creator, int x, int y, XWParameterLayout layout) {
@@ -404,9 +410,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     /**
      * 加入参数面板
      */
-    public void addParaComponent(){
+    public void addParaComponent() {
         if (paraComponent != null) {
-            return ;
+            return;
         }
         paraHeight = WBorderLayout.DEFAULT_SIZE;
         paraComponent = new XWParameterLayout();
@@ -414,7 +420,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         paraComponent.setSize(paraComponent.initEditorSize());
         XWBorderLayout formLayoutContainer = (XWBorderLayout) rootComponent.getParent();
         formLayoutContainer.toData().setNorthSize(paraHeight);
-        formLayoutContainer.add(paraComponent,WBorderLayout.NORTH);
+        formLayoutContainer.add(paraComponent, WBorderLayout.NORTH);
         //设下northSize，增加para后，重置border大小，这时候para和root的大小会自适应调整
         formLayoutContainer.setSize(formLayoutContainer.getWidth(), formLayoutContainer.getHeight() + paraHeight);
         selectionModel.reset();
@@ -424,30 +430,33 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-     *  返回根节点父容器
-     * @return  父容器
+     * 返回根节点父容器
+     *
+     * @return 父容器
      */
-    public Component getTopContainer(){
-        if(rootComponent != null){
+    public Component getTopContainer() {
+        if (rootComponent != null) {
             // 返回root所在的父容器，非designer
             return LayoutUtils.getTopContainer(rootComponent);
         }
-        return  XCreatorUtils.createXCreator(this.getTarget().getContainer());
+        return XCreatorUtils.createXCreator(this.getTarget().getContainer());
     }
 
     /**
      * 返回参数界面高度
-     * @return  para高度
+     *
+     * @return para高度
      */
-    public int getParaHeight(){
+    public int getParaHeight() {
         return paraHeight;
     }
 
     /**
      * 重置para的高度
-     * @param height  高度
+     *
+     * @param height 高度
      */
-    public void setParaHeight(int height){
+    public void setParaHeight(int height) {
         XWBorderLayout container = (XWBorderLayout) getTopContainer();
         container.toData().setNorthSize(height);
         container.setSize(container.getWidth(), container.getHeight() + height - getParaHeight());
@@ -457,7 +466,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     /**
      * 删除参数界面
      */
-    public void removeParaComponent(){
+    public void removeParaComponent() {
         XWBorderLayout formLayoutContainer = (XWBorderLayout) getTopContainer();
         formLayoutContainer.toData().removeWidget(paraComponent.toData());
         paraHeight = 0;
@@ -472,41 +481,42 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 切换
-     * @param elementCaseContainer       容器
+     *
+     * @param elementCaseContainer 容器
      */
-    public void switchTab(FormElementCaseContainerProvider elementCaseContainer){
-        if(this.switchAction == null){
+    public void switchTab(FormElementCaseContainerProvider elementCaseContainer) {
+        if (this.switchAction == null) {
             return;
         }
         this.elementCaseContainer = elementCaseContainer;
         this.switchAction.actionPerformed(null);
     }
 
-    public void setElementCaseContainer(FormElementCaseContainerProvider elementCaseContainer){
+    public void setElementCaseContainer(FormElementCaseContainerProvider elementCaseContainer) {
         this.elementCaseContainer = elementCaseContainer;
     }
 
-    public FormElementCaseProvider getElementCase(){
+    public FormElementCaseProvider getElementCase() {
         return this.elementCaseContainer.getElementCase();
     }
 
-    public String getElementCaseContainerName(){
+    public String getElementCaseContainerName() {
         return this.elementCaseContainer.getElementCaseContainerName();
     }
 
-    public void setElementCase(FormElementCaseProvider elementCase){
+    public void setElementCase(FormElementCaseProvider elementCase) {
         this.elementCaseContainer.setElementCase(elementCase);
     }
 
-    public void setElementCaseBackground(BufferedImage image){
+    public void setElementCaseBackground(BufferedImage image) {
         this.elementCaseContainer.setBackground(image);
     }
 
-    public Dimension getElementCaseContainerSize(){
+    public Dimension getElementCaseContainerSize() {
         return this.elementCaseContainer.getSize();
     }
 
-    public FormElementCaseContainerProvider getElementCaseContainer(){
+    public FormElementCaseContainerProvider getElementCaseContainer() {
         return this.elementCaseContainer;
     }
 
@@ -524,6 +534,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 增加监听事件
+     *
      * @param listener 界面组件编辑事件
      */
     public void addDesignerEditListener(DesignerEditListener listener) {
@@ -539,15 +550,15 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 表单则判断参数面板是否为绝对布局
+     *
      * @return 是则返回true
      */
     public boolean hasWAbsoluteLayout() {
-        if (paraComponent != null && paraComponent.acceptType(XWParameterLayout.class)){
+        if (paraComponent != null && paraComponent.acceptType(XWParameterLayout.class)) {
             return true;
-        }
-        else{
+        } else {
             if (this.getSelectionModel().getSelection().getSelectedCreator().getParent() != null
-                    && ((XLayoutContainer)this.getSelectionModel().getSelection().getSelectedCreator().getParent()).acceptType(XWAbsoluteLayout.class)){
+                    && ((XLayoutContainer) this.getSelectionModel().getSelection().getSelectedCreator().getParent()).acceptType(XWAbsoluteLayout.class)) {
                 return true;
             }
         }
@@ -555,7 +566,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-     *  设置是否为报表块编辑
+     * 设置是否为报表块编辑
+     *
      * @param isEditing 是否为报表块编辑
      */
     public void setReportBlockEditing(boolean isEditing) {
@@ -564,25 +576,27 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 是否为报表块编辑
+     *
      * @return 是否为报表块编辑
      */
     public boolean isReportBlockEditing() {
         return this.isReportBlockEditing;
     }
 
-    public void setWidgetsIntersect(boolean isWidgetsIntersect){
+    public void setWidgetsIntersect(boolean isWidgetsIntersect) {
         this.isWidgetsIntersect = isWidgetsIntersect;
     }
 
-    public boolean isWidgetsIntersect(){
+    public boolean isWidgetsIntersect() {
         return this.isWidgetsIntersect;
     }
 
     /**
      * 是否重命名控件
+     *
      * @param creator 组件
      * @param newName 新的组件名
-     * @return  组件名有变化，且不和其他一样返回true
+     * @return 组件名有变化，且不和其他一样返回true
      */
     public boolean renameCreator(XCreator creator, String newName) {
         if (ComparatorUtils.equals(creator.toData().getWidgetName(), newName)) {
@@ -598,6 +612,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         return true;
     }
 
+    public void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(this, message, Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+        FormSelectionUtils.rebuildSelection(this);
+        repaint();
+    }
+
     /**
      * 保存参数界面的宽度
      *
@@ -609,16 +629,17 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 更新界面布局，重绘
-     * @param proxy 动态代理类
+     *
+     * @param proxy  动态代理类
      * @param method 接口方法
-     * @param args 参数
+     * @param args   参数
      * @return 不返回任何对象
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if(rootComponent != null){
+        if (rootComponent != null) {
             LayoutUtils.layoutRootContainer(rootComponent);
         }
-        if(paraComponent != null){
+        if (paraComponent != null) {
             LayoutUtils.layoutRootContainer(paraComponent);
         }
         repaint();
@@ -654,6 +675,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 增加组件事件
+     *
      * @param h 动态代理
      */
     public void addInvocationHandler(InvocationHandler h) {
@@ -678,7 +700,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-     *  设置其UI类为DesignerUI，负责渲染
+     * 设置其UI类为DesignerUI，负责渲染
      */
     @Override
     public void updateUI() {
@@ -741,15 +763,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 更新边框线状态
+     *
      * @param e 鼠标事件
      */
     public void updateDrawLineMode(MouseEvent e) {
-        Point p = ConnectorHelper.getNearWidgetPoint(e);
-        if (p == null) {
-            XComponent comp = getComponentAt(e);
-            if (comp == rootComponent) {
-                p = new Point(e.getX() + formArea.getHorizontalValue(), e.getY() + formArea.getVerticalValue());
-            }
+        Point p = connectorHelper.getNearWidgetPoint(e);
+        if (p == null && getComponentAt(e) == rootComponent) {
+            p = new Point(e.getX() + formArea.getHorizontalValue(), e.getY() + formArea.getVerticalValue());
         }
         stateModel.startDrawLine(p);
     }
@@ -761,7 +781,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         // 撤销恢复操作都会refreshRoot，这时候的target.getContainer里的widget会和之前不一样，所以不用root判断来取
         XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(this.getTarget().getContainer());
         // 布局默认都是1，底层的border改为0，不然没意义
-        this.getTarget().getContainer().setMargin(new PaddingMargin(0,0,0,0));
+        this.getTarget().getContainer().setMargin(new PaddingMargin(0, 0, 0, 0));
         formLayoutContainer.setBorder(null);
         if (formLayoutContainer.acceptType(XWBorderLayout.class)) {
             WBorderLayout borderLayout = (WBorderLayout) formLayoutContainer.toData();
@@ -774,7 +794,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             refreshNorth(northWidget, formLayoutContainer);
             refreshCenter(centerWidget, formLayoutContainer);
 
-        }  else {
+        } else {
             formLayoutContainer.setSize(LARGE_PREFERRED_SIZE);
             setRootComponent(formLayoutContainer);
         }
@@ -790,9 +810,9 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
 
         XLayoutContainer northContainer = (XLayoutContainer) XCreatorUtils.createXCreator(northWidget);
-        paraHeight = ((XWBorderLayout)formLayoutContainer).toData().getNorthSize();
+        paraHeight = ((XWBorderLayout) formLayoutContainer).toData().getNorthSize();
         paraComponent = northContainer;
-        northContainer.setSize(0,paraHeight);
+        northContainer.setSize(0, paraHeight);
         formLayoutContainer.add(northContainer, WBorderLayout.NORTH);
     }
 
@@ -841,14 +861,16 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 是否是报表的参数面板
-     * @return       否(表单的)
+     *
+     * @return 否(表单的)
      */
-    public boolean isFormParaDesigner(){
+    public boolean isFormParaDesigner() {
         return false;
     }
 
     /**
-     *  是否为底层容器
+     * 是否为底层容器
+     *
      * @param comp 组件
      * @return 是则返回true
      */
@@ -923,10 +945,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     public SelectionModel getSelectionModel() {
-        if (paraComponent!=null){
-            paraComponent.setSize(paraComponent.getWidth(),getParaHeight());
+        if (paraComponent != null) {
+            paraComponent.setSize(paraComponent.getWidth(), getParaHeight());
             Rectangle rec = rootComponent.getBounds();
-            rootComponent.setBounds(rec.x,getParaHeight(),rec.width,rec.height);
+            rootComponent.setBounds(rec.x, getParaHeight(), rec.width, rec.height);
         }
         return selectionModel;
     }
@@ -941,6 +963,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 拖拽准备
+     *
      * @param xCreator 组件
      */
     public void startDraggingBean(XCreator xCreator) {
@@ -953,11 +976,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-     *  拖拽时相关处理
-     * @param xCreator 组件
+     * 拖拽时相关处理
+     *
+     * @param xCreator       组件
      * @param lastPressEvent 鼠标事件
-     * @param x 坐标x
-     * @param y 坐标y
+     * @param x              坐标x
+     * @param y              坐标y
      */
     public void startDraggingComponent(XCreator xCreator, MouseEvent lastPressEvent, int x, int y) {
         // 根据所选择的组件的BeanInfo生成相应的AddingModel
@@ -978,6 +1002,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 改变组件值
+     *
      * @param e 组件选择事件
      */
     @Override
@@ -1024,6 +1049,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 是否支持权限编辑
+     *
      * @return 是则返回true
      */
     public boolean isSupportAuthority() {
@@ -1048,7 +1074,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     /**
-     *  是否含有action名
+     * 是否含有action名
+     *
      * @param name action名
      * @return 有则返回true
      */
@@ -1058,6 +1085,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 显示组件
+     *
      * @param comp 组件
      */
     public void makeVisible(XCreator comp) {
@@ -1088,16 +1116,16 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回复制粘贴删除等动作
+     * 鼠标右键菜单
+     *
      * @return 同上
      */
     public Action[] getActions() {
-        if (designer_actions == null) {
-            //先把复制粘贴按钮去掉，只留下删除
-//            designer_actions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-//                    new FormDeleteAction(this)};
-            designer_actions = new Action[]{new FormDeleteAction(this)};
+        if (designerActions == null) {
+            designerActions = new Action[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+                    new FormDeleteAction(this)};
         }
-        return designer_actions;
+        return designerActions;
     }
 
     protected Border getOuterBorder() {
@@ -1120,6 +1148,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回表单区域
+     *
      * @return 表单区域
      */
     public FormArea getArea() {
@@ -1128,6 +1157,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 设置上层区域
+     *
      * @param formArea 表单区域
      */
     public void setParent(FormArea formArea) {
@@ -1136,14 +1166,15 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 绘制组件根节点
+     *
      * @param clipg 图形
      */
     public void paintContent(Graphics clipg) {
         rootComponent.paint(clipg);
     }
 
-    public void paintPara(Graphics clipg){
-        if(paraComponent != null){
+    public void paintPara(Graphics clipg) {
+        if (paraComponent != null) {
             paraComponent.paint(clipg);
         }
     }
@@ -1157,14 +1188,16 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回连线类
+     *
      * @return ConnectorHelper类
      */
     public ConnectorHelper getDrawLineHelper() {
-        return ConnectorHelper;
+        return connectorHelper;
     }
 
     /**
-     *  是否画线模式
+     * 是否画线模式
+     *
      * @return 是则返回true
      */
     public boolean isDrawLineMode() {
@@ -1173,6 +1206,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 设置DrawLineMode
+     *
      * @param mode 是or或
      */
     public void setDrawLineMode(boolean mode) {
@@ -1199,6 +1233,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回表单控件权限编辑pane
+     *
      * @return 同上
      */
     public AuthorityEditPane createAuthorityEditPane() {
@@ -1249,6 +1284,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 粘贴
+     *
      * @return 否
      */
     @Override
@@ -1259,6 +1295,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 剪切
+     *
      * @return 否
      */
     @Override
@@ -1273,6 +1310,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 工具栏菜单
+     *
      * @return 同上
      */
     @Override
@@ -1286,6 +1324,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 模版菜单
+     *
      * @return 同上
      */
     @Override
@@ -1295,6 +1334,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 权限菜单
+     *
      * @return 同上
      */
     public ShortCut[] shortCuts4Authority() {
@@ -1304,6 +1344,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回ToolBarDef
+     *
      * @return 同上
      */
     @Override
@@ -1313,10 +1354,12 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
     /**
      * 返回工具栏按钮组件
+     *
      * @return 同上
      */
     public JComponent[] toolBarButton4Form() {
-        return new JComponent[0];
+        return new JComponent[]{new CutAction(this).createToolBarComponent(), new CopyAction(this).createToolBarComponent(), new PasteAction(this).createToolBarComponent(),
+                new FormDeleteAction(this).createToolBarComponent()};
     }
 
 

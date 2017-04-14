@@ -22,7 +22,6 @@ public class WidgetForbidWindow extends JWindow {
      */
     public WidgetForbidWindow() {
         this.add(promptButton);
-
         this.setSize(WIDTH, HEIGHT);
     }
 
@@ -31,18 +30,16 @@ public class WidgetForbidWindow extends JWindow {
      *
      * @param x x坐标
      * @param y y坐标
-     *
      */
-    public void showWindow(int x, int y){
+    public void showWindow(int x, int y) {
         this.setLocation(x - WIDTH / 2, y - HEIGHT / 2);
         this.setVisible(true);
     }
 
     /**
      * 隐藏当前窗口
-     *
      */
-    public void hideWindow(){
+    public void hideWindow() {
         this.setVisible(false);
     }
 }

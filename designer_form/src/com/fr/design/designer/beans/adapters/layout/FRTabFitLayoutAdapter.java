@@ -13,6 +13,7 @@ import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRTabFitLayoutPropertiesGroupModel;
+import com.fr.design.mainframe.widget.editors.ParameterEditor;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WBorderLayout;
@@ -28,8 +29,6 @@ import java.awt.*;
  * @date 2014-6-24
  */
 public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
-    //标题栏高度对tab布局内部组件的y坐标造成了偏移
-    private static int TAB_HEIGHT = 40;
 
     /**
      * 构造函数
@@ -63,13 +62,12 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
         // 经过accept判断后，container会被改变，先备份
         XLayoutContainer backUpContainer = container;
         Rectangle rect = ComponentUtils.getRelativeBounds(container);
-
         int posX = x - rect.x;
         int posY = y - rect.y;
         if (!accept(creator, posX, posY)) {
             return false;
         }
-        // posX，posY是新拖入组件相对于容器的位置，若在tab布局的边缘，则需要把新组件添加到
+        // posX，posY是新拖入组件相对于容器的位置，若在tab布局的边缘，则需要把新组件添加到l
         // 父层自适应布局中，这时候的添加位置就是tab布局所在的位置
         if (this.intersectsEdge(posX, posY, backUpContainer)) {
             if (!ComparatorUtils.equals(backUpContainer.getOuterLayout(), backUpContainer.getBackupParent())) {
@@ -86,16 +84,14 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
         return true;
     }
 
-    // tab布局的纵坐标受到tab高度的影响，判断的上边界取得是里面XWTabFitLayout的上边界，
-    // 实际计算的时候的纵坐标用了外层的CardMainBorerLayout，需要将tab高度减掉
-    //将y值变为相对坐标以实现获取到鼠标drop位置的控件
-    //TODO 可以直接在这边将x，y都变成相对坐标，这样在后面判断拖进来的新控件放置方式的时候就不用再判断了
+    // tab布局的纵坐标受到tab高度以及参数面板高度的影响，判断的上边界取得是里面XWTabFitLayout的上边界，
+    // 实际计算的时候的纵坐标用了外层的CardMainBorerLayout，需要将tab高度和参数面板高度减掉
+    // 将y值变为相对坐标以实现获取到鼠标drop位置的控件
+    // TODO 可以直接在这边将x，y都变成相对坐标，这样在后面判断拖进来的新控件放置方式的时候就不用再判断了
     private int adjustY(int y, XWTabFitLayout tabLayout) {
         XWCardLayout cardLayout = (XWCardLayout) tabLayout.getBackupParent();
         LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
-        if (container.getLocation().y == WBorderLayout.DEFAULT_SIZE) {
-            y = y - WBorderLayout.DEFAULT_SIZE;
-        }
+        y = y - this.getParaEditorYOffset();
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
             y = y - WCardMainBorderLayout.TAB_HEIGHT;
         }
@@ -105,4 +101,5 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
     protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout) {
         return ComponentUtils.getRelativeBounds(mainLayout);
     }
+
 }

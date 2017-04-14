@@ -95,6 +95,8 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
             parameterList.toArray(parameters);
 
             formHyperlink.setParameters(parameters);
+        } else {
+            formHyperlink.setParameters(null);
         }
     }
 

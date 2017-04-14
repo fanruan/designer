@@ -4,6 +4,7 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.GeneralContext;
@@ -18,6 +19,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
+import java.util.Locale;
 import java.util.Random;
 import java.util.TimerTask;
 
@@ -117,9 +119,22 @@ public class ReportSplashPane extends SplashPane{
         GraphHelper.drawString(splashG2d, showText, MODULE_INFO_X, y);
         
         //每次随机感谢一位论坛用户
-        splashG2d.setPaint(THANK_COLOR);
-        String content = Inter.getLocText("FR-Designer_Thanks-To") + GUEST;
-        GraphHelper.drawString(splashG2d, content, THANK_INFO_X, y);
+        if (shouldShowThanks()) {
+            splashG2d.setPaint(THANK_COLOR);
+            String content = Inter.getLocText("FR-Designer_Thanks-To") + GUEST;
+            GraphHelper.drawString(splashG2d, content, THANK_INFO_X, y);
+        }
+    }
+
+    // 是否显示鸣谢文字
+    private boolean shouldShowThanks() {
+        Locale[] hideLocales = {Locale.US, Locale.KOREA, Locale.JAPAN};
+        for (Locale loc : hideLocales) {
+            if (FRContext.getLocale().equals(loc)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private static String getRandomUser(){
