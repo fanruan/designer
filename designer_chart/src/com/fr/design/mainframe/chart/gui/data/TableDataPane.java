@@ -22,14 +22,10 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private static final long serialVersionUID = 4740461028440155147L;
 	private static final int TOP = -5;
 	private DatabaseTableDataPane tableDataPane;
-	protected AbstractTableDataContentPane dataContentPane;
+	private AbstractTableDataContentPane dataContentPane;
 
-	public AbstractTableDataContentPane getDataContentPane() {
+	protected AbstractTableDataContentPane getDataContentPane() {
 		return dataContentPane;
-	}
-
-	public void setDataContentPane(AbstractTableDataContentPane dataContentPane) {
-		this.dataContentPane = dataContentPane;
 	}
 
 	private ChartDataPane parent;
@@ -112,14 +108,19 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @param collection 图表属性的集合
 	 */
 	public void refreshContentPane(ChartCollection collection) {
+		refreshContentPane(getContentPane(collection.getSelectedChart().getPlot()));
+	}
+
+	protected void refreshContentPane(AbstractTableDataContentPane contentPane) {
 		if(dataContentPane != null) {
 			remove(dataContentPane);
 		}
-		dataContentPane = getContentPane(collection.getSelectedChart().getPlot());
+		dataContentPane = contentPane;
 		if(dataContentPane != null) {
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
+
 
 	/**
 	 * 更新界面属性  
