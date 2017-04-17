@@ -8,6 +8,7 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.IntrospectionException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fr.design.designer.beans.AdapterBus;
@@ -16,6 +17,7 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.form.layout.FRAbsoluteLayout;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.*;
@@ -23,7 +25,7 @@ import com.fr.form.ui.Connector;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
@@ -154,8 +156,15 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 		if (xCreator.acceptType(XWAbsoluteLayout.class)){
 			((XWAbsoluteLayout) xCreator).updateBoundsWidget();
 		}
-		BoundsWidget boundsWidget = layout.getBoundsWidget(xCreator.toData());
-		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
+		// 如果子组件时tab布局，则tab布局内部的组件的wiget也要更新，否则保存后重新打开大小不对
+		ArrayList<?> childrenList = xCreator.getTargetChildrenList();
+		if(!childrenList.isEmpty()){
+			for(int i=0; i<childrenList.size(); i++){
+				XWTabFitLayout tabLayout = (XWTabFitLayout) childrenList.get(i);
+				tabLayout.updateBoundsWidget();
+			}
+		}
+        BoundsWidget boundsWidget = (BoundsWidget) layout.getBoundsWidget(xCreator.toData());		Rectangle rectangle = dealWidgetBound(xCreator.getBounds());
 	}
 
 	private Rectangle calculateBound(Rectangle rec, double pw, double ph){
@@ -179,7 +188,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			double percentH = ((double) backupBound.height / (double) currentBound.height);
 			for (int index = 0, n = this.getComponentCount(); index < n; index++){
 				XCreator creator = (XCreator) this.getComponent(index);
-				BoundsWidget wgt = layout.getBoundsWidget(creator.toData());
+				BoundsWidget wgt = (BoundsWidget) layout.getBoundsWidget(creator.toData());
 				// 用当前的显示大小计算后调正具体位置
 				Rectangle wgtBound = creator.getBounds();
 				Rectangle rec = calculateBound(wgtBound, percentW, percentH);
@@ -211,7 +220,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 				rec.y = (int)(rec.y / prevContainerPercent * containerPercent);
 				rec.height = (int)(rec.height / prevContainerPercent * containerPercent);
 				rec.width = (int)(rec.width / prevContainerPercent * containerPercent);
-				BoundsWidget wgt = toData().getBoundsWidget(creator.toData());
+				BoundsWidget wgt = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 				wgt.setBounds(rec);
 				creator.setBounds(rec);
 				creator.updateChildBound(minHeight);
@@ -467,7 +476,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			XCreator xCreator = (XCreator) getComponent(i);
 			Rectangle rectangle = xCreator.getBounds();
 			xCreator.setBounds((int) (rectangle.x * percent), rectangle.y, (int) (rectangle.width * percent), rectangle.height);
-			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(xCreator.toData());
 			widget.setBounds(xCreator.getBounds());
 		}
 	}
@@ -483,7 +492,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
 			XCreator xCreator = (XCreator) getComponent(i);
 			Rectangle rectangle = xCreator.getBounds();
 			xCreator.setBounds(rectangle.x, (int) (rectangle.y * percent), rectangle.width, (int) (rectangle.height * percent));
-			BoundsWidget widget = toData().getBoundsWidget(xCreator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(xCreator.toData());
 			widget.setBounds(xCreator.getBounds());
 		}
 	}

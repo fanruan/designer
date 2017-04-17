@@ -12,8 +12,8 @@ import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.ComparatorUtils;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.FRLogger;
 
 public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {

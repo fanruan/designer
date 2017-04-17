@@ -77,17 +77,17 @@ public class ChartTextAttrPane extends BasicPane {
     public void populate(FRFont frFont) {
         UIObserverListener listener = fontNameComboBox == null ? null : fontNameComboBox.getUiObserverListener();
         removeAllComboBoxListener();
-        if (frFont == null) {
-            return;
-        }
-        fontNameComboBox.setSelectedItem(frFont.getFamily());
-        bold.setSelected(frFont.isBold());
-        italic.setSelected(frFont.isItalic());
-        if(fontSizeComboBox != null) {
-        	fontSizeComboBox.setSelectedItem(frFont.getSize());
-        }
-        if (fontColor != null) {
-            fontColor.setColor(frFont.getForeground());
+
+        if (frFont != null) {
+            fontNameComboBox.setSelectedItem(frFont.getFamily());
+            bold.setSelected(frFont.isBold());
+            italic.setSelected(frFont.isItalic());
+            if(fontSizeComboBox != null) {
+                fontSizeComboBox.setSelectedItem(frFont.getSize());
+            }
+            if (fontColor != null) {
+                fontColor.setColor(frFont.getForeground());
+            }
         }
 
         //更新结束后，注册监听器

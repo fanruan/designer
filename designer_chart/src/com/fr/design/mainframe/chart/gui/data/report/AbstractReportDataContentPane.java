@@ -3,6 +3,8 @@ package com.fr.design.mainframe.chart.gui.data.report;
 import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartdata.NormalReportDataDefinition;
+import com.fr.chart.chartdata.SeriesDefinition;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserverListener;
@@ -16,6 +18,7 @@ import com.fr.stable.StableUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -93,6 +96,20 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 	 */
 	protected List updateList() {
 		return seriesPane.updateBean();
+	}
+
+	protected List getEntryList(NormalReportDataDefinition seriesList) {
+		List list = new ArrayList();
+		for (int i = 0; i < seriesList.size(); i++) {
+			SeriesDefinition seriesEntry = (SeriesDefinition) seriesList.get(i);
+			Object[] nameAndValue = new Object[2];
+			nameAndValue[0] = seriesEntry.getSeriesName();
+			nameAndValue[1] = seriesEntry.getValue();
+			if (nameAndValue[0] != null || nameAndValue[1] != null) {
+				list.add(nameAndValue);
+			}
+		}
+		return list;
 	}
 
 	/**
