@@ -9,8 +9,8 @@ import com.fr.design.designer.properties.BoundsGroupModel;
 import com.fr.design.designer.properties.FRAbsoluteLayoutPropertiesGroupModel;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.general.ComparatorUtils;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.FRLogger;
 
 import java.awt.*;
@@ -235,7 +235,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
             if (creator.hasTitleStyle()) {
                 addParentCreator(creator);
             } else {
-                container.add(creator, creator.toData().getWidgetName(),0);
+                container.add(creator, creator.toData().getWidgetName(), 0);
             }
             XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
             layout.updateBoundsWidget(creator);
@@ -246,7 +246,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
             if (creator.shouldScaleCreator() || creator.hasTitleStyle()) {
                 addParentCreator(creator);
             } else {
-                container.add(creator, creator.toData().getWidgetName(),0);
+                container.add(creator, creator.toData().getWidgetName(), 0);
             }
             XWFitLayout layout = (XWFitLayout) container;
             // 更新对应的BoundsWidget
@@ -265,7 +265,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 
     private void addParentCreator(XCreator child) {
         XLayoutContainer parentPanel = child.initCreatorWrapper(child.getHeight());
-        container.add(parentPanel, child.toData().getWidgetName(),0);
+        container.add(parentPanel, child.toData().getWidgetName(), 0);
     }
 
     /**
