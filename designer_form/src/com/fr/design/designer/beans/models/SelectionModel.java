@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class SelectionModel {
     //被粘贴组件在所选组件位置处往下、往右各错开20像素。执行多次粘贴时，在上一次粘贴的位置处错开20像素。
     private static final int DELTA_X_Y = 20; //粘贴时候的偏移距离
-    private static final double OFFSET_RELATIVE = 0.78;
+    private static final double OFFSET_RELATIVE = 0.80;
     private static FormSelection clipboard = new FormSelection();
     private FormDesigner designer;
     private FormSelection selection;
@@ -142,14 +142,29 @@ public class SelectionModel {
                     int leftUpY = container.toData().getMargin().getTop() + 1;
                     //选中第一个坐标点坐在的组件
                     selection.setSelectedCreator((XCreator) container.getComponentAt(leftUpX, leftUpY));
-                    pasteFromClipBoard();
+                    Rectangle rectangle = selection.getRelativeBounds();
+                    if (hasSelectedPasteSource()) {
+                        selectedPaste();
+                    } else {
+                        FormSelectionUtils.paste2Container(designer, container, clipboard,
+                                rectangle.x + rectangle.width / 2,
+                                rectangle.y + DELTA_X_Y);
+                    }
                 } else {
                     //自适应布局编辑器内部左上角第一个坐标点
                     int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
                     int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
                     //选中第一个坐标点坐在的组件
                     selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
-                    pasteFromClipBoard();
+                    Rectangle rectangle = selection.getRelativeBounds();
+                    if (hasSelectedPasteSource()) {
+                        selectedPaste();
+                    } else {
+                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                                clipboard,
+                                rectangle.x + rectangle.width / 2,
+                                rectangle.y + DELTA_X_Y);
+                    }
                 }
             } else {
                 //绝对布局
