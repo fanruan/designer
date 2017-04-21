@@ -3,8 +3,10 @@ package com.fr.design.mainframe;
 import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
+import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
@@ -83,14 +85,26 @@ public class FormSelectionUtils {
      * 相对布局粘贴
      */
     private static void relativePaste(FormDesigner designer, FormSelection clipboard, LayoutAdapter adapter, int x, int y) {
+
+        //@see FRTabFitLayoutAdapter
+        Rectangle tabContainerRect = ComponentUtils.getRelativeBounds(designer.getSelectionModel().getSelection()
+                .getSelectedCreator().getParent());
+
         designer.getSelectionModel().getSelection().reset();
         for (XCreator creator : clipboard.getSelectedCreators()) {
             try {
                 Widget copied = copyWidget(designer, creator);
                 XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
-                if (!adapter.accept(copiedCreator, x, y)) {
-                    designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
-                    return;
+                if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
+                    if (!adapter.accept(copiedCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
+                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                        return;
+                    }
+                } else {
+                    if (!adapter.accept(copiedCreator, x, y)) {
+                        designer.showMessageDialog(Inter.getLocText("FR-Designer_Too_Small_To_Paste"));
+                        return;
+                    }
                 }
                 boolean addSuccess = adapter.addBean(copiedCreator, x, y);
                 if (addSuccess) {
@@ -118,29 +132,18 @@ public class FormSelectionUtils {
             XLayoutContainer container = layoutAdapter.getContainer();
             boolean xOut = x < 0 || x + copiedCreator.getWidth() / 2 + xoffset > container.getWidth();
             boolean yOut = y < 0 || y + copiedCreator.getHeight() / 2 + yoffset > container.getHeight();
-            /*
-             * 组件原始位置位于布局的右下角，
-             * 和布局右下边界线紧挨，
-             * 粘贴时组件在原始位置向左错开20像素。
-             * x,y同时越界
-             */
-            if (xOut && yOut) {
-                //向左偏移
-                x = container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X_Y - xoffset;
+
+            y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - yoffset : y;
+            boolean isEdge = (x - DELAY_X_Y == container.getWidth() - copiedCreator.getWidth() / 2 - xoffset);
+            if (xOut) {
+                if (isEdge) {
+                    //向左偏移
+                    x = container.getWidth() - copiedCreator.getWidth() / 2 - DELAY_X_Y - xoffset;
+                }
                 //紧贴下边界
-                y = container.getHeight() - copiedCreator.getHeight() / 2 - yoffset;
-                return new Point(x, y);
-            }
-            /*
-            * 组件原始位置与布局边界距离小于20像素（下边界&右边界同时小于或者任意一个边界小于），
-            * 则粘贴时距离小于20像素一侧直接贴近布局边界，
-            * 距离大于20像素的一侧正常错开。
-            * x,y中只有一个越界
-            */
-            if ((xOut || yOut)) {
-                x = xOut ? container.getWidth() - copiedCreator.getWidth() / 2 - xoffset : x;
-                y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - yoffset : y;
-                return new Point(x, y);
+                else {
+                    x = container.getWidth() - copiedCreator.getWidth() / 2 - xoffset;
+                }
             }
         }
         return new Point(x, y);
