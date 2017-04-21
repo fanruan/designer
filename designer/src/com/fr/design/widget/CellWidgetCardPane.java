@@ -88,15 +88,6 @@ public class CellWidgetCardPane extends BasicPane {
             this.tabbedPane.setEnabled(true);
         }
 
-        attriTabPane.remove(widgetPropertyPane);
-        widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
-        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
-        northPane.add(basic);
-        basic.add(widgetPropertyPane);
-        attriTabPane.add(northPane, BorderLayout.NORTH);
-
         WidgetDefinePaneFactory.RN rn = WidgetDefinePaneFactory.createWidgetDefinePane(cellWidget, new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
