@@ -23,72 +23,46 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
 
     int CURRENT_API_LEVEL = 3;
 
-
     @Override
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new PiePlotTableDataContentPane(parent);
+        return null;
     }
 
     @Override
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new PiePlotReportDataContentPane(parent);
+        return null;
     }
 
-    @Override
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
-        return new DataSeriesConditionPane();
-    }
-
-    @Override
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return getPlotSeriesPane();
     }
 
-//    @Override
-//    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
-//        return null;
-//    }
-
-//    public abstract BasicBeanPane getChartConfigPane();
-
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new ChartDataPane(listener);
-    }
-
     public BasicBeanPane<Plot> getPlotSeriesPane(){
-        return new BasicBeanPane<Plot>() {
-            @Override
-            public void populateBean(Plot ob) {
-
-            }
-
-            @Override
-            public Plot updateBean() {
-                return null;
-            }
-
-            @Override
-            protected String title4PopupWindow() {
-                return null;
-            }
-        };
-    }
-
-
-    @Override
-    public boolean isUseDefaultPane(){
-        return false;
+        return null;
     }
 
     public boolean equals(Object obj) {
         return obj != null && ComparatorUtils.equals(obj.getClass(), this.getClass());
     }
 
+    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+        return new DataSeriesConditionPane();
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new ChartDataPane(listener);
+    }
+
+    @Override
+    public boolean isUseDefaultPane(){
+        return false;
+    }
+
 
     @Override
     public String getIconPath() {
-        return "com/fr/design/images/form/toolbar/ChartF-Pie.png";
+        return "com/fr/solution/plugin/chart/echarts/pie/images/pie.png";
     }
 
     @Override
@@ -105,10 +79,6 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
         return CURRENT_API_LEVEL;
     }
 }
-    /**
-     * 是否使用默认的界面，为了避免界面来回切换
-     * @return 是否使用默认的界面
-     */
 
 
 
