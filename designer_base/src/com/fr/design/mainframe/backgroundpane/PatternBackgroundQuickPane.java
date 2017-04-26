@@ -52,8 +52,6 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 		JPanel colorPane = new JPanel(new GridLayout(0, 2));
 		foregroundColorPane = new ColorSelectBox(70);
 		backgroundColorPane = new ColorSelectBox(70);
-		foregroundColorPane.setSelectObject(Color.lightGray);
-		backgroundColorPane.setSelectObject(Color.black);
 
 		colorPane.add(this.createLabelColorPane(Inter.getLocText("Foreground") + ":", foregroundColorPane));
 		colorPane.add(this.createLabelColorPane(Inter.getLocText("Background") + ":", backgroundColorPane));

@@ -99,9 +99,6 @@ public class BorderPane extends AbstractBasicStylePane {
 		this.add(northPane, BorderLayout.NORTH);
 		this.add(centerPane, BorderLayout.CENTER);
 
-
-		this.currentLineColorPane.setSelectObject(Color.BLACK);
-
 		outerToggleButton.addChangeListener(new ChangeListener() {
 
 			@Override
