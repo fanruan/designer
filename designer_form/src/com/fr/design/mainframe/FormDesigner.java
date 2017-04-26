@@ -1008,7 +1008,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         ComponentTree tree = (ComponentTree) e.getSource();
-        TreePath[] paths = tree.getSelectionPaths();
+        TreePath[] paths = tree.getAllSelectedTreePaths();
 
         if (paths != null) {
             ArrayList<XCreator> selected = new ArrayList<XCreator>();
@@ -1018,7 +1018,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             }
 
             if (!BaseUtils.isAuthorityEditing()) {
-
                 selectionModel.setSelectedCreators(selected);
 
                 TreePath path = e.getNewLeadSelectionPath();
