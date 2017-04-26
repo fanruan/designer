@@ -6,32 +6,37 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.env.RemoteEnv;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralUtils;
-import com.fr.general.SiteCenter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
+import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
 import com.fr.stable.*;
-import org.json.JSONObject;
+import com.fr.stable.xml.*;
+import com.fr.third.javax.xml.stream.XMLStreamException;
+import com.fr.json.JSONObject;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * 做模板的过程和耗时收集，辅助类
  * Created by plough on 2017/2/21.
  */
-public class TemplateInfoCollector<T extends IOFile> implements Serializable {
-    private static final String FILE_NAME = "tplInfo.ser";
+public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XMLWriter {
+    private static final String FILE_NAME = "tpl.info";
     private static TemplateInfoCollector instance;
-    private HashMap<String, HashMap<String, Object>> templateInfoList;
+    private Map<String, HashMap<String, Object>> templateInfoList;
     private String designerOpenDate;  //设计器最近一次打开日期
     private static final int VALID_CELL_COUNT = 5;  // 有效报表模板的格子数
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
     private static final int ONE_THOUSAND = 1000;
     static final long serialVersionUID = 2007L;
+    private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
+    private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
@@ -63,25 +68,40 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     public static TemplateInfoCollector getInstance() {
         if (instance == null) {
-            // 先尝试从文件读取
-            try{
-                ObjectInputStream is = new ObjectInputStream(new FileInputStream(getInfoFile()));
-                instance = (TemplateInfoCollector) is.readObject();
-            } catch (FileNotFoundException ex) {
-                // 如果之前没有存储过，则创建新对象
-                instance = new TemplateInfoCollector();
-            } catch (InvalidClassException ex) {
-                // 如果 TemplateInfoCollecor 类结构有改动，则放弃之前收集的数据（下次保存时覆盖）
-                // 这种情况主要在开发、测试过程中遇到，正式上线后不应该出现
-                FRLogger.getLogger().info(ex.getMessage());
-                FRLogger.getLogger().info("use a new instance");
-                instance = new TemplateInfoCollector();
-            }
-            catch (Exception ex) {
-                FRLogger.getLogger().error(ex.getMessage(), ex);
-            }
+            instance = new TemplateInfoCollector();
+            readXMLFile(instance, getInfoFile());
         }
         return instance;
+    }
+
+    private static void readXMLFile(XMLReadable xmlReadable, File xmlFile){
+        if (xmlFile == null || !xmlFile.exists()) {
+            return;
+        }
+        String charset = EncodeConstants.ENCODING_UTF_8;
+        try {
+            String fileContent = getFileContent(xmlFile);
+            InputStream xmlInputStream = new ByteArrayInputStream(fileContent.getBytes(charset));
+            InputStreamReader inputStreamReader = new InputStreamReader(xmlInputStream, charset);
+            XMLableReader xmlReader = XMLableReader.createXMLableReader(inputStreamReader);
+
+            if (xmlReader != null) {
+                xmlReader.readXMLObject(xmlReadable);
+            }
+            xmlInputStream.close();
+        } catch (FileNotFoundException e) {
+            FRContext.getLogger().error(e.getMessage());
+        } catch (IOException e) {
+            FRContext.getLogger().error(e.getMessage());
+        } catch (XMLStreamException e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
+
+    }
+
+    private static String getFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException{
+        InputStream is = new FileInputStream(xmlFile);
+        return IOUtils.inputStream2String(is);
     }
 
     private boolean shouldCollectInfo() {
@@ -122,20 +142,38 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
      */
     private void saveInfo() {
         try {
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(getInfoFile()));
-            String log = "";
-            int count = 1;
-            for (String key : templateInfoList.keySet()) {
-                String createTime = ((HashMap)templateInfoList.get(key).get("consumingMap")).get("create_time").toString();
-                log += (count + ". id: " + key + " " + createTime + "\n" + templateInfoList.get(key).toString() + "\n");
-                count ++;
-            }
-            FRLogger.getLogger().info("writing tplInfo: \n" + log);
-            os.writeObject(instance);
-            os.close();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            XMLTools.writeOutputStreamXML(this, out);
+            out.flush();
+            out.close();
+            String fileContent = new String(out.toByteArray(), EncodeConstants.ENCODING_UTF_8);
+            writeContentToFile(fileContent, getInfoFile());
         } catch (Exception ex) {
             FRLogger.getLogger().error(ex.getMessage());
         }
+    }
+
+    /**
+     * 将文件内容写到输出流中
+     */
+    private static void writeContentToFile(String fileContent, File file){
+        BufferedWriter bw = null;
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, EncodeConstants.ENCODING_UTF_8);
+            bw = new BufferedWriter(osw);
+            bw.write(fileContent);
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+        } finally {
+            if(bw != null){
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+
     }
 
     /**
@@ -241,10 +279,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
             String jsonProcessMap = templateInfo.get("jsonProcessMap");
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
-                FRLogger.getLogger().info("successfully send " + templateInfo.get("templateID"));
                 removeFromTemplateInfoList(templateInfo.get("templateID"));
-            } else {
-                FRLogger.getLogger().info("send template info failed, will try next time, " + templateInfo.get("templateID"));
             }
         }
         saveInfo();
@@ -264,7 +299,12 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
 
         String res =  httpClient.getResponseText();
-        boolean success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+        boolean success;
+        try {
+            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+        } catch (Exception ex) {
+            success = false;
+        }
         return success;
     }
 
@@ -303,7 +343,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
 
     private void removeFromTemplateInfoList(String key) {
         templateInfoList.remove(key);
-        FRLogger.getLogger().info(key + " is removed...");
     }
 
     @SuppressWarnings("unchecked")
@@ -324,6 +363,90 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable {
         }
         return isTestTemplate;
     }
+
+    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<>();
+
+        if(json != JSONObject.NULL) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    private static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<>();
+
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    private static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void readXML(XMLableReader reader) {
+        if (reader.isChildNode()) {
+            try {
+                String name = reader.getTagName();
+                if (XML_DESIGNER_OPEN_DATE.equals(name)) {
+                    this.designerOpenDate = reader.getElementValue();
+                } else if(XML_TEMPLATE_INFO_LIST.equals(name)){
+                    JSONObject jsonObject = new JSONObject(reader.getElementValue());
+                    Map<String, Object> map = jsonToMap(jsonObject);
+                    for (Map.Entry<String, Object> entry : map.entrySet()) {
+                        if (entry.getValue() instanceof HashMap) {
+                            this.templateInfoList.put(entry.getKey(), (HashMap<String, Object>) entry.getValue());
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                // 什么也不做，使用默认值
+            }
+        }
+    }
+
+    @Override
+    public void writeXML(XMLPrintWriter writer) {
+        writer.startTAG("TemplateInfo");
+
+        writer.startTAG(XML_DESIGNER_OPEN_DATE);
+        writer.textNode(designerOpenDate);
+        writer.end();
+
+        writer.startTAG(XML_TEMPLATE_INFO_LIST);
+        writer.textNode(new JSONObject(templateInfoList).toString());
+        writer.end();
+
+        writer.end();
+    }
+
 
     public static void main(String[] args) {
         TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
