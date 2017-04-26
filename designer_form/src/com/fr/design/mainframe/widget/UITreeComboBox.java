@@ -3,22 +3,24 @@ package com.fr.design.mainframe.widget;
 /**
  * Created by xiaxiang on 2016/9/30.
  */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.metal.*;
-import javax.swing.tree.*;
 
-import com.fr.design.designer.beans.*;
+import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.mainframe.ComponentTree;
-import com.sun.java.swing.plaf.motif.*;
-import com.sun.java.swing.plaf.windows.*;
+import com.sun.java.swing.plaf.motif.MotifComboBoxUI;
+import com.sun.java.swing.plaf.windows.WindowsComboBoxUI;
+
+import javax.swing.*;
+import javax.swing.plaf.ComboBoxUI;
+import javax.swing.plaf.basic.ComboPopup;
+import javax.swing.plaf.metal.MetalComboBoxUI;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * 控件树下拉列表框
@@ -110,7 +112,7 @@ public class UITreeComboBox extends JComboBox{
                                                       int index, boolean isSelected, boolean cellHasFocus){
             if(tree != null && tree.getSelectedTreePath().length > 0){
                 TreePath path = tree.getSelectedTreePath()[0];
-                tree.setAndScrollSelectionPath(path);
+                tree.setAndScrollSelectionPath(tree.getSelectedTreePath());
                 Object node = path.getLastPathComponent();
                 value = node;
                 TreeCellRenderer r = tree.getCellRenderer();
@@ -132,7 +134,7 @@ public class UITreeComboBox extends JComboBox{
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                 TreePath[] paths = tree.getSelectedTreePath();
                 if (tree != null && paths.length > 0) {
-                    tree.setAndScrollSelectionPath(paths[0]);
+                    tree.setAndScrollSelectionPath(paths);
                     setSelectedItem(paths[0]);
                     MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
@@ -141,7 +143,7 @@ public class UITreeComboBox extends JComboBox{
                 tree.refreshUI();
                 TreePath[] paths = tree.getSelectedTreePath();
                 if (tree != null && paths.length > 0) {
-                    tree.setAndScrollSelectionPath(paths[0]);
+                    tree.setAndScrollSelectionPath(paths);
                     setSelectedItem(paths[0]);
                     MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
