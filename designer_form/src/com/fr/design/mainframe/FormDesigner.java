@@ -1008,7 +1008,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         ComponentTree tree = (ComponentTree) e.getSource();
-        TreePath[] paths = tree.getAllSelectedTreePaths();
+        TreePath[] paths = tree.getSelectionPaths();
 
         if (paths != null) {
             ArrayList<XCreator> selected = new ArrayList<XCreator>();

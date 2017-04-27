@@ -1,26 +1,23 @@
 package com.fr.design.mainframe;
 
+import java.awt.Component;
+import java.util.ArrayList;
+
+import javax.swing.DropMode;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.stable.StringUtils;
-
-import javax.swing.*;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
-import java.util.ArrayList;
 
 public class ComponentTree extends JTree {
 
     private FormDesigner designer;
     private ComponentTreeModel model;
-    //xiaoxia 保存框选的全部组件，只显示第一个
-    private TreePath[] allSelectedTreePaths;
 
     public ComponentTree(FormDesigner designer) {
         this.designer = designer;
@@ -89,8 +86,7 @@ public class ComponentTree extends JTree {
     }
 
     public void setAndScrollSelectionPath(TreePath[] treepath) {
-        this.setAllSelectedTreePaths(treepath);
-        setSelectionPath(treepath[0]);
+        setSelectionPaths(treepath);
         scrollPathToVisible(treepath[0]);
     }
 
@@ -214,11 +210,4 @@ public class ComponentTree extends JTree {
         return new TreePath(components);
     }
 
-    public TreePath[] getAllSelectedTreePaths() {
-        return allSelectedTreePaths;
-    }
-
-    public void setAllSelectedTreePaths(TreePath[] allSelectedTreePaths) {
-        this.allSelectedTreePaths = allSelectedTreePaths;
-    }
 }
