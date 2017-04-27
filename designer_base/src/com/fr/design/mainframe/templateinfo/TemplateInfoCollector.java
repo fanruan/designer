@@ -25,8 +25,9 @@ import java.util.Iterator;
  * 做模板的过程和耗时收集，辅助类
  * Created by plough on 2017/2/21.
  */
-public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XMLWriter {
+public class TemplateInfoCollector<T extends IOFile> implements Serializable, XMLReadable, XMLWriter {
     private static final String FILE_NAME = "tpl.info";
+    private static final String OBJECT_FILE_NAME = "tplInfo.ser";
     private static TemplateInfoCollector instance;
     private Map<String, HashMap<String, Object>> templateInfoList;
     private String designerOpenDate;  //设计器最近一次打开日期
@@ -42,21 +43,12 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
     private static final String XML_CONSUMING_MAP = "ConsumingMap";
     private static final String ATTR_DAY_COUNT = "dayCount";
     private static final String ATTR_TEMPLATE_ID = "templateID";
-    /*
-    * "process":"","float_count":0,"widget_count":1,"cell_count":0,"block_count":0,"report_type":2
-    * */
     private static final String ATTR_PROCESS = "process";
     private static final String ATTR_FLOAT_COUNT = "floatCount";
     private static final String ATTR_WIDGET_COUNT = "widgetCount";
     private static final String ATTR_CELL_COUNT = "cellCount";
     private static final String ATTR_BLOCK_COUNT = "blockCount";
     private static final String ATTR_REPORT_TYPE = "reportType";
-    /*
-    * "activitykey":"2e0ea413-fa9c241e0-9723-4354fce51e81","jar_time":"2017.04.21.10.41.10.806",
-    * "create_time":"2017-04-26 10:27","templateID":"0aa19027-e298-4d43-868d-45232b879d0e",
-    * "uuid":"476ca2cc-f789-4c5d-8e89-ef146580775c","time_consume":36,"version":"8.0",
-    * "username":"ueeHq6
-    * */
     private static final String ATTR_ACTIVITYKEY = "activitykey";
     private static final String ATTR_JAR_TIME = "jarTime";
     private static final String ATTR_CREATE_TIME = "createTime";
@@ -64,7 +56,6 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
     private static final String ATTR_TIME_CONSUME = "timeConsume";
     private static final String ATTR_VERSION = "version";
     private static final String ATTR_USERNAME = "username";
-
 
 
     @SuppressWarnings("unchecked")
@@ -95,10 +86,23 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
         return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FILE_NAME));
     }
 
+    private static File getObjectInfoFile() {
+        return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), OBJECT_FILE_NAME));
+    }
+
     public static TemplateInfoCollector getInstance() {
         if (instance == null) {
             instance = new TemplateInfoCollector();
             readXMLFile(instance, getInfoFile());
+            // 兼容过渡。如果没有新文件，则从老文件读取数据。以后都是读写新的 xml 文件
+            if (!getInfoFile().exists() && getObjectInfoFile().exists()) {
+                try {
+                    ObjectInputStream is = new ObjectInputStream(new FileInputStream(getObjectInfoFile()));
+                    instance = (TemplateInfoCollector) is.readObject();
+                } catch (Exception ex) {
+                    // 什么也不做，instance 使用新值
+                }
+            }
         }
         return instance;
     }
@@ -447,13 +451,6 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
                 if (XML_DESIGNER_OPEN_DATE.equals(name)) {
                     this.designerOpenDate = reader.getElementValue();
                 } else if(XML_TEMPLATE_INFO_LIST.equals(name)){
-//                    JSONObject jsonObject = new JSONObject(reader.getElementValue());
-//                    Map<String, Object> map = jsonToMap(jsonObject);
-//                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                        if (entry.getValue() instanceof HashMap) {
-//                            this.templateInfoList.put(entry.getKey(), (HashMap<String, Object>) entry.getValue());
-//                        }
-//                    }
                     readTemplateInfoList(reader);
                 }
             } catch (Exception ex) {
@@ -482,9 +479,6 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
         writer.textNode(designerOpenDate);
         writer.end();
 
-//        writer.startTAG(XML_TEMPLATE_INFO_LIST);
-//        writer.textNode(new JSONObject(templateInfoList).toString());
-//        writer.end();
         writeTemplateInfoList(writer);
 
         writer.end();
@@ -496,9 +490,6 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
         for (String templateID : templateInfoList.keySet()) {
             new TemplateInfo(templateInfoList.get(templateID)).writeXML(writer);
         }
-//        for (int i = 0; i < templateInfoList.size(); i++) {
-//            startStop.get(i).writeXML(writer);
-//        }
         writer.end();
     }
 
@@ -519,16 +510,9 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
 
         public TemplateInfo() {}
 
-//        public int getDayCount() {
-//            return dayCount;
-//        }
         public String getTemplateID() {
             return templateID;
         }
-
-//        public void setStartDate(String startDate) {
-//            this.startDate = startDate;
-//        }
 
         public HashMap<String, Object> getTemplateInfo() {
             HashMap<String, Object> templateInfo = new HashMap<>();
@@ -537,18 +521,6 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
             templateInfo.put("day_count", dayCount);
             return templateInfo;
         }
-
-//        public HashMap<String, Object> getProcessMap() {
-//            return processMap;
-//        }
-//
-//        public HashMap<String, Object> getConsumingMap() {
-//            return consumingMap;
-//        }
-
-//        public void setStopDate(String endDate) {
-//            this.stopDate = endDate;
-//        }
 
         public void writeXML(XMLPrintWriter writer) {
             writer.startTAG(XML_TEMPLATE_INFO);
