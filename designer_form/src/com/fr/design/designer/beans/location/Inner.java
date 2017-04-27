@@ -9,7 +9,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelection;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.form.ui.widget.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
