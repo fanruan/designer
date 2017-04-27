@@ -16,13 +16,11 @@ import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRFitLayoutConstraints;
 import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.mainframe.JForm;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
-import com.fr.form.ui.widget.BoundsWidget;
 import com.fr.general.ComparatorUtils;
 
 import java.awt.*;
