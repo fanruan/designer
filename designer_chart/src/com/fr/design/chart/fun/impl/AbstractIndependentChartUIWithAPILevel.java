@@ -65,4 +65,6 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
     public String getPlotTypeTitle4PopupWindow(){
         return getPlotTypePane().title4PopupWindow();
     }
+
+    public BasicBeanPane getChartConfigPane(Plot plot, ChartDataPane parent){ return null;}
 }

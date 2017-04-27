@@ -89,5 +89,6 @@ public interface IndependentChartUIProvider extends Level {
      */
     String getPlotTypeTitle4PopupWindow();
 
+     BasicBeanPane getChartConfigPane(Plot plot, ChartDataPane parent);
 
 }

@@ -53,4 +53,6 @@ public abstract class AbstractIndependentChartUI implements IndependentChartUIPr
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
+    public BasicBeanPane getChartConfigPane(Plot plot, ChartDataPane parent){ return null;}
+
 }

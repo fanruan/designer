@@ -11,6 +11,7 @@ import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.chart.gui.ChartWidgetOption;
 import com.fr.design.chartinterface.*;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -408,6 +409,21 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
 
     private AbstractTableDataContentPane getTableDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
         return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getTableDataSourcePane(plot, parent);
+    }
+    public BasicPane getChartConfigPane(Plot plot, ChartDataPane parent) {
+        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String priority = (String) entry.getKey();
+            if (plotInChart(plot.getPlotID(), priority)) {
+                return getChartConfigPane(priority, plot, parent);
+            }
+        }
+        return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plot, parent);
+    }
+
+    private BasicBeanPane getChartConfigPane(String priority, Plot plot, ChartDataPane parent) {
+        return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getChartConfigPane(plot, parent);
     }
 
 

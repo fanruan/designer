@@ -6,13 +6,12 @@ import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.CustomChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.report.PiePlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.PiePlotTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.general.ComparatorUtils;
 
 /**
@@ -22,6 +21,11 @@ import com.fr.general.ComparatorUtils;
 public abstract class AbstractIndependentChartUI4Custom implements IndependentChartUIProvider {
 
     int CURRENT_API_LEVEL = 3;
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new CustomChartDataPane(listener);
+    }
 
     @Override
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
@@ -50,8 +54,8 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
     }
 
     @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new ChartDataPane(listener);
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+        return new AbstractChartAttrPane[]{};
     }
 
     @Override
@@ -62,7 +66,7 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
 
     @Override
     public String getIconPath() {
-        return "com/fr/solution/plugin/chart/echarts/pie/images/pie.png";
+        return "com/fr/design/images/form/toolbar/ChartF-Column.png";
     }
 
     @Override
