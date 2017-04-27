@@ -32,7 +32,7 @@ public class ReportWebWidgetConstants {
 
     public static WidgetOption[] getWriteToolBarInstance() {
         return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
-                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR};
+                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED};
     }
 
     public static WidgetOption[] getFormToolBarInstance() {
@@ -130,7 +130,9 @@ public class ReportWebWidgetConstants {
     // import excel data
     public static final WidgetOption IMPORTEXCELDATA = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("Utils-Import_Excel_Data"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImportExcelData.class);
-
+    //自定义导入excel
+    public static final WidgetOption IMPORTEXCELDATA_CUSTOMIZED = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine-Utils-Import_Excel_Data_Customized"),
+            BaseUtils.readIcon("/com/fr/web/images/excel.png"), CustomizeImportExcelData.class);
     // 打印机偏移设置
     public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(Inter.getLocText("FR-Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
 
