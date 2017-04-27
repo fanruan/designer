@@ -3,24 +3,22 @@ package com.fr.design.mainframe.widget;
 /**
  * Created by xiaxiang on 2016/9/30.
  */
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
+import javax.swing.plaf.metal.*;
+import javax.swing.tree.*;
 
-import com.fr.design.designer.beans.AdapterBus;
+import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.mainframe.ComponentTree;
-import com.sun.java.swing.plaf.motif.MotifComboBoxUI;
-import com.sun.java.swing.plaf.windows.WindowsComboBoxUI;
-
-import javax.swing.*;
-import javax.swing.plaf.ComboBoxUI;
-import javax.swing.plaf.basic.ComboPopup;
-import javax.swing.plaf.metal.MetalComboBoxUI;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreePath;
-import java.awt.*;
-import java.awt.event.*;
+import com.sun.java.swing.plaf.motif.*;
+import com.sun.java.swing.plaf.windows.*;
 
 /**
  * 控件树下拉列表框
@@ -67,7 +65,6 @@ public class UITreeComboBox extends JComboBox{
      * @param o Object
      */
     public void setSelectedItem(Object o){
-        tree.setSelectionPath((TreePath)o);
         getModel().setSelectedItem(o);
     }
 
