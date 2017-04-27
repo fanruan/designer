@@ -39,23 +39,25 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
     private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
     private static final String XML_TEMPLATE_INFO = "TemplateInfo";
-    private static final String XML_PROCESS_MAP = "ProcessMap";
-    private static final String XML_CONSUMING_MAP = "ConsumingMap";
-    private static final String ATTR_DAY_COUNT = "dayCount";
+    private static final String XML_PROCESS_MAP = "processMap";
+    private static final String XML_CONSUMING_MAP = "consumingMap";
+    private static final String ATTR_DAY_COUNT = "day_count";
     private static final String ATTR_TEMPLATE_ID = "templateID";
     private static final String ATTR_PROCESS = "process";
-    private static final String ATTR_FLOAT_COUNT = "floatCount";
-    private static final String ATTR_WIDGET_COUNT = "widgetCount";
-    private static final String ATTR_CELL_COUNT = "cellCount";
-    private static final String ATTR_BLOCK_COUNT = "blockCount";
-    private static final String ATTR_REPORT_TYPE = "reportType";
+    private static final String ATTR_FLOAT_COUNT = "float_count";
+    private static final String ATTR_WIDGET_COUNT = "widget_count";
+    private static final String ATTR_CELL_COUNT = "cell_count";
+    private static final String ATTR_BLOCK_COUNT = "block_count";
+    private static final String ATTR_REPORT_TYPE = "report_type";
     private static final String ATTR_ACTIVITYKEY = "activitykey";
-    private static final String ATTR_JAR_TIME = "jarTime";
-    private static final String ATTR_CREATE_TIME = "createTime";
+    private static final String ATTR_JAR_TIME = "jar_time";
+    private static final String ATTR_CREATE_TIME = "create_time";
     private static final String ATTR_UUID = "uuid";
-    private static final String ATTR_TIME_CONSUME = "timeConsume";
+    private static final String ATTR_TIME_CONSUME = "time_consume";
     private static final String ATTR_VERSION = "version";
     private static final String ATTR_USERNAME = "username";
+    private static final String JSON_CONSUMING_MAP = "jsonConsumingMap";
+    private static final String JSON_PROCESS_MAP = "jsonProcessMap";
 
 
     @SuppressWarnings("unchecked")
@@ -159,8 +161,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
      */
     @SuppressWarnings("unchecked")
     public String loadProcess(T t) {
-        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(t.getTemplateID()).get("processMap");
-        return (String)processMap.get("process");
+        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfoList.get(t.getTemplateID()).get(XML_PROCESS_MAP);
+        return (String)processMap.get(ATTR_PROCESS);
     }
 
     /**
@@ -216,8 +218,8 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         if (designerOpenFirstTime()) {
             for (String key : templateInfoList.keySet()) {
                 HashMap<String, Object> templateInfo = templateInfoList.get(key);
-                int dayCount = (int)templateInfo.get("day_count") + 1;
-                templateInfo.put("day_count", dayCount);
+                int dayCount = (int)templateInfo.get(ATTR_DAY_COUNT) + 1;
+                templateInfo.put(ATTR_DAY_COUNT, dayCount);
             }
             setDesignerOpenDate();
         }
@@ -241,20 +243,20 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         if (inList(t)) { // 已有记录
             templateInfo = templateInfoList.get(t.getTemplateID());
             // 更新 conusmingMap
-            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
-            timeConsume += (long)consumingMap.get("time_consume");  // 加上之前的累计编辑时间
-            consumingMap.put("time_consume", timeConsume);
+            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get(XML_CONSUMING_MAP);
+            timeConsume += (long)consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间
+            consumingMap.put(ATTR_TIME_CONSUME, timeConsume);
         }
         else {  // 新增
             templateInfo = new HashMap<>();
-            templateInfo.put("consumingMap", getNewConsumingMap(templateID, openTime, timeConsume));
+            templateInfo.put(XML_CONSUMING_MAP, getNewConsumingMap(templateID, openTime, timeConsume));
         }
 
         // 直接覆盖 processMap
-        templateInfo.put("processMap", getProcessMap(templateID, jt));
+        templateInfo.put(XML_PROCESS_MAP, getProcessMap(templateID, jt));
 
         // 保存模板时，让 day_count 归零
-        templateInfo.put("day_count", 0);
+        templateInfo.put(ATTR_DAY_COUNT, 0);
 
 
         templateInfoList.put(templateID, templateInfo);
@@ -271,14 +273,14 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
         String jarTime = GeneralUtils.readBuildNO();
         String version = ProductConstants.VERSION;
-        consumingMap.put("username", username);
-        consumingMap.put("uuid", uuid);
-        consumingMap.put("activitykey", activitykey);
-        consumingMap.put("templateID", templateID);
-        consumingMap.put("create_time", createTime);
-        consumingMap.put("time_consume", timeConsume);
-        consumingMap.put("jar_time", jarTime);
-        consumingMap.put("version", version);
+        consumingMap.put(ATTR_USERNAME, username);
+        consumingMap.put(ATTR_UUID, uuid);
+        consumingMap.put(ATTR_ACTIVITYKEY, activitykey);
+        consumingMap.put(ATTR_TEMPLATE_ID, templateID);
+        consumingMap.put(ATTR_CREATE_TIME, createTime);
+        consumingMap.put(ATTR_TIME_CONSUME, timeConsume);
+        consumingMap.put(ATTR_JAR_TIME, jarTime);
+        consumingMap.put(ATTR_VERSION, version);
 
         return consumingMap;
     }
@@ -286,15 +288,15 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
     private HashMap<String, Object> getProcessMap(String templateID, JTemplate jt) {
         HashMap<String, Object> processMap = new HashMap<>();
 
-        processMap.put("templateID", templateID);
-        processMap.put("process", jt.getProcess());
+        processMap.put(ATTR_TEMPLATE_ID, templateID);
+        processMap.put(ATTR_PROCESS, jt.getProcess());
 
         TemplateProcessInfo info = jt.getProcessInfo();
-        processMap.put("report_type", info.getReportType());
-        processMap.put("cell_count", info.getCellCount());
-        processMap.put("float_count", info.getFloatCount());
-        processMap.put("block_count", info.getBlockCount());
-        processMap.put("widget_count", info.getWidgetCount());
+        processMap.put(ATTR_REPORT_TYPE, info.getReportType());
+        processMap.put(ATTR_CELL_COUNT, info.getCellCount());
+        processMap.put(ATTR_FLOAT_COUNT, info.getFloatCount());
+        processMap.put(ATTR_BLOCK_COUNT, info.getBlockCount());
+        processMap.put(ATTR_WIDGET_COUNT, info.getWidgetCount());
 
         return processMap;
     }
@@ -308,11 +310,11 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         String processUrl = SiteCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
         ArrayList<HashMap<String, String>> completeTemplatesInfo = getCompleteTemplatesInfo();
         for (HashMap<String, String> templateInfo : completeTemplatesInfo) {
-            String jsonConsumingMap = templateInfo.get("jsonConsumingMap");
-            String jsonProcessMap = templateInfo.get("jsonProcessMap");
+            String jsonConsumingMap = templateInfo.get(JSON_CONSUMING_MAP);
+            String jsonProcessMap = templateInfo.get(JSON_PROCESS_MAP);
             if (sendSingleTemplateInfo(consumingUrl, jsonConsumingMap) && sendSingleTemplateInfo(processUrl, jsonProcessMap)) {
                 // 清空记录
-                removeFromTemplateInfoList(templateInfo.get("templateID"));
+                removeFromTemplateInfoList(templateInfo.get(ATTR_TEMPLATE_ID));
             }
         }
         saveInfo();
@@ -350,21 +352,21 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
         ArrayList<String> testTemplateKeys = new ArrayList<>();  // 保存测试模板的key
         for (String key : templateInfoList.keySet()) {
             HashMap<String, Object> templateInfo = templateInfoList.get(key);
-            if ((int)templateInfo.get("day_count") <= COMPLETE_DAY_COUNT) {  // 未完成模板
+            if ((int)templateInfo.get(ATTR_DAY_COUNT) <= COMPLETE_DAY_COUNT) {  // 未完成模板
                 continue;
             }
             if (isTestTemplate(templateInfo)) {
                 testTemplateKeys.add(key);
                 continue;
             }
-            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
-            HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get("processMap");
+            HashMap<String, Object> consumingMap = (HashMap<String, Object>) templateInfo.get(XML_CONSUMING_MAP);
+            HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get(XML_PROCESS_MAP);
             String jsonConsumingMap = new JSONObject(consumingMap).toString();
             String jsonProcessMap = new JSONObject(processMap).toString();
             HashMap<String, String> jsonTemplateInfo = new HashMap<>();
-            jsonTemplateInfo.put("jsonConsumingMap", jsonConsumingMap);
-            jsonTemplateInfo.put("jsonProcessMap", jsonProcessMap);
-            jsonTemplateInfo.put("templateID", key);
+            jsonTemplateInfo.put(JSON_CONSUMING_MAP, jsonConsumingMap);
+            jsonTemplateInfo.put(JSON_PROCESS_MAP, jsonProcessMap);
+            jsonTemplateInfo.put(ATTR_TEMPLATE_ID, key);
             completeTemplatesInfo.add(jsonTemplateInfo);
         }
         // 删除测试模板
@@ -380,12 +382,12 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
     @SuppressWarnings("unchecked")
     private boolean isTestTemplate(HashMap<String, Object> templateInfo) {
-        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get("processMap");
-        int reportType = (int)processMap.get("report_type");
-        int cellCount = (int)processMap.get("cell_count");
-        int floatCount = (int)processMap.get("float_count");
-        int blockCount = (int)processMap.get("block_count");
-        int widgetCount = (int)processMap.get("widget_count");
+        HashMap<String, Object> processMap = (HashMap<String, Object>) templateInfo.get(XML_PROCESS_MAP);
+        int reportType = (int)processMap.get(ATTR_REPORT_TYPE);
+        int cellCount = (int)processMap.get(ATTR_CELL_COUNT);
+        int floatCount = (int)processMap.get(ATTR_FLOAT_COUNT);
+        int blockCount = (int)processMap.get(ATTR_BLOCK_COUNT);
+        int widgetCount = (int)processMap.get(ATTR_WIDGET_COUNT);
         boolean isTestTemplate = false;
         if (reportType == 0) {  // 普通报表
             isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
@@ -457,10 +459,10 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
         @SuppressWarnings("unchecked")
         public TemplateInfo(HashMap<String, Object> templateInfo) {
-            this.dayCount = (int)templateInfo.get("day_count");
-            this.processMap = (HashMap<String, Object>) templateInfo.get("processMap");
-            this.consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
-            this.templateID = (String) processMap.get("templateID");
+            this.dayCount = (int)templateInfo.get(ATTR_DAY_COUNT);
+            this.processMap = (HashMap<String, Object>) templateInfo.get(XML_PROCESS_MAP);
+            this.consumingMap = (HashMap<String, Object>) templateInfo.get(XML_CONSUMING_MAP);
+            this.templateID = (String) processMap.get(ATTR_TEMPLATE_ID);
         }
 
         public TemplateInfo() {}
@@ -471,9 +473,9 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
         public HashMap<String, Object> getTemplateInfo() {
             HashMap<String, Object> templateInfo = new HashMap<>();
-            templateInfo.put("processMap", processMap);
-            templateInfo.put("consumingMap", consumingMap);
-            templateInfo.put("day_count", dayCount);
+            templateInfo.put(XML_PROCESS_MAP, processMap);
+            templateInfo.put(XML_CONSUMING_MAP, consumingMap);
+            templateInfo.put(ATTR_DAY_COUNT, dayCount);
             return templateInfo;
         }
 
@@ -493,24 +495,24 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
         private void writeProcessMap(XMLPrintWriter writer) {
             writer.startTAG(XML_PROCESS_MAP);
-            writer.attr(ATTR_PROCESS, (String)processMap.get("process"));
-            writer.attr(ATTR_FLOAT_COUNT, (int)processMap.get("float_count"));
-            writer.attr(ATTR_WIDGET_COUNT, (int)processMap.get("widget_count"));
-            writer.attr(ATTR_CELL_COUNT, (int)processMap.get("cell_count"));
-            writer.attr(ATTR_BLOCK_COUNT, (int)processMap.get("block_count"));
-            writer.attr(ATTR_REPORT_TYPE, (int)processMap.get("report_type"));
+            writer.attr(ATTR_PROCESS, (String)processMap.get(ATTR_PROCESS));
+            writer.attr(ATTR_FLOAT_COUNT, (int)processMap.get(ATTR_FLOAT_COUNT));
+            writer.attr(ATTR_WIDGET_COUNT, (int)processMap.get(ATTR_WIDGET_COUNT));
+            writer.attr(ATTR_CELL_COUNT, (int)processMap.get(ATTR_CELL_COUNT));
+            writer.attr(ATTR_BLOCK_COUNT, (int)processMap.get(ATTR_BLOCK_COUNT));
+            writer.attr(ATTR_REPORT_TYPE, (int)processMap.get(ATTR_REPORT_TYPE));
             writer.end();
         }
 
         private void writeConsumingMap(XMLPrintWriter writer) {
             writer.startTAG(XML_CONSUMING_MAP);
-            writer.attr(ATTR_ACTIVITYKEY, (String)consumingMap.get("activitykey"));
-            writer.attr(ATTR_JAR_TIME, (String)consumingMap.get("jar_time"));
-            writer.attr(ATTR_CREATE_TIME, (String)consumingMap.get("create_time"));
-            writer.attr(ATTR_UUID, (String)consumingMap.get("uuid"));
-            writer.attr(ATTR_TIME_CONSUME, (long)consumingMap.get("time_consume"));
-            writer.attr(ATTR_VERSION, (String)consumingMap.get("version"));
-            writer.attr(ATTR_USERNAME, (String)consumingMap.get("username"));
+            writer.attr(ATTR_ACTIVITYKEY, (String)consumingMap.get(ATTR_ACTIVITYKEY));
+            writer.attr(ATTR_JAR_TIME, (String)consumingMap.get(ATTR_JAR_TIME));
+            writer.attr(ATTR_CREATE_TIME, (String)consumingMap.get(ATTR_CREATE_TIME));
+            writer.attr(ATTR_UUID, (String)consumingMap.get(ATTR_UUID));
+            writer.attr(ATTR_TIME_CONSUME, (long)consumingMap.get(ATTR_TIME_CONSUME));
+            writer.attr(ATTR_VERSION, (String)consumingMap.get(ATTR_VERSION));
+            writer.attr(ATTR_USERNAME, (String)consumingMap.get(ATTR_USERNAME));
             writer.end();
         }
 
@@ -522,22 +524,22 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
                 try {
                     String name = reader.getTagName();
                     if (XML_PROCESS_MAP.equals(name)) {
-                        processMap.put("process", reader.getAttrAsString(ATTR_PROCESS, StringUtils.EMPTY));
-                        processMap.put("float_count", reader.getAttrAsInt(ATTR_FLOAT_COUNT, 0));
-                        processMap.put("widget_count", reader.getAttrAsInt(ATTR_WIDGET_COUNT, 0));
-                        processMap.put("cell_count", reader.getAttrAsInt(ATTR_CELL_COUNT, 0));
-                        processMap.put("block_count", reader.getAttrAsInt(ATTR_BLOCK_COUNT, 0));
-                        processMap.put("report_type", reader.getAttrAsInt(ATTR_REPORT_TYPE, 0));
-                        processMap.put("templateID", templateID);
+                        processMap.put(ATTR_PROCESS, reader.getAttrAsString(ATTR_PROCESS, StringUtils.EMPTY));
+                        processMap.put(ATTR_FLOAT_COUNT, reader.getAttrAsInt(ATTR_FLOAT_COUNT, 0));
+                        processMap.put(ATTR_WIDGET_COUNT, reader.getAttrAsInt(ATTR_WIDGET_COUNT, 0));
+                        processMap.put(ATTR_CELL_COUNT, reader.getAttrAsInt(ATTR_CELL_COUNT, 0));
+                        processMap.put(ATTR_BLOCK_COUNT, reader.getAttrAsInt(ATTR_BLOCK_COUNT, 0));
+                        processMap.put(ATTR_REPORT_TYPE, reader.getAttrAsInt(ATTR_REPORT_TYPE, 0));
+                        processMap.put(ATTR_TEMPLATE_ID, templateID);
                     } else if(XML_CONSUMING_MAP.equals(name)){
-                        consumingMap.put("activitykey", reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
-                        consumingMap.put("jar_time", reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
-                        consumingMap.put("create_time", reader.getAttrAsString(ATTR_CREATE_TIME, StringUtils.EMPTY));
-                        consumingMap.put("templateID", templateID);
-                        consumingMap.put("uuid", reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
-                        consumingMap.put("time_consume", reader.getAttrAsLong(ATTR_TIME_CONSUME, 0));
-                        consumingMap.put("version", reader.getAttrAsString(ATTR_VERSION, "8.0"));
-                        consumingMap.put("username", reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
+                        consumingMap.put(ATTR_ACTIVITYKEY, reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
+                        consumingMap.put(ATTR_JAR_TIME, reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
+                        consumingMap.put(ATTR_CREATE_TIME, reader.getAttrAsString(ATTR_CREATE_TIME, StringUtils.EMPTY));
+                        consumingMap.put(ATTR_TEMPLATE_ID, templateID);
+                        consumingMap.put(ATTR_UUID, reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
+                        consumingMap.put(ATTR_TIME_CONSUME, reader.getAttrAsLong(ATTR_TIME_CONSUME, 0));
+                        consumingMap.put(ATTR_VERSION, reader.getAttrAsString(ATTR_VERSION, "8.0"));
+                        consumingMap.put(ATTR_USERNAME, reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
                     }
                 } catch (Exception ex) {
                     // 什么也不做，使用默认值
