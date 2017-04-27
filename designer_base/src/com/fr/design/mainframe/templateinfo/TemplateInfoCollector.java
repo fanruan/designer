@@ -37,6 +37,35 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
     static final long serialVersionUID = 2007L;
     private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
+    private static final String XML_TEMPLATE_INFO = "TemplateInfo";
+    private static final String XML_PROCESS_MAP = "ProcessMap";
+    private static final String XML_CONSUMING_MAP = "ConsumingMap";
+    private static final String ATTR_DAY_COUNT = "dayCount";
+    private static final String ATTR_TEMPLATE_ID = "templateID";
+    /*
+    * "process":"","float_count":0,"widget_count":1,"cell_count":0,"block_count":0,"report_type":2
+    * */
+    private static final String ATTR_PROCESS = "process";
+    private static final String ATTR_FLOAT_COUNT = "floatCount";
+    private static final String ATTR_WIDGET_COUNT = "widgetCount";
+    private static final String ATTR_CELL_COUNT = "cellCount";
+    private static final String ATTR_BLOCK_COUNT = "blockCount";
+    private static final String ATTR_REPORT_TYPE = "reportType";
+    /*
+    * "activitykey":"2e0ea413-fa9c241e0-9723-4354fce51e81","jar_time":"2017.04.21.10.41.10.806",
+    * "create_time":"2017-04-26 10:27","templateID":"0aa19027-e298-4d43-868d-45232b879d0e",
+    * "uuid":"476ca2cc-f789-4c5d-8e89-ef146580775c","time_consume":36,"version":"8.0",
+    * "username":"ueeHq6
+    * */
+    private static final String ATTR_ACTIVITYKEY = "activitykey";
+    private static final String ATTR_JAR_TIME = "jarTime";
+    private static final String ATTR_CREATE_TIME = "createTime";
+    private static final String ATTR_UUID = "uuid";
+    private static final String ATTR_TIME_CONSUME = "timeConsume";
+    private static final String ATTR_VERSION = "version";
+    private static final String ATTR_USERNAME = "username";
+
+
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
@@ -418,13 +447,14 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
                 if (XML_DESIGNER_OPEN_DATE.equals(name)) {
                     this.designerOpenDate = reader.getElementValue();
                 } else if(XML_TEMPLATE_INFO_LIST.equals(name)){
-                    JSONObject jsonObject = new JSONObject(reader.getElementValue());
-                    Map<String, Object> map = jsonToMap(jsonObject);
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        if (entry.getValue() instanceof HashMap) {
-                            this.templateInfoList.put(entry.getKey(), (HashMap<String, Object>) entry.getValue());
-                        }
-                    }
+//                    JSONObject jsonObject = new JSONObject(reader.getElementValue());
+//                    Map<String, Object> map = jsonToMap(jsonObject);
+//                    for (Map.Entry<String, Object> entry : map.entrySet()) {
+//                        if (entry.getValue() instanceof HashMap) {
+//                            this.templateInfoList.put(entry.getKey(), (HashMap<String, Object>) entry.getValue());
+//                        }
+//                    }
+                    readTemplateInfoList(reader);
                 }
             } catch (Exception ex) {
                 // 什么也不做，使用默认值
@@ -432,19 +462,162 @@ public class TemplateInfoCollector<T extends IOFile> implements XMLReadable, XML
         }
     }
 
+    private void readTemplateInfoList(XMLableReader reader) {
+        reader.readXMLObject(new XMLReadable() {
+            public void readXML(XMLableReader reader) {
+                if (XML_TEMPLATE_INFO.equals(reader.getTagName())) {
+                    TemplateInfo templateInfo = new TemplateInfo();
+                    reader.readXMLObject(templateInfo);
+                    templateInfoList.put(templateInfo.getTemplateID(), templateInfo.getTemplateInfo());
+                }
+            }
+        });
+    }
+
     @Override
     public void writeXML(XMLPrintWriter writer) {
-        writer.startTAG("TemplateInfo");
+        writer.startTAG("TplInfo");
 
         writer.startTAG(XML_DESIGNER_OPEN_DATE);
         writer.textNode(designerOpenDate);
         writer.end();
 
-        writer.startTAG(XML_TEMPLATE_INFO_LIST);
-        writer.textNode(new JSONObject(templateInfoList).toString());
-        writer.end();
+//        writer.startTAG(XML_TEMPLATE_INFO_LIST);
+//        writer.textNode(new JSONObject(templateInfoList).toString());
+//        writer.end();
+        writeTemplateInfoList(writer);
 
         writer.end();
+    }
+
+    private void writeTemplateInfoList(XMLPrintWriter writer){
+        //启停
+        writer.startTAG(XML_TEMPLATE_INFO_LIST);
+        for (String templateID : templateInfoList.keySet()) {
+            new TemplateInfo(templateInfoList.get(templateID)).writeXML(writer);
+        }
+//        for (int i = 0; i < templateInfoList.size(); i++) {
+//            startStop.get(i).writeXML(writer);
+//        }
+        writer.end();
+    }
+
+    private class TemplateInfo implements XMLReadable, XMLWriter {
+
+        private int dayCount;
+        private String templateID;
+        private HashMap<String, Object> processMap = new HashMap<>();
+        private HashMap<String, Object> consumingMap = new HashMap<>();
+
+        @SuppressWarnings("unchecked")
+        public TemplateInfo(HashMap<String, Object> templateInfo) {
+            this.dayCount = (int)templateInfo.get("day_count");
+            this.processMap = (HashMap<String, Object>) templateInfo.get("processMap");
+            this.consumingMap = (HashMap<String, Object>) templateInfo.get("consumingMap");
+            this.templateID = (String) processMap.get("templateID");
+        }
+
+        public TemplateInfo() {}
+
+//        public int getDayCount() {
+//            return dayCount;
+//        }
+        public String getTemplateID() {
+            return templateID;
+        }
+
+//        public void setStartDate(String startDate) {
+//            this.startDate = startDate;
+//        }
+
+        public HashMap<String, Object> getTemplateInfo() {
+            HashMap<String, Object> templateInfo = new HashMap<>();
+            templateInfo.put("processMap", processMap);
+            templateInfo.put("consumingMap", consumingMap);
+            templateInfo.put("day_count", dayCount);
+            return templateInfo;
+        }
+
+//        public HashMap<String, Object> getProcessMap() {
+//            return processMap;
+//        }
+//
+//        public HashMap<String, Object> getConsumingMap() {
+//            return consumingMap;
+//        }
+
+//        public void setStopDate(String endDate) {
+//            this.stopDate = endDate;
+//        }
+
+        public void writeXML(XMLPrintWriter writer) {
+            writer.startTAG(XML_TEMPLATE_INFO);
+            if (StringUtils.isNotEmpty(templateID)) {
+                writer.attr(ATTR_TEMPLATE_ID, this.templateID);
+            }
+            if (dayCount >= 0) {
+                writer.attr(ATTR_DAY_COUNT, this.dayCount);
+            }
+            writeProcessMap(writer);
+            writeConsumingMap(writer);
+
+            writer.end();
+        }
+
+        private void writeProcessMap(XMLPrintWriter writer) {
+            writer.startTAG(XML_PROCESS_MAP);
+            writer.attr(ATTR_PROCESS, (String)processMap.get("process"));
+            writer.attr(ATTR_FLOAT_COUNT, (int)processMap.get("float_count"));
+            writer.attr(ATTR_WIDGET_COUNT, (int)processMap.get("widget_count"));
+            writer.attr(ATTR_CELL_COUNT, (int)processMap.get("cell_count"));
+            writer.attr(ATTR_BLOCK_COUNT, (int)processMap.get("block_count"));
+            writer.attr(ATTR_REPORT_TYPE, (int)processMap.get("report_type"));
+            writer.end();
+        }
+
+        private void writeConsumingMap(XMLPrintWriter writer) {
+            writer.startTAG(XML_CONSUMING_MAP);
+            writer.attr(ATTR_ACTIVITYKEY, (String)consumingMap.get("activitykey"));
+            writer.attr(ATTR_JAR_TIME, (String)consumingMap.get("jar_time"));
+            writer.attr(ATTR_CREATE_TIME, (String)consumingMap.get("create_time"));
+            writer.attr(ATTR_UUID, (String)consumingMap.get("uuid"));
+            writer.attr(ATTR_TIME_CONSUME, (long)consumingMap.get("time_consume"));
+            writer.attr(ATTR_VERSION, (String)consumingMap.get("version"));
+            writer.attr(ATTR_USERNAME, (String)consumingMap.get("username"));
+            writer.end();
+        }
+
+        public void readXML(XMLableReader reader) {
+            if (!reader.isChildNode()) {
+                dayCount = reader.getAttrAsInt(ATTR_DAY_COUNT, 0);
+                templateID = reader.getAttrAsString(ATTR_TEMPLATE_ID, StringUtils.EMPTY);
+            } else {
+                try {
+                    String name = reader.getTagName();
+                    if (XML_PROCESS_MAP.equals(name)) {
+                        processMap.put("process", reader.getAttrAsString(ATTR_PROCESS, StringUtils.EMPTY));
+                        processMap.put("float_count", reader.getAttrAsInt(ATTR_FLOAT_COUNT, 0));
+                        processMap.put("widget_count", reader.getAttrAsInt(ATTR_WIDGET_COUNT, 0));
+                        processMap.put("cell_count", reader.getAttrAsInt(ATTR_CELL_COUNT, 0));
+                        processMap.put("block_count", reader.getAttrAsInt(ATTR_BLOCK_COUNT, 0));
+                        processMap.put("report_type", reader.getAttrAsInt(ATTR_REPORT_TYPE, 0));
+                        processMap.put("templateID", templateID);
+                    } else if(XML_CONSUMING_MAP.equals(name)){
+                        consumingMap.put("activitykey", reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
+                        consumingMap.put("jar_time", reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
+                        consumingMap.put("create_time", reader.getAttrAsString(ATTR_CREATE_TIME, StringUtils.EMPTY));
+                        consumingMap.put("templateID", templateID);
+                        consumingMap.put("uuid", reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
+                        consumingMap.put("time_consume", reader.getAttrAsLong(ATTR_TIME_CONSUME, 0));
+                        consumingMap.put("version", reader.getAttrAsString(ATTR_VERSION, "8.0"));
+                        consumingMap.put("username", reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
+                    }
+                } catch (Exception ex) {
+                    // 什么也不做，使用默认值
+                }
+            }
+        }
+
     }
 
 
