@@ -7,6 +7,7 @@ import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
@@ -53,6 +54,6 @@ public abstract class AbstractIndependentChartUI implements IndependentChartUIPr
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
-    public BasicBeanPane getChartConfigPane(Plot plot, ChartDataPane parent){ return null;}
+    public BasicBeanPane getChartConfigPane(String plotID){ return null;}
 
 }

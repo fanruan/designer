@@ -11,7 +11,9 @@ import javax.swing.JComponent;
 import com.fr.base.BaseUtils;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
@@ -27,6 +29,9 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	protected UILabel nameLabel;
 
 	protected ChartEditPane chartEditPane;
+	protected ChartCollection chartCollection;
+	protected String plotID;
+	protected BasicPane chartPane;
 
 	public MiddleChartPropertyPane() {
 		initComponenet();
@@ -38,7 +43,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
-		
 		chartEditPane =  StableUtils.construct(ChartEditPane.class);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
@@ -66,7 +70,16 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	
 	protected void resetChartEditPane() {
 		remove(chartEditPane);
-		add(chartEditPane, BorderLayout.CENTER);
+		if (plotID != null) {
+			chartPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
+			if (chartPane != null) {
+				add(chartPane, BorderLayout.CENTER);
+			}
+		}
+		if (chartPane == null) {
+			chartEditPane = StableUtils.construct(ChartEditPane.class);
+			add(chartEditPane, BorderLayout.CENTER);
+		}
 		validate();
 		repaint();
 		revalidate();
@@ -97,6 +110,9 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      */
 	public void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane) {
 		if (collection instanceof ChartCollection) {
+			chartCollection = (ChartCollection) collection;
+			plotID=chartCollection.getSelectedChart().getPlot().getPlotID();
+			resetChartEditPane();
 			populateChartPropertyPane((ChartCollection)collection, ePane);
 		}
 	}

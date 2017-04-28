@@ -9,9 +9,10 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.CustomChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
 import com.fr.general.ComparatorUtils;
 
 /**
@@ -21,10 +22,14 @@ import com.fr.general.ComparatorUtils;
 public abstract class AbstractIndependentChartUI4Custom implements IndependentChartUIProvider {
 
     int CURRENT_API_LEVEL = 3;
+    @Override
+    public AbstractChartTypePane getPlotTypePane() {
+        return new PiePlotPane();
+    }
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new CustomChartDataPane(listener);
+        return new ChartDataPane(listener);
     }
 
     @Override
