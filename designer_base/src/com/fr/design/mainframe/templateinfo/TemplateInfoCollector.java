@@ -8,8 +8,6 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.env.RemoteEnv;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
-import com.fr.json.JSONArray;
-import com.fr.json.JSONException;
 import com.fr.stable.*;
 import com.fr.stable.xml.*;
 import com.fr.third.javax.xml.stream.XMLStreamException;
@@ -19,7 +17,6 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * 做模板的过程和耗时收集，辅助类
@@ -177,38 +174,11 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
      */
     private void saveInfo() {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            FileOutputStream out = new FileOutputStream(getInfoFile());
             XMLTools.writeOutputStreamXML(this, out);
-            out.flush();
-            out.close();
-            String fileContent = new String(out.toByteArray(), EncodeConstants.ENCODING_UTF_8);
-            writeContentToFile(fileContent, getInfoFile());
         } catch (Exception ex) {
             FRLogger.getLogger().error(ex.getMessage());
         }
-    }
-
-    /**
-     * 将文件内容写到输出流中
-     */
-    private static void writeContentToFile(String fileContent, File file){
-        BufferedWriter bw = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, EncodeConstants.ENCODING_UTF_8);
-            bw = new BufferedWriter(osw);
-            bw.write(fileContent);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
-        } finally {
-            if(bw != null){
-                try {
-                    bw.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-
     }
 
     /**
@@ -257,7 +227,6 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
 
         // 保存模板时，让 day_count 归零
         templateInfo.put(ATTR_DAY_COUNT, 0);
-
 
         templateInfoList.put(templateID, templateInfo);
 
