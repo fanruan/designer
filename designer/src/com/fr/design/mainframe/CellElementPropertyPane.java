@@ -108,8 +108,10 @@ public class CellElementPropertyPane extends DockingView {
     }
 
     public void reInit(ElementCasePane ePane) {
-        this.add(titlePane, BorderLayout.NORTH);
-        this.add(cellElementEditPane, BorderLayout.CENTER);
+        if (titlePane.getParent() == null) {  // 如果处于隐藏状态，则让其显示
+            this.add(titlePane, BorderLayout.NORTH);
+            this.add(cellElementEditPane, BorderLayout.CENTER);
+        }
         cellElementEditPane.populate(ePane);
     }
 

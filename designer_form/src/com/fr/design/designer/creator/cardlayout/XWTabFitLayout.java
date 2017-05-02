@@ -425,7 +425,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	private void updateCompsWidget(){
 		for(int m=0;m<this.getComponentCount();m++){
 			XCreator childCreator = this.getXCreator(m);
-			BoundsWidget wgt = this.toData().getBoundsWidget(childCreator.toData());
+			BoundsWidget wgt = (BoundsWidget) this.toData().getBoundsWidget(childCreator.toData());
 			wgt.setBounds(this.getComponent(m).getBounds());
 			wgt.setBackupBounds(this.getComponent(m).getBounds());
 		}
