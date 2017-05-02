@@ -1,5 +1,14 @@
 package com.fr.design.designer.creator;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ContainerEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
@@ -11,18 +20,13 @@ import com.fr.design.mainframe.FormArea;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRScreen;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
-
-import java.awt.*;
-import java.awt.event.ContainerEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author jim
@@ -347,7 +351,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		for (int i=0, size=comps.size(); i<size; i++) {
 			XCreator creator = (XCreator) comps.get(i);
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBounds();
 			Rectangle backRec = widget.getBackupBounds();
 			if (backRec.x<x) {
@@ -411,7 +415,7 @@ public class XWFitLayout extends XLayoutContainer {
 	protected void modifyEdgemostCreator(boolean isHor) {
 		for (int i=0, size=this.getComponentCount(); i<size; i++) {
 			XCreator creator = (XCreator) this.getComponent(i);
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBackupBounds();
 			if (isHor && notHasRightCreator(rec)) {
 				creator.setSize(creator.getWidth()+needAddWidth, creator.getHeight());
@@ -476,7 +480,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 		for (int i=0, size=comps.size(); i<size; i++) {
 			XCreator creator = (XCreator) comps.get(i);
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBounds();
 			Rectangle backRec = widget.getBackupBounds();
 			if (backRec.y < y) {
@@ -515,7 +519,7 @@ public class XWFitLayout extends XLayoutContainer {
 		for (int i=0; i<size; i++) {
 			Component comp = this.getComponent(i);
 			XCreator creator = (XCreator) comp;
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBackupBounds();
 			//rec.x小于x，右侧大于x
 			boolean isLowX = rec.x<x && x<rec.x+rec.width;
@@ -531,7 +535,7 @@ public class XWFitLayout extends XLayoutContainer {
 		for (int i=0,size=this.getComponentCount(); i<size; i++) {
 			Component comp = this.getComponent(i);
 			XCreator creator = (XCreator) comp;
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBackupBounds();
 			boolean isLowY = rec.y<y && y<rec.y+rec.height;
 			if (isLowY || rec.y==y) {
@@ -570,7 +574,7 @@ public class XWFitLayout extends XLayoutContainer {
 	public XCreator getCreatorAt(int x, int y) {
 		for (int i=0,size=this.getComponentCount(); i<size; i++) {
 			XCreator creator = (XCreator) this.getComponent(i);
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBackupBounds();
 			boolean isCurrent = rec.x<=x && x<rec.x+rec.width && rec.y<=y && y<rec.y+rec.height;
 			if (isCurrent) {
@@ -587,7 +591,7 @@ public class XWFitLayout extends XLayoutContainer {
 		for (int i=0, size=this.getComponentCount(); i<size; i++) {
 			Component comp = this.getComponent(i);
 			XCreator creator = (XCreator) comp;
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			widget.setBackupBounds(widget.getBounds());
 		}
 	}
@@ -732,7 +736,7 @@ public class XWFitLayout extends XLayoutContainer {
     	int containerHeight = 0;
     	for (int index=0, n=this.getComponentCount(); index<n; index++) {
     		XCreator creator = (XCreator) this.getComponent(index);
-    		BoundsWidget wgt = layout.getBoundsWidget(creator.toData());
+    		BoundsWidget wgt = (BoundsWidget) layout.getBoundsWidget(creator.toData());
     		// 用当前的显示大小计算后调正具体位置
     		Rectangle wgtBound = dealWidgetBound(creator.getBounds());
     		Rectangle rec = recalculateWidgetBounds(wgtBound, hors, veris);
@@ -755,6 +759,7 @@ public class XWFitLayout extends XLayoutContainer {
 			//如果子组件是绝对布局，则内部的widget也要更新
 			if (creator.acceptType(XWAbsoluteLayout.class)){
 				((XWAbsoluteLayout) creator).updateBoundsWidget();
+				creator.setBackupBound(creator.getBounds());
 			}
     	}
     	layout.setContainerHeight(containerHeight);
@@ -810,7 +815,7 @@ public class XWFitLayout extends XLayoutContainer {
         WFitLayout wlayout = this.toData();
         XWidgetCreator xwc = ((XWidgetCreator) e.getChild());
         Widget wgt = xwc.toData();
-        BoundsWidget bw = wlayout.getBoundsWidget(wgt);
+        BoundsWidget bw = (BoundsWidget) wlayout.getBoundsWidget(wgt);
         wlayout.removeWidget(bw);
         updateBoundsWidget();
 		((FRFitLayoutAdapter)getLayoutAdapter()).updateCreatorBackBound();
@@ -988,7 +993,7 @@ public class XWFitLayout extends XLayoutContainer {
     	int val = toData().getCompInterval()/2;
     	for (int i=0, len=this.getComponentCount(); i<len; i++) {
     		XCreator creator = (XCreator) this.getComponent(i);
-			BoundsWidget widget = toData().getBoundsWidget(creator.toData());
+			BoundsWidget widget = (BoundsWidget) toData().getBoundsWidget(creator.toData());
 			Rectangle rec = widget.getBounds();
     		Dimension d = new Dimension(this.getBackupBound().width, this.getBackupBound().height);
     		Rectangle bound = dealBound(rec, d, val, percent);

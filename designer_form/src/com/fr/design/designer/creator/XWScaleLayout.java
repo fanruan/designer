@@ -3,15 +3,16 @@
  */
 package com.fr.design.designer.creator;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.ContainerEvent;
+
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRScaleLayoutAdapter;
 import com.fr.design.form.layout.FRScaleLayout;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WScaleLayout;
-
-import java.awt.*;
-import java.awt.event.ContainerEvent;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 /**
  * 自适应布局中添加组件时，部分控件如数字文本下拉等需要保持控件默认高度21， 用此容器来实现

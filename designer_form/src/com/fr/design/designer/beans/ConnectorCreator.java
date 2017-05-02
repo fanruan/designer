@@ -1,11 +1,12 @@
 package com.fr.design.designer.beans;
 
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-import com.fr.form.ui.container.WLayout;
-
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+
+import com.fr.form.ui.container.WLayout;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 public class ConnectorCreator {
 	

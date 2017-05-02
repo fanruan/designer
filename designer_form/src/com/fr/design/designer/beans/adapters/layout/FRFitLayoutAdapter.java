@@ -16,12 +16,14 @@ import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRFitLayoutConstraints;
 import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.mainframe.JForm;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -1011,7 +1013,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
                 setAdjustedSize(tabLayout, offset, isHor);
                 for (int m = 0; m < tabLayout.getComponentCount(); m++) {
                     XCreator childCreator = tabLayout.getXCreator(m);
-                    BoundsWidget wgt = tabLayout.toData().getBoundsWidget(childCreator.toData());
+                    BoundsWidget wgt = (BoundsWidget) tabLayout.toData().getBoundsWidget(childCreator.toData());
                     wgt.setBounds(tabLayout.getComponent(m).getBounds());
                 }
                 adjustCreatorsSize(percent, tabLayout, isHor);
