@@ -67,7 +67,12 @@ public class CellWidgetCardPane extends BasicPane {
         treeTabPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        attriTabPane.add(widgetPropertyPane, BorderLayout.NORTH);
+        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
+        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
+        northPane.add(basic);
+        basic.add(widgetPropertyPane);
+        attriTabPane.add(northPane, BorderLayout.NORTH);
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         attriTabPane.add(attriCardPane, BorderLayout.CENTER);
         attriCardLayout = (CardLayout) attriCardPane.getLayout();
@@ -87,15 +92,6 @@ public class CellWidgetCardPane extends BasicPane {
         } else {
             this.tabbedPane.setEnabled(true);
         }
-
-        attriTabPane.remove(widgetPropertyPane);
-        widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
-        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
-        northPane.add(basic);
-        basic.add(widgetPropertyPane);
-        attriTabPane.add(northPane, BorderLayout.NORTH);
 
         WidgetDefinePaneFactory.RN rn = WidgetDefinePaneFactory.createWidgetDefinePane(cellWidget, new Operator() {
             @Override
