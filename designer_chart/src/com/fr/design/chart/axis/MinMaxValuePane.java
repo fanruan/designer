@@ -31,17 +31,18 @@ public class MinMaxValuePane extends JPanel {
     protected UITextField secUnitField;
 
 	public MinMaxValuePane() {
-        minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
-        minValueField = new UITextField(6);
-        maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
-        maxValueField = new UITextField(6);
-        isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
-        mainUnitField = new UITextField(6);
-        isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
-        secUnitField = new UITextField(6);
+		minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
+		minValueField = new UITextField(6);
+		maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
+		maxValueField = new UITextField(6);
+		isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
+		mainUnitField = new UITextField(6);
+		isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
+		secUnitField = new UITextField(6);
+
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = { p, f };
+		double[] columnSize = {p, f};
 
 		Component[][] components = getPanelComponents();
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(components, getRowSize(p), columnSize);
@@ -53,25 +54,26 @@ public class MinMaxValuePane extends JPanel {
 	protected double[] getRowSize(double p) {
 		return new double[]{p, p, p, p};
 	}
-    protected void addComponentListener(Component[][] components) {
-        for (int i = 0; i < components.length; i++) {
-            addListener((UICheckBox) components[i][0]);
-            ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
-        }
-    }
 
-    protected void  addListener(UICheckBox checkBox) {
-        checkBox.addActionListener(new ActionListener() {
+	protected void addComponentListener(Component[][] components) {
+		for (int i = 0; i < components.length; i++) {
+			addListener((UICheckBox) components[i][0]);
+			ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
+		}
+	}
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkBoxUse();
-            }
-        });
-    }
+	protected void  addListener(UICheckBox checkBox) {
+		checkBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkBoxUse();
+			}
+		});
+	}
 
 	protected Component[][] getPanelComponents() {
-		return 	new Component[][]{
+		return new Component[][]{
 				new Component[]{minCheckBox, minValueField},
 				new Component[]{maxCheckBox, maxValueField},
 				new Component[]{isCustomMainUnitBox, mainUnitField},
