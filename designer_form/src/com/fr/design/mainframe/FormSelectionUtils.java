@@ -25,7 +25,6 @@ public class FormSelectionUtils {
     //组件重命名后缀
     private static final String POSTFIX = "_c";
 
-
     private FormSelectionUtils() {
 
     }
@@ -134,8 +133,10 @@ public class FormSelectionUtils {
             boolean xOut = x < 0 || x + copiedCreator.getWidth() / 2 + xoffset > container.getWidth();
             boolean yOut = y < 0 || y + copiedCreator.getHeight() / 2 + yoffset > container.getHeight();
 
+            boolean isEdge = (x - DELAY_X_Y == container.getWidth() - copiedCreator.getWidth() / 2 - xoffset)
+                    && (y - DELAY_X_Y == container.getHeight() - copiedCreator.getHeight() / 2 - yoffset);
+
             y = yOut ? container.getHeight() - copiedCreator.getHeight() / 2 - yoffset : y;
-            boolean isEdge = (x - DELAY_X_Y == container.getWidth() - copiedCreator.getWidth() / 2 - xoffset);
             if (xOut) {
                 if (isEdge) {
                     //向左偏移
