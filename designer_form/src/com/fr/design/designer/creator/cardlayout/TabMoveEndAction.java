@@ -14,7 +14,7 @@ public class TabMoveEndAction extends TabMoveAction {
     public TabMoveEndAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
         this.setName(Inter.getLocText("FR-Designer-Move_Tab_End"));
-        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/rightright.png"));
+        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/end.png"));
     }
 
     //改变Tab的索引号

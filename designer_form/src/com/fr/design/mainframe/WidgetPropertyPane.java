@@ -259,8 +259,11 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             xCreator = designer.getRootComponent();
         }
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(xCreator);
-        //TODO container可能为空，引发空指针异常
-        return xCreator.acceptType(XWParameterLayout.class) || container.acceptType(XWParameterLayout.class);
+
+        boolean xCreatorAccept = xCreator.acceptType(XWParameterLayout.class);
+        boolean containerAccept = container!=null && container.acceptType(XWParameterLayout.class);
+
+        return xCreatorAccept || containerAccept;
     }
 
     public void setEditingFormDesigner(BaseFormDesigner editor) {

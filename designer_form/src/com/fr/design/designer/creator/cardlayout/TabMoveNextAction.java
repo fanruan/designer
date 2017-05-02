@@ -14,7 +14,7 @@ public class TabMoveNextAction extends TabMoveAction {
     public TabMoveNextAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
         this.setName(Inter.getLocText("FR-Designer-Move_Tab_Next"));
-        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/right.png"));
+        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/next.png"));
     }
 
     @Override

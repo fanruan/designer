@@ -1,11 +1,11 @@
 package com.fr.design.data.datapane.connect;
 
-import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.data.impl.AbstractDatabaseConnection;
 import com.fr.data.impl.Connection;
 import com.fr.data.impl.NameDatabaseConnection;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.server.ConnectionListAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.file.DatasourceManager;
@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
      */
     private static final long serialVersionUID = 1L;
     private Class<? extends Connection> cls; // 所取的Connection都是cls及其子类
-    private java.util.List<String> nameList = new ArrayList<String>();
+    private List<String> nameList = new ArrayList<String>();
 
     public ConnectionComboBoxPanel(Class<? extends Connection> cls) {
         super();
@@ -53,11 +54,11 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
     /*
      * 刷新ComboBox.items
      */
-    protected java.util.Iterator<String> items() {
+    protected Iterator<String> items() {
         nameList = new ArrayList<String>();
 
         DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
-        java.util.Iterator<String> nameIt = mgr.getConnectionNameIterator();
+        Iterator<String> nameIt = mgr.getConnectionNameIterator();
         while (nameIt.hasNext()) {
             String conName = nameIt.next();
             Connection connection = mgr.getConnection(conName);
@@ -70,7 +71,6 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
     protected void filterConnection(Connection connection, String conName, List<String> nameList) {
         connection.addConnection(nameList, conName, new Class[]{AbstractDatabaseConnection.class});
     }
-
 
     public int getConnectionSize() {
         return nameList.size();
@@ -86,25 +86,37 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
     protected void editItems() {
         final ConnectionListPane connectionListPane = new ConnectionListPane();
         final DatasourceManagerProvider datasourceManager = DatasourceManager.getProviderInstance();
+        final DatasourceManager backupManager = datasourceManager.getBackUpManager();
         connectionListPane.populate(datasourceManager);
-        BasicDialog connectionListDialog = connectionListPane.showLargeWindow(
-                SwingUtilities.getWindowAncestor(ConnectionComboBoxPanel.this), new DialogActionAdapter() {
+        final BasicDialog connectionListDialog = connectionListPane.showLargeWindow(
+                SwingUtilities.getWindowAncestor(ConnectionComboBoxPanel.this), null);
+        connectionListDialog.addDialogActionListener(new DialogActionAdapter() {
             public void doOk() {
-                connectionListPane.update(datasourceManager);
-                // marks:保存数据
-                Env currentEnv = FRContext.getCurrentEnv();
-                try {
-                    currentEnv.writeResource(datasourceManager);
-                } catch (Exception ex) {
-                    FRContext.getLogger().error(ex.getMessage(), ex);
+                if (!connectionListPane.isNamePermitted()) {
+                    connectionListDialog.setDoOKSucceed(false);
+                    return;
                 }
+                if (!ConnectionListAction.doWithDatasourceManager(datasourceManager, backupManager, connectionListPane,
+                        connectionListDialog)) {
+                    //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
+                    return;
+                }
+                // marks:保存数据
+                ConnectionListAction.writeFile(datasourceManager);
+            }
+
+            public void doCancel() {
+                datasourceManager.synchronizedWithServer();
             }
         });
         connectionListDialog.setVisible(true);
         refreshItems();
     }
 
-    public void populate(com.fr.data.impl.Connection connection) {
+    /**
+     * @param connection 数据库链接
+     */
+    public void populate(Connection connection) {
         editButton.setEnabled(FRContext.getCurrentEnv().isRoot());
         if (connection instanceof NameDatabaseConnection) {
             this.setSelectedItem(((NameDatabaseConnection) connection).getName());
