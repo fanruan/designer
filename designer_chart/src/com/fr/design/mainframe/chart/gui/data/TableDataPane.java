@@ -24,20 +24,20 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private DatabaseTableDataPane tableDataPane;
 	private AbstractTableDataContentPane dataContentPane;
 
+	private ChartDataPane parent;
+
 	protected AbstractTableDataContentPane getDataContentPane() {
 		return dataContentPane;
 	}
-
-	private ChartDataPane parent;
 
 	public TableDataPane(ChartDataPane parent) {
 		this.parent = parent;
 		initDataPane();
 	}
-	
+
 	private void initDataPane() {
-        UILabel label = new BoldFontTextLabel(Inter.getLocText("Chart-DS_TableData") + ":", SwingConstants.RIGHT) ;
-        label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
+		UILabel label = new BoldFontTextLabel(Inter.getLocText("Chart-DS_TableData") + ":", SwingConstants.RIGHT) ;
+		label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
 			protected void userEvent() {
@@ -47,18 +47,18 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		};
 
 		tableDataPane.setBorder(BorderFactory.createMatteBorder(0,6,0, 0, getBackground()));
-        tableDataPane.setBorder(BorderFactory.createEmptyBorder(0,1,0,1));
+		tableDataPane.setBorder(BorderFactory.createEmptyBorder(0,1,0,1));
 		tableDataPane.setPreferredSize(new Dimension(205 , 20));
-        this.setBorder(BorderFactory.createEmptyBorder(TOP,0,0,0));
+		this.setBorder(BorderFactory.createEmptyBorder(TOP,0,0,0));
 		this.add(tableDataPane, BorderLayout.NORTH);
 	}
-	
+
 	/**
 	 *  检查box是否可用.
 	 */
 	public void checkBoxUse() {
 		TableDataWrapper dataWrap = tableDataPane.getTableDataWrapper();
-		
+
 		if(dataContentPane != null) {
 			dataContentPane.checkBoxUse(dataWrap != null);
 		}
@@ -120,10 +120,8 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
-
-
 	/**
-	 * 更新界面属性  
+	 * 更新界面属性
 	 */
 	public void populateBean(ChartCollection collection) {
 		if(collection == null) {
