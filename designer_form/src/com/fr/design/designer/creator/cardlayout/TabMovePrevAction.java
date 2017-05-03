@@ -14,7 +14,7 @@ public class TabMovePrevAction extends TabMoveAction {
     public TabMovePrevAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
         this.setName(Inter.getLocText("FR-Designer-Move_Tab_Prev"));
-        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/left.png"));
+        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/prev.png"));
     }
 
     @Override
