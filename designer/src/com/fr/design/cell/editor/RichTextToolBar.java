@@ -134,7 +134,7 @@ public class RichTextToolBar extends BasicPane{
     }
     
     private void bindListener(){
-        FRFont defaultFont = RichTextPane.DEFAUL_FONT;
+        FRFont defaultFont = (this.textPane != null) ? FRFont.getInstance(this.textPane.getFont()) : RichTextPane.DEFAUL_FONT;
         fontNameComboBox.addItemListener(fontNameItemListener);
         fontNameComboBox.setSelectedItem(defaultFont.getFontName());
         fontSizeComboBox.addItemListener(fontSizeItemListener);
