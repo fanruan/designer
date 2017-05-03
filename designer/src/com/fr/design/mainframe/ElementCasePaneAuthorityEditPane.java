@@ -249,13 +249,8 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private boolean setAuthorityStyle(int type) {
         initSelectedPathArray();
         String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
-        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role"))) {
-            return false;
-        }
-        if (selectedRoles == null) {
-            return false;
-        }
-        if (selectedPathArray == null) {
+        if (ComparatorUtils.equals(selectedRoles, Inter.getLocText("FR-Designer_Role")) ||
+                selectedRoles == null || selectedPathArray == null) {
             return false;
         }
         final TemplateElementCase elementCase = elementCasePane.getEditingElementCase();
@@ -307,7 +302,6 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         if (selectionPaths.length == 1) {
             if (((ExpandMutableTreeNode) (selectionPaths[0].getLastPathComponent())).getChildCount() > 0) {
                 ExpandMutableTreeNode node = (ExpandMutableTreeNode) ((ExpandMutableTreeNode) (selectionPaths[0].getLastPathComponent())).getLastChild();
-                System.out.printf(node.getUserObject().toString());
                 selectedPathArray = new String[node.getChildCount()];
                 for (int i = 0; i < node.getChildCount(); i++) {
                     ExpandMutableTreeNode n = (ExpandMutableTreeNode) node.getChildAt(i);

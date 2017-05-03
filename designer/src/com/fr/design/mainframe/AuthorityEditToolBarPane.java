@@ -39,7 +39,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         this.setLayout(new BorderLayout());
         this.setBorder(null);
-        UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})) {
+        UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Permissions",
+                "FR-Designer_Edit"})) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TITLE_HEIGHT);
@@ -86,12 +87,12 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         private UILabel name = null;
         private JPanel checkPane = null;
         private List<ToolBarButton> buttonlists;
-        private UICheckBox buttonVisible = new UICheckBox(Inter.getLocText("Widget-Visible"));
+        private UICheckBox buttonVisible = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
         private ItemListener itemListener = new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("Role")) || selectedRole ==
+                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole ==
                         null || selectedPathArray == null) {
                     return;
                 }
@@ -155,9 +156,10 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         private JPanel layoutText() {
             double p = TableLayout.PREFERRED;
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("Type") + ":", SwingConstants.RIGHT)},
-                    new Component[]{new UILabel(Inter.getLocText("WF-Name") + ":", SwingConstants.RIGHT)},
-                    new Component[]{new UILabel(Inter.getLocText("DashBoard-Potence") + ":", SwingConstants.RIGHT)},
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Type") + ":", SwingConstants.RIGHT)},
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_WF_Name") + ":", SwingConstants.RIGHT)},
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Permissions") + ":", SwingConstants
+                            .RIGHT)},
             };
             double[] rowSize = {p, p, p};
             double[] columnSize = {p};
@@ -210,7 +212,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (name.getText() == "") {
                 type.setText("");
             } else {
-                type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "Form-Button"}));
+                type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
             }
         }
 
@@ -235,7 +237,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             double f = TableLayout.FILL;
             double p = TableLayout.PREFERRED;
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("Form-Button"), SwingConstants.LEFT), buttonVisible},
+                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form_Button"), SwingConstants.LEFT),
+                            buttonVisible},
             };
             double[] rowSize = {p, p};
             double[] columnSize = {p, p, f};
