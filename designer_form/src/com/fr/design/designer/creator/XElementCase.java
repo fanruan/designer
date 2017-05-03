@@ -10,11 +10,9 @@ import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.*;
-import com.fr.design.mainframe.widget.editors.BooleanEditor;
+import com.fr.design.mainframe.widget.editors.ElementCaseToolBarEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.FormProvider;
@@ -104,7 +102,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
 						.setI18NName(Inter.getLocText("FR-Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
+				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
