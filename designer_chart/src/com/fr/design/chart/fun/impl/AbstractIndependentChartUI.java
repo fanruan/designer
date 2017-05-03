@@ -11,6 +11,7 @@ import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StableUtils;
 
 
 /**
@@ -54,6 +55,6 @@ public abstract class AbstractIndependentChartUI implements IndependentChartUIPr
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
-    public BasicBeanPane getChartConfigPane(String plotID){ return null;}
+    public ChartEditPane getChartConfigPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
 
 }

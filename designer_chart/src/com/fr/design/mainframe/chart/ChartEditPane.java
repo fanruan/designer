@@ -49,8 +49,8 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     private ChartCollection lastCollection;
     protected CardLayout card;
     protected JPanel center;
-    private TargetComponentContainer container = null;
-    private TitleChangeListener titleChangeListener = null;
+    protected TargetComponentContainer container = null;
+    protected TitleChangeListener titleChangeListener = null;
 
     private Calendar lastTime;
 

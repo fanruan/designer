@@ -1,17 +1,18 @@
 package com.fr.quickeditor;
 
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.selection.QuickEditor;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.creator.ChartBlockEditor;
 import com.fr.report.cell.Elem;
-import com.fr.design.selection.QuickEditor;
 
 import java.awt.*;
 
@@ -45,7 +46,7 @@ public class ChartQuickEditor extends QuickEditor<TargetComponent>{
 				element = ((ElementCasePane)tc).getEditingElementCase().getFloatElement(fs.getSelectedFloatName());
 			}
 			collection = (BaseChartCollection) element.getValue();
-			
+			DesignModuleFactory.setChartCollection((ChartCollection) collection);
 			add(editingPropertyPane = DesignModuleFactory.getChartPropertyPane(), BorderLayout.CENTER);
 			editingPropertyPane.setSupportCellData(true);
 		}

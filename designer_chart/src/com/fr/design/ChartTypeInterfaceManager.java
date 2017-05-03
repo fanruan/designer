@@ -11,7 +11,7 @@ import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.chart.gui.ChartWidgetOption;
 import com.fr.design.chartinterface.*;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.dialog.BasicPane;
+import com.fr.design.extra.ChartTypeInterfaceCloseableHandler;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -23,11 +23,13 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.XMLFileManager;
 import com.fr.form.ui.ChartEditor;
-import com.fr.general.*;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.PluginMessage;
-import com.fr.design.extra.ChartTypeInterfaceCloseableHandler;
 import com.fr.plugin.proxy.PluginInstanceProxyFactory;
 import com.fr.plugin.proxy.PluginInvocationHandler;
 import com.fr.stable.ArrayUtils;
@@ -411,7 +413,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     private AbstractTableDataContentPane getTableDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
         return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getTableDataSourcePane(plot, parent);
     }
-    public BasicBeanPane getChartConfigPane(String plotID) {
+    public ChartEditPane getChartConfigPane(String plotID) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry = (Map.Entry) iterator.next();
@@ -423,7 +425,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plotID);
     }
 
-    private BasicBeanPane getChartConfigPane(String priority, String plotID) {
+    private ChartEditPane getChartConfigPane(String priority, String plotID) {
         return chartTypeInterfaces.get(priority).get(plotID).getChartConfigPane(plotID);
     }
 
