@@ -5,10 +5,10 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
+public class ChartEditPane extends BasicBeanPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
 
     private final static int CHANGE_MIN_TIME = 80;
 
@@ -51,6 +51,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     protected JPanel center;
     protected TargetComponentContainer container = null;
     protected TitleChangeListener titleChangeListener = null;
+    protected ChartEditPane chartEditPane =this;
 
     private Calendar lastTime;
 
@@ -108,6 +109,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             }
             AbstractChartAttrPane selectedPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
             selectedPane.update(collection);
+
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
                 //此处画图
@@ -345,5 +347,15 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 attrPane.refreshChartDataPane(collection);
             }
         });
+    }
+
+    @Override
+    public void populateBean(Object ob) {
+
+    }
+
+    @Override
+    public Object updateBean() {
+        return null;
     }
 }

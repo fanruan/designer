@@ -15,7 +15,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/5/3.
  */
-public class CustomChartEditPane extends ChartEditPane {
+public class CustomChartEditPane extends ChartEditPane  {
     //构建主面板
     protected void createTabsPane() {
         Icon[] iconArray = new Icon[paneList.size()];
@@ -26,16 +26,16 @@ public class CustomChartEditPane extends ChartEditPane {
         tabsHeaderIconPane = new UIHeadGroup(iconArray) {
             @Override
             public void tabChanged(int index) {
+//                chartEditPane.populateBean(collection.getSelectedChart());
             }
         };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
 
     }
 
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-
+            chartEditPane.updateBean();
         }
     };
 
@@ -93,7 +93,7 @@ public class CustomChartEditPane extends ChartEditPane {
 
 
     public void populate(ChartCollection collection) {
-
+        chartEditPane.populateBean(collection.getSelectedChart());
     }
 
     protected ChartEditPane getCurrentChartEditPane() {
@@ -146,7 +146,7 @@ public class CustomChartEditPane extends ChartEditPane {
     }
 
     protected void dealWithStyleChange(){
-
+        chartEditPane.populateBean(collection.getSelectedChart());
     }
 
     /**
@@ -161,7 +161,7 @@ public class CustomChartEditPane extends ChartEditPane {
      * 图表设计器，显示选中的面板
      */
     public void populateSelectedTabPane() {
-
+        chartEditPane.populateBean(collection.getSelectedChart());
     }
 
     /**
