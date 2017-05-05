@@ -26,7 +26,6 @@ public class CustomChartEditPane extends ChartEditPane  {
         tabsHeaderIconPane = new UIHeadGroup(iconArray) {
             @Override
             public void tabChanged(int index) {
-//                chartEditPane.populateBean(collection.getSelectedChart());
             }
         };
 

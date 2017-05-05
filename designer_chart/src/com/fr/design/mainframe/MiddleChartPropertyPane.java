@@ -39,7 +39,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
-//		chartEditPane =StableUtils.construct(ChartEditPane.class);
 		chartEditPane =  ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
@@ -87,8 +86,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      * @param ePane  面板
      */
 	public void populateChartPropertyPane(ChartCollection collection, TargetComponent<?> ePane) {
-//		chartCollection = collection;
-//		plotID=chartCollection.getSelectedChart().getPlot().getPlotID();
 		this.container.setEPane(ePane);
 		chartEditPane.populate(collection);
 	}
@@ -100,8 +97,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      */
 	public void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane) {
 		if (collection instanceof ChartCollection) {
-//			chartCollection = (ChartCollection) collection;
-//			plotID=chartCollection.getSelectedChart().getPlot().getPlotID();
 			resetChartEditPane();
 			populateChartPropertyPane((ChartCollection)collection, ePane);
 		}
