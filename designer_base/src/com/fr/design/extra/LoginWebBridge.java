@@ -91,6 +91,7 @@ public class LoginWebBridge {
     }
 
     public void setDialogHandle(UIDialog uiDialog) {
+        closeWindow();
         this.uiDialog = uiDialog;
     }
 

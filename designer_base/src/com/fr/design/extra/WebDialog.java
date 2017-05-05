@@ -70,10 +70,10 @@ public class WebDialog {
 
     /**
      * 以关键词打开设计器商店
-     * <p>
-     * //     * @param keyword 关键词
+     *
+     * @param keyword 关键词
      */
-    public void createPluginDialog(String keyword) {
+    public static void createPluginDialog(String keyword) {
         PluginWebBridge.getHelper().openWithSearch(keyword);
         createPluginDialog();
     }

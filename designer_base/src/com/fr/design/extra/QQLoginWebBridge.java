@@ -3,15 +3,13 @@ package com.fr.design.extra;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
 import javafx.scene.web.WebEngine;
-import org.json.JSONObject;
 import netscape.javascript.JSObject;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -50,10 +48,12 @@ public class QQLoginWebBridge {
     }
 
     public void setDialogHandle(UIDialog uiDialog) {
+        closeParentWindow();
         this.uiDialog = uiDialog;
     }
 
     public void setQQDialogHandle(UIDialog uiDialog) {
+        closeQQWindow();
         this.qqDialog = uiDialog;
     }
 
@@ -99,6 +99,7 @@ public class QQLoginWebBridge {
 
     /**
      * 获取用户信息
+     *
      * @param userInfo
      */
     public void getLoginInfo(String userInfo) {
@@ -113,12 +114,12 @@ public class QQLoginWebBridge {
             DesignerEnvManager.getEnvManager().setBBSName(username);
             DesignerEnvManager.getEnvManager().setBbsUid(uid);
             DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-        }else if (status.equals(LOGINFAILED)){
+        } else if (status.equals(LOGINFAILED)) {
             //账号没有QQ授权
             closeQQWindow();
             try {
                 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-            }catch (Exception exp) {
+            } catch (Exception exp) {
             }
         }
     }
