@@ -95,7 +95,7 @@ public class QQLoginWebPane extends JFXPanel {
                         if (ComparatorUtils.equals(newValue, "file:///" + installHome + "/scripts/qqLogin/web/qqLogin.html") || ComparatorUtils.equals(newValue, SiteCenter.getInstance().acquireUrlByKind("bbs.mobile"))) {
                             return;
                         }
-                        QQLoginWebBridge.getHelper().openUrlAtLocalWebBrowser(webEngine, newValue);
+                        LoginWebBridge.getHelper().openUrlAtLocalWebBrowser(webEngine, newValue);
                     }
                 });
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
@@ -109,7 +109,7 @@ public class QQLoginWebPane extends JFXPanel {
                             public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
                                 if (newState == Worker.State.SUCCEEDED) {
                                     window = (JSObject) webEngine.executeScript("window");
-                                    window.setMember("QQLoginHelper", QQLoginWebBridge.getHelper(webEngine));
+                                    window.setMember("QQLoginHelper", LoginWebBridge.getHelper());
                                 }
                             }
                         }
@@ -138,7 +138,7 @@ public class QQLoginWebPane extends JFXPanel {
                 @Override
                 public void run() {
                     eng.executeScript("location.reload()");
-                    QQLoginWebBridge.getHelper().closeQQWindow();
+                    LoginWebBridge.getHelper().closeQQWindow();
                 }
             });
         } catch (Exception e) {
