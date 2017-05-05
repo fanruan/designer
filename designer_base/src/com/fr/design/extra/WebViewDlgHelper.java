@@ -76,7 +76,7 @@ public class WebViewDlgHelper {
     }
 
     public static void createLoginDialog() {
-        if (StableUtils.getMajorJavaVersion() == 8) {
+        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
             File file = new File(StableUtils.pathJoin(installHome, "scripts"));
             if (!file.exists()) {
                 int rv = JOptionPane.showConfirmDialog(

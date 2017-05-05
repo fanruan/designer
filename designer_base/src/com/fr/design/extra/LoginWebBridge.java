@@ -108,7 +108,7 @@ public class LoginWebBridge {
         if (StringUtils.isEmpty(userName)) {
             return;
         }
-        if (!StringUtils.isEmpty(this.userName)) {
+        if (StringUtils.isNotEmpty(this.userName)) {
             updateMessageCount();
         }
         this.userName = userName;
