@@ -34,7 +34,7 @@ public class CustomChartEditPane extends ChartEditPane  {
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            chartEditPane.updateBean();
+            chartEditPane.updateBean(collection.getSelectedChart());
         }
     };
 
