@@ -348,7 +348,7 @@ public class ChartEditPane extends BasicBeanPane implements AttributeChange,Prep
             }
         });
     }
-
+    //添加populate和update方法，第三方图表继承使用
     @Override
     public void populateBean(Object ob) {
 

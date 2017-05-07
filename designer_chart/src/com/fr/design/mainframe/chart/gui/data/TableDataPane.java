@@ -24,11 +24,11 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private DatabaseTableDataPane tableDataPane;
 	private AbstractTableDataContentPane dataContentPane;
 
-	private ChartDataPane parent;
-
 	protected AbstractTableDataContentPane getDataContentPane() {
 		return dataContentPane;
 	}
+
+	private ChartDataPane parent;
 
 	public TableDataPane(ChartDataPane parent) {
 		this.parent = parent;
@@ -120,6 +120,8 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
+
+
 	/**
 	 * 更新界面属性
 	 */

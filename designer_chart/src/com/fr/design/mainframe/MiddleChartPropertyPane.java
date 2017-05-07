@@ -26,6 +26,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	protected UILabel nameLabel;
 
 	protected ChartEditPane chartEditPane;
+	//获取ChartCollection和当前图表的plotID，用来获取对应的面板
 	protected ChartCollection chartCollection= DesignModuleFactory.getChartCollection();
 	protected String plotID=chartCollection.getSelectedChart().getPlot().getPlotID();
 
@@ -97,7 +98,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      */
 	public void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane) {
 		if (collection instanceof ChartCollection) {
-			resetChartEditPane();
 			populateChartPropertyPane((ChartCollection)collection, ePane);
 		}
 	}

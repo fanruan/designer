@@ -413,6 +413,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     private AbstractTableDataContentPane getTableDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
         return chartTypeInterfaces.get(priority).get(plot.getPlotID()).getTableDataSourcePane(plot, parent);
     }
+    //获取指定图表的编辑面板
     public ChartEditPane getChartConfigPane(String plotID) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()){
