@@ -51,34 +51,16 @@ public class BorderPane extends AbstractBasicStylePane {
 	}
 
 	protected void initComponents() {
-		topToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/top.png"));
-		leftToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/left.png"));
-		bottomToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/bottom.png"));
-		rightToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/right.png"));
-		horizontalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/horizontal.png"));
-		verticalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"));
-		this.currentLineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
-		this.currentLineColorPane = new NewColorSelectBox(100);
-
+		initButtonsWithIcon();
 		this.setLayout(new BorderLayout(0, 6));
-
-		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-
-		double[] columnSize1 = {p, f};
-		double[] rowSize1 = {p, p};
-
-
+		double p = TableLayout.PREFERRED, f = TableLayout.FILL;
+		double[] columnSize1 = {p, f}, rowSize1 = {p, p};
 		Component[][] components1 = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("Style") + ":"), currentLineCombo},
-				new Component[]{new UILabel(Inter.getLocText("Color") + ":"), currentLineColorPane},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style") + ":"), currentLineCombo},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + ":"), currentLineColorPane},
 		};
-
 		JPanel northPane = TableLayoutHelper.createTableLayoutPane(components1, rowSize1, columnSize1);
-
-
-		double[] columnSize2 = {p, f};
-		double[] rowSize2 = {p, p};
+		double[] columnSize2 = {p, f}, rowSize2 = {p, p};
 		JPanel externalPane = new JPanel(new GridLayout(0, 4));
 		externalPane.add(topToggleButton);
 		externalPane.add(leftToggleButton);
@@ -87,23 +69,15 @@ public class BorderPane extends AbstractBasicStylePane {
 		JPanel insidePane = new JPanel(new GridLayout(0, 2));
 		insidePane.add(horizontalToggleButton);
 		insidePane.add(verticalToggleButton);
-
-
 		Component[][] components2 = new Component[][]{
 				new Component[]{outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png")), innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
 				new Component[]{externalPane, insidePane,}
 		};
 		JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components2, rowSize2, columnSize2);
-
 		this.setLayout(new BorderLayout(0, 6));
 		this.add(northPane, BorderLayout.NORTH);
 		this.add(centerPane, BorderLayout.CENTER);
-
-
-		this.currentLineColorPane.setSelectObject(Color.BLACK);
-
 		outerToggleButton.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				boolean value = outerToggleButton.isSelected();
@@ -113,9 +87,7 @@ public class BorderPane extends AbstractBasicStylePane {
 				rightToggleButton.setSelected(value);
 			}
 		});
-
 		innerToggleButton.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				boolean value = innerToggleButton.isSelected();
@@ -123,12 +95,22 @@ public class BorderPane extends AbstractBasicStylePane {
 				verticalToggleButton.setSelected(value);
 			}
 		});
+	}
 
+	private void initButtonsWithIcon(){
+		topToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/top.png"));
+		leftToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/left.png"));
+		bottomToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/bottom.png"));
+		rightToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/right.png"));
+		horizontalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/horizontal.png"));
+		verticalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"));
+		this.currentLineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
+		this.currentLineColorPane = new NewColorSelectBox(100);
 	}
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Border");
+		return Inter.getLocText("FR-Designer_Border");
 	}
 
 	public void populate(Style style) {

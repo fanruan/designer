@@ -136,19 +136,35 @@ public class SelectionModel {
         if (designer.getClass().equals(FormDesigner.class)) {
             if (selection.getSelectedCreator() instanceof XWFitLayout) {
                 if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
-                    Rectangle rec = selection.getRelativeBounds();
-                    //Tab布局
-                    FormSelectionUtils.paste2Container(designer, (XLayoutContainer) selection.getSelectedCreator(),
-                            clipboard,
-                            rec.x + rec.width / 2,
-                            rec.y + DELTA_X_Y);
+                    XLayoutContainer container = (XLayoutContainer) selection.getSelectedCreator();
+                    //tab布局编辑器内部左上角第一个坐标点
+                    int leftUpX = container.toData().getMargin().getLeft() + 1;
+                    int leftUpY = container.toData().getMargin().getTop() + 1;
+                    //选中第一个坐标点坐在的组件
+                    selection.setSelectedCreator((XCreator) container.getComponentAt(leftUpX, leftUpY));
+                    Rectangle rectangle = selection.getRelativeBounds();
+                    if (hasSelectedPasteSource()) {
+                        selectedPaste();
+                    } else {
+                        FormSelectionUtils.paste2Container(designer, container, clipboard,
+                                rectangle.x + rectangle.width / 2,
+                                rectangle.y + DELTA_X_Y);
+                    }
                 } else {
-                    Rectangle rec = selection.getRelativeBounds();
-                    //自适应布局
-                    FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                            clipboard,
-                            rec.x + rec.width / 2,
-                            rec.y + DELTA_X_Y);
+                    //自适应布局编辑器内部左上角第一个坐标点
+                    int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
+                    int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
+                    //选中第一个坐标点坐在的组件
+                    selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
+                    Rectangle rectangle = selection.getRelativeBounds();
+                    if (hasSelectedPasteSource()) {
+                        selectedPaste();
+                    } else {
+                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                                clipboard,
+                                rectangle.x + rectangle.width / 2,
+                                rectangle.y + DELTA_X_Y);
+                    }
                 }
             } else {
                 //绝对布局
@@ -178,12 +194,23 @@ public class SelectionModel {
         container = XCreatorUtils.getParentXLayoutContainer(selection.getSelectedCreator());
         if (container != null && selection.getSelectedCreator().getParent() instanceof XWFitLayout) {
             //自适应布局
-            Rectangle selectionRec = selection.getRelativeBounds();
-            Rectangle containerRec = ComponentUtils.getRelativeBounds(container);
-            //计算自适应布局位置
-            int positionX = selectionRec.x - containerRec.x + selectionRec.width / 2;
-            int positionY = (int) (selectionRec.y - containerRec.y + selectionRec.height * OFFSET_RELATIVE);
 
+            Rectangle selectionRec = selection.getRelativeBounds();
+            //获取父容器位置，补充因参数面板高度导致的位置坐标计算偏移
+            Rectangle containerRec = ComponentUtils.getRelativeBounds(container);
+            int positionX, positionY;
+
+            if (container.getClass().equals(XWTabFitLayout.class)) {
+                //tab内部粘贴不补充高度偏移
+                //且不计算参数面板造成的影响，因为在
+                //@see com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter#addBean中做了
+                positionX = selectionRec.x + selectionRec.width / 2;
+                positionY = (int) (selectionRec.y + selectionRec.height * OFFSET_RELATIVE);
+            } else {
+                //计算自适应布局位置
+                positionX = selectionRec.x - containerRec.x + selectionRec.width / 2;
+                positionY = (int) (selectionRec.y - containerRec.y + selectionRec.height * OFFSET_RELATIVE);
+            }
             FormSelectionUtils.paste2Container(designer, container, clipboard, positionX, positionY);
         } else if (container != null && selection.getSelectedCreator().getParent() instanceof XWAbsoluteLayout) {
             //绝对布局

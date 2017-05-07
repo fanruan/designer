@@ -24,14 +24,14 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by vito on 2016/9/28.
  */
-public class WebDialog {
+public class WebViewDlgHelper {
     private static final String LATEST = "latest";
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
+    // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
     private static String installHome = StableUtils.getInstallHome();
 
     public static void createPluginDialog() {
-        UIDialog dlg;
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
             String relativePath = "/scripts/store/web/index.html";
             String mainJsPath = StableUtils.pathJoin(new File(installHome).getAbsolutePath(), relativePath);
@@ -49,10 +49,7 @@ public class WebDialog {
                 }
             } else {
                 updateShopScripts(SHOP_SCRIPTS);
-                BasicPane managerPane = new ShopManagerPane(new PluginWebPane(mainJsPath));
-                dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-                PluginWebBridge.getHelper().setDialogHandle(dlg);
-                dlg.setVisible(true);
+                showPluginDlg(mainJsPath);
             }
         } else {
             BasicPane traditionalStorePane = new BasicPane() {
@@ -63,21 +60,62 @@ public class WebDialog {
             };
             traditionalStorePane.setLayout(new BorderLayout());
             traditionalStorePane.add(initTraditionalStore(), BorderLayout.CENTER);
-            dlg = new ShopDialog(DesignerContext.getDesignerFrame(), traditionalStorePane);
+            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), traditionalStorePane);
             dlg.setVisible(true);
         }
     }
 
     /**
      * 以关键词打开设计器商店
-     * <p>
-     * //     * @param keyword 关键词
+     *
+     * @param keyword 关键词
      */
-    public void createPluginDialog(String keyword) {
+    public static void createPluginDialog(String keyword) {
         PluginWebBridge.getHelper().openWithSearch(keyword);
         createPluginDialog();
     }
 
+    public static void createLoginDialog() {
+        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
+            File file = new File(StableUtils.pathJoin(installHome, "scripts"));
+            if (!file.exists()) {
+                int rv = JOptionPane.showConfirmDialog(
+                        null,
+                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    downloadShopScripts(SHOP_SCRIPTS);
+                }
+            } else {
+                showLoginDlg();
+                updateShopScripts(SHOP_SCRIPTS);
+            }
+        }
+    }
+
+    public static void createQQLoginDialog() {
+        QQLoginWebPane webPane = new QQLoginWebPane(new File(installHome).getAbsolutePath());
+        UIDialog qqlog = new QQLoginDialog(DesignerContext.getDesignerFrame(), webPane);
+        LoginWebBridge.getHelper().setQqDialog(qqlog);
+        qqlog.setVisible(true);
+    }
+
+    private static void showPluginDlg(String mainJsPath) {
+        BasicPane managerPane = new ShopManagerPane(new PluginWebPane(mainJsPath));
+        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
+        PluginWebBridge.getHelper().setDialogHandle(dlg);
+        dlg.setVisible(true);
+    }
+
+    private static void showLoginDlg() {
+        LoginWebPane webPane = new LoginWebPane(new File(installHome).getAbsolutePath());
+        UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
+        LoginWebBridge.getHelper().setDialogHandle(qqdlg);
+        qqdlg.setVisible(true);
+    }
 
     private static Component initTraditionalStore() {
         UITabbedPane tabbedPane = new UITabbedPane();

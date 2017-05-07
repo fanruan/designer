@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * Connection List Pane.
  */
-public class ConnectionListPane extends JListControlPane {
+public class ConnectionListPane extends JListControlPane implements ConnectionShowPane {
     public static final String TITLE_NAME = Inter.getLocText("Server-Define_Data_Connection");
     private boolean isNamePermitted = true;
     private HashMap<String, String> renameMap = new HashMap<String, String>();

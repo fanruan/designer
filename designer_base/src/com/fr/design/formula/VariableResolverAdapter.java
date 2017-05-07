@@ -4,12 +4,16 @@ import com.fr.base.ConfigManager;
 import com.fr.base.Parameter;
 import com.fr.design.DesignModelAdapter;
 import com.fr.base.ConfigManagerProvider;
+import com.fr.plugin.ExtraClassManager;
 import com.fr.script.ScriptConstants;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.fun.BuiltInParametersProvider;
 import com.fr.stable.script.CalculatorProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public abstract class VariableResolverAdapter implements VariableResolver {
 	private static final int TABLE_DATA_PARA = 0;
@@ -21,7 +25,7 @@ public abstract class VariableResolverAdapter implements VariableResolver {
      * @return 内置参数
      */
 	public String[] resolveCurReportVariables() {
-		return new String[] { ScriptConstants.SUMMARY_TAG + "page_number",
+		String [] variables =  new String[] { ScriptConstants.SUMMARY_TAG + "page_number",
 				ScriptConstants.SUMMARY_TAG + "totalPage_number",
 				// 下面是权限相关的参数
 				ScriptConstants.DETAIL_TAG + Constants.P.PRIVILEGE_USERNAME, ScriptConstants.DETAIL_TAG + Constants.P.PRIVILEGE_AUTHORITY,
@@ -32,6 +36,13 @@ public abstract class VariableResolverAdapter implements VariableResolver {
 				CalculatorProvider.REPORT_NAME, CalculatorProvider.FORMLET_NAME, CalculatorProvider.SERVLET_URL, CalculatorProvider.SERVER_SCHEMA, CalculatorProvider.SERVER_NAME,
 				CalculatorProvider.SERVER_PORT, CalculatorProvider.SERVER_URL, CalculatorProvider.CONTEXT_PATH, CalculatorProvider.SESSION_ID
 		};
+		Set<BuiltInParametersProvider> set = ExtraClassManager.getInstance().getArray(BuiltInParametersProvider.XML_TAG);
+		for (BuiltInParametersProvider provider : set) {
+			return (String[]) ArrayUtils.addAll(variables, new String []{
+					ScriptConstants.DETAIL_TAG + provider.getParametersName()
+			});
+		}
+		return variables;
 	}
 	
 	private Parameter[] getCurrentModeParameters(int type) {

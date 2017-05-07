@@ -26,17 +26,16 @@ import java.awt.geom.Rectangle2D;
 public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 
 	private int patternIndex = 0; // pattern setIndex.
+	private final static int DEFAULT_DIM_HEIGHT = 190;
 	private ColorSelectBox foregroundColorPane;
 	private ColorSelectBox backgroundColorPane;
 	private PatternButton[] patternButtonArray;
 
 	public PatternBackgroundQuickPane() {
 		this.setLayout(new BorderLayout(0, 4));
-
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		this.add(contentPane, BorderLayout.NORTH);
 		contentPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5));
-
 		JPanel typePane2 = new JPanel();
 		contentPane.add(typePane2);
 		typePane2.setLayout(new GridLayout(0, 8, 1, 1));
@@ -48,15 +47,11 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 			patternButtonGroup.add(patternButtonArray[i]);
 			typePane2.add(patternButtonArray[i]);
 		}
-
 		JPanel colorPane = new JPanel(new GridLayout(0, 2));
 		foregroundColorPane = new ColorSelectBox(70);
 		backgroundColorPane = new ColorSelectBox(70);
-		foregroundColorPane.setSelectObject(Color.lightGray);
-		backgroundColorPane.setSelectObject(Color.black);
-
-		colorPane.add(this.createLabelColorPane(Inter.getLocText("Foreground") + ":", foregroundColorPane));
-		colorPane.add(this.createLabelColorPane(Inter.getLocText("Background") + ":", backgroundColorPane));
+		colorPane.add(this.createLabelColorPane(Inter.getLocText("FR-Designer_Foreground") + ":", foregroundColorPane));
+		colorPane.add(this.createLabelColorPane(Inter.getLocText("FR-Designer_Background") + ":", backgroundColorPane));
 		this.add(colorPane, BorderLayout.CENTER);
 		foregroundColorPane.addSelectChangeListener(colorChangeListener);
 		backgroundColorPane.addSelectChangeListener(colorChangeListener);
@@ -65,7 +60,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = super.getPreferredSize();
-		dim.height = 190;
+		dim.height = DEFAULT_DIM_HEIGHT;
 		return dim;
 	}
 
@@ -206,6 +201,6 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Background-Pattern");
+		return Inter.getLocText("FR-Designer_Background-Pattern");
 	}
 }

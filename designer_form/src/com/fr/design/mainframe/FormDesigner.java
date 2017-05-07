@@ -1018,7 +1018,6 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             }
 
             if (!BaseUtils.isAuthorityEditing()) {
-
                 selectionModel.setSelectedCreators(selected);
 
                 TreePath path = e.getNewLeadSelectionPath();

@@ -8,6 +8,7 @@ import com.fr.data.impl.Connection;
 import com.fr.dav.LocalEnv;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.connect.ConnectionManagerPane;
+import com.fr.design.data.datapane.connect.ConnectionShowPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
@@ -25,7 +26,6 @@ import java.util.HashMap;
  * DatasourceList Action
  */
 public class ConnectionListAction extends UpdateAction {
-    private static final int BYTENUM = 1444;
 
     public ConnectionListAction() {
         this.setMenuKeySet(DEFINE_DATA_CONNECTION);
@@ -92,7 +92,10 @@ public class ConnectionListAction extends UpdateAction {
     }
 
 
-    private void writeFile(DatasourceManagerProvider datasourceManager) {
+    /**
+     * @param datasourceManager
+     */
+    public static void writeFile(DatasourceManagerProvider datasourceManager) {
         Env currentEnv = FRContext.getCurrentEnv();
         try {
             boolean isSuccess = currentEnv.writeResource(datasourceManager);
@@ -106,15 +109,17 @@ public class ConnectionListAction extends UpdateAction {
     }
 
     /**
-     * 是否正常更新完datasourceManager
+     * 更新datasourceManager
      *
-     * @param datasourceManager
-     * @param databaseManagerPane
-     * @return
+     * @param datasourceManager  datasource管理对象
+     * @param backupManager      datasource管理对象备份
+     * @param connectionShowPane datasource面板
+     * @param databaseListDialog datasource管理对话框
+     * @return boolean 是否更新成功
      */
-    private boolean doWithDatasourceManager(DatasourceManagerProvider datasourceManager, DatasourceManager backupManager,
-                                            ConnectionManagerPane databaseManagerPane, BasicDialog databaseListDialog) {
-        databaseManagerPane.update(datasourceManager);
+    public static boolean doWithDatasourceManager(DatasourceManagerProvider datasourceManager, DatasourceManager
+            backupManager, ConnectionShowPane connectionShowPane, BasicDialog databaseListDialog) {
+        connectionShowPane.update(datasourceManager);
         HashMap<String, Connection> modifyDetails = datasourceManager.getConnectionModifyDetails();
         modifyDetails.clear();
         Env currentEnv = FRContext.getCurrentEnv();
@@ -139,7 +144,7 @@ public class ConnectionListAction extends UpdateAction {
                         localModifiedTable.removeConfilct();
                         modifyDetails.clear();
                         //更新面板
-                        databaseManagerPane.populate(datasourceManager);
+                        connectionShowPane.populate(datasourceManager);
                     } else {
                         //更新失败，继续停留页面
                         isFailed = true;
@@ -152,7 +157,7 @@ public class ConnectionListAction extends UpdateAction {
         int index = datasourceManager.isConnectionMapContainsRename();
         if (index != -1) {
             isFailed = true;
-            databaseManagerPane.setSelectedIndex(index);
+            connectionShowPane.setSelectedIndex(index);
         }
         databaseListDialog.setDoOKSucceed(!isFailed);
         //如果修改成功，则去远程端增量修改修改表

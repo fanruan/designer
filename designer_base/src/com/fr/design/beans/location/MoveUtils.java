@@ -18,9 +18,7 @@ public class MoveUtils {
 	public static final int SORPTION_UNIT = 5;
     private static final int EQUIDISTANTLINE_UNIT = 4;
 
-	public static WidgetForbidWindow widgetForbidWindow = new WidgetForbidWindow();
-
-	public static ArrayList<EquidistantLine> equidistantLines = new ArrayList<>();
+    private static ArrayList<EquidistantLine> equidistantLines = new ArrayList<>();
 
 	private MoveUtils() {
 
@@ -259,8 +257,7 @@ public class MoveUtils {
 				equidistantLineInfo.setReference(bounds.y);
 				equidistantLineInfo.setDirection(SwingConstants.BOTTOM);
 			}
-		}
-		else if ((leftMiddleY > bounds.getY()) && (leftMiddleY < (bounds.getY() + bounds.getHeight()))){
+        } else if ((leftMiddleY > bounds.getY()) && (leftMiddleY < (bounds.getY() + bounds.getHeight()))) {
 			//当前操作rec在bounds的右侧
 			if (left > (bounds.getX() + bounds.getWidth())){
 				equidistantLineInfo.setDistance(left - (bounds.x + bounds.width));
@@ -279,13 +276,6 @@ public class MoveUtils {
 		}
 	}
 
-	public static void displayForbidWindow(int x, int y) {
-		widgetForbidWindow.showWindow(x, y);
-	}
-
-	public static void hideForbidWindow() {
-		widgetForbidWindow.hideWindow();
-	}
 
 	/**
 	 * 吸附
@@ -318,25 +308,16 @@ public class MoveUtils {
 		RectangleIterator iterator = designer.createRectangleIterator();
 
 		java.util.List<Rectangle> cacheRecs = new ArrayList<Rectangle>();
-		//是否存在控件重叠
-		boolean isWidgetsIntersects = false;
-		while (iterator.hasNext()) {
-			Rectangle bounds = iterator.nextRectangle();
-			cacheRecs.add(bounds);
-			boolean isIntersects = operatingRectangle.intersects(bounds);
-			findX(px, bounds, left, right, width);
-			findY(py, bounds, top, bottom, height);
+        while (iterator.hasNext()) {
+            Rectangle bounds = iterator.nextRectangle();
+            cacheRecs.add(bounds);
+            findX(px, bounds, left, right, width);
+            findY(py, bounds, top, bottom, height);
 
-			if(!isParameterLayout){
-				if(isIntersects) {
-					isWidgetsIntersects = true;
-				}
-				else{
-					findEquidistantLine(bounds, left, top, height, width);
-				}
-			}
-		}
-		showForbiddenWindow(designer, x, y, isWidgetsIntersects);
+            if (!isParameterLayout) {
+                findEquidistantLine(bounds, left, top, height, width);
+            }
+        }
 
 		createXAbsorptionline(px, designer, width, cacheRecs);
 		createYAbsorptionline(py, designer, height, cacheRecs);
@@ -353,18 +334,6 @@ public class MoveUtils {
 		return sorptionPoint;
 	}
 
-	public static void showForbiddenWindow(RectangleDesigner designer, int x, int y, boolean isIntersects){
-		if (isIntersects){
-			if(designer.getDesignerLocationOnScreen() != null) {
-				displayForbidWindow(x + designer.getDesignerLocationOnScreen().x, y + designer.getDesignerLocationOnScreen().y);
-			}
-			designer.setWidgetsIntersected(true);
-		}
-		else{
-			designer.setWidgetsIntersected(false);
-			hideForbidWindow();
-		}
-	}
 
 	private static void createXAbsorptionline(PlacePointing px, RectangleDesigner designer, int width, java.util.List<Rectangle> cacheRecs) {
 		Absorptionline line = null;

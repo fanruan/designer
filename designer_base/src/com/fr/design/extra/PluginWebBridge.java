@@ -136,6 +136,7 @@ public class PluginWebBridge {
     }
 
     public void setDialogHandle(UIDialog uiDialog) {
+        closeWindow();
         this.uiDialog = uiDialog;
     }
 
@@ -367,6 +368,7 @@ public class PluginWebBridge {
 
     /**
      * 获取系统登录的用户名
+     *
      * @param callback
      */
     public void getLoginInfo(final JSObject callback) {
@@ -381,7 +383,7 @@ public class PluginWebBridge {
         try {
             String loginUrl = SiteCenter.getInstance().acquireUrlByKind("bbs.default");
             Desktop.getDesktop().browse(new URI(loginUrl));
-        }catch (Exception exp) {
+        } catch (Exception exp) {
             FRContext.getLogger().info(exp.getMessage());
         }
     }
@@ -493,13 +495,14 @@ public class PluginWebBridge {
 
 
     /*-------------------------------登录部分的处理----------------------------------*/
+
     /**
      * 注册页面
      */
     public void registerHref() {
         try {
             Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.register")));
-        }catch (Exception e) {
+        } catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
     }
@@ -510,7 +513,7 @@ public class PluginWebBridge {
     public void forgetHref() {
         try {
             Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("bbs.reset")));
-        }catch (Exception e) {
+        } catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
         }
     }
@@ -521,6 +524,7 @@ public class PluginWebBridge {
 
     /**
      * 登录操作的回调
+     *
      * @param username
      * @param password
      * @return

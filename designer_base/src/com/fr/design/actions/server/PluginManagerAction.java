@@ -2,7 +2,7 @@ package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.extra.WebDialog;
+import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
 
@@ -25,7 +25,7 @@ public class PluginManagerAction extends UpdateAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        WebDialog.createPluginDialog();
+        WebViewDlgHelper.createPluginDialog();
     }
 
     public static final MenuKeySet PLUGIN_MANAGER = new MenuKeySet() {
