@@ -1,8 +1,7 @@
 package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.TableData;
-import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.*;
 import com.fr.chart.chartdata.TableDataDefinition;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.data.impl.NameTableData;
@@ -12,7 +11,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.*;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -23,10 +22,6 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private static final int TOP = -5;
 	private DatabaseTableDataPane tableDataPane;
 	private AbstractTableDataContentPane dataContentPane;
-
-	protected AbstractTableDataContentPane getDataContentPane() {
-		return dataContentPane;
-	}
 
 	private ChartDataPane parent;
 
@@ -108,19 +103,14 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @param collection 图表属性的集合
 	 */
 	public void refreshContentPane(ChartCollection collection) {
-		refreshContentPane(getContentPane(collection.getSelectedChart().getPlot()));
-	}
-
-	protected void refreshContentPane(AbstractTableDataContentPane contentPane) {
 		if(dataContentPane != null) {
 			remove(dataContentPane);
 		}
-		dataContentPane = contentPane;
+		dataContentPane = getContentPane(collection.getSelectedChart().getPlot());
 		if(dataContentPane != null) {
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
-
 
 	/**
 	 * 更新界面属性
@@ -130,21 +120,17 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			return;
 		}
 		TableDataDefinition data = (TableDataDefinition)collection.getSelectedChart().getFilterDefinition();
-		populateDSName(data);
-		if(dataContentPane != null) {
-			dataContentPane.populateBean(collection);
-		}
-	}
-	protected void populateDSName(TableDataDefinition dataDefinition){
-
 		TableData tableData = null;
-		if(dataDefinition != null) {
-			tableData = dataDefinition.getTableData();
+		if(data != null) {
+			tableData = data.getTableData();
 		}
 		onSelectTableData();
 		checkBoxUse();
 
 		tableDataPane.populateBean(tableData);
+		if(dataContentPane != null) {
+			dataContentPane.populateBean(collection);
+		}
 	}
 
 	/**
@@ -155,10 +141,6 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			dataContentPane.updateBean(collection);
 		}
 		TopDefinition dataDefinition = (TopDefinition)collection.getSelectedChart().getFilterDefinition();
-		updateDSName(dataDefinition);
-	}
-
-	protected void updateDSName(TopDefinition dataDefinition) {
 		if(dataDefinition instanceof  TableDataDefinition) {
 			TableDataWrapper tableDataWrapper = tableDataPane.getTableDataWrapper();
 			if (dataDefinition != null && tableDataWrapper != null){
