@@ -36,7 +36,6 @@ import java.io.ByteArrayOutputStream;
 import java.text.Collator;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 设计器管理操作数据集的类:
@@ -59,7 +58,7 @@ public abstract class DesignTableDataManager {
     private static java.util.Map<String, String> dsNameChangedMap = new HashMap<String, String>();
 //    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
 
-    private static  Map<String,  List<ChangeListener>> dsListenersMap = new HashMap<String,  List<ChangeListener>>();
+    private static Map<String, List<ChangeListener>> dsListenersMap = new HashMap<String, List<ChangeListener>>();
 
 
     public static String NO_PARAMETER = "no_paramater_pane";
@@ -79,7 +78,7 @@ public abstract class DesignTableDataManager {
      * 响应数据集改变.
      */
     private static void fireDsChanged() {
-        for(Entry<String,  List<ChangeListener>> listenerEntry : dsListenersMap.entrySet()) {
+        for (Entry<String, List<ChangeListener>> listenerEntry : dsListenersMap.entrySet()) {
             List<ChangeListener> dsListeners = listenerEntry.getValue();
             for (int i = 0; i < dsListeners.size(); i++) {
                 //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
@@ -91,8 +90,8 @@ public abstract class DesignTableDataManager {
         }
     }
 
-    public static void closeTemplate(JTemplate<?,?> template) {
-        if(template != null) {
+    public static void closeTemplate(JTemplate<?, ?> template) {
+        if (template != null) {
             dsListenersMap.remove(template.getFullPathName());
         }
     }
@@ -151,7 +150,7 @@ public abstract class DesignTableDataManager {
     public static void addDsChangeListener(ChangeListener l) {
         JTemplate<?, ?> template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         String key = StringUtils.EMPTY;
-        if(template != null) {
+        if (template != null) {
             key = template.getFullPathName();
         }
         List<ChangeListener> dsListeners = dsListenersMap.get(key);
@@ -180,7 +179,7 @@ public abstract class DesignTableDataManager {
      * august:返回当前正在编辑的具有报表数据源的模板(基本报表、聚合报表) 包括 : 图表模板
      *
      * @return TableDataSource
-     *         attention:与这个方法有关系的静态组件（不随着切换模板tab而变化的），应该重新执行该方法，再刷新组件
+     * attention:与这个方法有关系的静态组件（不随着切换模板tab而变化的），应该重新执行该方法，再刷新组件
      */
     public static TableDataSource getEditingTableDataSource() {
         return DesignModelAdapter.getCurrentModelAdapter() == null ? null : DesignModelAdapter.getCurrentModelAdapter().getBook();
@@ -319,7 +318,6 @@ public abstract class DesignTableDataManager {
     }
 
 
-
     private static void addStoreProcedureData(java.util.Map<String, TableDataWrapper> resMap) {
         DatasourceManagerProvider mgr = DatasourceManager.getProviderInstance();
         String[] namearray = new String[0];
@@ -381,12 +379,10 @@ public abstract class DesignTableDataManager {
     private static EmbeddedTableData previewTableData(TableData tabledata, int rowCount, boolean isMustInputParameters, boolean needLoadingBar) throws Exception {
         final AutoProgressBar loadingBar = PreviewTablePane.getInstance().getProgressBar();
         Env currentEnv = FRContext.getCurrentEnv();
-        EmbeddedTableData embeddedTableData = null;
         ParameterProvider[] parameters = currentEnv.getTableDataParameters(tabledata);
-        boolean isNullParameter = parameters == null || parameters.length == 0;
-        ParameterProvider[] tableDataParameter = tabledata.getParameters(Calculator.createCalculator());
-        boolean isOriginalNUllParameter = tableDataParameter == null || tableDataParameter.length == 0;
-        if (isNullParameter && !isOriginalNUllParameter) {
+        if (isNullOrEmpty(parameters)) {
+            ParameterProvider[] tableDataParameter = tabledata.getParameters(Calculator.createCalculator());
+            checkArgument(!isNullOrEmpty(tableDataParameter), "both parameters and tableDataParameter are empty");
             parameters = tableDataParameter;
         }
         boolean hasValue = true;
@@ -396,25 +392,24 @@ public abstract class DesignTableDataManager {
                 break;
             }
         }
-        final Map<String, Object> parameterMap = new HashMap<String, Object>();
+        final Map<String, Object> parameterMap = new HashMap<>();
         if (!hasValue || isMustInputParameters) {
-            if (parameters != null && parameters.length > 0) {
-                final ParameterInputPane pPane = new ParameterInputPane(parameters);
-                pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
-
-                    public void doOk() {
-                        parameterMap.putAll(pPane.update());
-                    }
-                }).setVisible(true);
-            }
+            final ParameterInputPane pPane = new ParameterInputPane(parameters);
+            pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                @Override
+                public void doOk() {
+                    parameterMap.putAll(pPane.update());
+                }
+            }).setVisible(true);
         } else {
-            for (int i = 0; i < parameters.length; i++) {
-                parameterMap.put(parameters[i].getName(), parameters[i].getValue());
+            for (ParameterProvider parameter : parameters) {
+                parameterMap.put(parameter.getName(), parameter.getValue());
             }
         }
         if (loadingBar != null && needLoadingBar) {
             loadingBar.start();
         }
+        EmbeddedTableData embeddedTableData = null;
         try {
             for (ParameterProvider parameter : currentEnv.getTableDataParameters(tabledata)) {
                 if (parameterMap.containsKey(parameter.getName())) {
@@ -501,5 +496,13 @@ public abstract class DesignTableDataManager {
         threadLocal.set(value);
     }
 
+    private static boolean isNullOrEmpty(Object[] objs) {
+        return objs == null || objs.length == 0;
+    }
 
+    private static void checkArgument(boolean expression, String errorMessage) {
+        if (!expression) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
 }
