@@ -378,8 +378,7 @@ public abstract class DesignTableDataManager {
      *                              而获取数据集的字段名字时，则没必要
      * @return
      */
-    private static EmbeddedTableData previewTableData(TableData tabledata, int rowCount, boolean isMustInputParameters,
-                                                      boolean needLoadingBar) throws Exception {
+    private static EmbeddedTableData previewTableData(TableData tabledata, int rowCount, boolean isMustInputParameters, boolean needLoadingBar) throws Exception {
         final AutoProgressBar loadingBar = PreviewTablePane.getInstance().getProgressBar();
         Env currentEnv = FRContext.getCurrentEnv();
         EmbeddedTableData embeddedTableData = null;
