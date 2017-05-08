@@ -416,6 +416,11 @@ public abstract class DesignTableDataManager {
             loadingBar.start();
         }
         try {
+            for (ParameterProvider parameter : currentEnv.getTableDataParameters(tabledata)) {
+                if (parameterMap.containsKey(parameter.getName())) {
+                    parameter.setValue(parameterMap.get(parameter.getName()));
+                }
+            }
             embeddedTableData = currentEnv.previewTableData(tabledata, parameterMap, rowCount);
         } catch (TableDataException e) {
             throw new TableDataException(e.getMessage(), e);
