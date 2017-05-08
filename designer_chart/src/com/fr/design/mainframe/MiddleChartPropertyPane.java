@@ -14,7 +14,6 @@ import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -26,9 +25,6 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	protected UILabel nameLabel;
 
 	protected ChartEditPane chartEditPane;
-	//获取ChartCollection和当前图表的plotID，用来获取对应的面板
-	protected ChartCollection chartCollection = DesignModuleFactory.getChartCollection();
-	protected String plotID = chartCollection.getSelectedChart().getPlot().getPlotID();
 
 	public MiddleChartPropertyPane() {
 		initComponenet();
@@ -40,9 +36,13 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
-		chartEditPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
+	}
+
+	public void addChartEditPane(String plotID){
+		chartEditPane = (ChartEditPane) ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
+		setSureProperty();
 	}
 	
 	protected abstract void createNameLabel();

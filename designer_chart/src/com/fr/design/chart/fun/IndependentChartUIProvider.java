@@ -3,9 +3,9 @@ package com.fr.design.chart.fun;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
-import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -90,6 +90,6 @@ public interface IndependentChartUIProvider extends Level {
      */
     String getPlotTypeTitle4PopupWindow();
 
-    ChartEditPane getChartConfigPane(String plotID);
+    ChartEditPaneProvider getChartConfigPane(String plotID);
 
 }

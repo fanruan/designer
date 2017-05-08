@@ -3,14 +3,10 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
 import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ChartPropertyPane extends MiddleChartPropertyPane{
 
@@ -21,8 +17,6 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 		if(singleton == null) {
 			singleton = new ChartPropertyPane();
 		}
-
-		singleton.setSureProperty();
 		return singleton;
 	}
 

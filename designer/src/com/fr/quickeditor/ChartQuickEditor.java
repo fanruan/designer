@@ -46,9 +46,9 @@ public class ChartQuickEditor extends QuickEditor<TargetComponent>{
 				element = ((ElementCasePane)tc).getEditingElementCase().getFloatElement(fs.getSelectedFloatName());
 			}
 			collection = (BaseChartCollection) element.getValue();
-			//将chartCollection存在DesignModuleFactory
-			DesignModuleFactory.setChartCollection((ChartCollection) collection);
+
 			add(editingPropertyPane = DesignModuleFactory.getChartPropertyPane(), BorderLayout.CENTER);
+			editingPropertyPane.addChartEditPane(((ChartCollection)collection).getSelectedChart().getPlot().getPlotID());
 			editingPropertyPane.setSupportCellData(true);
 		}
 		editingPropertyPane.populateChartPropertyPane(collection, tc);

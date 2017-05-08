@@ -21,7 +21,7 @@ import com.fr.general.ComparatorUtils;
  */
 public abstract class AbstractIndependentChartUI4Custom implements IndependentChartUIProvider {
 
-    int CURRENT_API_LEVEL = 3;
+    int CURRENT_API_LEVEL = 100000;
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new PiePlotPane();

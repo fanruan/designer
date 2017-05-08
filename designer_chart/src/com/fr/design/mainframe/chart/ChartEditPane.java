@@ -5,10 +5,10 @@ import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChartEditPane extends BasicBeanPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
+public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
 
     private final static int CHANGE_MIN_TIME = 80;
 
@@ -49,10 +49,8 @@ public class ChartEditPane extends BasicBeanPane implements AttributeChange,Prep
     private ChartCollection lastCollection;
     protected CardLayout card;
     protected JPanel center;
-    protected TargetComponentContainer container = null;
-    protected TitleChangeListener titleChangeListener = null;
-    protected ChartEditPane chartEditPane =this;
-
+    private TargetComponentContainer container = null;
+    private TitleChangeListener titleChangeListener = null;
     private Calendar lastTime;
 
     protected ChartEditPane() {
@@ -347,15 +345,5 @@ public class ChartEditPane extends BasicBeanPane implements AttributeChange,Prep
                 attrPane.refreshChartDataPane(collection);
             }
         });
-    }
-    //添加populate和update方法，第三方图表继承使用
-    @Override
-    public void populateBean(Object ob) {
-
-    }
-
-    @Override
-    public Object updateBean() {
-        return null;
     }
 }

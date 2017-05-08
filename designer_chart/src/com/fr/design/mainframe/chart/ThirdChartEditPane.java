@@ -3,9 +3,9 @@ package com.fr.design.mainframe.chart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
+import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
-import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.TargetComponentContainer;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 
@@ -15,7 +15,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/5/3.
  */
-public class CustomChartEditPane extends ChartEditPane  {
+public abstract class ThirdChartEditPane extends ChartEditPane implements ChartEditPaneProvider, ThirdChartInterface {
     //构建主面板
     protected void createTabsPane() {
         Icon[] iconArray = new Icon[paneList.size()];
@@ -34,7 +34,7 @@ public class CustomChartEditPane extends ChartEditPane  {
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            chartEditPane.updateBean(collection.getSelectedChart());
+            updateBean(collection.getSelectedChart());
         }
     };
 
@@ -72,16 +72,6 @@ public class CustomChartEditPane extends ChartEditPane  {
         int index = Math.min(tabsHeaderIconPane.getSelectedIndex(), paneList.size() - 1);
         return paneList.get(index).title4PopupWindow();
     }
-
-    /**
-     * 添加标题变化监听事件.
-     *
-     * @param titleChangeListener 标题的ChangeListener
-     */
-    public void addTitleChangeListener(TitleChangeListener titleChangeListener) {
-        this.titleChangeListener = titleChangeListener;
-    }
-
     /**
      * 设置容器.
      */
@@ -92,7 +82,7 @@ public class CustomChartEditPane extends ChartEditPane  {
 
 
     public void populate(ChartCollection collection) {
-        chartEditPane.populateBean(collection.getSelectedChart());
+        populateBean(collection.getSelectedChart());
     }
 
     protected ChartEditPane getCurrentChartEditPane() {
@@ -145,7 +135,7 @@ public class CustomChartEditPane extends ChartEditPane  {
     }
 
     protected void dealWithStyleChange(){
-        chartEditPane.populateBean(collection.getSelectedChart());
+        populateBean(collection.getSelectedChart());
     }
 
     /**
@@ -160,7 +150,7 @@ public class CustomChartEditPane extends ChartEditPane  {
      * 图表设计器，显示选中的面板
      */
     public void populateSelectedTabPane() {
-        chartEditPane.populateBean(collection.getSelectedChart());
+        populateBean(collection.getSelectedChart());
     }
 
     /**
@@ -169,4 +159,10 @@ public class CustomChartEditPane extends ChartEditPane  {
     public void registerDSChangeListener() {
 
     }
+
+    @Override
+    protected String title4PopupWindow() {
+        return null;
+    }
+
 }
