@@ -380,9 +380,9 @@ public abstract class DesignTableDataManager {
         final AutoProgressBar loadingBar = PreviewTablePane.getInstance().getProgressBar();
         Env currentEnv = FRContext.getCurrentEnv();
         ParameterProvider[] parameters = currentEnv.getTableDataParameters(tabledata);
-        if (isNullOrEmpty(parameters)) {
+        if (ArrayUtils.isEmpty(parameters)) {
             ParameterProvider[] tableDataParameter = tabledata.getParameters(Calculator.createCalculator());
-            checkArgument(!isNullOrEmpty(tableDataParameter), "both parameters and tableDataParameter are empty");
+            checkArgument(!ArrayUtils.isEmpty(tableDataParameter), "both parameters and tableDataParameter are empty");
             parameters = tableDataParameter;
         }
         boolean hasValue = true;
@@ -409,14 +409,13 @@ public abstract class DesignTableDataManager {
         if (loadingBar != null && needLoadingBar) {
             loadingBar.start();
         }
-        EmbeddedTableData embeddedTableData = null;
         try {
             for (ParameterProvider parameter : currentEnv.getTableDataParameters(tabledata)) {
                 if (parameterMap.containsKey(parameter.getName())) {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            embeddedTableData = currentEnv.previewTableData(tabledata, parameterMap, rowCount);
+            return currentEnv.previewTableData(tabledata, parameterMap, rowCount);
         } catch (TableDataException e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {
@@ -426,7 +425,6 @@ public abstract class DesignTableDataManager {
                 }
             }, 100);
         }
-        return embeddedTableData;
     }
 
     /**
@@ -494,10 +492,6 @@ public abstract class DesignTableDataManager {
 
     public static void setThreadLocal(String value) {
         threadLocal.set(value);
-    }
-
-    private static boolean isNullOrEmpty(Object[] objs) {
-        return objs == null || objs.length == 0;
     }
 
     private static void checkArgument(boolean expression, String errorMessage) {
