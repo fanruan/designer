@@ -491,10 +491,4 @@ public abstract class DesignTableDataManager {
     public static void setThreadLocal(String value) {
         threadLocal.set(value);
     }
-
-    private static void checkArgument(boolean expression, String errorMessage) {
-        if (!expression) {
-            throw new IllegalArgumentException(errorMessage);
-        }
-    }
 }
