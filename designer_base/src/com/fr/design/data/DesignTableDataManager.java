@@ -381,9 +381,7 @@ public abstract class DesignTableDataManager {
         Env currentEnv = FRContext.getCurrentEnv();
         ParameterProvider[] parameters = currentEnv.getTableDataParameters(tabledata);
         if (ArrayUtils.isEmpty(parameters)) {
-            ParameterProvider[] tableDataParameter = tabledata.getParameters(Calculator.createCalculator());
-            checkArgument(!ArrayUtils.isEmpty(tableDataParameter), "both parameters and tableDataParameter are empty");
-            parameters = tableDataParameter;
+            parameters = tabledata.getParameters(Calculator.createCalculator());
         }
         boolean hasValue = true;
         for (ParameterProvider parameter : parameters) {
@@ -492,11 +490,5 @@ public abstract class DesignTableDataManager {
 
     public static void setThreadLocal(String value) {
         threadLocal.set(value);
-    }
-
-    private static void checkArgument(boolean expression, String errorMessage) {
-        if (!expression) {
-            throw new IllegalArgumentException(errorMessage);
-        }
     }
 }
