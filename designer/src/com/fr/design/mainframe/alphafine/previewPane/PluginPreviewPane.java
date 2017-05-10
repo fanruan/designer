@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.alphafine.previewPane;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 
 import javax.swing.*;
