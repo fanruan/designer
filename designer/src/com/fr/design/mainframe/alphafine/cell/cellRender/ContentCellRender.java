@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.cell.cellRender;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.cellModel.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 
@@ -33,7 +34,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         name.setText(model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getCellType() + ".png";
         name.setIcon(new ImageIcon(getClass().getResource(iconUrl)));
-        name.setFont(new Font("Song_TypeFace",0,12));
+        name.setFont(AlphaFineConstants.MEDIUM_FONT);
         name.setForeground(new Color(0x222222));
         name.setVerticalTextPosition(SwingConstants.CENTER);
         name.setHorizontalTextPosition(SwingConstants.RIGHT);

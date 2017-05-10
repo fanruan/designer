@@ -24,8 +24,8 @@ public class DocumentPreviewPane extends JPanel {
         titleArea.setForeground(AlphaFineConstants.BLUE);
         contentArea.setForeground(AlphaFineConstants.BLACK);
         titleArea.setPreferredSize(new Dimension(360, 30));
-        titleArea.setFont(new Font("Song_TypeFace",0,18));
-        contentArea.setFont(new Font("Song_TypeFace",0,12));
+        titleArea.setFont(AlphaFineConstants.LARGE_FONT);
+        contentArea.setFont(AlphaFineConstants.MEDIUM_FONT);
         add(titleArea, BorderLayout.NORTH);
         add(contentArea, BorderLayout.CENTER);
     }

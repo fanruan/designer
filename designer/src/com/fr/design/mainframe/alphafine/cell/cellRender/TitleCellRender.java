@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.cell.cellRender;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +24,8 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         panel.setBackground(new Color(0xf9f9f9));
         panel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         name.setText(moreModel.getName());
-        name.setFont(new Font("Song_TypeFace",0,10));
-        more.setFont(new Font("Song_TypeFace",0,10));
+        name.setFont(AlphaFineConstants.SMALL_FONT);
+        more.setFont(AlphaFineConstants.SMALL_FONT);
         more.setText(moreModel.getContent());
         name.setForeground(new Color(0x666666));
         more.setForeground(new Color(0x666666));

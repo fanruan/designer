@@ -68,7 +68,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void initComponents() {
         searchTextField = new AlphaTextField("AlphaFine");
-        searchTextField.setFont(new Font("Song_TypeFace",0,20));
+        searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
         searchTextField.setBorderPainted(false);
         JPanel topPane = new JPanel(new BorderLayout());
