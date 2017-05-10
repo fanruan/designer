@@ -84,9 +84,3 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
     }
 
 }
-
-
-
-
-
-
