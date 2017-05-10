@@ -10,10 +10,10 @@ import java.awt.*;
 /**
  * Created by XiaXiang on 2017/4/20.
  */
-public class CommonCellRender implements ListCellRenderer<Object> {
+public class ContentCellRender implements ListCellRenderer<Object> {
     private UILabel name;
     private UILabel content;
-    public CommonCellRender() {
+    public ContentCellRender() {
         this.name = new UILabel();
         this.content = new UILabel();
     }

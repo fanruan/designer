@@ -9,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
-import com.fr.design.mainframe.alphafine.cell.cellRender.CommonCellRender;
+import com.fr.design.mainframe.alphafine.cell.cellRender.ContentCellRender;
 import com.fr.design.mainframe.alphafine.cell.cellModel.*;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
@@ -173,7 +173,7 @@ public class AlphaFineDialog extends UIDialog {
             searchResultPane = new JPanel();
             searchResultPane.setPreferredSize(AlphaFineConstants.CONTENT_SIZE);
             searchResultPane.setLayout(new BorderLayout());
-            searchResultList.setCellRenderer(new CommonCellRender());
+            searchResultList.setCellRenderer(new ContentCellRender());
             searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
             searchResultList.addMouseListener(new MouseAdapter() {
                 @Override
