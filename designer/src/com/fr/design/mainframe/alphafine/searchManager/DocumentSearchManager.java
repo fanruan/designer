@@ -7,6 +7,7 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -49,9 +50,9 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                 }
                 if (jsonArray.length() > 0) {
                     if (jsonArray.length() > 5) {
-                        lessModelList.add(new MoreModel("帮助文档", "显示全部",true, CellType.DOCUMENT));
+                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                     } else  {
-                        lessModelList.add(new MoreModel("帮助文档", CellType.DOCUMENT));
+                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
                     }
                 }
 

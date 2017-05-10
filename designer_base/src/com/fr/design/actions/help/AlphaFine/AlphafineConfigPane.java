@@ -78,20 +78,20 @@ public class AlphafineConfigPane extends BasicPane {
         double[] rowSize = {p, p};
         double[] columnSize = {d, d, d};
 
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane("搜索范围");
-        isContainConcludeCheckbox = new UICheckBox("猜您需要");
-        isContainActionCheckbox = new UICheckBox("设置");
-        isContainPluginCheckbox = new UICheckBox("应用中心");
-        isContainDocumentCheckbox = new UICheckBox("帮助文档");
-        isContainTemplateCheckbox = new UICheckBox("模板");
-        isContainFileContentCheckbox = new UICheckBox("模板内容");
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_SearchRange"));
+        isContainConcludeCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Conclude"));
+        isContainActionCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Set"));
+        isContainPluginCheckbox = new UICheckBox(Inter.getLocText("FR-Designer-Plugin_Addon"));
+        isContainDocumentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
+        isContainTemplateCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates"));
+        isContainFileContentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates_Content"));
         JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initsearchRangeComponents(), rowSize, columnSize);
         northPane.add(searchConfigPane);
         contentPane.add(northPane);
     }
 
     private void createShortcutsPane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane("快捷键配置");
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_Shortcut_Config"));
         shortcutsField = new UITextField();
         shortcutsField.setPreferredSize(new Dimension(100, 20));
         shortcutsField.addKeyListener(new KeyAdapter() {
@@ -107,14 +107,14 @@ public class AlphafineConfigPane extends BasicPane {
                 shortcutsField.setText(getDisplayShortCut(str));
             }
         });
-        northPane.add(new UILabel(Inter.getLocText("Open") + ":"));
+        northPane.add(new UILabel(Inter.getLocText("FR-Designer_Open") + ":"));
         northPane.add(shortcutsField);
         contentPane.add(northPane);
     }
 
     private void createOnlinePane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane("联网");
-        isSearchOnlineCheckbox = new UICheckBox("联网搜索");
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_EnableInternet"));
+        isSearchOnlineCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_EnableInternetSearch"));
         isSearchOnlineCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,8 +137,8 @@ public class AlphafineConfigPane extends BasicPane {
     }
 
     private void createOpenPane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane("开启");
-        isEnabledCheckbox = new UICheckBox("开启AlphaFine功能");
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_Enable"));
+        isEnabledCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_EnableAlphaFine"));
         northPane.add(isEnabledCheckbox);
         contentPane.add(northPane);
     }

@@ -10,6 +10,7 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -93,9 +94,9 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         }
         if (filterModelList.size() > 0) {
             if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                lessModelList.add(0,new MoreModel("模板", "显示全部",true, CellType.FILE));
+                lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE));
             } else {
-                lessModelList.add(0,new MoreModel("模板", CellType.FILE));
+                lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE));
             }
         }
 

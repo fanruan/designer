@@ -7,6 +7,7 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.ActionModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
+import com.fr.general.Inter;
 
 import java.util.List;
 
@@ -47,9 +48,9 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
             }
             if (filterModelList.size() > 0) {
                 if (filterModelList.size() > 5) {
-                    lessModelList.add(0, new MoreModel("设置", "显示全部",true, CellType.ACTION));
+                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.ACTION));
                 } else {
-                    lessModelList.add(0, new MoreModel("设置", CellType.ACTION));
+                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
                 }
             }
         }

@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -52,9 +53,9 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 }
                 if (jsonArray.length() > 0) {
                     if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(new MoreModel("应用中心", "显示全部",true, CellType.PLUGIN));
+                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
                     } else {
-                        lessModelList.add(new MoreModel("应用中心", CellType.PLUGIN));
+                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
                     }
                 }
 

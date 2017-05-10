@@ -3,6 +3,7 @@ package com.fr.design.mainframe.alphafine.searchManager;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.general.Inter;
 
 import java.io.*;
 
@@ -54,12 +55,12 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
 
     public SearchResult showDefaultSearchResult() {
         SearchResult searchResult = new SearchResult();
-        searchResult.add(new MoreModel("本地常用"));
-        searchResult.add(new MoreModel("猜您喜欢"));
-        searchResult.add(new MoreModel("设置"));
-        searchResult.add(new MoreModel("模板"));
-        searchResult.add(new MoreModel("帮助文档"));
-        searchResult.add(new MoreModel("应用中心"));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest")));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude")));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer_Set")));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
+        searchResult.add(new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon")));
         return searchResult;
     }
 

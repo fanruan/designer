@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.searchManager;
 
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.general.Inter;
 
 /**
  * Created by XiaXiang on 2017/3/31.
@@ -20,8 +21,8 @@ public class LatestSearchManager implements AlphaFineSearchProcessor {
     @Override
     public synchronized SearchResult showLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
-        modelList.add(new MoreModel("本地常用", false));
-        //todo: 常用逻辑需要重新设计
+        modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest"), false));
+        //todo: 本地常用逻辑需要重新设计
 //        if (getLatestModelList() != null && getLatestModelList().size() > 0) {
 //            modelList.addAll(getLatestModelList());
 //        }

@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.searchManager;
 
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.general.Inter;
 
 /**
  * Created by XiaXiang on 2017/3/31.
@@ -20,7 +21,7 @@ public class ConcludeSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult showLessSearchResult(String searchText) {
         //todo: 猜您喜欢逻辑需要重新设计
         this.modelList = new SearchResult();
-        modelList.add(new MoreModel("猜您需要", false));
+        modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude"), false));
         return modelList;
     }
 

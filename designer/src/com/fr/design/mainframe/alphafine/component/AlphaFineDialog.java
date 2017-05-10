@@ -25,6 +25,7 @@ import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.main.impl.WorkBook;
@@ -367,12 +368,12 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void HandleMoreOrLessResult(int index, MoreModel selectedValue) {
-        if (selectedValue.getContent().equals("显示全部")) {
-            selectedValue.setContent("收起");
+        if (selectedValue.getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"))) {
+            selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
             rebuildList(index, selectedValue);
 
         } else {
-            selectedValue.setContent("显示全部");
+            selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
             rebuildList(index, selectedValue);
         }
     }
@@ -541,7 +542,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void rebuildList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
-        if((selectedValue).getContent().equals("收起")) {
+        if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
                 this.searchListModel.insertElementAt(moreResult.get(i), index + 4 + i);
             }
