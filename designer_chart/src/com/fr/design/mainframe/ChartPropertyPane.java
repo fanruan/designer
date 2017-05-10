@@ -14,9 +14,7 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	 * 创建图表属性表实例.
 	 */
 	private synchronized static ChartPropertyPane getInstance() {
-		if(singleton == null) {
-			singleton = new ChartPropertyPane();
-		}
+		singleton = new ChartPropertyPane();
 		return singleton;
 	}
 

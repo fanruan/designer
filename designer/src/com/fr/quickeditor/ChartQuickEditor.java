@@ -2,10 +2,8 @@ package com.fr.quickeditor;
 
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.ThirdChart;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
-import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.selection.QuickEditor;
@@ -21,7 +19,6 @@ import java.awt.*;
 public class ChartQuickEditor extends QuickEditor<TargetComponent>{
     // kunsnat: editingPropertyPane初始化  避开设计器启动, 在用到的时候再初始化.
 	//private BaseChartPropertyPane editingPropertyPane = null;
-	private static boolean lastChartType =false;
 	public ChartQuickEditor() {
 		setLayout(new BorderLayout());
 		setBorder(null);
@@ -48,20 +45,10 @@ public class ChartQuickEditor extends QuickEditor<TargetComponent>{
 				element = ((ElementCasePane)tc).getEditingElementCase().getFloatElement(fs.getSelectedFloatName());
 			}
 			collection = (BaseChartCollection) element.getValue();
-			boolean chartType = false;
-			if (((ChartCollection) collection).getSelectedChart() instanceof ThirdChart) {
-				chartType = true;
-			}
-			if (chartType != lastChartType) {
-				ChartPropertyPane.clear();
-			}
-
+			String plotID=((ChartCollection)collection).getSelectedChart().getPlot().getPlotID();
 			add(editingPropertyPane = DesignModuleFactory.getChartPropertyPane(), BorderLayout.CENTER);
-			editingPropertyPane.addChartEditPane(((ChartCollection)collection).getSelectedChart().getPlot().getPlotID());
+			editingPropertyPane.addChartEditPane(plotID);
 			editingPropertyPane.setSupportCellData(true);
-			if (((ChartCollection) collection).getSelectedChart() instanceof ThirdChart) {
-				lastChartType = true;
-			}
 		}
 		editingPropertyPane.populateChartPropertyPane(collection, tc);
 	}

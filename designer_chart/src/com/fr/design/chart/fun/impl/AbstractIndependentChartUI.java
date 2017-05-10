@@ -32,6 +32,7 @@ public abstract class AbstractIndependentChartUI implements IndependentChartUIPr
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
         return new ChartDataPane(listener);
     }
+
     /**
      * 是否使用默认的界面，为了避免界面来回切换
      * @return 是否使用默认的界面
@@ -55,6 +56,7 @@ public abstract class AbstractIndependentChartUI implements IndependentChartUIPr
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
     }
+
     public ChartEditPane getChartConfigPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
 
 }

@@ -39,7 +39,7 @@ public abstract class ThirdChartEditPane extends ChartEditPane implements ChartE
     };
 
     /**
-     * 重新构造面板
+    * 重新构造面板
      * @param currentChart 图表
      */
     public void reLayout(Chart currentChart){
@@ -72,6 +72,7 @@ public abstract class ThirdChartEditPane extends ChartEditPane implements ChartE
         int index = Math.min(tabsHeaderIconPane.getSelectedIndex(), paneList.size() - 1);
         return paneList.get(index).title4PopupWindow();
     }
+
     /**
      * 设置容器.
      */
@@ -104,7 +105,6 @@ public abstract class ThirdChartEditPane extends ChartEditPane implements ChartE
 
     //populate的时候看看要不要重构面板
     private boolean checkNeedsReLayout(Chart chart){
-
         return false;
     }
 
@@ -162,7 +162,7 @@ public abstract class ThirdChartEditPane extends ChartEditPane implements ChartE
 
     @Override
     protected String title4PopupWindow() {
-        return null;
+        return "CustomChart";
     }
 
 }
