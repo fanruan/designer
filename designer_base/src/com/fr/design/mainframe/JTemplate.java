@@ -372,7 +372,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
 
     protected boolean accept(Object o){
-    	return true;
+        return true;
     }
 
     private void fireSuperTargetModified() {
@@ -488,15 +488,15 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         collectInfo();
         return this.saveFile();
     }
-    
+
     private boolean isCancelOperation(int operation){
-    	return operation == FILEChooserPane.CANCEL_OPTION ||
-    	       operation == FILEChooserPane.JOPTIONPANE_CANCEL_OPTION;
+        return operation == FILEChooserPane.CANCEL_OPTION ||
+                operation == FILEChooserPane.JOPTIONPANE_CANCEL_OPTION;
     }
-    
+
     private boolean isOkOperation(int operation){
-    	return operation == FILEChooserPane.JOPTIONPANE_OK_OPTION ||
-    		   operation == FILEChooserPane.OK_OPTION;
+        return operation == FILEChooserPane.JOPTIONPANE_OK_OPTION ||
+                operation == FILEChooserPane.OK_OPTION;
     }
 
     private boolean saveAsTemplate(boolean isShowLoc) {
@@ -513,8 +513,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         if (isCancelOperation(chooseResult)) {
             fileChooser = null;
             return false;
-        } 
-        
+        }
+
         if (isOkOperation(chooseResult)) {
             if (!FRContext.getCurrentEnv().hasFileFolderAllow(fileChooser.getSelectedFILE().getPath()) ) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_No-Privilege") + "!", Inter.getLocText("FR-Designer_Message"), JOptionPane.WARNING_MESSAGE);
@@ -524,10 +524,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             mkNewFile(editingFILE);
             fileChooser = null;
         }
-        
+
         return saveNewFile(editingFILE, oldName);
     }
-    
+
     protected boolean saveNewFile(FILE editingFILE, String oldName){
         // 在保存之前，初始化 templateID
         initForCollect();  // 如果保存新模板（新建模板直接保存，或者另存为），则添加 templateID
@@ -542,23 +542,23 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getFullPathName());
         return result;
     }
-    
+
     protected void mkNewFile(FILE file){
         try {
-        	file.mkfile();
+            file.mkfile();
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
     }
-    
+
     /**
-	 * 将模板另存为可以分享出去的混淆后内置数据集模板
-	 * 
-	 * @return 是否另存成功
-	 * 
-	 */
+     * 将模板另存为可以分享出去的混淆后内置数据集模板
+     *
+     * @return 是否另存成功
+     *
+     */
     public boolean saveShareFile(){
-    	return true;
+        return true;
     }
     public Widget getSelectElementCase(){
         return new NoneWidget();
@@ -763,7 +763,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public void revert() {
 
     }
-    
+
     private int getVersionCompare(String versionString){
         if (StringUtils.isBlank(versionString)) {
             return 0;
@@ -773,7 +773,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return ComparatorUtils.compare(versionString.substring(0, len), ProductConstants.DESIGNER_VERSION.substring(0, len));
 
     }
-    
+
     private int getVersionCompareHBB(String versionString){
         if (StringUtils.isBlank(versionString)) {
             return 0;
@@ -781,17 +781,17 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return ComparatorUtils.compare(versionString, "HBB");
 
     }
-    
+
     private boolean isHigherThanCurrent(String versionString) {
         return getVersionCompare(versionString) > 0;
     }
-    
+
     private boolean isLowerThanCurrent(String versionString) {
-    	return getVersionCompare(versionString) < 0;
+        return getVersionCompare(versionString) < 0;
     }
-    
+
     private boolean isLowerThanHBB(String versionString) {
-    	return getVersionCompareHBB(versionString) < 0;
+        return getVersionCompareHBB(versionString) < 0;
     }
 
     /**
@@ -801,7 +801,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public boolean isNewDesigner() {
         String xmlDesignerVersion = getTarget().getXMLDesignerVersion();
         if (isLowerThanHBB(xmlDesignerVersion)) {
-        	String info = Inter.getLocText("FR-Designer_open-new-form-tip");
+            String info = Inter.getLocText("FR-Designer_open-new-form-tip");
             String moreInfo = Inter.getLocText("FR-Designer_Server-version-tip-moreInfo");
             new InformationWarnPane(info, moreInfo, Inter.getLocText("FR-Designer_Tooltips")).show();
             return true;
@@ -855,13 +855,13 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 是则返回true
      */
     public abstract boolean isJWorkBook();
-    
+
     /**
      * 返回当前支持的超链界面pane
      * @return 超链连接界面
      */
     public HyperlinkGroupPane getHyperLinkPane() {
-    	return new HyperlinkGroupPane();
+        return new HyperlinkGroupPane();
     }
 
     /**
@@ -916,29 +916,29 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public void requestGridFocus() {
 
     }
-    
+
     /**
-	 * 创建内置sql提交的pane
-	 * 
-	 * @return 内置sql提交的pane
-	 * 
-	 *
-	 * @date 2014-10-14-下午7:39:27
-	 */
+     * 创建内置sql提交的pane
+     *
+     * @return 内置sql提交的pane
+     *
+     *
+     * @date 2014-10-14-下午7:39:27
+     */
     public DBManipulationPane createDBManipulationPane(){
-    	return new DBManipulationPane();
+        return new DBManipulationPane();
     }
-    
+
     /**
      * 创建控件事件里内置sql提交的pane
-     * 
+     *
      * @return 内置sql提交的pane
-     * 
+     *
      *
      * @date 2014-10-14-下午7:39:27
      */
     public DBManipulationPane createDBManipulationPaneInWidget(){
-    	return new DBManipulationInWidgetEventPane();
+        return new DBManipulationInWidgetEventPane();
     }
 
     /**
@@ -966,15 +966,15 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public void styleChange(){
 
     }
-    
+
     /**
-	 * 创建分享模板的按钮, 目前只有jworkbook实现了
-	 * 
-	 * @return 分享模板按钮
-	 * 
-	 */
+     * 创建分享模板的按钮, 目前只有jworkbook实现了
+     *
+     * @return 分享模板按钮
+     *
+     */
     public UIButton[] createShareButton(){
-    	return new UIButton[0]; 
+        return new UIButton[0];
     }
 
     /**

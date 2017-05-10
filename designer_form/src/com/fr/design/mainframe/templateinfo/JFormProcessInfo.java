@@ -35,8 +35,6 @@ public class JFormProcessInfo extends TemplateProcessInfo<Form> {
             WLayout wl = (WLayout) template.getContainer().getWidget(i);
             widgetCount += wl.getWidgetCount();
         }
-        int a = 1;
-        int b = 2;
         return widgetCount;
     }
 }

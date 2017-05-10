@@ -11,6 +11,7 @@ import com.fr.design.mainframe.FormSelection;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WParameterLayout;
 
 import java.awt.*;
 
@@ -24,7 +25,7 @@ public abstract class AccessDirection implements Direction {
     private int ymin;
     private int xmin;
 
-    abstract int getCursor();
+	abstract int getCursor();
 
     protected abstract Rectangle getDraggedBounds(int dx, int dy, Rectangle currentBounds, FormDesigner designer,
                                                   Rectangle oldBounds);
@@ -51,14 +52,14 @@ public abstract class AccessDirection implements Direction {
             x = designer.getRootComponent().getWidth();
         }
         //参数面板可以无下限拉长
-        if (y < 0) {
-            y = 0;
-        } else if (y > designer.getRootComponent().getHeight() + designer.getParaHeight() && designer.getSelectionModel().hasSelectionComponent()
+		if (y < 0) {
+			y = 0;
+		} else if (y > designer.getRootComponent().getHeight() + designer.getParaHeight() && designer.getSelectionModel().hasSelectionComponent()
                 && !designer.getSelectionModel().getSelection().getSelectedCreator().acceptType(XWParameterLayout.class)) {
-            y = designer.getRootComponent().getHeight() + designer.getParaHeight();
-        }
-        return new Point(x, y);
-    }
+			y = designer.getRootComponent().getHeight() + designer.getParaHeight();
+		}
+		return new Point(x, y);
+	}
 
     protected void sorptionPoint(Point point, Rectangle currentBounds, FormDesigner designer) {
         boolean findInX = currentBounds.getWidth() <= MoveUtils.SORPTION_UNIT;
@@ -95,10 +96,10 @@ public abstract class AccessDirection implements Direction {
                     findInY = true;
                 }
 
-            }
-            if (findInX && findInY) {
-                break;
-            }
+			}
+			if (findInX && findInY) {
+				break;
+			}
 
         }
         setDesignerStateModelProperties(designer, findInX, findInY, currentBounds, point);
@@ -124,7 +125,7 @@ public abstract class AccessDirection implements Direction {
     }
 
 
-    private WAbsoluteLayout getLayout(final FormDesigner designer) {
+    private WAbsoluteLayout getLayout(final FormDesigner designer){
         XLayoutContainer formLayoutContainer = (XLayoutContainer) XCreatorUtils.createXCreator(
                 designer.getTarget().getContainer());
         WAbsoluteLayout layout;
@@ -156,52 +157,50 @@ public abstract class AccessDirection implements Direction {
             return;
         }
         //设定控件最小高度21，因每次拖曳至少移动1，防止控件高度等于21时，拖曳导致rec.y的变化使得控件不停的向上或向下移动。
-        if (rec.height == MINHEIGHT) {
+        if(rec.height == MINHEIGHT){
             ymin = rec.y;
         }
-        if (rec.height == MINHEIGHT - 1) {
+        if(rec.height == MINHEIGHT - 1){
             ymin = ymin == rec.y ? rec.y : rec.y - 1;
         }
-        if (rec.height < MINHEIGHT) {
+        if(rec.height < MINHEIGHT){
             rec.height = MINHEIGHT;
             rec.y = ymin;
         }
         // 增加下宽度也设最小为21
         if (rec.width == MINWIDTH) {
-            xmin = rec.x;
+        	xmin = rec.x;
         }
-        if (rec.width == MINWIDTH - 1) {
-            xmin = xmin == rec.x ? rec.x : rec.x - 1;
+        if(rec.width == MINWIDTH - 1){
+        	xmin = xmin == rec.x ? rec.x : rec.x - 1;
         }
         if (rec.width < MINWIDTH) {
-            rec.width = MINWIDTH;
-            rec.x = xmin;
+        	rec.width = MINWIDTH;
+        	rec.x = xmin;
         }
 
     }
 
-    /**
-     * 更新鼠标指针形状
-     *
-     * @param formEditor 设计界面组件
-     */
-    public void updateCursor(FormDesigner formEditor) {
+	/**
+	 * 更新鼠标指针形状
+	 * @param formEditor 设计界面组件
+	 */
+	public void updateCursor(FormDesigner formEditor) {
 
-        // 调用位置枚举的多态方法getCursor获取鼠标形状
-        int type = getCursor();
+		// 调用位置枚举的多态方法getCursor获取鼠标形状
+		int type = getCursor();
 
-        if (type != formEditor.getCursor().getType()) {
-            // 设置当前形状
-            formEditor.setCursor(Cursor.getPredefinedCursor(type));
-        }
-    }
-
-    /**
-     * 生成组件备用的bound
-     *
-     * @param formEditor 设计界面组件
-     */
-    public void backupBounds(FormDesigner formEditor) {
-        formEditor.getSelectionModel().getSelection().backupBounds();
-    }
+		if (type != formEditor.getCursor().getType()) {
+			// 设置当前形状
+			formEditor.setCursor(Cursor.getPredefinedCursor(type));
+		}
+	}
+	
+	/**
+	 * 生成组件备用的bound
+	 * @param formEditor 设计界面组件
+	 */
+	public void backupBounds(FormDesigner formEditor) {
+		formEditor.getSelectionModel().getSelection().backupBounds();
+	}
 }

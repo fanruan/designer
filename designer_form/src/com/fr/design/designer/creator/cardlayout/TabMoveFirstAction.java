@@ -14,7 +14,7 @@ public class TabMoveFirstAction extends TabMoveAction {
     public TabMoveFirstAction(FormDesigner t, XCardSwitchButton xCardSwitchButton) {
         super(t, xCardSwitchButton);
         this.setName(Inter.getLocText("FR-Designer-Move_Tab_First"));
-        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/leftleft.png"));
+        this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/control/tab/first.png"));
     }
 
     @Override
