@@ -144,7 +144,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             if (designerEnvManager.nameEnvMap.size() <= 0) {
                 String installHome = StableUtils.getInstallHome();
                 if (installHome != null) {
-                    String name = Inter.getLocText("Default");
+                    String name = Inter.getLocText("FR-Designer_DEFAULT");
                     String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
                     designerEnvManager.putEnv(name, LocalEnv.createEnv(envPath));
                     designerEnvManager.setCurEnvName(name);

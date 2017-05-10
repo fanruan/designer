@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.previewPane;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +48,7 @@ public class PluginPreviewPane extends JPanel {
         nameLabel.setBackground(new Color(0x3394f0));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20,20,10,20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        String price0 = price == 0 ? "免费" : String.valueOf(price);
+        String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : String.valueOf(price);
         UILabel priceLabel = new UILabel(price0);
         priceLabel.setForeground(new Color(0xf46c4c));
         priceLabel.setFont(new Font("Song_TypeFace",0,10));

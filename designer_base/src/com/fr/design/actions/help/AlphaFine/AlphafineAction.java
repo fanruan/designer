@@ -35,7 +35,7 @@ public class AlphafineAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("AlphaFine");
+            return "AlphaFine";
         }
 
         @Override
