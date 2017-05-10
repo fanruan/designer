@@ -14,7 +14,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 是否开启alphafine
      */
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
     /**
      * 是否联网搜索
@@ -38,7 +38,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 设置
      */
-    private boolean isContainAction;
+    private boolean isContainAction = true;
 
     /**
      * 帮助文档
@@ -48,7 +48,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 模板
      */
-    private boolean isContainTemplate;
+    private boolean isContainTemplate = true;
 
     /**
      * 模板内容
