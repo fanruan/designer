@@ -15,13 +15,12 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/5/3.
  */
-public abstract class ThirdChartEditPane extends ChartEditPane implements ChartEditPaneProvider, ThirdChartInterface {
+public abstract class ThirdChartEditPane extends ChartEditPane implements ChartEditPaneProvider {
     //构建主面板
     protected void createTabsPane() {
         Icon[] iconArray = new Icon[paneList.size()];
         card = new CardLayout();
         center = new JPanel(card);
-
 
         tabsHeaderIconPane = new UIHeadGroup(iconArray) {
             @Override
@@ -164,5 +163,9 @@ public abstract class ThirdChartEditPane extends ChartEditPane implements ChartE
     protected String title4PopupWindow() {
         return "CustomChart";
     }
+
+    protected abstract void populateBean(Object ob);
+
+    protected abstract void updateBean(Object ob);
 
 }
