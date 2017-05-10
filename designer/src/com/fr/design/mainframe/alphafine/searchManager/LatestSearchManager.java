@@ -21,9 +21,10 @@ public class LatestSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult showLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
         modelList.add(new MoreModel("本地常用", false));
-        if (getLatestModelList() != null && getLatestModelList().size() > 0) {
-            modelList.addAll(getLatestModelList());
-        }
+        //todo: 常用逻辑需要重新设计
+//        if (getLatestModelList() != null && getLatestModelList().size() > 0) {
+//            modelList.addAll(getLatestModelList());
+//        }
         return modelList;
     }
 

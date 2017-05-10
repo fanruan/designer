@@ -18,6 +18,7 @@ public class ConcludeSearchManager implements AlphaFineSearchProcessor {
     }
     @Override
     public synchronized SearchResult showLessSearchResult(String searchText) {
+        //todo: 猜您喜欢逻辑需要重新设计
         this.modelList = new SearchResult();
         modelList.add(new MoreModel("猜您需要", false));
         return modelList;
