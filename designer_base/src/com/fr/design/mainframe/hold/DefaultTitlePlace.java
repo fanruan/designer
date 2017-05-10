@@ -8,7 +8,7 @@ public class DefaultTitlePlace extends AbstractTitleProcessor {
 
     @Override
     public void hold(Container container, Component loggerComponent, Component loginComponent) {
-        container.add(loggerComponent, BorderLayout.CENTER);
+        container.add(loggerComponent, BorderLayout.WEST);
         container.add(loginComponent, BorderLayout.EAST);
     }
 }

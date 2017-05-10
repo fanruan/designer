@@ -10,7 +10,10 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
-import com.fr.design.actions.help.*;
+import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.AlphaFine.AlphafineAction;
+import com.fr.design.actions.help.TutorialAction;
+import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
@@ -28,17 +31,14 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author richer
@@ -55,6 +55,7 @@ public abstract class ToolBarMenuDock {
     public static final int PANLE_HEIGNT = 26;
     private MenuDef[] menus;
     private ToolBarDef toolBarDef;
+    private ArrayList<UpdateAction> shortCuts;
 
     /**
      * 更新菜单
@@ -142,11 +143,36 @@ public abstract class ToolBarMenuDock {
 
         // 添加社区菜单
         addCommunityMenuDef(menuList);
-		
+
+        // 添加全部UpdateAction到actionmanager中
+        getAllUpdateActions(menuList);
+        UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCuts);
+
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
-	
-	public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
+
+    private List<UpdateAction> getAllUpdateActions(List<MenuDef> menuList) {
+        shortCuts = new ArrayList<>();
+        for (MenuDef menuDef : menuList) {
+            addUpdateActionToList(menuDef);
+        }
+        return shortCuts;
+    }
+
+    private void addUpdateActionToList(MenuDef menuDef) {
+        if (menuDef instanceof OpenRecentReportMenuDef) {
+            return;
+        }
+        for (ShortCut shortCut : menuDef.getShortcutList()) {
+            if (shortCut instanceof UpdateAction) {
+                shortCuts.add((UpdateAction) shortCut);
+            } else if (shortCut instanceof MenuDef) {
+                addUpdateActionToList((MenuDef) shortCut);
+            }
+        }
+    }
+
+    public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
         Locale locale = FRContext.getLocale();
         Locale [] locales =supportCommunityLocales();
         for(int i = 0; i < locales.length; i++) {
@@ -156,11 +182,12 @@ public abstract class ToolBarMenuDock {
             }
         }
     }
-	
-	public Locale[] supportCommunityLocales() {
+
+    public Locale[] supportCommunityLocales() {
         return new Locale[]{
                 Locale.CHINA,
                 Locale.TAIWAN,
+                Locale.US
         };
     }
 
@@ -264,6 +291,10 @@ public abstract class ToolBarMenuDock {
         return new UILabel();
     }
 
+    public Component createAlphafinePane(){
+        return new UILabel();
+    }
+
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Server"), 'S');
@@ -312,9 +343,10 @@ public abstract class ToolBarMenuDock {
     public ShortCut[] createHelpShortCuts() {
         java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
-        // 英文，把 video 的链接放到 Help 下面
+        // 英文，把 video 和帮助文档放到 Help 下面
         if (FRContext.getLocale().equals(Locale.US)) {
             shortCuts.add(new VideoAction());
+            shortCuts.add(new TutorialAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
         //shortCuts.add(new TutorialAction());
@@ -329,6 +361,8 @@ public abstract class ToolBarMenuDock {
         }
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
+        shortCuts.add(SeparatorDef.DEFAULT);
+        shortCuts.add(new AlphafineAction());
 
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
@@ -400,7 +434,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(Inter.getLocText(new String[]{"Polybolck", "Edit"}));
+            return polyToolBar(Inter.getLocText("FR-Designer_Polyblock_Edit"));
         }
     }
 
@@ -541,7 +575,7 @@ public abstract class ToolBarMenuDock {
 
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
-			if (insertPosition == MenuHandler.HIDE) {
+            if (insertPosition == MenuHandler.HIDE) {
                 return;
             }
             ShortCut shortCut = action.methodAction(handler);

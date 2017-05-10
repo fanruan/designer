@@ -1,0 +1,137 @@
+package com.fr.design.mainframe.alphafine.searchManager;
+
+import com.fr.base.Env;
+import com.fr.base.FRContext;
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.design.mainframe.alphafine.cell.cellModel.FileModel;
+import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.file.filetree.FileNode;
+import com.fr.general.FRLogger;
+import com.fr.stable.StableUtils;
+import com.fr.stable.project.ProjectConstants;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by XiaXiang on 2017/3/27.
+ */
+public class FileSearchManager implements AlphaFineSearchProcessor {
+    private SearchResult filterModelList;
+    private SearchResult lessModelList;
+    private SearchResult moreModelList;
+    private List<FileNode> fileNodes = null;
+    private static FileSearchManager fileSearchManager = null;
+
+    public synchronized static FileSearchManager getFileSearchManager() {
+        init();
+        return fileSearchManager;
+    }
+
+    public synchronized static void init() {
+        if (fileSearchManager == null) {
+            fileSearchManager = new FileSearchManager();
+        }
+    }
+
+    public synchronized SearchResult showLessSearchResult(String searchText) {
+        this.filterModelList = new SearchResult();
+        this.lessModelList = new SearchResult();
+        this.moreModelList = new SearchResult();
+        Env env = FRContext.getCurrentEnv();
+        fileNodes = new ArrayList<>();
+        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        for (FileNode node : fileNodes) {
+            boolean hasName = false;
+            String fileEnvPath = node.getEnvPath();
+            String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
+            if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
+                if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                    this.filterModelList.add(model);
+                    hasName = true;
+                }
+            }
+
+            if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainFileContent()) {
+                //文件的内容搜索
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(filePath));
+                    String line;
+                    int columnNumber;
+                    boolean test = false;
+                    while ((line = reader.readLine()) != null) {
+                        columnNumber = line.toLowerCase().indexOf(searchText);
+                        if (columnNumber != -1) {
+                            test = true;
+                        }
+                    }
+                    if (test && !hasName) {
+                        FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                        this.filterModelList.add(model);
+                    }
+                    reader.close();
+                } catch (FileNotFoundException e) {
+                    FRLogger.getLogger().error(e.getMessage());
+                } catch (IOException e) {
+                    FRLogger.getLogger().error(e.getMessage());
+                }
+            }
+
+        }
+
+        final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
+        for (int i = 0; i < length; i++) {
+            lessModelList.add(filterModelList.get(i));
+        }
+        for (int i = length; i< filterModelList.size(); i++) {
+            moreModelList.add(filterModelList.get(i));
+        }
+        if (filterModelList.size() > 0) {
+            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                lessModelList.add(0,new MoreModel("模板", "显示全部",true, CellType.FILE));
+            } else {
+                lessModelList.add(0,new MoreModel("模板", CellType.FILE));
+            }
+        }
+
+
+        return this.lessModelList;
+    }
+
+    @Override
+    public SearchResult showMoreSearchResult() {
+        return moreModelList;
+    }
+
+    private List<FileNode> listTpl(Env env, String rootFilePath, boolean recurse) {
+        List<FileNode> fileNodeList = new ArrayList<FileNode>();
+        try {
+            listAll(env, rootFilePath, fileNodeList, recurse);
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+        return fileNodeList;
+    }
+
+    private void listAll(Env env, String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
+        FileNode[] fns = env.listFile(rootFilePath);
+        for (int i = 0; i < fns.length; i++) {
+            FileNode fileNode = fns[i];
+            if (fileNode.isDirectory()) {
+                if (recurse) {
+                    listAll(env, rootFilePath + File.separator + fns[i].getName(), nodeList, true);
+                } else {
+                    nodeList.add(fns[i]);
+                }
+            } else {
+                nodeList.add(fileNode);
+            }
+        }
+    }
+
+}

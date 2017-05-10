@@ -20,6 +20,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -338,7 +339,17 @@ public class Designer extends BaseDesigner {
         }
         return userInfoPane;
     }
-    
+
+    /**
+     * 创建alphafine打开面板
+     *
+     * @return 面板组件
+     */
+    public Component createAlphafinePane() {
+        return AlphaFinePane.createAlphaFinePane();
+    }
+
+
     protected SplashPane createSplashPane() {
         return new ReportSplashPane();
     }

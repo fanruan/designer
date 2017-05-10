@@ -3,11 +3,9 @@
  */
 package com.fr.design;
 
-import com.fr.base.BaseXMLUtils;
-import com.fr.base.Env;
-import com.fr.base.FRContext;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.dav.LocalEnv;
+import com.fr.design.actions.help.AlphaFine.AlphafineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
@@ -29,8 +27,6 @@ import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.SimpleFormatter;
 
 /**
  * The manager of Designer GUI.
@@ -99,7 +95,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int bbsUid;
     //当前设计器用户的昵称显示（带消息）
     private String inShowBBsName;
-	//上一次登录弹窗的时间, 为了控制一天只弹一次窗口
+    //上一次登录弹窗的时间, 为了控制一天只弹一次窗口
     private String lastShowBBSTime;
     //上一次资讯弹窗时间， 为了控制一天只弹一次
     private String lastShowBBSNewsTime;
@@ -108,23 +104,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     //记录当前激活码的在线激活状态.
     private int activeKeyStatus = -1;
     private boolean joinProductImprove = true;
-    
-    
+
+    /**
+     * alphafine
+     */
+    private AlphafineConfigManager alphafineConfigManager = new AlphafineConfigManager();
+
+
     public static final String CAS_CERTIFICATE_PATH = "certificatePath";
-    
+
     public static final String CAS_CERTIFICATE_PASSWORD = "certificatePass";
-    
+
     public static final String CAS_PARAS = "CASParas";
-    
+
     //https链接所需的证书路径
     private String certificatePath = StringUtils.EMPTY;
-    
+
     //https链接所需的证书密码
     private String certificatePass = StringUtils.EMPTY;
-    
+
     //是否启用https连接
     private boolean isHttps = false;
-    
+
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
 
     /**
@@ -228,7 +229,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     StableUtils.makesureFileExist(new java.io.File(fileName));
                 }
                 Handler handler = new FileHandler(fileName, true);
-                
+
                 handler.setFormatter(new FRLogFormatter());
                 FRContext.getLogger().addLogHandler(handler);
             } catch (SecurityException e) {
@@ -238,7 +239,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
         }
     }
-    
+
     private File getDesignerEnvFile() {
         File envFile = getEnvFile();
         // james:FineReportEnv.xml文件没有必要做兼容，里面保存的主要是界面布局以及设计器激活的信息
@@ -284,38 +285,38 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         return envFile;
     }
-    
+
     /**
      * 是否启用了https
      * @return 同上
      */
     public boolean isHttps() {
-		return isHttps;
-	}
+        return isHttps;
+    }
 
 
-	public void setHttps(boolean isHttps) {
-		this.isHttps = isHttps;
-	}
+    public void setHttps(boolean isHttps) {
+        this.isHttps = isHttps;
+    }
 
 
-	public String getCertificatePath() {
-		return certificatePath;
-	}
+    public String getCertificatePath() {
+        return certificatePath;
+    }
 
 
-	public void setCertificatePath(String certificatePath) {
-		this.certificatePath = certificatePath;
-	}
+    public void setCertificatePath(String certificatePath) {
+        this.certificatePath = certificatePath;
+    }
 
 
-	public String getCertificatePass() {
-		return certificatePass;
-	}
-	
-	public void setCertificatePass(String certificatePass){
-		this.certificatePass = certificatePass;
-	}
+    public String getCertificatePass() {
+        return certificatePass;
+    }
+
+    public void setCertificatePass(String certificatePass){
+        this.certificatePass = certificatePass;
+    }
 
     /**
      * 返回上次打开的模板文件
@@ -532,40 +533,40 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setReportLengthUnit(short reportLengthUnit) {
         this.reportLengthUnit = reportLengthUnit;
     }
-    
+
     private void writeTempFile(File tempFile){
-    	try{
-			OutputStream fout = new FileOutputStream(tempFile);
-			XMLTools.writeOutputStreamXML(this, fout);
-			fout.flush();
-			fout.close();
-    	}catch (Exception e) {
-    		FRContext.getLogger().error(e.getMessage());
-		}
+        try{
+            OutputStream fout = new FileOutputStream(tempFile);
+            XMLTools.writeOutputStreamXML(this, fout);
+            fout.flush();
+            fout.close();
+        }catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
+        }
     }
 
-	/**
-	 * 保存设计器的配置文件, 该文件不在env的resource目录下
-	 * 而是在Consts.getEnvHome() + File.separator + Consts.APP_NAME
-	 * 
-	 *
-	 * @date 2014-9-29-上午11:04:23
-	 *
-	 */
+    /**
+     * 保存设计器的配置文件, 该文件不在env的resource目录下
+     * 而是在Consts.getEnvHome() + File.separator + Consts.APP_NAME
+     *
+     *
+     * @date 2014-9-29-上午11:04:23
+     *
+     */
     public void saveXMLFile() {
-    	File xmlFile = this.getDesignerEnvFile();
-		if (xmlFile == null) {
-			return;
-		}
-		if (!xmlFile.getParentFile().exists()) {//建立目录.
-			StableUtils.mkdirs(xmlFile.getParentFile());
-		}
-    	
-		String tempName = xmlFile.getName() + ProjectConstants.TEMP_SUFFIX;
-		File tempFile = new File(xmlFile.getParentFile(), tempName);
-		
-		writeTempFile(tempFile);
-		IOUtils.renameTo(tempFile, xmlFile);
+        File xmlFile = this.getDesignerEnvFile();
+        if (xmlFile == null) {
+            return;
+        }
+        if (!xmlFile.getParentFile().exists()) {//建立目录.
+            StableUtils.mkdirs(xmlFile.getParentFile());
+        }
+
+        String tempName = xmlFile.getName() + ProjectConstants.TEMP_SUFFIX;
+        File tempFile = new File(xmlFile.getParentFile(), tempName);
+
+        writeTempFile(tempFile);
+        IOUtils.renameTo(tempFile, xmlFile);
     }
 
     /**
@@ -574,26 +575,26 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setOracleSystemSpace(boolean displayOracleSystem) {
         this.useOracleSystemSpace = displayOracleSystem;
     }
-    
+
     /**
-	 * 是否加入产品改良
-	 * 
-	 * @return 是否加入产品改良
-	 * 
-	 */
-	public boolean isJoinProductImprove() {
-		return joinProductImprove;
-	}
+     * 是否加入产品改良
+     *
+     * @return 是否加入产品改良
+     *
+     */
+    public boolean isJoinProductImprove() {
+        return joinProductImprove;
+    }
 
-	/**
-	 * 设置加入产品改良
-	 * 
-	 */
-	public void setJoinProductImprove(boolean joinProductImprove) {
-		this.joinProductImprove = joinProductImprove;
-	}
+    /**
+     * 设置加入产品改良
+     *
+     */
+    public void setJoinProductImprove(boolean joinProductImprove) {
+        this.joinProductImprove = joinProductImprove;
+    }
 
-	/**
+    /**
      * 是否磁盘空间参数
      *
      * @return 是则返回true
@@ -1141,20 +1142,20 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     public String getBBSName() {
-		return bbsName;
-	}
+        return bbsName;
+    }
 
-	public void setBBSName(String bbsName) {
-		this.bbsName = bbsName;
-	}
-	
+    public void setBBSName(String bbsName) {
+        this.bbsName = bbsName;
+    }
+
     public String getBBSPassword() {
-		return bbsPassword;
-	}
+        return bbsPassword;
+    }
 
-	public void setBBSPassword(String bbsPassword) {
-		this.bbsPassword = bbsPassword;
-	}
+    public void setBBSPassword(String bbsPassword) {
+        this.bbsPassword = bbsPassword;
+    }
 
     public int getBbsUid() {
         return bbsUid;
@@ -1171,115 +1172,115 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public String getInShowBBsName() {
         return inShowBBsName;
     }
-	
-	public String getLastShowBBSTime() {
-		return lastShowBBSTime;
-	}
 
-	public void setLastShowBBSTime(String lastShowBBSTime) {
-		this.lastShowBBSTime = lastShowBBSTime;
-	}
-	
-	public String getLastShowBBSNewsTime() {
-		return lastShowBBSNewsTime;
-	}
+    public String getLastShowBBSTime() {
+        return lastShowBBSTime;
+    }
 
-	public void setLastShowBBSNewsTime(String lastShowBBSNewsTime) {
-		this.lastShowBBSNewsTime = lastShowBBSNewsTime;
-	}
+    public void setLastShowBBSTime(String lastShowBBSTime) {
+        this.lastShowBBSTime = lastShowBBSTime;
+    }
 
-	private void readXMLVersion(XMLableReader reader){
-		String tmpVal;
+    public String getLastShowBBSNewsTime() {
+        return lastShowBBSNewsTime;
+    }
+
+    public void setLastShowBBSNewsTime(String lastShowBBSNewsTime) {
+        this.lastShowBBSNewsTime = lastShowBBSNewsTime;
+    }
+
+    private void readXMLVersion(XMLableReader reader){
+        String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             reader.setXmlVersionByString(tmpVal);
         }
-	}
-	
-	private void readActiveKey(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readActiveKey(XMLableReader reader){
+        String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             this.setActivationKey(tmpVal);
         }
-	}
-	
-	private void readLogLocation(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readLogLocation(XMLableReader reader){
+        String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             this.setLogLocation(tmpVal);
         }
-	}
-	
-	private void readLanguage(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readLanguage(XMLableReader reader){
+        String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             this.setLanguage(Integer.parseInt(tmpVal));
         }
-	}
-	
-	private void readJettyPort(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readJettyPort(XMLableReader reader){
+        String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             this.setJettyServerPort(Integer.parseInt(tmpVal));
         }
-	}
-	
-	private void readPageLengthUnit(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readPageLengthUnit(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.pageLengthUnit = Short.parseShort(tmpVal);
         }
-	}
-	
-	private void readReportLengthUnit(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readReportLengthUnit(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.reportLengthUnit = Short.parseShort(tmpVal);
         }
-	}
-	
-	private void readLastOpenFile(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readLastOpenFile(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.lastOpenFilePath = tmpVal;
         }
-	}
-	
-	private void readEncrytionKey(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readEncrytionKey(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.encryptionKey = tmpVal;
         }
-	}
-	
-	private void readBBSName(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readBBSName(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.bbsName = tmpVal;
         }
-	}
-	
-	private void readBBSPassword(XMLableReader reader){
-		String tmpVal;
+    }
+
+    private void readBBSPassword(XMLableReader reader){
+        String tmpVal;
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.bbsPassword = CodeUtils.passwordDecode(tmpVal);
         }
-	}
-	
-	private void readLastBBSTime(XMLableReader reader){
-		String tmpVal;
-		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-			this.lastShowBBSTime = tmpVal;
-		}
-	}
-	
-	private void readLastBBSNewsTime(XMLableReader reader){
-		String tmpVal;
-		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-			this.lastShowBBSNewsTime = tmpVal;
-		}
-	}
+    }
 
-	/**
+    private void readLastBBSTime(XMLableReader reader){
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.lastShowBBSTime = tmpVal;
+        }
+    }
+
+    private void readLastBBSNewsTime(XMLableReader reader){
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.lastShowBBSNewsTime = tmpVal;
+        }
+    }
+
+    /**
      * Read XML.<br>
      * The method will be invoked when read data from XML file.<br>
      * May override the method to read the data that you saved.
@@ -1291,7 +1292,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (reader.isChildNode()) {
             String name = reader.getTagName();
             if (name.equals("XMLVersion")) {// 兼容09.12.30前把XMLVersion写在根目录下的第一个标签中
-            	readXMLVersion(reader);
+                readXMLVersion(reader);
             } else if (name.equals("Attributes")) {
                 this.readAttributes(reader);
             } else if (name.equals("ReportPaneAttributions")) {
@@ -1301,55 +1302,61 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             } else if ("Envs".equals(name) || name.equals("ReportServerMap")) {
                 this.readCurEnv(reader);
             } else if (name.equals("ActivationKey")) {
-            	readActiveKey(reader);
+                readActiveKey(reader);
             } else if ("LogLocation".equals(name)) {
-            	readLogLocation(reader);
+                readLogLocation(reader);
             } else if ("LogLevel".equals(name)) {
                 this.readLogLevel(reader);
             } else if ("Language".equals(name)) {
-            	readLanguage(reader);
+                readLanguage(reader);
             } else if ("JettyServerPort".equals(name)) {
-            	readJettyPort(reader);
+                readJettyPort(reader);
             } else if ("PLengthUnit".equals(name)) {
-            	readPageLengthUnit(reader);
+                readPageLengthUnit(reader);
             } else if ("RLengthUnit".equals(name)) {
-            	readReportLengthUnit(reader);
+                readReportLengthUnit(reader);
             } else if ("LastOpenFilePath".equals(name)) {
-            	readLastOpenFile(reader);
+                readLastOpenFile(reader);
             } else if ("EncryptionKey".equals(name)) {
-            	readEncrytionKey(reader);
+                readEncrytionKey(reader);
             } else if ("jdkHome".equals(name)) {
                 this.jdkHome = reader.getElementValue();
             } else if ("bbsName".equals(name)){
-            	readBBSName(reader);
+                readBBSName(reader);
             } else if ("bbsPassword".equals(name)){
-            	readBBSPassword(reader);
+                readBBSPassword(reader);
             } else if ("lastBBSTime".equals(name)){
-            	readLastBBSTime(reader);
+                readLastBBSTime(reader);
             } else if ("lastBBSNewsTime".equals(name)){
-            	readLastBBSNewsTime(reader);
+                readLastBBSNewsTime(reader);
             }else if ("uuid".equals(name)){
-            	readUUID(reader);
+                readUUID(reader);
             } else if ("status".equals(name)){
-            	readActiveStatus(reader);
+                readActiveStatus(reader);
             } else if (ComparatorUtils.equals(CAS_PARAS,name)){
-            	readHttpsParas(reader);
-            }else {
+                readHttpsParas(reader);
+            } else if (name.equals("AlphaFineConfigManager")) {
+                readAlphaFineAttr(reader);
+            } else {
                 readLayout(reader, name);
             }
         }
     }
-    
+
+    private void readAlphaFineAttr(XMLableReader reader) {
+        reader.readXMLObject(this.alphafineConfigManager = new AlphafineConfigManager());
+    }
+
     private void readHttpsParas(XMLableReader reader){
-    	String tempVal;
-    	if((tempVal = reader.getAttrAsString(CAS_CERTIFICATE_PATH, null)) != null){
-    		this.setCertificatePath(tempVal);
-    	}
-    	if((tempVal = reader.getAttrAsString(CAS_CERTIFICATE_PASSWORD, null)) != null){
-    		this.setCertificatePass(tempVal);
-    	}
-    	
-    	this.setHttps(reader.getAttrAsBoolean("enable", false));
+        String tempVal;
+        if((tempVal = reader.getAttrAsString(CAS_CERTIFICATE_PATH, null)) != null){
+            this.setCertificatePath(tempVal);
+        }
+        if((tempVal = reader.getAttrAsString(CAS_CERTIFICATE_PASSWORD, null)) != null){
+            this.setCertificatePass(tempVal);
+        }
+
+        this.setHttps(reader.getAttrAsBoolean("enable", false));
     }
 
 
@@ -1367,7 +1374,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             this.setLastEastRegionToolPaneY(Integer.parseInt(tmpVal));
         }
         if ((tmpVal = reader.getAttrAsString("containerWidth", null)) != null) {
-        	// bug33217,705是好的，不知道711里因为什么把这段代码注释了，现打开
+            // bug33217,705是好的，不知道711里因为什么把这段代码注释了，现打开
             this.setLastEastRegionContainerWidth(Integer.parseInt(tmpVal));
         }
     }
@@ -1512,11 +1519,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
 
     private void readLogLevel(XMLableReader reader) {
-		String level;
-		if ((level = reader.getElementValue()) != null) {
-			this.setLogLevel(FRLevel.getByName(level).getLevel());
-		}
-	}
+        String level;
+        if ((level = reader.getElementValue()) != null) {
+            this.setLogLevel(FRLevel.getByName(level).getLevel());
+        }
+    }
 
 
     /**
@@ -1539,52 +1546,59 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeUUID(writer);
         writeActiveStatus(writer);
         writeHttpsParas(writer);
+        writeAlphaFineAttr(writer);
         writer.end();
     }
-	
-	public String getUUID() {
-		return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
-	}
-	
-	public int getActiveKeyStatus() {
-		return activeKeyStatus;
-	}
 
-	public void setActiveKeyStatus(int activeKeyStatus) {
-		this.activeKeyStatus = activeKeyStatus;
-	}
+    private void writeAlphaFineAttr(XMLPrintWriter writer) {
+        if (this.alphafineConfigManager != null) {
+            this.alphafineConfigManager.writeXML(writer);
+        }
+    }
 
-	//写入uuid
+    public String getUUID() {
+        return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
+    }
+
+    public int getActiveKeyStatus() {
+        return activeKeyStatus;
+    }
+
+    public void setActiveKeyStatus(int activeKeyStatus) {
+        this.activeKeyStatus = activeKeyStatus;
+    }
+
+    //写入uuid
     private void writeUUID(XMLPrintWriter writer){
-    	writer.startTAG("uuid");
-    	writer.textNode(getUUID());
-    	writer.end();
+        writer.startTAG("uuid");
+        writer.textNode(getUUID());
+        writer.end();
     }
 
     //读取uuid
-	private void readUUID(XMLableReader reader){
-		String tmpVal;
-		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-			this.uuid = tmpVal;
-		}
-	}
-	
-	//写入激活状态
-	private void writeActiveStatus(XMLPrintWriter writer){
-		if (this.activeKeyStatus == 0){
-			writer.startTAG("status");
-			writer.textNode(this.activeKeyStatus + "");
-			writer.end();
-		}
-	}
-	
-	//读取激活状态
-	private void readActiveStatus(XMLableReader reader){
-		String tmpVal;
-		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-			this.activeKeyStatus = Integer.parseInt(tmpVal);
-		}
-	}
+    private void readUUID(XMLableReader reader){
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.uuid = tmpVal;
+        }
+    }
+
+    //写入激活状态
+    private void writeActiveStatus(XMLPrintWriter writer){
+        if (this.activeKeyStatus == 0){
+            writer.startTAG("status");
+            writer.textNode(this.activeKeyStatus + "");
+            writer.end();
+        }
+    }
+
+    //读取激活状态
+    private void readActiveStatus(XMLableReader reader){
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.activeKeyStatus = Integer.parseInt(tmpVal);
+        }
+    }
 
     private void writeRecentOpenFileAndEnvList(XMLPrintWriter writer) {
         checkRecentOpenedFileNum();
@@ -1633,7 +1647,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             writer.attr("useOracleSystemSpace", this.isOracleSystemSpace());
         }
         if (!this.isJoinProductImprove()){
-        	writer.attr("joinProductImprove", this.isJoinProductImprove());
+            writer.attr("joinProductImprove", this.isJoinProductImprove());
         }
         if (!this.isAutoBackUp()) {
             writer.attr("autoBackUp", this.isAutoBackUp());
@@ -1689,7 +1703,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         if (this.level != null) {
             writer.startTAG("LogLevel");
-			writer.textNode(FRLevel.getByLevel(this.level).getName());
+            writer.textNode(FRLevel.getByLevel(this.level).getName());
             writer.end();
         }
         if (StringUtils.isNotBlank(jdkHome)) {
@@ -1697,7 +1711,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             writer.textNode(jdkHome);
             writer.end();
         }
-        
+
         writeBBSRelated(writer);
 
         writer.startTAG("PLengthUnit");
@@ -1715,46 +1729,46 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writer.startTAG("Language").textNode(String.valueOf(this.language)).end()
                 .startTAG("JettyServerPort").textNode(String.valueOf(this.jettyServerPort)).end();
     }
-    
+
     //写论坛相关的两个属性
     private void writeBBSRelated(XMLPrintWriter writer){
         if (StringUtils.isNotBlank(bbsName)) {
-        	writer.startTAG("bbsName");
-        	writer.textNode(bbsName);
-        	writer.end();
+            writer.startTAG("bbsName");
+            writer.textNode(bbsName);
+            writer.end();
         }
-        
+
         if (StringUtils.isNotBlank(bbsPassword)){
-        	writer.startTAG("bbsPassword");
-        	writer.textNode(CodeUtils.passwordEncode(bbsPassword));
-        	writer.end();
+            writer.startTAG("bbsPassword");
+            writer.textNode(CodeUtils.passwordEncode(bbsPassword));
+            writer.end();
         }
-        
+
         if (StringUtils.isNotEmpty(this.lastShowBBSTime)){
-        	writer.startTAG("lastBBSTime");
-        	writer.textNode(lastShowBBSTime);
-        	writer.end();
+            writer.startTAG("lastBBSTime");
+            writer.textNode(lastShowBBSTime);
+            writer.end();
         }
-        
+
         if (StringUtils.isNotEmpty(this.lastShowBBSNewsTime)){
-        	writer.startTAG("lastBBSNewsTime");
-        	writer.textNode(lastShowBBSNewsTime);
-        	writer.end();
+            writer.startTAG("lastBBSNewsTime");
+            writer.textNode(lastShowBBSNewsTime);
+            writer.end();
         }
     }
-    
+
     private void writeHttpsParas(XMLPrintWriter writer){
-		writer.startTAG(CAS_PARAS);
-		if(StringUtils.isNotBlank(certificatePath)){
-			writer.attr(CAS_CERTIFICATE_PATH, certificatePath);
-		}
-		if(StringUtils.isNotBlank(certificatePass)){
-			writer.attr(CAS_CERTIFICATE_PASSWORD, certificatePass);
-		}
-		if(isHttps){
-			writer.attr("enable", true);
-		}
-		writer.end();
+        writer.startTAG(CAS_PARAS);
+        if(StringUtils.isNotBlank(certificatePath)){
+            writer.attr(CAS_CERTIFICATE_PATH, certificatePath);
+        }
+        if(StringUtils.isNotBlank(certificatePass)){
+            writer.attr(CAS_CERTIFICATE_PASSWORD, certificatePass);
+        }
+        if(isHttps){
+            writer.attr("enable", true);
+        }
+        writer.end();
     }
 
     private void writeReportPaneAttributions(XMLPrintWriter writer) {
@@ -1814,5 +1828,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(env);
 
         return env;
+    }
+
+    public AlphafineConfigManager getAlphafineConfigManager() {
+        return alphafineConfigManager;
+    }
+
+    public void setAlphafineConfigManager(AlphafineConfigManager alphafineConfigManager) {
+        this.alphafineConfigManager = alphafineConfigManager;
     }
 }

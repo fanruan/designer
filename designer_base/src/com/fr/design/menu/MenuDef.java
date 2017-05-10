@@ -33,7 +33,7 @@ public class MenuDef extends ShortCut {
 	protected UIMenu createdJMenu;
 	protected UIButton createdButton;
 	protected JPopupMenu popupMenu;
-    private boolean hasScrollSubMenu;
+	private boolean hasScrollSubMenu;
 
 	private String anchor;
 
@@ -65,9 +65,9 @@ public class MenuDef extends ShortCut {
 		this.mnemonic = mnemonic;
 	}
 
-    public void setHasScrollSubMenu(boolean scrollSubMenu) {
-        this.hasScrollSubMenu = scrollSubMenu;
-    }
+	public void setHasScrollSubMenu(boolean scrollSubMenu) {
+		this.hasScrollSubMenu = scrollSubMenu;
+	}
 
 	public String getIconPath() {
 		return iconPath;
@@ -93,38 +93,42 @@ public class MenuDef extends ShortCut {
 		this.anchor = anchor;
 	}
 
+	public List<ShortCut> getShortcutList() {
+		return this.shortcutList;
+	}
+
 	/**
 	 * 插入菜单项
 	 * @param index 插入的位置
 	 * @param shortCut 菜单信息
 	 */
 	public void insertShortCut(int index, ShortCut shortCut) {
-        int size = this.shortcutList.size();
-        index = Math.min(index, size);
+		int size = this.shortcutList.size();
+		index = Math.min(index, size);
 		this.shortcutList.add(index, shortCut);
 	}
 
-    /**
-     * 用可变参数，方便添加数组
-     * @param shortcut 参数   存储菜单项信息
-     */
+	/**
+	 * 用可变参数，方便添加数组
+	 * @param shortcut 参数   存储菜单项信息
+	 */
 	public void addShortCut(ShortCut... shortcut) {
 		for (ShortCut i : shortcut) {
 			this.shortcutList.add(i);
 		}
 	}
 
-    /**
-     * 清理
-     */
-    public void clearShortCuts() {
+	/**
+	 * 清理
+	 */
+	public void clearShortCuts() {
 		this.shortcutList.clear();
 	}
 
-    /**
-     * 生成UIButton
-     * @return  菜单按钮
-     */
+	/**
+	 * 生成UIButton
+	 * @return  菜单按钮
+	 */
 	public UIButton createUIButton() {
 		if (createdButton == null) {
 			if (iconPath != null) {
@@ -146,17 +150,17 @@ public class MenuDef extends ShortCut {
 		this.tooltip = text;
 	}
 
-    /**
-     * 生成JMenu
-     * @return     菜单
-     */
+	/**
+	 * 生成JMenu
+	 * @return     菜单
+	 */
 	public UIMenu createJMenu() {
 		if (createdJMenu == null) {
-            if (hasScrollSubMenu) {
-                createdJMenu = new UIScrollMenu(this.getName());
-            } else {
-                createdJMenu = new UIMenu(this.getName());
-            }
+			if (hasScrollSubMenu) {
+				createdJMenu = new UIScrollMenu(this.getName());
+			} else {
+				createdJMenu = new UIMenu(this.getName());
+			}
 			createdJMenu.setMnemonic(this.getMnemonic());
 			if (this.iconPath != null) {
 				createdJMenu.setIcon(BaseUtils.readIcon(this.iconPath));
@@ -174,20 +178,20 @@ public class MenuDef extends ShortCut {
 	protected ContainerListener getContainerListener() {
 		return  null;
 	}
-    /**
-     * 生成 JPopupMenu
-     * @return       弹出菜单
-     */
+	/**
+	 * 生成 JPopupMenu
+	 * @return       弹出菜单
+	 */
 	public JPopupMenu createJPopupMenu() {
 		UIMenu menu = createJMenu();
 		updateMenu();
 		return menu.getPopupMenu();
 	}
 
-    /**
-     * 设置是否可用
-     * @param b 布尔型
-     */
+	/**
+	 * 设置是否可用
+	 * @param b 布尔型
+	 */
 	@Override
 	public void setEnabled(boolean b) {
 		this.enabled = b;
@@ -201,10 +205,10 @@ public class MenuDef extends ShortCut {
 		}
 	}
 
-    /**
-     * 按钮状态
-     * @return 状态
-     */
+	/**
+	 * 按钮状态
+	 * @return 状态
+	 */
 	@Override
 	public boolean isEnabled() {
 		return enabled;
@@ -224,12 +228,12 @@ public class MenuDef extends ShortCut {
 		}
 	}
 
-    /**
-     * 更新菜单
-     * @param popupMenu 菜单
-     */
+	/**
+	 * 更新菜单
+	 * @param popupMenu 菜单
+	 */
 	protected void updatePopupMenu(JPopupMenu popupMenu) {
-        removeComponent(popupMenu);
+		removeComponent(popupMenu);
 		this.popupMenu = popupMenu;
 		// 一开始是不能插入分隔符的
 		boolean nec_seperator = false;
@@ -256,32 +260,32 @@ public class MenuDef extends ShortCut {
 
 		if (createdJMenu != null && createdJMenu.getPopupMenu() != null){
 			setEnabled(createdJMenu.getPopupMenu().getComponentCount() > 0 && enabled);
-        }
+		}
 	}
 
-    /**
-     * 删除所有组件 除了滚动条
-     * @param popupMenu 菜单
-     */
-    public void removeComponent(JPopupMenu popupMenu){
-        UIScrollBar uiScrollBar = new UIScrollBar();
-        if(hasScrollSubMenu){
-            for(Component comp : popupMenu.getComponents()){
-                if(comp instanceof UIScrollBar){
-                    uiScrollBar =(UIScrollBar) comp;
-                }
-            }
-        }
-        popupMenu.removeAll();
-        if(hasScrollSubMenu){
-            popupMenu.add(uiScrollBar);
-        }
-    }
+	/**
+	 * 删除所有组件 除了滚动条
+	 * @param popupMenu 菜单
+	 */
+	public void removeComponent(JPopupMenu popupMenu){
+		UIScrollBar uiScrollBar = new UIScrollBar();
+		if(hasScrollSubMenu){
+			for(Component comp : popupMenu.getComponents()){
+				if(comp instanceof UIScrollBar){
+					uiScrollBar =(UIScrollBar) comp;
+				}
+			}
+		}
+		popupMenu.removeAll();
+		if(hasScrollSubMenu){
+			popupMenu.add(uiScrollBar);
+		}
+	}
 
-    /**
-     * 添加菜单项
-     * @param menu 菜单
-     */
+	/**
+	 * 添加菜单项
+	 * @param menu 菜单
+	 */
 	@Override
 	public void intoJPopupMenu(JPopupMenu menu) {
 		updateMenu();
@@ -289,10 +293,10 @@ public class MenuDef extends ShortCut {
 		menu.add(this.createJMenu());
 	}
 
-    /**
-     * 添加
-     * @param toolBar 菜单条
-     */
+	/**
+	 * 添加
+	 * @param toolBar 菜单条
+	 */
 	@Override
 	public void intoJToolBar(JToolBar toolBar) {
 		toolBar.add(this.createUIButton());
