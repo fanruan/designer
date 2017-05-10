@@ -14,6 +14,8 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	 * 创建图表属性表实例.
 	 */
 	private synchronized static ChartPropertyPane getInstance() {
+		//todo
+		//创建新图表时，创建属性表配置面板
 		singleton = new ChartPropertyPane();
 		return singleton;
 	}
