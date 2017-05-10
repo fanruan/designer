@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.previewPane;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 
 import javax.swing.*;
@@ -12,14 +13,17 @@ import java.awt.*;
  */
 public class PluginPreviewPane extends JPanel {
     public PluginPreviewPane(String title, Image image, String version, String jartime, CellType type, int price) {
-        this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(50,0,0,0));
-        this.setBackground(Color.white);
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(50,0,0,0));
+        setBackground(Color.white);
         UILabel imageLabel = new UILabel();
         image = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(image));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imageLabel.setBackground(Color.black);
         UILabel nameLabel = new UILabel(title);
-        nameLabel.setVerticalAlignment(SwingConstants.CENTER);
+        nameLabel.setBackground(Color.yellow);
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel line = new JPanel();
         line.setPreferredSize(new Dimension(200,1));
         line.setBackground(new Color(0xd2d2d2));
@@ -30,7 +34,8 @@ public class PluginPreviewPane extends JPanel {
         bottomPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
         if (type == CellType.PLUGIN) {
             UILabel versionLabel = new UILabel("V" + version);
-            versionLabel.setBorder(BorderFactory.createEmptyBorder(0,20,10,20));
+            versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            versionLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
             versionLabel.setForeground(new Color(0x666666));
             versionLabel.setFont(new Font("Song_TypeFace",0,12));
             panel.add(versionLabel, BorderLayout.CENTER);
