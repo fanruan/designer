@@ -39,7 +39,11 @@ public class AlphaFineConstants {
 
     public static final Dimension CLOSE_BUTTON_SIZE = new Dimension(40, 40);
 
+    public static final Color WHITE = new Color(0xf9f9f9);
+
     public static final Color GRAY = new Color(0xd2d2d2);
+
+    public static final Color LIGHT_GRAY = new Color(0xcccccc);
 
     public static final Color BLUE = new Color(0x3394f0);
 

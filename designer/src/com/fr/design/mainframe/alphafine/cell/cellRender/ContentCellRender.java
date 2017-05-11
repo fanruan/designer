@@ -40,7 +40,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         name.setHorizontalTextPosition(SwingConstants.RIGHT);
         if (model.getDescription() != null) {
             content.setText("-" + model.getDescription());
-            content.setForeground(new Color(0xcccccc));
+            content.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(content, BorderLayout.CENTER);
         }
         panel.add(name, BorderLayout.WEST);
