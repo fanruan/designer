@@ -82,4 +82,9 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
         return getPlotTypePane().title4PopupWindow();
     }
 
+    @Override
+    public int currentAPILevel() {
+        return CURRENT_API_LEVEL;
+    }
+
 }
