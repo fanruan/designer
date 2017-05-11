@@ -24,7 +24,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 快捷键设置
      */
-    private String shortcuts = "meta + F";
+    private String shortcuts = OperatingSystem.isMacOS()? "meta + F" : "ctr + F";
 
     /**
      * 搜索范围
