@@ -45,7 +45,7 @@ public class PluginPreviewPane extends JPanel {
             jartimeLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
             bottomPane.add(jartimeLabel, BorderLayout.EAST);
         }
-        nameLabel.setFont(new Font("Song_TypeFace",0,18));
+        nameLabel.setFont(AlphaFineConstants.LARGE_FONT);
         nameLabel.setBackground(AlphaFineConstants.BLUE);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20,20,10,20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
