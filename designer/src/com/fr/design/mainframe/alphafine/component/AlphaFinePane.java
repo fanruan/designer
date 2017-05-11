@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class AlphaFinePane extends BasicPane {
         }
         UIButton refreshButton = new UIButton();
         refreshButton.setIcon(BaseUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
-        refreshButton.setToolTipText("AlphaFine智能搜索");
+        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_Alphafine"));
         refreshButton.set4ToolbarButton();
         this.add(refreshButton);
         refreshButton.addActionListener(new ActionListener() {
