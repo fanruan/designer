@@ -12,10 +12,10 @@ import com.fr.design.chart.gui.ChartWidgetOption;
 import com.fr.design.chartinterface.*;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.extra.ChartTypeInterfaceCloseableHandler;
-import com.fr.design.gui.chart.ChartEditPaneProvider;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -415,7 +415,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
     }
 
     //获取指定图表的编辑面板
-    public ChartEditPaneProvider getChartConfigPane(String plotID) {
+    public ChartEditPane getChartConfigPane(String plotID) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
@@ -427,7 +427,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plotID);
     }
 
-    private ChartEditPaneProvider getChartConfigPane(String priority, String plotID) {
+    private ChartEditPane getChartConfigPane(String priority, String plotID) {
         return chartTypeInterfaces.get(priority).get(plotID).getChartConfigPane(plotID);
     }
 

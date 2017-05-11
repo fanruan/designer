@@ -3,7 +3,6 @@ package com.fr.design.chart.fun.impl;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
-import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -28,7 +27,7 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new ChartDataPane(listener);
+        return null;
     }
 
     @Override
@@ -42,7 +41,7 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
-        return getPlotSeriesPane();
+        return null;
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(){
@@ -54,12 +53,12 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
     }
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
-        return new DataSeriesConditionPane();
+        return null;
     }
 
     @Override
     public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
-        return new AbstractChartAttrPane[]{};
+        return null;
     }
 
     @Override
