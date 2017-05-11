@@ -45,6 +45,11 @@ public class AlphafineConfigPane extends BasicPane {
     private static final String DISPLAY_EQUALS = "+";
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
+    private static final String COMMAND = "META";
+    private static final String SMALL_COMMAND = "meta";
+    private static final String DISPLAY_COMMAND = "\u2318";
+
+
     private static final double COLUMN_GAP = 180;
     private static final double ROW_GAP = 25;
     private KeyStroke shortCutKeyStore = null;
@@ -160,7 +165,7 @@ public class AlphafineConfigPane extends BasicPane {
         this.isContainPluginCheckbox.setEnabled(alphafineConfigManager.isSearchOnLine());
         this.isContainConcludeCheckbox.setSelected(alphafineConfigManager.isContainConclude() && alphafineConfigManager.isSearchOnLine());
         this.isContainConcludeCheckbox.setEnabled(alphafineConfigManager.isSearchOnLine());
-        this.shortcutsField.setText(alphafineConfigManager.getShortcuts());
+        this.shortcutsField.setText(getDisplayShortCut(alphafineConfigManager.getShortcuts()));
         shortCutKeyStore = convert2KeyStroke(alphafineConfigManager.getShortcuts());
     }
 
@@ -191,7 +196,7 @@ public class AlphafineConfigPane extends BasicPane {
         return shotrCut.replace(TYPE, DISPLAY_TYPE).replace(BACK_SLASH, DISPLAY_BACK_SLASH).replace(SLASH, DISPLAY_SLASH)
                 .replace(CONTROL, DISPLAY_CONTROL).replace(OPEN_BRACKET, DISPLAY_OPEN_BRACKET).replace(CLOSE_BRACKET, DISPLAY_CLOSE_BRACKET)
                 .replace(COMMA, DISPLAY_COMMA).replace(PERIOD, DISPLAY_PERIOD).replace(SEMICOLON, DISPLAY_SEMICOLON).replace(QUOTE, DISPLAY_QUOTE)
-                .replace(EQUALS, DISPLAY_EQUALS).replace(MINUS, DISPLAY_MINUS);
+                .replace(EQUALS, DISPLAY_EQUALS).replace(MINUS, DISPLAY_MINUS).replace(COMMAND, DISPLAY_COMMAND).replace(SMALL_COMMAND, DISPLAY_COMMAND);
     }
 
 
