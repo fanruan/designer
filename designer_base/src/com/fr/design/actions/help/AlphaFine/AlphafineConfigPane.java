@@ -45,6 +45,8 @@ public class AlphafineConfigPane extends BasicPane {
     private static final String DISPLAY_EQUALS = "+";
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
+    private static final double COLUMN_GAP = 180;
+    private static final double ROW_GAP = 25;
     private KeyStroke shortCutKeyStore = null;
     private UICheckBox isEnabledCheckbox, isSearchOnlineCheckbox, isContainConcludeCheckbox, isContainActionCheckbox, isContainDocumentCheckbox, isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox;
     private UITextField shortcutsField;
@@ -73,10 +75,9 @@ public class AlphafineConfigPane extends BasicPane {
     }
 
     private void createSearchConfigPane(JPanel contentPane) {
-        double p = 25;
-        double d = 180;
-        double[] rowSize = {p, p};
-        double[] columnSize = {d, d, d};
+        double[] rowSize = {ROW_GAP, ROW_GAP};
+
+        double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_SearchRange"));
         isContainConcludeCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Conclude"));
@@ -174,7 +175,7 @@ public class AlphafineConfigPane extends BasicPane {
         alphafineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());
         alphafineConfigManager.setContainTemplate(this.isContainTemplateCheckbox.isSelected());
         alphafineConfigManager.setContainFileContent(this.isContainFileContentCheckbox.isSelected());
-        alphafineConfigManager.setShortcuts(shortCutKeyStore != null? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
+        alphafineConfigManager.setShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
         designerEnvManager.setAlphafineConfigManager(alphafineConfigManager);
         try {
             DesignerEnvManager.loadLogSetting();
