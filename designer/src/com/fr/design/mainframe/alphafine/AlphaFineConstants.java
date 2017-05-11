@@ -39,11 +39,19 @@ public class AlphaFineConstants {
 
     public static final Dimension CLOSE_BUTTON_SIZE = new Dimension(40, 40);
 
+    public static final Color WHITE = new Color(0xf9f9f9);
+
     public static final Color GRAY = new Color(0xd2d2d2);
+
+    public static final Color LIGHT_GRAY = new Color(0xcccccc);
 
     public static final Color BLUE = new Color(0x3394f0);
 
     public static final Color BLACK = new Color(0x222222);
+
+    public static final Color DARK_GRAY = new Color(0x666666);
+
+    public static final Color RED = new Color(0xf46c4c);
 
     public static final Font SMALL_FONT = new Font("Song_TypeFace",0,10);
 

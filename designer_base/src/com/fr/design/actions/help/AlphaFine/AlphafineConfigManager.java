@@ -1,6 +1,7 @@
 package com.fr.design.actions.help.AlphaFine;
 
 import com.fr.stable.OperatingSystem;
+import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLable;
 import com.fr.stable.xml.XMLableReader;
@@ -11,6 +12,7 @@ import javax.swing.*;
  * Created by XiaXiang on 2017/4/5.
  */
 public class AlphafineConfigManager implements XMLable {
+
     /**
      * 是否开启alphafine
      */
@@ -19,12 +21,12 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 是否联网搜索
      */
-    private boolean isSearchOnLine;
+    private boolean isSearchOnLine = true;
 
     /**
      * 快捷键设置
      */
-    private String shortcuts = "meta + F";
+    private String shortcuts;
 
     /**
      * 搜索范围
@@ -43,7 +45,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 帮助文档
      */
-    private boolean isContainDocument;
+    private boolean isContainDocument = true;
 
     /**
      * 模板
@@ -58,7 +60,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 应用中心
      */
-    private boolean isContainPlugin;
+    private boolean isContainPlugin = true;
 
     /**
      * 快捷键
@@ -122,7 +124,18 @@ public class AlphafineConfigManager implements XMLable {
     }
 
     public String getShortcuts() {
+        if (StringUtils.isBlank(shortcuts)) {
+            return getDefaultShortCuts();
+        }
         return shortcuts;
+    }
+
+    /**
+     * 返回默认快捷键
+     * @return
+     */
+    private String getDefaultShortCuts() {
+        return OperatingSystem.isMacOS()? "meta + F" : "ctrl + F";
     }
 
     public void setShortcuts(String shortcuts) {

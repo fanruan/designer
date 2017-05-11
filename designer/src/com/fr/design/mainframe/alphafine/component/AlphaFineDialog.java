@@ -50,7 +50,7 @@ import java.util.concurrent.ExecutionException;
  * Created by XiaXiang on 2017/3/21.
  */
 public class AlphaFineDialog extends UIDialog {
-    private AlphaTextField searchTextField;
+    private AlphaFineTextField searchTextField;
     private UIButton closeButton;
     private JPanel searchResultPane;
     private Point pressedPoint;
@@ -68,10 +68,11 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void initComponents() {
-        searchTextField = new AlphaTextField("AlphaFine");
+        searchTextField = new AlphaFineTextField("AlphaFine");
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
         searchTextField.setBorderPainted(false);
+        searchTextField.initKeyListener(this);
         JPanel topPane = new JPanel(new BorderLayout());
         UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);

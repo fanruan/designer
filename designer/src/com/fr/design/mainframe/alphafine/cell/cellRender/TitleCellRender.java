@@ -21,14 +21,14 @@ public class TitleCellRender implements ListCellRenderer<Object> {
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         MoreModel moreModel = (MoreModel)value;
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(0xf9f9f9));
+        panel.setBackground(AlphaFineConstants.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         name.setText(moreModel.getName());
         name.setFont(AlphaFineConstants.SMALL_FONT);
         more.setFont(AlphaFineConstants.SMALL_FONT);
         more.setText(moreModel.getContent());
-        name.setForeground(new Color(0x666666));
-        more.setForeground(new Color(0x666666));
+        name.setForeground(AlphaFineConstants.DARK_GRAY);
+        more.setForeground(AlphaFineConstants.DARK_GRAY);
         panel.add(name, BorderLayout.WEST);
         if (moreModel.isNeedMore()) {
             this.more.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));

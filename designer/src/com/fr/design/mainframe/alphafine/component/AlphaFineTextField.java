@@ -1,27 +1,30 @@
 package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.general.ComparatorUtils;
 import com.fr.report.web.button.Image;
+import com.fr.stable.StringUtils;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
+
+import static java.awt.event.KeyEvent.VK_ESCAPE;
 
 /**
  * Created by XiaXiang on 2017/3/21.
  */
-public class AlphaTextField extends UITextField {
+public class AlphaFineTextField extends UITextField {
 
     private String placeHolder;
 
     private Image image;
 
-    public AlphaTextField(String placeHolder) {
+    public AlphaFineTextField(String placeHolder) {
         this.placeHolder = placeHolder;
     }
 
-    public AlphaTextField() {
+
+    public AlphaFineTextField() {
         this.placeHolder = null;
     }
 
@@ -59,4 +62,24 @@ public class AlphaTextField extends UITextField {
         this.image = image;
     }
 
+    /**
+     * 添加键盘监听器
+     * @param component
+     */
+    public void initKeyListener(Component component) {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+                int keyCode = e.getKeyCode();
+                if (keyCode == VK_ESCAPE) {
+                    if (StringUtils.isBlank(getText()) || ComparatorUtils.equals(getText(), placeHolder)) {
+                        component.setVisible(false);
+                    } else {
+                        setText(null);
+                    }
+                }
+            }
+        });
+    }
 }

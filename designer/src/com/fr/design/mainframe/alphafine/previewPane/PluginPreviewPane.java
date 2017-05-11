@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.previewPane;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.general.Inter;
 
@@ -26,7 +27,7 @@ public class PluginPreviewPane extends JPanel {
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel line = new JPanel();
         line.setPreferredSize(new Dimension(200,1));
-        line.setBackground(new Color(0xd2d2d2));
+        line.setBackground(AlphaFineConstants.GRAY);
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.white);
         JPanel bottomPane = new JPanel(new BorderLayout());
@@ -36,26 +37,26 @@ public class PluginPreviewPane extends JPanel {
             UILabel versionLabel = new UILabel("V" + version);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
             versionLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
-            versionLabel.setForeground(new Color(0x666666));
-            versionLabel.setFont(new Font("Song_TypeFace",0,12));
+            versionLabel.setForeground(AlphaFineConstants.DARK_GRAY);
+            versionLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
             panel.add(versionLabel, BorderLayout.CENTER);
             UILabel jartimeLabel = new UILabel(jartime.substring(0, 10));
-            jartimeLabel.setForeground(new Color(0x222222));
-            jartimeLabel.setFont(new Font("Song_TypeFace",0,12));
+            jartimeLabel.setForeground(AlphaFineConstants.BLACK);
+            jartimeLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
             bottomPane.add(jartimeLabel, BorderLayout.EAST);
         }
-        nameLabel.setFont(new Font("Song_TypeFace",0,18));
-        nameLabel.setBackground(new Color(0x3394f0));
+        nameLabel.setFont(AlphaFineConstants.LARGE_FONT);
+        nameLabel.setBackground(AlphaFineConstants.BLUE);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20,20,10,20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : String.valueOf(price);
         UILabel priceLabel = new UILabel(price0);
-        priceLabel.setForeground(new Color(0xf46c4c));
-        priceLabel.setFont(new Font("Song_TypeFace",0,10));
+        priceLabel.setForeground(AlphaFineConstants.RED);
+        priceLabel.setFont(AlphaFineConstants.SMALL_FONT);
         bottomPane.add(priceLabel, BorderLayout.WEST);
         panel.add(nameLabel, BorderLayout.NORTH);
         panel.add(line, BorderLayout.SOUTH);
-        nameLabel.setForeground(new Color(0x3394f0));
+        nameLabel.setForeground(AlphaFineConstants.BLUE);
         add(imageLabel, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
         add(bottomPane, BorderLayout.SOUTH);
