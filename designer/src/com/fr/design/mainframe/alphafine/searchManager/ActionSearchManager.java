@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.searchManager;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.ActionModel;
@@ -39,7 +40,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     filterModelList.add(new ActionModel(updateAction.getName() ,updateAction));
                 }
             }
-            final int length = Math.min(5, filterModelList.size());
+            final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
             for (int i = 0; i < length; i++) {
                 lessModelList.add(filterModelList.get(i));
             }
@@ -47,7 +48,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                 moreModelList.add(filterModelList.get(i));
             }
             if (filterModelList.size() > 0) {
-                if (filterModelList.size() > 5) {
+                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
                     lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.ACTION));
                 } else {
                     lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));

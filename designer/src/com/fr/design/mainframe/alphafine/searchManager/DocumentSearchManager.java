@@ -37,7 +37,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         this.moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainDocument()) {
             String result;
-            String url = "http://help.finereport.com/?api-search-title-" + searchText + "-1";
+            String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
             HttpClient httpClient = new HttpClient(url);
             httpClient.setTimeout(5000);
             httpClient.asGet();
@@ -49,7 +49,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                     jsonArray = (JSONArray) jsonObject.get("docdata");
                 }
                 if (jsonArray.length() > 0) {
-                    if (jsonArray.length() > 5) {
+                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
                         lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                     } else  {
                         lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
@@ -79,7 +79,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         JSONObject object = jsonArray.getJSONObject(i);
         String name = (String) object.get("title");
         String content = ((String) object.get("summary"));
-        String documentUrl = AlphaFineConstants.DOCUMENT_SEARCH_URL + object.get("did") + ".html";
+        String documentUrl = AlphaFineConstants.DOCUMENT_DOC_URL + object.get("did") + ".html";
         return new DocumentModel(name, content, documentUrl);
     }
 

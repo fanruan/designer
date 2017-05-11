@@ -170,58 +170,34 @@ public class AlphaFineDialog extends UIDialog {
 
     private void showSearchResult(String searchText) {
         if (searchResultPane == null) {
-            searchResultList = new JList();
-            searchResultPane = new JPanel();
-            searchResultPane.setPreferredSize(AlphaFineConstants.CONTENT_SIZE);
-            searchResultPane.setLayout(new BorderLayout());
-            searchResultList.setCellRenderer(new ContentCellRender());
-            searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
-            searchResultList.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    int selectedIndex = searchResultList.getSelectedIndex();
-                    Object selectedValue = searchResultList.getSelectedValue();
-                    if (e.getClickCount() == 2) {
-                        final int i = searchResultList.locationToIndex(e.getPoint());
-                        searchResultList.setSelectedIndex(i);
-                        doNavigate(selectedIndex);
-                        if (selectedValue instanceof AlphaCellModel) {
-                            SearchResult originalResultList = LatestSearchManager.getLatestSearchManager().getLatestModelList();
-                            originalResultList.add(searchResultList.getSelectedValue());
-                            LatestSearchManager.getLatestSearchManager().setLatestModelList(originalResultList);
-                            //保存最近搜索
-                            saveHistory(originalResultList);
-                        }
-                    } else if (e.getClickCount() == 1) {
-                        if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
-                            HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
-                        }
-                    }
-                }
-            });
-
-            // TODO: 2017/5/8  xiaxiang: e.getClickCount() == 1 时，偶发性的不能触发，所以先放到valueChanged
-            searchResultList.addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    if (!e.getValueIsAdjusting()) {
-                        showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
-
-                    }
-                }
-            });
-            leftSearchResultPane = new UIScrollPane(searchResultList);
-            leftSearchResultPane.setBackground(Color.white);
-            leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
-            rightSearchResultPane = new JPanel();
-            rightSearchResultPane.setBackground(Color.white);
-            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-            rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
-            searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
-            add(searchResultPane, BorderLayout.SOUTH);
-            setSize(AlphaFineConstants.FULL_SIZE);
+            initSearchResultComponents();
+            initListListener();
         }
+        initSearchWorker(searchText);
+    }
+
+    private void initSearchResultComponents() {
+        searchResultList = new JList();
+        searchResultPane = new JPanel();
+        searchResultPane.setPreferredSize(AlphaFineConstants.CONTENT_SIZE);
+        searchResultPane.setLayout(new BorderLayout());
+        searchResultList.setCellRenderer(new ContentCellRender());
+        searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
+
+        leftSearchResultPane = new UIScrollPane(searchResultList);
+        leftSearchResultPane.setBackground(Color.white);
+        leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
+        rightSearchResultPane = new JPanel();
+        rightSearchResultPane.setBackground(Color.white);
+        searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+        rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
+        searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
+        add(searchResultPane, BorderLayout.SOUTH);
+        setSize(AlphaFineConstants.FULL_SIZE);
+    }
+
+    private void initSearchWorker(final String searchText) {
         searchResultList.setModel(new SearchListModel(AlphaSearchManager.getSearchManager().showDefaultSearchResult()));
         if (this.searchWorker != null && !this.searchWorker.isDone()) {
             this.searchWorker.cancel(true);
@@ -255,6 +231,43 @@ public class AlphaFineDialog extends UIDialog {
 
         };
         this.searchWorker.execute();
+    }
+
+    private void initListListener() {
+        searchResultList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedIndex = searchResultList.getSelectedIndex();
+                Object selectedValue = searchResultList.getSelectedValue();
+                if (e.getClickCount() == 2) {
+                    final int i = searchResultList.locationToIndex(e.getPoint());
+                    searchResultList.setSelectedIndex(i);
+                    doNavigate(selectedIndex);
+                    if (selectedValue instanceof AlphaCellModel) {
+                        SearchResult originalResultList = LatestSearchManager.getLatestSearchManager().getLatestModelList();
+                        originalResultList.add(searchResultList.getSelectedValue());
+                        LatestSearchManager.getLatestSearchManager().setLatestModelList(originalResultList);
+                        //保存最近搜索
+                        saveHistory(originalResultList);
+                    }
+                } else if (e.getClickCount() == 1) {
+                    if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
+                        HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                    }
+                }
+            }
+        });
+
+        // TODO: 2017/5/8  xiaxiang: e.getClickCount() == 1 时，偶发性的不能触发，所以先放到valueChanged
+        searchResultList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
+
+                }
+            }
+        });
     }
 
     private void showResult(int index, Object selectedValue) {
@@ -538,17 +551,18 @@ public class AlphaFineDialog extends UIDialog {
      *todo:还没做上传服务器
      */
     private void sendToServer() {
+
     }
 
     private void rebuildList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
         if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.insertElementAt(moreResult.get(i), index + 4 + i);
+                this.searchListModel.insertElementAt(moreResult.get(i), index + AlphaFineConstants.SHOW_SIZE -1 + i);
             }
         } else {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.removeElementAt(index + 4);
+                this.searchListModel.removeElementAt(index + AlphaFineConstants.SHOW_SIZE - 1);
 
             }
         }

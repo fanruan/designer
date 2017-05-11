@@ -47,41 +47,11 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
         for (FileNode node : fileNodes) {
-            boolean hasName = false;
+            boolean isAlreadyContain = false;
             String fileEnvPath = node.getEnvPath();
             String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
-            if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
-                if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
-                    this.filterModelList.add(model);
-                    hasName = true;
-                }
-            }
-
-            if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainFileContent()) {
-                //文件的内容搜索
-                try {
-                    BufferedReader reader = new BufferedReader(new FileReader(filePath));
-                    String line;
-                    int columnNumber;
-                    boolean test = false;
-                    while ((line = reader.readLine()) != null) {
-                        columnNumber = line.toLowerCase().indexOf(searchText);
-                        if (columnNumber != -1) {
-                            test = true;
-                        }
-                    }
-                    if (test && !hasName) {
-                        FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
-                        this.filterModelList.add(model);
-                    }
-                    reader.close();
-                } catch (FileNotFoundException e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                } catch (IOException e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-            }
+            isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
+            searchFileContent(searchText, node, isAlreadyContain, filePath);
 
         }
 
@@ -99,9 +69,52 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE));
             }
         }
-
-
         return this.lessModelList;
+    }
+
+    /**
+     * 搜索文件内容
+     * @param searchText
+     * @param node
+     * @param isAlreadyContain
+     * @param filePath
+     */
+    private void searchFileContent(String searchText, FileNode node, boolean isAlreadyContain, String filePath) {
+        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainFileContent()) {
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(filePath));
+                String line;
+                int columnNumber;
+                boolean test = false;
+                while ((line = reader.readLine()) != null) {
+                    columnNumber = line.toLowerCase().indexOf(searchText);
+                    if (columnNumber != -1) {
+                        test = true;
+                    }
+                }
+                if (test && !isAlreadyContain) {
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                    this.filterModelList.add(model);
+                }
+                reader.close();
+            } catch (FileNotFoundException e) {
+                FRLogger.getLogger().error(e.getMessage());
+            } catch (IOException e) {
+                FRLogger.getLogger().error(e.getMessage());
+            }
+        }
+    }
+
+    private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
+        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
+            if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                this.filterModelList.add(model);
+                isAlreadyContain = true;
+            }
+        }
+        return isAlreadyContain;
     }
 
     @Override

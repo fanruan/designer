@@ -68,7 +68,9 @@ public class AlphaFineConstants {
 
     public static final String REUSE_IMAGE_URL = "http://shop.finereport.com/reuse/";
 
-    public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/doc-view-";
+    public static final String DOCUMENT_DOC_URL = "http://help.finereport.com/doc-view-";
+
+    public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/?api-search-title-";
 
 
 }
