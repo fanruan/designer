@@ -62,6 +62,10 @@ public class AlphaFineTextField extends UITextField {
         this.image = image;
     }
 
+    /**
+     * 添加键盘监听器
+     * @param component
+     */
     public void initKeyListener(Component component) {
         addKeyListener(new KeyAdapter() {
             @Override

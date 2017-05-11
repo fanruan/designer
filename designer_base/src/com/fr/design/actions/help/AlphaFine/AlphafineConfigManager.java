@@ -130,6 +130,10 @@ public class AlphafineConfigManager implements XMLable {
         return shortcuts;
     }
 
+    /**
+     * 返回默认快捷键
+     * @return
+     */
     private String getDefaultShortCuts() {
         return OperatingSystem.isMacOS()? "meta + F" : "ctrl + F";
     }
