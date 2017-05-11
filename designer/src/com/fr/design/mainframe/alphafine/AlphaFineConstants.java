@@ -45,6 +45,10 @@ public class AlphaFineConstants {
 
     public static final Color BLACK = new Color(0x222222);
 
+    public static final Color DARK_GRAY = new Color(0x666666);
+
+    public static final Color RED = new Color(0xf46c4c);
+
     public static final Font SMALL_FONT = new Font("Song_TypeFace",0,10);
 
     public static final Font MEDIUM_FONT = new Font("Song_TypeFace",0,12);
