@@ -33,7 +33,7 @@ import java.util.List;
 * @version 创建时间：2012-12-26 上午10:56:51
  */
 public class ChartTypePane extends AbstractChartAttrPane{
-	private ComboBoxPane chartTypePane;
+	private ComboBoxPane chartTypeComBox;
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
@@ -72,13 +72,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		if (editingCollection != null) {
 			relayoutChartTypePane(editingCollection);
 		}else {
-			chartTypePane = new ComboBoxPane();
+			chartTypeComBox = new ComboBoxPane();
 		}
 
 		BasicScrollPane scrollPane = new BasicScrollPane() {
 			@Override
 			protected JPanel createContentPane() {
-				return chartTypePane;
+				return chartTypeComBox;
 			}
 
 			@Override
@@ -99,7 +99,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		};
 		content.add(scrollPane, BorderLayout.CENTER);
 		
-		buttonPane.setEditingChartPane(chartTypePane);
+		buttonPane.setEditingChartPane(chartTypeComBox);
 		
 		return content;
 	}
@@ -206,6 +206,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			}
 			//第一步就是重构cardNames
 			cardNames = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID);
+			//下拉框重构开始。为了防止重构是触发update
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.REACTOR);
 			//重构下拉框选项
 			reactorComboBox();
 			//重新选择选中的下拉项
@@ -213,6 +215,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String plotID = chart.getPlot().getPlotID();
 			Object item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(chartID, plotID);
 			jcb.setSelectedItem(item);
+			//下拉框重构结束
+			((FlexibleComboBox)jcb).setItemEvenType(ItemEventType.DEFAULT);
 			//重新选中
 			checkPlotPane();
 		}
@@ -223,13 +227,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		private void reactorComboBox() {
-			FlexibleComboBox fcb = (FlexibleComboBox)jcb;
-			fcb.setItemEvenType(ItemEventType.REACTOR);
-			fcb.removeAllItems();
+			jcb.removeAllItems();
 			for (int i = 0; i < this.cardNames.length; i++) {
-				fcb.addItem(cardNames[i]);
+				jcb.addItem(cardNames[i]);
 			}
-			fcb.setItemEvenType(ItemEventType.DEFAULT);
 		}
 
 		@Override
@@ -285,7 +286,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 	public void relayoutChartTypePane(ChartCollection collection){
 		if (needRelayout(collection)) {
-			chartTypePane.relayout(collection);
+			chartTypeComBox.relayout(collection);
 			//设置面板切换状态
 			updatePaneState(collection);
 		}
@@ -313,7 +314,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		initContentPane();
 
 		buttonPane.populateBean(collection);
-		chartTypePane.populateBean(chart);
+		chartTypeComBox.populateBean(chart);
 
 		this.initAllListeners();
 	}
@@ -325,7 +326,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
 		Chart chart = collection.getSelectedChart();
-		chartTypePane.updateBean(chart);
+		chartTypeComBox.updateBean(chart);
 	}
 
     /**
@@ -333,7 +334,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
      * @return 类型界面
      */
     public FurtherBasicBeanPane[] getPaneList(){
-        return chartTypePane.getCards().toArray(new FurtherBasicBeanPane[0]);
+        return chartTypeComBox.getCards().toArray(new FurtherBasicBeanPane[0]);
     }
 
     /**
@@ -341,7 +342,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
      * @return 当前选中的图表的index
      */
     public int getSelectedIndex(){
-        return chartTypePane.getSelectedIndex();
+        return chartTypeComBox.getSelectedIndex();
     }
 
     /**
@@ -349,7 +350,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
      * @return 选中的图标的序号
      */
     public int getSelectedChartIndex(){
-        return chartTypePane.getSelectedIndex();
+        return chartTypeComBox.getSelectedIndex();
     }
 
     /**

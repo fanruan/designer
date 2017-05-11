@@ -25,6 +25,10 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	
 	private ChartDataPane parent;
 
+	protected AbstractTableDataContentPane getDataContentPane() {
+		return dataContentPane;
+	}
+
 	public TableDataPane(ChartDataPane parent) {
 		this.parent = parent;
 		initDataPane();
@@ -69,7 +73,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		}
 	}
 
-	private AbstractTableDataContentPane getContentPane(Plot plot) {
+	protected AbstractTableDataContentPane getContentPane(Plot plot) {
 		return ChartTypeInterfaceManager.getInstance().getTableDataSourcePane(plot, parent);
 	}
 
@@ -103,34 +107,41 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @param collection 图表属性的集合
 	 */
 	public void refreshContentPane(ChartCollection collection) {
+		refreshContentPane(getContentPane(collection.getSelectedChart().getPlot()));
+	}
+
+	protected void refreshContentPane(AbstractTableDataContentPane contentPane) {
 		if(dataContentPane != null) {
 			remove(dataContentPane);
 		}
-		dataContentPane = getContentPane(collection.getSelectedChart().getPlot());
+		dataContentPane = contentPane;
 		if(dataContentPane != null) {
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
-
 	/**
-	 * 更新界面属性  
+	 * 更新界面属性
 	 */
 	public void populateBean(ChartCollection collection) {
 		if(collection == null) {
 			return;
 		}
 		TableDataDefinition data = (TableDataDefinition)collection.getSelectedChart().getFilterDefinition();
+		populateDSName(data);
+		if(dataContentPane != null) {
+			dataContentPane.populateBean(collection);
+		}
+	}
+	protected void populateDSName(TableDataDefinition dataDefinition){
+
 		TableData tableData = null;
-		if(data != null) {
-			tableData = data.getTableData();
+		if(dataDefinition != null) {
+			tableData = dataDefinition.getTableData();
 		}
 		onSelectTableData();
 		checkBoxUse();
 		
 		tableDataPane.populateBean(tableData);
-		if(dataContentPane != null) {
-			dataContentPane.populateBean(collection);
-		}
 	}
 
 	/**
@@ -141,6 +152,10 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			dataContentPane.updateBean(collection);
 		}
 		TopDefinition dataDefinition = (TopDefinition)collection.getSelectedChart().getFilterDefinition();
+		updateDSName(dataDefinition);
+	}
+
+	protected void updateDSName(TopDefinition dataDefinition) {
 		if(dataDefinition instanceof  TableDataDefinition) {
 			TableDataWrapper tableDataWrapper = tableDataPane.getTableDataWrapper();
 			if (dataDefinition != null && tableDataWrapper != null){

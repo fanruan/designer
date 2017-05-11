@@ -33,6 +33,7 @@ public class XCardAddButton extends XButton{
 	private static final int INDEX = 0;
 	private static final int DEFAULT_BUTTON_WIDTH = 80;
 	
+	
 	private static Icon ADD_ICON = BaseUtils.readIcon("/com/fr/design/form/images/add.png");
 	private Icon addIcon = ADD_ICON;
 	
@@ -88,12 +89,12 @@ public class XCardAddButton extends XButton{
     	
     	// addbutton对应的XWCardLayout和XWCardTagLayout暂未存入到xml中，重新打开之后先根据父子层获取
     	if(cardLayout == null && tagLayout ==null ){
-    		initRalateLayout();
+    		initRelateLayout();
     	}
     	int index = cardLayout.toData().getWidgetCount();
     	
     	//添加新的tab，并将原来的设为未选中状态
-    	setTabUnselectd();
+    	setTabUnselected();
     	addTab(index);
     	this.tagLayout.adjustComponentWidth();
     	
@@ -109,7 +110,7 @@ public class XCardAddButton extends XButton{
 		LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
     
-    private void initRalateLayout(){
+    private void initRelateLayout(){
     	XWCardTitleLayout titleLayout = (XWCardTitleLayout)this.getBackupParent();
 		this.tagLayout = titleLayout.getTagPart();
 		
@@ -128,7 +129,7 @@ public class XCardAddButton extends XButton{
 	}
 	
 	//将原来的tab页设置为未选中状态
-	private void setTabUnselectd(){
+	private void setTabUnselected(){
 		for(int i=0;i<this.tagLayout.getComponentCount();i++){
 			WCardTagLayout layout = (WCardTagLayout) this.tagLayout.toData();
 			CardSwitchButton button = layout.getSwitchButton(i);
@@ -145,13 +146,12 @@ public class XCardAddButton extends XButton{
     	CardSwitchButton titleButton = new CardSwitchButton(index,cardLayoutName);
     	//设置标题
     	titleButton.setText(getTabTitleName());
-        titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
+		titleButton.setInitialBackground(ColorBackground.getInstance(Color.WHITE));
     	XCardSwitchButton showButton = new XCardSwitchButton(titleButton, dimension, cardLayout, tagLayout);
 		titleButton.setCustomStyle(true);
     	titleButton.setShowButton(true);
 		showButton.setBackupParent(tagLayout);
 
-    	
     	this.tagLayout.setCurrentCard(titleButton);
     	this.tagLayout.setTabFitIndex(index);
     	this.tagLayout.add(showButton);

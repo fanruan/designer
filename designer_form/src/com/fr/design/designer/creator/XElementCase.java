@@ -10,11 +10,9 @@ import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.*;
-import com.fr.design.mainframe.widget.editors.BooleanEditor;
+import com.fr.design.mainframe.widget.editors.ElementCaseToolBarEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
-import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
-import com.fr.design.mainframe.widget.renderer.PaddingMarginCellRenderer;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.FormProvider;
@@ -36,8 +34,8 @@ import java.beans.PropertyDescriptor;
 import java.util.Set;
 
 public class XElementCase extends XBorderStyleWidgetCreator implements FormElementCaseContainerProvider{
-    private UILabel imageLable;
-    private CoverReportPane coverPanel;
+	private UILabel imageLable;
+	private CoverReportPane coverPanel;
 	private FormDesigner designer;
 	//缩略图
 	private BufferedImage thumbnailImage;
@@ -66,23 +64,31 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	}
 
 	/**
-     * 是否支持设置标题
-     * @return 是返回true
-     */
-    public boolean hasTitleStyle() {
+	 * 是否支持设置标题
+	 * @return 是返回true
+	 */
+	public boolean hasTitleStyle() {
 		return true;
 	}
 
-    /**
-     * 返回组件属性值
-     * @return 返回组件属性值
-     * @throws IntrospectionException 异常
-     */
+	/**
+	 * 返回组件属性值
+	 * @return 返回组件属性值
+	 * @throws IntrospectionException 异常
+	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 
 		CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
 				new CRPropertyDescriptor("widgetName", this.data.getClass())
 						.setI18NName(Inter.getLocText("Form-Widget_Name")),
+				new CRPropertyDescriptor("visible", this.data.getClass()).setI18NName(
+						Inter.getLocText("FR-Designer_Widget-Visible")).setPropertyChangeListener(new PropertyChangeAdapter() {
+
+					@Override
+					public void propertyChange() {
+						makeVisible(toData().isVisible());
+					}
+				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setI18NName(
 						Inter.getLocText("FR-Designer-Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
@@ -96,7 +102,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
 						.setI18NName(Inter.getLocText("FR-Layout_Padding"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("showToolBar", this.data.getClass()).setEditorClass(BooleanEditor.class)
+				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
 						.setI18NName(Inter.getLocText("Form-EC_toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
@@ -143,30 +149,30 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		return "text_field_16.png";
 	}
 
-    /**
-     * 返回组件默认名
-     * @return 组件类名(小写)
-     */
-    public String createDefaultName() {
-        return "report";
-    }
+	/**
+	 * 返回组件默认名
+	 * @return 组件类名(小写)
+	 */
+	public String createDefaultName() {
+		return "report";
+	}
 
 	@Override
 	protected JComponent initEditor() {
 		if (editor == null) {
 			setBorder(DEFALUTBORDER);
-            editor = new JPanel();
-            editor.setBackground(null);
-            editor.setLayout(null);
-	        imageLable = initImageBackground();
+			editor = new JPanel();
+			editor.setBackground(null);
+			editor.setLayout(null);
+			imageLable = initImageBackground();
 
-            coverPanel = new CoverReportPane();
-            coverPanel.setPreferredSize(imageLable.getPreferredSize());
-            coverPanel.setBounds(imageLable.getBounds());
+			coverPanel = new CoverReportPane();
+			coverPanel.setPreferredSize(imageLable.getPreferredSize());
+			coverPanel.setBounds(imageLable.getBounds());
 
-            editor.add(coverPanel);
-            coverPanel.setVisible(false);
-            editor.add(imageLable);
+			editor.add(coverPanel);
+			coverPanel.setVisible(false);
+			editor.add(imageLable);
 		}
 		return editor;
 	}
@@ -179,7 +185,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		BufferedImage image = getThumbnailImage();
 		setLabelBackground(image, imageLable);
 
-        return imageLable;
+		return imageLable;
 	}
 
 	/**
@@ -188,16 +194,16 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	private void setLabelBackground(Image image, UILabel imageLable){
 		ImageIcon icon = new ImageIcon(image);
 		imageLable.setIcon(icon);
-        imageLable.setOpaque(true);
-        imageLable.setLayout(null);
-        imageLable.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+		imageLable.setOpaque(true);
+		imageLable.setLayout(null);
+		imageLable.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 	}
 
-    /**
-     * 是否展现覆盖的pane
-     * @param display     是否
-     */
-    public void  displayCoverPane(boolean display){
+	/**
+	 * 是否展现覆盖的pane
+	 * @param display     是否
+	 */
+	public void  displayCoverPane(boolean display){
 		coverPanel.setVisible(display);
 		coverPanel.setBounds(1, 1, (int) editor.getBounds().getWidth(), (int) editor.getBounds().getHeight());
 		editor.repaint();
@@ -210,41 +216,41 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		coverPanel.destroyHelpDialog();
 	}
 
-    public JComponent getCoverPane(){
-        return coverPanel;
-    }
+	public JComponent getCoverPane(){
+		return coverPanel;
+	}
 
-    /**
-     * 初始化大小
-     * @return  尺寸
-     */
+	/**
+	 * 初始化大小
+	 * @return  尺寸
+	 */
 	public Dimension initEditorSize() {
 		return BORDER_PREFERRED_SIZE;
 	}
 
-    /**
-     * 是否是报表块
-     * @return  是
-     */
+	/**
+	 * 是否是报表块
+	 * @return  是
+	 */
 	public boolean isReport() {
 		return true;
 	}
 
-    /**
-     * 该组件是否可以拖入参数面板
-     * @return 是则返回true
-     */
-    public boolean canEnterIntoParaPane(){
-        return false;
-    }
+	/**
+	 * 该组件是否可以拖入参数面板
+	 * @return 是则返回true
+	 */
+	public boolean canEnterIntoParaPane(){
+		return false;
+	}
 
-    /**
-     * 返回报表块对应的widget
-     * @return 返回ElementCaseEditor
-     */
-    public ElementCaseEditor toData() {
-    	return ((ElementCaseEditor) data);
-    }
+	/**
+	 * 返回报表块对应的widget
+	 * @return 返回ElementCaseEditor
+	 */
+	public ElementCaseEditor toData() {
+		return ((ElementCaseEditor) data);
+	}
 
 	public FormElementCaseProvider getElementCase() {
 		return toData().getElementCase();
@@ -295,14 +301,14 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	}
 
 
-    private void switchTab(MouseEvent e,EditingMouseListener editingMouseListener){
-    	FormDesigner designer = editingMouseListener.getDesigner();
-        if (e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR){
-            FormElementCaseContainerProvider component = (FormElementCaseContainerProvider) designer.getComponentAt(e);
-             //切换设计器
-            designer.switchTab(component);
-        }
-     }
+	private void switchTab(MouseEvent e,EditingMouseListener editingMouseListener){
+		FormDesigner designer = editingMouseListener.getDesigner();
+		if (e.getClickCount() == 2 || designer.getCursor().getType() == Cursor.HAND_CURSOR){
+			FormElementCaseContainerProvider component = (FormElementCaseContainerProvider) designer.getComponentAt(e);
+			//切换设计器
+			designer.switchTab(component);
+		}
+	}
 
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {

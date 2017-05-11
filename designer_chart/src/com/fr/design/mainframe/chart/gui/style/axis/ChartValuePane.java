@@ -72,7 +72,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 
         axisLineStylePane = new ChartAxisLineStylePane();
         zeroPane = aliagnZero4Second();
-        axisReversed = new UICheckBox(Inter.getLocText("AxisReversed"));
+        axisReversed = new UICheckBox(Inter.getLocText("FR-Designer_AxisReversed"));
         unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
         formatPane = new FormatPane();
         axisLabelPane = new ChartAxisLabelPane();
@@ -151,7 +151,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { LayoutConstants.CHART_ATTR_TOMARGIN,p,f};
-		double[] rowSize = { p, p,};
+		double[] rowSize = { p, p};
 		Component[][] component = new Component[][]{
 				new Component[]{null,initMinMaxValue(),null},
 				new Component[]{null, addLogarithmicPane2ValuePane(), addLogText()},
@@ -171,12 +171,12 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 	// 返回对数相关界面. 百分比 没有此界面.
 	protected JPanel addLogarithmicPane2ValuePane() {
         JPanel labelLogPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        labelLogPane.add(logBox = new UICheckBox(Inter.getLocText("Logarithmic")+":"));
-        labelLogPane.add(new UILabel(Inter.getLocText("Chart_Log_Base")));
-        
+        labelLogPane.add(logBox = new UICheckBox(Inter.getLocText("FR-Designer_Logarithmic")+":"));
+        labelLogPane.add(new UILabel(Inter.getLocText("FR-Designer_Chart_Log_Base")));
+
         logBaseField = new UITextField(4);
         logBaseField.setText("10");
-        logBaseField.setPreferredSize(new Dimension(20, 20));
+        logBaseField.setPreferredSize(new Dimension(55, 20));
 
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -185,7 +185,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         });
 
         ChartSwingUtils.addListener(logBox, logBaseField);
-        
+
         return labelLogPane;
     }
 	
@@ -221,7 +221,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return Inter.getLocText("Chart_F_Radar_Axis");
+		return Inter.getLocText("FR-Designer_Chart_F_Radar_Axis");
 	}
 	
 	@Override

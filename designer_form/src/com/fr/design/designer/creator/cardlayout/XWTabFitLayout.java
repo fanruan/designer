@@ -1,11 +1,5 @@
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
-import java.beans.IntrospectionException;
-
-import javax.swing.border.Border;
-
-import com.fr.base.ScreenResolution;
 import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -16,23 +10,24 @@ import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
-import com.fr.design.mainframe.widget.editors.FontEditor;
 import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
-import com.fr.design.mainframe.widget.renderer.FontCellRenderer;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Background;
-import com.fr.general.FRFont;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.beans.IntrospectionException;
 
 
 /**
@@ -45,14 +40,10 @@ public class XWTabFitLayout extends XWFitLayout {
 	// tab布局在拖拽导致的缩放里（含间隔时），如果拖拽宽高大于组件宽高，会导致调整的时候找不到原来的组件
 	// 这里先将拖拽之前的宽高先做备份
 	private static final Color NORMAL_GRAL = new Color(236,236,236);
-	private static final String DEFAULT_FONT_NAME = "SimSun";
-	public final static Font DEFAULTFT = new Font("Song_TypeFace",0,12);
-	public final static FRFont DEFAULT_FRFT = FRFont.getInstance(DEFAULT_FONT_NAME, 0, 9);
 	private Dimension referDim;
 	private Background initialBackground;
 	private Background overBackground;
 	private Background clickBackground;
-	private FRFont font;
 	private XCardSwitchButton xCardSwitchButton;
 
 	public Dimension getReferDim() {
@@ -87,15 +78,6 @@ public class XWTabFitLayout extends XWFitLayout {
 		this.clickBackground = clickBackground;
 	}
 
-	@Override
-	public FRFont getFont() {
-		return font;
-	}
-
-	public void setFont(FRFont font) {
-		this.font = font;
-	}
-
 	public XCardSwitchButton getxCardSwitchButton() {
 		return xCardSwitchButton;
 	}
@@ -118,7 +100,8 @@ public class XWTabFitLayout extends XWFitLayout {
 	 * @throws IntrospectionException
 	 */
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
-		CRPropertyDescriptor[] crp = null;
+		checkButonType();
+		CRPropertyDescriptor[] crp = ((WTabFitLayout) data).isCustomStyle() ? getisCustomStyle() : getisnotCustomStyle();
 		return ArrayUtils.addAll(defaultDescriptor(), crp);
 	}
 
@@ -162,21 +145,7 @@ public class XWTabFitLayout extends XWFitLayout {
 								cardSwitchButton.setClickBackground(clickBackground);
 							}
 						}
-				),
-				//字体
-				creatNonListenerStyle(4).setPropertyChangeListener(
-						new PropertyChangeAdapter() {
-							@Override
-							public void propertyChange() {
-								font = ((WTabFitLayout) data).getFont();
-								CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
-								cardSwitchButton.setFont(font);
-								UILabel uiLabel = xCardSwitchButton.getLabel();
-								uiLabel.setFont(font.applyResolutionNP(ScreenResolution.getScreenResolution()));
-								uiLabel.setForeground(font.getForeground());
-								xCardSwitchButton.setLabel(uiLabel);
-							}
-						}),
+				)
 		};
 	}
 
@@ -208,9 +177,6 @@ public class XWTabFitLayout extends XWFitLayout {
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("clickBackground", this.data.getClass()).setEditorClass(
 						ImgBackgroundEditor.class).setI18NName(Inter.getLocText("FR-Designer_Background-Click")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
-				new CRPropertyDescriptor("font", this.data.getClass()).setI18NName(Inter.getLocText("FR-Designer_FRFont"))
-						.setEditorClass(FontEditor.class).setRendererClass(FontCellRenderer.class).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
 		};
 		return crPropertyDescriptors[i];
@@ -226,6 +192,12 @@ public class XWTabFitLayout extends XWFitLayout {
 
 	private void checkButonType() {
 		if (this.xCardSwitchButton == null) {
+			//假如为空，默认获取第一个tab的cardBtn属性
+			try {
+				xCardSwitchButton = (XCardSwitchButton) ((XWCardMainBorderLayout) this.getTopLayout()).getTitlePart().getTagPart().getComponent(0);
+			}catch (Exception e){
+				FRLogger.getLogger().error(e.getMessage());
+			}
 			return;
 		}
 		boolean isStyle = ((WTabFitLayout) data).isCustomStyle();
@@ -235,20 +207,15 @@ public class XWTabFitLayout extends XWFitLayout {
 		if (!isStyle) {
 			this.xCardSwitchButton.setCustomStyle(false);
 			this.xCardSwitchButton.setSelectBackground(bg);
-			this.xCardSwitchButton.getLabel().setFont(DEFAULTFT);
 			cardSwitchButton.setInitialBackground(null);
 			cardSwitchButton.setClickBackground(null);
 			cardSwitchButton.setOverBackground(null);
-			cardSwitchButton.setFont(DEFAULT_FRFT);
 		} else {
 			Background initialBackground = cardSwitchButton.getInitialBackground();
 			bg = initialBackground == null ? bg : initialBackground;
 			this.xCardSwitchButton.setSelectBackground(bg);
 			this.xCardSwitchButton.setCustomStyle(true);
 			cardSwitchButton.setCustomStyle(true);
-			if (font != null) {
-				cardSwitchButton.setFont(font);
-			}
 			if (this.initialBackground != null){
 				this.xCardSwitchButton.setSelectBackground(this.initialBackground);
 				cardSwitchButton.setInitialBackground(this.initialBackground);
@@ -458,7 +425,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	private void updateCompsWidget(){
 		for(int m=0;m<this.getComponentCount();m++){
 			XCreator childCreator = this.getXCreator(m);
-			BoundsWidget wgt = this.toData().getBoundsWidget(childCreator.toData());
+			BoundsWidget wgt = (BoundsWidget) this.toData().getBoundsWidget(childCreator.toData());
 			wgt.setBounds(this.getComponent(m).getBounds());
 			wgt.setBackupBounds(this.getComponent(m).getBounds());
 		}

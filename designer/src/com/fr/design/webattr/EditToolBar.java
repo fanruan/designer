@@ -7,6 +7,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.fun.ExportToolBarProvider;
+import com.fr.design.fun.ExtraButtonToolBarProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -199,7 +200,7 @@ public class EditToolBar extends BasicPane {
 				toolBarButton.setWidget(widget);
 				if (widget instanceof Button) {
 					String iconname = ((Button) widget).getIconName();
-					if (!StringUtils.isBlank(iconname)) {
+					if (StringUtils.isNotBlank(iconname)) {
 						Image iimage = WidgetManager.getProviderInstance().getIconManager().getIconImage(iconname);
 						toolBarButton.setIcon(new ImageIcon(iimage));
 					}
@@ -326,17 +327,18 @@ public class EditToolBar extends BasicPane {
 		private IconDefinePane iconPane;
 		private UIButton button;
 		private JavaScriptActionPane javaScriptPane;
-		private ExportToolBarProvider[] exportToolBarProviders; 
+		private ExportToolBarProvider[] exportToolBarProviders;
 
-		private ChangeListener changeListener = new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		private ActionListener actionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				if (isVerify.isSelected()) {
 					failSubmit.setVisible(true);
 				} else {
 					failSubmit.setVisible(false);
+					failSubmit.setSelected(false);
 				}
 			}
-
 		};
 
 		public ButtonPane() {
@@ -385,6 +387,11 @@ public class EditToolBar extends BasicPane {
 			// centerPane.add("editexcel", editExcel);
 			centerPane.add(getCpane(), "appendcount");
 			centerPane.add(getSubmitPane(), "submit");
+
+            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+                provider.updateCenterPane(centerPane);
+            }
 
 			this.add(centerPane, BorderLayout.CENTER);
 		}
@@ -475,10 +482,9 @@ public class EditToolBar extends BasicPane {
 			submitPane.add(isVerify);
 			submitPane.add(failSubmit);
 			submitPane.add(isCurSheet);
-			isVerify.addChangeListener(changeListener);
+			isVerify.addActionListener(actionListener);
 			return submitPane;
 		}
-
 
 		@Override
 		protected String title4PopupWindow() {
@@ -528,13 +534,18 @@ public class EditToolBar extends BasicPane {
 			} else if (widget instanceof CustomToolBarButton) {
 				populateCustomToolBarButton();
 			}
-		}
-		
+
+            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+                provider.populate(widget, card, centerPane);
+            }
+        }
+
 		private void populateAppendColumnRow(){
 			card.show(centerPane, "appendcount");
 			count.setValue(((AppendColumnRow) widget).getCount());
 		}
-		
+
 		private void populateExport(){
 			card.show(centerPane, "export");
 			Export export = (Export) widget;
@@ -550,7 +561,7 @@ public class EditToolBar extends BasicPane {
 				}
 			}
 		}
-		
+
 		private void populateCustomToolBarButton(){
 			card.show(centerPane, "custom");
 			CustomToolBarButton customToolBarButton = (CustomToolBarButton) widget;
@@ -558,21 +569,24 @@ public class EditToolBar extends BasicPane {
 				this.javaScriptPane.populateBean(customToolBarButton.getJSImpl());
 			}
 		}
-		
+
 		private void populateSubmit(){
 			card.show(centerPane, "submit");
 			Submit submit = ((Submit) widget);
 			this.isVerify.setSelected(submit.isVerify());
+			if (!submit.isVerify()) {
+				this.failSubmit.setVisible(false);
+			}
 			this.failSubmit.setSelected(submit.isFailVerifySubmit());
 			this.isCurSheet.setSelected(submit.isOnlySubmitSelect());
 		}
-		
+
 		private void populatePDFPrint(){
 			card.show(centerPane, "pdfprint");
 			PDFPrint pdfPrint = (PDFPrint) widget;
 			this.isPopup.setSelected(pdfPrint.isPopup());
 		}
-		
+
 		private void populatePrint(){
 			card.show(centerPane, "print");
 			Print print = (Print) widget;
@@ -581,7 +595,7 @@ public class EditToolBar extends BasicPane {
 			this.flashPrint.setSelected(print.isFlashPrint());
 			this.serverPrint.setSelected(print.isServerPrint());
 		}
-		
+
 		private void populateDefault(){
 			Button button = (Button) widget;
 			this.icon.setSelected(button.isShowIcon());
@@ -592,7 +606,7 @@ public class EditToolBar extends BasicPane {
 
 		/**
 		 * 更新
-		 * 
+		 *
 		 * @return 对应组件
 		 */
 		public Widget update() {
@@ -613,23 +627,29 @@ public class EditToolBar extends BasicPane {
 			if (widget instanceof Button) {
 				updateDefault();
 			}
+
+            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+                provider.update(widget);
+            }
+
 			return widget;
 		}
-		
+
 		private void updateDefault(){
 			((Button) widget).setShowIcon(this.icon.isSelected());
 			((Button) widget).setShowText(this.text.isSelected());
 			((Button) widget).setText(this.nameField.getText());
 			((Button) widget).setIconName(this.iconPane.update());
 		}
-		
+
 		private void updateSubmit(){
 			Submit submit = ((Submit) widget);
 			submit.setVerify(this.isVerify.isSelected());
 			submit.setFailVerifySubmit(this.failSubmit.isSelected());
 			submit.setOnlySubmitSelect(this.isCurSheet.isSelected());
 		}
-		
+
 		private void updatePrint(){
 			Print print = (Print) widget;
 			print.setAppletPrint(this.appletPrint.isSelected());
@@ -637,7 +657,7 @@ public class EditToolBar extends BasicPane {
 			print.setPDFPrint(this.pdfPrint.isSelected());
 			print.setServerPrint(this.serverPrint.isSelected());
 		}
-		
+
 		private void updateExport(){
 			Export export = (Export) widget;
 			export.setPdfAvailable(this.pdf.isSelected());

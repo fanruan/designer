@@ -4,11 +4,14 @@ import javax.swing.table.TableCellRenderer;
 
 import com.fr.design.beans.GroupModel;
 
+/**
+ * PropertyGroup类描述了属性表中一个属性分组
+ */
 public class PropertyGroup {
 
-    private GroupModel model;
-    private String name;
-    private boolean collapsed;
+    private GroupModel model; // 描述这个属性组中的数据model
+    private String name; // 这组属性的标题名称
+    private boolean collapsed; // 这组属性是否折叠
     private GroupRenderer renderer1;
     private GroupRenderer renderer2;
 
@@ -55,4 +58,5 @@ public class PropertyGroup {
     public TableCellRenderer getSecondRenderer() {
         return renderer2;
     }
+
 }

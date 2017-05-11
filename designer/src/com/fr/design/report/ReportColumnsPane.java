@@ -19,6 +19,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.dialog.BasicPane;
@@ -109,9 +110,12 @@ public class ReportColumnsPane extends BasicPane{
         onOffButtonGroup.addActionListener(onOffListener);
 
         UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_ReportColumns-Columns"));
-        uiLabel.setFont(FRFont.getInstance(FONT_NAME, Font.PLAIN, FONT_SIZE));
+        FRFont uiLableFont = FRFont.getInstance(FONT_NAME, Font.PLAIN, FONT_SIZE);
+        uiLabel.setFont(uiLableFont);
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        uiLabel.setPreferredSize(new Dimension(100,20));
+        int uiLabelWidth = GraphHelper.getLocTextWidth("FR-Designer_ReportColumns-Columns", uiLableFont);
+
+        uiLabel.setPreferredSize(new Dimension(uiLabelWidth, 20));
         north.add(uiLabel,BorderLayout.WEST);
         JPanel buttonGroupPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 23,11));
         buttonGroupPane.add(onOffButtonGroup);
@@ -200,7 +204,7 @@ public class ReportColumnsPane extends BasicPane{
         JPanel sampleLablePane = new JPanel(new GridLayout(1,2));
         sampleLablePane.setPreferredSize(new Dimension(524, 130));
         JPanel rPane = new JPanel();
-        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/row.png"));
+        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + Inter.getLocText("FR-Designer_Row_Icon_File_Name")));
         rLabel.setBorder(BorderFactory.createEmptyBorder(5,45,0,49));
         rPane.add(rLabel);
         rowButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_horizontally"));
@@ -260,7 +264,7 @@ public class ReportColumnsPane extends BasicPane{
         GUICoreUtils.setColumnForSpinner(maxNumberSpinner, 6);
         maxRadioButton.addActionListener(maxBtnListener);
         maxUILabel = new UILabel(COLUMN_ROW_TEXTS[rowOrColumn] );
-        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(Inter.getLocText("FR-Designer_ReportColumns-Columns"))}, FlowLayout.CENTER);
+        JPanel maxRowRadioPane = GUICoreUtils.createFlowPane(new JComponent[]{maxRadioButton, maxNumberSpinner, maxUILabel, new UILabel(Inter.getLocText("FR-Designer_ReportColumns_Columns_Optional"))}, FlowLayout.CENTER);
         RowMaxOrSetPane.add(maxRowRadioPane);
         //marks:分成多少行
         toXRadioButton = new UIRadioButton(Inter.getLocText("ReportColumns-Columns_to"));
@@ -308,7 +312,7 @@ public class ReportColumnsPane extends BasicPane{
         rowPane.setBorder(explainBorder);
         rowPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5,13));
         rowPane.setPreferredSize(new Dimension(500,80));
-        rowPane.add(new UILabel(Inter.getLocText(new String[]{"ReportColumns-Columns","Data"}) + ":"));
+        rowPane.add(new UILabel(Inter.getLocText(new String[]{"FR-Designer_ReportColumns_Columns_Optional","Data"}) + ":"));
         repeatColDataTextField = new UITextField();
         repeatColDataTextField.setPreferredSize(new Dimension(107,24));
         rowPane.add(repeatColDataTextField);
