@@ -418,13 +418,13 @@ public abstract class DesignTableDataManager {
         }
     }
 
-    /**
-     *  是否需要展示输入框让用户输入参数 == 当前不是所有参数都有值 && 必须有值
-     */
     private static boolean needInputParams(boolean mustInputParameters, ParameterProvider[] parameters) {
+        if (mustInputParameters && ArrayUtils.isNotEmpty(parameters)) {
+            return true;
+        }
         for (ParameterProvider parameter : parameters) {
             if (parameter.getValue() == null || StringUtils.EMPTY.equals(parameter.getValue())) {
-                return mustInputParameters;
+                return true;
             }
         }
         return false;
