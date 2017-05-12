@@ -7,6 +7,7 @@ import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginConfigManager;
 import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
@@ -225,6 +226,8 @@ public class PluginHelper {
         }
         // 删除放解压文件的临时文件夹
         StableUtils.deleteFile(new File(TEMP_PATH));
+        PluginConfigManager.getProviderInstance().pushNewPlugin(plugin);
+        PluginConfigManager.getProviderInstance().syncPluginConfig();
         new SwingWorker<String, Void>() {
 
             @Override
@@ -256,7 +259,7 @@ public class PluginHelper {
         if (PluginLoader.getLoader().isInstalled(plugin)) {
             throw new com.fr.plugin.PluginVerifyException(Inter.getLocText("FR-Designer-Plugin_Has_Been_Installed"));
         }
-        if (plugin.isJarExpired()) {
+        if (plugin.checkIfJarExpired()) {
             String jarExpiredInfo = Inter.getLocText(new String[]{"FR-Designer-Plugin_Jar_Expired", ",", "FR-Designer-Plugin_Install_Failed", ",", "FR-Designer-Plugin_Please_Update_Jar", plugin.getRequiredJarTime()});
             FRLogger.getLogger().error(jarExpiredInfo);
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);
@@ -319,6 +322,8 @@ public class PluginHelper {
         if (plugin == null || env == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
+        //卸载前监听
+        plugin.preUninstall();
         PluginLoader.getLoader().deletePlugin(plugin);
         return env.deleteFileFromPluginAndLibFolder(plugin);
     }

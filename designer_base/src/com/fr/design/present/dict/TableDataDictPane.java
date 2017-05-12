@@ -77,7 +77,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
             }
         });
         keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
     }
@@ -95,9 +95,9 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("DS-TableData") + ":", UILabel.RIGHT), firstLine},
-                new Component[]{new UILabel(Inter.getLocText("Actual_Value") + ":", UILabel.RIGHT), keyColumnPane},
-                new Component[]{new UILabel(Inter.getLocText("Display_Value") + ":", UILabel.RIGHT), valueDictPane}
+                new Component[]{new UILabel("  " + Inter.getLocText("FR-Designer_DS_TableData") + ":", UILabel.RIGHT), firstLine},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + ":", UILabel.RIGHT), keyColumnPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + ":", UILabel.RIGHT), valueDictPane}
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -158,7 +158,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         columnIndexEditor1.addItemListener(itemListener);
         keyColumnPane.setEditors(new Editor[]{columnNameEditor1, columnIndexEditor1}, columnNames[0]);
 
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         formulaEditor.addChangeListener(new ChangeListener() {
 

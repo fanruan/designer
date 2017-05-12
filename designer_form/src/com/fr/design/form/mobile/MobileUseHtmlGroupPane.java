@@ -8,6 +8,10 @@ import com.fr.form.main.mobile.FormMobileAttr;
  * Created by fanglei on 2016/12/28.
  */
 public class MobileUseHtmlGroupPane extends MobileUseHtmlGroupBeanPane<FormMobileAttr> {
+    public MobileUseHtmlGroupPane(String annotation) {
+        super(annotation);
+    }
+
     @Override
     public void populateBean(FormMobileAttr mobileAttr) {
         if(mobileAttr != null) {

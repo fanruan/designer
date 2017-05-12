@@ -1,3 +1,1 @@
-report name
-http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-reportName is WorkBook1.cpt
+report namehttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒreportName is WorkBook1.cpt

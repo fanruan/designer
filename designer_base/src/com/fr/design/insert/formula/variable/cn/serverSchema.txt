@@ -1,3 +1,1 @@
-serverSchema£¬ÊÇÖ¸Ğ­ÒéÃû³Æ.
-¼ÙÈç·ÃÎÊ£ºhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-serverSchemaÖ¸µÄÊÇ£ºhttp
+serverSchemaï¼Œæ˜¯æŒ‡åè®®åç§°.å‡å¦‚è®¿é—®ï¼šhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒserverSchemaæŒ‡çš„æ˜¯ï¼šhttp

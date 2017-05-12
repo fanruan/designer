@@ -10,7 +10,6 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +24,7 @@ public class PiePlotReportDataContentPane extends AbstractReportDataContentPane 
 	public PiePlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		
-		this.add(new BoldFontTextLabel(Inter.getLocText("Data_Filter")), "0,4,2,4");
+		this.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter")), "0,4,2,4");
 		this.add(filterPane = new ChartDataFilterPane(new PiePlot(), parent), "0,6,2,4");
 	}
 	
@@ -50,20 +49,6 @@ public class PiePlotReportDataContentPane extends AbstractReportDataContentPane 
 		
 		filterPane.populateBean(collection);
 	}
-	
-	private List getEntryList(NormalReportDataDefinition seriesList) {
-		List list = new ArrayList();
-		for(int i = 0; i < seriesList.size(); i++) {
-			SeriesDefinition seriesEntry = (SeriesDefinition)seriesList.get(i);
-			Object[] nameAndValue = new Object[2];
-			nameAndValue[0] = seriesEntry.getSeriesName();
-			nameAndValue[1] = seriesEntry.getValue();
-			if(nameAndValue[0] != null && nameAndValue[1] != null) {
-				list.add(nameAndValue);
-			}
-		}
-		return list;
-    }
 	
 	public void updateBean(ChartCollection collection) {
 		collection.getSelectedChart().setFilterDefinition(new NormalReportDataDefinition());

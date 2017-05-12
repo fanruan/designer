@@ -169,7 +169,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 	
 	/**
 	 * 初始menuPane的方法 方便OEM时修改该组件
-	 * @param ad
 	 */
 	protected void initMenuPane(){
 		menuPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -189,7 +188,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
-            public void success() {
+            public void success(Status status) {
                 TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
                 if (processor == null) {
                     processor = new DefaultTitlePlace();

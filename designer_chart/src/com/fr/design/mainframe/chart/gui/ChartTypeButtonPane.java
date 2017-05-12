@@ -79,7 +79,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         eastPane.setLayout(new BorderLayout());
 
-        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 15));
+        eastPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
         JPanel button = new JPanel();
         button.setPreferredSize(new Dimension(45, 20));
         button.setLayout(new GridLayout(1, 2, 5, 0));
@@ -425,6 +425,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         private void deleteAButton() {
             //先重构属性，在重构面板，否则面板在重构过程中，会重新将属性中的切换图表加到indexList中，导致面板无法删除
+            //记录改变前的plotID
+            String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
             if (editingCollection != null) {
                 int count = editingCollection.getChartCount();
                 for (int i = 0; i < count; i++) {
@@ -447,6 +449,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             checkoutChange();
 
             relayoutPane();
+
+            //重构面板
+            if (parent != null ){
+                parent.reLayoutEditPane(lastPlotID, editingCollection);
+            }
         }
 
         private void relayoutPane() {

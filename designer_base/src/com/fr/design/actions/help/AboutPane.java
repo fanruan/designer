@@ -68,10 +68,7 @@ public class AboutPane extends JPanel {
                         Inter.getLocText("FR-Designer-Basic_Activation_Key_Copy_OK")
                 }));
 
-        // 英文去掉服务电话和 QQ
-        if (FRContext.getLocale() == Locale.ENGLISH || FRContext.getLocale() == Locale.US || FRContext.getLocale() == Locale.UK){
-            // do nothing
-        } else {
+        if (shouldShowPhoneAndQQ()){
             if(ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)){
                 boxCenterAlignmentPane = new BoxCenterAligmentPane(Inter.getLocText("FR-Designer_Service_Phone") + ProductConstants.COMPARE_TELEPHONE);
                 contentPane.add(boxCenterAlignmentPane);
@@ -80,13 +77,29 @@ public class AboutPane extends JPanel {
             contentPane.add(boxCenterAlignmentPane);
         }
 
-        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website", ProductConstants.WEBSITE_URL));
-        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("register.email", ProductConstants.SUPPORT_EMAIL));
+        BoxCenterAligmentPane actionLabel = getURLActionLabel(SiteCenter.getInstance().acquireUrlByKind("website." + FRContext.getLocale(), ProductConstants.WEBSITE_URL));
+        BoxCenterAligmentPane emailLabel = getEmailActionLabel(SiteCenter.getInstance().acquireUrlByKind("support.email", ProductConstants.SUPPORT_EMAIL));
         
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
-        
-        addThankPane(contentPane);
+        if (shouldShowThanks()) {
+            addThankPane(contentPane);
+        }
+    }
+
+    // 是否显示服务电话和 qq
+    private boolean shouldShowPhoneAndQQ() {
+        return !FRContext.getLocale().equals(Locale.US);
+    }
+    // 是否显示鸣谢面板
+    private boolean shouldShowThanks() {
+        Locale[] hideLocales = {Locale.US, Locale.KOREA, Locale.JAPAN};
+        for (Locale loc : hideLocales) {
+            if (FRContext.getLocale().equals(loc)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     //添加鸣谢面板
@@ -111,7 +124,7 @@ public class AboutPane extends JPanel {
     
     private String getCopyRight(){
        return append(Inter.getLocText("FR-Designer_About_CopyRight"), COPYRIGHT_LABEL,
-    		   ProductConstants.HISTORY, StringUtils.BLANK, ProductConstants.COMPANY_NAME);
+    		   ProductConstants.HISTORY, StringUtils.BLANK, SiteCenter.getInstance().acquireUrlByKind("company.name", ProductConstants.COMPANY_NAME));
     }
 
     private String getBuildTitle() {

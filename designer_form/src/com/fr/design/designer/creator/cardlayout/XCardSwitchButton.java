@@ -3,13 +3,6 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.*;
-
-import javax.swing.*;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
@@ -25,6 +18,7 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.JForm;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.LayoutBorderStyle;
@@ -34,6 +28,13 @@ import com.fr.general.Background;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  *
@@ -42,12 +43,11 @@ import com.fr.general.Inter;
 public class XCardSwitchButton extends XButton {
 
 	private static final int LEFT_GAP = 16;
-	private static Icon MOUSE_COLSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
+	private static Icon MOUSE_CLOSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/close_icon.png");
 
 	//设置的图片类型
-	private static final String COLORBACKGROUNDTYPE = "ColorBackground";
-	private static final String DEFAULTTYPE = "default";
-	private static final String DEFAULT_FONT_NAME = "SimSun";
+	private static final String COLOR_BACKGROUND_TYPE = "ColorBackground";
+	private static final String DEFAULT_TYPE = "default";
 
 	//默认颜色
 	public static final Color NORMAL_GRAL = new Color(236,236,236);
@@ -66,7 +66,6 @@ public class XCardSwitchButton extends XButton {
 	private static final int FONT_SIZE_ADJUST = 2;
 
 	private static final int SIDE_OFFSET = 57;
-	private static final int FONT_SIZE = 9;
 
 	private XWCardLayout cardLayout;
 	private XWCardTagLayout tagLayout;
@@ -75,7 +74,7 @@ public class XCardSwitchButton extends XButton {
 	private boolean isCustomStyle;
 	private UILabel label;
 
-	private Icon closeIcon = MOUSE_COLSE;
+	private Icon closeIcon = MOUSE_CLOSE;
 	
 	public XWCardTagLayout getTagLayout() {
 		return tagLayout;
@@ -144,16 +143,17 @@ public class XCardSwitchButton extends XButton {
 
 		//关闭重新打开，相关的layout未存到xml中，初始化
 		if(cardLayout == null){
-			initRalateLayout(this);
+			initRelateLayout(this);
 		}
 		
 		//获取当前tab的index
 		XCardSwitchButton button = this;
 		CardSwitchButton currentButton = (CardSwitchButton) button.toData();
 		int index = currentButton.getIndex();
+		int maxIndex = cardLayout.getComponentCount() - 1;
 		
 		//点击删除图标时
-		if (isSeletectedClose(e,designer)) {
+		if (isSelectedClose(e, designer)) {
 			//当删除到最后一个tab时，删除整个tab布局
 			if(tagLayout.getComponentCount() <= MIN_SIZE){
 				deleteTabLayout(selectionModel, designer);
@@ -169,22 +169,44 @@ public class XCardSwitchButton extends XButton {
 		
 		//将当前tab按钮改为选中状态
 		changeButtonState(index);
-		
+
 		// 切换到当前tab按钮对应的tabFitLayout
 		XWTabFitLayout tabFitLayout = (XWTabFitLayout) cardLayout.getComponent(index);
 		XCardSwitchButton xCardSwitchButton = (XCardSwitchButton) this.tagLayout.getComponent(index);
 		tabFitLayout.setxCardSwitchButton(xCardSwitchButton);
 		selectionModel.setSelectedCreator(tabFitLayout);
-		
+
 		if (editingMouseListener.stopEditing()) {
-			ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer,
-					this);
-			editingMouseListener.startEditing(this,
-					adapter.getDesignerEditor(), adapter);
+			ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
+			editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
 		}
 		setTabsAndAdjust();
+		if(SwingUtilities.isRightMouseButton(e)){
+			showPopupMenu(editingMouseListener, e, index, maxIndex);
+		}
 	}
-	
+
+	private void showPopupMenu(EditingMouseListener editingMouseListener, MouseEvent e, int index, int maxIndex) {
+		JPopupMenu jPopupMenu = new JPopupMenu();
+		Action first = new TabMoveFirstAction(editingMouseListener.getDesigner(), this);
+		Action prev = new TabMovePrevAction(editingMouseListener.getDesigner(), this);
+		Action next = new TabMoveNextAction(editingMouseListener.getDesigner(), this);
+		Action end = new TabMoveEndAction(editingMouseListener.getDesigner(), this);
+		if (index == 0){
+			first.setEnabled(false);
+			prev.setEnabled(false);
+		}
+		if (index == maxIndex){
+			next.setEnabled(false);
+			end.setEnabled(false);
+		}
+		jPopupMenu.add(first);
+		jPopupMenu.add(prev);
+		jPopupMenu.add(next);
+		jPopupMenu.add(end);
+		GUICoreUtils.showPopupMenu(jPopupMenu, editingMouseListener.getDesigner(), e.getX(), e.getY());
+	}
+
 	//删除card，同时修改其他switchbutton和tabfit的index
 	private void deleteCard(XCardSwitchButton button,int index){
 		String titleName = button.getContentLabel().getText();
@@ -216,7 +238,7 @@ public class XCardSwitchButton extends XButton {
 	
 	
 	//SwitchButton对应的XWCardLayout和XWCardTagLayout暂未存到xml中,重新打开时根据父子层关系获取
-	private void initRalateLayout(XCardSwitchButton button){
+	private void initRelateLayout(XCardSwitchButton button){
 		this.tagLayout = (XWCardTagLayout)this.getBackupParent();
 		XWCardTitleLayout titleLayout = (XWCardTitleLayout) this.tagLayout.getBackupParent();
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout)titleLayout.getBackupParent();
@@ -224,7 +246,7 @@ public class XCardSwitchButton extends XButton {
 	}
 	
 	//是否进入点击关闭按钮区域
-	private boolean isSeletectedClose(MouseEvent e,FormDesigner designer){
+	private boolean isSelectedClose(MouseEvent e, FormDesigner designer){
 		
 		int diff = designer.getArea().getHorScrollBar().getValue();
 		
@@ -276,7 +298,7 @@ public class XCardSwitchButton extends XButton {
         super.paintComponent(g);
 		setTabsAndAdjust();
         Graphics2D g2d = (Graphics2D) g;
-        drawBackgorund();
+        drawBackground();
         drawTitle();
 		Dimension panelSize = this.getContentLabel().getSize();
 		this.getContentBackground().paint(g, new Rectangle2D.Double(0, 0, panelSize.getWidth(), panelSize.getHeight()));
@@ -289,13 +311,13 @@ public class XCardSwitchButton extends XButton {
 	}
 	
 	//画背景
-	private void drawBackgorund(){
+	private void drawBackground(){
         CardSwitchButton button = (CardSwitchButton)this.toData();
 		Background currentBackground;
 		currentBackground = this.getSelectBackground();
 		//这边就是button的背景图片,图片的是image,默认的是color,所以不应该是针对null的判断
-		String type = currentBackground != null? currentBackground.getBackgroundType() : DEFAULTTYPE;
-		if (type.equals(COLORBACKGROUNDTYPE) || type.equals(DEFAULTTYPE)) {
+		String type = currentBackground != null? currentBackground.getBackgroundType() : DEFAULT_TYPE;
+		if (type.equals(COLOR_BACKGROUND_TYPE) || type.equals(DEFAULT_TYPE)) {
 			ColorBackground background;
 			if(button.isShowButton()){
 				this.rebuid();
@@ -314,17 +336,14 @@ public class XCardSwitchButton extends XButton {
 		CardSwitchButton button = (CardSwitchButton) this.toData();
 		this.setButtonText(button.getText());
 		if (this.cardLayout == null) {
-			initRalateLayout(this);
+			initRelateLayout(this);
 		}
 
 		LayoutBorderStyle style = this.cardLayout.toData().getBorderStyle();
 
 		// 标题部分
 		WidgetTitle title = style.getTitle();
-		FRFont font = button.getFont();
-		if (font == null) {
-			font = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
-		}
+		FRFont font = title.getFrFont();
 		FRFont newFont = FRFont.getInstance(font.getName(),font.getStyle(),font.getSize() + FONT_SIZE_ADJUST);
 		UILabel label = this.getContentLabel();
 		label.setFont(newFont);
@@ -403,9 +422,6 @@ public class XCardSwitchButton extends XButton {
 			XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
 			CardSwitchButton cardSwitchButton = (CardSwitchButton) temp.toData();
 			FRFont frFont = cardSwitchButton.getFont();
-			if (frFont == null) {
-				frFont = FRFont.getInstance(DEFAULT_FONT_NAME, 0, FONT_SIZE);
-			}
 			UILabel label = temp.getContentLabel();
 			label.setSize(dimension);
 			label.setFont(frFont.applyResolutionNP(ScreenResolution.getScreenResolution()));

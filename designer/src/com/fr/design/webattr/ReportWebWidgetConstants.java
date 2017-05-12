@@ -78,13 +78,13 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption EDIT = WidgetOptionFactory.createByWidgetClass("Edit", Edit.class);
 
     // 导出成Excel 分页导出
-    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "Export-Excel-Page"}, new String[]{"(", ")"}),
+    public static final WidgetOption EXCELP = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "FR-Designer_Export_Excel_Page"}, new String[]{"(", ")"}),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelP.class);
     // 导出成Excel 原样导出
-    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "Export-Excel-Simple"}, new String[]{"(", ")"}),
+    public static final WidgetOption EXCELO = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "FR-Designer_Export_Excel_Simple"}, new String[]{"(", ")"}),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelO.class);
     // 导出成Excel 分页分Sheet导出
-    public static final WidgetOption EXCELS = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "Export-Excel-PageToSheet"}, new String[]{"(", ")"}),
+    public static final WidgetOption EXCELS = WidgetOptionFactory.createByWidgetClass(Inter.getLocText(new String[]{"Excel", "FR-Designer_Export_Excel_PageToSheet"}, new String[]{"(", ")"}),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelS.class);
 
     // 导出成Word

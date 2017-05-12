@@ -20,24 +20,28 @@ import java.awt.*;
  * carl :单独弄出来
  */
 public class CellWidgetCardPane extends BasicPane {
-    //	当前的编辑器属性定义面板
+    //当前的编辑器属性定义面板
     private DataModify<? extends Widget> currentEditorDefinePane;
-
+    //属性配置切换面板
     private JTabbedPane tabbedPane;
-
     private BasicWidgetPropertySettingPane widgetPropertyPane;
-    private JPanel attriPane;
-    private JPanel cardPane;
-    private CardLayout card;
 
-    private JPanel presPane;
-    private JPanel cardPaneForPresent;
-    private CardLayout cardForPresent;
+    //通用属性容器
+    private JPanel attriTabPane;
+    private JPanel attriCardPane;
+    private CardLayout attriCardLayout;
 
-    private JPanel cardPaneForTreeSetting;
+    //数字字典属性容器
+    private JPanel dictTabPane;
+    private JPanel dictCardPane;
+    private CardLayout dictCardLayout;
 
-    private JPanel formPane;
-    private WidgetEventPane eventTabPane;
+    //构建树属性容器
+    private JPanel treeTabPane;
+
+    //事件属性容器
+    private JPanel eventTabPane;
+    private WidgetEventPane eventPane;
 
     public CellWidgetCardPane(ElementCasePane pane) {
         this.initComponents(pane);
@@ -47,26 +51,31 @@ public class CellWidgetCardPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         tabbedPane = new UITabbedPane();
         this.add(tabbedPane, BorderLayout.CENTER);
-        attriPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        formPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        eventTabPane = new WidgetEventPane(pane);
-        formPane.add(eventTabPane, BorderLayout.CENTER);
-        tabbedPane.add(Inter.getLocText("FR-Designer_Attribute"), attriPane);
-        tabbedPane.add(Inter.getLocText("FR-Designer_Form_Editing_Listeners"), formPane);
+        attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        eventPane = new WidgetEventPane(pane);
+        eventTabPane.add(eventPane, BorderLayout.CENTER);
+        tabbedPane.add(Inter.getLocText("FR-Designer_Attribute"), attriTabPane);
+        tabbedPane.add(Inter.getLocText("FR-Designer_Form_Editing_Listeners"), eventTabPane);
 
-        presPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        cardPaneForPresent = FRGUIPaneFactory.createCardLayout_S_Pane();
-        presPane.add(cardPaneForPresent, BorderLayout.CENTER);
-        cardForPresent = new CardLayout();
-        cardPaneForPresent.setLayout(cardForPresent);
+        dictTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        dictCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        dictTabPane.add(dictCardPane, BorderLayout.CENTER);
+        dictCardLayout = new CardLayout();
+        dictCardPane.setLayout(dictCardLayout);
 
-        cardPaneForTreeSetting = FRGUIPaneFactory.createBorderLayout_L_Pane();
+        treeTabPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        attriPane.add(widgetPropertyPane, BorderLayout.NORTH);
-        cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-        attriPane.add(cardPane, BorderLayout.CENTER);
-        card = (CardLayout) cardPane.getLayout();
+        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
+        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
+        northPane.add(basic);
+        basic.add(widgetPropertyPane);
+        attriTabPane.add(northPane, BorderLayout.NORTH);
+        attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+        attriTabPane.add(attriCardPane, BorderLayout.CENTER);
+        attriCardLayout = (CardLayout) attriCardPane.getLayout();
         this.setPreferredSize(new Dimension(600, 450));
     }
 
@@ -84,49 +93,44 @@ public class CellWidgetCardPane extends BasicPane {
             this.tabbedPane.setEnabled(true);
         }
 
-        attriPane.remove(widgetPropertyPane);
-        widgetPropertyPane = new BasicWidgetPropertySettingPane();
-        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        northPane.setBorder(BorderFactory.createEmptyBorder(5, 8, 0, 8));
-        JPanel basic = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Form_Basic_Properties"));
-        northPane.add(basic);
-        basic.add(widgetPropertyPane);
-        attriPane.add(northPane, BorderLayout.NORTH);
-
         WidgetDefinePaneFactory.RN rn = WidgetDefinePaneFactory.createWidgetDefinePane(cellWidget, new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
                 if (ui == null) {
-                    addPresPane(false);
-                    addTreeSettingPane(false);
+                    removeDictAttriPane();
+                    removeTreeAttriPane();
                 }
                 if (ui instanceof DictionaryPane) {
+                    removeDictAttriPane();
+                    removeTreeAttriPane();
                     showDictPane(ui, cardName);
                 } else if (ui instanceof TreeSettingPane) {
+                    removeDictAttriPane();
+                    removeTreeAttriPane();
                     showTreePane(ui);
                 }
             }
         });
         DataModify<? extends Widget> definePane = rn.getDefinePane();
-        cardPane.add(definePane.toSwingComponent(), rn.getCardName());
-        card.show(cardPane, rn.getCardName());
+        attriCardPane.add(definePane.toSwingComponent(), rn.getCardName());
+        attriCardLayout.show(attriCardPane, rn.getCardName());
         currentEditorDefinePane = definePane;
-        eventTabPane.populate(cellWidget);
+        eventPane.populate(cellWidget);
         widgetPropertyPane.populate(cellWidget);
         tabbedPane.setSelectedIndex(0);
     }
 
     private void showDictPane(DataCreatorUI ui, String cardName) {
-        cardPaneForPresent.removeAll();
-        cardPaneForPresent.add(ui.toSwingComponent(), cardName);
-        cardForPresent.show(cardPaneForPresent, cardName);
-        addPresPane(true);
+        dictCardPane.removeAll();
+        dictCardPane.add(ui.toSwingComponent(), cardName);
+        dictCardLayout.show(dictCardPane, cardName);
+        addDictAttriPane();
     }
 
     private void showTreePane(DataCreatorUI ui) {
-        cardPaneForTreeSetting.removeAll();
-        cardPaneForTreeSetting.add(ui.toSwingComponent());
-        addTreeSettingPane(true);
+        treeTabPane.removeAll();
+        treeTabPane.add(ui.toSwingComponent());
+        addTreeAttriPane();
     }
 
     public Widget update() {
@@ -139,7 +143,7 @@ public class CellWidgetCardPane extends BasicPane {
         }
         widgetPropertyPane.update(widget);
 
-        Listener[] listener = eventTabPane == null ? new Listener[0] : eventTabPane.updateListeners();
+        Listener[] listener = eventPane == null ? new Listener[0] : eventPane.updateListeners();
         widget.clearListeners();
         for (Listener l : listener) {
             widget.addListener(l);
@@ -155,25 +159,26 @@ public class CellWidgetCardPane extends BasicPane {
      */
     public void checkValid() throws Exception {
         currentEditorDefinePane.checkValid();
-        eventTabPane.checkValid();
+        eventPane.checkValid();
     }
 
-    //:jackie  如果选择的项有形态，则将形态面板加入tab面板
-    private void addPresPane(boolean add) {
-        if (add) {
-            tabbedPane.add(this.presPane, 1);
-            tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_DS_Dictionary"));
-        } else {
-            tabbedPane.remove(presPane);
-        }
+
+    private void addDictAttriPane() {
+        tabbedPane.add(this.dictTabPane, 1);
+        tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_DS_Dictionary"));
     }
 
-    private void addTreeSettingPane(boolean add) {
-        if (add) {
-            tabbedPane.add(this.cardPaneForTreeSetting, 1);
-            tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_Create_Tree"));
-        } else {
-            tabbedPane.remove(this.cardPaneForTreeSetting);
-        }
+    private void addTreeAttriPane() {
+        tabbedPane.add(this.treeTabPane, 1);
+        tabbedPane.setTitleAt(1, Inter.getLocText("FR-Designer_Create_Tree"));
     }
+
+    private void removeDictAttriPane() {
+        tabbedPane.remove(this.dictTabPane);
+    }
+
+    private void removeTreeAttriPane() {
+        tabbedPane.remove(this.treeTabPane);
+    }
+
 }

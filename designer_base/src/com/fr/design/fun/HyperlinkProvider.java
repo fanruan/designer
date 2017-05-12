@@ -10,7 +10,7 @@ import com.fr.stable.fun.mark.Mutable;
 public interface HyperlinkProvider extends Mutable {
     String XML_TAG = "HyperlinkProvider";
 
-    int CURRENT_LEVEL = 1;
+    int CURRENT_LEVEL = 2;
 
 
     /**

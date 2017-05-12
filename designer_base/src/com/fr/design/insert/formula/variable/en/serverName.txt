@@ -1,3 +1,1 @@
-address or name of the server
-http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-serverName means localhost
+address or name of the serverhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒserverName means localhost

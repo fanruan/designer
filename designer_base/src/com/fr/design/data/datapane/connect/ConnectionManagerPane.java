@@ -14,7 +14,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 
-public class ConnectionManagerPane extends LoadingBasicPane {
+public class ConnectionManagerPane extends LoadingBasicPane implements ConnectionShowPane {
     private UITextField connectionTextField;
     private ConnectionListPane connectionListPane;
 
@@ -30,10 +30,10 @@ public class ConnectionManagerPane extends LoadingBasicPane {
         this.connectionTextField = new UITextField();
         connectionPathPane.add(connectionTextField, BorderLayout.CENTER);
         this.connectionTextField.setEditable(false);
-        connectionListPane = new ConnectionListPane(){
-            protected void rename(String oldName,String newName) {
-                super.rename(oldName,newName);
-                renameConnection(oldName,newName);
+        connectionListPane = new ConnectionListPane() {
+            protected void rename(String oldName, String newName) {
+                super.rename(oldName, newName);
+                renameConnection(oldName, newName);
             }
         };
         container.add(connectionListPane, BorderLayout.CENTER);
@@ -69,6 +69,7 @@ public class ConnectionManagerPane extends LoadingBasicPane {
 
     /**
      * 名字是否允许
+     *
      * @return 允许返回true
      */
     public boolean isNamePermitted() {

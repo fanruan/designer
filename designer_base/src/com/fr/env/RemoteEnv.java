@@ -55,7 +55,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-public class RemoteEnv implements Env {
+public class RemoteEnv extends AbstractEnv {
     private static final int TIME_OUT = 30 * 1000;
     private static final int PLAIN_SOCKET_PORT = 80;
     private static final int SSL_PORT = 443;
@@ -1483,6 +1483,8 @@ public class RemoteEnv implements Env {
      * @throws Exception 异常
      */
     public boolean writeSvgFile(SvgProvider svgFile) throws Exception {
+        testServerConnection();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_svg");
@@ -1534,6 +1536,8 @@ public class RemoteEnv implements Env {
      */
     @Override
     public boolean writeResource(XMLFileManagerProvider mgr) throws Exception {
+        testServerConnection();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_save_resource");
