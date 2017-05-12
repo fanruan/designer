@@ -6,7 +6,7 @@ import com.fr.stable.StringUtils;
 public class FunctionDefNAD extends AbstractNameAndDescription {
 	private FunctionDef def;
 	
-	FunctionDefNAD(FunctionDef def) {
+	public FunctionDefNAD(FunctionDef def) {
 		this.def = def;
 	}
 	

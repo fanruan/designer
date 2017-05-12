@@ -3,12 +3,6 @@
  */
 package com.fr.design.designer.beans.adapters.layout;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ConstraintsGroupModel;
 import com.fr.design.designer.beans.HoverPainter;
@@ -22,14 +16,16 @@ import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRFitLayoutConstraints;
 import com.fr.design.designer.properties.FRFitLayoutPropertiesGroupModel;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.mainframe.JForm;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 自适应布局的容器适配器
@@ -52,6 +48,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     public void setEdit(boolean edit) {
         isEdit = edit;
     }
+
     /**
      * 构造函数
      *
@@ -134,7 +131,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         isFindRelatedComps = false;
         //拖入组件判断时，先判断是否为交叉点区域，其次三等分区域，再次平分区域
         Component comp = container.getComponentAt(x, y);
-        if (checkInterval(comp)) {
+        if (comp == null || checkInterval(comp)) {
             return false;
         }
         //如果当前处于边缘地带, 那么就把他贴到父容器上
@@ -269,22 +266,15 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         return super.isCrossPointArea(currentComp, x, y);
     }
 
-    protected void initCompsList() {
-        super.initCompsList();
-    }
 
-    protected void clearCompsList() {
-        super.clearCompsList();
+    protected Rectangle getLayoutBound(XWCardMainBorderLayout mainLayout) {
+        return mainLayout.getBounds();
     }
 
     private Rectangle adjustBackupBound(Rectangle backupBound, XWCardMainBorderLayout mainLayout) {
-        // 参数界面高度对纵坐标产生的影响
-        JForm jform = (JForm) (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
-        if (jform.getFormDesign().getParaComponent() != null) {
-            backupBound.y -= jform.getFormDesign().getParaHeight();
-        }
-
-        Rectangle rec = mainLayout.getBounds();
+        // zhouping: REPORT-2334 表单tab布局中图表放大缩小会明显
+        // 这边不需要单独处理参数面板高度了，下面的方法中获取的是XWCardMainBorderLayout相对坐标
+        Rectangle rec = getLayoutBound(mainLayout);
         // XWTabLayout里面的横纵坐标收到外层XWCardMainBorderLayout的横纵坐标影响
         // 减掉之后可以按照它原来的逻辑执行
         backupBound.x -= rec.x;
@@ -349,13 +339,13 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 拖拽控件边框后，根据控件的大小尺寸，进行相关组件的调整
      *
      * @param backupBound 边界备份
-     * @param bounds  组件边界
-     * @param xCreator 组件
-     * @param row 选中的行
-     * @param difference 偏移量
+     * @param bounds      组件边界
+     * @param xCreator    组件
+     * @param row         选中的行
+     * @param difference  偏移量
      */
     public void calculateBounds(Rectangle backupBound, Rectangle bounds, XCreator xCreator, int row, int difference) {
-        Rectangle rc = new Rectangle(0,0,0,0);
+        Rectangle rc = new Rectangle(0, 0, 0, 0);
         XLayoutContainer parent = XCreatorUtils.getParentXLayoutContainer(xCreator);
         if (parent != null) {
             Rectangle rec = ComponentUtils.getRelativeBounds(parent);
@@ -366,17 +356,17 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         //处理左右延伸
         switch (row) {
             case 0:
-                if (backupBound.width + backupBound.x == container.getWidth() - margin.getRight() +rc.x) {
+                if (backupBound.width + backupBound.x == container.getWidth() - margin.getRight() + rc.x) {
                     x += difference;
                 }
                 break;
             case 1:
-                if(backupBound.y + backupBound.height == container.getHeight() - margin.getBottom() +rc.y){
+                if (backupBound.y + backupBound.height == container.getHeight() - margin.getBottom() + rc.y) {
                     y += difference;
                 }
                 break;
         }
-        bounds.setLocation(x,y);
+        bounds.setLocation(x, y);
         xCreator.setBackupBound(backupBound);
         xCreator.setBounds(bounds);
         this.fix(xCreator);
@@ -420,7 +410,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的坐标值
     private int adjustCoordinateByDependingLine(int coordinate, int[] coordinates) {
-        if(!isEdit) {
+        if (!isEdit) {
             for (int i = 0; i < coordinates.length; i++) {
                 if (coordinate == coordinates[i]) {
                     continue;
@@ -436,7 +426,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
     // 根据需要依附的位置调整拖拽的距离
     private int adjustDiffByDependingLine(int coordinate, int[] coordinates, int diff) {
-        if(!isEdit) {
+        if (!isEdit) {
             for (int i = 0; i < coordinates.length; i++) {
                 if (coordinate + diff > coordinates[i] - DEPENDING_SCOPE && coordinate + diff < coordinates[i] + DEPENDING_SCOPE) {
                     diff = coordinates[i] - coordinate;
@@ -554,8 +544,8 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
             difference = Math.max(difference, minWidth - getMinWidth(leftComps));
         }
         //重新计算左右两侧组件size、point
-        if (CalculateLefttRelatComponent(difference)) {
-            CalculateRightRelatComponent(objx + difference, -difference);
+        if (calculateLefttRelatComponent(difference)) {
+            calculateRightRelatComponent(objx + difference, -difference);
         }
     }
 
@@ -670,10 +660,9 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
             difference = Math.max(difference, minHeight - getMinHeight(upComps));
         }
         //重新计算上下两侧组件size、point
-        if (CalculateUpRelatComponent(difference)) {
-            CalculateDownRelatComponent(objY + difference, -difference);
+        if (calculateUpRelatComponent(difference)) {
+            calculateDownRelatComponent(objY + difference, -difference);
         }
-        ;
     }
 
     /**
@@ -753,13 +742,13 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
             int height = creatorHeight;
             calculateRelatedComponent(x, y, width, height);
             if (!rightComps.isEmpty() && getAllHeight(rightComps) == height) {
-                CalculateRightRelatComponent(x, width + actualVal);
+                calculateRightRelatComponent(x, width + actualVal);
             } else if (!leftComps.isEmpty() && getAllHeight(leftComps) == height) {
-                CalculateLefttRelatComponent(width + actualVal);
+                calculateLefttRelatComponent(width + actualVal);
             } else if (!downComps.isEmpty() && getAllWidth(downComps) == width) {
-                CalculateDownRelatComponent(y, height + actualVal);
+                calculateDownRelatComponent(y, height + actualVal);
             } else if (!upComps.isEmpty() && getAllWidth(upComps) == width) {
-                CalculateUpRelatComponent(height + actualVal);
+                calculateUpRelatComponent(height + actualVal);
             } else {
                 // 由于布局三等分的存在，可能会出现删除组件时，找不到关联的组件填充，此时特殊处理
                 calculateNoRelatedComponent(x, y, width, height);
@@ -1022,7 +1011,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
                 setAdjustedSize(tabLayout, offset, isHor);
                 for (int m = 0; m < tabLayout.getComponentCount(); m++) {
                     XCreator childCreator = tabLayout.getXCreator(m);
-                    BoundsWidget wgt = tabLayout.toData().getBoundsWidget(childCreator.toData());
+                    WAbsoluteLayout.BoundsWidget wgt = (WAbsoluteLayout.BoundsWidget) tabLayout.toData().getBoundsWidget(childCreator.toData());
                     wgt.setBounds(tabLayout.getComponent(m).getBounds());
                 }
                 adjustCreatorsSize(percent, tabLayout, isHor);
@@ -1065,7 +1054,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * @param objX     调整后的坐标x
      * @param objWidth 调整后的宽度
      */
-    protected void CalculateRightRelatComponent(int objX, int objWidth) {
+    protected void calculateRightRelatComponent(int objX, int objWidth) {
         int count = rightComps.size();
         for (int i = 0; i < count; i++) {
             XCreator creator = (XCreator) rightComps.get(i);
@@ -1105,7 +1094,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     /**
      * 删除或拉伸控件左边框时 调整左侧的组件位置大小；
      */
-    protected boolean CalculateLefttRelatComponent(int objWidth) {
+    protected boolean calculateLefttRelatComponent(int objWidth) {
         if (isBeyondAdjustWidthScope(objWidth)) {
             return false;
         }
@@ -1123,7 +1112,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     /**
      * 删除或拉伸下边框  调整下方的组件位置大小
      */
-    protected void CalculateDownRelatComponent(int objY, int objHeight) {
+    protected void calculateDownRelatComponent(int objY, int objHeight) {
         int count = downComps.size();
         for (int i = 0; i < count; i++) {
             XCreator creator = (XCreator) downComps.get(i);
@@ -1163,7 +1152,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     /**
      * 删除或拉伸上边框    调整上方的组件位置大小
      */
-    protected boolean CalculateUpRelatComponent(int objHeight) {
+    protected boolean calculateUpRelatComponent(int objHeight) {
         if (isBeyondAdjustHeightScope(objHeight)) {
             return false;
         }

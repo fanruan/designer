@@ -3,10 +3,6 @@
  */
 package com.fr.design.designer.creator.cardlayout;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
@@ -17,11 +13,17 @@ import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
-import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.IOUtils;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.general.Inter;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * card布局主体框架
@@ -154,7 +156,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 						tabLayout.getHeight());
 				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
 					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = tabLayout.toData()
+					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
 							.getBoundsWidget(childCreator.toData());
 					wgt.setBounds(tabLayout.getComponent(m).getBounds());
 				}
@@ -189,7 +191,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 						tabLayout.getHeight() + offset);
 				for (int m = 0; m < tabLayout.getComponentCount(); m++) {
 					XCreator childCreator = tabLayout.getXCreator(m);
-					BoundsWidget wgt = tabLayout.toData()
+					BoundsWidget wgt = (BoundsWidget) tabLayout.toData()
 							.getBoundsWidget(childCreator.toData());
 					wgt.setBounds(tabLayout.getComponent(m).getBounds());
 				}
@@ -231,7 +233,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout{
 			);
 			g2d.setColor(Color.BLACK);
 			//画编辑文字
-			g2d.drawString(Inter.getLocText("Edit"), x + w / 2 - 2, y + h / 2 + 5);
+			g2d.drawString(Inter.getLocText("FR-Designer_Edit"), x + w / 2 - 2, y + h / 2 + 5);
 		}
 	}
 

@@ -1,3 +1,1 @@
-contextPathÊÇÖ¸¾ø¶ÔÂ·¾¶µÄ·şÎñÆ÷±ğÃû£¬¼´ĞéÄâÄ¿Â¼.
-¼ÙÈç·ÃÎÊ£ºhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-contextPathÊÇ/WebReport
+contextPathæ˜¯æŒ‡ç»å¯¹è·¯å¾„çš„æœåŠ¡å™¨åˆ«åï¼Œå³è™šæ‹Ÿç›®å½•.å‡å¦‚è®¿é—®ï¼šhttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒcontextPathæ˜¯/WebReport

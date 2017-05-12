@@ -31,44 +31,55 @@ public class MinMaxValuePane extends JPanel {
     protected UITextField secUnitField;
 
 	public MinMaxValuePane() {
-        minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
-        minValueField = new UITextField(6);
-        maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
-        maxValueField = new UITextField(6);
-        isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
-        mainUnitField = new UITextField(6);
-        isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
-        secUnitField = new UITextField(6);
+		minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
+		minValueField = new UITextField(6);
+		maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
+		maxValueField = new UITextField(6);
+		isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
+		mainUnitField = new UITextField(6);
+		isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
+		secUnitField = new UITextField(6);
+
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = { p, f };
-		double[] rowSize = { p, p, p, p};
+		double[] columnSize = {p, f};
 
-		Component[][] components  = getPanelComponents();
-		JPanel panel = TableLayoutHelper.createTableLayoutPane(components ,rowSize,columnSize);
+		Component[][] components = getPanelComponents();
+		JPanel panel = TableLayoutHelper.createTableLayoutPane(components, getRowSize(p), columnSize);
 		this.setLayout(new BorderLayout());
-		this.add(panel,BorderLayout.CENTER);
+		this.add(panel, BorderLayout.CENTER);
+		addComponentListener(components);
+	}
 
-		for(int i = 0; i < components.length; i++) {
-			((UICheckBox)components[i][0]).addActionListener(new ActionListener() {
+	protected double[] getRowSize(double p) {
+		return new double[]{p, p, p, p};
+	}
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					checkBoxUse();
-				}
-			});
-			ChartSwingUtils.addListener((UICheckBox)components[i][0], (UITextField)components[i][1]);	
+	protected void addComponentListener(Component[][] components) {
+		for (int i = 0; i < components.length; i++) {
+			addListener((UICheckBox) components[i][0]);
+			ChartSwingUtils.addListener((UICheckBox) components[i][0], (UITextField) components[i][1]);
 		}
 	}
 
-    protected Component[][] getPanelComponents() {
-        return 	new Component[][]{
-                new Component[]{minCheckBox, minValueField},
-                new Component[]{maxCheckBox, maxValueField},
-                new Component[]{isCustomMainUnitBox, mainUnitField},
-                new Component[]{isCustomSecUnitBox, secUnitField},
-        };
-    }
+	protected void  addListener(UICheckBox checkBox) {
+		checkBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkBoxUse();
+			}
+		});
+	}
+
+	protected Component[][] getPanelComponents() {
+		return new Component[][]{
+				new Component[]{minCheckBox, minValueField},
+				new Component[]{maxCheckBox, maxValueField},
+				new Component[]{isCustomMainUnitBox, mainUnitField},
+				new Component[]{isCustomSecUnitBox, secUnitField},
+		};
+	}
 
 	private void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
@@ -101,7 +112,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMinValue() != null) {
 				minValueField.setText(axis.getMinValue().toString());
 			}
-		} 
+		}
 
 		// 最大值
 		if (axis.isCustomMaxValue()) {
@@ -109,7 +120,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMaxValue() != null) {
 				maxValueField.setText(axis.getMaxValue().toString());
 			}
-		} 
+		}
 
 		// 主次刻度单位
 		if (axis.isCustomMainUnit()) {
@@ -117,7 +128,7 @@ public class MinMaxValuePane extends JPanel {
 			if(axis.getMainUnit() != null) {
 				mainUnitField.setText(axis.getMainUnit().toString());
 			}
-		} 
+		}
 
 		if(axis.isCustomSecUnit()) {
 			isCustomSecUnitBox.setSelected(true);

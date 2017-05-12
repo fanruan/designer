@@ -255,7 +255,12 @@ public class XWCardLayout extends XLayoutContainer {
         creator.setDirections(null);
         WCardLayout layout = this.toData();
         Widget w = creator.toData();
-        layout.addWidget(w);
+
+		for (int i = 0, count = this.getComponentCount(); i < count; i++) {
+			if (creator == this.getComponent(i)) {
+				layout.addWidget(w, i);
+			}
+		}
     }
 
 	@Override
@@ -290,9 +295,15 @@ public class XWCardLayout extends XLayoutContainer {
 	 * 判断当前tab组件是不是嵌套的
 	 * @return 嵌套与否
 	 */
-	private boolean isNested(){
-		XLayoutContainer xLayoutContainer = this.getBackupParent().getBackupParent();
-		return xLayoutContainer != null && xLayoutContainer.acceptType(XWTabFitLayout.class);
+	private boolean isNested() {
+		XCreator xCreator = (XCreator)this.getBackupParent().getParent();
+		while (xCreator != null) {
+			if (xCreator.acceptType(XWCardMainBorderLayout.class)) {
+				return true;
+			}
+			xCreator = (XCreator) xCreator.getParent();
+		}
+		return false;
 	}
 
 	public CRPropertyDescriptor[] getisCarousel() throws IntrospectionException {
@@ -339,7 +350,7 @@ public class XWCardLayout extends XLayoutContainer {
 					@Override
 					public void propertyChange(){
 						WCardLayout cardLayout = toData();
-						changeRalateSwitchCardname(cardLayout.getWidgetName());
+						changeRelateSwitchCardName(cardLayout.getWidgetName());
 					}
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
@@ -389,8 +400,8 @@ public class XWCardLayout extends XLayoutContainer {
     	}
     }
     
-    //修改相关SwtchButton所绑定的cardLayout控件名
-	private void changeRalateSwitchCardname(String cardLayoutName) {
+    //修改相关SwitchButton所绑定的cardLayout控件名
+	private void changeRelateSwitchCardName(String cardLayoutName) {
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout) this.getBackupParent();
 		WCardMainBorderLayout border = borderLayout.toData();
 		WCardTitleLayout titleLayout = border.getTitlePart();
@@ -413,7 +424,6 @@ public class XWCardLayout extends XLayoutContainer {
 		SelectionModel selectionModel = designer.getSelectionModel();
 		selectionModel.setSelectedCreator(mainLayout);
 		selectionModel.deleteSelection();
-		return;
 	}
 	@Override
 	public void setBorder(Border border) {

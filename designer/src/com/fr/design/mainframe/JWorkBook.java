@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
+import com.fr.base.parameter.ParameterUI;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -26,6 +27,8 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
+import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.*;
 import com.fr.design.module.DesignModuleFactory;
@@ -54,7 +57,10 @@ import com.fr.main.impl.WorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.poly.PolyDesigner;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
+import com.fr.report.cellcase.CellCase;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.report.poly.PolyWorkSheet;
+import com.fr.report.report.Report;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
@@ -66,10 +72,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -127,6 +130,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
         reportComposite.setParentContainer(centerPane);
         return centerPane;
+    }
+
+    public TemplateProcessInfo getProcessInfo() {
+        if (processInfo == null) {
+            processInfo = new JWorkBookProcessInfo(template);
+        }
+        return processInfo;
     }
 
     /**
@@ -463,7 +473,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(Inter.getLocText(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(Inter.getLocText("FR-Designer_Permissions_Edition")),
                 BaseUtils.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 

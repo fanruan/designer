@@ -161,35 +161,47 @@ public class UIEditLabel extends JPanel implements UIObserver{
         return text;
     }
 
+    protected boolean appendOriginalLabel() {
+        return true;
+    }
+
     private void stopEditing(){
         isEditingStopped = true;
         this.removeAll();
-        String text =this.showLabel.getText();
-        text = StringUtils.cutStringEndWith(text,":");
-        text = !ComparatorUtils.equals(text, this.originalLabel) ?
-                StringUtils.perfectEnd(text, "(" + this.originalLabel + ")"): this.originalLabel;
-        showLabel.setText(StringUtils.perfectEnd(text,":"));
+        if(appendOriginalLabel()) {
+            String text = this.showLabel.getText();
+            text = StringUtils.cutStringEndWith(text, ":");
+            text = !ComparatorUtils.equals(text, this.originalLabel) ?
+                    StringUtils.perfectEnd(text, "(" + this.originalLabel + ")") : this.originalLabel;
+            showLabel.setText(StringUtils.perfectEnd(text, ":"));
+        }
         this.add(showLabel, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
     }
 
     public String getText(){
-        String text =this.showLabel.getText();
-        text = StringUtils.cutStringEndWith(text,":");
-        return StringUtils.cutStringEndWith(text,"("+this.originalLabel+")");
+        if(appendOriginalLabel()) {
+            String text = this.showLabel.getText();
+            text = StringUtils.cutStringEndWith(text, ":");
+            return StringUtils.cutStringEndWith(text, "(" + this.originalLabel + ")");
+        } else {
+            return this.showLabel.getText();
+        }
     }
 
     public void setText(String text){
-        if(text == null || StringUtils.isEmpty(text)){
-            this.showLabel.setText(this.originalLabel);
-            return;
+        if(appendOriginalLabel()) {
+            if (text == null || StringUtils.isEmpty(text)) {
+                this.showLabel.setText(this.originalLabel);
+                return;
+            }
+            if (!ComparatorUtils.equals(text, originalLabel)) {
+                text = StringUtils.cutStringEndWith(text, ":");
+                text = StringUtils.perfectEnd(text, "(" + originalLabel + ")");
+            }
+            text = StringUtils.perfectEnd(text, ":");
         }
-        if(!ComparatorUtils.equals(text,originalLabel)){
-            text = StringUtils.cutStringEndWith(text, ":");
-            text = StringUtils.perfectEnd(text,"("+originalLabel+")");
-        }
-        text = StringUtils.perfectEnd(text,":");
         this.showLabel.setText(text);
     }
 

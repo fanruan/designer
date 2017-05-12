@@ -1,3 +1,1 @@
-serverSchema
-http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-serverSchema is http
+serverSchemahttp://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒserverSchema is http

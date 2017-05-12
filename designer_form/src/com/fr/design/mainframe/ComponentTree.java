@@ -1,21 +1,14 @@
 package com.fr.design.mainframe;
 
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.DropMode;
-import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.beans.AdapterBus;
-import com.fr.design.designer.beans.ComponentAdapter;
-import com.fr.design.designer.beans.events.DesignerEditListener;
-import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
@@ -92,9 +85,9 @@ public class ComponentTree extends JTree {
         }
     }
 
-    public void setAndScrollSelectionPath(TreePath treepath) {
-        setSelectionPath(treepath);
-        scrollPathToVisible(treepath);
+    public void setAndScrollSelectionPath(TreePath[] treepath) {
+        setSelectionPaths(treepath);
+        scrollPathToVisible(treepath[0]);
     }
 
 
@@ -112,7 +105,6 @@ public class ComponentTree extends JTree {
     public TreePath[] getSelectedTreePath() {
         XCreator[] creators = designer.getSelectionModel().getSelection().getSelectedCreators();
         TreePath[] paths = new TreePath[creators.length];
-
         for (int i = 0; i < paths.length; i++) {
             paths[i] = buildTreePath(creators[i]);
         }
@@ -141,7 +133,7 @@ public class ComponentTree extends JTree {
             paths[i] = buildTreePath(searchList.get(i));
         }
         if(paths.length > 0) {
-            setAndScrollSelectionPath(paths[0]);
+            setAndScrollSelectionPath(paths);
         } else {
             setSelectionPath();
         }
@@ -217,4 +209,5 @@ public class ComponentTree extends JTree {
         Object[] components = path.toArray();
         return new TreePath(components);
     }
+
 }

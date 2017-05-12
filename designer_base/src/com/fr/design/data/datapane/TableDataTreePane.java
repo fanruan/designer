@@ -84,7 +84,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
         GeneralContext.addPluginReadListener(new PluginReadListener() {
             @Override
-            public void success() {
+            public void success(Status status) {
                 addMenuDef.clearShortCuts();
                 createAddMenuDef();
             }

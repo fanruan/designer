@@ -1,2 +1,1 @@
-http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt£¬
-servletURL is /WebReport/ReportServer
+http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cptï¼ŒservletURL is /WebReport/ReportServer

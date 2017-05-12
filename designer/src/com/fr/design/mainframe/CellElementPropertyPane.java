@@ -102,12 +102,25 @@ public class CellElementPropertyPane extends DockingView {
         return element;
     }
 
+    public void removeAll() {
+        this.remove(titlePane);
+        this.remove(cellElementEditPane);
+    }
+
+    public void reInit(ElementCasePane ePane) {
+        if (titlePane.getParent() == null) {  // 如果处于隐藏状态，则让其显示
+            this.add(titlePane, BorderLayout.NORTH);
+            this.add(cellElementEditPane, BorderLayout.CENTER);
+        }
+        cellElementEditPane.populate(ePane);
+    }
+
     public void populate(ElementCasePane ePane) {
     	 TemplateElementCase elementCase = ePane.getEditingElementCase();
          if (elementCase == null) {
              return;
          }
-         cellElementEditPane.populate(ePane);
+         ePane.getSelection().populatePropertyPane(ePane);
     }
 
     @Override

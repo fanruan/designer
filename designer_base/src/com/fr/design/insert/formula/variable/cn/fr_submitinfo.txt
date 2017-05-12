@@ -1,1 +1,1 @@
-Ìá½»Èë¿âÊÂ¼şµÄ·µ»ØĞÅÏ¢¡£fr_submitinfo.success¼ÇÂ¼³É¹¦Óë·ñfr_submitinfo.failinfo¼òµ¥¼ÇÂ¼³ö´íĞÅÏ¢
+æäº¤å…¥åº“äº‹ä»¶çš„è¿”å›ä¿¡æ¯ã€‚fr_submitinfo.successè®°å½•æˆåŠŸä¸å¦fr_submitinfo.failinfoç®€å•è®°å½•å‡ºé”™ä¿¡æ¯
