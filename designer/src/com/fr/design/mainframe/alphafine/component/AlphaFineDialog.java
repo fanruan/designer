@@ -314,7 +314,7 @@ public class AlphaFineDialog extends UIDialog {
                     @Override
                     protected BufferedImage doInBackground() throws Exception {
                         WorkBook workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
-                        BufferedImage bufferedImage = new ImageExporter().export(workBook);
+                        BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
                         return bufferedImage;
                     }
 
