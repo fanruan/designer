@@ -383,15 +383,8 @@ public abstract class DesignTableDataManager {
         if (ArrayUtils.isEmpty(parameters)) {
             parameters = tabledata.getParameters(Calculator.createCalculator());
         }
-        boolean hasValue = true;
-        for (ParameterProvider parameter : parameters) {
-            if (parameter.getValue() == null || ComparatorUtils.equals(StringUtils.EMPTY, parameter.getValue())) {
-                hasValue = false;
-                break;
-            }
-        }
         final Map<String, Object> parameterMap = new HashMap<>();
-        if (!hasValue || isMustInputParameters) {
+        if (needInputParams(isMustInputParameters, parameters)) {
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
             pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
                 @Override
@@ -423,6 +416,18 @@ public abstract class DesignTableDataManager {
                 }
             }, 100);
         }
+    }
+
+    private static boolean needInputParams(boolean mustInputParameters, ParameterProvider[] parameters) {
+        if (mustInputParameters && ArrayUtils.isNotEmpty(parameters)) {
+            return true;
+        }
+        for (ParameterProvider parameter : parameters) {
+            if (parameter.getValue() == null || StringUtils.EMPTY.equals(parameter.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
