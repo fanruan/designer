@@ -66,7 +66,7 @@ public class AlphaFineTextField extends UITextField {
      * 添加键盘监听器
      * @param component
      */
-    public void initKeyListener(Component component) {
+    public void initKeyListener(final Component component) {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

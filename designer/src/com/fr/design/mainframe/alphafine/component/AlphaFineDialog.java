@@ -280,9 +280,9 @@ public class AlphaFineDialog extends UIDialog {
         });
     }
 
-    private void showResult(int index, Object selectedValue) {
+    private void showResult(int index, final Object selectedValue) {
         if (selectedValue instanceof FileModel) {
-            String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
+            final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             showDefaultPreviewPane();
             if (fileName.endsWith("frm")) {
                 if (this.searchWorker != null && !this.searchWorker.isDone()) {
