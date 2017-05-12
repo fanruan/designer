@@ -269,6 +269,15 @@ public class AlphaFineDialog extends UIDialog {
                 }
             }
         });
+
+        searchResultList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    doNavigate(searchResultList.getSelectedIndex());
+                }
+            }
+        });
     }
 
     private void showResult(int index, Object selectedValue) {
