@@ -8,7 +8,7 @@ import com.fr.design.menu.ToolBarDef;
 
 public interface ToolBarMenuDockPlus {
     /**
-     * 模板的工具
+     * 模板的 工具
      *
      * @return 工具
      */
