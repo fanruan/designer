@@ -22,7 +22,7 @@ public class AlphaFineHelper {
     }
 
     public static String findFolderName (String text) {
-        String[] textArray = text.split(File.separator);
+        String[] textArray = text.split("/");
         if (textArray != null && textArray.length > 1) {
             return textArray[textArray.length - 2];
 
