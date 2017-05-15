@@ -72,13 +72,15 @@ public class AlphaFineConstants {
 
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
-    public static final String PLUGIN_IMAGE_URL = "http://shop.finereport.com/plugin/";
+    public static final String PLUGIN_URL = "http://shop.finereport.com/plugin/";
 
-    public static final String REUSE_IMAGE_URL = "http://shop.finereport.com/reuse/";
+    public static final String REUSE_URL = "http://shop.finereport.com/reuse/";
 
     public static final String DOCUMENT_DOC_URL = "http://help.finereport.com/doc-view-";
 
     public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/?api-search-title-";
+
+    public static final String PLUGIN_IMAGE_URL = "http://shopres.finereport.com/";
 
 
 }

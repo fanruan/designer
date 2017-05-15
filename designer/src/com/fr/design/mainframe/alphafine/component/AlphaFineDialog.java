@@ -44,7 +44,6 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -363,17 +362,19 @@ public class AlphaFineDialog extends UIDialog {
             this.searchWorker = new SwingWorker<Image, Void>() {
                 @Override
                 protected Image doInBackground() throws Exception {
-                    BufferedImage bufferedImage = ImageIO.read(new URL(URLEncoder.encode(((PluginModel) selectedValue).getImageUrl())));
+                    BufferedImage bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
                     return bufferedImage;
                 }
 
                 @Override
                 protected void done() {
                     try {
-                        rightSearchResultPane.removeAll();
-                        rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
-                        validate();
-                        repaint();
+                        if (!isCancelled()) {
+                            rightSearchResultPane.removeAll();
+                            rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
+                            validate();
+                            repaint();
+                        }
                     } catch (InterruptedException e) {
                         FRLogger.getLogger().error(e.getMessage());
                     } catch (ExecutionException e) {

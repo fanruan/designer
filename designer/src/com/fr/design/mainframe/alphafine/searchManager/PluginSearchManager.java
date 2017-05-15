@@ -14,6 +14,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
@@ -80,8 +81,13 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         JSONObject object = jsonArray.getJSONObject(i);
         String name = (String) object.get("name");
         String content = ((String) object.get("description"));
-        String pluginUrl = AlphaFineConstants.REUSE_IMAGE_URL + object.get("id");
-        String imageUrl = ((String) object.get("pic"));
+        String pluginUrl = AlphaFineConstants.REUSE_URL + object.get("id");
+        String imageUrl = null;
+        try {
+            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.get("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
+        } catch (UnsupportedEncodingException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
         String version = null;
         String jartime = null;
         CellType type = CellType.REUSE;
@@ -90,7 +96,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             version = (String) object.get("version");
             jartime = (String) object.get("jartime");
             type = CellType.PLUGIN;
-            pluginUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + object.get("id");
+            pluginUrl = AlphaFineConstants.PLUGIN_URL + object.get("id");
         }
         int price = (int) object.get("price");
         return new PluginModel(name, content, pluginUrl, imageUrl, version, jartime, type, price);
