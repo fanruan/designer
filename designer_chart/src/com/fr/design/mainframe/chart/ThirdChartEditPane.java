@@ -1,12 +1,11 @@
 package com.fr.design.mainframe.chart;
 
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.gui.chart.ChartEditPaneProvider;
 
 /**
  * Created by mengao on 2017/5/3.
  */
-public abstract class ThirdChartEditPane extends ChartEditPane implements ChartEditPaneProvider {
+public abstract class ThirdChartEditPane extends ChartEditPane {
 
     protected void createTabsPane() {}
 
