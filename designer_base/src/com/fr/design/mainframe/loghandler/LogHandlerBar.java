@@ -108,9 +108,10 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		};
 		if (timer != null) {
 			timer.addActionListener(taskAction);
-			if (timer != null) {
-				timer.start();
-			}
+		}
+		// taskAction里还有可能置空timer.
+		if (timer != null) {
+			timer.start();
 		}
 	}
 
