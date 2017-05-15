@@ -58,7 +58,7 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
 
     @Override
     public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
-        return null;
+        return new AbstractChartAttrPane[]{};
     }
 
     @Override
