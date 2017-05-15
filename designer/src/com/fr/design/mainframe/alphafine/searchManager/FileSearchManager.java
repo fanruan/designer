@@ -94,7 +94,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                     }
                 }
                 if (test && !isAlreadyContain) {
-                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length()), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
                 reader.close();
