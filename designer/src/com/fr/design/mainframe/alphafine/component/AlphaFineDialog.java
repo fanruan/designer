@@ -44,6 +44,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -224,7 +225,6 @@ public class AlphaFineDialog extends UIDialog {
                 } catch (InterruptedException e) {
                     FRLogger.getLogger().error(e.getMessage());
                 } catch (ExecutionException e) {
-                    searchResultList.setModel(null);
                     FRLogger.getLogger().error(e.getMessage());
                 }
 
@@ -284,7 +284,7 @@ public class AlphaFineDialog extends UIDialog {
         if (selectedValue instanceof FileModel) {
             final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             showDefaultPreviewPane();
-            if (fileName.endsWith("frm")) {
+            if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
                 if (this.searchWorker != null && !this.searchWorker.isDone()) {
                     this.searchWorker.cancel(true);
                     this.searchWorker = null;
@@ -314,7 +314,7 @@ public class AlphaFineDialog extends UIDialog {
                     }
                 };
                 this.searchWorker.execute();
-            } else if (fileName.endsWith("cpt")) {
+            } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
                 if (this.searchWorker != null && !this.searchWorker.isDone()) {
                     this.searchWorker.cancel(true);
                     this.searchWorker = null;
@@ -363,7 +363,7 @@ public class AlphaFineDialog extends UIDialog {
             this.searchWorker = new SwingWorker<Image, Void>() {
                 @Override
                 protected Image doInBackground() throws Exception {
-                    BufferedImage bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                    BufferedImage bufferedImage = ImageIO.read(new URL(URLEncoder.encode(((PluginModel) selectedValue).getImageUrl())));
                     return bufferedImage;
                 }
 
@@ -393,11 +393,11 @@ public class AlphaFineDialog extends UIDialog {
     private void HandleMoreOrLessResult(int index, MoreModel selectedValue) {
         if (selectedValue.getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"))) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
-            rebuildList(index, selectedValue);
+            rebuildShowMoreList(index, selectedValue);
 
         } else {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
-            rebuildList(index, selectedValue);
+            rebuildShowMoreList(index, selectedValue);
         }
     }
 
@@ -564,7 +564,7 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
-    private void rebuildList(int index, MoreModel selectedValue) {
+    private void rebuildShowMoreList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
         if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
@@ -580,6 +580,17 @@ public class AlphaFineDialog extends UIDialog {
         this.searchResultList.repaint();
         validate();
         repaint();
+
+    }
+
+    private void rebuildList() {
+        this.searchResultList.validate();
+        this.searchResultList.repaint();
+        validate();
+        repaint();
+    }
+
+    private void updatePopup() {
 
     }
 
