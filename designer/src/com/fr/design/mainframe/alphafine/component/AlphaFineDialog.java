@@ -19,6 +19,7 @@ import com.fr.design.mainframe.alphafine.previewPane.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.searchManager.*;
+import com.fr.design.mainframe.alphafine.xmlManager.RecentSearchManager;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
@@ -172,7 +173,7 @@ public class AlphaFineDialog extends UIDialog {
     private void showSearchResult(String searchText) {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initListListener();
+            initListListener(searchText);
         }
         initSearchWorker(searchText);
     }
@@ -233,7 +234,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker.execute();
     }
 
-    private void initListListener() {
+    private void initListListener(final String searchText) {
         searchResultList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -244,11 +245,7 @@ public class AlphaFineDialog extends UIDialog {
                     searchResultList.setSelectedIndex(i);
                     doNavigate(selectedIndex);
                     if (selectedValue instanceof AlphaCellModel) {
-                        SearchResult originalResultList = LatestSearchManager.getLatestSearchManager().getLatestModelList();
-                        originalResultList.add(searchResultList.getSelectedValue());
-                        LatestSearchManager.getLatestSearchManager().setLatestModelList(originalResultList);
-                        //保存最近搜索
-                        saveHistory(originalResultList);
+                        saveHistory(searchText, (AlphaCellModel) selectedValue);
                     }
                 } else if (e.getClickCount() == 1) {
                     if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
@@ -542,17 +539,14 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * todo:保存到本地的逻辑待修改
-     * @param searchResult
+     * 保存本地（本地常用）
+     * @param searchText
+     * @param cellModel
      */
-    private void saveHistory(SearchResult searchResult) {
-        try {
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(AlphaFineHelper.getInfoFile()));
-            os.writeObject(searchResult);
-            os.close();
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
+    private void saveHistory(String searchText, AlphaCellModel cellModel) {
+        RecentSearchManager recentSearchManager = RecentSearchManager.getInstance();
+        recentSearchManager.getModelMap().put(cellModel.getName(), cellModel.getType().getCellType());
+        recentSearchManager.saveXMLFile();
         
         sendToServer();
 
