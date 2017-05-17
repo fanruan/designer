@@ -1,46 +1,57 @@
 package com.fr.design.mainframe.chart;
 
-import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.Chart;
+import com.fr.design.ChartTypeInterfaceManager;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by mengao on 2017/5/3.
  */
-public abstract class ThirdChartEditPane extends ChartEditPane {
+public class ThirdChartEditPane extends ChartEditPane {
 
-    protected void createTabsPane() {}
+    protected ThirdChartConfigPane thirdChartConfigPane;
 
-    public String getSelectedTabName() {
-        return paneList.get(1).title4PopupWindow();
-    }
+    public ThirdChartEditPane() {
+        this.setLayout(new BorderLayout());
+        paneList = new ArrayList<AbstractChartAttrPane>();
 
-    public void populate(ChartCollection collection) {
-        populateBean(collection.getSelectedChart());
-    }
+        dataPane4SupportCell = new ChartDataPane(listener);
+        dataPane4SupportCell.setSupportCellData(true);
+        thirdChartConfigPane= new ThirdChartConfigPane();
 
-    protected void dealWithStyleChange(){
-        populateBean(collection.getSelectedChart());
-    }
+        paneList.add(dataPane4SupportCell);
+        paneList.add(thirdChartConfigPane);
 
-    /**
-     * 图表设计器，显示选中的面板
-     */
-    public void populateSelectedTabPane() {
-        populateBean(collection.getSelectedChart());
+        createTabsPane();
     }
 
     /**
-     * 数据集改变的事件监听
+     * 重新构造面板
+     * @param currentChart 图表
      */
-    public void registerDSChangeListener() {
+    public void reLayout(Chart currentChart) {
+        if (currentChart != null) {
+            int chartIndex = getSelectedChartIndex(currentChart);
+            this.removeAll();
+            this.setLayout(new BorderLayout());
+            paneList = new ArrayList<AbstractChartAttrPane>();
+
+            String plotID = "";
+            if (currentChart.getPlot() != null) {
+                plotID = currentChart.getPlot().getPlotID();
+            }
+
+            dataPane4SupportCell = createChartDataPane(plotID);
+            thirdChartConfigPane= ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
+            paneList.add(dataPane4SupportCell);
+            paneList.add(thirdChartConfigPane);
+
+            createTabsPane();
+        }
+
     }
-
-    @Override
-    protected String title4PopupWindow() {
-        return "CustomChart";
-    }
-
-    protected abstract void populateBean(Object ob);
-
-    protected abstract void updateBean(Object ob);
 
 }

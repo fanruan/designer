@@ -6,19 +6,32 @@ import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
+import com.fr.design.mainframe.chart.ThirdChartEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
 
 /**
  * Created by mengao on 2017/4/24.
  * 用户使用第三方图表需要继承的面板抽象类
  */
-public abstract class AbstractIndependentChartUI4Custom implements IndependentChartUIProvider {
+
+@API(level = IndependentChartUIProvider.CURRENT_API_LEVEL)
+public abstract class AbstractIndependentChartUI4Custom extends AbstractProvider implements IndependentChartUIProvider {
+
+    public String mark4Provider() {
+        return getClass().getName();
+    }
+
 
     @Override
     public AbstractChartTypePane getPlotTypePane() {
@@ -27,17 +40,17 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return null;
+        return new ChartDataPane(listener);
     }
 
     @Override
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return null;
+        return new CategoryPlotTableDataContentPane(parent);
     }
 
     @Override
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return null;
+        return new CategoryPlotReportDataContentPane(parent);
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
@@ -80,6 +93,11 @@ public abstract class AbstractIndependentChartUI4Custom implements IndependentCh
      */
     public String getPlotTypeTitle4PopupWindow(){
         return getPlotTypePane().title4PopupWindow();
+    }
+
+    @Override
+    public ChartEditPane getChartEditPane(String plotID) {
+        return new ThirdChartEditPane();
     }
 
 }
