@@ -3,14 +3,10 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-
-import javax.swing.Icon;
-import javax.swing.JComponent;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.ChartEditPaneProvider;
@@ -19,7 +15,9 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.general.Inter;
-import com.fr.stable.StableUtils;
+
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 
@@ -38,10 +36,13 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
-		
-		chartEditPane =  StableUtils.construct(ChartEditPane.class);
+	}
+
+	public void addChartEditPane(String plotID){
+		chartEditPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
+		setSureProperty();
 	}
 	
 	protected abstract void createNameLabel();
