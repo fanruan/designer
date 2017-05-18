@@ -34,7 +34,6 @@ public class ThirdChartEditPane extends ChartEditPane {
      */
     public void reLayout(Chart currentChart) {
         if (currentChart != null) {
-            int chartIndex = getSelectedChartIndex(currentChart);
             this.removeAll();
             this.setLayout(new BorderLayout());
             paneList = new ArrayList<AbstractChartAttrPane>();
