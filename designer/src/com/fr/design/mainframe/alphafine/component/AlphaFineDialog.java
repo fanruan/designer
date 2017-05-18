@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.cellRender.ContentCellRender;
 import com.fr.design.mainframe.alphafine.cell.cellModel.*;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
@@ -19,7 +20,7 @@ import com.fr.design.mainframe.alphafine.previewPane.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.searchManager.*;
-import com.fr.design.mainframe.alphafine.xmlManager.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.recentSearch.RecentSearchManager;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
@@ -27,9 +28,13 @@ import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 import com.fr.main.impl.WorkBook;
+import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -45,6 +50,9 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -545,18 +553,42 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void saveHistory(String searchText, AlphaCellModel cellModel) {
         RecentSearchManager recentSearchManager = RecentSearchManager.getInstance();
-        recentSearchManager.getModelMap().put(cellModel.getName(), cellModel.getType().getCellType());
+        recentSearchManager.addRecentModel(searchText, cellModel);
         recentSearchManager.saveXMLFile();
-        
-        sendToServer();
+        sendToServer(searchText, cellModel);
 
     }
 
     /**
      *todo:还没做上传服务器
      */
-    private void sendToServer() {
+    private void sendToServer(String searchKey, AlphaCellModel cellModel) {
+        String username = DesignerEnvManager.getEnvManager().getBBSName();
+        String uuid = DesignerEnvManager.getEnvManager().getUUID();
+        String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
+        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+        String key = searchKey;
+        int resultkind = cellModel.getType().getCellType();
+        String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
+        JSONObject object = JSONObject.create();
+        try {
+            object.put("uuid", uuid).put("activitykey", activitykey).put("username", username).put("createtime", createTime).put("key", key).put("resultkind", resultkind).put("resultValue", resultValue);
+        } catch (JSONException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        HashMap<String, String> para = new HashMap<>();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+        para.put("content", object.toString());
+        HttpClient httpClient = new HttpClient(AlphaFineConstants.testurl, para, true);
+        httpClient.setTimeout(5000);
+        httpClient.asGet();
 
+        if (!httpClient.isServerAlive()) {
+            //return false;
+        }
+
+        String res =  httpClient.getResponseText();
     }
 
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {

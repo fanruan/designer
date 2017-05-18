@@ -1,13 +1,14 @@
 package com.fr.design.mainframe.alphafine.cell.cellModel;
 
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 
-import java.io.Serializable;
 
 /**
  * Created by XiaXiang on 2017/3/23.
  */
-public class AlphaCellModel implements Serializable{
+public abstract class AlphaCellModel implements ModelHandel {
     private String name;
     private String content;
     private String description;
@@ -58,4 +59,11 @@ public class AlphaCellModel implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public JSONObject ModelToJson() throws JSONException {
+        return null;
+    }
+
+
 }
