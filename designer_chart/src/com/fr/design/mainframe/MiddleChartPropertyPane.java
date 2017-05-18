@@ -39,7 +39,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	}
 
 	public void addChartEditPane(String plotID){
-		chartEditPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
+		chartEditPane = ChartTypeInterfaceManager.getInstance().getChartEditPane(plotID);
 		chartEditPane.setSupportCellData(true);
 		this.createMainPane();
 		setSureProperty();
