@@ -12,6 +12,8 @@ public class AlphaFineConstants {
 
     public static final int SHOW_SIZE = 5;
 
+    public static final int MAX_FILE_SIZE = 100;
+
     public static final int LATEST_SHOW_SIZE = 3;
 
     public static final int HEIGHT = 680;
@@ -82,5 +84,8 @@ public class AlphaFineConstants {
 
     public static final String PLUGIN_IMAGE_URL = "http://shopres.finereport.com/";
 
+    public static final String SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";
+
+    public static final String testurl = "http://localhost:8080/monitor/monitor/record_of_afsearch/single";
 
 }
