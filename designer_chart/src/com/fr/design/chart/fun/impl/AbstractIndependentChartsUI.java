@@ -7,7 +7,7 @@ import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.design.mainframe.chart.ThirdChartEditPane;
+import com.fr.design.mainframe.chart.ChartsEditPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -26,7 +26,7 @@ import com.fr.stable.fun.mark.API;
  */
 
 @API(level = IndependentChartUIProvider.CURRENT_API_LEVEL)
-public abstract class AbstractIndependentChartUI4Custom extends AbstractProvider implements IndependentChartUIProvider {
+public abstract class AbstractIndependentChartsUI extends AbstractProvider implements IndependentChartUIProvider {
 
     public String mark4Provider() {
         return getClass().getName();
@@ -97,7 +97,7 @@ public abstract class AbstractIndependentChartUI4Custom extends AbstractProvider
 
     @Override
     public ChartEditPane getChartEditPane(String plotID) {
-        return new ThirdChartEditPane();
+        return new ChartsEditPane();
     }
 
 }
