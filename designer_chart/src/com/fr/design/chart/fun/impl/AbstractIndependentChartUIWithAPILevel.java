@@ -8,7 +8,7 @@ import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.design.mainframe.chart.ThirdChartConfigPane;
+import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
@@ -71,5 +71,5 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
 
     public ChartEditPane getChartEditPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
 
-    public ThirdChartConfigPane getChartConfigPane(String plotID){return null;}
+    public ChartsConfigPane getChartConfigPane(String plotID){return null;}
 }

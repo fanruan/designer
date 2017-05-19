@@ -16,7 +16,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.design.mainframe.chart.ThirdChartConfigPane;
+import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -432,7 +432,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return chartTypeInterfaces.get(priority).get(plotID).getChartEditPane(plotID);
     }
 
-    public ThirdChartConfigPane getChartConfigPane(String plotID) {
+    public ChartsConfigPane getChartConfigPane(String plotID) {
         Iterator iterator = chartTypeInterfaces.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry entry = (Map.Entry) iterator.next();
@@ -444,7 +444,7 @@ public class ChartTypeInterfaceManager extends XMLFileManager implements ExtraCh
         return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plotID);
     }
 
-    private ThirdChartConfigPane getChartConfigPane(String priority, String plotID) {
+    private ChartsConfigPane getChartConfigPane(String priority, String plotID) {
         return chartTypeInterfaces.get(priority).get(plotID).getChartConfigPane(plotID);
     }
 

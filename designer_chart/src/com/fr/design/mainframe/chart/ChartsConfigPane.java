@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * Created by mengao on 2017/5/16.
  */
-public class ThirdChartConfigPane extends AbstractChartAttrPane {
+public class ChartsConfigPane extends AbstractChartAttrPane {
 
     public final static String CHART_STYLE_TITLE = Inter.getLocText("Chart-Style_Name");
 

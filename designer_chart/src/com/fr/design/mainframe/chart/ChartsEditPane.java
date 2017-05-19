@@ -10,20 +10,20 @@ import java.util.ArrayList;
 /**
  * Created by mengao on 2017/5/3.
  */
-public class ThirdChartEditPane extends ChartEditPane {
+public class ChartsEditPane extends ChartEditPane {
 
-    protected ThirdChartConfigPane thirdChartConfigPane;
+    protected ChartsConfigPane chartsConfigPane;
 
-    public ThirdChartEditPane() {
+    public ChartsEditPane() {
         this.setLayout(new BorderLayout());
         paneList = new ArrayList<AbstractChartAttrPane>();
 
         dataPane4SupportCell = new ChartDataPane(listener);
         dataPane4SupportCell.setSupportCellData(true);
-        thirdChartConfigPane= new ThirdChartConfigPane();
+        chartsConfigPane = new ChartsConfigPane();
 
         paneList.add(dataPane4SupportCell);
-        paneList.add(thirdChartConfigPane);
+        paneList.add(chartsConfigPane);
 
         createTabsPane();
     }
@@ -34,7 +34,6 @@ public class ThirdChartEditPane extends ChartEditPane {
      */
     public void reLayout(Chart currentChart) {
         if (currentChart != null) {
-            int chartIndex = getSelectedChartIndex(currentChart);
             this.removeAll();
             this.setLayout(new BorderLayout());
             paneList = new ArrayList<AbstractChartAttrPane>();
@@ -45,9 +44,9 @@ public class ThirdChartEditPane extends ChartEditPane {
             }
 
             dataPane4SupportCell = createChartDataPane(plotID);
-            thirdChartConfigPane= ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
+            chartsConfigPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
             paneList.add(dataPane4SupportCell);
-            paneList.add(thirdChartConfigPane);
+            paneList.add(chartsConfigPane);
 
             createTabsPane();
         }
