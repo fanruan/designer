@@ -9,18 +9,18 @@ import com.fr.design.data.datapane.TableDataNameObjectCreator;
 import com.fr.design.fun.*;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.core.WidgetOptionFactory;
+import com.fr.design.menu.ShortCut;
 import com.fr.design.widget.Appearance;
 import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
-import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-import com.fr.plugin.ExtraXMLFileManager;
-import com.fr.stable.EnvChangedListener;
+import com.fr.plugin.AbstractExtraClassManager;
+import com.fr.plugin.injectable.CompatibleInjectionContainer;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.injectable.PluginSingleInjection;
+import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
-import com.fr.stable.plugin.PluginSimplify;
-import com.fr.stable.xml.XMLPrintWriter;
-import com.fr.stable.xml.XMLableReader;
 
 import java.util.*;
 
@@ -29,42 +29,25 @@ import java.util.*;
  * @since : 8.0
  * 用于设计器扩展的管理类
  */
-public class ExtraDesignClassManager extends ExtraXMLFileManager implements ExtraDesignClassManagerProvider {
-
-    private static final String XML_TAG = "ExtraDesignClassManager";
-
-    private static ExtraDesignClassManager classManager;
-
+public class ExtraDesignClassManager extends AbstractExtraClassManager implements ExtraDesignClassManagerProvider {
+    
+    private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
+    
+    private CompatibleInjectionContainer<ShortCut> shortCuts = new CompatibleInjectionContainer<>();
+    
     public synchronized static ExtraDesignClassManager getInstance() {
-        if (classManager == null) {
-            classManager = new ExtraDesignClassManager();
-            classManager.readXMLFile();
-        }
-
         return classManager;
     }
-
+    
     static {
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            public void envChanged() {
-                ExtraDesignClassManager.envChanged();
-            }
-        });
+        StableFactory.registerMarkedObject(PluginModule.EXTRA_DESIGN.getAgentName(), classManager);
     }
-
-
-    private synchronized static void envChanged() {
-        classManager = null;
-    }
-
-
-
-
+    
     public TableDataNameObjectCreator[] getReportTableDataCreators() {
         return getKindsOfTableDataCreators(TableDataDefineProvider.XML_TAG);
     }
-
-
+    
+    
     /**
      * 添加serverTDCreators
      *
@@ -73,7 +56,7 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
     public TableDataNameObjectCreator[] getServerTableDataCreators() {
         return getKindsOfTableDataCreators(ServerTableDataDefineProvider.XML_TAG);
     }
-
+    
     private TableDataNameObjectCreator[] getKindsOfTableDataCreators(String tag) {
         Set<TableDataDefineProvider> set = getArray(tag);
         if (set.isEmpty()) {
@@ -82,19 +65,19 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         List<TableDataNameObjectCreator> creators = new ArrayList<>();
         for (TableDataDefineProvider provider : set) {
             TableDataNameObjectCreator creator = new TableDataNameObjectCreator(
-                    provider.nameForTableData(),
-                    provider.prefixForTableData(),
-                    provider.iconPathForTableData(),
-                    provider.classForTableData(),
-                    provider.classForInitTableData(),
-                    provider.appearanceForTableData()
+                provider.nameForTableData(),
+                provider.prefixForTableData(),
+                provider.iconPathForTableData(),
+                provider.classForTableData(),
+                provider.classForInitTableData(),
+                provider.appearanceForTableData()
             );
             creators.add(creator);
         }
         return creators.toArray(new TableDataNameObjectCreator[creators.size()]);
     }
-
-
+    
+    
     public Map<Class<? extends Widget>, Class<?>> getParameterWidgetOptionsMap() {
         Map<Class<? extends Widget>, Class<?>> map = new HashMap<>();
         Set<ParameterWidgetOptionProvider> set = getArray(ParameterWidgetOptionProvider.XML_TAG);
@@ -103,7 +86,7 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         }
         return map;
     }
-
+    
     public WidgetOption[] getParameterWidgetOptions() {
         Set<ParameterWidgetOptionProvider> set = getArray(ParameterWidgetOptionProvider.XML_TAG);
         if (set.isEmpty()) {
@@ -112,16 +95,16 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         Set<WidgetOption> result = new HashSet<>();
         for (ParameterWidgetOptionProvider provider : set) {
             WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                    provider.nameForWidget(),
-                    IOUtils.readIcon(provider.iconPathForWidget()),
-                    provider.classForWidget()
+                provider.nameForWidget(),
+                IOUtils.readIcon(provider.iconPathForWidget()),
+                provider.classForWidget()
             );
             result.add(option);
         }
         return result.toArray(new WidgetOption[result.size()]);
     }
-
-
+    
+    
     public WidgetOption[] getWebWidgetOptions() {
         Set<ToolbarItemProvider> set = getArray(ToolbarItemProvider.XML_TAG);
         if (set.isEmpty()) {
@@ -130,17 +113,17 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         List<WidgetOption> list = new ArrayList<>();
         for (ToolbarItemProvider provider : set) {
             WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                    provider.nameForWidget(),
-                    IOUtils.readIcon(provider.iconPathForWidget()),
-                    provider.classForWidget()
+                provider.nameForWidget(),
+                IOUtils.readIcon(provider.iconPathForWidget()),
+                provider.classForWidget()
             );
             list.add(option);
         }
         return list.toArray(new WidgetOption[list.size()]);
     }
-
-
-
+    
+    
+    
     public Map<Class<? extends Widget>, Class<?>> getFormWidgetOptionsMap() {
         Set<FormWidgetOptionProvider> set = getArray(FormWidgetOptionProvider.XML_TAG);
         Map<Class<? extends Widget>, Class<?>> map = new HashMap<>();
@@ -149,15 +132,15 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         }
         return map;
     }
-
+    
     public WidgetOption[] getFormWidgetOptions() {
         return getFormUnits(false);
     }
-
+    
     public WidgetOption[] getFormWidgetContainerOptions() {
         return getFormUnits(true);
     }
-
+    
     private WidgetOption[] getFormUnits(boolean isContainer) {
         Set<FormWidgetOptionProvider> set = getArray(FormWidgetOptionProvider.XML_TAG);
         if (set.isEmpty()) {
@@ -167,18 +150,18 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         for (FormWidgetOptionProvider provider : set) {
             if (provider.isContainer() == isContainer) {
                 WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                        provider.nameForWidget(),
-                        BaseUtils.readIcon(provider.iconPathForWidget()),
-                        provider.classForWidget()
+                    provider.nameForWidget(),
+                    BaseUtils.readIcon(provider.iconPathForWidget()),
+                    provider.classForWidget()
                 );
                 result.add(option);
             }
         }
         return result.toArray(new WidgetOption[result.size()]);
     }
-
-
-
+    
+    
+    
     public WidgetOption[] getCellWidgetOptions() {
         Set<CellWidgetOptionProvider> set = getArray(CellWidgetOptionProvider.XML_TAG);
         if (set.isEmpty()) {
@@ -187,16 +170,16 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         Set<WidgetOption> result = new HashSet<>();
         for (CellWidgetOptionProvider provider : set) {
             WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                    provider.nameForWidget(),
-                    IOUtils.readIcon(provider.iconPathForWidget()),
-                    provider.classForWidget()
+                provider.nameForWidget(),
+                IOUtils.readIcon(provider.iconPathForWidget()),
+                provider.classForWidget()
             );
-           result.add(option);
+            result.add(option);
         }
         return result.toArray(new WidgetOption[result.size()]);
-
+        
     }
-
+    
     public Map<Class<? extends Widget>, Appearance> getCellWidgetOptionsMap() {
         Set<CellWidgetOptionProvider> set = getArray(CellWidgetOptionProvider.XML_TAG);
         Map<Class<? extends Widget>, Appearance> map = new HashMap<>();
@@ -205,8 +188,8 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         }
         return map;
     }
-
-
+    
+    
     public Feedback getFeedback() {
         try {
             Class clazz = GeneralUtils.classForName("com.fr.design.feedback.CurrentFeedback");
@@ -218,34 +201,29 @@ public class ExtraDesignClassManager extends ExtraXMLFileManager implements Extr
         }
         return Feedback.EMPTY;
     }
-
-    /**
-     * 文件名
-     *
-     * @return 文件名
-     */
+    
     @Override
-    public String fileName() {
-        return "designer.xml";
+    protected boolean demountSpecific(PluginSingleInjection injection) {
+        
+        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getOriginalObject() instanceof ShortCut) {
+            shortCuts.remove(injection.getObject());
+            return true;
+        }
+        return false;
     }
-
-    /**
-     * 读xml
-     *
-     * @param reader xml对象
-     */
-    public void readXML(XMLableReader reader) {
-        readXML(reader, null, PluginSimplify.NULL);
+    
+    @Override
+    protected boolean mountSpecific(PluginSingleInjection injection) {
+        
+        if (ShortCut.TEMPLATE_TREE.equals(injection.getName()) && injection.getOriginalObject() instanceof ShortCut) {
+            shortCuts.put(injection.getObject(), (ShortCut) injection.getOriginalObject());
+            return true;
+        }
+        return false;
     }
-
-
-    /**
-     * 写xml
-     *
-     * @param writer xml对象
-     */
-    public void writeXML(XMLPrintWriter writer) {
-        writer.startTAG(XML_TAG);
-        writer.end();
+    
+    public Set<ShortCut> getExtraShortCuts() {
+        
+        return shortCuts.getSet();
     }
 }
