@@ -27,10 +27,9 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.xml.PluginXml;
 import com.fr.share.ShareConstants;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
@@ -388,7 +387,6 @@ public class RemoteEnv extends AbstractEnv {
 
     private void extraChangeEnvPara() {
         //在env连接之前, 加载一下不依赖env的插件. 看看需不需要改变参数.
-        PluginLoader.init();
         DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (envProcessor != null) {
             this.path = envProcessor.changeEnvPathBeforeConnect(user, password, path);
@@ -1993,7 +1991,12 @@ public class RemoteEnv extends AbstractEnv {
     public void setLicName(String licName) {
         //do nth
     }
-
+    
+    @Override
+    public void checkAndRegisterLic(FileNode node, PluginXml plugin) throws Exception {
+        
+    }
+    
     /**
      * 获取当前env的build文件路径
      */
@@ -2029,57 +2032,8 @@ public class RemoteEnv extends AbstractEnv {
         info.parseJSON(jo);
         return info;
     }
-
-    /**
-     * 将文件拷贝到插件目录
-     *
-     * @param dir    要拷贝的文件
-     * @param plugin 插件
-     */
-    public void copyFilesToPluginAndLibFolder(File dir, Plugin plugin) throws Exception {
-
-    }
-
-    /**
-     * 将文件添加到指定目录或者删除指定目录的文件
-     *
-     * @param file   解压插件的临时目录
-     * @param plugin 当前处理的插件
-     */
-    public void movePluginEmbFile(File file, Plugin plugin) throws Exception {
-
-    }
-
-    /**
-     * 将文件从插件目录删除
-     *
-     * @param plugin 要删除插件
-     * @return 同上
-     */
-    public String[] deleteFileFromPluginAndLibFolder(Plugin plugin) {
-        return new String[0];
-    }
-
-    /**
-     * 保存插件的配置文件
-     *
-     * @param plugin 插件
-     */
-    public void writePlugin(Plugin plugin) throws Exception {
-
-    }
-
-
-    /**
-     * 获取插件的配置目录
-     *
-     * @param plugin
-     */
-    public String getPluginFilePath(Plugin plugin) {
-
-        return StringUtils.EMPTY;
-    }
-
+    
+    
     public void readPluginLicenses() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HashMap<String, String> para = new HashMap<String, String>();
@@ -2117,12 +2071,6 @@ public class RemoteEnv extends AbstractEnv {
     @Override
     public void pluginServiceStart(String serviceID){
     }
-
-    @Override
-    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
-
-    }
-
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
@@ -2237,5 +2185,17 @@ public class RemoteEnv extends AbstractEnv {
         } catch (Exception e) {
             return StringUtils.EMPTY;
         }
+    }
+    
+    @Override
+    public boolean isLocalEnv() {
+        
+        return false;
+    }
+    
+    @Override
+    public boolean hasPluginServiceStarted(String key) {
+        // TODO: 2017/5/22
+        return true;
     }
 }
