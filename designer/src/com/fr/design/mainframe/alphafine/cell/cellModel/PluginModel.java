@@ -100,7 +100,7 @@ public class PluginModel extends AlphaCellModel {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
-            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getCellType()).put("price", getPrice()).put("id", getPluginId());
+            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getCellType()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink());
             object.put("result", modelObject).put("cellType", getType().getCellType());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());

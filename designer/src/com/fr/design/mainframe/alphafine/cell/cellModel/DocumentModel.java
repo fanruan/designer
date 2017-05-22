@@ -41,7 +41,7 @@ public class DocumentModel extends AlphaCellModel {
             modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId());
             object.put("result", modelObject).put("cellType", getType().getCellType());
         } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+            FRLogger.getLogger().error("DocumentModel: " + e.getMessage());
         }
         return object;
     }

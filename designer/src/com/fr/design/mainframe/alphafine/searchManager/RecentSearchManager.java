@@ -223,10 +223,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
     public List<AlphaCellModel> getRecentModelList(String searchText) {
+        recentModelList = new ArrayList<>();
         for (String key : recentKVModelMap.keySet()) {
             if (ComparatorUtils.equals(key, searchText)) {
-                List<AlphaCellModel> list = recentKVModelMap.get(searchText);
-                return list;
+                recentModelList = recentKVModelMap.get(searchText);
+                return recentModelList;
             }
         }
         return recentModelList;
