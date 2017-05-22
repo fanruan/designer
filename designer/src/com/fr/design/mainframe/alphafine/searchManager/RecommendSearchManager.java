@@ -18,7 +18,7 @@ import com.fr.stable.CodeUtils;
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
-    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchddKey=";
+    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
         if (recommendSearchManager == null) {
@@ -32,6 +32,9 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         this.modelList = new SearchResult();
         HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
         httpClient.asGet();
+        if (!httpClient.isServerAlive()) {
+            return modelList;
+        }
         result = httpClient.getResponseText();
         try {
             JSONObject jsonObject = new JSONObject(result);

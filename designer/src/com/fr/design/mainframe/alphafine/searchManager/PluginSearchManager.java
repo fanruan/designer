@@ -47,6 +47,9 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 HttpClient httpClient = new HttpClient(url);
                 httpClient.setTimeout(5000);
                 httpClient.asGet();
+                if (!httpClient.isServerAlive()) {
+                    return lessModelList;
+                }
                 result = httpClient.getResponseText();
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("result");
@@ -99,7 +102,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             type = CellType.REUSE;
         }
         int price = object.optInt("price");
-        return new PluginModel(name, content, imageUrl, version, jartime, type, price, pluginId);
+        return new PluginModel(name, content, imageUrl, version, jartime, link, type, price, pluginId);
     }
 
     @Override
@@ -111,8 +114,10 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         JSONObject jsonObject = object.optJSONObject("result");
         if (jsonObject != null) {
            return getPluginModel(jsonObject, true);
+        } else {
+            return getPluginModel(object, false);
         }
-        return null;
+
     }
 
 

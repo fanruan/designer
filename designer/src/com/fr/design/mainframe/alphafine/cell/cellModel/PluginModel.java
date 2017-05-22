@@ -28,8 +28,9 @@ public class PluginModel extends AlphaCellModel {
     public PluginModel(String name, String content, CellType type) {
         super(name, content, type);
     }
-    public PluginModel(String name, String content, String imageUrl, String version, String jartime, CellType type, int price, int pluginId) {
+    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId) {
         super(name, content);
+        this.link = link;
         setType(type);
         this.pluginId = pluginId;
         if (getType() == CellType.PLUGIN) {

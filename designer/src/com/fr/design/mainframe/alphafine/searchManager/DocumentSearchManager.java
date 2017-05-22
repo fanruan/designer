@@ -39,6 +39,9 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             HttpClient httpClient = new HttpClient(url);
             httpClient.setTimeout(5000);
             httpClient.asGet();
+            if (!httpClient.isServerAlive()) {
+                return lessModelList;
+            }
             result = httpClient.getResponseText();
             try {
                 JSONObject jsonObject = new JSONObject(result);
