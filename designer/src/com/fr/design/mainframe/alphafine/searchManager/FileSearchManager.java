@@ -41,7 +41,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         }
     }
 
-    public synchronized SearchResult showLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
@@ -120,7 +120,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return moreModelList;
     }
 

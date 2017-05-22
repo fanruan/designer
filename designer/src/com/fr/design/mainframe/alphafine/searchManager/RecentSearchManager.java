@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.XMLFileManager;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
@@ -100,7 +101,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             for (String key : recentKVModelMap.keySet()) {
                 writer.startTAG("RecentModelList");
                 writer.attr("searchKey", key);
-
                 for (AlphaCellModel model : recentKVModelMap.get(key)) {
                     try {
                         String name = model.ModelToJson().toString();
@@ -111,7 +111,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                         FRLogger.getLogger().error(e.getMessage());
                     }
                 }
-
                 writer.end();
             }
         }
@@ -225,7 +224,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     public List<AlphaCellModel> getRecentModelList(String searchText) {
         for (String key : recentKVModelMap.keySet()) {
-            if (key.equals(searchText)) {
+            if (ComparatorUtils.equals(key, searchText)) {
                 List<AlphaCellModel> list = recentKVModelMap.get(searchText);
                 return list;
             }
@@ -234,8 +233,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
     public void addRecentModel(String searchKey, AlphaCellModel cellModel) {
-
-        //final AlphaCellModel alphaCellModel = getCellModel(cellModel);
         if (recentKVModelMap.keySet().contains(searchKey)) {
             List<AlphaCellModel> cellModels = recentKVModelMap.get(searchKey);
             if (cellModels.contains(cellModel)) {
@@ -244,51 +241,24 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             } else {
                 cellModels.add(cellModel);
             }
+            trimToSize(cellModels);
         } else {
             List<AlphaCellModel> list = new ArrayList<>();
             list.add(cellModel);
             recentKVModelMap.put(searchKey, list);
         }
-//        if (alphaCellModel != null) {
-//            moveOnTop(alphaCellModel);
-//        } else {
-//            this.recentModelList.add(cellModel);
-//        }
-//        trimToSize();
     }
 
-    private void moveOnTop(AlphaCellModel alphaCellModel) {
-        recentModelList.remove(alphaCellModel);
-        recentModelList.add(alphaCellModel);
-    }
 
-    private synchronized void trimToSize() {
-        if (recentModelList.size() > AlphaFineConstants.MAX_FILE_SIZE) {
-            recentModelList.remove(0);
+    private synchronized void trimToSize(List<AlphaCellModel> cellModels) {
+        if (cellModels.size() > AlphaFineConstants.MAX_FILE_SIZE) {
+            cellModels.remove(0);
         }
     }
 
-    private synchronized AlphaCellModel getCellModel(AlphaCellModel model) {
-        for (int i = recentModelList.size() - 1; i >= 0; i--) {
-            final AlphaCellModel entry = recentModelList.get(i);
-            String name = entry.getName();
-            if (name.equals(model.getName())) {
-                return entry;
-            }
-        }
-        return null;
-    }
-
-    public Map<String, List<AlphaCellModel>> getRecentKVModelMap() {
-        return recentKVModelMap;
-    }
-
-    public void setRecentKVModelMap(Map<String, List<AlphaCellModel>> recentKVModelMap) {
-        this.recentKVModelMap = recentKVModelMap;
-    }
 
     @Override
-    public SearchResult showLessSearchResult(String searchText) {
+    public SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
         recentModelList = getRecentModelList(searchText);
         if (recentModelList != null && recentModelList.size() > 0) {
@@ -299,15 +269,8 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return new SearchResult();
     }
 
-//    public List<recentKVModel> getRecentKVModelList() {
-//        return recentKVModelList;
-//    }
-//
-//    public void setRecentKVModelList(List<recentKVModel> recentKVModelList) {
-//        this.recentKVModelList = recentKVModelList;
-//    }
 }

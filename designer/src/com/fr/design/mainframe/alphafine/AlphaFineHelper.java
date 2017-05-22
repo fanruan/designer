@@ -19,10 +19,6 @@ public class AlphaFineHelper {
         dialog.setVisible(true);
     }
 
-    public static File getInfoFile() {
-        return new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), AlphaFineConstants.SAVE_FILE_NAME));
-    }
-
     public static String findFolderName (String text) {
         return getSplitText(text, 2);
     }

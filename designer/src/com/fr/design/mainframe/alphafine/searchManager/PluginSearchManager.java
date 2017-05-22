@@ -35,7 +35,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public synchronized SearchResult showLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
 
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
@@ -49,10 +49,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 httpClient.asGet();
                 result = httpClient.getResponseText();
                 JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = null;
-                if (jsonObject.optJSONObject("result") != null) {
-                    jsonArray = jsonObject.optJSONArray("result");
-                }
+                JSONArray jsonArray = jsonObject.optJSONArray("result");
                 if (jsonArray != null && jsonArray.length() > 0) {
                     int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
                     for (int i = 0; i < length; i++) {
@@ -106,7 +103,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return this.moreModelList;
     }
 

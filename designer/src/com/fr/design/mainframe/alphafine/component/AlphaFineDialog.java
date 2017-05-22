@@ -217,7 +217,7 @@ public class AlphaFineDialog extends UIDialog {
 
             @Override
             protected SearchListModel doInBackground() {
-                return setjListModel(new SearchListModel(AlphaSearchManager.getSearchManager().showLessSearchResult(searchText)));
+                return setListModel(new SearchListModel(AlphaSearchManager.getSearchManager().getLessSearchResult(searchText)));
             }
 
             @Override
@@ -634,19 +634,19 @@ public class AlphaFineDialog extends UIDialog {
         SearchResult moreResult;
         switch (selectedValue.getType()) {
             case PLUGIN:
-                moreResult = PluginSearchManager.getPluginSearchManager().showMoreSearchResult();
+                moreResult = PluginSearchManager.getPluginSearchManager().getMoreSearchResult();
                 break;
             case DOCUMENT:
-                moreResult = DocumentSearchManager.getDocumentSearchManager().showMoreSearchResult();
+                moreResult = DocumentSearchManager.getDocumentSearchManager().getMoreSearchResult();
                 break;
             case FILE:
-                moreResult = FileSearchManager.getFileSearchManager().showMoreSearchResult();
+                moreResult = FileSearchManager.getFileSearchManager().getMoreSearchResult();
                 break;
             case ACTION:
-                moreResult = ActionSearchManager.getActionSearchManager().showMoreSearchResult();
+                moreResult = ActionSearchManager.getActionSearchManager().getMoreSearchResult();
                 break;
             default:
-                moreResult = AlphaSearchManager.getSearchManager().showMoreSearchResult();
+                moreResult = AlphaSearchManager.getSearchManager().getMoreSearchResult();
         }
         return moreResult;
     }
@@ -655,17 +655,16 @@ public class AlphaFineDialog extends UIDialog {
         return (SearchListModel) searchResultList.getModel();
     }
 
-    //测试
-    public static void main(String[] args) {
-        AlphaFineDialog alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
-        alphaFineDialog.setSize(new Dimension(680,55));
-        alphaFineDialog.setVisible(true);
-    }
+//    //测试
+//    public static void main(String[] args) {
+//        AlphaFineDialog alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
+//        alphaFineDialog.setSize(new Dimension(680,55));
+//        alphaFineDialog.setVisible(true);
+//    }
 
 
-    public SearchListModel setjListModel(SearchListModel jListModel) {
+    public SearchListModel setListModel(SearchListModel jListModel) {
         this.searchListModel = jListModel;
-        System.out.print(this.searchListModel);
         return this.searchListModel;
     }
 

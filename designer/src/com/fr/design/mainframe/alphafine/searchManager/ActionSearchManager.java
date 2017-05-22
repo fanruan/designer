@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class ActionSearchManager implements AlphaFineSearchProcessor {
     private static ActionSearchManager actionSearchManager = null;
-    private SearchResult filterModelList = new SearchResult();
-    private SearchResult lessModelList = new SearchResult();
-    private SearchResult moreModelList = new SearchResult();
+    private SearchResult filterModelList;
+    private SearchResult lessModelList;
+    private SearchResult moreModelList;
 
     public synchronized static ActionSearchManager getActionSearchManager() {
         if (actionSearchManager == null) {
@@ -31,7 +31,10 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public synchronized SearchResult showLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
+        filterModelList = new SearchResult();
+        lessModelList = new SearchResult();
+        moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainAction()) {
             List<UpdateAction> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateAction updateAction : updateActions) {
@@ -61,7 +64,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return moreModelList;
     }
 

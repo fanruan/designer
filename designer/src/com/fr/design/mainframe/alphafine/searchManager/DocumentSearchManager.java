@@ -18,8 +18,8 @@ import com.fr.json.JSONObject;
  */
 public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private static DocumentSearchManager documentSearchManager = null;
-    private SearchResult lessModelList = new SearchResult();
-    private SearchResult moreModelList = new SearchResult();
+    private SearchResult lessModelList;
+    private SearchResult moreModelList;
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -30,7 +30,9 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public synchronized SearchResult showLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
+        lessModelList = new SearchResult();
+        moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainDocument()) {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
@@ -78,7 +80,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return moreModelList;
     }
 

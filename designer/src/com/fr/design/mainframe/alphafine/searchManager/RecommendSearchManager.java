@@ -2,7 +2,6 @@ package com.fr.design.mainframe.alphafine.searchManager;
 
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.cellModel.AlphaCellModel;
-import com.fr.design.mainframe.alphafine.cell.cellModel.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
@@ -16,19 +15,19 @@ import com.fr.stable.CodeUtils;
 /**
  * Created by XiaXiang on 2017/3/31.
  */
-public class ConcludeSearchManager implements AlphaFineSearchProcessor {
-    private static ConcludeSearchManager concludeSearchManager = null;
+public class RecommendSearchManager implements AlphaFineSearchProcessor {
+    private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
-    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/?searchKey=";
+    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchddKey=";
 
-    public synchronized static ConcludeSearchManager getConcludeSearchManager() {
-        if (concludeSearchManager == null) {
-            concludeSearchManager = new ConcludeSearchManager();
+    public synchronized static RecommendSearchManager getRecommendSearchManager() {
+        if (recommendSearchManager == null) {
+            recommendSearchManager = new RecommendSearchManager();
         }
-        return concludeSearchManager;
+        return recommendSearchManager;
     }
     @Override
-    public synchronized SearchResult showLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
         String result;
         this.modelList = new SearchResult();
         HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
@@ -58,7 +57,7 @@ public class ConcludeSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult showMoreSearchResult() {
+    public SearchResult getMoreSearchResult() {
         return new SearchResult();
     }
 
