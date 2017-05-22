@@ -19,15 +19,27 @@ public class PluginModel extends AlphaCellModel {
     private String version;
     private String jartime;
     private String link;
+    private String informationUrl;
+    private int pluginId;
     private int price;
+    private static final String PLUGIN_INFORMATION_URL = "http://shop.finereport.com/ShopServer?pg=plugin&pid=";
+    private static final String REUSE_INFORMATION_URL = "http://shop.finereport.com/reuses/";
 
     public PluginModel(String name, String content, CellType type) {
         super(name, content, type);
     }
-    public PluginModel(String name, String content, String pluginUrl, String imageUrl, String version, String jartime, CellType type, int price) {
+    public PluginModel(String name, String content, String imageUrl, String version, String jartime, CellType type, int price, int pluginId) {
         super(name, content);
         setType(type);
-        this.pluginUrl = pluginUrl;
+        this.pluginId = pluginId;
+        if (getType() == CellType.PLUGIN) {
+            this.pluginUrl = AlphaFineConstants.PLUGIN_URL + pluginId;
+            this.informationUrl = PLUGIN_INFORMATION_URL + this.pluginId;
+        } else {
+            this.pluginUrl = AlphaFineConstants.REUSE_URL + pluginId;
+            this.informationUrl = REUSE_INFORMATION_URL + this.pluginId;
+
+        }
         this.imageUrl = imageUrl;
         this.jartime = jartime;
         this.version = version;
@@ -86,7 +98,7 @@ public class PluginModel extends AlphaCellModel {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("name", getName()).put("content", getContent()).put("pluginUrl", getPluginUrl()).put("imageUrl", getImageUrl()).put("cellType", getType().getCellType()).put("jartime", getJartime()).put("version", getVersion()).put("price", getPrice());
+            object.put("result", getInformationUrl()).put("cellType", getType().getCellType());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
@@ -110,27 +122,21 @@ public class PluginModel extends AlphaCellModel {
         return pluginUrl != null ? pluginUrl.hashCode() : 0;
     }
 
-    public static PluginModel jsonToModel(JSONObject object) {
-        String name = object.optString("name");
-        String content = object.optString("description");
-        String pluginUrl = AlphaFineConstants.REUSE_URL + object.optString("id");
-        String imageUrl = null;
-        try {
-            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
-        } catch (UnsupportedEncodingException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        String version = null;
-        String jartime = null;
-        CellType type = CellType.REUSE;
-        String link = object.optString("link");
-        if (ComparatorUtils.equals(link, "plugin")) {
-            version = object.optString("version");
-            jartime = object.optString("jartime");
-            type = CellType.PLUGIN;
-            pluginUrl = AlphaFineConstants.PLUGIN_URL + object.optString("id");
-        }
-        int price = object.optInt("price");
-        return new PluginModel(name, content, pluginUrl, imageUrl, version, jartime, type, price);
+
+
+    public int getPluginId() {
+        return pluginId;
+    }
+
+    public void setPluginId(int pluginId) {
+        this.pluginId = pluginId;
+    }
+
+    public String getInformationUrl() {
+        return informationUrl;
+    }
+
+    public void setInformationUrl(String informationUrl) {
+        this.informationUrl = informationUrl;
     }
 }

@@ -14,6 +14,8 @@ import java.io.Serializable;
 public class ActionModel extends AlphaCellModel implements Serializable {
     private Action action;
 
+    private String actionName;
+
     public ActionModel(String name, String content, CellType type) {
         super(name, content, type);
     }
@@ -50,27 +52,18 @@ public class ActionModel extends AlphaCellModel implements Serializable {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("name", getName()).put("action", getAction().getClass().getName()).put("cellType", getType().getCellType());
+            object.put("result", getAction().getClass().getName()).put("cellType", getType().getCellType());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
         return object;
     }
 
-    public static ActionModel jsonToModel(JSONObject object ) {
-        String name = object.optString("name");
-        String actionName = object.optString("action");
-        Action action = null;
-        try {
-            Class<?> className =  Class.forName(actionName);
-            action = (Action) className.newInstance();
-        } catch (ClassNotFoundException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        } catch (InstantiationException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        return new ActionModel(name, action);
+    public String getActionName() {
+        return getAction().getClass().getName();
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 }

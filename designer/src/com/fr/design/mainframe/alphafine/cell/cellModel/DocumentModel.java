@@ -11,14 +11,18 @@ import com.fr.json.JSONObject;
  */
 public class DocumentModel extends AlphaCellModel {
     private String documentUrl;
+    private String informationUrl;
+    private int documentId;
 
     public DocumentModel(String name, String content, CellType type) {
         super(name, content, type);
     }
 
-    public DocumentModel(String name, String content, String documentUrl) {
+    public DocumentModel(String name, String content, int documentId) {
         super(name, content, CellType.DOCUMENT);
-        this.documentUrl = documentUrl;
+        this.documentId = documentId;
+        this.informationUrl = AlphaFineConstants.DOCUMENT_INFORMATION_URL + documentId;
+        this.documentUrl = AlphaFineConstants.DOCUMENT_DOC_URL + documentId + ".html";
     }
 
     public String getDocumentUrl() {
@@ -33,7 +37,7 @@ public class DocumentModel extends AlphaCellModel {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("name", getName()).put("content", getContent()).put("documentUrl", getDocumentUrl()).put("cellType", getType().getCellType());
+            object.put("result", getInformationUrl()).put("cellType", getType().getCellType());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
@@ -55,10 +59,19 @@ public class DocumentModel extends AlphaCellModel {
         return documentUrl != null ? documentUrl.hashCode() : 0;
     }
 
-    public static DocumentModel jsonToModel(JSONObject object) {
-        String name = object.optString("title");
-        String content = object.optString("summary");
-        String documentUrl = AlphaFineConstants.DOCUMENT_DOC_URL + object.optString("did") + ".html";
-        return new DocumentModel(name, content, documentUrl);
+    public int getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getInformationUrl() {
+        return informationUrl;
+    }
+
+    public void setInformationUrl(String informationUrl) {
+        this.informationUrl = informationUrl;
     }
 }

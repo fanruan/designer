@@ -8,7 +8,9 @@ import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.ActionModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 
 import java.util.List;
 
@@ -17,9 +19,9 @@ import java.util.List;
  */
 public class ActionSearchManager implements AlphaFineSearchProcessor {
     private static ActionSearchManager actionSearchManager = null;
-    private SearchResult filterModelList;
-    private SearchResult lessModelList;
-    private SearchResult moreModelList;
+    private SearchResult filterModelList = new SearchResult();
+    private SearchResult lessModelList = new SearchResult();
+    private SearchResult moreModelList = new SearchResult();
 
     public synchronized static ActionSearchManager getActionSearchManager() {
         if (actionSearchManager == null) {
@@ -30,9 +32,6 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
 
     @Override
     public synchronized SearchResult showLessSearchResult(String searchText) {
-        this.filterModelList = new SearchResult();
-        this.lessModelList = new SearchResult();
-        this.moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainAction()) {
             List<UpdateAction> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateAction updateAction : updateActions) {
@@ -40,20 +39,23 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     filterModelList.add(new ActionModel(updateAction.getName() ,updateAction));
                 }
             }
-            final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
-            for (int i = 0; i < length; i++) {
-                lessModelList.add(filterModelList.get(i));
-            }
-            for (int i = length; i < filterModelList.size(); i++) {
-                moreModelList.add(filterModelList.get(i));
-            }
-            if (filterModelList.size() > 0) {
-                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.ACTION));
-                } else {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
+            if (filterModelList != null && filterModelList.size() >0) {
+                final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
+                for (int i = 0; i < length; i++) {
+                    lessModelList.add(filterModelList.get(i));
+                }
+                for (int i = length; i < filterModelList.size(); i++) {
+                    moreModelList.add(filterModelList.get(i));
+                }
+                if (filterModelList.size() > 0) {
+                    if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.ACTION));
+                    } else {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
+                    }
                 }
             }
+
         }
         return lessModelList;
     }
@@ -61,5 +63,22 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     @Override
     public SearchResult showMoreSearchResult() {
         return moreModelList;
+    }
+
+    public static ActionModel getModelFromCloud(String actionName ) {
+        UpdateAction action = null;
+        String name = null;
+        try {
+            Class<?> className =  Class.forName(actionName);
+            action = (UpdateAction) className.newInstance();
+            name = action.getName();
+        } catch (ClassNotFoundException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        } catch (IllegalAccessException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        } catch (InstantiationException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        return new ActionModel(name, action);
     }
 }

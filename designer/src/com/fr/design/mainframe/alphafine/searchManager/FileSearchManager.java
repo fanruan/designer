@@ -4,6 +4,7 @@ import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.cellModel.FileModel;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
@@ -11,6 +12,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -146,6 +148,12 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 nodeList.add(fileNode);
             }
         }
+    }
+
+    public static FileModel getModelFromCloud(String filePath) {
+        String name = AlphaFineHelper.findFileName(filePath);
+        String content = AlphaFineHelper.findFolderName(filePath);
+        return new FileModel(name, content, filePath);
     }
 
 }

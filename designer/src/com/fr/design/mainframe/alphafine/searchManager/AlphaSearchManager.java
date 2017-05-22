@@ -1,11 +1,8 @@
 package com.fr.design.mainframe.alphafine.searchManager;
 
-import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.Inter;
-
-import java.io.*;
 
 /**
  * Created by XiaXiang on 2017/3/28.
@@ -17,7 +14,7 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
     private static FileSearchManager fileSearchManager;
     private static ActionSearchManager actionSearchManager;
     private static ConcludeSearchManager concludeSearchManager;
-    private static LatestSearchManager latestSearchManager;
+    private static RecentSearchManager recentSearchManager;
 
     public synchronized static AlphaSearchManager getSearchManager() {
         init();
@@ -33,13 +30,13 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
             fileSearchManager = FileSearchManager.getFileSearchManager();
             actionSearchManager = ActionSearchManager.getActionSearchManager();
             concludeSearchManager = ConcludeSearchManager.getConcludeSearchManager();
-            latestSearchManager = LatestSearchManager.getLatestSearchManager();
+            recentSearchManager = RecentSearchManager.getInstance();
         }
     }
 
     @Override
     public synchronized SearchResult showLessSearchResult(String searchText) {
-        SearchResult latestModelList = latestSearchManager.showLessSearchResult(searchText);
+        SearchResult latestModelList = recentSearchManager.showLessSearchResult(searchText);
         SearchResult concludeModelList = concludeSearchManager.showLessSearchResult(searchText);
         SearchResult actionModelList = actionSearchManager.showLessSearchResult(searchText);
         SearchResult fileModelList = fileSearchManager.showLessSearchResult(searchText);
@@ -67,23 +64,6 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
     @Override
     public SearchResult showMoreSearchResult() {
         return null;
-    }
-
-    public SearchResult getLatestSearchResult() {
-        ObjectInputStream is;
-        SearchResult searchResult;
-        try {
-            is = new ObjectInputStream(new FileInputStream(AlphaFineHelper.getInfoFile()));
-            searchResult = (SearchResult) is.readObject();
-
-        } catch (IOException e) {
-            searchResult = new SearchResult();
-        } catch (ClassNotFoundException e) {
-            searchResult = new SearchResult();
-
-        }
-        return searchResult;
-
     }
 
 }

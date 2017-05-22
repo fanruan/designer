@@ -20,7 +20,7 @@ import com.fr.design.mainframe.alphafine.previewPane.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.previewPane.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.searchManager.*;
-import com.fr.design.mainframe.alphafine.recentSearch.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.searchManager.RecentSearchManager;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
@@ -216,7 +216,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker<SearchListModel, String>() {
 
             @Override
-            protected SearchListModel doInBackground() throws Exception {
+            protected SearchListModel doInBackground() {
                 return setjListModel(new SearchListModel(AlphaSearchManager.getSearchManager().showLessSearchResult(searchText)));
             }
 
@@ -366,8 +366,17 @@ public class AlphaFineDialog extends UIDialog {
             }
             this.searchWorker = new SwingWorker<Image, Void>() {
                 @Override
-                protected Image doInBackground() throws Exception {
-                    BufferedImage bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                protected Image doInBackground() {
+                    BufferedImage bufferedImage = null;
+                    try {
+                        bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                    } catch (IOException e) {
+                        try {
+                            bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
+                        } catch (IOException e1) {
+                            FRLogger.getLogger().error(e.getMessage());
+                        }
+                    }
                     return bufferedImage;
                 }
 
@@ -560,7 +569,9 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     *todo:还没做上传服务器
+     * 上传数据到服务器
+     * @param searchKey
+     * @param cellModel
      */
     private void sendToServer(String searchKey, AlphaCellModel cellModel) {
         String username = DesignerEnvManager.getEnvManager().getBBSName();
@@ -583,12 +594,10 @@ public class AlphaFineDialog extends UIDialog {
         HttpClient httpClient = new HttpClient(AlphaFineConstants.testurl, para, true);
         httpClient.setTimeout(5000);
         httpClient.asGet();
-
         if (!httpClient.isServerAlive()) {
-            //return false;
+            FRLogger.getLogger().error("404");
         }
 
-        String res =  httpClient.getResponseText();
     }
 
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
@@ -656,6 +665,7 @@ public class AlphaFineDialog extends UIDialog {
 
     public SearchListModel setjListModel(SearchListModel jListModel) {
         this.searchListModel = jListModel;
+        System.out.print(this.searchListModel);
         return this.searchListModel;
     }
 

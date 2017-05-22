@@ -8,7 +8,7 @@ import com.fr.json.JSONObject;
 /**
  * Created by XiaXiang on 2017/3/23.
  */
-public abstract class AlphaCellModel implements ModelHandel {
+public abstract class AlphaCellModel {
     private String name;
     private String content;
     private String description;
@@ -60,7 +60,6 @@ public abstract class AlphaCellModel implements ModelHandel {
         this.description = description;
     }
 
-    @Override
     public JSONObject ModelToJson() throws JSONException {
         return null;
     }

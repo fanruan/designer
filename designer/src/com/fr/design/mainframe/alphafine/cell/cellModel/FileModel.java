@@ -34,19 +34,13 @@ public class FileModel extends AlphaCellModel{
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("name", getName()).put("content", getContent()).put("filePath", getFilePath()).put("cellType", getType().getCellType());
+            object.put("result", getFilePath()).put("cellType", getType().getCellType());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
         return object;
     }
 
-    public static FileModel jsonToModel(JSONObject object) {
-        String name = object.optString("name");
-        String content = object.optString("content");
-        String filePath = object.optString("filePath");
-        return new FileModel(name, content, filePath);
-    }
 
     @Override
     public boolean equals(Object o) {

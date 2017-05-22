@@ -13,15 +13,13 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
-import java.security.AlgorithmConstraints;
-
 /**
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private static DocumentSearchManager documentSearchManager = null;
-    private SearchResult lessModelList;
-    private SearchResult moreModelList;
+    private SearchResult lessModelList = new SearchResult();
+    private SearchResult moreModelList = new SearchResult();
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -33,8 +31,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
     @Override
     public synchronized SearchResult showLessSearchResult(String searchText) {
-        this.lessModelList = new SearchResult();
-        this.moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainDocument()) {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
@@ -44,26 +40,24 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             result = httpClient.getResponseText();
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = null;
-                if (jsonObject.get("docdata") != null) {
-                    jsonArray = (JSONArray) jsonObject.get("docdata");
-                }
-                if (jsonArray.length() > 0) {
-                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
-                    } else  {
-                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
+                JSONArray jsonArray = jsonObject.optJSONArray("docdata");
+                if (jsonArray != null && jsonArray.length() > 0) {
+                    final int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
+                    for (int i = 0; i < length; i++) {
+                        DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
+                        this.lessModelList.add(cellModel);
                     }
-                }
-
-                final int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
-                for (int i = 0; i < length; i++) {
-                    DocumentModel cellModel = getDocumentModel(jsonArray, i);
-                    this.lessModelList.add(cellModel);
-                }
-                for (int i = length; i < jsonArray.length(); i++) {
-                    DocumentModel cellModel = getDocumentModel(jsonArray, i);
-                    this.moreModelList.add(cellModel);
+                    for (int i = length; i < jsonArray.length(); i++) {
+                        DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
+                        this.moreModelList.add(cellModel);
+                    }
+                    if (jsonArray.length() > 0) {
+                        if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
+                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
+                        } else  {
+                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
+                        }
+                    }
                 }
 
             } catch (JSONException e) {
@@ -71,16 +65,16 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                 return lessModelList;
             }
 
+
         }
         return lessModelList;
     }
 
-    private DocumentModel getDocumentModel(JSONArray jsonArray, int i) throws JSONException {
-        JSONObject object = jsonArray.getJSONObject(i);
-        String name = (String) object.get("title");
-        String content = ((String) object.get("summary"));
-        String documentUrl = AlphaFineConstants.DOCUMENT_DOC_URL + object.get("did") + ".html";
-        return new DocumentModel(name, content, documentUrl);
+    public static DocumentModel getModelFromCloud(JSONObject object) {
+        String name = object.optString("title");
+        String content = object.optString("summary");
+        int documentId = object.optInt("did");
+        return new DocumentModel(name, content, documentId);
     }
 
     @Override

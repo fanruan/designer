@@ -13,6 +13,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -49,26 +50,28 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 result = httpClient.getResponseText();
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = null;
-                if (jsonObject.get("result") != null) {
-                    jsonArray = (JSONArray) jsonObject.get("result");
+                if (jsonObject.optJSONObject("result") != null) {
+                    jsonArray = jsonObject.optJSONArray("result");
                 }
-                if (jsonArray.length() > 0) {
-                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
-                    } else {
-                        lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
+                if (jsonArray != null && jsonArray.length() > 0) {
+                    int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
+                    for (int i = 0; i < length; i++) {
+                        PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
+                        this.lessModelList.add(cellModel);
+                    }
+                    for (int i = length; i < jsonArray.length(); i++) {
+                        PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
+                        this.moreModelList.add(cellModel);
+                    }
+                    if (jsonArray.length() > 0) {
+                        if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
+                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
+                        } else {
+                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
+                        }
                     }
                 }
 
-                int length = Math.min(5, jsonArray.length());
-                for (int i = 0; i < length; i++) {
-                    PluginModel cellModel = getPluginModel(jsonArray, i);
-                    this.lessModelList.add(cellModel);
-                }
-                for (int i = length; i < jsonArray.length(); i++) {
-                    PluginModel cellModel = getPluginModel(jsonArray, i);
-                    this.moreModelList.add(cellModel);
-                }
             } catch (Exception e) {
                 FRLogger.getLogger().error(e.getMessage());
                 return lessModelList;
@@ -77,34 +80,42 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         return this.lessModelList;
     }
 
-    private PluginModel getPluginModel(JSONArray jsonArray, int i) throws JSONException {
-        JSONObject object = jsonArray.getJSONObject(i);
-        String name = (String) object.get("name");
-        String content = ((String) object.get("description"));
-        String pluginUrl = AlphaFineConstants.REUSE_URL + object.get("id");
+    private static PluginModel getPluginModel(JSONObject object, boolean isFromCloud) {
+        String name = object.optString("name");
+        String content = object.optString("description");
+        int pluginId = object.optInt("id");
         String imageUrl = null;
         try {
-            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.get("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
+            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
         } catch (UnsupportedEncodingException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
         String version = null;
         String jartime = null;
-        CellType type = CellType.REUSE;
-        String link = (String) object.get("link");
+        CellType type;
+        String link = object.optString("link");
         if (ComparatorUtils.equals(link, "plugin")) {
-            version = (String) object.get("version");
-            jartime = (String) object.get("jartime");
+            version = isFromCloud? object.optString("pluginversion") : object.optString("version");
+            jartime = object.optString("jartime");
             type = CellType.PLUGIN;
-            pluginUrl = AlphaFineConstants.PLUGIN_URL + object.get("id");
+        } else {
+            type = CellType.REUSE;
         }
-        int price = (int) object.get("price");
-        return new PluginModel(name, content, pluginUrl, imageUrl, version, jartime, type, price);
+        int price = object.optInt("price");
+        return new PluginModel(name, content, imageUrl, version, jartime, type, price, pluginId);
     }
 
     @Override
     public SearchResult showMoreSearchResult() {
         return this.moreModelList;
+    }
+
+    public static PluginModel getModelFromCloud(JSONObject object) {
+        JSONObject jsonObject = object.optJSONObject("result");
+        if (jsonObject != null) {
+           return getPluginModel(jsonObject, true);
+        }
+        return null;
     }
 
 

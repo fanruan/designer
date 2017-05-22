@@ -82,6 +82,8 @@ public class AlphaFineConstants {
 
     public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/?api-search-title-";
 
+    public static final String DOCUMENT_INFORMATION_URL = "http://help.finereport.com/?api-search-did-";
+
     public static final String PLUGIN_IMAGE_URL = "http://shopres.finereport.com/";
 
     public static final String SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";

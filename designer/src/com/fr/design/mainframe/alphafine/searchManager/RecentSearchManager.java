@@ -1,14 +1,16 @@
-package com.fr.design.mainframe.alphafine.recentSearch;
+package com.fr.design.mainframe.alphafine.searchManager;
 
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.cellModel.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.XMLFileManager;
 import com.fr.general.FRLogger;
 import com.fr.general.IOUtils;
+import com.fr.general.Inter;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.ProductConstants;
@@ -29,7 +31,7 @@ import java.util.Map;
 /**
  * Created by XiaXiang on 2017/5/15.
  */
-public class RecentSearchManager extends XMLFileManager {
+public class RecentSearchManager extends XMLFileManager implements AlphaFineSearchProcessor {
 
     private static final String XML_TAG = "AlphafineRecent";
     private static RecentSearchManager recentSearchManager = null;
@@ -37,8 +39,7 @@ public class RecentSearchManager extends XMLFileManager {
     private List<String> fileList;
     private List<String> actionList;
     private List<String> documentList;
-
-    //private List<recentKVModel> recentKVModelList = new ArrayList<>();
+    private SearchResult modelList;
     private List<String> pluginList;
     private List<AlphaCellModel> recentModelList = new ArrayList<>();
     private Map<String, List<AlphaCellModel>> recentKVModelMap = new HashMap<>();
@@ -63,7 +64,7 @@ public class RecentSearchManager extends XMLFileManager {
                 public void readXML(XMLableReader reader) {
                     if (reader.isChildNode()) {
                         String nodeName = reader.getTagName();
-                        if (nodeName.equals("RecentModel")) {
+                        if (nodeName.equals("RecentModelList")) {
                             String key = reader.getAttrAsString("searchKey", StringUtils.EMPTY);
                             final ArrayList<AlphaCellModel> list = new ArrayList<AlphaCellModel>();
                             reader.readXMLObject(new XMLReadable() {
@@ -71,7 +72,7 @@ public class RecentSearchManager extends XMLFileManager {
                                                      public void readXML(XMLableReader reader) {
                                                          if (reader.isChildNode()) {
                                                              String nodeName = reader.getTagName();
-                                                             if (nodeName.equals("modelList")) {
+                                                             if (nodeName.equals("model")) {
                                                                  String name = reader.getAttrAsString("cellModel", StringUtils.EMPTY);
                                                                  try {
                                                                      list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
@@ -97,18 +98,20 @@ public class RecentSearchManager extends XMLFileManager {
         writer.startTAG(XML_TAG);
         if (!recentKVModelMap.isEmpty()) {
             for (String key : recentKVModelMap.keySet()) {
-                writer.startTAG("RecentModel");
+                writer.startTAG("RecentModelList");
                 writer.attr("searchKey", key);
-                writer.startTAG("modelList");
+
                 for (AlphaCellModel model : recentKVModelMap.get(key)) {
                     try {
                         String name = model.ModelToJson().toString();
+                        writer.startTAG("model");
                         writer.attr("cellModel", name);
+                        writer.end();
                     } catch (JSONException e) {
                         FRLogger.getLogger().error(e.getMessage());
                     }
                 }
-                writer.end();
+
                 writer.end();
             }
         }
@@ -222,12 +225,12 @@ public class RecentSearchManager extends XMLFileManager {
 
     public List<AlphaCellModel> getRecentModelList(String searchText) {
         for (String key : recentKVModelMap.keySet()) {
-            if (recentKVModelMap.keySet().contains(searchText)) {
+            if (key.equals(searchText)) {
                 List<AlphaCellModel> list = recentKVModelMap.get(searchText);
                 return list;
             }
         }
-        return null;
+        return recentModelList;
     }
 
     public void addRecentModel(String searchKey, AlphaCellModel cellModel) {
@@ -282,6 +285,22 @@ public class RecentSearchManager extends XMLFileManager {
 
     public void setRecentKVModelMap(Map<String, List<AlphaCellModel>> recentKVModelMap) {
         this.recentKVModelMap = recentKVModelMap;
+    }
+
+    @Override
+    public SearchResult showLessSearchResult(String searchText) {
+        this.modelList = new SearchResult();
+        recentModelList = getRecentModelList(searchText);
+        if (recentModelList != null && recentModelList.size() > 0) {
+            modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest"), false));
+        }
+        modelList.addAll(recentModelList);
+        return modelList;
+    }
+
+    @Override
+    public SearchResult showMoreSearchResult() {
+        return new SearchResult();
     }
 
 //    public List<recentKVModel> getRecentKVModelList() {
