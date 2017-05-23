@@ -36,15 +36,15 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
     private UIRadioButton lengthMarkRadio;
     private ButtonGroup markButtonGroup;
 
-    private UILabel originalMarkedFieldLabel1;
-    private UILabel parentMarkedFieldLabel1;
+    private UILabel originFieldDependsOnParentLabel;
+    private UILabel parentFieldLabel;
     private UILabel treeDataFieldLabel1;
-    private UILabel originalMarkedFieldLabel2;
+    private UILabel originFieldDependsOnLengthLabel;
     private UILabel treeDataFieldLabel2;
 
-    private ValueEditorPane originalMarkedFieldPane1;
-    private ValueEditorPane parentMarkedFieldPane1;
-    private ValueEditorPane originalMarkedFieldPane2;
+    private ValueEditorPane originFieldDependsOnParentPane;
+    private ValueEditorPane parentFieldPane;
+    private ValueEditorPane originFieldDependsOnLengthPane;
 
     public TreeTableDataDictPane() {
         this(StringUtils.EMPTY);
@@ -90,28 +90,28 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         markButtonGroup.add(parentMarkRadio);
         markButtonGroup.add(lengthMarkRadio);
 
-        originalMarkedFieldLabel1 = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
-        parentMarkedFieldLabel1 = new UILabel("  " + Inter.getLocText("FR-Designer_Parent_Marked_Field") + " :", SwingConstants.RIGHT);
+        originFieldDependsOnParentLabel = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        parentFieldLabel = new UILabel("  " + Inter.getLocText("FR-Designer_Parent_Marked_Field") + " :", SwingConstants.RIGHT);
         treeDataFieldLabel1 = new UILabel("  " + Inter.getLocText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
-        originalMarkedFieldLabel2 = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        originFieldDependsOnLengthLabel = new UILabel(Inter.getLocText("FR-Designer_Original_Marked_Filed") + " :", SwingConstants.RIGHT);
         treeDataFieldLabel2 = new UILabel("  " + Inter.getLocText("FR-Designer_Tree_Data_Field") + " :", SwingConstants.RIGHT);
 
-//		originalMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
-//		parentMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
-//		originalMarkedFieldPane2 = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
-        originalMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        parentMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        originalMarkedFieldPane2 = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+//		originFieldDependsOnParentPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
+//		parentFieldPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
+//		originFieldDependsOnLengthPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
+        originFieldDependsOnParentPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+        parentFieldPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+        originFieldDependsOnLengthPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
 
         makeParentEnable();
 
-        JPanel p1 = createCenterFlowZeroGapBorderPane(originalMarkedFieldLabel1, originalMarkedFieldPane1);
-        JPanel p2 = createCenterFlowZeroGapBorderPane(parentMarkedFieldLabel1, parentMarkedFieldPane1);
+        JPanel p1 = createCenterFlowZeroGapBorderPane(originFieldDependsOnParentLabel, originFieldDependsOnParentPane);
+        JPanel p2 = createCenterFlowZeroGapBorderPane(parentFieldLabel, parentFieldPane);
         JPanel border1 = new JPanel();
         border1.setLayout(new BorderLayout(0, 10));
         border1.add(p1, BorderLayout.NORTH);
         border1.add(p2, BorderLayout.CENTER);
-        JPanel p4 = createCenterFlowZeroGapBorderPane(originalMarkedFieldLabel2, originalMarkedFieldPane2);
+        JPanel p4 = createCenterFlowZeroGapBorderPane(originFieldDependsOnLengthLabel, originFieldDependsOnLengthPane);
         JPanel border2 = new JPanel();
         border2.setLayout(new BorderLayout(0, 20));
         border2.add(p4, BorderLayout.NORTH);
@@ -139,14 +139,14 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
                 RecursionTableData rtd = new RecursionTableData();
                 rtd.setOriginalTableDataName(tableDataWrappe.getTableDataName());
                 if (isBuildByParentFiled()) {
-                    Object o = parentMarkedFieldPane1.update();
+                    Object o = parentFieldPane.update();
                     rtd.setParentmarkFields((Integer) o - 1 + "");
                     rtd.setParentmarkFieldName("" + o);
-                    Object o2 = originalMarkedFieldPane1.update();
+                    Object o2 = originFieldDependsOnParentPane.update();
                     rtd.setMarkFields((Integer) o2 - 1 + "");
                     rtd.setMarkFieldName("" + o2);
                 } else {
-                    Object o = originalMarkedFieldPane2.update();
+                    Object o = originFieldDependsOnLengthPane.update();
                     if (o == null) {
                         rtd.setMarkFields("-1");
                     } else {
@@ -174,9 +174,9 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         }
         ValueEditorPane[] valueEditorPanes;
         if (isBuildByParentFiled()) {
-            valueEditorPanes = new ValueEditorPane[]{originalMarkedFieldPane1, parentMarkedFieldPane1};
+            valueEditorPanes = new ValueEditorPane[]{originFieldDependsOnParentPane, parentFieldPane};
         } else {
-            valueEditorPanes = new ValueEditorPane[]{originalMarkedFieldPane2};
+            valueEditorPanes = new ValueEditorPane[]{originFieldDependsOnLengthPane};
         }
         try {
             List<String> namelist = tableDataWrappe.calculateColumnNameList();
@@ -208,20 +208,20 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
             td.setOriginalTableDataName(tableDataNameComboBox.getSelectedItem().getTableDataName());
         }
         if (isBuildByParentFiled()) {
-            Object o = parentMarkedFieldPane1.update(StringUtils.EMPTY);
+            Object o = parentFieldPane.update(StringUtils.EMPTY);
             if (o instanceof Object[]) {
                 Object[] temp = (Object[]) o;
                 td.setParentmarkFields((Integer) temp[0] - 1 + "");
                 td.setParentmarkFieldName((String) temp[1]);
             }
-            Object o2 = originalMarkedFieldPane1.update(StringUtils.EMPTY);
+            Object o2 = originFieldDependsOnParentPane.update(StringUtils.EMPTY);
             if (o2 instanceof Object[]) {
                 Object[] temp = (Object[]) o2;
                 td.setMarkFields((Integer) temp[0] - 1 + "");
                 td.setMarkFieldName((String) temp[1]);
             }
         } else {
-            Object o = originalMarkedFieldPane2.update(StringUtils.EMPTY);
+            Object o = originFieldDependsOnLengthPane.update(StringUtils.EMPTY);
             if (o == null || !(o instanceof Object[])) {
                 td.setMarkFields("-1");
             } else {
@@ -241,14 +241,14 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
             lengthMarkRadio.setSelected(false);
             tableDataNameComboBox.setSelectedTableDataByName(rtb.getOriginalTableDataName());
             if (StringUtils.isNotEmpty(rtb.getMarkFieldName())) {
-                originalMarkedFieldPane1.populate(rtb.getMarkFieldName());
+                originFieldDependsOnParentPane.populate(rtb.getMarkFieldName());
             } else {
-                originalMarkedFieldPane1.populate(rtb.getMarkFieldIndex() + 1);
+                originFieldDependsOnParentPane.populate(rtb.getMarkFieldIndex() + 1);
             }
             if (StringUtils.isNotEmpty(rtb.getParentmarkFieldName())) {
-                parentMarkedFieldPane1.populate(rtb.getParentmarkFieldName());
+                parentFieldPane.populate(rtb.getParentmarkFieldName());
             } else {
-                parentMarkedFieldPane1.populate(rtb.getParentmarkFieldIndex() + 1);
+                parentFieldPane.populate(rtb.getParentmarkFieldIndex() + 1);
             }
         } else {
             makeLengthEnable();
@@ -256,9 +256,9 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
             parentMarkRadio.setSelected(false);
             tableDataNameComboBox.setSelectedTableDataByName(rtb.getOriginalTableDataName());
             if (StringUtils.isNotEmpty(rtb.getMarkFieldName())) {
-                originalMarkedFieldPane2.populate(rtb.getMarkFieldName());
+                originFieldDependsOnLengthPane.populate(rtb.getMarkFieldName());
             } else {
-                originalMarkedFieldPane2.populate(rtb.getMarkFieldIndex() + 1);
+                originFieldDependsOnLengthPane.populate(rtb.getMarkFieldIndex() + 1);
             }
         }
     }
@@ -286,24 +286,24 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
     }
 
     private void makeParentEnable() {
-        originalMarkedFieldPane1.setEnabled(true);
-        parentMarkedFieldPane1.setEnabled(true);
-        originalMarkedFieldLabel1.setEnabled(true);
-        parentMarkedFieldLabel1.setEnabled(true);
+        originFieldDependsOnParentPane.setEnabled(true);
+        parentFieldPane.setEnabled(true);
+        originFieldDependsOnParentLabel.setEnabled(true);
+        parentFieldLabel.setEnabled(true);
         treeDataFieldLabel1.setEnabled(true);
-        originalMarkedFieldLabel2.setEnabled(false);
+        originFieldDependsOnLengthLabel.setEnabled(false);
         treeDataFieldLabel2.setEnabled(false);
-        originalMarkedFieldPane2.setEnabled(false);
+        originFieldDependsOnLengthPane.setEnabled(false);
     }
 
     private void makeLengthEnable() {
-        originalMarkedFieldPane1.setEnabled(false);
-        parentMarkedFieldPane1.setEnabled(false);
-        originalMarkedFieldLabel1.setEnabled(false);
-        parentMarkedFieldLabel1.setEnabled(false);
+        originFieldDependsOnParentPane.setEnabled(false);
+        parentFieldPane.setEnabled(false);
+        originFieldDependsOnParentLabel.setEnabled(false);
+        parentFieldLabel.setEnabled(false);
         treeDataFieldLabel1.setEnabled(false);
-        originalMarkedFieldLabel2.setEnabled(true);
+        originFieldDependsOnLengthLabel.setEnabled(true);
         treeDataFieldLabel2.setEnabled(true);
-        originalMarkedFieldPane2.setEnabled(true);
+        originFieldDependsOnLengthPane.setEnabled(true);
     }
 }
