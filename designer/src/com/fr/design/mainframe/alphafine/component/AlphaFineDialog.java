@@ -591,7 +591,7 @@ public class AlphaFineDialog extends UIDialog {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
         para.put("content", object.toString());
-        HttpClient httpClient = new HttpClient(AlphaFineConstants.testurl, para, true);
+        HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_TEST_URL, para, true);
         httpClient.setTimeout(5000);
         httpClient.asGet();
         if (!httpClient.isServerAlive()) {

@@ -88,6 +88,7 @@ public class AlphaFineConstants {
 
     public static final String SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";
 
-    public static final String testurl = "http://localhost:8080/monitor/monitor/record_of_afsearch/single";
+    //TODO:先用本地服务器测试一下，避免影响云中心正常信息收集
+    public static final String CLOUD_TEST_URL = "http://localhost:8080/monitor/monitor/record_of_afsearch/single";
 
 }

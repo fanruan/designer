@@ -22,9 +22,12 @@ public class ActionModel extends AlphaCellModel implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ActionModel)) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ActionModel)) {
+            return false;
+        }
         ActionModel that = (ActionModel) o;
 
         return action != null ? action.equals(that.action) : that.action == null;

@@ -53,7 +53,12 @@ public class DocumentModel extends AlphaCellModel {
 
     @Override
     public boolean equals(Object o) {
-
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DocumentModel)) {
+            return false;
+        }
         DocumentModel that = (DocumentModel) o;
 
         return documentUrl != null ? documentUrl.equals(that.documentUrl) : that.documentUrl == null;

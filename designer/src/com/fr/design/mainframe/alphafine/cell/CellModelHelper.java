@@ -15,19 +15,24 @@ public class CellModelHelper {
     private static final String RESULT = "result";
     public static AlphaCellModel jsonToModel(JSONObject object) {
         int cellType = object.optInt("cellType");
+        AlphaCellModel cellModel = null;
         switch (CellType.parse(cellType)) {
             case ACTION:
-                return ActionSearchManager.getModelFromCloud(object.optString("result"));
+                cellModel = ActionSearchManager.getModelFromCloud(object.optString(RESULT));
+                break;
             case DOCUMENT:
-                return DocumentSearchManager.getModelFromCloud(object.optJSONObject("result"));
+                cellModel = DocumentSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
+                break;
             case FILE:
-                return FileSearchManager.getModelFromCloud(object.optString("result"));
+                cellModel = FileSearchManager.getModelFromCloud(object.optString(RESULT));
+                break;
             case PLUGIN:
             case REUSE:
-                return PluginSearchManager.getModelFromCloud(object.optJSONObject("result"));
+                cellModel = PluginSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
+                break;
 
         }
-        return null;
+        return cellModel;
     }
 
     public static String getResultValueFromModel(AlphaCellModel cellModel) {

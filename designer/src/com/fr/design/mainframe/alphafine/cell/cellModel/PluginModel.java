@@ -117,7 +117,12 @@ public class PluginModel extends AlphaCellModel {
 
     @Override
     public boolean equals(Object o) {
-
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PluginModel)) {
+            return false;
+        }
         PluginModel that = (PluginModel) o;
 
         return pluginUrl != null ? pluginUrl.equals(that.pluginUrl) : that.pluginUrl == null;

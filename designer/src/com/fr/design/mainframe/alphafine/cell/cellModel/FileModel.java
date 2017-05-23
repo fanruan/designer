@@ -50,9 +50,13 @@ public class FileModel extends AlphaCellModel{
 
     @Override
     public boolean equals(Object o) {
-
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof FileModel)) {
+            return false;
+        }
         FileModel fileModel = (FileModel) o;
-
         return filePath != null ? filePath.equals(fileModel.filePath) : fileModel.filePath == null;
     }
 

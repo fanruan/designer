@@ -36,6 +36,7 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         }
         if (moreModel.isLoading()) {
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/loading.gif"));
+
             //设置cell的加载动画
             imageIcon.setImageObserver(list);
             UILabel loadingLabel = new UILabel(imageIcon);
