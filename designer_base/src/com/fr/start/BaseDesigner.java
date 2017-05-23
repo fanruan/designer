@@ -71,7 +71,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    StartServer.browerDemoURL();
+                    StartServer.browserDemoURL();
                     break;
                 }
             }

@@ -50,7 +50,7 @@ public class ChartWebAction  extends UpdateAction {
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
-        StartServer.browerURLWithLocalEnv("http://www.vancharts.com/demo.html");
+        StartServer.browserURLWithLocalEnv("http://www.vancharts.com/demo.html");
         return;
     }
 }
