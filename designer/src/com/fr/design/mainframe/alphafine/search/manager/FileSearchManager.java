@@ -87,14 +87,14 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 BufferedReader reader = new BufferedReader(new FileReader(filePath));
                 String line;
                 int columnNumber;
-                boolean test = false;
+                boolean isFoundInContent = false;
                 while ((line = reader.readLine()) != null) {
                     columnNumber = line.toLowerCase().indexOf(searchText);
                     if (columnNumber != -1) {
-                        test = true;
+                        isFoundInContent = true;
                     }
                 }
-                if (test && !isAlreadyContain) {
+                if (isFoundInContent && !isAlreadyContain) {
                     FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
