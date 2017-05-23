@@ -23,7 +23,7 @@ public class WebDemoAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        StartServer.browerDemoURL();
+        StartServer.browserDemoURL();
     }
 
     public static final MenuKeySet PRODUCT_DEMO = new MenuKeySet() {
