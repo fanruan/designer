@@ -18,6 +18,7 @@ import com.fr.stable.CodeUtils;
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
+    //todo:for test
     private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
