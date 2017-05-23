@@ -90,7 +90,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             if (nodeName.equals("model")) {
                 String name = reader.getAttrAsString("cellModel", StringUtils.EMPTY);
                 try {
-                    list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
+                    list.add(CellModelHelper.getModelFromJson(new JSONObject(name)));
                 } catch (JSONException e) {
                     FRLogger.getLogger().error(e.getMessage());
                 }
@@ -231,6 +231,9 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         for (String key : recentKVModelMap.keySet()) {
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
+                if (recentModelList.size() > 3) {
+                    return recentModelList.subList(0, 2);
+                }
                 return recentModelList;
             }
         }

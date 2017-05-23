@@ -13,7 +13,7 @@ import com.fr.json.JSONObject;
  */
 public class CellModelHelper {
     private static final String RESULT = "result";
-    public static AlphaCellModel jsonToModel(JSONObject object) {
+    public static AlphaCellModel getModelFromJson(JSONObject object) {
         int typeValue = object.optInt("cellType");
         AlphaCellModel cellModel = null;
         switch (CellType.parse(typeValue)) {
