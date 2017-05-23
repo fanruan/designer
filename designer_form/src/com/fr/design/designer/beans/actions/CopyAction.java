@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 public class CopyAction extends FormEditAction {
 
     public CopyAction(FormDesigner t) {
@@ -15,7 +17,7 @@ public class CopyAction extends FormEditAction {
         this.setName(Inter.getLocText("M_Edit-Copy"));
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
     }
 
     @Override

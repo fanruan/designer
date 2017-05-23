@@ -17,6 +17,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 
 public class ExtendedComboBox extends UIComboBox {
     private static final int VALUE120 = 120;
@@ -79,7 +81,7 @@ public class ExtendedComboBox extends UIComboBox {
                         //   Key   from   the   list.
                         //   ie.,   don't   allow   CTRL   key   deselection.
                         e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers()
-                                ^ InputEvent.CTRL_MASK, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
+                                ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
                     }
                     super.processMouseEvent(e);
                 }
