@@ -1,8 +1,8 @@
-package com.fr.design.mainframe.alphafine.cell.cellRender;
+package com.fr.design.mainframe.alphafine.cell.render;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import javax.swing.*;
 import java.awt.*;
 

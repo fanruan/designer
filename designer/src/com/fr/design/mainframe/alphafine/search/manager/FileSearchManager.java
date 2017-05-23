@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.searchManager;
+package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.base.Env;
 import com.fr.base.FRContext;
@@ -6,13 +6,12 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.design.mainframe.alphafine.cell.cellModel.FileModel;
-import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.FileModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.json.JSONObject;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 

@@ -1,11 +1,11 @@
-package com.fr.design.mainframe.alphafine.searchManager;
+package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.cellModel.AlphaCellModel;
-import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;

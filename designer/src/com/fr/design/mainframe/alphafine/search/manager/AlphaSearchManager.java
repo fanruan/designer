@@ -1,6 +1,6 @@
-package com.fr.design.mainframe.alphafine.searchManager;
+package com.fr.design.mainframe.alphafine.search.manager;
 
-import com.fr.design.mainframe.alphafine.cell.cellModel.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.Inter;
 

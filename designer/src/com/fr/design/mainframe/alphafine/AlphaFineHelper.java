@@ -1,13 +1,8 @@
 package com.fr.design.mainframe.alphafine;
 
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.alphafine.cell.cellModel.*;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-
-import java.io.File;
 
 /**
  * Created by XiaXiang on 2017/5/8.

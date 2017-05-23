@@ -1,11 +1,11 @@
 package com.fr.design.mainframe.alphafine.cell;
 
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.design.mainframe.alphafine.cell.cellModel.*;
-import com.fr.design.mainframe.alphafine.searchManager.ActionSearchManager;
-import com.fr.design.mainframe.alphafine.searchManager.DocumentSearchManager;
-import com.fr.design.mainframe.alphafine.searchManager.FileSearchManager;
-import com.fr.design.mainframe.alphafine.searchManager.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.PluginSearchManager;
 import com.fr.json.JSONObject;
 
 /**
