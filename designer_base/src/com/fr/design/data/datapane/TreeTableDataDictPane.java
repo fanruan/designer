@@ -68,8 +68,8 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         this.add(tableFlowPane, BorderLayout.NORTH);
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(centerPane, BorderLayout.CENTER);
-        parentMarkRadio = new UIRadioButton(Inter.getLocText("Build_Tree_Accord_Parent_Marked_Filed"), true);
-        lengthMarkRadio = new UIRadioButton(Inter.getLocText("Build_Tree_Accord_Marked_Filed_Length"));
+        parentMarkRadio = new UIRadioButton(Inter.getLocText("FR-Build_Tree_Accord_Parent_Marked_Filed"), true);
+        lengthMarkRadio = new UIRadioButton(Inter.getLocText("FR-Build_Tree_Accord_Marked_Filed_Length"));
         parentMarkRadio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isBuildByParentFiled()) {
@@ -90,11 +90,11 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         markButtonGroup.add(parentMarkRadio);
         markButtonGroup.add(lengthMarkRadio);
 
-        originalMarkedFieldLabel1 = new UILabel(Inter.getLocText("Original_Marked_Filed") + " :", SwingConstants.RIGHT);
-        parentMarkedFieldLabel1 = new UILabel("  " + Inter.getLocText("Parent_Marked_Field") + " :", SwingConstants.RIGHT);
-        treeDataFieldLabel1 = new UILabel("  " + Inter.getLocText("Tree_Data_Field") + " :", SwingConstants.RIGHT);
-        originalMarkedFieldLabel2 = new UILabel(Inter.getLocText("Original_Marked_Filed") + " :", SwingConstants.RIGHT);
-        treeDataFieldLabel2 = new UILabel("  " + Inter.getLocText("Tree_Data_Field") + " :", SwingConstants.RIGHT);
+        originalMarkedFieldLabel1 = new UILabel(Inter.getLocText("FR-Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        parentMarkedFieldLabel1 = new UILabel("  " + Inter.getLocText("FR-Parent_Marked_Field") + " :", SwingConstants.RIGHT);
+        treeDataFieldLabel1 = new UILabel("  " + Inter.getLocText("FR-Tree_Data_Field") + " :", SwingConstants.RIGHT);
+        originalMarkedFieldLabel2 = new UILabel(Inter.getLocText("FR-Original_Marked_Filed") + " :", SwingConstants.RIGHT);
+        treeDataFieldLabel2 = new UILabel("  " + Inter.getLocText("FR-Tree_Data_Field") + " :", SwingConstants.RIGHT);
 
 //		originalMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
 //		parentMarkedFieldPane1 = ValueEditorPaneFactory.createValueEditorPane(new Editor[] {new OldColumnIndexEditor(Inter.getLocText("Columns"))});
@@ -127,7 +127,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
         buildTreePanel.add(xxx, BorderLayout.CENTER);
         centerPane.add(buildTreePanel, BorderLayout.NORTH);
         JPanel previewPanel = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        UIButton treeDataPreviewButton = new UIButton(Inter.getLocText("Preview"));
+        UIButton treeDataPreviewButton = new UIButton(Inter.getLocText("FR-Designer_Preview"));
         previewPanel.add(treeDataPreviewButton);
         treeDataPreviewButton.addActionListener(new ActionListener() {
             @Override
