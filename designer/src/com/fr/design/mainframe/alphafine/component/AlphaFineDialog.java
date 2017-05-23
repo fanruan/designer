@@ -595,7 +595,7 @@ public class AlphaFineDialog extends UIDialog {
         httpClient.setTimeout(5000);
         httpClient.asGet();
         if (!httpClient.isServerAlive()) {
-            FRLogger.getLogger().error("404");
+            FRLogger.getLogger().error("Failed to sent data to server!");
         }
 
     }
@@ -626,10 +626,6 @@ public class AlphaFineDialog extends UIDialog {
         repaint();
     }
 
-    private void updatePopup() {
-
-    }
-
     private SearchResult getMoreResult(MoreModel selectedValue) {
         SearchResult moreResult;
         switch (selectedValue.getType()) {
@@ -655,14 +651,6 @@ public class AlphaFineDialog extends UIDialog {
         return (SearchListModel) searchResultList.getModel();
     }
 
-//    //测试
-//    public static void main(String[] args) {
-//        AlphaFineDialog alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
-//        alphaFineDialog.setSize(new Dimension(680,55));
-//        alphaFineDialog.setVisible(true);
-//    }
-
-
     public SearchListModel setListModel(SearchListModel jListModel) {
         this.searchListModel = jListModel;
         return this.searchListModel;
@@ -675,5 +663,6 @@ public class AlphaFineDialog extends UIDialog {
     public void setSearchWorker(SwingWorker searchWorker) {
         this.searchWorker = searchWorker;
     }
+
 
 }
