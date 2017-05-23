@@ -31,7 +31,7 @@ import java.util.List;
 public class TreeTableDataDictPane extends BasicPane implements Previewable {
 
     private UILabel selectTableDataLabel;
-    private TableDataComboBox tableDataNameComboBox;
+    protected TableDataComboBox tableDataNameComboBox;
     private UIRadioButton parentMarkRadio;
     private UIRadioButton lengthMarkRadio;
     private ButtonGroup markButtonGroup;
