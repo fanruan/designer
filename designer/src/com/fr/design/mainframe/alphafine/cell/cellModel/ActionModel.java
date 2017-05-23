@@ -55,7 +55,7 @@ public class ActionModel extends AlphaCellModel implements Serializable {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("result", getAction().getClass().getName()).put("cellType", getType().getCellType());
+            object.put("result", getAction().getClass().getName()).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }

@@ -39,7 +39,7 @@ public class DocumentModel extends AlphaCellModel {
         try {
             JSONObject modelObject = JSONObject.create();
             modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId());
-            object.put("result", modelObject).put("cellType", getType().getCellType());
+            object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error("DocumentModel: " + e.getMessage());
         }

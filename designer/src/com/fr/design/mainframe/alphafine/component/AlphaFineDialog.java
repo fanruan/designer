@@ -579,7 +579,7 @@ public class AlphaFineDialog extends UIDialog {
         String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
         String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
         String key = searchKey;
-        int resultkind = cellModel.getType().getCellType();
+        int resultkind = cellModel.getType().getTypeValue();
         String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
         JSONObject object = JSONObject.create();
         try {

@@ -14,9 +14,9 @@ import com.fr.json.JSONObject;
 public class CellModelHelper {
     private static final String RESULT = "result";
     public static AlphaCellModel jsonToModel(JSONObject object) {
-        int cellType = object.optInt("cellType");
+        int typeValue = object.optInt("cellType");
         AlphaCellModel cellModel = null;
-        switch (CellType.parse(cellType)) {
+        switch (CellType.parse(typeValue)) {
             case ACTION:
                 cellModel = ActionSearchManager.getModelFromCloud(object.optString(RESULT));
                 break;

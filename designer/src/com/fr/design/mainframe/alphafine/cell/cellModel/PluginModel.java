@@ -2,13 +2,9 @@ package com.fr.design.mainframe.alphafine.cell.cellModel;
 
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Created by XiaXiang on 2017/4/20.
@@ -100,8 +96,8 @@ public class PluginModel extends AlphaCellModel {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
-            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getCellType()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink());
-            object.put("result", modelObject).put("cellType", getType().getCellType());
+            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getTypeValue()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink());
+            object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }

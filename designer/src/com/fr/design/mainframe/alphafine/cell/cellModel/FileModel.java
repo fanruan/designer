@@ -5,7 +5,6 @@ import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import org.apache.xerces.impl.xpath.regex.REUtil;
 
 /**
  * Created by XiaXiang on 2017/4/20.
@@ -35,7 +34,7 @@ public class FileModel extends AlphaCellModel{
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("result", getFilePath()).put("cellType", getType().getCellType());
+            object.put("result", getFilePath()).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
