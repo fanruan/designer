@@ -31,16 +31,16 @@ import java.util.List;
 public class TreeTableDataDictPane extends BasicPane implements Previewable {
 
     private UILabel selectTableDataLabel;
-    protected TableDataComboBox tableDataNameComboBox;
+    private TableDataComboBox tableDataNameComboBox;
     private UIRadioButton parentMarkRadio;
     private UIRadioButton lengthMarkRadio;
     private ButtonGroup markButtonGroup;
 
-    UILabel originalMarkedFieldLabel1;
-    UILabel parentMarkedFieldLabel1;
-    UILabel treeDataFieldLabel1;
-    UILabel originalMarkedFieldLabel2;
-    UILabel treeDataFieldLabel2;
+    private UILabel originalMarkedFieldLabel1;
+    private UILabel parentMarkedFieldLabel1;
+    private UILabel treeDataFieldLabel1;
+    private UILabel originalMarkedFieldLabel2;
+    private UILabel treeDataFieldLabel2;
 
     private ValueEditorPane originalMarkedFieldPane1;
     private ValueEditorPane parentMarkedFieldPane1;
@@ -211,13 +211,13 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
             Object o = parentMarkedFieldPane1.update(StringUtils.EMPTY);
             if (o instanceof Object[]) {
                 Object[] temp = (Object[]) o;
-                td.setParentmarkFields(((Integer) temp[0]).intValue() - 1 + "");
+                td.setParentmarkFields((Integer) temp[0] - 1 + "");
                 td.setParentmarkFieldName((String) temp[1]);
             }
             Object o2 = originalMarkedFieldPane1.update(StringUtils.EMPTY);
             if (o2 instanceof Object[]) {
                 Object[] temp = (Object[]) o2;
-                td.setMarkFields(((Integer) temp[0]).intValue() - 1 + "");
+                td.setMarkFields((Integer) temp[0] - 1 + "");
                 td.setMarkFieldName((String) temp[1]);
             }
         } else {
@@ -226,7 +226,7 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
                 td.setMarkFields("-1");
             } else {
                 Object[] temp = (Object[]) o;
-                td.setMarkFields(((Integer) temp[0]).intValue() - 1 + "");
+                td.setMarkFields((Integer) temp[0] - 1 + "");
                 td.setMarkFieldName((String) temp[1]);
             }
         }
