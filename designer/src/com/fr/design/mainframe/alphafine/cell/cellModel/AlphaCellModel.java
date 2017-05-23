@@ -60,9 +60,7 @@ public abstract class AlphaCellModel {
         this.description = description;
     }
 
-    public JSONObject ModelToJson() throws JSONException {
-        return null;
-    }
+    abstract public JSONObject ModelToJson() throws JSONException;
 
 
 }
