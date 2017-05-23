@@ -19,7 +19,6 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
-import com.fr.design.mainframe.alphafine.manager.*;
 import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
