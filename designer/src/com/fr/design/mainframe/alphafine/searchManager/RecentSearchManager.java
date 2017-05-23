@@ -71,17 +71,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                             reader.readXMLObject(new XMLReadable() {
                                                      @Override
                                                      public void readXML(XMLableReader reader) {
-                                                         if (reader.isChildNode()) {
-                                                             String nodeName = reader.getTagName();
-                                                             if (nodeName.equals("model")) {
-                                                                 String name = reader.getAttrAsString("cellModel", StringUtils.EMPTY);
-//                                                                 try {
-//                                                                     list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
-//                                                                 } catch (JSONException e) {
-//                                                                     FRLogger.getLogger().error(e.getMessage());
-//                                                                 }
-                                                             }
-                                                         }
+                                                         readCellModel(reader, list);
                                                      }
                                                  }
                             );
@@ -92,6 +82,20 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             });
         }
 
+    }
+
+    private void readCellModel(XMLableReader reader, List<AlphaCellModel> list) {
+        if (reader.isChildNode()) {
+            String nodeName = reader.getTagName();
+            if (nodeName.equals("model")) {
+                String name = reader.getAttrAsString("cellModel", StringUtils.EMPTY);
+                try {
+                    list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
+                } catch (JSONException e) {
+                    FRLogger.getLogger().error(e.getMessage());
+                }
+            }
+        }
     }
 
     @Override
