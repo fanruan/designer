@@ -21,6 +21,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 public class DataTableConfigPane extends JComponent implements PropertyChangeListener {
 
 	private DataEditingTable table;
@@ -183,7 +185,7 @@ public class DataTableConfigPane extends JComponent implements PropertyChangeLis
 					this.setName(Inter.getLocText("M_Edit-Cut"));
 					this.setMnemonic('T');
 					this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
-					this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
+					this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));
 				}
 
 				@Override

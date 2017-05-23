@@ -20,6 +20,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 
 /**
  * Adds auto-completion to a text component.  Provides a popup window with a
@@ -308,8 +310,7 @@ public class AutoCompletion {
 	 */
 	public static KeyStroke getDefaultTriggerKey() {
 		// Default to CTRL, even on Mac, since Ctrl+Space activates Spotlight
-		int mask = InputEvent.CTRL_MASK;
-		return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, mask);
+		return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, DEFAULT_MODIFIER);
 	}
 
 

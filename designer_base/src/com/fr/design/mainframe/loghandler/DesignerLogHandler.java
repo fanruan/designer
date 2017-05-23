@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 public class DesignerLogHandler {
     protected static final int INFO_INT = FRLogLevel.INFO.intValue();
     protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
@@ -158,9 +160,9 @@ public class DesignerLogHandler {
             clear.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/clear.png"));
             popup.add(clear);
 
-            selectAll.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_MASK));
-            copy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
-            clear.setAccelerator(KeyStroke.getKeyStroke('L', InputEvent.CTRL_MASK));
+            selectAll.setAccelerator(KeyStroke.getKeyStroke('A', DEFAULT_MODIFIER));
+            copy.setAccelerator(KeyStroke.getKeyStroke('C', DEFAULT_MODIFIER));
+            clear.setAccelerator(KeyStroke.getKeyStroke('L', DEFAULT_MODIFIER));
 
             jTextArea.addMouseListener(new MouseAdapter() {
                 // check for right click
