@@ -34,7 +34,7 @@ public class WebDemoAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Product_Demo");
+            return Inter.getLocText("FR-Product_Demo");
         }
 
         @Override
