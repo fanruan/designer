@@ -109,11 +109,14 @@ public class PluginModel extends AlphaCellModel {
         return object;
     }
 
+    @Override
+    public String getStoreInformation() {
+        return getInformationUrl();
+    }
+
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PluginModel)) return false;
 
         PluginModel that = (PluginModel) o;
 

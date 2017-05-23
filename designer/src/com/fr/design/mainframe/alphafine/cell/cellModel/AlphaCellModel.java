@@ -62,5 +62,6 @@ public abstract class AlphaCellModel {
 
     abstract public JSONObject ModelToJson() throws JSONException;
 
+    abstract public String getStoreInformation();
 
 }

@@ -5,6 +5,7 @@ import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import org.apache.xerces.impl.xpath.regex.REUtil;
 
 /**
  * Created by XiaXiang on 2017/4/20.
@@ -41,11 +42,14 @@ public class FileModel extends AlphaCellModel{
         return object;
     }
 
+    @Override
+    public String getStoreInformation() {
+        return getFilePath();
+    }
+
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FileModel)) return false;
 
         FileModel fileModel = (FileModel) o;
 

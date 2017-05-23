@@ -59,6 +59,11 @@ public class ActionModel extends AlphaCellModel implements Serializable {
         return object;
     }
 
+    @Override
+    public String getStoreInformation() {
+        return getActionName();
+    }
+
     public String getActionName() {
         return getAction().getClass().getName();
     }

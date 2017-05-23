@@ -12,6 +12,7 @@ import com.fr.json.JSONObject;
  * Created by XiaXiang on 2017/5/17.
  */
 public class CellModelHelper {
+    private static final String RESULT = "result";
     public static AlphaCellModel jsonToModel(JSONObject object) {
         int cellType = object.optInt("cellType");
         switch (CellType.parse(cellType)) {
@@ -30,17 +31,6 @@ public class CellModelHelper {
     }
 
     public static String getResultValueFromModel(AlphaCellModel cellModel) {
-        switch (cellModel.getType()) {
-            case ACTION:
-                return ((ActionModel)cellModel).getActionName();
-            case DOCUMENT:
-                return ((DocumentModel)cellModel).getInformationUrl();
-            case FILE:
-                return ((FileModel)cellModel).getFilePath();
-            case REUSE:
-            case PLUGIN:
-                return ((PluginModel)cellModel).getInformationUrl();
-        }
-        return null;
+        return cellModel.getStoreInformation();
     }
 }
