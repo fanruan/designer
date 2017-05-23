@@ -32,6 +32,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         this.modelList = new SearchResult();
         HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
         httpClient.asGet();
+        httpClient.setTimeout(5000);
         if (!httpClient.isServerAlive()) {
             return modelList;
         }
