@@ -108,6 +108,13 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         }
     }
 
+    /**
+     * 搜索模板
+     * @param searchText
+     * @param node
+     * @param isAlreadyContain
+     * @return
+     */
     private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
             if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
@@ -124,6 +131,13 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         return moreModelList;
     }
 
+    /**
+     * 获取工作目录下所有符合要求的模板
+     * @param env
+     * @param rootFilePath
+     * @param recurse
+     * @return
+     */
     private List<FileNode> listTpl(Env env, String rootFilePath, boolean recurse) {
         List<FileNode> fileNodeList = new ArrayList<FileNode>();
         try {
@@ -134,6 +148,14 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         return fileNodeList;
     }
 
+    /**
+     * 获取当前工作目录下所有模板
+     * @param env
+     * @param rootFilePath
+     * @param nodeList
+     * @param recurse
+     * @throws Exception
+     */
     private void listAll(Env env, String rootFilePath, List<FileNode> nodeList, boolean recurse) throws Exception {
         FileNode[] fns = env.listFile(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
@@ -150,6 +172,11 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         }
     }
 
+    /**
+     * 根据文件路径获取文件模型
+     * @param filePath
+     * @return
+     */
     public static FileModel getModelFromCloud(String filePath) {
         String name = AlphaFineHelper.findFileName(filePath);
         String content = AlphaFineHelper.findFolderName(filePath);

@@ -56,13 +56,13 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                         DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
                         this.moreModelList.add(cellModel);
                     }
-                    if (jsonArray.length() > 0) {
-                        if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
-                        } else  {
-                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
-                        }
+                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
+                    } else  {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
                     }
+
+
                 }
 
             } catch (JSONException e) {
@@ -75,6 +75,11 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         return lessModelList;
     }
 
+    /**
+     * 根据json信息获取文档model
+     * @param object
+     * @return
+     */
     public static DocumentModel getModelFromCloud(JSONObject object) {
         String name = object.optString("title");
         String content = object.optString("summary");

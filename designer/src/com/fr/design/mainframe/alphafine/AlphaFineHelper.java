@@ -14,15 +14,29 @@ import java.io.File;
  */
 public class AlphaFineHelper {
 
+    /**
+     * 弹出alphafine搜索面板
+     */
     public static void showAlphaFineDialog() {
         AlphaFineDialog dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
         dialog.setVisible(true);
     }
 
+    /**
+     * 获取文件名上级目录
+     * @param text
+     * @return
+     */
     public static String findFolderName (String text) {
         return getSplitText(text, 2);
     }
 
+    /**
+     * 分割字符串，获取文件名，文件名上级目录等
+     * @param text
+     * @param index
+     * @return
+     */
     private static String getSplitText(String text, int index) {
         if (StringUtils.isNotBlank(text)) {
             String[] textArray = text.split("/");
@@ -33,6 +47,11 @@ public class AlphaFineHelper {
         return null;
     }
 
+    /**
+     * 获取文件名
+     * @param text
+     * @return
+     */
     public static String findFileName (String text) {
         return getSplitText(text, 1);
     }

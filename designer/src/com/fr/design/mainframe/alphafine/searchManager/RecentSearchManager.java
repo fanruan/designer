@@ -45,7 +45,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private List<AlphaCellModel> recentModelList = new ArrayList<>();
     private Map<String, List<AlphaCellModel>> recentKVModelMap = new HashMap<>();
 
-    public synchronized static RecentSearchManager getInstance() {
+    public synchronized static RecentSearchManager getRecentSearchManger() {
         if (recentSearchManager == null) {
             recentSearchManager = new RecentSearchManager();
             try {
@@ -163,6 +163,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         this.pluginList = pluginList;
     }
 
+    /**
+     * 获取xml
+     * @return
+     */
     private File getRecentFile() {
         if (recentFile == null) {
             recentFile = new File(ProductConstants.getEnvHome() + File.separator + fileName());
@@ -179,6 +183,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         return envFile;
     }
 
+    /**
+     * 创建XML
+     * @param envFile
+     */
     private void createRecentFile(File envFile) {
         try {
             FileWriter fileWriter = new FileWriter(envFile);
@@ -230,6 +238,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         this.recentModelList = recentModelList;
     }
 
+    /**
+     * 根据搜索字段获取对应的model列表
+     * @param searchText
+     * @return
+     */
     public List<AlphaCellModel> getRecentModelList(String searchText) {
         recentModelList = new ArrayList<>();
         for (String key : recentKVModelMap.keySet()) {
@@ -244,6 +257,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         return recentModelList;
     }
 
+    /**
+     * 将搜索结果加入到当前MAP中
+     * @param searchKey
+     * @param cellModel
+     */
     public void addRecentModel(String searchKey, AlphaCellModel cellModel) {
         if (recentKVModelMap.keySet().contains(searchKey)) {
             List<AlphaCellModel> cellModels = recentKVModelMap.get(searchKey);

@@ -63,13 +63,12 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
                         this.moreModelList.add(cellModel);
                     }
-                    if (jsonArray.length() > 0) {
-                        if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
-                        } else {
-                            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
-                        }
+                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
+                    } else {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
                     }
+
                 }
 
             } catch (Exception e) {
@@ -110,6 +109,11 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         return this.moreModelList;
     }
 
+    /**
+     * 根据json获取对应的插件model
+     * @param object
+     * @return
+     */
     public static PluginModel getModelFromCloud(JSONObject object) {
         JSONObject jsonObject = object.optJSONObject("result");
         if (jsonObject != null) {

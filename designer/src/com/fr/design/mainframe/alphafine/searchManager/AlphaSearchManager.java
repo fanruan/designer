@@ -30,24 +30,24 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
             fileSearchManager = FileSearchManager.getFileSearchManager();
             actionSearchManager = ActionSearchManager.getActionSearchManager();
             recommendSearchManager = RecommendSearchManager.getRecommendSearchManager();
-            recentSearchManager = RecentSearchManager.getInstance();
+            recentSearchManager = RecentSearchManager.getRecentSearchManger();
         }
     }
 
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
-        SearchResult latestModelList = recentSearchManager.getLessSearchResult(searchText);
+        SearchResult recentModelList = recentSearchManager.getLessSearchResult(searchText);
         SearchResult concludeModelList = recommendSearchManager.getLessSearchResult(searchText);
         SearchResult actionModelList = actionSearchManager.getLessSearchResult(searchText);
         SearchResult fileModelList = fileSearchManager.getLessSearchResult(searchText);
         SearchResult documentModelList = documentSearchManager.getLessSearchResult(searchText);
         SearchResult pluginModelList = pluginSearchManager.getLessSearchResult(searchText);
-        latestModelList.addAll(concludeModelList);
-        latestModelList.addAll(actionModelList);
-        latestModelList.addAll(fileModelList);
-        latestModelList.addAll(documentModelList);
-        latestModelList.addAll(pluginModelList);
-        return latestModelList;
+        recentModelList.addAll(concludeModelList);
+        recentModelList.addAll(actionModelList);
+        recentModelList.addAll(fileModelList);
+        recentModelList.addAll(documentModelList);
+        recentModelList.addAll(pluginModelList);
+        return recentModelList;
     }
 
     public SearchResult showDefaultSearchResult() {

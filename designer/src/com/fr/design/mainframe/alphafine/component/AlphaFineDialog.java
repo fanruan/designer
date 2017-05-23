@@ -561,7 +561,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void saveHistory(String searchText, AlphaCellModel cellModel) {
-        RecentSearchManager recentSearchManager = RecentSearchManager.getInstance();
+        RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
         recentSearchManager.addRecentModel(searchText, cellModel);
         recentSearchManager.saveXMLFile();
         sendToServer(searchText, cellModel);

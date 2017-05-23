@@ -103,7 +103,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
             }
         };
         this.add(paraDesignEditor.createWrapper(), BorderLayout.CENTER);
-//        WidgetToolBarPane.getInstance(formParaDesignEditor);
+//        WidgetToolBarPane.getRecentSearchManger(formParaDesignEditor);
 
         setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
         setButton.set4ToolbarButton();
@@ -378,7 +378,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         currentIndex++;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
         refreshParameter();
-//        FormHierarchyTreePane.getInstance().refreshDockingView();
+//        FormHierarchyTreePane.getRecentSearchManger().refreshDockingView();
         DesignModuleFactory.getFormHierarchyPane().refreshDockingView();
         if (propertyChangeListener != null) {
             propertyChangeListener.propertyChange();
@@ -398,7 +398,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
         currentIndex = currentIndex + NUM_IN_A_LINE - currentIndex % NUM_IN_A_LINE;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
         refreshParameter();
-//        FormHierarchyTreePane.getInstance().refreshDockingView();
+//        FormHierarchyTreePane.getRecentSearchManger().refreshDockingView();
         DesignModuleFactory.getFormHierarchyPane().refreshDockingView();
         if (propertyChangeListener != null) {
             propertyChangeListener.propertyChange();
@@ -420,7 +420,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
         parameterArray = null;
         refreshParameter();
-//        FormHierarchyTreePane.getInstance().refreshDockingView();
+//        FormHierarchyTreePane.getRecentSearchManger().refreshDockingView();
         DesignModuleFactory.getFormHierarchyPane().refreshDockingView();
         if (propertyChangeListener != null) {
             propertyChangeListener.propertyChange();

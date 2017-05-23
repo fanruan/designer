@@ -68,6 +68,11 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         return moreModelList;
     }
 
+    /**
+     * 根据类名反射获取对象
+     * @param actionName
+     * @return
+     */
     public static ActionModel getModelFromCloud(String actionName ) {
         UpdateAction action = null;
         String name = null;

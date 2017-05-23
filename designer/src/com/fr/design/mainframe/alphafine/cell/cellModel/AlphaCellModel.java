@@ -60,8 +60,17 @@ public abstract class AlphaCellModel {
         this.description = description;
     }
 
+    /**
+     * model转json
+     * @return
+     * @throws JSONException
+     */
     abstract public JSONObject ModelToJson() throws JSONException;
 
+    /**
+     * 获取需要保存到云中心的信息
+     * @return
+     */
     abstract public String getStoreInformation();
 
 }
