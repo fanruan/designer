@@ -75,11 +75,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                                                              String nodeName = reader.getTagName();
                                                              if (nodeName.equals("model")) {
                                                                  String name = reader.getAttrAsString("cellModel", StringUtils.EMPTY);
-                                                                 try {
-                                                                     list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
-                                                                 } catch (JSONException e) {
-                                                                     FRLogger.getLogger().error(e.getMessage());
-                                                                 }
+//                                                                 try {
+//                                                                     list.add(CellModelHelper.jsonToModel(new JSONObject(name)));
+//                                                                 } catch (JSONException e) {
+//                                                                     FRLogger.getLogger().error(e.getMessage());
+//                                                                 }
                                                              }
                                                          }
                                                      }
