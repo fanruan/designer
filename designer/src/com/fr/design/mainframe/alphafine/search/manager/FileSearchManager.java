@@ -95,7 +95,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                     }
                 }
                 if (test && !isAlreadyContain) {
-                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length()), node.getEnvPath());
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
                 reader.close();
@@ -117,7 +117,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
             if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                FileModel model = new FileModel(node.getName(), node.getEnvPath());
                 this.filterModelList.add(model);
                 isAlreadyContain = true;
             }
@@ -178,8 +178,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      */
     public static FileModel getModelFromCloud(String filePath) {
         String name = AlphaFineHelper.findFileName(filePath);
-        String content = AlphaFineHelper.findFolderName(filePath);
-        return new FileModel(name, content, filePath);
+        return new FileModel(name, filePath);
     }
 
 }
