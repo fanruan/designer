@@ -13,10 +13,7 @@ import com.fr.general.LogRecordTime;
 import com.fr.stable.xml.LogRecordTimeProvider;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -192,9 +189,9 @@ public class DesignerLogHandler {
         private JTextPane initLogJTextArea() {
             JTextPane resultPane = new JTextPane();
             InputMap inputMap = resultPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, DEFAULT_MODIFIER), "clear");
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), "select-all");
             ActionMap actionMap = resultPane.getActionMap();
             actionMap.put("clear", new AbstractAction() {
                 public void actionPerformed(ActionEvent evt) {
