@@ -32,7 +32,6 @@ import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
 import com.fr.main.impl.WorkBook;
-import com.fr.plugin.ExtraClassManager;
 import com.fr.quickeditor.ChartQuickEditor;
 import com.fr.quickeditor.cellquick.*;
 import com.fr.quickeditor.floatquick.FloatImageQuickEditor;
@@ -47,7 +46,6 @@ import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.fun.LogProvider;
-import com.fr.stable.plugin.PluginSimplify;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
 import com.fr.stable.web.ServletContext;
@@ -99,7 +97,7 @@ public class DesignerModule extends DesignModule {
         InformationCollector.getInstance().collectStartTime();
 
         ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
-        ExtraClassManager.getInstance().addMutable(LogProvider.MARK_STRING, DesignerLogImpl.getInstance(), PluginSimplify.NULL);
+        StableFactory.registerMarkedObject(LogProvider.MARK_STRING, DesignerLogImpl.getInstance());
     }
 
     private void registerOtherPane() {
