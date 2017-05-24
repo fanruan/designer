@@ -33,13 +33,13 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     public UITextField() {
         super();
         InputMap inputMap = this.getInputMap();
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
                 DefaultEditorKit.selectAllAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
                 DefaultEditorKit.copyAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
                 DefaultEditorKit.pasteAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
                 DefaultEditorKit.cutAction);
         initListener();
     }

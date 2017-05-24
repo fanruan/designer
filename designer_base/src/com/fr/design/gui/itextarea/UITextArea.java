@@ -19,13 +19,13 @@ public class UITextArea extends JTextArea implements UIObserver {
     public UITextArea(int i, int j) {
         super(i, j);
         InputMap inputMap = this.getInputMap();
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
                 DefaultEditorKit.selectAllAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
                 DefaultEditorKit.copyAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
                 DefaultEditorKit.pasteAction);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
+        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
                 DefaultEditorKit.cutAction);
         initComponents();
     }
