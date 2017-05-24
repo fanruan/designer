@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.previewPane;
+package com.fr.design.mainframe.alphafine.preview;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;

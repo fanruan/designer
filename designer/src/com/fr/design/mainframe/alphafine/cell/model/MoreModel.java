@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.cell.cellModel;
+package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.CellType;
 
