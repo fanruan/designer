@@ -35,7 +35,7 @@ public class WestRegionContainerPane extends UIResizableContainer {
     
         setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
     
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(PluginListenerPriority.WestRegionContainerPane) {
+        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(TableDataTreePane.PLUGIN_LISTENER_PRIORITY - 1) {
         
             @Override
             public void on(PluginEvent event) {

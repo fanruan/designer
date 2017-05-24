@@ -27,7 +27,6 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.plugin.context.PluginContext;
@@ -35,10 +34,8 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.plugin.observer.PluginListenerPriority;
 import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.stable.plugin.PluginReadListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +50,8 @@ import java.util.Map;
 
 public class TableDataTreePane extends BasicTableDataTreePane {
     private static TableDataTreePane singleton = new TableDataTreePane();
-
+    
+    public static final int PLUGIN_LISTENER_PRIORITY = 1;
 
     public synchronized static BasicTableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
 
@@ -90,7 +88,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
         createAddMenuDef();
     
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(PluginListenerPriority.TableDataTreePane) {
+        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
         
             @Override
             public void on(PluginEvent event) {
