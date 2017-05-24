@@ -5,6 +5,10 @@ import com.fr.design.actions.UpdateAction;
 /**
  * Created by XiaXiang on 2017/5/24.
  */
+
+/**
+ * action对象
+ */
 public class UpdateActionModel {
     private String parentName;
     private String actionName;
@@ -16,6 +20,10 @@ public class UpdateActionModel {
         this.actionName = action.getName();
     }
 
+    /**
+     * 获取上一层级菜单name
+     * @return
+     */
     public String getParentName() {
         return parentName;
     }
@@ -24,6 +32,10 @@ public class UpdateActionModel {
         this.parentName = parentName;
     }
 
+    /**
+     * 获取action
+     * @return
+     */
     public UpdateAction getAction() {
         return action;
     }
@@ -32,6 +44,10 @@ public class UpdateActionModel {
         this.action = action;
     }
 
+    /**
+     * 获取actionName
+     * @return
+     */
     public String getActionName() {
         return actionName;
     }
