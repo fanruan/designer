@@ -8,14 +8,16 @@
  */
 package com.fr.design.gui.autocomplete;
 
-import com.fr.stable.resource.ResourceLoader;
-
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.net.URL;
+import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.html.HTMLDocument;
-import java.awt.*;
-import java.net.URL;
 
 
 /**
@@ -164,8 +166,8 @@ class TipUtil {
 		Color linkFG = Util.getHyperlinkForeground();
 		doc.getStyleSheet().addRule(
 				"a { color: " + Util.getHexString(linkFG) + "; }");
-		
-		URL url = ResourceLoader.getResource("bullet_black.png", TipUtil.class);
+
+		URL url = TipUtil.class.getResource("bullet_black.png");
 		if (url!=null) {
 			doc.getStyleSheet().addRule(
 				"ul { list-style-image: '" + url.toString() + "'; }");
