@@ -39,8 +39,10 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
                 UpdateAction updateAction = updateActionModel.getAction();
-                if (updateAction.getName() != null && updateAction.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                    filterModelList.add(new ActionModel(updateAction.getName() ,updateActionModel.getParentName(), updateAction));
+                if (updateAction.getName() != null) {
+                    if (updateAction.getName().toLowerCase().contains(searchText.toLowerCase()) || updateActionModel.getParentName().toLowerCase().contains(searchText.toLowerCase())) {
+                        filterModelList.add(new ActionModel(updateAction.getName(), updateActionModel.getParentName(), updateAction));
+                    }
                 }
             }
             if (filterModelList != null && filterModelList.size() >0) {
