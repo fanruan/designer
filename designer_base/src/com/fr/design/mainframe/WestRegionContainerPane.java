@@ -3,10 +3,15 @@ package com.fr.design.mainframe;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.icontainer.UIResizableContainer;
-import com.fr.general.GeneralContext;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginListenerPriority;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.Constants;
-import com.fr.stable.plugin.PluginReadListener;
 
 public class WestRegionContainerPane extends UIResizableContainer {
 
@@ -27,12 +32,25 @@ public class WestRegionContainerPane extends UIResizableContainer {
 
     public WestRegionContainerPane() {
         super(DesignerFrameFileDealerPane.getInstance(), Constants.RIGHT);
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
+    
+        setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
+    
+        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(PluginListenerPriority.WestRegionContainerPane) {
+        
             @Override
-            public void success(Status status) {
+            public void on(PluginEvent event) {
+            
                 setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
             }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+            
+                return context.contain(TableDataPaneProcessor.XML_TAG);
+            }
         });
+    
         setContainerWidth(165);
     }
 }

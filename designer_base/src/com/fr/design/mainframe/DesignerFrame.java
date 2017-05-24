@@ -15,11 +15,7 @@ import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.file.NewTemplatePane;
-import com.fr.design.file.SaveSomeTemplatePane;
-import com.fr.design.file.TemplateTreePane;
+import com.fr.design.file.*;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -40,12 +36,16 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
-import com.fr.stable.plugin.PluginReadListener;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -53,20 +53,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.dnd.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -186,26 +174,43 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		//hugh: private修改为protected方便oem的时候修改右上的组件构成
 		//顶部日志+登陆按钮
 		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
+        
+        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener() {
+    
             @Override
-            public void success(Status status) {
-                TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
-                if (processor == null) {
-                    processor = new DefaultTitlePlace();
-                }
-                processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            public void on(PluginEvent event) {
+    
+                refreshNorthEastPane(northEastPane, ad);
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(TitlePlaceProcessor.MARK_STRING);
             }
         });
-
+        
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isEnabled()) {
-			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
-		}
-		return northEastPane;
-	}
-	
-	public DesignerFrame(ToolBarMenuDock ad) {
-		setName(DESIGNER_FRAME_NAME);
-		this.ad = ad;
+            northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
+        }
+        refreshNorthEastPane(northEastPane, ad);
+        return northEastPane;
+    }
+    
+    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
+        
+        TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
+        if (processor == null) {
+            processor = new DefaultTitlePlace();
+        }
+        processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+    }
+    
+    public DesignerFrame(ToolBarMenuDock ad) {
+        
+        setName(DESIGNER_FRAME_NAME);
+        this.ad = ad;
 		this.initTitleIcon();
 		this.setTitle();// james:因为有默认的了
 		// set this to context.

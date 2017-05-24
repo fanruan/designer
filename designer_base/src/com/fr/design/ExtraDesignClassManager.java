@@ -40,7 +40,7 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     }
     
     static {
-        StableFactory.registerMarkedObject(PluginModule.EXTRA_DESIGN.getAgentName(), classManager);
+        StableFactory.registerMarkedObject(PluginModule.ExtraDesign.getAgentName(), classManager);
     }
     
     public TableDataNameObjectCreator[] getReportTableDataCreators() {
