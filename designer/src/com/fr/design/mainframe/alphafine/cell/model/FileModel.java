@@ -16,10 +16,10 @@ public class FileModel extends AlphaCellModel{
         super(name, content, type);
     }
 
-    public FileModel(String name, String content, String filePath) {
-        super(name, content, CellType.FILE);
+    public FileModel(String name, String filePath) {
+        super(name, null, CellType.FILE);
         this.filePath = filePath;
-        setDescription(AlphaFineHelper.findFolderName(content));
+        setDescription(AlphaFineHelper.findFolderName(filePath));
     }
 
     public String getFilePath() {

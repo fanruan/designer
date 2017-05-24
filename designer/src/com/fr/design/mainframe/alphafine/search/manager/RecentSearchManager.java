@@ -35,6 +35,7 @@ import java.util.Map;
 public class RecentSearchManager extends XMLFileManager implements AlphaFineSearchProcessor {
 
     private static final String XML_TAG = "AlphafineRecent";
+    private static final int MAX_SIZE = 3;
     private static RecentSearchManager recentSearchManager = null;
     private static File recentFile = null;
     private List<String> fileList;
@@ -248,8 +249,9 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         for (String key : recentKVModelMap.keySet()) {
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
-                if (recentModelList.size() > 3) {
-                    return recentModelList.subList(0, 2);
+                int size = recentModelList.size();
+                if (size > MAX_SIZE) {
+                    return recentModelList.subList(size - MAX_SIZE, size);
                 }
                 return recentModelList;
             }
