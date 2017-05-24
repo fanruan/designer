@@ -4,6 +4,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.stable.resource.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         AlphaCellModel model = (AlphaCellModel) value;
         name.setText(model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-        name.setIcon(new ImageIcon(getClass().getResource(iconUrl)));
+        name.setIcon(new ImageIcon(ResourceLoader.getResource(iconUrl, getClass())));
         name.setFont(AlphaFineConstants.MEDIUM_FONT);
         name.setForeground(AlphaFineConstants.BLACK);
         name.setVerticalTextPosition(SwingConstants.CENTER);

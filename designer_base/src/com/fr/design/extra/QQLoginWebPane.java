@@ -5,6 +5,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
+import com.fr.stable.resource.ResourceLoader;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -74,7 +75,7 @@ public class QQLoginWebPane extends JFXPanel {
                 try {
                     primaryStage.initStyle(StageStyle.TRANSPARENT);
                     primaryStage.setScene(new Scene(layout));
-                    webView.getScene().getStylesheets().add(getClass().getResource("modal-dialog.css").toExternalForm());
+                    webView.getScene().getStylesheets().add(ResourceLoader.getResource("modal-dialog.css", getClass()).toExternalForm());
                     primaryStage.initStyle(StageStyle.UTILITY);
                     primaryStage.setScene(new Scene(new Group(), DEFAULT_PRIMARYSTAGE_WIDTH, DEFAULT_PRIMARYSTAGE_HEIGHT));
                     primaryStage.setX(0);
@@ -193,7 +194,7 @@ public class QQLoginWebPane extends JFXPanel {
         );
         configDrag(dialog);
         // style and show the dialog.
-        dialog.getScene().getStylesheets().add(getClass().getResource("modal-dialog.css").toExternalForm());
+        dialog.getScene().getStylesheets().add(ResourceLoader.getResource("modal-dialog.css", getClass()).toExternalForm());
         dialog.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
