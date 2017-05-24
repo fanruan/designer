@@ -55,8 +55,7 @@ public abstract class ToolBarMenuDock {
     public static final int PANLE_HEIGNT = 26;
     private MenuDef[] menus;
     private ToolBarDef toolBarDef;
-    private ArrayList<UpdateAction> shortCuts;
-
+    private List<UpdateActionModel> shortCutsList;
     /**
      * 更新菜单
      */
@@ -145,27 +144,36 @@ public abstract class ToolBarMenuDock {
         addCommunityMenuDef(menuList);
 
         // 添加全部UpdateAction到actionmanager中
-        getAllUpdateActions(menuList);
-        UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCuts);
+        addAllUpdateActionsToList(menuList);
+        UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCutsList);
 
         return menuList.toArray(new MenuDef[menuList.size()]);
     }
 
-    private List<UpdateAction> getAllUpdateActions(List<MenuDef> menuList) {
-        shortCuts = new ArrayList<>();
+    /**
+     * 获取所有actionmodel
+     * @param menuList
+     */
+    private void addAllUpdateActionsToList(List<MenuDef> menuList) {
+        shortCutsList = new ArrayList<>();
         for (MenuDef menuDef : menuList) {
             addUpdateActionToList(menuDef);
         }
-        return shortCuts;
     }
 
+    /**
+     * 递归获取所有UpdateAction
+     * @param menuDef
+     */
     private void addUpdateActionToList(MenuDef menuDef) {
+
+        String ParentName = menuDef.getName();
         if (menuDef instanceof OpenRecentReportMenuDef) {
             return;
         }
         for (ShortCut shortCut : menuDef.getShortcutList()) {
             if (shortCut instanceof UpdateAction) {
-                shortCuts.add((UpdateAction) shortCut);
+                shortCutsList.add(new UpdateActionModel(ParentName, (UpdateAction) shortCut));
             } else if (shortCut instanceof MenuDef) {
                 addUpdateActionToList((MenuDef) shortCut);
             }
