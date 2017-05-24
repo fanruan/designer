@@ -7,11 +7,13 @@ import com.fr.design.actions.UpdateAction;
  */
 public class UpdateActionModel {
     private String parentName;
+    private String actionName;
     private UpdateAction action;
 
     public UpdateActionModel(String parentName, UpdateAction action) {
         this.parentName = parentName;
         this.action = action;
+        this.actionName = action.getName();
     }
 
     public String getParentName() {
@@ -28,5 +30,13 @@ public class UpdateActionModel {
 
     public void setAction(UpdateAction action) {
         this.action = action;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 }
