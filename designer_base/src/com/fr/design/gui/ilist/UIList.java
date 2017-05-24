@@ -6,9 +6,13 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +26,15 @@ public class UIList extends JList{
 
     public UIList() {
         super();
+        InputMap inputMap = this.getInputMap();
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
+                DefaultEditorKit.selectAllAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
+                DefaultEditorKit.copyAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
+                DefaultEditorKit.pasteAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
+                DefaultEditorKit.cutAction);
     }
 
     public UIList(ListModel dataModel) {

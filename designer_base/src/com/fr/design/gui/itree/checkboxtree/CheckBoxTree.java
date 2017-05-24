@@ -16,10 +16,10 @@ import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Position;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
@@ -28,6 +28,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * CheckBoxTree is a special JTree which uses UICheckBox as the tree renderer.
@@ -87,6 +89,9 @@ public class CheckBoxTree extends JTree {
 
     public CheckBoxTree(TreeModel newModel) {
         super(newModel);
+        InputMap inputMap = this.getInputMap();
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
+                "selectAll");
         init();
     }
 

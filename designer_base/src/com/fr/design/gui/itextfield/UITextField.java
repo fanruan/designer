@@ -1,12 +1,12 @@
 package com.fr.design.gui.itextfield;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 
 import com.fr.design.event.GlobalNameListener;
@@ -15,6 +15,8 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * @author Jerry
@@ -30,6 +32,15 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     public UITextField() {
         super();
+        InputMap inputMap = this.getInputMap();
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
+                DefaultEditorKit.selectAllAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
+                DefaultEditorKit.copyAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
+                DefaultEditorKit.pasteAction);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
+                DefaultEditorKit.cutAction);
         initListener();
     }
 
