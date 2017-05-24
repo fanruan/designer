@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.alphafine.previewPane;
+package com.fr.design.mainframe.alphafine.preview;
 
 /**
  * Created by XiaXiang on 2017/5/5.

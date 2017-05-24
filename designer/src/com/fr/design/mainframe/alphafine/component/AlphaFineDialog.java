@@ -9,16 +9,17 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
-import com.fr.design.mainframe.alphafine.cell.cellRender.ContentCellRender;
-import com.fr.design.mainframe.alphafine.cell.cellModel.*;
+import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
+import com.fr.design.mainframe.alphafine.cell.model.*;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchListModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.previewPane.DocumentPreviewPane;
-import com.fr.design.mainframe.alphafine.previewPane.FilePreviewPane;
-import com.fr.design.mainframe.alphafine.previewPane.PluginPreviewPane;
-import com.fr.design.mainframe.alphafine.searchManager.*;
+import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
+import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
+import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
@@ -26,9 +27,13 @@ import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 import com.fr.main.impl.WorkBook;
+import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -44,6 +49,9 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -172,7 +180,7 @@ public class AlphaFineDialog extends UIDialog {
     private void showSearchResult(String searchText) {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initListListener();
+            initListListener(searchText);
         }
         initSearchWorker(searchText);
     }
@@ -207,8 +215,8 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker<SearchListModel, String>() {
 
             @Override
-            protected SearchListModel doInBackground() throws Exception {
-                return setjListModel(new SearchListModel(AlphaSearchManager.getSearchManager().showLessSearchResult(searchText)));
+            protected SearchListModel doInBackground() {
+                return setListModel(new SearchListModel(AlphaSearchManager.getSearchManager().getLessSearchResult(searchText)));
             }
 
             @Override
@@ -224,7 +232,6 @@ public class AlphaFineDialog extends UIDialog {
                 } catch (InterruptedException e) {
                     FRLogger.getLogger().error(e.getMessage());
                 } catch (ExecutionException e) {
-                    searchResultList.setModel(null);
                     FRLogger.getLogger().error(e.getMessage());
                 }
 
@@ -234,7 +241,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker.execute();
     }
 
-    private void initListListener() {
+    private void initListListener(final String searchText) {
         searchResultList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -245,11 +252,7 @@ public class AlphaFineDialog extends UIDialog {
                     searchResultList.setSelectedIndex(i);
                     doNavigate(selectedIndex);
                     if (selectedValue instanceof AlphaCellModel) {
-                        SearchResult originalResultList = LatestSearchManager.getLatestSearchManager().getLatestModelList();
-                        originalResultList.add(searchResultList.getSelectedValue());
-                        LatestSearchManager.getLatestSearchManager().setLatestModelList(originalResultList);
-                        //保存最近搜索
-                        saveHistory(originalResultList);
+                        saveHistory(searchText, (AlphaCellModel) selectedValue);
                     }
                 } else if (e.getClickCount() == 1) {
                     if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
@@ -284,7 +287,7 @@ public class AlphaFineDialog extends UIDialog {
         if (selectedValue instanceof FileModel) {
             final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             showDefaultPreviewPane();
-            if (fileName.endsWith("frm")) {
+            if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
                 if (this.searchWorker != null && !this.searchWorker.isDone()) {
                     this.searchWorker.cancel(true);
                     this.searchWorker = null;
@@ -314,7 +317,7 @@ public class AlphaFineDialog extends UIDialog {
                     }
                 };
                 this.searchWorker.execute();
-            } else if (fileName.endsWith("cpt")) {
+            } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
                 if (this.searchWorker != null && !this.searchWorker.isDone()) {
                     this.searchWorker.cancel(true);
                     this.searchWorker = null;
@@ -362,18 +365,29 @@ public class AlphaFineDialog extends UIDialog {
             }
             this.searchWorker = new SwingWorker<Image, Void>() {
                 @Override
-                protected Image doInBackground() throws Exception {
-                    BufferedImage bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                protected Image doInBackground() {
+                    BufferedImage bufferedImage = null;
+                    try {
+                        bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                    } catch (IOException e) {
+                        try {
+                            bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
+                        } catch (IOException e1) {
+                            FRLogger.getLogger().error(e.getMessage());
+                        }
+                    }
                     return bufferedImage;
                 }
 
                 @Override
                 protected void done() {
                     try {
-                        rightSearchResultPane.removeAll();
-                        rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
-                        validate();
-                        repaint();
+                        if (!isCancelled()) {
+                            rightSearchResultPane.removeAll();
+                            rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
+                            validate();
+                            repaint();
+                        }
                     } catch (InterruptedException e) {
                         FRLogger.getLogger().error(e.getMessage());
                     } catch (ExecutionException e) {
@@ -393,11 +407,11 @@ public class AlphaFineDialog extends UIDialog {
     private void HandleMoreOrLessResult(int index, MoreModel selectedValue) {
         if (selectedValue.getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"))) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
-            rebuildList(index, selectedValue);
+            rebuildShowMoreList(index, selectedValue);
 
         } else {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
-            rebuildList(index, selectedValue);
+            rebuildShowMoreList(index, selectedValue);
         }
     }
 
@@ -541,30 +555,51 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * todo:保存到本地的逻辑待修改
-     * @param searchResult
+     * 保存本地（本地常用）
+     * @param searchText
+     * @param cellModel
      */
-    private void saveHistory(SearchResult searchResult) {
-        try {
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(AlphaFineHelper.getInfoFile()));
-            os.writeObject(searchResult);
-            os.close();
-        } catch (IOException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
-        
-        sendToServer();
+    private void saveHistory(String searchText, AlphaCellModel cellModel) {
+        RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
+        recentSearchManager.addRecentModel(searchText, cellModel);
+        recentSearchManager.saveXMLFile();
+        sendToServer(searchText, cellModel);
 
     }
 
     /**
-     *todo:还没做上传服务器
+     * 上传数据到服务器
+     * @param searchKey
+     * @param cellModel
      */
-    private void sendToServer() {
+    private void sendToServer(String searchKey, AlphaCellModel cellModel) {
+        String username = DesignerEnvManager.getEnvManager().getBBSName();
+        String uuid = DesignerEnvManager.getEnvManager().getUUID();
+        String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
+        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+        String key = searchKey;
+        int resultkind = cellModel.getType().getTypeValue();
+        String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
+        JSONObject object = JSONObject.create();
+        try {
+            object.put("uuid", uuid).put("activitykey", activitykey).put("username", username).put("createtime", createTime).put("key", key).put("resultkind", resultkind).put("resultValue", resultValue);
+        } catch (JSONException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        HashMap<String, String> para = new HashMap<>();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+        para.put("content", object.toString());
+        HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_TEST_URL, para, true);
+        httpClient.setTimeout(5000);
+        httpClient.asGet();
+        if (!httpClient.isServerAlive()) {
+            FRLogger.getLogger().error("Failed to sent data to server!");
+        }
 
     }
 
-    private void rebuildList(int index, MoreModel selectedValue) {
+    private void rebuildShowMoreList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
         if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
@@ -583,23 +618,30 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
+    private void rebuildList() {
+        this.searchResultList.validate();
+        this.searchResultList.repaint();
+        validate();
+        repaint();
+    }
+
     private SearchResult getMoreResult(MoreModel selectedValue) {
         SearchResult moreResult;
         switch (selectedValue.getType()) {
             case PLUGIN:
-                moreResult = PluginSearchManager.getPluginSearchManager().showMoreSearchResult();
+                moreResult = PluginSearchManager.getPluginSearchManager().getMoreSearchResult();
                 break;
             case DOCUMENT:
-                moreResult = DocumentSearchManager.getDocumentSearchManager().showMoreSearchResult();
+                moreResult = DocumentSearchManager.getDocumentSearchManager().getMoreSearchResult();
                 break;
             case FILE:
-                moreResult = FileSearchManager.getFileSearchManager().showMoreSearchResult();
+                moreResult = FileSearchManager.getFileSearchManager().getMoreSearchResult();
                 break;
             case ACTION:
-                moreResult = ActionSearchManager.getActionSearchManager().showMoreSearchResult();
+                moreResult = ActionSearchManager.getActionSearchManager().getMoreSearchResult();
                 break;
             default:
-                moreResult = AlphaSearchManager.getSearchManager().showMoreSearchResult();
+                moreResult = AlphaSearchManager.getSearchManager().getMoreSearchResult();
         }
         return moreResult;
     }
@@ -608,15 +650,7 @@ public class AlphaFineDialog extends UIDialog {
         return (SearchListModel) searchResultList.getModel();
     }
 
-    //测试
-    public static void main(String[] args) {
-        AlphaFineDialog alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
-        alphaFineDialog.setSize(new Dimension(680,55));
-        alphaFineDialog.setVisible(true);
-    }
-
-
-    public SearchListModel setjListModel(SearchListModel jListModel) {
+    public SearchListModel setListModel(SearchListModel jListModel) {
         this.searchListModel = jListModel;
         return this.searchListModel;
     }
@@ -628,5 +662,6 @@ public class AlphaFineDialog extends UIDialog {
     public void setSearchWorker(SwingWorker searchWorker) {
         this.searchWorker = searchWorker;
     }
+
 
 }

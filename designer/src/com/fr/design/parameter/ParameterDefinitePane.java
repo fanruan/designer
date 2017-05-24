@@ -103,7 +103,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
             }
         };
         this.add(paraDesignEditor.createWrapper(), BorderLayout.CENTER);
-//        WidgetToolBarPane.getInstance(formParaDesignEditor);
+//        WidgetToolBarPane.getRecentSearchManger(formParaDesignEditor);
 
         setButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/toolbarbtn/parametersetting.png"));
         setButton.set4ToolbarButton();

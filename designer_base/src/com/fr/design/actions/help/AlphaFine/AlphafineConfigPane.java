@@ -174,7 +174,7 @@ public class AlphafineConfigPane extends BasicPane {
         AlphafineConfigManager alphafineConfigManager = designerEnvManager.getAlphafineConfigManager();
         alphafineConfigManager.setContainPlugin(this.isContainPluginCheckbox.isSelected());
         alphafineConfigManager.setContainAction(this.isContainActionCheckbox.isSelected());
-        alphafineConfigManager.setContainDocument(this.isContainActionCheckbox.isSelected());
+        alphafineConfigManager.setContainDocument(this.isContainDocumentCheckbox.isSelected());
         alphafineConfigManager.setContainConclude(this.isContainConcludeCheckbox.isSelected());
         alphafineConfigManager.setEnabled(this.isEnabledCheckbox.isSelected());
         alphafineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());

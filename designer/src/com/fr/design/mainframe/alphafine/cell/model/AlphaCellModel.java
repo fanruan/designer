@@ -1,13 +1,14 @@
-package com.fr.design.mainframe.alphafine.cell.cellModel;
+package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 
-import java.io.Serializable;
 
 /**
  * Created by XiaXiang on 2017/3/23.
  */
-public class AlphaCellModel implements Serializable{
+public abstract class AlphaCellModel {
     private String name;
     private String content;
     private String description;
@@ -58,4 +59,18 @@ public class AlphaCellModel implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    /**
+     * model转json
+     * @return
+     * @throws JSONException
+     */
+    abstract public JSONObject ModelToJson() throws JSONException;
+
+    /**
+     * 获取需要保存到云中心的信息
+     * @return
+     */
+    abstract public String getStoreInformation();
+
 }

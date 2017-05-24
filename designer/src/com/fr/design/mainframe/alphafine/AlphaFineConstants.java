@@ -12,6 +12,8 @@ public class AlphaFineConstants {
 
     public static final int SHOW_SIZE = 5;
 
+    public static final int MAX_FILE_SIZE = 100;
+
     public static final int LATEST_SHOW_SIZE = 3;
 
     public static final int HEIGHT = 680;
@@ -72,13 +74,21 @@ public class AlphaFineConstants {
 
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
-    public static final String PLUGIN_IMAGE_URL = "http://shop.finereport.com/plugin/";
+    public static final String PLUGIN_URL = "http://shop.finereport.com/plugin/";
 
-    public static final String REUSE_IMAGE_URL = "http://shop.finereport.com/reuse/";
+    public static final String REUSE_URL = "http://shop.finereport.com/reuse/";
 
     public static final String DOCUMENT_DOC_URL = "http://help.finereport.com/doc-view-";
 
     public static final String DOCUMENT_SEARCH_URL = "http://help.finereport.com/?api-search-title-";
 
+    public static final String DOCUMENT_INFORMATION_URL = "http://help.finereport.com/?api-search-did-";
+
+    public static final String PLUGIN_IMAGE_URL = "http://shopres.finereport.com/";
+
+    public static final String SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";
+
+    //TODO:先用本地服务器测试一下，避免影响云中心正常信息收集
+    public static final String CLOUD_TEST_URL = "http://localhost:8080/monitor/monitor/record_of_afsearch/single";
 
 }
