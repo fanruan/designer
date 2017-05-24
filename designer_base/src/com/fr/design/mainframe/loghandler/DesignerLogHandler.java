@@ -134,8 +134,7 @@ public class DesignerLogHandler {
         private UIMenuItem clear;
 
         private LogHandlerArea() {
-            jTextArea = new JTextPane();
-
+            jTextArea = initLogJTextArea();
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             UIScrollPane js = new UIScrollPane(jTextArea);
             this.add(js, BorderLayout.CENTER);
@@ -188,6 +187,23 @@ public class DesignerLogHandler {
                 public void close() {
                 }
             });
+        }
+
+        private JTextPane initLogJTextArea() {
+            JTextPane resultPane = new JTextPane();
+            InputMap inputMap = resultPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, DEFAULT_MODIFIER), "clear");
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), "select-all");
+            ActionMap actionMap = resultPane.getActionMap();
+            actionMap.put("clear", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    resultPane.setText("");
+                    caption.clearMessage();
+                    DesignerLogImpl.getInstance().clear();
+                }
+            });
+            return resultPane;
         }
 
         public void printStackTrace(LogRecordTimeProvider logRecordTime) {
@@ -299,6 +315,4 @@ public class DesignerLogHandler {
         };
 
     }
-
-
 }
