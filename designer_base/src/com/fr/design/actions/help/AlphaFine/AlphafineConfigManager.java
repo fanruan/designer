@@ -35,7 +35,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 猜您需要
      */
-    private boolean isContainConclude;
+    private boolean isContainRecommend;
 
     /**
      * 设置
@@ -88,7 +88,7 @@ public class AlphafineConfigManager implements XMLable {
             this.setEnabled(reader.getAttrAsBoolean("isEnabled", true));
             this.setContainPlugin(reader.getAttrAsBoolean("isContainDocument", true));
             this.setContainDocument(reader.getAttrAsBoolean("isContainDocument", true));
-            this.setContainConclude(reader.getAttrAsBoolean("isContainConclude", true));
+            this.setContainRecommend(reader.getAttrAsBoolean("isContainRecommend", true));
             this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
             this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
             this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
@@ -104,7 +104,7 @@ public class AlphafineConfigManager implements XMLable {
         writer.attr("isEnabled", this.isEnabled())
                 .attr("isSearchOnline", this.isSearchOnLine())
                 .attr("shortcuts", this.getShortcuts())
-                .attr("isContainConclude", this.isContainConclude())
+                .attr("isContainRecommend", this.isContainRecommend())
                 .attr("isContainAction", this.isContainAction())
                 .attr("isContainDocument", this.isContainDocument())
                 .attr("isContainTemplate", this.isContainTemplate())
@@ -176,12 +176,12 @@ public class AlphafineConfigManager implements XMLable {
         this.isContainPlugin = containPlugin;
     }
 
-    public boolean isContainConclude() {
-        return isContainConclude;
+    public boolean isContainRecommend() {
+        return isContainRecommend;
     }
 
-    public void setContainConclude(boolean containConclude) {
-        isContainConclude = containConclude;
+    public void setContainRecommend(boolean containConclude) {
+        isContainRecommend = containConclude;
     }
 
     public boolean isEnabled() {

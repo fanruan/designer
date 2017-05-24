@@ -248,11 +248,9 @@ public class AlphaFineDialog extends UIDialog {
                 int selectedIndex = searchResultList.getSelectedIndex();
                 Object selectedValue = searchResultList.getSelectedValue();
                 if (e.getClickCount() == 2) {
-                    final int i = searchResultList.locationToIndex(e.getPoint());
-                    searchResultList.setSelectedIndex(i);
                     doNavigate(selectedIndex);
                     if (selectedValue instanceof AlphaCellModel) {
-                        saveHistory(searchText, (AlphaCellModel) selectedValue);
+                        saveHistory((AlphaCellModel) selectedValue);
                     }
                 } else if (e.getClickCount() == 1) {
                     if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
@@ -277,7 +275,11 @@ public class AlphaFineDialog extends UIDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    Object selectedValue = searchResultList.getSelectedValue();
                     doNavigate(searchResultList.getSelectedIndex());
+                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
+                        saveHistory((AlphaCellModel) selectedValue);
+                    }
                 }
             }
         });
@@ -556,10 +558,10 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 保存本地（本地常用）
-     * @param searchText
      * @param cellModel
      */
-    private void saveHistory(String searchText, AlphaCellModel cellModel) {
+    private void saveHistory(AlphaCellModel cellModel) {
+        String searchText = searchTextField.getText();
         RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
         recentSearchManager.addRecentModel(searchText, cellModel);
         recentSearchManager.saveXMLFile();
