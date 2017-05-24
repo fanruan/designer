@@ -45,7 +45,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     }
                 }
             }
-            if (filterModelList != null && filterModelList.size() >0) {
+            if (filterModelList != null && filterModelList.size() > 0) {
                 final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
                 for (int i = 0; i < length; i++) {
                     lessModelList.add(filterModelList.get(i));
