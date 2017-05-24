@@ -87,15 +87,15 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 BufferedReader reader = new BufferedReader(new FileReader(filePath));
                 String line;
                 int columnNumber;
-                boolean test = false;
+                boolean isFoundInContent = false;
                 while ((line = reader.readLine()) != null) {
                     columnNumber = line.toLowerCase().indexOf(searchText);
                     if (columnNumber != -1) {
-                        test = true;
+                        isFoundInContent = true;
                     }
                 }
-                if (test && !isAlreadyContain) {
-                    FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(ProjectConstants.REPORTLETS_NAME.length()), node.getEnvPath());
+                if (isFoundInContent && !isAlreadyContain) {
+                    FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
                 reader.close();
@@ -117,7 +117,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
             if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                FileModel model = new FileModel(node.getName(), node.getEnvPath().substring(node.getName().length(), node.getEnvPath().length()),node.getEnvPath());
+                FileModel model = new FileModel(node.getName(), node.getEnvPath());
                 this.filterModelList.add(model);
                 isAlreadyContain = true;
             }
@@ -178,8 +178,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      */
     public static FileModel getModelFromCloud(String filePath) {
         String name = AlphaFineHelper.findFileName(filePath);
-        String content = AlphaFineHelper.findFolderName(filePath);
-        return new FileModel(name, content, filePath);
+        return new FileModel(name, filePath);
     }
 
 }

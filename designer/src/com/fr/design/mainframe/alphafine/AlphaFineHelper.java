@@ -34,7 +34,7 @@ public class AlphaFineHelper {
      */
     private static String getSplitText(String text, int index) {
         if (StringUtils.isNotBlank(text)) {
-            String[] textArray = text.split("/");
+            String[] textArray = text.replaceAll("\\\\", "/").split("/");
             if (textArray != null && textArray.length > 1) {
                 return textArray[textArray.length - index];
             }
