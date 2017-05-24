@@ -25,7 +25,6 @@ import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.stable.resource.ResourceLoader;
 
 public class InformationWarnPane extends JPanel{
 	private UITextArea moreText;
@@ -43,7 +42,7 @@ public class InformationWarnPane extends JPanel{
 		this.title = title;
 		this.setLayout(null);
 		this.setBounds(5,5,410,130);
-		UILabel image = new UILabel(new ImageIcon(ResourceLoader.getResource("/com/fr/design/images/buttonicon/warn.png", getClass())));
+		UILabel image = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/images/buttonicon/warn.png")));
 		image.setBounds(10, 25, 80, 80);
 		UITextArea warnLabel = new UITextArea(infor);
 		warnLabel.setLineWrap(true);  
