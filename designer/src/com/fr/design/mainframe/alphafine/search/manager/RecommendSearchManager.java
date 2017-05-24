@@ -20,7 +20,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
     //todo:for test
-    private static final String SEARCHAPI = "http://192.168.2.45:8080/monitor/alphafine/search/recommend?searchKey=";
+    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
         if (recommendSearchManager == null) {
@@ -55,7 +55,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 }
 
             } catch (JSONException e) {
-                FRLogger.getLogger().error("cloud server error! :" + e.getMessage());
+                FRLogger.getLogger().error("data transform error! :" + e.getMessage());
             }
             if (modelList.size() > 0) {
                 modelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude"), false));
