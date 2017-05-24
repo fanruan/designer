@@ -23,7 +23,13 @@ import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -55,14 +61,21 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         StableFactory.registerMarkedObject(XML_TAG, classManager);
     }
     
-    // TODO: 2017/3/8
     static {
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
-            
+    
+        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener() {
+        
             @Override
-            public void success() {
+            public void on(PluginEvent event) {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
+            }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+            
+                return context.contain(PluginModule.ExtraChartType);
             }
         });
     }
