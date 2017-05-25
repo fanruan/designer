@@ -160,12 +160,14 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 						public void run() {
 							int height = centerPane.getHeight();
 							int width = centerPane.getWidth();
+							int step = 30;
+							int x = 0;
 							int y = -height;
-							for (int i = 0; i <= height; i += 30) {
+							for (int i = 0; i <= height; i += step) {
 								// 设置面板位置
-								currentPanel.setBounds(0, i, width, height);
-								panel.setBounds(0, y, width, height);
-								y += 30;
+								currentPanel.setBounds(x, i, width, height);
+								panel.setBounds(x, y, width, height);
+								y += step;
 								try {
 									Thread.sleep(3);
 								} catch (InterruptedException e) {
