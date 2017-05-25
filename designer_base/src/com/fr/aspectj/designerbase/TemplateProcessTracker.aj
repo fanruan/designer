@@ -38,11 +38,8 @@ public aspect TemplateProcessTracker {
     before(ActionEvent e) : onActionPerformed(e) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
         // !within(LogHandlerBar) 没用, 手动过滤
-        if (e != null && e.getSource().toString().contains("javax.swing.Timer")) {
+        if (e.getSource().toString().contains("javax.swing.Timer")) {
             return;
-        }
-        if (e != null && e.getSource().getClass().getName().equals("com.fr.design.gui.imenu.UIMenuItem")) {
-            System.out.print("在点击菜单\n" + thisJoinPointStaticPart.getSourceLocation() + thisJoinPoint);
         }
 
         //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());

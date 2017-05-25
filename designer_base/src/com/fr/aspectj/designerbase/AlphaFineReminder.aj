@@ -15,7 +15,7 @@ public aspect AlphaFineReminder {
             return;
         }
         if (e != null && e.getSource().getClass().getName().equals("com.fr.design.gui.imenu.UIMenuItem") && point.contains("com.fr.design.actions")) {
-            System.out.print("在点击菜单\n" + thisJoinPoint);
+            //System.out.print(thisJoinPoint + "\n");
         }
 
 
