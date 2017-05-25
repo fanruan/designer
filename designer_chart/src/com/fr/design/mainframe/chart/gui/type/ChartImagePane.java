@@ -15,7 +15,7 @@ public class ChartImagePane extends ChartSelectDemoPane {
     public boolean isDoubleClicked = false;
 	
 	public ChartImagePane(String iconPath, String tipName) {// 建立太复杂? 耗费内存..
-        UILabel image = new UILabel(new ImageIcon(IOUtils.getResource(iconPath, getClass())));
+        UILabel image = new UILabel(IOUtils.readIcon(iconPath));
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
 		addMouseListener(this);
@@ -30,7 +30,7 @@ public class ChartImagePane extends ChartSelectDemoPane {
 
     private void constructImagePane(String fullIconPath, String tipName, boolean isDrawRightLine){
     
-        UILabel image = new UILabel(new ImageIcon(IOUtils.getResource(fullIconPath, getClass())));
+        UILabel image = new UILabel(IOUtils.readIcon(fullIconPath));
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
         addMouseListener(this);
