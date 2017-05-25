@@ -19,14 +19,21 @@ public class UITextArea extends JTextArea implements UIObserver {
     public UITextArea(int i, int j) {
         super(i, j);
         InputMap inputMap = this.getInputMap();
-        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER),
-                DefaultEditorKit.selectAllAction);
-        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER),
-                DefaultEditorKit.copyAction);
-        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER),
-                DefaultEditorKit.pasteAction);
-        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER),
-                DefaultEditorKit.cutAction);
+        while (inputMap.getParent() != null) {
+            inputMap = inputMap.getParent();
+        }
+        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER)) == null) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);
+        }
+        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER)) == null) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
+        }
+        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER)) == null) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), DefaultEditorKit.pasteAction);
+        }
+        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER)) == null) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), DefaultEditorKit.cutAction);
+        }
         initComponents();
     }
 
