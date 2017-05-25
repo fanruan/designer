@@ -277,7 +277,7 @@ public class AutoCompletion {
      * @return Whether to auto-complete single choices.
      * @see #setAutoCompleteSingleChoices(boolean)
      */
-    public boolean getAutoCompleteSingleChoices() {
+    public boolean isAutoCompleteSingleChoices() {
         return autoCompleteSingleChoices;
     }
 
@@ -730,7 +730,7 @@ public class AutoCompletion {
 
     private boolean needSetPopupWindow(int count, int textLen) {
         return (count == 1 && (isPopupVisible() || textLen == 0))
-                || (count == 1 && !getAutoCompleteSingleChoices())
+                || (count == 1 && !isAutoCompleteSingleChoices())
                 || count > 1;
     }
 
@@ -809,7 +809,7 @@ public class AutoCompletion {
      * be automatically inserted, without displaying the popup menu.
      *
      * @param autoComplete Whether to auto-complete single choices.
-     * @see #getAutoCompleteSingleChoices()
+     * @see #isAutoCompleteSingleChoices()
      */
     public void setAutoCompleteSingleChoices(boolean autoComplete) {
         autoCompleteSingleChoices = autoComplete;
