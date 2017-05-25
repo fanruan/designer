@@ -33,6 +33,7 @@ import java.util.Set;
  * 所有设计器模块的父类
  */
 public abstract class DesignModule extends TopModule {
+	public static final String LOCALE_FILE_PATH = "com/fr/design/locale/designer";
 	public void start() {
 		super.start();
 		App<?>[] apps = apps4TemplateOpener();
@@ -62,7 +63,7 @@ public abstract class DesignModule extends TopModule {
 	 * @return 国际化文件路径
 	 */
 	public String[] getLocaleFile() {
-		return new String[]{"com/fr/design/locale/designer"};
+		return new String[]{LOCALE_FILE_PATH};
 	}
 
 	public Class<?>[] actionsForInsertCellElement() {
