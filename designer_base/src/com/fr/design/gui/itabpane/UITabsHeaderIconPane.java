@@ -1,37 +1,21 @@
 package com.fr.design.gui.itabpane;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import com.fr.base.BaseUtils;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.core.UITabComponent;
+import com.fr.design.gui.ibutton.UITabButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.gui.core.UITabComponent;
-import com.fr.design.gui.ibutton.UITabButton;
-import com.fr.stable.StringUtils;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -43,6 +27,7 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
  */
 public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 	private static final long serialVersionUID = 1L;
+	private static final int DIS = 30;
 
 	private UILabel nameLabel;
 
@@ -160,11 +145,11 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 							int height = centerPane.getHeight();
 							int width = centerPane.getWidth();
 							int y = -height;
-							for (int i = 0; i <= height; i += 30) {
+							for (int i = 0; i <= height; i += DIS) {
 								// 设置面板位置
 								currentPanel.setBounds(0, i, width, height);
 								panel.setBounds(0, y, width, height);
-								y += 30;
+								y += DIS;
 								try {
 									Thread.sleep(3);
 								} catch (InterruptedException e) {
@@ -174,7 +159,6 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 								centerPane.remove(currentPanel);// 移除当前面板
 							}
 							panel.setBounds(0, 0, width, height);
-
 						}
 					}.start();
 					break;

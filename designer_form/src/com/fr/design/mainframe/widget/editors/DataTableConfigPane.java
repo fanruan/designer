@@ -157,6 +157,8 @@ public class DataTableConfigPane extends JComponent implements PropertyChangeLis
         }
 
         class MouseAdapterListener extends MouseAdapter {
+            private final static int DIS = 30;
+            private final static int SMALL_DIS = 3;
             private JTable table;
             int oldY = 0;
             int newY = 0;
@@ -205,7 +207,7 @@ public class DataTableConfigPane extends JComponent implements PropertyChangeLis
                     height = height + table.getRowHeight(i);
                 }
 
-                if (height - e.getY() < 3) {
+                if (height - e.getY() < SMALL_DIS) {
                     drag = true;
                     table.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
                 } else {
@@ -223,8 +225,8 @@ public class DataTableConfigPane extends JComponent implements PropertyChangeLis
             public void mouseDragged(MouseEvent e) {
                 if (drag) {
                     int value = oldHeight + e.getY() - oldY;
-                    if (value < 30) {
-                        table.setRowHeight(row, 30);
+                    if (value < DIS) {
+                        table.setRowHeight(row, DIS);
                     } else {
                         table.setRowHeight(row, oldHeight + e.getY() - oldY);
                     }
