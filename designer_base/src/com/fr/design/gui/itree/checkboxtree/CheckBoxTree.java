@@ -22,8 +22,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * CheckBoxTree is a special JTree which uses UICheckBox as the tree renderer.
  * In addition to regular JTree's features, it also allows you select any number
@@ -82,8 +80,6 @@ public class CheckBoxTree extends JTree {
 
     public CheckBoxTree(TreeModel newModel) {
         super(newModel);
-        InputMap inputMap = this.getInputMap();
-        inputMap.getParent().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), "selectAll");
         init();
     }
 
