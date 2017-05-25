@@ -41,6 +41,7 @@ import java.util.List;
 class AutoCompletePopupWindow extends JWindow implements CaretListener,
         ListSelectionListener, MouseListener {
 
+    private final static int DIS = 5;
     /**
      * The parent AutoCompletion instance.
      */
@@ -388,14 +389,14 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
         // Try to position to the right first (LTR)
         int x;
         if (ac.getTextComponentOrientation().isLeftToRight()) {
-            x = getX() + getWidth() + 5;
+            x = getX() + getWidth() + DIS;
             if (x + descWindow.getWidth() > screenBounds.x + screenBounds.width) { // doesn't fit
-                x = getX() - 5 - descWindow.getWidth();
+                x = getX() - DIS - descWindow.getWidth();
             }
         } else { // RTL
-            x = getX() - 5 - descWindow.getWidth();
+            x = getX() - DIS - descWindow.getWidth();
             if (x < screenBounds.x) { // Doesn't fit
-                x = getX() + getWidth() + 5;
+                x = getX() + getWidth() + DIS;
             }
         }
 
