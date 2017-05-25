@@ -38,9 +38,6 @@ public class PluginLoginExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         String loginResult = LoginWebBridge.getHelper().login(username, password, uiLabel);
-                        if (Integer.valueOf(loginResult) == 0) {
-                            LoginWebBridge.getHelper().updateMessageCount();
-                        }
                         result = loginResult;
                     }
                 }
