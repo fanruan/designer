@@ -2195,7 +2195,25 @@ public class RemoteEnv extends AbstractEnv {
     
     @Override
     public boolean hasPluginServiceStarted(String key) {
-        // TODO: 2017/5/22
+
         return true;
+    }
+    
+    @Override
+    public JSONArray getPluginStatus() {
+        
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "plugin");
+            para.put("cmd", "get_states");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+            
+            HttpClient client = createHttpMethod(para);
+            InputStream input = execute4InputStream(client);
+            return new JSONArray(stream2String(input));
+        } catch (Exception e) {
+            return JSONArray.create();
+        }
     }
 }

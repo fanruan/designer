@@ -20,7 +20,6 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
-import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginContext;
@@ -35,7 +34,6 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.collections.map.CloseableContainedMap;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
-import com.fr.stable.plugin.PluginReadListener;
 
 import javax.swing.*;
 import java.util.*;
