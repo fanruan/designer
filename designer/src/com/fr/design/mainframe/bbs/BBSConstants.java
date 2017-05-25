@@ -3,8 +3,8 @@
  */
 package com.fr.design.mainframe.bbs;
 
+import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.resource.ResourceLoader;
 
 import java.util.Properties;
 
@@ -44,7 +44,7 @@ public class BBSConstants {
 		if (PROP == null) {
 			PROP = new Properties();
 			try {
-				PROP.load(ResourceLoader.getResourceAsStream("/com/fr/design/mainframe/bbs/bbs.properties", BBSConstants.class));
+				PROP.load(IOUtils.getResourceAsStream("/com/fr/design/mainframe/bbs/bbs.properties", BBSConstants.class));
 			} catch (Exception e) {
 			}
 		}

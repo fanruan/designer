@@ -27,7 +27,7 @@ import com.fr.design.gui.itoolbar.UIToolBarSeparatorUI;
 import com.fr.design.gui.itooltip.UIToolTipBorder;
 import com.fr.design.gui.itree.UITreeUI;
 import com.fr.general.FRLogger;
-import com.fr.stable.resource.ResourceLoader;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -188,7 +188,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
 
         if (url == null) {
             // Another try
-            url = ResourceLoader.getResource(
+            url = IOUtils.getResource(
                 "com/fr/design/images/lookandfeel/" + fileName, UILookAndFeel.class);
 
             if (url == null) {

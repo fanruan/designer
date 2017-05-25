@@ -3,7 +3,7 @@ package com.fr.design.mainframe.alphafine.cell.render;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.stable.resource.ResourceLoader;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,7 @@ public class TitleCellRender implements ListCellRenderer<Object> {
             panel.add(this.more, BorderLayout.EAST);
         }
         if (moreModel.isLoading()) {
-            ImageIcon imageIcon = new ImageIcon(ResourceLoader.getResource("/com/fr/design/mainframe/alphafine/images/loading.gif", getClass()));
+            ImageIcon imageIcon = new ImageIcon(IOUtils.getResource("/com/fr/design/mainframe/alphafine/images/loading.gif", getClass()));
 
             //设置cell的加载动画
             imageIcon.setImageObserver(list);

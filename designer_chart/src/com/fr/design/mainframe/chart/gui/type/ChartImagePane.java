@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.stable.resource.ResourceLoader;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class ChartImagePane extends ChartSelectDemoPane {
     public boolean isDoubleClicked = false;
 	
 	public ChartImagePane(String iconPath, String tipName) {// 建立太复杂? 耗费内存..
-        UILabel image = new UILabel(new ImageIcon(ResourceLoader.getResource(iconPath, getClass())));
+        UILabel image = new UILabel(new ImageIcon(IOUtils.getResource(iconPath, getClass())));
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
 		addMouseListener(this);
@@ -30,7 +30,7 @@ public class ChartImagePane extends ChartSelectDemoPane {
 
     private void constructImagePane(String fullIconPath, String tipName, boolean isDrawRightLine){
     
-        UILabel image = new UILabel(new ImageIcon(ResourceLoader.getResource(fullIconPath, getClass())));
+        UILabel image = new UILabel(new ImageIcon(IOUtils.getResource(fullIconPath, getClass())));
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
         addMouseListener(this);

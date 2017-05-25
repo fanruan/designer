@@ -26,6 +26,7 @@ import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -36,7 +37,6 @@ import com.fr.main.impl.WorkBook;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.stable.resource.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -83,7 +83,7 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.setBorderPainted(false);
         searchTextField.initKeyListener(this);
         JPanel topPane = new JPanel(new BorderLayout());
-        UILabel iconLabel = new UILabel(new ImageIcon(ResourceLoader.getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png", getClass())));
+        UILabel iconLabel = new UILabel(new ImageIcon(IOUtils.getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png", getClass())));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
         iconLabel.setOpaque(true);
         iconLabel.setBackground(Color.white);
@@ -99,7 +99,7 @@ public class AlphaFineDialog extends UIDialog {
         };
         closeButton.setContentAreaFilled(false);
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
-        closeButton.setIcon(new ImageIcon(ResourceLoader.getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png", getClass())));
+        closeButton.setIcon(new ImageIcon(IOUtils.getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png", getClass())));
         closeButton.set4ToolbarButton();
         closeButton.addActionListener(new ActionListener() {
             @Override
@@ -372,7 +372,7 @@ public class AlphaFineDialog extends UIDialog {
                         bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
                     } catch (IOException e) {
                         try {
-                            bufferedImage = ImageIO.read(ResourceLoader.getResource("/com/fr/design/mainframe/alphafine/images/default_product.png", getClass()));
+                            bufferedImage = ImageIO.read(IOUtils.getResource("/com/fr/design/mainframe/alphafine/images/default_product.png", getClass()));
                         } catch (IOException e1) {
                             FRLogger.getLogger().error(e.getMessage());
                         }
@@ -418,7 +418,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void showDefaultPreviewPane() {
         rightSearchResultPane.removeAll();
-        UILabel label = new UILabel(new ImageIcon(ResourceLoader.getResource("/com/fr/design/mainframe/alphafine/images/opening.gif", getClass())));
+        UILabel label = new UILabel(new ImageIcon(IOUtils.getResource("/com/fr/design/mainframe/alphafine/images/opening.gif", getClass())));
         label.setBorder(BorderFactory.createEmptyBorder(120,0,0,0));
         rightSearchResultPane.add(label, BorderLayout.CENTER);
         validate();
