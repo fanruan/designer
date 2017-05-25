@@ -34,7 +34,7 @@ public class RSyntaxTextAreaDefaultInputMap extends RTADefaultInputMap {
 	 */
 	public RSyntaxTextAreaDefaultInputMap() {
 
-		int defaultMod = getDefaultModifier();
+		int defaultMod = DEFAULT_MODIFIER;
 		//int ctrl = InputEvent.CTRL_MASK;
 		int shift = InputEvent.SHIFT_MASK;
 		//int alt = InputEvent.ALT_MASK;

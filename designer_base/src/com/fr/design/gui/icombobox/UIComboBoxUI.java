@@ -24,6 +24,8 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 /**
  * @author zhou                                                                                                                       F
  * @since 2012-5-9下午4:33:07
@@ -208,7 +210,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
                 @Override
                 public void processMouseEvent(MouseEvent e) {
                     if (e.isControlDown()) {
-                        e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ InputEvent.CTRL_MASK, e.getX(), e.getY(), e.getClickCount(),
+                        e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(),
                                 e.isPopupTrigger());
                     }
                     super.processMouseEvent(e);
