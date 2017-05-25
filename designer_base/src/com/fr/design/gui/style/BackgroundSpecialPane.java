@@ -1,6 +1,12 @@
 package com.fr.design.gui.style;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.fun.BackgroundQuickUIProvider;
 import com.fr.design.mainframe.backgroundpane.*;
 
 /**
@@ -40,11 +46,26 @@ public class BackgroundSpecialPane extends BackgroundPane{
                 fireStateChanged();
             }
         });
-        return new BackgroundQuickPane[] {
-                new NullBackgroundQuickPane(),
-                colorBackgroundPane,
-                imageBackgroundPane,
-                gradientPane
-        };
+        //hugh:表单支持背景接口
+        List<BackgroundQuickPane> kinds = new ArrayList<BackgroundQuickPane>();
+        
+        kinds.add(new NullBackgroundQuickPane());
+        kinds.add(colorBackgroundPane);
+        kinds.add(imageBackgroundPane);
+        kinds.add(gradientPane);
+        
+        Set<BackgroundQuickUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(BackgroundQuickUIProvider.MARK_STRING);
+        for (BackgroundQuickUIProvider provider : providers) {
+        	BackgroundQuickPane newTypePane = provider.appearanceForBackground();
+        	newTypePane.registerChangeListener(new UIObserverListener() {
+                @Override
+                public void doChange() {
+                    fireStateChanged();
+                }
+            });
+            kinds.add(newTypePane);
+        }
+        
+        return kinds.toArray(new BackgroundQuickPane[kinds.size()]);
     }
 }
