@@ -34,7 +34,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         AlphaCellModel model = (AlphaCellModel) value;
         name.setText(model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-        name.setIcon(new ImageIcon(IOUtils.getResource(iconUrl, getClass())));
+        name.setIcon(IOUtils.readIcon(iconUrl));
         name.setFont(AlphaFineConstants.MEDIUM_FONT);
         name.setForeground(AlphaFineConstants.BLACK);
         name.setVerticalTextPosition(SwingConstants.CENTER);
