@@ -32,7 +32,7 @@ public aspect TemplateProcessTracker {
 
         //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
     }
     //同上
     before(ActionEvent e) : onActionPerformed(e) {
@@ -44,7 +44,7 @@ public aspect TemplateProcessTracker {
 
         //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
 
     }
     //同上
@@ -53,7 +53,7 @@ public aspect TemplateProcessTracker {
 
         //String log = String.format("%s:\n%s\nset value: %s at (%d, %d)\n\n", new Date(), sl, v, r, c);
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+       // TemplateInfoCollector.appendProcess(log);
     }
 
 
