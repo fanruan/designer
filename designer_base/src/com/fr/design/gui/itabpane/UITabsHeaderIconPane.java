@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -145,9 +146,7 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 	private void show(final JPanel panel) {
 		int count = centerPane.getComponentCount();// 获取centerPanel中控件数
 		List<Component> list = new ArrayList<Component>();//
-		for (Component comp : centerPane.getComponents()) {
-			list.add(comp);
-		}
+		list.addAll(Arrays.asList(centerPane.getComponents()));
 		if (count > 0) {// 如果centerPanel中控件数大于0就执行效果
 			for (int i = 0; i < count; i++) {
 				Component comp = centerPane.getComponent(i);// 获得该位置的控件
@@ -160,14 +159,12 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 						public void run() {
 							int height = centerPane.getHeight();
 							int width = centerPane.getWidth();
-							int step = 30;
-							int x = 0;
 							int y = -height;
-							for (int i = 0; i <= height; i += step) {
+							for (int i = 0; i <= height; i += 30) {
 								// 设置面板位置
-								currentPanel.setBounds(x, i, width, height);
-								panel.setBounds(x, y, width, height);
-								y += step;
+								currentPanel.setBounds(0, i, width, height);
+								panel.setBounds(0, y, width, height);
+								y += 30;
 								try {
 									Thread.sleep(3);
 								} catch (InterruptedException e) {

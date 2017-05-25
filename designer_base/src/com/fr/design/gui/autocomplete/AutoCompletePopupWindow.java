@@ -10,6 +10,7 @@
 package com.fr.design.gui.autocomplete;
 
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.PopupWindowDecorator;
+import com.fr.general.FRLogger;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -301,7 +302,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
     private void installKeyBindings() {
 
         if (AutoCompletion.isDebug()) {
-            System.out.println("PopupWindow: Installing keybindings");
+            FRLogger.getLogger().debug("PopupWindow: Installing keybindings");
         }
 
         if (escapeKap == null) { // Lazily create actions.
@@ -386,15 +387,16 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
 
         // Try to position to the right first (LTR)
         int x;
+        int dis = 5;
         if (ac.getTextComponentOrientation().isLeftToRight()) {
-            x = getX() + getWidth() + 5;
+            x = getX() + getWidth() + dis;
             if (x + descWindow.getWidth() > screenBounds.x + screenBounds.width) { // doesn't fit
-                x = getX() - 5 - descWindow.getWidth();
+                x = getX() - dis - descWindow.getWidth();
             }
         } else { // RTL
-            x = getX() - 5 - descWindow.getWidth();
+            x = getX() - dis - descWindow.getWidth();
             if (x < screenBounds.x) { // Doesn't fit
-                x = getX() + getWidth() + 5;
+                x = getX() + getWidth() + dis;
             }
         }
 
@@ -709,7 +711,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
     private void uninstallKeyBindings() {
 
         if (AutoCompletion.isDebug()) {
-            System.out.println("PopupWindow: Removing keybindings");
+            FRLogger.getLogger().debug("PopupWindow: Removing keybindings");
         }
 
         JTextComponent comp = ac.getTextComponent();
