@@ -3,10 +3,12 @@ package com.fr.design.gui;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.borders.*;
 import com.fr.design.gui.frpane.UIBasicOptionPaneUI;
+import com.fr.design.gui.ibutton.UIBasicButtonUI;
 import com.fr.design.gui.ibutton.UIButtonBorder;
 import com.fr.design.gui.ibutton.UIRadioButtonMenuItemUI;
 import com.fr.design.gui.ibutton.UIRadioButtonUI;
 import com.fr.design.gui.icheckbox.UICheckBoxUI;
+import com.fr.design.gui.icombobox.UIBasicComboBoxUI;
 import com.fr.design.gui.icontainer.UIScrollPaneBorder;
 import com.fr.design.gui.icontainer.UIScrollPaneUI;
 import com.fr.design.gui.icontainer.UITableScrollPaneBorder;
@@ -16,6 +18,7 @@ import com.fr.design.gui.imenu.UIPopupMenuBorder;
 import com.fr.design.gui.imenu.UIPopupMenuSeparatorUI;
 import com.fr.design.gui.iprogressbar.UIProgressBarBorder;
 import com.fr.design.gui.iprogressbar.UIProgressBarUI;
+import com.fr.design.gui.iscrollbar.UIBasicScrollBarUI;
 import com.fr.design.gui.ispinner.UISpinnerUI;
 import com.fr.design.gui.isplitpanedivider.UISplitPaneUI;
 import com.fr.design.gui.itable.UIBasicTableUI;
@@ -23,10 +26,8 @@ import com.fr.design.gui.itoolbar.UIToolBarBorder;
 import com.fr.design.gui.itoolbar.UIToolBarSeparatorUI;
 import com.fr.design.gui.itooltip.UIToolTipBorder;
 import com.fr.design.gui.itree.UITreeUI;
-import com.fr.design.gui.iscrollbar.UIBasicScrollBarUI;
-import com.fr.design.gui.icombobox.UIBasicComboBoxUI;
-import com.fr.design.gui.ibutton.UIBasicButtonUI;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -187,8 +188,8 @@ public class UILookAndFeel extends MetalLookAndFeel {
 
         if (url == null) {
             // Another try
-            url = UILookAndFeel.class.getResource(
-                    "com/fr/design/images/lookandfeel/" + fileName);
+            url = IOUtils.getResource(
+                "com/fr/design/images/lookandfeel/" + fileName, UILookAndFeel.class);
 
             if (url == null) {
                 FRLogger.getLogger().error("Icon directory could not be resolved.");
