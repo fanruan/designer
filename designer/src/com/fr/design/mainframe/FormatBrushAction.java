@@ -50,7 +50,7 @@ public class FormatBrushAction extends ElementCaseAction {
                 //判断是不是连续区域
                 //荣国是连续区域，那么这些长方形的长加起来应该等于
                 if (!isContinueArea()) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("Can_not_use_FormatBursh"));
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Can_not_use_FormatBursh"));
                     ePane.setFormatState(DesignerContext.FORMAT_STATE_NULL);
                     ePane.getFormatBrush().setSelected(false);
                     return false;

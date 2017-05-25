@@ -439,7 +439,7 @@ class ParameterizedCompletionContext {
      */
     private void installKeyBindings() {
 
-        if (AutoCompletion.getDebug()) {
+        if (AutoCompletion.isDebug()) {
             System.out.println("CompletionContext: Installing keybindings");
         }
 
@@ -733,7 +733,7 @@ class ParameterizedCompletionContext {
      */
     private void uninstallKeyBindings() {
 
-        if (AutoCompletion.getDebug()) {
+        if (AutoCompletion.isDebug()) {
             System.out.println("CompletionContext Uninstalling keybindings");
         }
 

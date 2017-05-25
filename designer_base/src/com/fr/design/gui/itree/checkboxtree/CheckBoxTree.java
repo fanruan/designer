@@ -236,8 +236,9 @@ public class CheckBoxTree extends JTree {
             }
 
             TreePath path = _tree.getPathForLocation(e.getX(), e.getY());
-            if (path == null)
+            if (path == null) {
                 return null;
+            }
 
             if (clicksInCheckBox(e, path)) {
                 return path;
@@ -308,8 +309,9 @@ public class CheckBoxTree extends JTree {
                 return;
             }
 
-            if (e.getModifiers() == 0 && e.getKeyChar() == KeyEvent.VK_SPACE)
+            if (e.getModifiers() == 0 && e.getKeyChar() == KeyEvent.VK_SPACE) {
                 toggleSelections();
+            }
         }
 
         public void keyTyped(KeyEvent e) {
