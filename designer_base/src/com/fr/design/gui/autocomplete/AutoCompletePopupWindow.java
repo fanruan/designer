@@ -387,16 +387,15 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
 
         // Try to position to the right first (LTR)
         int x;
-        int dis = 5;
         if (ac.getTextComponentOrientation().isLeftToRight()) {
-            x = getX() + getWidth() + dis;
+            x = getX() + getWidth() + 5;
             if (x + descWindow.getWidth() > screenBounds.x + screenBounds.width) { // doesn't fit
-                x = getX() - dis - descWindow.getWidth();
+                x = getX() - 5 - descWindow.getWidth();
             }
         } else { // RTL
-            x = getX() - dis - descWindow.getWidth();
+            x = getX() - 5 - descWindow.getWidth();
             if (x < screenBounds.x) { // Doesn't fit
-                x = getX() + getWidth() + dis;
+                x = getX() + getWidth() + 5;
             }
         }
 
