@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Icon;
+
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -79,7 +81,7 @@ import javax.swing.table.TableModel;
 
 public class TableSorter extends AbstractTableModel {
     protected TableModel tableModel;
-
+    private static final int ADD = 4;
     public static final int DESCENDING = -1;
     public static final int NOT_SORTED = 0;
     public static final int ASCENDING = 1;
@@ -341,17 +343,14 @@ public class TableSorter extends AbstractTableModel {
                 fireTableChanged(e);
                 return;
             }
-                
-            // If the table structure has changed, cancel the sorting; the             
-            // sorting columns may have been either moved or deleted from             
-            // the model. 
+            // If the table structure has changed, cancel the sorting; the
+            // sorting columns may have been either moved or deleted from the model.
             if (e.getFirstRow() == TableModelEvent.HEADER_ROW) {
                 cancelSorting();
                 fireTableChanged(e);
                 return;
             }
-
-            // We can map a cell event through to the view without widening             
+            // We can map a cell event through to the view without widening
             // when the following conditions apply: 
             // 
             // a) all the changes are on one row (e.getFirstRow() == e.getLastRow()) and, 
@@ -380,8 +379,7 @@ public class TableSorter extends AbstractTableModel {
                                                      column, e.getType()));
                 return;
             }
-
-            // Something has happened to the data that may have invalidated the row order. 
+            // Something has happened to the data that may have invalidated the row order.
             clearSortingState();
             fireTableDataChanged();
             return;
@@ -396,13 +394,13 @@ public class TableSorter extends AbstractTableModel {
             int column = columnModel.getColumn(viewColumn).getModelIndex();
             if (column != -1) {
                 int status = getSortingStatus(column);
-                if (!e.isControlDown()) {
+                if (!InputEventBaseOnOS.isControlDown(e)) {
                     cancelSorting();
                 }
                 // Cycle the sorting states through {NOT_SORTED, ASCENDING, DESCENDING} or 
                 // {NOT_SORTED, DESCENDING, ASCENDING} depending on whether shift is pressed. 
                 status = status + (e.isShiftDown() ? -1 : 1);
-                status = (status + 4) % 3 - 1; // signed mod, returning {-1, 0, 1}
+                status = (status + ADD) % 3 - 1; // signed mod, returning {-1, 0, 1}
                 setSortingStatus(column, status);
             }
         }
