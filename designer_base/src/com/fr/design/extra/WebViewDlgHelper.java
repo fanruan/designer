@@ -133,7 +133,7 @@ public class WebViewDlgHelper {
                 String username = DesignerEnvManager.getEnvManager().getBBSName();
                 String password = DesignerEnvManager.getEnvManager().getBBSPassword();
                 try {
-                    PluginHelper.downloadPluginFile(scriptsId, username, password, new Process<Double>() {
+                    PluginUtils.downloadShopScripts(scriptsId, username, password, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
                         }
@@ -153,7 +153,7 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginHelper.DOWNLOAD_PATH, PluginHelper.TEMP_FILE)), StableUtils.getInstallHome());
+                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), StableUtils.getInstallHome());
                         int rv = JOptionPane.showOptionDialog(
                                 null,
                                 Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),

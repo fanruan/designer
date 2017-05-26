@@ -2,6 +2,7 @@ package com.fr.design.extra.exe;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.Process;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.stable.StringUtils;
 
 /**
@@ -26,9 +27,10 @@ public class GetLoginInfoExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        String username = DesignerEnvManager.getEnvManager().getBBSName();
+                        String username = BBSPluginLogin.getInstance().getUserInfo().getUserName();
                         String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
                         if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
+                                return;
                         }else {
                             result = StringUtils.isEmpty(inShowUsername) ? username : inShowUsername;
                         }

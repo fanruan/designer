@@ -1,24 +1,28 @@
 package com.fr.design.extra.exe;
 
-import com.fr.base.FRContext;
-import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
 
 /**
  * Created by richie on 16/3/19.
  */
 public class ModifyStatusExecutor implements Executor {
 
-    private String pluginID;
+    private String pluginInfo;
     private boolean active;
-    private Plugin plugin;
+    private PluginContext plugin;
 
-    public ModifyStatusExecutor(String pluginID) {
-        this.pluginID = pluginID;
+    public ModifyStatusExecutor(String pluginInfo) {
+        this.pluginInfo = pluginInfo;
     }
 
     @Override
@@ -37,14 +41,31 @@ public class ModifyStatusExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        plugin = PluginLoader.getLoader().getPluginById(pluginID);
+                        PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+                        plugin = PluginManager.getContext(pluginMarker);
                         active = !plugin.isActive();
-                        plugin.setActive(active);
-                        try {
-                            FRContext.getCurrentEnv().writePlugin(plugin);
-                            PluginWebBridge.getHelper().showRestartMessage(plugin.isActive() ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled"));
-                        } catch (Exception e) {
-                            FRContext.getLogger().error(e.getMessage());
+                        if (active) {
+                            PluginManager.getController().forbid(pluginMarker, new PluginTaskCallback() {
+                                @Override
+                                public void done(PluginTaskResult result) {
+                                    if (result.isSuccess()) {
+                                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled"));
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
+                            });
+                        } else {
+                            PluginManager.getController().enable(pluginMarker, new PluginTaskCallback() {
+                                @Override
+                                public void done(PluginTaskResult result) {
+                                    if (result.isSuccess()) {
+                                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived"));
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
+                            });
                         }
                     }
                 }
