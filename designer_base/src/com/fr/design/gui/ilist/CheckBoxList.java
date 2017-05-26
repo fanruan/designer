@@ -22,7 +22,6 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.stable.StringUtils;
 
@@ -32,7 +31,7 @@ import com.fr.stable.StringUtils;
 public class CheckBoxList extends JComponent {
 	/**
 	 * 选择状态----全选和全不选
-	 * 
+	 *
 	 * @editor zhou
 	 * @since 2012-4-1下午2:39:10
 	 */
@@ -54,7 +53,7 @@ public class CheckBoxList extends JComponent {
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @param items
 	 *            Items with which to populate the list.
 	 * @param default_state
@@ -177,7 +176,7 @@ public class CheckBoxList extends JComponent {
 		@Override
 		protected void processMouseEvent(MouseEvent e) {
 			if (e.getX() < 20) {
-				if (InputEventBaseOnOS.isControlDown(e) || e.isAltDown() || e.isShiftDown() || e.isMetaDown()) {
+				if (e.isControlDown() || e.isAltDown() || e.isShiftDown() || e.isMetaDown()) {
 					int[] indices = getSelectedIndices();
 					if (indices.length == 0) {
 						super.processMouseEvent(e);
@@ -190,17 +189,17 @@ public class CheckBoxList extends JComponent {
 			}
 			int id = e.getID();
 			switch (id) {
-			case MouseEvent.MOUSE_PRESSED:
-				break;
-			case MouseEvent.MOUSE_RELEASED:
-				break;
-			case MouseEvent.MOUSE_CLICKED:
-				doCheck();
-				break;
-			case MouseEvent.MOUSE_EXITED:
-				break;
-			case MouseEvent.MOUSE_ENTERED:
-				break;
+				case MouseEvent.MOUSE_PRESSED:
+					break;
+				case MouseEvent.MOUSE_RELEASED:
+					break;
+				case MouseEvent.MOUSE_CLICKED:
+					doCheck();
+					break;
+				case MouseEvent.MOUSE_EXITED:
+					break;
+				case MouseEvent.MOUSE_ENTERED:
+					break;
 			}
 		}
 

@@ -6,7 +6,6 @@ import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.elementcase.ElementCase;
-import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,6 +17,7 @@ import java.awt.event.KeyListener;
  */
 public class GridKeyListener implements KeyListener {
     private static final int DIFF = 48; // 103 - 55 = 48, 小键盘和大键盘数字的差值 48
+    private static final int DELAY = 32;
     private Grid grid;
     // Keypressed last time
     private long keyPressedLastTime = 0;
@@ -31,8 +31,7 @@ public class GridKeyListener implements KeyListener {
         if (!grid.isEnabled() || evt.isConsumed()) {// 如果用户在自己的KyeListener里面consume了.就不执行下面的代码了.
             return;
         }
-        KeyEvent newEvt = KeyEventWork.processKeyEvent(evt);
-        if (newEvt == null) {
+        if (KeyEventWork.processKeyEvent(evt) == null) {
             return;
         }
         long systemCurrentTime = System.currentTimeMillis();
@@ -47,17 +46,14 @@ public class GridKeyListener implements KeyListener {
                 keyPressedLastTime = systemCurrentTime;
             }
             dealWithFloatSelection(reportPane, code);
-
         } else {
-            if (systemCurrentTime - keyPressedLastTime <= 32) {
+            if (systemCurrentTime - keyPressedLastTime <= DELAY) {
                 return;
             } else {
                 keyPressedLastTime = systemCurrentTime;
             }
             dealWithCellSelection(evt, code);
-
         }
-
         switch (code) {
             case KeyEvent.VK_PAGE_UP: {// page up
                 reportPane.getVerticalScrollBar().setValue(Math.max(0, grid.getVerticalValue() - grid.getVerticalExtent()));
@@ -71,16 +67,12 @@ public class GridKeyListener implements KeyListener {
             }
             // Richie:Ctrl + A全选单元格
             case KeyEvent.VK_A:
-                boolean macOS = OperatingSystem.isMacOS() && evt.isMetaDown();
-                boolean windows = OperatingSystem.isWindows() && InputEventBaseOnOS.isControlDown(evt);
-                if (macOS || windows) {
+                if (InputEventBaseOnOS.isControlDown(evt)) {
                     reportPane.setSelection(new CellSelection(0, 0, report.getColumnCount(), report.getRowCount()));
-                    isNeedRepaint = true;
                 }
                 isNeedRepaint = true;
                 break;
         }
-
         if (isNeedRepaint) {
             reportPane.repaint();
         }
