@@ -1,5 +1,7 @@
 package com.fr.design.gui.icombobox;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -76,7 +78,7 @@ public class ExtendedComboBox extends UIComboBox {
         protected JList createList() {
             return new JList(comboBox.getModel()) {
                 public void processMouseEvent(MouseEvent e) {
-                    if (e.isControlDown()) {
+                    if (InputEventBaseOnOS.isControlDown(e)) {
                         //   Fix   for   4234053.   Filter   out   the   Control
                         //   Key   from   the   list.
                         //   ie.,   don't   allow   CTRL   key   deselection.
