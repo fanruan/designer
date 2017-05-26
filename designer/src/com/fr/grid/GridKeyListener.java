@@ -1,5 +1,6 @@
 package com.fr.grid;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
@@ -71,7 +72,7 @@ public class GridKeyListener implements KeyListener {
             // Richie:Ctrl + A全选单元格
             case KeyEvent.VK_A:
                 boolean macOS = OperatingSystem.isMacOS() && evt.isMetaDown();
-                boolean windows = OperatingSystem.isWindows() && evt.isControlDown();
+                boolean windows = OperatingSystem.isWindows() && InputEventBaseOnOS.isControlDown(evt);
                 if (macOS || windows) {
                     reportPane.setSelection(new CellSelection(0, 0, report.getColumnCount(), report.getRowCount()));
                     isNeedRepaint = true;
@@ -168,7 +169,7 @@ public class GridKeyListener implements KeyListener {
             return;
         }
         KeyEvent newEvt = KeyEventWork.processKeyEvent(evt);
-        if (newEvt == null || evt.isControlDown()) {// uneditable.
+        if (newEvt == null || InputEventBaseOnOS.isControlDown(evt)) {// uneditable.
             return;
         }
         char ch = evt.getKeyChar();

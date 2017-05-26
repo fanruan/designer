@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.stable.StringUtils;
 
@@ -176,7 +177,7 @@ public class CheckBoxList extends JComponent {
 		@Override
 		protected void processMouseEvent(MouseEvent e) {
 			if (e.getX() < 20) {
-				if (e.isControlDown() || e.isAltDown() || e.isShiftDown() || e.isMetaDown()) {
+				if (InputEventBaseOnOS.isControlDown(e) || e.isAltDown() || e.isShiftDown() || e.isMetaDown()) {
 					int[] indices = getSelectedIndices();
 					if (indices.length == 0) {
 						super.processMouseEvent(e);

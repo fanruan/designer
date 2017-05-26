@@ -16,6 +16,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import sun.swing.DefaultLookup;
 
@@ -209,7 +210,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
 
                 @Override
                 public void processMouseEvent(MouseEvent e) {
-                    if (e.isControlDown()) {
+                    if (InputEventBaseOnOS.isControlDown(e)) {
                         e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(),
                                 e.isPopupTrigger());
                     }

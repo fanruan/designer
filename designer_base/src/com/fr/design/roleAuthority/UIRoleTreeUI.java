@@ -1,5 +1,6 @@
 package com.fr.design.roleAuthority;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.itree.UITreeUI;
 
 import javax.swing.tree.TreePath;
@@ -15,7 +16,7 @@ import java.awt.event.MouseEvent;
 public class UIRoleTreeUI extends UITreeUI {
 
     protected void selectPathForEvent(TreePath path, MouseEvent event) {    /* Adjust from the anchor point. */
-        if (event.isControlDown() && tree.isPathSelected(path)) {
+        if (InputEventBaseOnOS.isControlDown(event) && tree.isPathSelected(path)) {
             tree.removeSelectionPath(path);
         } else if (event.isShiftDown()) {
             tree.setAnchorSelectionPath(null);
