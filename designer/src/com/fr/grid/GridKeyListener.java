@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
  * @since 2012-3-23上午10:55:36
  */
 public class GridKeyListener implements KeyListener {
-
+    private static final int DIFF = 48; // 103 - 55 = 48, 小键盘和大键盘数字的差值 48
     private Grid grid;
     // Keypressed last time
     private long keyPressedLastTime = 0;
@@ -189,8 +189,7 @@ public class GridKeyListener implements KeyListener {
 
                 if (grid.getCellEditor() != null && grid.editorComponent != null) {
                     if (IS_NUM_PAD_KEY(code)) {
-                        // 103 - 55 = 48, 小键盘和大键盘数字的差值 48
-                        KeyEvent ke = new KeyEvent(grid, KeyEvent.KEY_PRESSED, 0, 0, code - 48, ch);
+                        KeyEvent ke = new KeyEvent(grid, KeyEvent.KEY_PRESSED, 0, 0, code - DIFF, ch);
                         grid.editorComponent.dispatchEvent(ke);
                         ke.consume();
                     } else {
