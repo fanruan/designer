@@ -47,7 +47,7 @@ public class AboutPane extends JPanel {
 
         BoxCenterAlignmentCopyablePane buildCopyPane = new BoxCenterAlignmentCopyablePane(
                 getBuildTitle(),
-                GeneralUtils.readBuildNO(),
+                GeneralUtils.readFullBuildNO(),
                 new String[]{
                         Inter.getLocText("FR-Designer-Basic_Copy_Build_NO"),
                         Inter.getLocText("FR-Designer-Basic_Copy_Build_NO_OK")
