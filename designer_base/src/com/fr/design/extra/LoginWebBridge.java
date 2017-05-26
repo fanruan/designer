@@ -6,6 +6,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
@@ -108,9 +109,6 @@ public class LoginWebBridge {
         if (StringUtils.isEmpty(userName)) {
             return;
         }
-        if (StringUtils.isNotEmpty(this.userName)) {
-            updateMessageCount();
-        }
         this.userName = userName;
     }
 
@@ -143,15 +141,13 @@ public class LoginWebBridge {
                     if (getMessage.isServerAlive()) {
                         try {
                             String res = getMessage.getResponseText();
-                            if (res.equals(FAILED_MESSAGE_STATUS)) {
-                            } else {
+                            if (!ComparatorUtils.equals(res, FAILED_MESSAGE_STATUS)) {
                                 JSONObject jo = new JSONObject(res);
-                                if (jo.getString("status").equals(SUCCESS_MESSAGE_STATUS)) {
+                                if (SUCCESS_MESSAGE_STATUS.equals(jo.optString("status"))) {
                                     setMessageCount(Integer.parseInt(jo.getString("message")));
                                 }
                             }
-                        } catch (Exception e) {
-                            FRContext.getLogger().info(e.getMessage());
+                        } catch (Exception ignore) {
                         }
                     }
                     sleep(CHECK_MESSAGE_TIME);
