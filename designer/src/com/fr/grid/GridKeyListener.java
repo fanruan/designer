@@ -70,8 +70,9 @@ public class GridKeyListener implements KeyListener {
             }
             // Richie:Ctrl + A全选单元格
             case KeyEvent.VK_A:
-                if ((OperatingSystem.isWindows() && evt.isControlDown())
-                        || OperatingSystem.isMacOS() && evt.isMetaDown()) {
+                boolean macOS = OperatingSystem.isMacOS() && evt.isMetaDown();
+                boolean windows = OperatingSystem.isWindows() && evt.isControlDown();
+                if (macOS || windows) {
                     reportPane.setSelection(new CellSelection(0, 0, report.getColumnCount(), report.getRowCount()));
                     isNeedRepaint = true;
                 }
