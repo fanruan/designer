@@ -1,4 +1,4 @@
-package com.fr.design.actions.help.AlphaFine;
+package com.fr.design.actions.help.alphafine;
 
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
@@ -45,9 +45,11 @@ public class RemindPane extends JPanel {
         openButton.set4ToolbarButton();
         openButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
+                System.out.print(e.getLocationOnScreen() + "\n");
                 //manager.setOperateCount(0);
                 dialog.dispose();
+                AlphafineContext.fireAlphaFineContextListener();
             }
         });
         backgroundLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
@@ -59,7 +61,7 @@ public class RemindPane extends JPanel {
             private boolean isCheck = false;
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 if (isCheck) {
                     checkLabel.setIcon(unCheckIcon);
                     manager.setNeedRemind(true);
@@ -75,7 +77,7 @@ public class RemindPane extends JPanel {
         backgroundPane.add(new UILabel(labelIcon), BorderLayout.CENTER);
         closeButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 //manager.setOperateCount(0);
                 dialog.dispose();
 

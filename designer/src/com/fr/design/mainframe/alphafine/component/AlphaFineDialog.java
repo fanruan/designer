@@ -487,6 +487,7 @@ public class AlphaFineDialog extends UIDialog {
                         Rectangle paneRectangle = new Rectangle(AlphaFinePane.createAlphaFinePane().getLocationOnScreen(), AlphaFinePane.createAlphaFinePane().getSize());
                         if (!dialogRectangle.contains(p) && !paneRectangle.contains(p)) {
                             AlphaFineDialog.this.dispose();
+                            System.out.print(p + "\n");
                         }
                     }
                 }

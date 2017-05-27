@@ -1,8 +1,8 @@
 package com.fr.aspectj.designerbase;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.AlphaFine.AlphafineConfigManager;
-import com.fr.design.actions.help.AlphaFine.RemindDialog;
+import com.fr.design.actions.help.alphafine.AlphafineConfigManager;
+import com.fr.design.actions.help.alphafine.RemindDialog;
 import com.fr.design.mainframe.DesignerContext;
 
 import java.awt.event.ActionEvent;

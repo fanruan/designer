@@ -1,12 +1,10 @@
-package com.fr.design.actions.help.AlphaFine;
+package com.fr.design.actions.help.alphafine;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * Created by XiaXiang on 2017/5/26.

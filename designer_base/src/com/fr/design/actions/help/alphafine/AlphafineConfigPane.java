@@ -1,4 +1,4 @@
-package com.fr.design.actions.help.AlphaFine;
+package com.fr.design.actions.help.alphafine;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
