@@ -187,7 +187,7 @@ public class DesignerLogHandler {
         }
 
         private JTextPane initLogJTextArea() {
-            JTextPane resultPane = new JTextPane();
+            final JTextPane resultPane = new JTextPane();
             InputMap inputMap = resultPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);

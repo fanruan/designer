@@ -25,14 +25,7 @@ public class RemindDialog extends UIDialog {
 
     private void initComponent() {
         final AlphafineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphafineConfigManager();
-        remindPane = new RemindPane(manager);
-        remindPane.navigateButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                dispose();
-                manager.setOperateCount(0);
-            }
-        });
+        remindPane = new RemindPane(manager, this);
         this.add(remindPane);
 
     }

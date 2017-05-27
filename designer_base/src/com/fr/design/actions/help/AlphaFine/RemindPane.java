@@ -1,5 +1,6 @@
 package com.fr.design.actions.help.AlphaFine;
 
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.IOUtils;
@@ -25,37 +26,28 @@ public class RemindPane extends JPanel {
     private Icon closeIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/remind_close.png");
     private Icon labelIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/remind.png");
     private Icon openIcon = IOUtils.readIcon("com/fr/design/mainframe/alphafine/images/open.png");
-    public JComponent navigateButton = new JComponent() {
+    public JComponent closeButton = new JComponent() {
         protected void paintComponent(Graphics g) {
             closeIcon.paintIcon(this, g, 0, 0);
         }
     };
 
-    public RemindPane(AlphafineConfigManager manager) {
+    public RemindPane(AlphafineConfigManager manager, UIDialog remindDialog) {
         this.setPreferredSize(new Dimension(600, 400));
-        initUI(manager);
+        initUI(manager, remindDialog);
         this.setLayout(getAbsoluteLayout());
     }
 
-    private void initUI(final AlphafineConfigManager manager) {
-        openButton = new UIButton() {
-            @Override
-            public void paintComponent(Graphics g) {
-                g.setColor( Color.white );
-                g.fillRect(0, 0, getSize().width, getSize().height);
-                super.paintComponent(g);
-            }
-        };
-        openButton.setContentAreaFilled(false);
-        openButton.setForeground(new Color(0x3394F0));
+    private void initUI(final AlphafineConfigManager manager, final UIDialog dialog) {
+
+        openButton = new UIButton();
         openButton.setIcon(openIcon);
-        openButton.setFont(LARGE_FONT);
         openButton.set4ToolbarButton();
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-
+                //manager.setOperateCount(0);
+                dialog.dispose();
             }
         });
         backgroundLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
@@ -81,7 +73,15 @@ public class RemindPane extends JPanel {
         });
         backgroundPane = new JPanel(new BorderLayout());
         backgroundPane.add(new UILabel(labelIcon), BorderLayout.CENTER);
-        add(navigateButton, 0);
+        closeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //manager.setOperateCount(0);
+                dialog.dispose();
+
+            }
+        });
+        add(closeButton, 0);
         add(checkLabel, 1);
         add(openButton, 2);
         add(backgroundLabel, 3);
@@ -113,7 +113,7 @@ public class RemindPane extends JPanel {
             public void layoutContainer(Container parent) {
                 int width = parent.getWidth();
                 int height = parent.getHeight();
-                navigateButton.setBounds((width - 30), 0, 30, 30);
+                closeButton.setBounds((width - 30), 0, 30, 30);
                 openButton.setBounds(30, 300, 150, 40);
                 backgroundLabel.setBounds(95, 350, 100, 20);
                 checkLabel.setBounds(70, 350, 20, 20);
