@@ -39,13 +39,13 @@ public class AlphaFinePane extends BasicPane {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlphaFineHelper.showAlphaFineDialog();
+                AlphaFineHelper.showAlphaFineDialog(false);
             }
         });
         AlphafineContext.addAlphafineContextListener(new AlphafineListener() {
             @Override
             public void showDialog() {
-                AlphaFineHelper.showAlphaFineDialog();
+                AlphaFineHelper.showAlphaFineDialog(true);
             }
         });
     }

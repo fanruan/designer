@@ -46,10 +46,9 @@ public class RemindPane extends JPanel {
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.print(e.getLocationOnScreen() + "\n");
-                //manager.setOperateCount(0);
                 dialog.dispose();
                 AlphafineContext.fireAlphaFineContextListener();
+
             }
         });
         backgroundLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
