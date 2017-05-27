@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
+import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -147,8 +148,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void installPluginOnline(final String pluginInfo, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new InstallOnlineExecutor(pluginInfo));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.installPluginOnline(pluginInfo,jsCallback);
     }
 
 
@@ -159,8 +160,8 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void installPluginFromDisk(final String filePath, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new InstallFromDiskExecutor(filePath));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.installPluginFromDisk(filePath,jsCallback);
     }
 
     /**
@@ -169,8 +170,8 @@ public class PluginWebBridge {
      * @param pluginInfo 插件信息
      */
     public void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UninstallExecutor(pluginInfo, isForce));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.uninstallPlugin(pluginInfo, isForce, jsCallback);
     }
 
 
@@ -180,8 +181,8 @@ public class PluginWebBridge {
      * @param pluginIDs 插件集合
      */
     public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(jsObjectToStringArray(pluginIDs)));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.updatePluginOnline(pluginIDs, jsCallback);
     }
 
     /**
@@ -190,8 +191,8 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void updatePluginFromDisk(String filePath, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateFromDiskExecutor(filePath));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.updatePluginFromDisk(filePath, jsCallback);
     }
 
     /**
@@ -200,8 +201,8 @@ public class PluginWebBridge {
      * @param pluginID 插件ID
      */
     public void setPluginActive(String pluginID, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.setPluginActive(pluginID, jsCallback);
     }
 
     /**
