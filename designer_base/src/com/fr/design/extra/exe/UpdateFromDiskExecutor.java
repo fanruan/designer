@@ -24,7 +24,7 @@ public class UpdateFromDiskExecutor implements Executor {
 
     @Override
     public String getTaskFinishMessage() {
-        return "插件更新操作结束";
+        return Inter.getLocText("FR-Designer-Plugin_Update_End");
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UpdateFromDiskExecutor implements Executor {
                             @Override
                             public void done(PluginTaskResult result) {
                                 if (result.isSuccess()) {
-                                    FRLogger.getLogger().info("更新成功");
+                                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
                                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                                 } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
                                     updatePluginWithDependence();
@@ -71,7 +71,6 @@ public class UpdateFromDiskExecutor implements Executor {
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info("更新成功");
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else {
                     JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);

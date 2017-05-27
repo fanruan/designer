@@ -47,10 +47,10 @@ public class UninstallExecutor implements Executor {
                                 public void done(PluginTaskResult pluginTaskResult) {
                                     if (pluginTaskResult.isSuccess()) {
                                         result = "done";
-                                        FRLogger.getLogger().info("删除成功");
+                                        FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Success"));
                                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                                     } else {
-                                        FRLogger.getLogger().info("删除失败");
+                                        FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
                                         JOptionPane.showMessageDialog(null, pluginTaskResult.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                     }
                                 }

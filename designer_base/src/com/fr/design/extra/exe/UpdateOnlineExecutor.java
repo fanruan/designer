@@ -10,6 +10,7 @@ import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.stable.StringUtils;
@@ -46,10 +47,10 @@ public class UpdateOnlineExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        if (StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())) {
+                        if (!(BBSPluginLogin.getInstance().hasLogin())){
                             LoginCheckContext.fireLoginCheckListener();
                         }
-                        if (StringUtils.isNotBlank(DesignerEnvManager.getEnvManager().getBBSName())) {
+                        if (BBSPluginLogin.getInstance().hasLogin()) {
                             List<PluginMarker> pluginMarkerList = new ArrayList<PluginMarker>();
                             for (int i = 0; i < pluginInfos.length; i++) {
                                 pluginMarkerList.add(PluginUtils.createPluginMarker(pluginInfos[i]));
@@ -70,10 +71,8 @@ public class UpdateOnlineExecutor implements Executor {
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info("更新成功");
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else {
-                    FRLogger.getLogger().info("更新失败");
                     JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -87,7 +86,7 @@ public class UpdateOnlineExecutor implements Executor {
                 //todo check下此插件的最新版本
                 String latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarkerList.get(i).getPluginID());
                 if (StringUtils.isEmpty(latestPluginInfo) || PluginConstants.CONNECTION_404.equals(latestPluginInfo)) {
-                    JOptionPane.showMessageDialog(null, "插件商城连接失败", Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Connect_Failed"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 JSONObject resultArr = new JSONObject(latestPluginInfo);
@@ -102,12 +101,10 @@ public class UpdateOnlineExecutor implements Executor {
                     @Override
                     public void done(PluginTaskResult result) {
                         if (result.isSuccess()) {
-                            FRLogger.getLogger().info("更新成功");
                             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
                             updatePluginWithDependence(pluginMarkerList.get(a), PluginMarker.create(pluginMarkerList.get(a).getPluginID(), latestPluginVersion));
                         } else {
-                            FRLogger.getLogger().info("更新失败");
                             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                         }
                     }

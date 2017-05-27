@@ -36,7 +36,7 @@ public class InstallOnlineExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在下载插件:" + pluginInfo.split("_")[0];
+                        return Inter.getLocText("FR-Designer-Plugin_Downloading") + ":" + pluginInfo.split("_")[0];
                     }
 
                     @Override
@@ -79,13 +79,13 @@ public class InstallOnlineExecutor implements Executor {
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info("插件安装成功");
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
                     int rv = JOptionPane.showOptionDialog(
                             null,
-                            Inter.getLocText("安装依赖"),
-                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                            Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Success")),
+                            Inter.getLocText("FR-Designer-Plugin_Install_Dependence"),
                             JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.INFORMATION_MESSAGE,
                             null,
@@ -112,10 +112,10 @@ public class InstallOnlineExecutor implements Executor {
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info("插件安装成功");
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else {
-                    FRLogger.getLogger().info("插件安装失败");
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
                     JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }

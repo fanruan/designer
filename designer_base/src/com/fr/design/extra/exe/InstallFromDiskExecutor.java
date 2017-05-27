@@ -24,7 +24,7 @@ public class InstallFromDiskExecutor implements Executor {
 
     @Override
     public String getTaskFinishMessage() {
-        return "已成功安装";
+        return Inter.getLocText("FR-Designer-Plugin_Success_Install");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class InstallFromDiskExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在解压文件" + filePath;
+                        return Inter.getLocText("FR-Designer-Plugin_Unzipping") + filePath;
                     }
 
                     @Override
@@ -44,7 +44,7 @@ public class InstallFromDiskExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在安装";
+                        return Inter.getLocText("FR-Designer-Plugin_Installing");
                     }
 
                     @Override
@@ -56,11 +56,11 @@ public class InstallFromDiskExecutor implements Executor {
                             @Override
                             public void done(PluginTaskResult result) {
                                 if (result.isSuccess()) {
-                                    FRLogger.getLogger().info("插件安装成功");
+                                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
                                 } else if(result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()){
                                     int rv = JOptionPane.showOptionDialog(
                                             null,
-                                            Inter.getLocText("安装依赖"),
+                                            Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
                                             Inter.getLocText("FR-Designer-Plugin_Warning"),
                                             JOptionPane.YES_NO_CANCEL_OPTION,
                                             JOptionPane.INFORMATION_MESSAGE,
@@ -71,9 +71,9 @@ public class InstallFromDiskExecutor implements Executor {
                                     if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                                         return;
                                     }
-                                    installWithDepenndence();
+                                    installWithDependence();
                                 }else{
-                                    FRLogger.getLogger().info("插件安装失败");
+                                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
                                     JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
@@ -83,7 +83,7 @@ public class InstallFromDiskExecutor implements Executor {
         };
     }
 
-    public void installWithDepenndence(){
+    public void installWithDependence(){
         PluginManager.getController().install(new File(filePath), new ProgressCallback() {
             @Override
             public void updateProgress(String description, double progress) {
@@ -91,10 +91,10 @@ public class InstallFromDiskExecutor implements Executor {
             @Override
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
-                    FRLogger.getLogger().info("插件安装成功");
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else{
-                    FRLogger.getLogger().info("插件安装失败");
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
                     JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }

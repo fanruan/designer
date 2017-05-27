@@ -30,7 +30,7 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
     @Override
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
-            FRLogger.getLogger().info("更新成功");
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
             int rv = JOptionPane.showOptionDialog(
@@ -48,7 +48,7 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
             }
             PluginManager.getController().update(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, jsCallback));
         } else {
-            FRLogger.getLogger().info("更新失败");
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
