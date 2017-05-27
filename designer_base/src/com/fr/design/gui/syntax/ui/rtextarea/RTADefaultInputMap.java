@@ -42,13 +42,21 @@ public class RTADefaultInputMap extends InputMap {
 
 
 	/**
+	 * Returns the default modifier key for a system.  For example, on Windows
+	 * this would be the CTRL key (<code>InputEvent.CTRL_MASK</code>).
+	 *
+	 * @return The default modifier key.
+	 */
+	public static final int DEFAULT_MODIFIER = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
+	/**
 	 * Constructs the default input map for an <code>RTextArea</code>.
 	 */
 	public RTADefaultInputMap() {
 
 		super();
 
-		int defaultModifier = getDefaultModifier();
+		int defaultModifier = DEFAULT_MODIFIER;
 		//int ctrl = InputEvent.CTRL_MASK;
 		int alt = InputEvent.ALT_MASK;
 		int shift = InputEvent.SHIFT_MASK;
@@ -134,18 +142,4 @@ public class RTADefaultInputMap extends InputMap {
 		*/
 
 	}
-
-
-	/**
-	 * Returns the default modifier key for a system.  For example, on Windows
-	 * this would be the CTRL key (<code>InputEvent.CTRL_MASK</code>).
-	 *
-	 * @return The default modifier key.
-	 */
-	protected static final int getDefaultModifier() {
-		return Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-	}
-
-
-
 }
