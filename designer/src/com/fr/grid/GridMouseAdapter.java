@@ -3,7 +3,6 @@ package com.fr.grid;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.ScreenResolution;
-import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
@@ -165,7 +164,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         ElementCasePane reportPane = grid.getElementCasePane();
         TemplateElementCase report = reportPane.getEditingElementCase();
         boolean isShiftDown = evt.isShiftDown();
-        boolean isControlDown = InputEventBaseOnOS.isControlDown(evt);
+        boolean isControlDown = evt.isControlDown();
         int clickCount = evt.getClickCount();
         // peter:需要判断是否在可移动CellSelection的区域
         grid.setDragType(isMoveCellSelection(this.oldEvtX, this.oldEvtY));
@@ -337,7 +336,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             return;
         }
 
-        boolean isControlDown = InputEventBaseOnOS.isControlDown(evt);
+        boolean isControlDown = evt.isControlDown();
 
         long systemCurrentTime = System.currentTimeMillis();
         if (systemCurrentTime - lastMouseMoveTime <= DRAG_REFRESH_TIME) {// alex:Drag
