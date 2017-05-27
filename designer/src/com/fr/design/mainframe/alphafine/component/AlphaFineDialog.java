@@ -67,7 +67,7 @@ public class AlphaFineDialog extends UIDialog {
     private JList searchResultList;
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
-    //是否强制打开，因为面板是否dispose绑定了全局鼠标事件，这里需要处理一下
+    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean foreOpen;
 
     public AlphaFineDialog(Frame parent, boolean foreOpen) {
