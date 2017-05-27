@@ -10,6 +10,7 @@
 package com.fr.design.gui.autocomplete;
 
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.PopupWindowDecorator;
+import com.fr.general.FRLogger;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -40,6 +41,7 @@ import java.util.List;
 class AutoCompletePopupWindow extends JWindow implements CaretListener,
         ListSelectionListener, MouseListener {
 
+    private final static int DIS = 5;
     /**
      * The parent AutoCompletion instance.
      */
@@ -179,7 +181,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
             } else {
                 doAutocomplete();
             }
-        } else if (AutoCompletion.getDebug()) {
+        } else if (AutoCompletion.isDebug()) {
             Thread.dumpStack();
         }
     }
@@ -300,8 +302,8 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
      */
     private void installKeyBindings() {
 
-        if (AutoCompletion.getDebug()) {
-            System.out.println("PopupWindow: Installing keybindings");
+        if (AutoCompletion.isDebug()) {
+            FRLogger.getLogger().debug("PopupWindow: Installing keybindings");
         }
 
         if (escapeKap == null) { // Lazily create actions.
@@ -313,7 +315,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
         ActionMap am = comp.getActionMap();
 
         replaceAction(im, am, KeyEvent.VK_ESCAPE, escapeKap, oldEscape);
-        if (AutoCompletion.getDebug() && oldEscape.action == escapeKap.action) {
+        if (AutoCompletion.isDebug() && oldEscape.action == escapeKap.action) {
             Thread.dumpStack();
         }
         replaceAction(im, am, KeyEvent.VK_UP, upKap, oldUp);
@@ -371,7 +373,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
      */
     private void positionDescWindow() {
 
-        boolean showDescWindow = descWindow != null && ac.getShowDescWindow();
+        boolean showDescWindow = descWindow != null && ac.isShowDescWindow();
         if (!showDescWindow) {
             return;
         }
@@ -387,14 +389,14 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
         // Try to position to the right first (LTR)
         int x;
         if (ac.getTextComponentOrientation().isLeftToRight()) {
-            x = getX() + getWidth() + 5;
+            x = getX() + getWidth() + DIS;
             if (x + descWindow.getWidth() > screenBounds.x + screenBounds.width) { // doesn't fit
-                x = getX() - 5 - descWindow.getWidth();
+                x = getX() - DIS - descWindow.getWidth();
             }
         } else { // RTL
-            x = getX() - 5 - descWindow.getWidth();
+            x = getX() - DIS - descWindow.getWidth();
             if (x < screenBounds.x) { // Doesn't fit
-                x = getX() + getWidth() + 5;
+                x = getX() + getWidth() + DIS;
             }
         }
 
@@ -604,7 +606,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
         Rectangle screenBounds = Util.getScreenBoundsForPoint(r.x, r.y);
         //Dimension screenSize = getToolkit().getScreenSize();
 
-        boolean showDescWindow = descWindow != null && ac.getShowDescWindow();
+        boolean showDescWindow = descWindow != null && ac.isShowDescWindow();
         int totalH = getHeight();
         if (showDescWindow) {
             totalH = Math.max(totalH, descWindow.getHeight());
@@ -655,7 +657,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
                 installKeyBindings();
                 lastLine = ac.getLineOfCaret();
                 selectFirstItem();
-                if (descWindow == null && ac.getShowDescWindow()) {
+                if (descWindow == null && ac.isShowDescWindow()) {
                     descWindow = createDescriptionWindow();
                     positionDescWindow();
                 }
@@ -693,7 +695,7 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
             // because of the way child JWindows' visibility is handled - in
             // some ways it's dependent on the parent, in other ways it's not.
             if (descWindow != null) {
-                descWindow.setVisible(visible && ac.getShowDescWindow());
+                descWindow.setVisible(visible && ac.isShowDescWindow());
             }
 
         }
@@ -708,8 +710,8 @@ class AutoCompletePopupWindow extends JWindow implements CaretListener,
      */
     private void uninstallKeyBindings() {
 
-        if (AutoCompletion.getDebug()) {
-            System.out.println("PopupWindow: Removing keybindings");
+        if (AutoCompletion.isDebug()) {
+            FRLogger.getLogger().debug("PopupWindow: Removing keybindings");
         }
 
         JTextComponent comp = ac.getTextComponent();

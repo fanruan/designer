@@ -1,5 +1,6 @@
 package com.fr.design.designer.beans.models;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
@@ -61,7 +62,7 @@ public class SelectionModel {
      * @param e 鼠标事件
      */
     public void selectACreatorAtMouseEvent(MouseEvent e) {
-        if (!e.isControlDown() && !e.isShiftDown()) {
+        if (!InputEventBaseOnOS.isControlDown(e) && !e.isShiftDown()) {
             // 如果Ctrl或者Shift键盘没有按下，则清除已经选择的组件
             selection.reset();
         }
@@ -372,7 +373,7 @@ public class SelectionModel {
 
     public Direction getDirectionAt(MouseEvent e) {
         Direction dir;
-        if (e.isControlDown() || e.isShiftDown()) {
+        if (InputEventBaseOnOS.isControlDown(e) || e.isShiftDown()) {
             XCreator creator = designer.getComponentAt(e.getX(), e.getY(), selection.getSelectedCreators());
             if (creator != designer.getRootComponent() && selection.addedable(creator)) {
                 return Location.add;
