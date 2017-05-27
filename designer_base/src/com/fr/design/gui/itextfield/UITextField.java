@@ -10,12 +10,8 @@ import com.fr.stable.Constants;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * @author Jerry
@@ -31,22 +27,6 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     public UITextField() {
         super();
-        InputMap inputMap = this.getInputMap();
-        while (inputMap.getParent() != null) {
-            inputMap = inputMap.getParent();
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), DefaultEditorKit.pasteAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), DefaultEditorKit.cutAction);
-        }
         initListener();
     }
 

@@ -5,6 +5,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -72,7 +73,7 @@ public class ExtendedComboBox extends UIComboBox {
                         //   Key   from   the   list.
                         //   ie.,   don't   allow   CTRL   key   deselection.
                         e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers()
-                                ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
+                                ^ InputEvent.CTRL_MASK, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
                     }
                     super.processMouseEvent(e);
                 }
