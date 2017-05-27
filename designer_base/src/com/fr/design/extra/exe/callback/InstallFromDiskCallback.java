@@ -11,9 +11,10 @@ import java.io.File;
 /**
  * Created by ibm on 2017/5/26.
  */
-public class InstallFromDiskCallback extends AbstractPluginTaskCallback{
+public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
     private File zipFile;
-    public InstallFromDiskCallback(File zipFile, JSCallback jsCallback){
+
+    public InstallFromDiskCallback(File zipFile, JSCallback jsCallback) {
         this.zipFile = zipFile;
         this.jsCallback = jsCallback;
     }
@@ -44,7 +45,6 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback{
                 return;
             }
             PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
-//            jsCallback.execute("installDependence");
         } else {
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }

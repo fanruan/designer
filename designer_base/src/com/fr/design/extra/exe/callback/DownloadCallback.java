@@ -3,7 +3,6 @@ package com.fr.design.extra.exe.callback;
 import com.fr.design.extra.exe.extratask.ExtraPluginTask;
 import com.fr.general.Inter;
 import com.fr.plugin.manage.control.PluginTaskResult;
-import com.fr.plugin.manage.control.ProgressCallback;
 
 import javax.swing.*;
 

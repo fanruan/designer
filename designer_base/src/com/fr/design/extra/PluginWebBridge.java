@@ -209,8 +209,8 @@ public class PluginWebBridge {
      * 已安装插件检查更新
      */
     public void readUpdateOnline(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ReadUpdateOnlineExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.readUpdateOnline(jsCallback);
     }
 
     /**
@@ -303,8 +303,8 @@ public class PluginWebBridge {
      * @param keyword 关键字
      */
     public void searchPlugin(String keyword, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.searchPlugin(keyword, jsCallback);
     }
 
     /**
@@ -316,8 +316,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginFromStore(category, seller, fee, jsCallback);
     }
 
     /**
@@ -326,8 +326,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginCategories(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginCategories(jsCallback);
     }
 
     /**
@@ -377,8 +377,8 @@ public class PluginWebBridge {
      * @param callback
      */
     public void getLoginInfo(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetLoginInfoExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getLoginInfo(jsCallback);
     }
 
     /**

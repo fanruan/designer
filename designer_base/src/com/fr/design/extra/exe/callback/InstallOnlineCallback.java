@@ -45,7 +45,6 @@ public class InstallOnlineCallback extends AbstractPluginTaskCallback {
             }
             //执行JS回调
             PluginManager.getController().install(pluginMarker, new InstallOnlineCallback(pluginMarker, jsCallback));
-//            jsCallback.execute("installDependence");
         } else {
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
