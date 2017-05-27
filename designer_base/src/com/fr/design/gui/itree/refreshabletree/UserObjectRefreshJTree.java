@@ -1,6 +1,5 @@
 package com.fr.design.gui.itree.refreshabletree;
 
-import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.general.NameObject;
 import com.fr.design.gui.itree.refreshabletree.loader.ChildrenLoaderFactory;
 import com.fr.general.ComparatorUtils;
@@ -148,7 +147,7 @@ public abstract class UserObjectRefreshJTree<T extends UserObjectOP<?>> extends 
 					}
 				}
 				// marks:鼠标在上次选中的paths上，则将上次的paths设为的树的路径,否则将鼠标所在的节点设为选中的节点
-				if (!(e.isShiftDown() || InputEventBaseOnOS.isControlDown(e))) {
+				if (!(e.isShiftDown() || e.isControlDown())) {
 					if (isFind) {
 						setSelectionPaths(oldPaths);
 					} else {

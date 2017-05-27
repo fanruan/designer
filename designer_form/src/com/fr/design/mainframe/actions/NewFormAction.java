@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 public class NewFormAction extends UpdateAction {
 
     public NewFormAction() {
@@ -50,7 +48,7 @@ public class NewFormAction extends UpdateAction {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_F, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK);
         }
     };
 }

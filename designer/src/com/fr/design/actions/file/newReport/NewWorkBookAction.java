@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 public class NewWorkBookAction extends UpdateAction {
 
     public NewWorkBookAction() {
@@ -30,6 +28,7 @@ public class NewWorkBookAction extends UpdateAction {
 
     /**
      * 动作
+     *
      * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
@@ -49,7 +48,7 @@ public class NewWorkBookAction extends UpdateAction {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_N, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK);
         }
     };
 

@@ -127,8 +127,6 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.unit.FU;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * This class used to edit Report.
  */
@@ -282,7 +280,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 }
             }
         });
-        formatBrush.registerKeyboardAction(keyListener, KeyStroke.getKeyStroke(KeyEvent.VK_B, DEFAULT_MODIFIER), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        formatBrush.registerKeyboardAction(keyListener, KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         formatBrush.registerKeyboardAction(escKey, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
@@ -857,7 +855,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         // clearReportPage old values.
         inputMapAncestor.clear();
         actionMap.clear();
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), "cut");
+        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK), "cut");
         actionMap.put("cut", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {
                 if (cut()) {
@@ -865,13 +863,13 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 }
             }
         });
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
+        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK), "copy");
         actionMap.put("copy", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {
                 copy();
             }
         });
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), "paste");
+        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK), "paste");
         actionMap.put("paste", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {
                 if (paste()) {
@@ -889,7 +887,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 }
             }
         });
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, DEFAULT_MODIFIER), "delete_all");
+        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_MASK), "delete_all");
         actionMap.put("delete_all", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {
                 if (clearAll()) {

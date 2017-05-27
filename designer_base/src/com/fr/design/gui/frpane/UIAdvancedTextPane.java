@@ -20,8 +20,6 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.general.Inter;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * p:这是一个增强的JTextPane,支持很多Action 
  */
@@ -145,7 +143,7 @@ public class UIAdvancedTextPane extends UITextPane {
 	        setName(Inter.getLocText("M_Edit-Cut"));
 	        setMnemonic('T');
 	        setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
-	        setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));
+	        setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 		}
 		
 		public void actionPerformed(ActionEvent evt) {
@@ -164,7 +162,7 @@ public class UIAdvancedTextPane extends UITextPane {
 	        this.setName(Inter.getLocText("M_Edit-Copy"));
 	        this.setMnemonic('C');
 	        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
-	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
+	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 		}
 		
 		public void actionPerformed(ActionEvent evt) {
@@ -183,7 +181,7 @@ public class UIAdvancedTextPane extends UITextPane {
 	        this.setName(Inter.getLocText("M_Edit-Paste"));
 	        this.setMnemonic('P');
 	        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
-	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));
+	        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
 		}
 		
 		public void actionPerformed(ActionEvent evt) {

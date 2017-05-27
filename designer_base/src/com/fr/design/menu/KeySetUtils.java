@@ -12,8 +12,6 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * Created by IntelliJ IDEA.
  * Author : daisy
@@ -38,7 +36,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_O, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -73,7 +71,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_W, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -90,7 +88,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_S, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -124,7 +122,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_Z, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -141,7 +139,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_Y, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -158,7 +156,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_E, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -355,7 +353,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_M, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -372,7 +370,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_E, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK);
         }
     };
 
@@ -389,7 +387,7 @@ public class KeySetUtils {
 
         @Override
         public KeyStroke getKeyStroke() {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_E, DEFAULT_MODIFIER);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK);
         }
     };
 

@@ -16,7 +16,6 @@ import java.util.Map;
 
 import javax.swing.Icon;
 
-import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -394,7 +393,7 @@ public class TableSorter extends AbstractTableModel {
             int column = columnModel.getColumn(viewColumn).getModelIndex();
             if (column != -1) {
                 int status = getSortingStatus(column);
-                if (!InputEventBaseOnOS.isControlDown(e)) {
+                if (!e.isControlDown()) {
                     cancelSorting();
                 }
                 // Cycle the sorting states through {NOT_SORTED, ASCENDING, DESCENDING} or 

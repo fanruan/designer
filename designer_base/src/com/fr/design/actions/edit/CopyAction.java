@@ -11,8 +11,6 @@ import com.fr.general.Inter;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * Copy.
  */
@@ -23,7 +21,7 @@ public class CopyAction extends TemplateComponentAction {
         this.setName(Inter.getLocText("M_Edit-Copy"));
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK));
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.fr.base.BaseUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.FormDesigner;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 public class PasteAction extends FormEditAction {
 
 	public PasteAction(FormDesigner t) {
@@ -18,7 +16,7 @@ public class PasteAction extends FormEditAction {
 		this.setName(Inter.getLocText("M_Edit-Paste"));
 		this.setMnemonic('P');
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
 	}
 
 	@Override

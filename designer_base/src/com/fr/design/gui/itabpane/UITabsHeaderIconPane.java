@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * 本来想弄个延迟加载的，发现在单元格属性表那边没有意义，就算了.这个面板是纯粹的，没有与模板的任何交互操作(比如说populate() update())
  * 
@@ -113,7 +111,7 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 		inputMapAncestor.clear();
 		actionMap.clear();
 
-		inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, DEFAULT_MODIFIER), "switch");
+		inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, KeyEvent.CTRL_MASK), "switch");
 		actionMap.put("switch", new AbstractAction() {
 
 			/**
