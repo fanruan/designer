@@ -1,10 +1,8 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.PluginsReaderFromStore;
+import com.fr.design.extra.PluginReaderForDesigner;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
-
-import com.fr.plugin.Plugin;
 import com.fr.stable.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +11,7 @@ import org.json.JSONObject;
  * Created by vito on 16/4/19.
  */
 public class ReadUpdateOnlineExecutor implements Executor {
-    private Plugin[] plugins;
+    private String[] plugins;
     private String result;
 
     @Override
@@ -33,11 +31,11 @@ public class ReadUpdateOnlineExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         try {
-                            plugins = PluginsReaderFromStore.readPluginsForUpdate();
+                            plugins = PluginReaderForDesigner.readPluginsForUpdate();
                             JSONArray jsonArray = new JSONArray();
-                            for (Plugin plugin : plugins) {
+                            for (String plugin : plugins) {
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("pluginid", plugin.getId());
+                                jsonObject.put("pluginid", plugin);
                                 jsonArray.put(jsonObject);
                             }
                             result = jsonArray.toString();

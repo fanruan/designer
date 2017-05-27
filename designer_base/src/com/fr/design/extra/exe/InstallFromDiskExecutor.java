@@ -1,12 +1,12 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.After;
-import com.fr.design.extra.PluginHelper;
-import com.fr.design.extra.PluginWebBridge;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.PluginVerifyException;
+import com.fr.plugin.error.PluginErrorCode;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.manage.control.ProgressCallback;
 
 import javax.swing.*;
 import java.io.File;
@@ -24,7 +24,7 @@ public class InstallFromDiskExecutor implements Executor {
 
     @Override
     public String getTaskFinishMessage() {
-        return "已成功安装";
+        return Inter.getLocText("FR-Designer-Plugin_Success_Install");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class InstallFromDiskExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在解压文件" + filePath;
+                        return Inter.getLocText("FR-Designer-Plugin_Unzipping") + filePath;
                     }
 
                     @Override
@@ -44,26 +44,60 @@ public class InstallFromDiskExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在安装";
+                        return Inter.getLocText("FR-Designer-Plugin_Installing");
                     }
 
                     @Override
                     public void run(Process<String> process) {
-                        try {
-                            PluginHelper.installPluginFromDisk(new File(filePath), new After() {
-                                @Override
-                                public void done() {
-                                    FRLogger.getLogger().info("插件安装成功");
-                                    PluginWebBridge.getHelper().showRestartMessage(Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                        PluginManager.getController().install(new File(filePath), new ProgressCallback() {
+                            @Override
+                            public void updateProgress(String description, double progress) {
+                            }
+                            @Override
+                            public void done(PluginTaskResult result) {
+                                if (result.isSuccess()) {
+                                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+                                } else if(result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()){
+                                    int rv = JOptionPane.showOptionDialog(
+                                            null,
+                                            Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
+                                            Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                            JOptionPane.YES_NO_CANCEL_OPTION,
+                                            JOptionPane.INFORMATION_MESSAGE,
+                                            null,
+                                            null,
+                                            null
+                                    );
+                                    if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+                                        return;
+                                    }
+                                    installWithDependence();
+                                }else{
+                                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
+                                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
-                            });
-                        } catch (PluginVerifyException e) {
-                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                        } catch (Exception e) {
-                            FRLogger.getLogger().error(e.getMessage());
-                        }
+                            }
+                        });
                     }
                 }
         };
+    }
+
+    public void installWithDependence(){
+        PluginManager.getController().install(new File(filePath), new ProgressCallback() {
+            @Override
+            public void updateProgress(String description, double progress) {
+            }
+            @Override
+            public void done(PluginTaskResult result) {
+                if (result.isSuccess()) {
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                } else{
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
+                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 }

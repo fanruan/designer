@@ -1,12 +1,13 @@
 package com.fr.design.extra.exe;
 
-import com.fr.base.FRContext;
-import com.fr.design.RestartHelper;
-import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
 
 import javax.swing.*;
 
@@ -15,11 +16,13 @@ import javax.swing.*;
  */
 public class UninstallExecutor implements Executor {
 
-    private String[] pluginIDs;
+    private String pluginInfo;
+    private boolean isForce;
     private String result = "undo";
 
-    public UninstallExecutor(String[] pluginIDs) {
-        this.pluginIDs = pluginIDs;
+    public UninstallExecutor(String pluginInfo, boolean isForce) {
+        this.pluginInfo = pluginInfo;
+        this.isForce = isForce;
     }
 
     @Override
@@ -38,35 +41,20 @@ public class UninstallExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        int rv = JOptionPane.showOptionDialog(
-                                null,
-                                Inter.getLocText("FR-Designer-Plugin_Will_Be_Delete"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                JOptionPane.YES_NO_CANCEL_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE,
-                                null,
-                                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
-                                        Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later"),
-                                        Inter.getLocText("FR-Designer-Basic_Cancel")
-                                },
-                                null
-                        );
-                        if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
-                            return;
-                        }
-                        for (String pluginID : pluginIDs) {
-                            try {
-                                Plugin plugin = PluginLoader.getLoader().getPluginById(pluginID);
-                                String[] filesToBeDelete = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), plugin);
-                                RestartHelper.saveFilesWhichToDelete(filesToBeDelete);
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                        result = "done";
-                        if (rv == JOptionPane.OK_OPTION) {
-                            RestartHelper.restart();
-                        }
+                            PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+                            PluginManager.getController().uninstall(pluginMarker, isForce, new PluginTaskCallback() {
+                                @Override
+                                public void done(PluginTaskResult pluginTaskResult) {
+                                    if (pluginTaskResult.isSuccess()) {
+                                        result = "done";
+                                        FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Success"));
+                                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                                    } else {
+                                        FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
+                                        JOptionPane.showMessageDialog(null, pluginTaskResult.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
+                            });
                     }
                 }
         };

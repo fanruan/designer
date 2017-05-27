@@ -1,6 +1,6 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.Process;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
@@ -32,9 +32,8 @@ public class GetPluginCategoriesExecutor implements Executor {
                             HttpClient httpClient = new HttpClient(url);
                             result = httpClient.getResponseText();
                         } else {
-                            result = PluginHelper.CONNECTION_404;
+                            result = PluginConstants.CONNECTION_404;
                         }
-
                     }
                 }
         };

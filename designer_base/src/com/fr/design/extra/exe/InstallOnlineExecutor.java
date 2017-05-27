@@ -1,16 +1,16 @@
 package com.fr.design.extra.exe;
 
-import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
-import com.fr.design.extra.After;
 import com.fr.design.extra.LoginCheckContext;
-import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.Process;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.PluginVerifyException;
-import com.fr.plugin.dependence.PluginDependenceException;
-import com.fr.stable.StringUtils;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.error.PluginErrorCode;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.manage.control.ProgressCallback;
 
 import javax.swing.*;
 
@@ -19,10 +19,10 @@ import javax.swing.*;
  */
 public class InstallOnlineExecutor implements Executor {
 
-    private String pluginID;
+    private String pluginInfo;
 
-    public InstallOnlineExecutor(String pluginID) {
-        this.pluginID = pluginID;
+    public InstallOnlineExecutor(String pluginInfo) {
+        this.pluginInfo = pluginInfo;
     }
 
     @Override
@@ -36,69 +36,89 @@ public class InstallOnlineExecutor implements Executor {
                 new Command() {
                     @Override
                     public String getExecuteMessage() {
-                        return "正在下载插件:" + pluginID;
+                        return Inter.getLocText("FR-Designer-Plugin_Downloading") + ":" + pluginInfo.split("_")[0];
                     }
 
                     @Override
                     public void run(final Process<String> process) {
                         //下载插件
-                        if(StringUtils.isBlank(DesignerEnvManager.getEnvManager().getBBSName())){
+                        if (!BBSPluginLogin.getInstance().hasLogin()) {
                             LoginCheckContext.fireLoginCheckListener();
                         }
-                        if(StringUtils.isNotBlank(DesignerEnvManager.getEnvManager().getBBSName())) {
-                            String username = DesignerEnvManager.getEnvManager().getBBSName();
-                            String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-                            try {
-                                PluginHelper.downloadPluginFile(pluginID, username, password, new Process<Double>() {
-                                    @Override
-                                    public void process(Double integer) {
-                                        process.process(Math.round(integer * 100) + "%");
-                                    }
-                                });
-                            } catch (Exception e) {
-                                FRContext.getLogger().error(e.getMessage(), e);
-                            }
-                        }
-                    }
-                },
-                new Command() {
-                    @Override
-                    public String getExecuteMessage() {
-                        return "正在安装插件:" + pluginID;
-                    }
-
-                    @Override
-                    public void run(Process<String> process) {
-                        try {
-                            PluginHelper.installPluginFromDisk(PluginHelper.getDownloadTempFile(), new After() {
+                        PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+                        if (BBSPluginLogin.getInstance().hasLogin()) {
+                            PluginManager.getController().download(pluginMarker, new ProgressCallback() {
                                 @Override
-                                public void done() {
-                                    int rv = JOptionPane.showOptionDialog(
-                                            null,
-                                            Inter.getLocText("FR-Designer-Plugin_Install_Successful"),
-                                            Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                            JOptionPane.YES_NO_OPTION,
-                                            JOptionPane.INFORMATION_MESSAGE,
-                                            null,
-                                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                                            null
-                                    );
-                                    if (rv == JOptionPane.OK_OPTION) {
-                                        RestartHelper.restart();
+                                public void updateProgress(String description, double aProgress) {
+//                                    process.process(Math.round(aProgress * 100) + "%");
+                                }
+
+                                @Override
+                                public void done(PluginTaskResult result) {
+                                    if (result.isSuccess()) {
+                                        installPlugin(pluginMarker);
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                     }
                                 }
                             });
-                        } catch (PluginVerifyException e) {
-                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                        } catch (PluginDependenceException e){
-                            JOptionPane.showMessageDialog(null, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
                         }
                     }
                 }
         };
+    }
+
+    public void installPlugin(PluginMarker pluginMarker) {
+        PluginManager.getController().install(pluginMarker, new ProgressCallback() {
+            @Override
+            public void updateProgress(String description, double progress) {
+
+            }
+
+            @Override
+            public void done(PluginTaskResult result) {
+                if (result.isSuccess()) {
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
+                    int rv = JOptionPane.showOptionDialog(
+                            null,
+                            Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Success")),
+                            Inter.getLocText("FR-Designer-Plugin_Install_Dependence"),
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            null,
+                            null
+                    );
+                    if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+                        return;
+                    }
+                    installPluginWithDependence(pluginMarker);
+                } else {
+                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+
+    public void installPluginWithDependence(PluginMarker pluginMarker) {
+        PluginManager.getController().install(pluginMarker, new ProgressCallback() {
+            @Override
+            public void updateProgress(String description, double progress) {
+            }
+
+            @Override
+            public void done(PluginTaskResult result) {
+                if (result.isSuccess()) {
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                } else {
+                    FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
+                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 }

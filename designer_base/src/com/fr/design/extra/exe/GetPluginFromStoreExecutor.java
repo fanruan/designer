@@ -1,6 +1,6 @@
 package com.fr.design.extra.exe;
 
-import com.fr.design.extra.PluginHelper;
+import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.Process;
 import com.fr.general.FRLogger;
 import com.fr.general.SiteCenter;
@@ -59,7 +59,7 @@ public class GetPluginFromStoreExecutor implements Executor {
                                 FRLogger.getLogger().error(e.getMessage());
                             }
                         } else {
-                            result = PluginHelper.CONNECTION_404;
+                            result = PluginConstants.CONNECTION_404;
                         }
                     }
                 }
