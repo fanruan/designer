@@ -45,10 +45,8 @@ public class ChartQuickEditor extends QuickEditor<TargetComponent>{
 				element = ((ElementCasePane)tc).getEditingElementCase().getFloatElement(fs.getSelectedFloatName());
 			}
 			collection = (BaseChartCollection) element.getValue();
-			String plotID=((ChartCollection)collection).getSelectedChart().getPlot().getPlotID();
 			add(editingPropertyPane = DesignModuleFactory.getChartPropertyPane(), BorderLayout.CENTER);
-			editingPropertyPane.addChartEditPane(plotID);
-			editingPropertyPane.setSupportCellData(true);
+
 		}
 		editingPropertyPane.populateChartPropertyPane(collection, tc);
 	}
