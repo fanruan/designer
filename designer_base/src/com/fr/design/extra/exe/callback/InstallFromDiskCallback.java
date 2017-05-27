@@ -2,6 +2,7 @@ package com.fr.design.extra.exe.callback;
 
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.control.PluginTaskResult;
 
@@ -30,7 +31,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
-        } else if (result.errorCode() == 30) {
+        } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Success")),
