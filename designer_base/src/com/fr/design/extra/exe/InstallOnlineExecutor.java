@@ -50,7 +50,7 @@ public class InstallOnlineExecutor implements Executor {
                             PluginManager.getController().download(pluginMarker, new ProgressCallback() {
                                 @Override
                                 public void updateProgress(String description, double aProgress) {
-                                    process.process(Math.round(aProgress * 100) + "%");
+//                                    process.process(Math.round(aProgress * 100) + "%");
                                 }
 
                                 @Override
