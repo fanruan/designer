@@ -46,6 +46,7 @@ public class RemindPane extends JPanel {
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                manager.setOperateCount(0);
                 dialog.dispose();
                 AlphafineContext.fireAlphaFineContextListener();
 
@@ -77,7 +78,7 @@ public class RemindPane extends JPanel {
         closeButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                //manager.setOperateCount(0);
+                manager.setOperateCount(0);
                 dialog.dispose();
 
             }
