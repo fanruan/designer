@@ -11,6 +11,7 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.*;
@@ -31,8 +32,8 @@ public class FormParaWidgetPane extends JPanel {
 
     private List<WidgetOption> predifinedwidgeList = new ArrayList<WidgetOption>();
 
-    private JPopupMenu chartTypePopupMenu;
-    private JPopupMenu widgetTypePopupMenu;
+    private UIPopupMenu chartTypePopupMenu;
+    private UIPopupMenu widgetTypePopupMenu;
     private WidgetOption[] widgetOptions = null;
     private WidgetOption[] chartOptions = null;
     private WidgetOption[] layoutOptions = null;
@@ -120,7 +121,7 @@ public class FormParaWidgetPane extends JPanel {
             widgetPane.add(createJSeparator(height));
             widgetPane.add(eastScrollPane);
 
-            widgetTypePopupMenu = new JPopupMenu();
+            widgetTypePopupMenu = new UIPopupMenu();
             widgetTypePopupMenu.add(widgetPane);
         }
     }
@@ -135,7 +136,7 @@ public class FormParaWidgetPane extends JPanel {
             int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
             int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
             componentsPara.setPreferredSize(new Dimension(x, y));
-            chartTypePopupMenu = new JPopupMenu();
+            chartTypePopupMenu = new UIPopupMenu();
             chartTypePopupMenu.add(componentsPara);
         }
     }
@@ -254,7 +255,7 @@ public class FormParaWidgetPane extends JPanel {
                 initChartTypePopUp();
                 chartTypePopupMenu.show(FormParaWidgetPane.this,
                         (int) jSeparatorLayout.getLocation().getX() + BORDER,
-                        (int) jSeparatorLayout.getLocation().getY() - BORDER);
+                        (int) jSeparatorLayout.getLocation().getY());
             }
         });
         labelPane.add(chartPopUpButton, BorderLayout.EAST);
@@ -274,7 +275,7 @@ public class FormParaWidgetPane extends JPanel {
                 initWidgetTypePopUp();
                 widgetTypePopupMenu.show(FormParaWidgetPane.this,
                         (int) jSeparatorChart.getLocation().getX() + BORDER,
-                        (int) jSeparatorChart.getLocation().getY() - BORDER);
+                        (int) jSeparatorChart.getLocation().getY());
             }
 
         });
