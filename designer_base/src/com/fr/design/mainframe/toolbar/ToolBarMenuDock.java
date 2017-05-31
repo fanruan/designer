@@ -11,7 +11,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
 import com.fr.design.actions.help.AboutAction;
-import com.fr.design.actions.help.AlphaFine.AlphafineAction;
+import com.fr.design.actions.help.alphafine.AlphafineAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.server.*;

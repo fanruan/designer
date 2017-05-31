@@ -1,4 +1,4 @@
-package com.fr.design.actions.help.AlphaFine;
+package com.fr.design.actions.help.alphafine;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
@@ -9,7 +9,6 @@ import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

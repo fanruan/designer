@@ -38,7 +38,7 @@ public aspect TemplateProcessTracker {
     before(ActionEvent e) : onActionPerformed(e) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
         // !within(LogHandlerBar) 没用, 手动过滤
-        if (e.getSource().toString().contains("javax.swing.Timer")) {
+        if (e != null && e.getSource().toString().contains("javax.swing.Timer")) {
             return;
         }
 

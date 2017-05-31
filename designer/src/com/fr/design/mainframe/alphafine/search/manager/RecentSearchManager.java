@@ -97,7 +97,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     private void addModelToList(List<AlphaCellModel> list, String name) {
         try {
-            list.add(CellModelHelper.getModelFromJson(new JSONObject(name)));
+            AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(name));
+            if (model != null) {
+                list.add(CellModelHelper.getModelFromJson(new JSONObject(name)));
+            }
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
