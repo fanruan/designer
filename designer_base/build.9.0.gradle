@@ -36,7 +36,13 @@ jar{
 
 def srcDir="."
 def baseDir=".."
-
+ant{
+	delete(dir:"src/main")
+	mkdir(dir:"src/main/java")
+	move(todir:"src/main/java"){
+		fileset(dir:"src/com")
+	}
+}
 //指定源码路径
 sourceSets{
 	main{
