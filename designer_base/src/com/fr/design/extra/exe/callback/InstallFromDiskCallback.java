@@ -14,6 +14,7 @@ import java.io.File;
  */
 public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
     private File zipFile;
+    protected JSCallback jsCallback;
 
     public InstallFromDiskCallback(File zipFile, JSCallback jsCallback) {
         this.zipFile = zipFile;
@@ -28,14 +29,15 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void done(PluginTaskResult result) {
+        jsCallback.execute("done");
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Success")),
-                    Inter.getLocText("FR-Designer-Plugin_Install_Dependence"),
+                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
+                    Inter.getLocText("FR-Designer-Plugin_Install_Success"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,

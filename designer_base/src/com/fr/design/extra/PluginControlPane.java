@@ -8,10 +8,13 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -20,7 +23,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author richie
@@ -32,7 +36,7 @@ public class PluginControlPane extends BasicPane {
     private DefaultListModel listModel;
     private PluginDetailPane detailPane;
     private java.util.List<PluginSelectListener> listeners = new ArrayList<PluginSelectListener>();
-    private Plugin[] plugins;
+    private List<PluginView> plugins;
     private UITextField searchTextField;
 
     public PluginControlPane() {
@@ -63,8 +67,8 @@ public class PluginControlPane extends BasicPane {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Plugin) {
-                    PluginLicense pluginLicense = PluginLicenseManager.getInstance().getPluginLicenseByID(((Plugin) value).getId());
+                if (value instanceof PluginView) {
+                    PluginLicense pluginLicense = PluginLicenseManager.getInstance().getPluginLicenseByID(((PluginView) value).getID());
                     String extraInfo = "";
                     if (pluginLicense.isJarDamage()) {
                         extraInfo = "(" + Inter.getLocText("FR-Plugin-Plugin_Damaged") + ")";
@@ -75,7 +79,7 @@ public class PluginControlPane extends BasicPane {
                             extraInfo = "(" + (pluginLicense.isTrial() ? Inter.getLocText("FR-Plugin-Designer_Trial") : Inter.getLocText("FR-Plugin-Designer_Authorized")) + Inter.getLocText("FR-Plugin-Designer_Expired") + ")";
                         }
                     }
-                    setText(((Plugin) value).getName() + extraInfo);
+                    setText(((PluginView) value).getName() + extraInfo);
                     setIcon(IOUtils.readIcon("/com/fr/design/images/server/plugin.png"));
                 }
                 return this;
@@ -101,7 +105,7 @@ public class PluginControlPane extends BasicPane {
         pluginList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Plugin plugin = (Plugin) pluginList.getSelectedValue();
+                PluginView plugin = (PluginView) pluginList.getSelectedValue();
                 if (plugin != null) {
                     detailPane.populate(plugin);
                     for (PluginSelectListener l : listeners) {
@@ -118,9 +122,9 @@ public class PluginControlPane extends BasicPane {
         listeners.add(l);
     }
 
-    public void loadPlugins(Plugin[] plugins) {
+    public void loadPlugins(java.util.List<PluginView> plugins) {
         this.plugins = plugins;
-        for (Plugin plugin : plugins) {
+        for (PluginView plugin : plugins) {
             listModel.addElement(plugin);
         }
     }
@@ -128,21 +132,28 @@ public class PluginControlPane extends BasicPane {
     private void doSearch(String text) {
         if (StringUtils.isNotBlank(text)) {
             listModel.clear();
-            for (Plugin plugin : plugins) {
-                if (plugin.match(text)) {
+            for (PluginView plugin : plugins) {
+                if (PluginUtils.isPluginMatch(plugin, text)) {
                     listModel.addElement(plugin);
                 }
             }
         }
     }
 
-    public Plugin getSelectedPlugin() {
-        return (Plugin) pluginList.getSelectedValue();
+    public PluginView getSelectedPlugin() {
+        return (PluginView) pluginList.getSelectedValue();
     }
 
-    public void deletePlugin(Plugin plugin) {
+    public void deletePlugin(PluginView plugin) {
         listModel.removeElement(plugin);
-        PluginLoader.getLoader().deletePlugin(plugin);
+        String id = plugin.getID();
+        String version = plugin.getVersion();
+        PluginManager.getController().uninstall(PluginMarker.create(id, version), true, new PluginTaskCallback() {
+            @Override
+            public void done(PluginTaskResult result) {
+
+            }
+        });
     }
 
     @Override

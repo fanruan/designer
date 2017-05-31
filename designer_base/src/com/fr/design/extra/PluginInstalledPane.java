@@ -1,16 +1,22 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.view.PluginView;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author richie
@@ -42,7 +48,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         panel.add(deleteButton);
         controlPane.addPluginSelectionListener(new PluginSelectListener() {
             @Override
-            public void valueChanged(Plugin plugin) {
+            public void valueChanged(PluginView plugin) {
                 disableButton.setEnabled(true);
                 deleteButton.setEnabled(true);
                 changeTextForButton(plugin);
@@ -51,28 +57,35 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         disableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Plugin plugin = controlPane.getSelectedPlugin();
+                PluginView plugin = controlPane.getSelectedPlugin();
                 if (plugin != null) {
-                    plugin.setActive(!plugin.isActive());
-                    changeTextForButton(plugin);
-                    try {
-                        FRContext.getCurrentEnv().writePlugin(plugin);
-                        int rv = JOptionPane.showOptionDialog(
-                                PluginInstalledPane.this,
-                                plugin.isActive() ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE,
-                                null,
-                                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                                null
-                        );
-                        if (rv == JOptionPane.OK_OPTION) {
-                            RestartHelper.restart();
-                        }
-                    } catch (Exception e1) {
-                        FRContext.getLogger().error(e1.getMessage(), e1);
+                    boolean isActive = plugin.isActive();
+                    PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
+                    String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled");
+                    if (isActive) {
+                        PluginManager.getController().forbid(pluginMarker, new PluginTaskCallback() {
+                            @Override
+                            public void done(PluginTaskResult result) {
+                                if (result.isSuccess()) {
+                                    JOptionPane.showMessageDialog(null, modifyMessage);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        });
+                    } else {
+                        PluginManager.getController().enable(pluginMarker, new PluginTaskCallback() {
+                            @Override
+                            public void done(PluginTaskResult result) {
+                                if (result.isSuccess()) {
+                                    JOptionPane.showMessageDialog(null, modifyMessage);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        });
                     }
+                    changeTextForButton(plugin);
                 }
             }
         });
@@ -83,21 +96,25 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
             }
         });
 
-        PluginLoader loader = PluginLoader.getLoader();
-        Plugin[] plugins = loader.getInstalled();
-        controlPane.loadPlugins(plugins);
-        num = plugins.length;
+        List<PluginContext> plugins = PluginManager.getContexts();
+        List<PluginView> pluginViews = new ArrayList<>();
+        for (PluginContext plugin : plugins) {
+            pluginViews.add((PluginView) plugin);
+        }
+        controlPane.loadPlugins(pluginViews);
+        num = plugins.size();
     }
 
     /**
      * tab标题
+     *
      * @return 同上
      */
     public String tabTitle() {
         return Inter.getLocText("FR-Designer-Plugin_Installed") + "(" + num + ")";
     }
 
-    private void doDelete(Plugin plugin) {
+    private void doDelete(PluginView plugin) {
         int rv = JOptionPane.showOptionDialog(
                 PluginInstalledPane.this,
                 Inter.getLocText("FR-Designer-Plugin_Will_Be_Delete"),
@@ -114,21 +131,19 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
             return;
         }
-        
+
         try {
-            String[] filesToBeDelete = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), plugin);
             controlPane.deletePlugin(plugin);
-            RestartHelper.saveFilesWhichToDelete(filesToBeDelete);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(PluginInstalledPane.this, e.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
-        
+
         if (rv == JOptionPane.OK_OPTION) {
             RestartHelper.restart();
         }
     }
 
-    private void changeTextForButton(Plugin plugin) {
+    private void changeTextForButton(PluginView plugin) {
         if (plugin.isActive()) {
             disableButton.setText(Inter.getLocText("FR-Designer-Plugin_Disable"));
         } else {
