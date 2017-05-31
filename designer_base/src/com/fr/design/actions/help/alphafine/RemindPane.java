@@ -15,17 +15,27 @@ import java.awt.event.MouseEvent;
  * Created by XiaXiang on 2017/5/26.
  */
 public class RemindPane extends JPanel {
-    public static final Font MEDIUM_FONT = new Font("Song_TypeFace", 0, 12);
-    public static final Font LARGE_FONT = new Font("Song_TypeFace", 0, 18);
+
     private UIButton openButton;
     private JPanel backgroundPane;
-    private UILabel backgroundLabel;
+    private UILabel noRemindLabel;
     private UILabel checkLabel;
     private Icon checkIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/check.png");
     private Icon unCheckIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/uncheck.png");
     private Icon closeIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/remind_close.png");
     private Icon labelIcon = IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/remind.png");
     private Icon openIcon = IOUtils.readIcon("com/fr/design/mainframe/alphafine/images/open.png");
+
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 400;
+    private static final int CLOSE = 30;
+
+    private static final Rectangle OPEN = new Rectangle(30, 300, 150, 40);
+    private static final Rectangle REMIND = new Rectangle(95, 350, 100, 20);
+    private static final Rectangle CHECK = new Rectangle(70, 350, 20, 20);
+    public static final Font MEDIUM_FONT = new Font("Song_TypeFace", 0, 12);
+    public static final Font LARGE_FONT = new Font("Song_TypeFace", 0, 18);
+
     public JComponent closeButton = new JComponent() {
         protected void paintComponent(Graphics g) {
             closeIcon.paintIcon(this, g, 0, 0);
@@ -33,11 +43,16 @@ public class RemindPane extends JPanel {
     };
 
     public RemindPane(AlphafineConfigManager manager, UIDialog remindDialog) {
-        this.setPreferredSize(new Dimension(600, 400));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         initUI(manager, remindDialog);
         this.setLayout(getAbsoluteLayout());
     }
 
+    /**
+     * 初始化面板
+     * @param manager
+     * @param dialog
+     */
     private void initUI(final AlphafineConfigManager manager, final UIDialog dialog) {
 
         openButton = new UIButton();
@@ -52,9 +67,9 @@ public class RemindPane extends JPanel {
 
             }
         });
-        backgroundLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
-        backgroundLabel.setFont(MEDIUM_FONT);
-        backgroundLabel.setForeground(Color.white);
+        noRemindLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
+        noRemindLabel.setFont(MEDIUM_FONT);
+        noRemindLabel.setForeground(Color.white);
         checkLabel = new UILabel();
         checkLabel.setIcon(unCheckIcon);
         checkLabel.addMouseListener(new MouseAdapter() {
@@ -86,7 +101,7 @@ public class RemindPane extends JPanel {
         add(closeButton, 0);
         add(checkLabel, 1);
         add(openButton, 2);
-        add(backgroundLabel, 3);
+        add(noRemindLabel, 3);
         add(backgroundPane, 4);
     }
 
@@ -115,10 +130,10 @@ public class RemindPane extends JPanel {
             public void layoutContainer(Container parent) {
                 int width = parent.getWidth();
                 int height = parent.getHeight();
-                closeButton.setBounds((width - 30), 0, 30, 30);
-                openButton.setBounds(30, 300, 150, 40);
-                backgroundLabel.setBounds(95, 350, 100, 20);
-                checkLabel.setBounds(70, 350, 20, 20);
+                closeButton.setBounds((width - CLOSE), 0, CLOSE, CLOSE);
+                openButton.setBounds(OPEN);
+                noRemindLabel.setBounds(REMIND);
+                checkLabel.setBounds(CHECK);
                 backgroundPane.setBounds(0, 0, width, height);
             }
 
