@@ -1,4 +1,4 @@
-package com.fr.design.actions.help.AlphaFine;
+package com.fr.design.actions.help.alphafine;
 
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
@@ -35,7 +35,7 @@ public class AlphafineConfigManager implements XMLable {
     /**
      * 猜您需要
      */
-    private boolean isContainConclude;
+    private boolean isContainRecommend;
 
     /**
      * 设置
@@ -67,6 +67,15 @@ public class AlphafineConfigManager implements XMLable {
      */
     private KeyStroke shortCutKeyStore;
 
+    /**
+     * 是否提醒
+     */
+    private boolean isNeedRemind = true;
+
+    /**
+     * 直接操作菜单次数
+     */
+    private int operateCount;
 
 
 
@@ -88,11 +97,13 @@ public class AlphafineConfigManager implements XMLable {
             this.setEnabled(reader.getAttrAsBoolean("isEnabled", true));
             this.setContainPlugin(reader.getAttrAsBoolean("isContainDocument", true));
             this.setContainDocument(reader.getAttrAsBoolean("isContainDocument", true));
-            this.setContainConclude(reader.getAttrAsBoolean("isContainConclude", true));
+            this.setContainRecommend(reader.getAttrAsBoolean("isContainRecommend", true));
             this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
             this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
             this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
-            this.setShortcuts(reader.getAttrAsString("shortcuts", "meta + f"));
+            this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
+            this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
+            this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
 
         }
 
@@ -104,12 +115,14 @@ public class AlphafineConfigManager implements XMLable {
         writer.attr("isEnabled", this.isEnabled())
                 .attr("isSearchOnline", this.isSearchOnLine())
                 .attr("shortcuts", this.getShortcuts())
-                .attr("isContainConclude", this.isContainConclude())
+                .attr("isContainRecommend", this.isContainRecommend())
                 .attr("isContainAction", this.isContainAction())
                 .attr("isContainDocument", this.isContainDocument())
                 .attr("isContainTemplate", this.isContainTemplate())
                 .attr("isContainPlugin", this.isContainPlugin())
-                .attr("isContainFileContent", this.isContainFileContent());
+                .attr("isContainFileContent", this.isContainFileContent())
+                .attr("isNeedRemind", this.isNeedRemind())
+                .attr("operateCount", this.getOperateCount());
         writer.end();
     }
 
@@ -176,12 +189,12 @@ public class AlphafineConfigManager implements XMLable {
         this.isContainPlugin = containPlugin;
     }
 
-    public boolean isContainConclude() {
-        return isContainConclude;
+    public boolean isContainRecommend() {
+        return isContainRecommend;
     }
 
-    public void setContainConclude(boolean containConclude) {
-        isContainConclude = containConclude;
+    public void setContainRecommend(boolean containConclude) {
+        isContainRecommend = containConclude;
     }
 
     public boolean isEnabled() {
@@ -213,5 +226,21 @@ public class AlphafineConfigManager implements XMLable {
 
     public void setContainFileContent(boolean containFileContent) {
         isContainFileContent = containFileContent;
+    }
+
+    public boolean isNeedRemind() {
+        return isNeedRemind;
+    }
+
+    public void setNeedRemind(boolean needRemind) {
+        isNeedRemind = needRemind;
+    }
+
+    public int getOperateCount() {
+        return operateCount;
+    }
+
+    public void setOperateCount(int operateCount) {
+        this.operateCount = operateCount;
     }
 }

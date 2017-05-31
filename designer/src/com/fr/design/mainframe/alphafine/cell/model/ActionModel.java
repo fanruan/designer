@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * Created by XiaXiang on 2017/4/20.
  */
-public class ActionModel extends AlphaCellModel implements Serializable {
+public class ActionModel extends AlphaCellModel {
     private Action action;
 
     private String actionName;
@@ -36,6 +36,12 @@ public class ActionModel extends AlphaCellModel implements Serializable {
     @Override
     public int hashCode() {
         return action != null ? action.hashCode() : 0;
+    }
+
+    public ActionModel(String name, String description, Action action) {
+        super(name, null, CellType.ACTION);
+        this.action = action;
+        this.setDescription(description);
     }
 
     public ActionModel(String name, Action action) {

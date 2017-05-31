@@ -13,16 +13,15 @@ import com.fr.general.LogRecordTime;
 import com.fr.stable.xml.LogRecordTimeProvider;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
     protected static final int INFO_INT = FRLogLevel.INFO.intValue();
@@ -132,8 +131,7 @@ public class DesignerLogHandler {
         private UIMenuItem clear;
 
         private LogHandlerArea() {
-            jTextArea = new JTextPane();
-
+            jTextArea = initLogJTextArea();
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             UIScrollPane js = new UIScrollPane(jTextArea);
             this.add(js, BorderLayout.CENTER);
@@ -158,9 +156,9 @@ public class DesignerLogHandler {
             clear.setIcon(BaseUtils.readIcon("/com/fr/design/images/log/clear.png"));
             popup.add(clear);
 
-            selectAll.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_MASK));
-            copy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
-            clear.setAccelerator(KeyStroke.getKeyStroke('L', InputEvent.CTRL_MASK));
+            selectAll.setAccelerator(KeyStroke.getKeyStroke('A', DEFAULT_MODIFIER));
+            copy.setAccelerator(KeyStroke.getKeyStroke('C', DEFAULT_MODIFIER));
+            clear.setAccelerator(KeyStroke.getKeyStroke('L', DEFAULT_MODIFIER));
 
             jTextArea.addMouseListener(new MouseAdapter() {
                 // check for right click
@@ -186,6 +184,23 @@ public class DesignerLogHandler {
                 public void close() {
                 }
             });
+        }
+
+        private JTextPane initLogJTextArea() {
+            final JTextPane resultPane = new JTextPane();
+            InputMap inputMap = resultPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, DEFAULT_MODIFIER), "clear");
+            ActionMap actionMap = resultPane.getActionMap();
+            actionMap.put("clear", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    resultPane.setText("");
+                    caption.clearMessage();
+                    DesignerLogImpl.getInstance().clear();
+                }
+            });
+            return resultPane;
         }
 
         public void printStackTrace(LogRecordTimeProvider logRecordTime) {
@@ -297,6 +312,4 @@ public class DesignerLogHandler {
         };
 
     }
-
-
 }

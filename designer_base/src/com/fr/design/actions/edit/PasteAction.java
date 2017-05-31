@@ -12,6 +12,8 @@ import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.designer.TargetComponent;
 import com.fr.general.Inter;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
 /**
  * Paste.
  */
@@ -25,7 +27,7 @@ public class PasteAction extends TemplateComponentAction {
         this.setName(Inter.getLocText("M_Edit-Paste"));
         this.setMnemonic('P');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER));
     }
 
     @Override

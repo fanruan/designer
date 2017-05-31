@@ -14,6 +14,7 @@ import com.fr.design.gui.autocomplete.ParameterizedCompletionInsertionInfo.Repla
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.DocumentRange;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rtextarea.ChangeableHighlightPainter;
+import com.fr.general.FRLogger;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -254,7 +255,7 @@ class ParameterizedCompletionContext {
      *
      * @param offs The offset into the document.
      * @return The text of the parameter containing the offset, or
-     *         <code>null</code> if the offset is not in a parameter.
+     * <code>null</code> if the offset is not in a parameter.
      */
     public String getArgumentText(int offs) {
         List<Highlight> paramHighlights = getParameterHighlights();
@@ -284,7 +285,7 @@ class ParameterizedCompletionContext {
      * Returns the highlight of the current parameter.
      *
      * @return The current parameter's highlight, or <code>null</code> if
-     *         the caret is not in a parameter's bounds.
+     * the caret is not in a parameter's bounds.
      * @see #getCurrentParameterStartOffset()
      */
     private Highlight getCurrentParameterHighlight() {
@@ -332,7 +333,7 @@ class ParameterizedCompletionContext {
      * Returns the starting offset of the current parameter.
      *
      * @return The current parameter's starting offset, or <code>-1</code> if
-     *         the caret is not in a parameter's bounds.
+     * the caret is not in a parameter's bounds.
      * @see #getCurrentParameterHighlight()
      */
     private int getCurrentParameterStartOffset() {
@@ -407,7 +408,7 @@ class ParameterizedCompletionContext {
      * Inserts the choice selected in the parameter choices window.
      *
      * @return Whether the choice was inserted.  This will be <code>false</code>
-     *         if the window is not visible, or no choice is selected.
+     * if the window is not visible, or no choice is selected.
      */
     boolean insertSelectedChoice() {
         if (paramChoicesWindow != null && paramChoicesWindow.isVisible()) {
@@ -438,11 +439,9 @@ class ParameterizedCompletionContext {
      * @see #uninstallKeyBindings()
      */
     private void installKeyBindings() {
-
-        if (AutoCompletion.getDebug()) {
-            System.out.println("CompletionContext: Installing keybindings");
+        if (AutoCompletion.isDebug()) {
+            FRLogger.getLogger().debug("CompletionContext: Installing keybindings");
         }
-
         JTextComponent tc = ac.getTextComponent();
         InputMap im = tc.getInputMap();
         ActionMap am = tc.getActionMap();
@@ -489,7 +488,6 @@ class ParameterizedCompletionContext {
         im.put(ks, IM_KEY_CLOSING);
         oldClosingAction = am.get(IM_KEY_CLOSING);
         am.put(IM_KEY_CLOSING, new ClosingAction());
-
     }
 
 
@@ -513,12 +511,7 @@ class ParameterizedCompletionContext {
         List<Highlight> highlights = getParameterHighlights();
         for (int i = 0; i < highlights.size(); i++) {
             Highlight hl = highlights.get(i);
-            // Check "< dot", not "<= dot" as OutlineHighlightPainter paints
-            // starting at one char AFTER the highlight starts, to work around
-            // Java issue.  Thanks to Matthew Adereth!
-            if (currentNext == null || currentNext.getStartOffset() </*=*/dot ||
-                    (hl.getStartOffset() > dot &&
-                            hl.getStartOffset() <= currentNext.getStartOffset())) {
+            if (needUpdate(currentNext, hl, dot)) {
                 currentNext = hl;
                 pos = i;
             }
@@ -536,6 +529,15 @@ class ParameterizedCompletionContext {
         tc.setSelectionEnd(currentNext.getEndOffset());
         updateToolTipText(pos);
 
+    }
+
+    private boolean needUpdate(Highlight currentNext, Highlight hl, int dot) {
+        // Check "< dot", not "<= dot" as OutlineHighlightPainter paints
+        // starting at one char AFTER the highlight starts, to work around
+        // Java issue.  Thanks to Matthew Adereth!
+        return currentNext == null || currentNext.getStartOffset() </*=*/dot ||
+                (hl.getStartOffset() > dot &&
+                        hl.getStartOffset() <= currentNext.getStartOffset());
     }
 
 
@@ -562,10 +564,7 @@ class ParameterizedCompletionContext {
 
         for (int i = 0; i < highlights.size(); i++) {
             Highlight h = highlights.get(i);
-            if (currentPrev == null || currentPrev.getStartOffset() >= dot ||
-                    (h.getStartOffset() < selStart &&
-                            (h.getStartOffset() > currentPrev.getStartOffset() ||
-                                    pos == lastSelectedParam))) {
+            if (pos == lastSelectedParam || needUpdate(currentPrev, dot, h, selStart)) {
                 currentPrev = h;
                 pos = i;
             }
@@ -593,6 +592,12 @@ class ParameterizedCompletionContext {
 
     }
 
+    private boolean needUpdate(Highlight currentPrev, int dot, Highlight h, int selStart) {
+        return currentPrev == null
+                || currentPrev.getStartOffset() >= dot
+                || (currentPrev.getStartOffset() < h.getStartOffset() && h.getStartOffset() < selStart);
+    }
+
 
     private void possiblyUpdateParamCopies(Document doc) {
 
@@ -616,7 +621,7 @@ class ParameterizedCompletionContext {
             try {
                 replacement = doc.getText(start, len);
             } catch (BadLocationException ble) {
-                 // Never happens
+                // Never happens
             }
 
             // Replace any param copies tracking this parameter with the
@@ -718,7 +723,7 @@ class ParameterizedCompletionContext {
             return h;
 
         } catch (BadLocationException ble) {
-             // Never happens
+            // Never happens
         }
 
         return null;
@@ -733,8 +738,8 @@ class ParameterizedCompletionContext {
      */
     private void uninstallKeyBindings() {
 
-        if (AutoCompletion.getDebug()) {
-            System.out.println("CompletionContext Uninstalling keybindings");
+        if (AutoCompletion.isDebug()) {
+            FRLogger.getLogger().debug("CompletionContext Uninstalling keybindings");
         }
 
         JTextComponent tc = ac.getTextComponent();
@@ -1037,7 +1042,6 @@ class ParameterizedCompletionContext {
          * @see #uninstall()
          */
         public void install(JTextComponent tc) {
-
             boolean replaceTabs = false;
             if (tc instanceof RSyntaxTextArea) {
                 RSyntaxTextArea textArea = (RSyntaxTextArea) tc;
@@ -1047,14 +1051,10 @@ class ParameterizedCompletionContext {
             }
 
             Highlighter h = tc.getHighlighter();
-
             try {
-
                 // Insert the parameter text
-                ParameterizedCompletionInsertionInfo info =
-                        pc.getInsertionInfo(tc, replaceTabs);
+                ParameterizedCompletionInsertionInfo info = pc.getInsertionInfo(tc, replaceTabs);
                 tc.replaceSelection(info.getTextToInsert());
-
                 // Add highlights around the parameters.
                 final int replacementCount = info.getReplacementCount();
                 for (int i = 0; i < replacementCount; i++) {
@@ -1067,39 +1067,30 @@ class ParameterizedCompletionContext {
                 for (int i = 0; i < info.getReplacementCopyCount(); i++) {
                     ReplacementCopy rc = info.getReplacementCopy(i);
                     paramCopyInfos.add(new ParamCopyInfo(rc.getId(),
-                            (Highlight) h.addHighlight(rc.getStart(), rc.getEnd(),
-                                    paramCopyP)));
+                            (Highlight) h.addHighlight(rc.getStart(), rc.getEnd(), paramCopyP)));
                 }
-
                 // Go back and start at the first parameter.
                 tc.setCaretPosition(info.getSelectionStart());
                 if (info.hasSelection()) {
                     tc.moveCaretPosition(info.getSelectionEnd());
                 }
-
                 minPos = info.getMinOffset();
                 maxPos = info.getMaxOffset();
                 try {
-                    defaultEndOffs = tc.getDocument().createPosition(
-                            info.getDefaultEndOffs());
+                    defaultEndOffs = tc.getDocument().createPosition(info.getDefaultEndOffs());
                 } catch (BadLocationException ble) {
-                     // Never happens
+                    // Never happens
                 }
-
                 // Listen for document events AFTER we insert
                 tc.getDocument().addDocumentListener(this);
-
             } catch (BadLocationException ble) {
-                 // Never happens
+                // Never happens
             }
-
             // Add listeners to the text component, AFTER text insertion.
             tc.addCaretListener(this);
             tc.addFocusListener(this);
             installKeyBindings();
-
         }
-
 
         public void removeUpdate(DocumentEvent e) {
             handleDocumentEvent(e);

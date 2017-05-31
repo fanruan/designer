@@ -8,12 +8,15 @@ import com.fr.stable.StringUtils;
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
+    private static AlphaFineDialog dialog;
 
     /**
      * 弹出alphafine搜索面板
      */
-    public static void showAlphaFineDialog() {
-        AlphaFineDialog dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame());
+    public static void showAlphaFineDialog(boolean forceOpen) {
+        if (dialog == null) {
+            dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
+        }
         dialog.setVisible(true);
     }
 

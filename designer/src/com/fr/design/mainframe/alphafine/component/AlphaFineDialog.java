@@ -68,8 +68,10 @@ public class AlphaFineDialog extends UIDialog {
     private JList searchResultList;
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
+    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
+    private boolean foreOpen;
 
-    public AlphaFineDialog(Frame parent) {
+    public AlphaFineDialog(Frame parent, boolean foreOpen) {
         super(parent);
         initProperties();
         initListener();
@@ -249,11 +251,9 @@ public class AlphaFineDialog extends UIDialog {
                 int selectedIndex = searchResultList.getSelectedIndex();
                 Object selectedValue = searchResultList.getSelectedValue();
                 if (e.getClickCount() == 2) {
-                    final int i = searchResultList.locationToIndex(e.getPoint());
-                    searchResultList.setSelectedIndex(i);
                     doNavigate(selectedIndex);
                     if (selectedValue instanceof AlphaCellModel) {
-                        saveHistory(searchText, (AlphaCellModel) selectedValue);
+                        saveHistory((AlphaCellModel) selectedValue);
                     }
                 } else if (e.getClickCount() == 1) {
                     if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
@@ -278,7 +278,11 @@ public class AlphaFineDialog extends UIDialog {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    Object selectedValue = searchResultList.getSelectedValue();
                     doNavigate(searchResultList.getSelectedIndex());
+                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
+                        saveHistory((AlphaCellModel) selectedValue);
+                    }
                 }
             }
         });
@@ -480,8 +484,9 @@ public class AlphaFineDialog extends UIDialog {
                         Point p = k.getLocationOnScreen();
                         Rectangle dialogRectangle = AlphaFineDialog.this.getBounds();
                         Rectangle paneRectangle = new Rectangle(AlphaFinePane.createAlphaFinePane().getLocationOnScreen(), AlphaFinePane.createAlphaFinePane().getSize());
-                        if (!dialogRectangle.contains(p) && !paneRectangle.contains(p)) {
+                        if (!dialogRectangle.contains(p) && !paneRectangle.contains(p) && !foreOpen) {
                             AlphaFineDialog.this.dispose();
+                            foreOpen = false;
                         }
                     }
                 }
@@ -512,7 +517,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private static void doClickAction() {
-        AlphaFineHelper.showAlphaFineDialog();
+        AlphaFineHelper.showAlphaFineDialog(false);
     }
 
 
@@ -553,10 +558,10 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 保存本地（本地常用）
-     * @param searchText
      * @param cellModel
      */
-    private void saveHistory(String searchText, AlphaCellModel cellModel) {
+    private void saveHistory(AlphaCellModel cellModel) {
+        String searchText = searchTextField.getText();
         RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
         recentSearchManager.addRecentModel(searchText, cellModel);
         recentSearchManager.saveXMLFile();
@@ -661,4 +666,11 @@ public class AlphaFineDialog extends UIDialog {
     }
 
 
+    public boolean isForeOpen() {
+        return foreOpen;
+    }
+
+    public void setForeOpen(boolean foreOpen) {
+        this.foreOpen = foreOpen;
+    }
 }

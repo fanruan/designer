@@ -17,7 +17,7 @@ import java.util.Vector;
  * Time: 上午11:07
  * To change this template use File | Settings | File Templates.
  */
-public class UIList extends JList{
+public class UIList extends JList {
     private Icon icon;
 
     public UIList() {
@@ -46,12 +46,12 @@ public class UIList extends JList{
             if (rendererComp.getPreferredSize().width > getVisibleRect().width) {
                 String tips = (rendererComp instanceof JComponent) ? ((JComponent) rendererComp).getToolTipText() : null;
                 if (tips == null) {
-                    if(value instanceof JTemplate){
+                    if (value instanceof JTemplate) {
                         tips = ((JTemplate) value).getEditingFILE().getName();
                         icon = ((JTemplate) value).getEditingFILE().getIcon();
-                    } else if (value instanceof ListModelElement || value instanceof TableProcedure){
-                        tips = ((JLabel)rendererComp).getText();
-                        icon = ((JLabel)rendererComp).getIcon();
+                    } else if (value instanceof ListModelElement || value instanceof TableProcedure) {
+                        tips = ((JLabel) rendererComp).getText();
+                        icon = ((JLabel) rendererComp).getIcon();
                     }
                 }
                 return tips;
@@ -71,6 +71,7 @@ public class UIList extends JList{
         }
         return null;
     }
+
     public JToolTip createToolTip() {
         UIToolTip tip = new UIToolTip(icon);
         tip.setComponent(this);

@@ -5,7 +5,7 @@ package com.fr.design;
 
 import com.fr.base.*;
 import com.fr.dav.LocalEnv;
-import com.fr.design.actions.help.AlphaFine.AlphafineConfigManager;
+import com.fr.design.actions.help.alphafine.AlphafineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
