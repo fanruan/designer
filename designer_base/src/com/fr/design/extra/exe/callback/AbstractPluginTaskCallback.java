@@ -10,7 +10,6 @@ import com.fr.plugin.manage.control.ProgressCallback;
 public abstract class AbstractPluginTaskCallback implements ProgressCallback{
 
     protected PluginMarker pluginMarker;
-    protected JSCallback jsCallback;
 
     @Override
     public void updateProgress(String description, double aProgress) {

@@ -15,13 +15,11 @@ import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.control.PluginTaskCallback;
-import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.view.PluginView;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 import org.json.JSONArray;
-import sun.plugin2.main.server.Plugin;
 
 import javax.swing.*;
 import java.io.File;
@@ -45,23 +43,17 @@ public class PluginOperateUtils {
         }
     }
 
-    public static void installPluginFromDisk(final String filePath, JSCallback jsCallback) {
-        PluginManager.getController().install(new File(filePath), new InstallFromDiskCallback(new File(filePath), jsCallback));
+    public static void installPluginFromDisk(File zipFile, JSCallback jsCallback) {
+        PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
     }
 
-    public static void updatePluginOnline(JSObject pluginIDs, JSCallback jsCallback) {
-        String[] pluginInfos = jsObjectToStringArray(pluginIDs);
+    public static void updatePluginOnline(List<PluginMarker> pluginMarkerList, JSCallback jsCallback) {
         if (!(BBSPluginLogin.getInstance().hasLogin())) {
             LoginCheckContext.fireLoginCheckListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
-            List<PluginMarker> pluginMarkerList = new ArrayList<PluginMarker>();
-            for (int i = 0; i < pluginInfos.length; i++) {
-                pluginMarkerList.add(PluginUtils.createPluginMarker(pluginInfos[i]));
-            }
             for (int i = 0; i < pluginMarkerList.size(); i++) {
                 try {
-                    //todo check下此插件的最新版本
                     String latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarkerList.get(i).getPluginID());
                     if (StringUtils.isEmpty(latestPluginInfo) || PluginConstants.CONNECTION_404.equals(latestPluginInfo)) {
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Connect_Failed"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
@@ -86,7 +78,7 @@ public class PluginOperateUtils {
     public static void setPluginActive(String pluginInfo, JSCallback jsCallback) {
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
         PluginContext plugin = PluginManager.getContext(pluginMarker);
-        boolean active = !plugin.isActive();
+        boolean active = plugin.isActive();
         PluginTaskCallback modifyStatusCallback = new ModifyStatusCallback(active);
         if (active) {
             PluginManager.getController().forbid(pluginMarker, modifyStatusCallback);
@@ -100,13 +92,13 @@ public class PluginOperateUtils {
         PluginManager.getController().uninstall(pluginMarker, isForce, new UnistallPluginCallback());
     }
 
-    public static void readUpdateOnline(JSCallback jsCallback){
+    public static void readUpdateOnline(JSCallback jsCallback) {
         try {
-            String [] plugins = PluginReaderForDesigner.readPluginsForUpdate();
+            List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
             JSONArray jsonArray = new JSONArray();
-            for (String plugin : plugins) {
+            for (PluginView plugin : plugins) {
                 org.json.JSONObject jsonObject = new org.json.JSONObject();
-                jsonObject.put("pluginid", plugin);
+                jsonObject.put("pluginid", plugin.getID());
                 jsonArray.put(jsonObject);
             }
             String result = jsonArray.toString();
@@ -127,7 +119,7 @@ public class PluginOperateUtils {
         }
     }
 
-    public static void getPluginFromStore(String category, String seller, String fee, JSCallback jsCallback){
+    public static void getPluginFromStore(String category, String seller, String fee, JSCallback jsCallback) {
         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
         if (StringUtils.isNotBlank(plistUrl)) {
             StringBuilder url = new StringBuilder();
@@ -154,7 +146,7 @@ public class PluginOperateUtils {
         }
     }
 
-    public static void getPluginCategories(JSCallback jsCallback){
+    public static void getPluginCategories(JSCallback jsCallback) {
         String result;
         String url = SiteCenter.getInstance().acquireUrlByKind("plugin.category");
         if (url != null) {
@@ -166,27 +158,22 @@ public class PluginOperateUtils {
         jsCallback.execute(result);
     }
 
-    public static void getLoginInfo(JSCallback jsCallback){
+    public static void getLoginInfo(JSCallback jsCallback) {
         String username = BBSPluginLogin.getInstance().getUserInfo().getUserName();
         String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
         if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
             return;
-        }else {
-           String result = StringUtils.isEmpty(inShowUsername) ? username : inShowUsername;
-           jsCallback.execute(result);
+        } else {
+            String result = StringUtils.isEmpty(inShowUsername) ? username : inShowUsername;
+            jsCallback.execute(result);
         }
     }
 
-    private static String[] jsObjectToStringArray(JSObject obj) {
-        if (obj == null) {
-            return ArrayUtils.EMPTY_STRING_ARRAY;
-        }
-        int len = (int) obj.getMember("length");
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < len; i++) {
-            list.add(obj.getSlot(i).toString());
-        }
-        return list.toArray(new String[len]);
+    public static boolean pluginValidate(PluginView pluginView){
+        return StringUtils.isNotEmpty(pluginView.getID())
+                && StringUtils.isNotEmpty(pluginView.getName())
+                && StringUtils.isNotEmpty(pluginView.getVersion())
+                && StringUtils.isNotEmpty(pluginView.getEnvVersion());
     }
 
 }

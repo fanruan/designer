@@ -4,7 +4,6 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.manage.control.PluginTaskResult;
-import sun.plugin2.main.server.Plugin;
 
 import javax.swing.*;
 

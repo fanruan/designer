@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
-import com.fr.plugin.Plugin;
+
+import com.fr.plugin.view.PluginView;
 
 /**
  * @author richie
@@ -9,5 +10,5 @@ import com.fr.plugin.Plugin;
  */
 public interface PluginSelectListener {
 
-    public void valueChanged(Plugin plugin);
+    public void valueChanged(PluginView plugin);
 }

@@ -6,6 +6,8 @@ import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.*;
 import com.fr.design.extra.exe.callback.JSCallback;
+import com.fr.design.extra.exe.extratask.ExtraPluginTask;
+import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -13,6 +15,7 @@ import com.fr.general.SiteCenter;
 import com.fr.plugin.PluginLicense;
 import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
@@ -145,13 +148,12 @@ public class PluginWebBridge {
      * 从插件服务器上安装插件
      *
      * @param pluginInfo 插件的ID
-     * @param callback 回调函数
+     * @param callback   回调函数
      */
     public void installPluginOnline(final String pluginInfo, final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.installPluginOnline(pluginInfo,jsCallback);
+        PluginOperateUtils.installPluginOnline(pluginInfo, jsCallback);
     }
-
 
 
     /**
@@ -161,7 +163,8 @@ public class PluginWebBridge {
      */
     public void installPluginFromDisk(final String filePath, final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.installPluginFromDisk(filePath,jsCallback);
+        File file = new File(filePath);
+        PluginOperateUtils.installPluginFromDisk(file, jsCallback);
     }
 
     /**
@@ -182,7 +185,12 @@ public class PluginWebBridge {
      */
     public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.updatePluginOnline(pluginIDs, jsCallback);
+        String[] pluginInfos = jsObjectToStringArray(pluginIDs);
+        List<PluginMarker> pluginMarkerList = new ArrayList<PluginMarker>();
+        for (int i = 0; i < pluginInfos.length; i++) {
+            pluginMarkerList.add(PluginUtils.createPluginMarker(pluginInfos[i]));
+        }
+        PluginOperateUtils.updatePluginOnline(pluginMarkerList, jsCallback);
     }
 
     /**

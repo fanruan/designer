@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.base.TemplateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -9,17 +10,20 @@ import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 
+import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ibm on 2017/5/25.
@@ -102,6 +106,51 @@ public class PluginUtils {
         resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
 
         return resText;
+    }
+
+    public static boolean isPluginMatch(PluginView pluginView, String text){
+        return StringUtils.contains(pluginView.getID(), text)
+                || StringUtils.contains(pluginView.getName(), text)
+                || StringUtils.contains(pluginView.getVersion(), text)
+                || StringUtils.contains(pluginView.getEnvVersion(), text)
+                || StringUtils.contains(pluginView.getVendor(), text)
+                || StringUtils.contains(pluginView.getDescription(), text)
+                || StringUtils.contains(pluginView.getChangeNotes(), text);
+
+    }
+
+    public static String pluginToHtml(PluginView pluginView){
+        String pluginName = Inter.getLocText("FR-Plugin-Plugin_Name");
+        String pluginVersion = Inter.getLocText("FR-Plugin-Plugin_Version");
+        String startVersion = Inter.getLocText("FR-Plugin-Start_Version");
+        String developer = Inter.getLocText("FR-Plugin_Developer");
+        String desc = Inter.getLocText("FR-Plugin-Function_Description");
+        String updateLog = Inter.getLocText("FR-Plugin-Update_Log");
+        Map<String, String> map = new HashMap<String, String>();
+
+        map.put("name", pluginName);
+        map.put("name_value", pluginView.getName());
+
+        map.put("version", pluginVersion);
+        map.put("version_value", pluginView.getVersion());
+
+        map.put("env", startVersion);
+        map.put("env_value", pluginView.getEnvVersion());
+
+        map.put("dev", developer);
+        map.put("dev_value", pluginView.getVendor());
+
+        map.put("fun", desc);
+        map.put("fun_value", pluginView.getDescription());
+
+        map.put("update", updateLog);
+        map.put("update_value", pluginView.getDescription());
+
+        try {
+            return TemplateUtils.renderTemplate("/com/fr/plugin/plugin.html", map);
+        } catch (IOException e) {
+            return StringUtils.EMPTY;
+        }
     }
 
 }

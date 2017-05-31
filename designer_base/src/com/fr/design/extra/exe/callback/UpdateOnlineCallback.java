@@ -14,9 +14,9 @@ import javax.swing.*;
  */
 public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
     public PluginMarker toPluginMarker;
+    protected JSCallback jsCallback;
 
-
-    public UpdateOnlineCallback(PluginMarker pluginMarker , PluginMarker toPluginMarker, JSCallback jsCallback) {
+    public UpdateOnlineCallback(PluginMarker pluginMarker, PluginMarker toPluginMarker, JSCallback jsCallback) {
         this.pluginMarker = pluginMarker;
         this.toPluginMarker = toPluginMarker;
         this.jsCallback = jsCallback;
@@ -29,14 +29,15 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void done(PluginTaskResult result) {
+        jsCallback.execute("done");
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Success")),
-                    Inter.getLocText("FR-Designer-Plugin_Install_Dependence"),
+                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
+                    Inter.getLocText("FR-Designer-Plugin_Install_Success"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,

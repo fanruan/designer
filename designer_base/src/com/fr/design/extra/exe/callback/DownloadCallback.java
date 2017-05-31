@@ -11,6 +11,7 @@ import javax.swing.*;
  */
 public class DownloadCallback extends AbstractPluginTaskCallback {
     private ExtraPluginTask extraPluginTask;
+    protected JSCallback jsCallback;
 
     public DownloadCallback(ExtraPluginTask extraPluginTask, JSCallback jsCallback) {
         this.extraPluginTask = extraPluginTask;
@@ -24,6 +25,7 @@ public class DownloadCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void done(PluginTaskResult result) {
+        jsCallback.execute("done");
         if (result.isSuccess()) {
             extraPluginTask.doExtraPluginTask();
         } else {
