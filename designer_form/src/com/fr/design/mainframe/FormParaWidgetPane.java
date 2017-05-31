@@ -2,7 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -28,6 +27,8 @@ import java.util.List;
 
 public class FormParaWidgetPane extends JPanel {
     private static FormParaWidgetPane THIS;
+    private final static int BORDER = 5;
+
     private List<WidgetOption> predifinedwidgeList = new ArrayList<WidgetOption>();
 
     private JPopupMenu chartTypePopupMenu;
@@ -252,8 +253,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initChartTypePopUp();
                 chartTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorLayout.getLocation().getX() + 5,
-                        (int) jSeparatorLayout.getLocation().getY() - 4);
+                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
+                        (int) jSeparatorLayout.getLocation().getY() - BORDER);
             }
         });
         labelPane.add(chartPopUpButton, BorderLayout.EAST);
@@ -272,8 +273,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initWidgetTypePopUp();
                 widgetTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorChart.getLocation().getX() + 5,
-                        (int) jSeparatorChart.getLocation().getY() - 4);
+                        (int) jSeparatorChart.getLocation().getX() + BORDER,
+                        (int) jSeparatorChart.getLocation().getY() - BORDER);
             }
 
         });
