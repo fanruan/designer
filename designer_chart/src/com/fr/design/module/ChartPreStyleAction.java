@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -25,7 +26,8 @@ public class ChartPreStyleAction extends UpdateAction {
         this.setMenuKeySet(CHART_DEFAULT_STYLE);
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-		this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/chart/ChartType.png"));
+		this.setSmallIcon(IOUtils.readIcon("com/fr/design/images/chart/ChartType.png"));
+		this.setSearchText(new ChartPreStyleManagerPane());
 	}
 
     /**

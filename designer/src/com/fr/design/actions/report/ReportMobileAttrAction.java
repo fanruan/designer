@@ -8,6 +8,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.report.mobile.ReportMobileAttrPane;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.report.mobile.ElementCaseMobileAttr;
@@ -27,7 +28,8 @@ public class ReportMobileAttrAction extends JWorkBookAction{
         this.setMenuKeySet(REPORT_APP_ATTR);
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/mobile.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/mobile.png"));
+        this.setSearchText(new ReportMobileAttrPane());
     }
 
     /**

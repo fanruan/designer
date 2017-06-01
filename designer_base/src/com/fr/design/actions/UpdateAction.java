@@ -8,14 +8,18 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.stable.StringUtils;
+import org.apache.batik.apps.svgbrowser.JPEGOptionPanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerEvent;
@@ -49,6 +53,8 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	 * august:关键词key，是Action里面的final常量，如：Action.NAME、Action.SMALL_ICON等等
 	 */
 	private Map<String, Object> componentMap;
+
+	private String searchText = StringUtils.EMPTY;
 
 	/**
 	 * Constructor
@@ -426,4 +432,77 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 		return menuItem;
 	}
+
+	public void setSearchText(JPanel panel) {
+		if (panel instanceof LoadingBasicPane) {
+			((LoadingBasicPane) panel).initForSearch();
+		}
+		this.searchText = getComponentTexts(panel, new StringBuffer());
+
+	}
+
+	/**
+	 * 获取搜索匹配字符串
+	 * @return
+	 */
+	public String getSearchText() {
+		return searchText;
+	}
+
+	/**
+	 * 遍历面板中所有控件,获取text用于alphafine的action搜索
+	 * @param panel
+	 * @param stringBuffer
+	 * @return
+	 */
+	public String getComponentTexts(JPanel panel, StringBuffer stringBuffer) {
+		Border border = panel.getBorder();
+		if (border instanceof TitledBorder) {
+			stringBuffer.append(((TitledBorder) border).getTitle());
+		}
+		Component[] components = panel.getComponents();
+		for (Component component : components) {
+			if (component instanceof JPanel) {
+				getComponentTexts((JPanel) component, stringBuffer);
+			} else if (component instanceof JScrollPane) {
+				Component childComponent = ((JScrollPane) component).getViewport().getView();
+				if (childComponent instanceof JPanel) {
+					getComponentTexts((JPanel) childComponent, stringBuffer);
+				}
+			} else if (component instanceof JLabel) {
+				stringBuffer.append(((JLabel) component).getText());
+			} else if (component instanceof JCheckBox) {
+				stringBuffer.append(((JCheckBox) component).getText());
+			} else if (component instanceof JButton) {
+				stringBuffer.append(((JButton) component).getText());
+			} else if (component instanceof JRadioButton) {
+				stringBuffer.append(((JRadioButton) component).getText());
+			} else if (component instanceof JComboBox) {
+				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
+					stringBuffer.append(((JComboBox) component).getItemAt(i));
+				}
+			} else if (component instanceof JTabbedPane) {
+				getTabPaneTexts(stringBuffer, (JTabbedPane) component);
+			}
+		}
+		return String.valueOf(stringBuffer);
+	}
+
+	/**
+	 * 递归遍历tabbedPane
+	 * @param stringBuffer
+	 * @param component
+	 */
+	private void getTabPaneTexts(StringBuffer stringBuffer, JTabbedPane component) {
+		for (int i = 0; i < component.getTabCount(); i++) {
+            stringBuffer.append(component.getTitleAt(i));
+            Component tabComponent = component.getComponentAt(i);
+            if (tabComponent instanceof JPanel) {
+                getComponentTexts((JPanel) tabComponent, stringBuffer);
+            } else if (tabComponent instanceof JTabbedPane) {
+            	getTabPaneTexts(stringBuffer, (JTabbedPane) tabComponent);
+			}
+        }
+	}
+
 }

@@ -12,12 +12,15 @@ import com.fr.design.actions.UpdateAction;
 public class UpdateActionModel {
     private String parentName;
     private String actionName;
+    private String relatedKey;
+    private String searchKey;
     private UpdateAction action;
 
     public UpdateActionModel(String parentName, UpdateAction action) {
         this.parentName = parentName;
         this.action = action;
         this.actionName = action.getName();
+        this.searchKey = action.getSearchText();
     }
 
     /**
@@ -54,5 +57,21 @@ public class UpdateActionModel {
 
     public void setActionName(String actionName) {
         this.actionName = actionName;
+    }
+
+    public String getRelatedKey() {
+        return relatedKey;
+    }
+
+    public void setRelatedKey(String relatedKey) {
+        this.relatedKey = relatedKey;
+    }
+
+    public String getSearchKey() {
+        return searchKey;
+    }
+
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
     }
 }

@@ -7,8 +7,12 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
+import org.eclipse.swt.internal.ole.win32.COM;
 
+import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -19,6 +23,7 @@ public class AboutAction extends UpdateAction {
         this.setMenuKeySet(ABOUT);
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
+        this.setSearchText(new AboutPane());
     }
 
     /**
@@ -47,4 +52,7 @@ public class AboutAction extends UpdateAction {
             return null;
         }
     };
+
+
+
 }

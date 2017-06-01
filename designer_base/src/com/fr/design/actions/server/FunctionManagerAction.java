@@ -14,6 +14,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.FunctionManager;
 import com.fr.file.FunctionManagerProvider;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -28,7 +29,8 @@ public class FunctionManagerAction extends UpdateAction {
         this.setMenuKeySet(FUNCTION_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_web/function.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/function.png"));
+        this.setSearchText(new FunctionManagerPane());
     }
 
     /**

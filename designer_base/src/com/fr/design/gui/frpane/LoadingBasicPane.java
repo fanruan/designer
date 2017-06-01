@@ -75,6 +75,13 @@ public abstract class LoadingBasicPane extends BasicPane {
     }
 
     /**
+     * 为了alphafine搜索，需要初始化的时候加载一次组件
+     */
+    public void initForSearch() {
+        initComponents(new JPanel());
+    }
+
+    /**
      * 完成时
      */
     public void complete() {
