@@ -11,9 +11,9 @@ import javax.swing.*;
  */
 public class DownloadCallback extends AbstractPluginTaskCallback {
     private ExtraPluginTask extraPluginTask;
-    protected JSCallback jsCallback;
+    private JSCallback jsCallback;
 
-    public DownloadCallback(ExtraPluginTask extraPluginTask, JSCallback jsCallback) {
+    public DownloadCallback(final ExtraPluginTask extraPluginTask, final JSCallback jsCallback) {
         this.extraPluginTask = extraPluginTask;
         this.jsCallback = jsCallback;
     }
