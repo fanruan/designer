@@ -508,4 +508,14 @@ public class PluginWebBridge {
         DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
+    public void initExtraDiff(final JSObject callback){
+
+    }
+    public void showLoginContent(){
+
+    }
+    public boolean isDesigner(){
+        return true;
+    }
+
 }

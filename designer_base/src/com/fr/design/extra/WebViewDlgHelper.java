@@ -33,20 +33,20 @@ public class WebViewDlgHelper {
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
-            String relativePath = "/scripts/store/web/index.html";
-            String mainJsPath = StableUtils.pathJoin(new File(installHome).getAbsolutePath(), relativePath);
+            String relativePath = "index.html";
+            String mainJsPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), relativePath);
             File file = new File(mainJsPath);
             if (!file.exists()) {
-                int rv = JOptionPane.showConfirmDialog(
-                        null,
-                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                if (rv == JOptionPane.OK_OPTION) {
-                    downloadShopScripts(SHOP_SCRIPTS);
-                }
+//                int rv = JOptionPane.showConfirmDialog(
+//                        null,
+//                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+//                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+//                        JOptionPane.OK_CANCEL_OPTION,
+//                        JOptionPane.INFORMATION_MESSAGE
+//                );
+//                if (rv == JOptionPane.OK_OPTION) {
+//                    downloadShopScripts(SHOP_SCRIPTS);
+//                }
             } else {
                 updateShopScripts(SHOP_SCRIPTS);
                 showPluginDlg(mainJsPath);
@@ -111,7 +111,7 @@ public class WebViewDlgHelper {
     }
 
     private static void showLoginDlg() {
-        LoginWebPane webPane = new LoginWebPane(new File(installHome).getAbsolutePath());
+        LoginWebPane webPane = new LoginWebPane(FRContext.getCurrentEnv().getWebReportPath());
         UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
         LoginWebBridge.getHelper().setDialogHandle(qqdlg);
         qqdlg.setVisible(true);
@@ -153,7 +153,8 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), StableUtils.getInstallHome());
+                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), FRContext.getCurrentEnv().getWebReportPath());
+                        // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         int rv = JOptionPane.showOptionDialog(
                                 null,
                                 Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
@@ -184,16 +185,16 @@ public class WebViewDlgHelper {
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();
                     if (!ComparatorUtils.equals(text, LATEST)) {
-                        int rv = JOptionPane.showConfirmDialog(
-                                null,
-                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                JOptionPane.OK_CANCEL_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
-                        if (rv == JOptionPane.OK_OPTION) {
-                            downloadShopScripts(scriptsId);
-                        }
+//                        int rv = JOptionPane.showConfirmDialog(
+//                                null,
+//                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
+//                                Inter.getLocText("FR-Designer-Plugin_Warning"),
+//                                JOptionPane.OK_CANCEL_OPTION,
+//                                JOptionPane.INFORMATION_MESSAGE
+//                        );
+//                        if (rv == JOptionPane.OK_OPTION) {
+//                            downloadShopScripts(scriptsId);
+//                        }
                     }
                 }
                 return null;
