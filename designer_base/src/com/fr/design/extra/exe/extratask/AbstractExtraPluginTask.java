@@ -1,6 +1,5 @@
 package com.fr.design.extra.exe.extratask;
 
-import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.plugin.context.PluginMarker;
 
 /**

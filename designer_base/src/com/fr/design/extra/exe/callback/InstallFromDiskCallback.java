@@ -14,9 +14,9 @@ import java.io.File;
  */
 public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
     private File zipFile;
-    protected JSCallback jsCallback;
+    private JSCallback jsCallback;
 
-    public InstallFromDiskCallback(File zipFile, JSCallback jsCallback) {
+    public InstallFromDiskCallback(final File zipFile, final JSCallback jsCallback) {
         this.zipFile = zipFile;
         this.jsCallback = jsCallback;
     }
