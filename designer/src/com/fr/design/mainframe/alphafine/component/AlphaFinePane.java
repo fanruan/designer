@@ -2,6 +2,8 @@ package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.help.alphafine.AlphafineContext;
+import com.fr.design.actions.help.alphafine.AlphafineListener;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
@@ -37,7 +39,13 @@ public class AlphaFinePane extends BasicPane {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlphaFineHelper.showAlphaFineDialog();
+                AlphaFineHelper.showAlphaFineDialog(false);
+            }
+        });
+        AlphafineContext.addAlphafineContextListener(new AlphafineListener() {
+            @Override
+            public void showDialog() {
+                AlphaFineHelper.showAlphaFineDialog(true);
             }
         });
     }

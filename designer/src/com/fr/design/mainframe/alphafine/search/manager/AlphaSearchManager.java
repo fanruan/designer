@@ -37,12 +37,12 @@ public class AlphaSearchManager implements AlphaFineSearchProcessor {
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
         SearchResult recentModelList = recentSearchManager.getLessSearchResult(searchText);
-        SearchResult concludeModelList = recommendSearchManager.getLessSearchResult(searchText);
+        SearchResult recommendModelList = recommendSearchManager.getLessSearchResult(searchText);
         SearchResult actionModelList = actionSearchManager.getLessSearchResult(searchText);
         SearchResult fileModelList = fileSearchManager.getLessSearchResult(searchText);
         SearchResult documentModelList = documentSearchManager.getLessSearchResult(searchText);
         SearchResult pluginModelList = pluginSearchManager.getLessSearchResult(searchText);
-        recentModelList.addAll(concludeModelList);
+        recentModelList.addAll(recommendModelList);
         recentModelList.addAll(actionModelList);
         recentModelList.addAll(fileModelList);
         recentModelList.addAll(documentModelList);

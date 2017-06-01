@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.toolbar;
 
-import com.fr.design.actions.UpdateAction;
-
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  */
 public class UpdateActionManager {
     private static UpdateActionManager updateActionManager = null;
-    private List<UpdateAction> updateActions;
+    private List<UpdateActionModel> updateActions;
 
     public synchronized static UpdateActionManager getUpdateActionManager() {
         if (updateActionManager == null) {
@@ -18,11 +16,11 @@ public class UpdateActionManager {
         return updateActionManager;
     }
 
-    public List<UpdateAction> getUpdateActions() {
+    public List<UpdateActionModel> getUpdateActions() {
         return updateActions;
     }
 
-    public void setUpdateActions(List<UpdateAction> updateActions) {
+    public void setUpdateActions(List<UpdateActionModel> updateActions) {
         this.updateActions = updateActions;
     }
 }

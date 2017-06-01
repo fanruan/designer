@@ -146,7 +146,7 @@ public class LoginWebBridge {
                             if (res.equals(FAILED_MESSAGE_STATUS)) {
                             } else {
                                 JSONObject jo = new JSONObject(res);
-                                if (jo.getString("status").equals(SUCCESS_MESSAGE_STATUS)) {
+                                if (jo.optString("status").equals(SUCCESS_MESSAGE_STATUS)) {
                                     setMessageCount(Integer.parseInt(jo.getString("message")));
                                 }
                             }

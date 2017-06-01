@@ -1,8 +1,29 @@
 
-apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.6"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    aspectjVersion = '1.8.4'
+}
+
+apply plugin: 'aspectj'
+
 //指定构建的jdk版本
 sourceCompatibility=1.7
 //指定生成jar包版本
@@ -38,11 +59,20 @@ dependencies{
  	testCompile 'junit:junit:4.12'
 }
 //复制非.java文件到classes文件夹下参与打包
+
+//指明无法编译文件所在路径
+def dataContent ={def dir ->
+		copySpec{
+			from ("${dir}"){
+				exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
+			}
+		}
+}
+
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
-		from ("${srcDir}/src"){
-			exclude '**/.setting/**','.classpath','.project','**/*.java','**/*.db','**/*.g','**/package.html'
-		}
+		with dataContent.call("${srcDir}/src") 
+		with dataContent.call("${srcDir}/../designer/src") 
 		into 'build/classes/main'
 	}
 
@@ -58,6 +88,10 @@ task compressJS{
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
 		fileset (dir:"${srcDir}/src"){
+			include (name:'**/*.js')
+			include (name:'**/*.css')
+		}
+		fileset (dir:"${srcDir}/../designer/src"){
 			include (name:'**/*.js')
 			include (name:'**/*.css')
 		}

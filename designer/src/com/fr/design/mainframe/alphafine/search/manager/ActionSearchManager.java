@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
+import com.fr.design.mainframe.toolbar.UpdateActionModel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
@@ -35,13 +36,15 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainAction()) {
-            List<UpdateAction> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
-            for (UpdateAction updateAction : updateActions) {
-                if (updateAction.getName() != null && updateAction.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                    filterModelList.add(new ActionModel(updateAction.getName() ,updateAction));
+            List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
+            for (UpdateActionModel updateActionModel : updateActions) {
+                if (updateActionModel.getActionName() != null) {
+                    if (updateActionModel.getActionName().toLowerCase().contains(searchText.toLowerCase()) || updateActionModel.getParentName().toLowerCase().contains(searchText.toLowerCase())) {
+                        filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
+                    }
                 }
             }
-            if (filterModelList != null && filterModelList.size() >0) {
+            if (filterModelList != null && filterModelList.size() > 0) {
                 final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
                 for (int i = 0; i < length; i++) {
                     lessModelList.add(filterModelList.get(i));

@@ -35,19 +35,19 @@ public aspect TemplateProcessTracker {
 
 //        String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
     }
     //同上
     before(ActionEvent e) : onActionPerformed(e) {
         SourceLocation sl = thisJoinPoint.getSourceLocation();
         // !within(LogHandlerBar) 没用, 手动过滤
-        if (e.getSource().toString().contains("javax.swing.Timer")) {
+        if (e != null && e.getSource().toString().contains("javax.swing.Timer")) {
             return;
         }
 
         //String log = String.format("%s:\n%s\n%s\n%s\n\n", new Date(), sl, e, e.getSource());
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
 
     }
     //同上
@@ -56,7 +56,7 @@ public aspect TemplateProcessTracker {
 
         //String log = String.format("%s:\n%s\nset value: %s at (%d, %d)\n\n", new Date(), sl, v, r, c);
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
 
     }
     //同上
@@ -66,7 +66,7 @@ public aspect TemplateProcessTracker {
 //        String v = "test";
         //String log = String.format("%s:\n%s\nset value: %s at %s\n\n", new Date(), sl, v, g.getEditingCellElement());
         String log = "";
-        TemplateInfoCollector.appendProcess(log);
+        //TemplateInfoCollector.appendProcess(log);
     }
 
 
