@@ -31,7 +31,6 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * @author neil
@@ -196,42 +195,9 @@ public class UserInfoLabel extends UILabel {
             return;
         }
 
-        if (StringUtils.isEmpty(this.userName)) {
-            updateMessageCount();
-        }
         //往designerenvmanger里写一下
         DesignerEnvManager.getEnvManager().setBBSName(userName);
         this.userName = userName;
-    }
-
-    private void updateMessageCount() {
-        //启动获取消息更新的线程
-        //登陆状态, 根据存起来的用户名密码, 每1分钟发起一次请求, 更新消息条数.
-        Thread updateMessageThread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                sleep(CHECK_MESSAGE_TIME);
-                //从env中获取username, 因为如果注销的话, env的里username会被清空.
-                while (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())) {
-                    HashMap<String, String> para = new HashMap<String, String>();
-                    para.put("username", encode(encode(userName)));
-                    HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
-                    getMessage.asGet();
-                    if (getMessage.isServerAlive()) {
-                        try {
-                            String res = getMessage.getResponseText();
-                            if (StringUtils.isNotEmpty(res)) {
-                                setMessageCount(Integer.parseInt(res));
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
-                    sleep(CHECK_MESSAGE_TIME);
-                }
-            }
-        });
-        updateMessageThread.start();
     }
 
     private String encode(String str) {
