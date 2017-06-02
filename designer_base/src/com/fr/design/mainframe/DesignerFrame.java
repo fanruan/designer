@@ -40,7 +40,6 @@ import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -175,7 +174,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		//顶部日志+登陆按钮
 		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener() {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
     
             @Override
             public void on(PluginEvent event) {

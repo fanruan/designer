@@ -20,6 +20,7 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
+import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginContext;
@@ -28,7 +29,6 @@ import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -61,7 +61,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     
     static {
     
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener() {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
         
             @Override
             public void on(PluginEvent event) {

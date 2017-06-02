@@ -31,6 +31,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
@@ -38,7 +39,6 @@ import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
-import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 
@@ -595,8 +595,8 @@ public abstract class ToolBarMenuDock {
                 return context.contain(MenuHandler.MARK_STRING);
             }
         };
-        
-        PluginListenerRegistration.getInstance().listen(PluginEventType.BeforeStop, new PluginEventListener() {
+    
+        GeneralContext.listenPlugin(PluginEventType.BeforeStop, new PluginEventListener() {
             
             @Override
             public void on(PluginEvent event) {
@@ -605,7 +605,7 @@ public abstract class ToolBarMenuDock {
                 removeExtraMenus(menuDef, anchor, action, menuHandlers);
             }
         }, filter);
-        PluginListenerRegistration.getInstance().listen(PluginEventType.AfterRun, new PluginEventListener() {
+        GeneralContext.listenPlugin(PluginEventType.AfterRun, new PluginEventListener() {
             
             @Override
             public void on(PluginEvent event) {
