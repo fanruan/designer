@@ -117,6 +117,11 @@ public class MenuDef extends ShortCut {
 			this.shortcutList.add(i);
 		}
 	}
+    
+    public void removeShortCut(ShortCut shortCut) {
+        
+        this.shortcutList.remove(shortCut);
+    }
 
 	/**
 	 * 清理
@@ -349,6 +354,6 @@ public class MenuDef extends ShortCut {
 	public void setPopupMenu(JPopupMenu popupMenu) {
 		this.popupMenu = popupMenu;
 	}
-
-
+ 
+ 
 }
