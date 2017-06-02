@@ -5,12 +5,11 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.icontainer.UIResizableContainer;
+import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.plugin.observer.PluginListenerPriority;
-import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.Constants;
 
 public class WestRegionContainerPane extends UIResizableContainer {
@@ -35,7 +34,7 @@ public class WestRegionContainerPane extends UIResizableContainer {
     
         setDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
     
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(TableDataTreePane.PLUGIN_LISTENER_PRIORITY - 1) {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(TableDataTreePane.PLUGIN_LISTENER_PRIORITY - 1) {
         
             @Override
             public void on(PluginEvent event) {
