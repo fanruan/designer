@@ -11,9 +11,9 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
 import com.fr.design.actions.help.AboutAction;
-import com.fr.design.actions.help.alphafine.AlphafineAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
+import com.fr.design.actions.help.alphafine.AlphafineAction;
 import com.fr.design.actions.server.*;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
@@ -32,6 +32,13 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginRuntime;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 
@@ -570,17 +577,56 @@ public abstract class ToolBarMenuDock {
     protected void insertMenu(MenuDef menuDef, String anchor) {
         insertMenu(menuDef, anchor, new NoTargetAction());
     }
-
+    
     protected void insertMenu(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
-        // 下面是插件接口接入点
-        Set<MenuHandler> set = ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING);
-        java.util.List<MenuHandler> target = new ArrayList<>();
+        
+        listenPluginMenuChange(menuDef, anchor, action);
+        addExtraMenus(menuDef, anchor, action, ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING));
+        
+    }
+    
+    private void listenPluginMenuChange(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
+        
+        PluginFilter filter = new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(MenuHandler.MARK_STRING);
+            }
+        };
+        
+        PluginListenerRegistration.getInstance().listen(PluginEventType.BeforeStop, new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                PluginRuntime runtime = event.getContext().getRuntime();
+                Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
+                removeExtraMenus(menuDef, anchor, action, menuHandlers);
+            }
+        }, filter);
+        PluginListenerRegistration.getInstance().listen(PluginEventType.AfterRun, new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                PluginRuntime runtime = event.getContext().getRuntime();
+                Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
+                addExtraMenus(menuDef, anchor, action, menuHandlers);
+            }
+        }, filter);
+    }
+    
+    private void removeExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
+    
+    
+        List<MenuHandler> target = new ArrayList<>();
         for (MenuHandler handler : set) {
             if (ComparatorUtils.equals(handler.category(), anchor)) {
                 target.add(handler);
             }
         }
-
+    
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
             if (insertPosition == MenuHandler.HIDE) {
@@ -590,7 +636,29 @@ public abstract class ToolBarMenuDock {
             if (shortCut == null){
                 continue;
             }
-
+            menuDef.removeShortCut(shortCut);
+        }
+    }
+    
+    private void addExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
+        
+        List<MenuHandler> target = new ArrayList<>();
+        for (MenuHandler handler : set) {
+            if (ComparatorUtils.equals(handler.category(), anchor)) {
+                target.add(handler);
+            }
+        }
+        
+        for (MenuHandler handler : target) {
+            int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
+            if (insertPosition == MenuHandler.HIDE) {
+                return;
+            }
+            ShortCut shortCut = action.methodAction(handler);
+            if (shortCut == null){
+                continue;
+            }
+            
             if (insertPosition == MenuHandler.LAST) {
                 if (handler.insertSeparatorBefore()) {
                     menuDef.addShortCut(SeparatorDef.DEFAULT);
@@ -609,7 +677,7 @@ public abstract class ToolBarMenuDock {
             }
         }
     }
-
+    
     /**
      * 设计器退出时, 做的一些操作.
      *
