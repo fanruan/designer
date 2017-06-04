@@ -72,6 +72,7 @@ public class AlphaFineDialog extends UIDialog {
 
     public AlphaFineDialog(Frame parent, boolean foreOpen) {
         super(parent);
+        this.foreOpen = foreOpen;
         initProperties();
         initListener();
         initComponents();
