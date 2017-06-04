@@ -6,23 +6,22 @@ package com.fr.design.actions;
 import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.gui.frpane.LoadingBasicPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.stable.StringUtils;
-import org.apache.batik.apps.svgbrowser.JPEGOptionPanel;
+import com.fr.stable.pinyin.PinyinFormat;
+import com.fr.stable.pinyin.PinyinHelper;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +54,8 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	private Map<String, Object> componentMap;
 
 	private String searchText = StringUtils.EMPTY;
+
+
 
 	/**
 	 * Constructor
@@ -434,10 +435,7 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	}
 
 	public void setSearchText(JPanel panel) {
-		if (panel instanceof LoadingBasicPane) {
-			((LoadingBasicPane) panel).initForSearch();
-		}
-		this.searchText = getComponentTexts(panel, new StringBuffer());
+		this.searchText = getComponentTexts(panel, "_", new StringBuffer(), new StringBuffer(), new StringBuffer());
 
 	}
 
@@ -450,59 +448,97 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	}
 
 	/**
-	 * 遍历面板中所有控件,获取text用于alphafine的action搜索
+	 * 遍历面板中所有控件,获取text用于alphafine的action搜索,考虑分词，拼音，首字母检索
 	 * @param panel
-	 * @param stringBuffer
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
 	 * @return
 	 */
-	public String getComponentTexts(JPanel panel, StringBuffer stringBuffer) {
+	public String getComponentTexts(JPanel panel, String separator,  StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin) {
 		Border border = panel.getBorder();
 		if (border instanceof TitledBorder) {
-			stringBuffer.append(((TitledBorder) border).getTitle());
+			String title = ((TitledBorder) border).getTitle();
+			text.append(title).append(separator);
+			pinyin.append(PinyinHelper.convertToPinyinString(title, "", PinyinFormat.WITHOUT_TONE)).append(separator);
+			shortPinyin.append(PinyinHelper.getShortPinyin(title)).append(separator);
 		}
 		Component[] components = panel.getComponents();
 		for (Component component : components) {
 			if (component instanceof JPanel) {
-				getComponentTexts((JPanel) component, stringBuffer);
+				getComponentTexts((JPanel) component, separator, text, pinyin, shortPinyin);
 			} else if (component instanceof JScrollPane) {
 				Component childComponent = ((JScrollPane) component).getViewport().getView();
 				if (childComponent instanceof JPanel) {
-					getComponentTexts((JPanel) childComponent, stringBuffer);
+					getComponentTexts((JPanel) childComponent, separator, text, pinyin, shortPinyin);
 				}
 			} else if (component instanceof JLabel) {
-				stringBuffer.append(((JLabel) component).getText());
+				String title = ((JLabel) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
 			} else if (component instanceof JCheckBox) {
-				stringBuffer.append(((JCheckBox) component).getText());
+				String title = ((JCheckBox) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
 			} else if (component instanceof JButton) {
-				stringBuffer.append(((JButton) component).getText());
+				String title = ((JButton) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
 			} else if (component instanceof JRadioButton) {
-				stringBuffer.append(((JRadioButton) component).getText());
+				String title = ((JRadioButton) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
 			} else if (component instanceof JComboBox) {
 				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
-					stringBuffer.append(((JComboBox) component).getItemAt(i));
+					text.append(((JComboBox) component).getItemAt(i));
+					String title = String.valueOf(((JComboBox) component).getItemAt(i));
+					handleSearchText(separator, text, pinyin, shortPinyin, title);
+
 				}
 			} else if (component instanceof JTabbedPane) {
-				getTabPaneTexts(stringBuffer, (JTabbedPane) component);
+				getTabPaneTexts((JTabbedPane) component, separator, text, pinyin, shortPinyin);
 			}
 		}
-		return String.valueOf(stringBuffer);
+		return String.valueOf(text.append(pinyin).append(shortPinyin));
 	}
 
 	/**
 	 * 递归遍历tabbedPane
-	 * @param stringBuffer
 	 * @param component
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
 	 */
-	private void getTabPaneTexts(StringBuffer stringBuffer, JTabbedPane component) {
+	private synchronized void getTabPaneTexts(JTabbedPane component, String separator,  StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin) {
 		for (int i = 0; i < component.getTabCount(); i++) {
-            stringBuffer.append(component.getTitleAt(i));
-            Component tabComponent = component.getComponentAt(i);
+			String title = component.getTitleAt(i);
+			handleSearchText(separator, text, pinyin, shortPinyin, title);
+			Component tabComponent = component.getComponentAt(i);
             if (tabComponent instanceof JPanel) {
-                getComponentTexts((JPanel) tabComponent, stringBuffer);
+                getComponentTexts((JPanel) tabComponent, separator, text, pinyin, shortPinyin);
             } else if (tabComponent instanceof JTabbedPane) {
-            	getTabPaneTexts(stringBuffer, (JTabbedPane) tabComponent);
+            	getTabPaneTexts((JTabbedPane) tabComponent, separator, text, pinyin, shortPinyin);
 			}
         }
+	}
+
+	/**
+	 * 将text,pinyin,pinyin首字母拼接到一起
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
+	 * @param title
+	 */
+	private void handleSearchText(String separator, StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin, String title) {
+		if (StringUtils.isBlank(title)) {
+			return;
+		}
+		text.append(title).append(separator);
+		pinyin.append(PinyinHelper.convertToPinyinString(title, "", PinyinFormat.WITHOUT_TONE));
+		shortPinyin.append(PinyinHelper.getShortPinyin(title)).append(separator);
 	}
 
 }

@@ -1,13 +1,12 @@
 package com.fr.design.actions.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.WorkSheetDesigner;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.LayerReportPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.IOUtils;
 import com.fr.report.worksheet.WorkSheet;
 
@@ -19,10 +18,8 @@ public class ReportEngineAttrAction extends ReportComponentAction<WorkSheetDesig
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/reportEngineAttr.png"));
-        WorkSheetDesigner jws = getEditingComponent();
-        if (jws != null) {
-            this.setSearchText(new LayerReportPane(jws.getTemplateReport()));
-        }
+        this.setSearchText(new LayerReportPane(null));
+
     }
 
     private boolean isChange;

@@ -25,7 +25,7 @@ public class ReportWriteAttrPane extends LoadingBasicPane {
 	}
 
 	@Override
-	protected void initComponents(JPanel container) {
+	protected synchronized void initComponents(JPanel container) {
 		container.setLayout(FRGUIPaneFactory.createBorderLayout());
 		final UITabbedPane tabbedPane = new UITabbedPane(SwingConstants.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		container.add(tabbedPane, BorderLayout.CENTER);

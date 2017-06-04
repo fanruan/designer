@@ -1,15 +1,13 @@
 package com.fr.design.actions.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.WorkSheetDesigner;
 import com.fr.design.menu.KeySetUtils;
-import com.fr.design.report.LayerReportPane;
 import com.fr.design.webattr.ReportWriteAttrPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.IOUtils;
 import com.fr.report.worksheet.WorkSheet;
 
@@ -23,6 +21,8 @@ public class ReportWriteAttrAction extends ReportComponentAction<WorkSheetDesign
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/reportWriteAttr.png"));
+        this.setSearchText(new ReportWriteAttrPane(null).getAllComponents());
+
     }
 
     // ben:用来判断是否update

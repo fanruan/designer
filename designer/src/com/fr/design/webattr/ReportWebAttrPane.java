@@ -3,17 +3,16 @@
  */
 package com.fr.design.webattr;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.BackgroundPane;
 import com.fr.design.style.background.BackgroundPane4Browser;
 import com.fr.general.Inter;
-import com.fr.design.style.background.BackgroundPane;
 import com.fr.web.attr.ReportWebAttr;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * ReportWebAttr Dialog
@@ -37,7 +36,7 @@ public class ReportWebAttrPane extends LoadingBasicPane {
     
 
     @Override
-	protected void initComponents(JPanel container) {
+	protected synchronized void initComponents(JPanel container) {
         JPanel defaultPane = container;
         defaultPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
