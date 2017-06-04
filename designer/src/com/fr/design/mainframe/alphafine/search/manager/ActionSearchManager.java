@@ -39,7 +39,9 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
                 if (updateActionModel.getActionName() != null) {
-                    if (updateActionModel.getActionName().toLowerCase().contains(searchText.toLowerCase()) || updateActionModel.getParentName().toLowerCase().contains(searchText.toLowerCase())) {
+                    StringBuffer buffer = new StringBuffer();
+                    buffer.append(updateActionModel.getActionName()).append(updateActionModel.getParentName()).append(updateActionModel.getSearchKey());
+                    if (buffer.toString().toLowerCase().contains(searchText.toLowerCase()) ) {
                         filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
                     }
                 }
@@ -53,7 +55,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     moreModelList.add(filterModelList.get(i));
                 }
                 if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.ACTION));
+                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
                 } else {
                     lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
                 }
