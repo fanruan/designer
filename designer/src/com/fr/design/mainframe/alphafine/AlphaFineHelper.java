@@ -14,9 +14,7 @@ public class AlphaFineHelper {
      * 弹出alphafine搜索面板
      */
     public static void showAlphaFineDialog(boolean forceOpen) {
-        if (dialog == null) {
-            dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
-        }
+        dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
         dialog.setVisible(true);
     }
 
