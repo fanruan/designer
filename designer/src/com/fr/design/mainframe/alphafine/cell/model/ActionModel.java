@@ -6,7 +6,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
 import javax.swing.*;
-import java.io.Serializable;
 
 /**
  * Created by XiaXiang on 2017/4/20.
