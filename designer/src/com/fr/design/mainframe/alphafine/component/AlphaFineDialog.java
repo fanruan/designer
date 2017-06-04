@@ -68,11 +68,11 @@ public class AlphaFineDialog extends UIDialog {
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
-    private boolean foreOpen;
+    private boolean forceOpen;
 
-    public AlphaFineDialog(Frame parent, boolean foreOpen) {
+    public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
-        this.foreOpen = foreOpen;
+        this.forceOpen = forceOpen;
         initProperties();
         initListener();
         initComponents();
@@ -488,9 +488,9 @@ public class AlphaFineDialog extends UIDialog {
                         Point p = k.getLocationOnScreen();
                         Rectangle dialogRectangle = AlphaFineDialog.this.getBounds();
                         Rectangle paneRectangle = new Rectangle(AlphaFinePane.createAlphaFinePane().getLocationOnScreen(), AlphaFinePane.createAlphaFinePane().getSize());
-                        if (!dialogRectangle.contains(p) && !paneRectangle.contains(p) && !foreOpen) {
+                        if (!dialogRectangle.contains(p) && !paneRectangle.contains(p) && !forceOpen) {
                             AlphaFineDialog.this.dispose();
-                            foreOpen = false;
+                            forceOpen = false;
                         }
                     }
                 }
@@ -670,11 +670,11 @@ public class AlphaFineDialog extends UIDialog {
     }
 
 
-    public boolean isForeOpen() {
-        return foreOpen;
+    public boolean isForceOpen() {
+        return forceOpen;
     }
 
-    public void setForeOpen(boolean foreOpen) {
-        this.foreOpen = foreOpen;
+    public void setForceOpen(boolean forceOpen) {
+        this.forceOpen = forceOpen;
     }
 }
