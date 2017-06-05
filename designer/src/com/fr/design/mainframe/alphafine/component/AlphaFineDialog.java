@@ -605,15 +605,20 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
+    /**
+     * 点击显示更多时，添加对应的model到list；点击收起是移除model
+     * @param index
+     * @param selectedValue
+     */
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
         if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.insertElementAt(moreResult.get(i), index + AlphaFineConstants.SHOW_SIZE -1 + i);
+                this.searchListModel.insertElementAt(moreResult.get(i), index + AlphaFineConstants.SHOW_SIZE + 1 + i);
             }
         } else {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.removeElementAt(index + AlphaFineConstants.SHOW_SIZE - 1);
+                this.searchListModel.removeElementAt(index + AlphaFineConstants.SHOW_SIZE + 1);
 
             }
         }
