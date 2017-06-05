@@ -4,6 +4,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +39,9 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         name.setForeground(AlphaFineConstants.BLACK);
         name.setVerticalTextPosition(SwingConstants.CENTER);
         name.setHorizontalTextPosition(SwingConstants.RIGHT);
-        if (model.getDescription() != null) {
-            content.setText("-" + model.getDescription());
+        String description = model.getDescription();
+        if (StringUtils.isNotBlank(description)) {
+            content.setText("-" + description);
             content.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(content, BorderLayout.CENTER);
         }

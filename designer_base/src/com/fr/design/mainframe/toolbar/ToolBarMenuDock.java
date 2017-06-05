@@ -34,6 +34,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -157,7 +158,7 @@ public abstract class ToolBarMenuDock {
     private void addAllUpdateActionsToList(List<MenuDef> menuList) {
         shortCutsList = new ArrayList<>();
         for (MenuDef menuDef : menuList) {
-            addUpdateActionToList(menuDef);
+            addUpdateActionToList(menuDef, 0);
         }
     }
 
@@ -165,16 +166,20 @@ public abstract class ToolBarMenuDock {
      * 递归获取所有UpdateAction
      * @param menuDef
      */
-    private void addUpdateActionToList(MenuDef menuDef) {
+    private void addUpdateActionToList(MenuDef menuDef, int level) {
         if (menuDef instanceof OpenRecentReportMenuDef) {
             return;
         }
-        String parentName = menuDef.getName();
+        String parentName = StringUtils.EMPTY;
+        if (level > 0) {
+            parentName = menuDef.getName();
+        }
+        level++;
         for (ShortCut shortCut : menuDef.getShortcutList()) {
             if (shortCut instanceof UpdateAction) {
                 shortCutsList.add(new UpdateActionModel(parentName, (UpdateAction) shortCut));
             } else if (shortCut instanceof MenuDef) {
-                addUpdateActionToList((MenuDef) shortCut);
+                addUpdateActionToList((MenuDef) shortCut, level);
             }
         }
     }
