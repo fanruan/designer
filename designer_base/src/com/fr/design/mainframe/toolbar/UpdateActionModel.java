@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.toolbar;
 
 import com.fr.design.actions.UpdateAction;
+import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinFormat;
 import com.fr.stable.pinyin.PinyinHelper;
 
@@ -33,10 +34,13 @@ public class UpdateActionModel {
      */
     private void setSearchKey(String parentName, UpdateAction action) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(parentName).append(PinyinHelper.convertToPinyinString(parentName, SEPARATOR, PinyinFormat.WITHOUT_TONE))
-                .append(PinyinHelper.getShortPinyin(parentName))
-                .append(actionName).append(PinyinHelper.convertToPinyinString(actionName, SEPARATOR, PinyinFormat.WITHOUT_TONE))
-                .append(PinyinHelper.getShortPinyin(actionName)).append(action.getSearchText());
+        if (actionName == null) {
+            return;
+        }
+        buffer.append(parentName).append(SEPARATOR).append(PinyinHelper.convertToPinyinString(parentName, "", PinyinFormat.WITHOUT_TONE))
+                .append(SEPARATOR).append(PinyinHelper.getShortPinyin(parentName)).append(SEPARATOR)
+                .append(actionName).append(SEPARATOR).append(PinyinHelper.convertToPinyinString(actionName, "", PinyinFormat.WITHOUT_TONE))
+                .append(SEPARATOR).append(PinyinHelper.getShortPinyin(actionName)).append(action.getSearchText());
         this.searchKey = buffer.toString();
     }
 

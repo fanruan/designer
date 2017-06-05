@@ -11,6 +11,7 @@ import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.mainframe.toolbar.UpdateActionModel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainAction()) {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
-                if (updateActionModel.getActionName() != null && updateActionModel.getParentName() != null) {
+                if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
                     if (updateActionModel.getSearchKey().toLowerCase().contains(searchText.toLowerCase()) ) {
                         filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
                     }
