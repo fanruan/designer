@@ -6,7 +6,6 @@ import com.fr.design.extra.exe.callback.*;
 import com.fr.design.extra.exe.extratask.InstallPluginTask;
 import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.general.FRLogger;
-import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
@@ -14,12 +13,11 @@ import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 import org.json.JSONArray;
-
-import javax.swing.*;
 import java.io.File;
 import java.util.List;
 
@@ -51,13 +49,8 @@ public class PluginOperateUtils {
         if (BBSPluginLogin.getInstance().hasLogin()) {
             for (int i = 0; i < pluginMarkerList.size(); i++) {
                 try {
-                    String latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarkerList.get(i).getPluginID());
-                    if (StringUtils.isEmpty(latestPluginInfo) || PluginConstants.CONNECTION_404.equals(latestPluginInfo)) {
-                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Connect_Failed"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    JSONObject resultArr = new JSONObject(latestPluginInfo);
-                    String latestPluginVersion = (String) resultArr.get("version");
+                    JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarkerList.get(i).getPluginID());
+                    String latestPluginVersion = (String) latestPluginInfo.get("version");
                     PluginMarker pluginMarker = pluginMarkerList.get(i);
                     PluginMarker toPluginMarker = PluginMarker.create(pluginMarkerList.get(i).getPluginID(), latestPluginVersion);
                     PluginManager.getController().download(pluginMarkerList.get(i), new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
@@ -90,27 +83,39 @@ public class PluginOperateUtils {
     }
 
     public static void readUpdateOnline(JSCallback jsCallback) {
-        try {
-            List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
-            JSONArray jsonArray = new JSONArray();
-            for (PluginView plugin : plugins) {
-                org.json.JSONObject jsonObject = new org.json.JSONObject();
-                jsonObject.put("pluginid", plugin.getID());
-                jsonArray.put(jsonObject);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
+                    JSONArray jsonArray = new JSONArray();
+                    for (PluginView plugin : plugins) {
+                        org.json.JSONObject jsonObject = new org.json.JSONObject();
+                        jsonObject.put("pluginid", plugin.getID());
+                        jsonArray.put(jsonObject);
+                    }
+                    String result = jsonArray.toString();
+                    jsCallback.execute(result);
+                } catch (Exception e) {
+                    FRLogger.getLogger().error(e.getMessage());
+                }
             }
-            String result = jsonArray.toString();
-            jsCallback.execute(result);
-        } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage());
-        }
+        }).start();
+
 
     }
 
     public static void searchPlugin(String keyword, JSCallback jsCallback) {
         try {
-            HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
-            String result = httpClient.getResponseText();
-            jsCallback.execute(result);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
+                    String result = httpClient.getResponseText();
+                    jsCallback.execute(result);
+                }
+            }).start();
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
@@ -150,19 +155,25 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginCategories(JSCallback jsCallback) {
-        String result;
-        String url = SiteCenter.getInstance().acquireUrlByKind("plugin.category");
-        if (url != null) {
-            HttpClient httpClient = new HttpClient(url);
-            result = httpClient.getResponseText();
-        } else {
-            result = PluginConstants.CONNECTION_404;
-        }
-        jsCallback.execute(result);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String result;
+                String url = SiteCenter.getInstance().acquireUrlByKind("plugin.category");
+                if (url != null) {
+                    HttpClient httpClient = new HttpClient(url);
+                    result = httpClient.getResponseText();
+                } else {
+                    result = PluginConstants.CONNECTION_404;
+                }
+                jsCallback.execute(result);
+            }
+        }).start();
     }
 
     public static void getLoginInfo(JSCallback jsCallback) {
-        String username = BBSPluginLogin.getInstance().getUserInfo().getUserName();
+        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
+        String username = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
         String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
         if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
             return;
@@ -172,11 +183,11 @@ public class PluginOperateUtils {
         }
     }
 
-    public static boolean pluginValidate(PluginView pluginView){
+    public static boolean pluginValidate(PluginView pluginView) {
         return StringUtils.isNotEmpty(pluginView.getID())
                 && StringUtils.isNotEmpty(pluginView.getName())
                 && StringUtils.isNotEmpty(pluginView.getVersion())
                 && StringUtils.isNotEmpty(pluginView.getEnvVersion());
     }
 
- }
+}

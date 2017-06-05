@@ -9,6 +9,8 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -320,6 +322,7 @@ public class LoginWebBridge {
                     DesignerEnvManager.getEnvManager().setBBSName(username);
                     DesignerEnvManager.getEnvManager().setInShowBBsName(username);
                     DesignerEnvManager.getEnvManager().setBBSPassword(password);
+                    BBSPluginLogin.getInstance().login(new BBSUserInfo(username, password));
                     return LOGININ;//登录成功，0
                 } else if ($uid == -1) {
                     return USERNAME_NOT_EXSIT;//用户名不存在，-1

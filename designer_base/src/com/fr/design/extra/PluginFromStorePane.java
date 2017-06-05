@@ -6,6 +6,7 @@ import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
@@ -199,8 +200,9 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             try {
                 PluginMarker pluginMarker = PluginMarker.create(id, plugin.getVersion());
-                String latestPluginInfo = PluginUtils.getLatestPluginInfo(id);
-                PluginMarker toPluginMarker = PluginMarker.create(id, latestPluginInfo);
+                JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(id);
+                String latestPluginVersion = (String)latestPluginInfo.get("version");
+                PluginMarker toPluginMarker = PluginMarker.create(id, latestPluginVersion);
                 PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
             } catch (Exception e) {
                 FRContext.getLogger().error(e.getMessage(), e);
