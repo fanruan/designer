@@ -8,7 +8,6 @@ import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginConfigManager;
-import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
 import com.fr.plugin.dependence.PluginDependence;
@@ -18,11 +17,15 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.plugin.PluginConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -42,6 +45,7 @@ public class PluginHelper {
     public static final String DEPENDENCE_DOWNLOAD_PATH = System.getProperty("user.dir") + "/download/dependence";
     public static final String TEMP_FILE = "temp.zip";
     public static final String CONNECTION_404 = "404";
+    
 
     /**
      * 下载插件
@@ -337,9 +341,11 @@ public class PluginHelper {
      * @return 当前插件比老的插件版本高则返回true，否则返回false
      */
     public static boolean isNewThan(Plugin plugin, Plugin oldPlugin) {
-        return ComparatorUtils.compare(plugin.getVersion(), oldPlugin.getVersion()) >= 0;
+    
+        return plugin.versionCompareTo(oldPlugin) >= 0;
     }
-
+    
+    
     private static String sendInstalledPluginInfo(final Plugin plugin) {
         if (StableUtils.isDebug()) {
             return "debug status";
