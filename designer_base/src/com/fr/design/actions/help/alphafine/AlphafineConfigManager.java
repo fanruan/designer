@@ -95,6 +95,7 @@ public class AlphafineConfigManager implements XMLable {
     public void readXML(XMLableReader reader) {
         if (reader.isAttr()) {
             this.setEnabled(reader.getAttrAsBoolean("isEnabled", true));
+            this.setSearchOnLine(reader.getAttrAsBoolean("isSearchOnline", true));
             this.setContainPlugin(reader.getAttrAsBoolean("isContainDocument", true));
             this.setContainDocument(reader.getAttrAsBoolean("isContainDocument", true));
             this.setContainRecommend(reader.getAttrAsBoolean("isContainRecommend", true));

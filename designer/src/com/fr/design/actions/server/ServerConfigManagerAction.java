@@ -3,8 +3,8 @@
  */
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.ConfigManager;
+import com.fr.base.ConfigManagerProvider;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
@@ -13,8 +13,8 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.webattr.EditReportServerParameterPane;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,8 @@ public class ServerConfigManagerAction extends UpdateAction {
         this.setMenuKeySet(SERVER_CONFIG_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_web/edit.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/edit.png"));
+        this.setSearchText(new EditReportServerParameterPane().getAllComponents());
     }
 
     /**

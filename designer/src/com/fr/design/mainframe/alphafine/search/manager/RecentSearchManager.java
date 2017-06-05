@@ -3,7 +3,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -38,11 +38,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private static final int MAX_SIZE = 3;
     private static RecentSearchManager recentSearchManager = null;
     private static File recentFile = null;
-    private List<String> fileList;
-    private List<String> actionList;
-    private List<String> documentList;
     private SearchResult modelList;
-    private List<String> pluginList;
+    private List<AlphaCellModel> fileList = new ArrayList<>();
+    private List<AlphaCellModel> actionList = new ArrayList<>();
+    private List<AlphaCellModel> documentList = new ArrayList<>();
+    private List<AlphaCellModel> pluginList = new ArrayList<>();
     private List<AlphaCellModel> recentModelList = new ArrayList<>();
     private Map<String, List<AlphaCellModel>> recentKVModelMap = new HashMap<>();
 
@@ -95,15 +95,71 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         }
     }
 
+
     private void addModelToList(List<AlphaCellModel> list, String name) {
         try {
-            AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(name));
+            AlphaCellModel model = getModelFromJson(new JSONObject(name));
             if (model != null) {
-                list.add(CellModelHelper.getModelFromJson(new JSONObject(name)));
+                list.add(model);
             }
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
+    }
+
+    /**
+     * 转成cellModel
+     * @param object
+     * @return
+     */
+    private AlphaCellModel getModelFromJson(JSONObject object) {
+        int typeValue = object.optInt("cellType");
+        AlphaCellModel cellModel = null;
+        switch (CellType.parse(typeValue)) {
+            case ACTION:
+                cellModel = ActionSearchManager.getModelFromCloud(object.optString("result"));
+                if (cellModel != null) {
+                    actionList.add(cellModel);
+                }
+                break;
+            case DOCUMENT:
+                cellModel = DocumentSearchManager.getModelFromCloud(object.optJSONObject("result"));
+                if (cellModel != null) {
+                    documentList.add(cellModel);
+                }
+                break;
+            case FILE:
+                cellModel = FileSearchManager.getModelFromCloud(object.optString("result"));
+                if (cellModel != null) {
+                    fileList.add(cellModel);
+                }
+                break;
+            case PLUGIN:
+            case REUSE:
+                cellModel = PluginSearchManager.getModelFromCloud(object.optJSONObject("result"));
+                if (cellModel != null) {
+                    pluginList.add(cellModel);
+                }
+                break;
+
+        }
+        return cellModel;
+    }
+
+    public List<AlphaCellModel> getFileList() {
+        return fileList;
+    }
+
+    public List<AlphaCellModel> getActionList() {
+        return actionList;
+    }
+
+    public List<AlphaCellModel> getDocumentList() {
+        return documentList;
+    }
+
+    public List<AlphaCellModel> getPluginList() {
+        return pluginList;
     }
 
     @Override
@@ -135,37 +191,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         return "alphafine_recent.xml";
     }
 
-    public List<String> getFileList() {
-        return fileList;
-    }
 
-    public void setFileList(List<String> fileList) {
-        this.fileList = fileList;
-    }
-
-    public List<String> getActionList() {
-        return actionList;
-    }
-
-    public void setActionList(List<String> actionList) {
-        this.actionList = actionList;
-    }
-
-    public List<String> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<String> documentList) {
-        this.documentList = documentList;
-    }
-
-    public List<String> getPluginList() {
-        return pluginList;
-    }
-
-    public void setPluginList(List<String> pluginList) {
-        this.pluginList = pluginList;
-    }
 
     /**
      * 获取xml

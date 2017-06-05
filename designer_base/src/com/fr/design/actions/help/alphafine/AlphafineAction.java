@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +22,8 @@ public class AlphafineAction extends UpdateAction {
         this.setMenuKeySet(ALPHAFINE);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        this.setSearchText(new AlphafineConfigPane());
     }
 
     public static final MenuKeySet ALPHAFINE = new MenuKeySet() {

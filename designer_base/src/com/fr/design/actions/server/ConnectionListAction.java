@@ -1,6 +1,5 @@
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.base.ModifiedTable;
@@ -9,6 +8,7 @@ import com.fr.dav.LocalEnv;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.connect.ConnectionManagerPane;
 import com.fr.design.data.datapane.connect.ConnectionShowPane;
+import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
@@ -16,6 +16,7 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -31,7 +32,8 @@ public class ConnectionListAction extends UpdateAction {
         this.setMenuKeySet(DEFINE_DATA_CONNECTION);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_web/connection.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/connection.png"));
+        this.setSearchText(new DatabaseConnectionPane.JDBC());
     }
 
     public static final MenuKeySet DEFINE_DATA_CONNECTION = new MenuKeySet() {

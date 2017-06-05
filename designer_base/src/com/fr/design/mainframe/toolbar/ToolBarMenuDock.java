@@ -166,14 +166,13 @@ public abstract class ToolBarMenuDock {
      * @param menuDef
      */
     private void addUpdateActionToList(MenuDef menuDef) {
-
-        String ParentName = menuDef.getName();
         if (menuDef instanceof OpenRecentReportMenuDef) {
             return;
         }
+        String parentName = menuDef.getName();
         for (ShortCut shortCut : menuDef.getShortcutList()) {
             if (shortCut instanceof UpdateAction) {
-                shortCutsList.add(new UpdateActionModel(ParentName, (UpdateAction) shortCut));
+                shortCutsList.add(new UpdateActionModel(parentName, (UpdateAction) shortCut));
             } else if (shortCut instanceof MenuDef) {
                 addUpdateActionToList((MenuDef) shortCut);
             }
