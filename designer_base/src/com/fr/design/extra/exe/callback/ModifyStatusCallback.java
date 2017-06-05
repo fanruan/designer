@@ -11,13 +11,16 @@ import javax.swing.*;
  */
 public class ModifyStatusCallback implements PluginTaskCallback{
     private boolean isActive;
+    private JSCallback jsCallback;
 
-    public ModifyStatusCallback (boolean isActive){
+    public ModifyStatusCallback (boolean isActive, JSCallback jsCallback){
         this.isActive = isActive;
+        this.jsCallback = jsCallback;
     }
     @Override
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
+            jsCallback.execute("success");
             String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled");
             JOptionPane.showMessageDialog(null, modifyMessage);
         } else {

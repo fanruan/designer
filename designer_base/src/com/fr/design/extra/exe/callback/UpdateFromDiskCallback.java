@@ -14,7 +14,8 @@ import java.io.File;
  */
 public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
     private File zipFile;
-    protected JSCallback jsCallback;
+    private JSCallback jsCallback;
+    private static int HUNDRED_PERCENT = 100;
 
     public UpdateFromDiskCallback(File zipFile, JSCallback jsCallback) {
         this.zipFile = zipFile;
@@ -23,13 +24,13 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void updateProgress(String description, double aProgress) {
-        jsCallback.execute(String.valueOf(aProgress));
+        jsCallback.execute(String.valueOf(aProgress * HUNDRED_PERCENT + "%"));
     }
 
 
     @Override
     public void done(PluginTaskResult result) {
-        jsCallback.execute("done");
+        jsCallback.execute("success");
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
