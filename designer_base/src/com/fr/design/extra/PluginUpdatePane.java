@@ -8,6 +8,7 @@ import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -179,11 +180,15 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
             LoginCheckContext.fireLoginCheckListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
-            PluginView plugin = controlPane.getSelectedPlugin();
-            PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
-            String latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
-            PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginInfo);
-            PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
+            try{
+                PluginView plugin = controlPane.getSelectedPlugin();
+                PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
+                JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
+                String latestPluginVersion = (String) latestPluginInfo.get("version");
+                PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
+                PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
+            }catch (Exception e){}
+
         }
 
     }

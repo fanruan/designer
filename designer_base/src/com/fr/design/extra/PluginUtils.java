@@ -38,7 +38,7 @@ public class PluginUtils {
         return pluginMarker;
     }
 
-    public static String getLatestPluginInfo(String pluginID){
+    public static JSONObject getLatestPluginInfo(String pluginID) throws Exception {
         String result = "";
         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
         if (StringUtils.isNotEmpty(plistUrl)) {
@@ -48,6 +48,7 @@ public class PluginUtils {
             }
             try {
                 HttpClient httpClient = new HttpClient(url.toString());
+                httpClient.asGet();
                 result = httpClient.getResponseText();
             } catch (Exception e) {
                 FRLogger.getLogger().error(e.getMessage());
@@ -55,7 +56,11 @@ public class PluginUtils {
         } else {
             result = PluginConstants.CONNECTION_404;
         }
-        return result;
+        JSONObject resultJSONObject = new JSONObject(result);
+        JSONArray resultArr = resultJSONObject.getJSONArray("result");
+        JSONObject latestPluginInfo = JSONObject.create();
+        latestPluginInfo = (JSONObject) resultArr.get(0);
+        return latestPluginInfo;
     }
 
     public static String transPluginsToString(List<PluginContext> plugins) throws Exception {
@@ -69,7 +74,7 @@ public class PluginUtils {
         return jsonArray.toString();
     }
 
-    public static void downloadShopScripts(String id, String username, String password, Process<Double> p) throws Exception{
+    public static void downloadShopScripts(String id, String username, String password, Process<Double> p) throws Exception {
         HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();
@@ -108,7 +113,7 @@ public class PluginUtils {
         return resText;
     }
 
-    public static boolean isPluginMatch(PluginView pluginView, String text){
+    public static boolean isPluginMatch(PluginView pluginView, String text) {
         return StringUtils.contains(pluginView.getID(), text)
                 || StringUtils.contains(pluginView.getName(), text)
                 || StringUtils.contains(pluginView.getVersion(), text)
@@ -119,7 +124,7 @@ public class PluginUtils {
 
     }
 
-    public static String pluginToHtml(PluginView pluginView){
+    public static String pluginToHtml(PluginView pluginView) {
         String pluginName = Inter.getLocText("FR-Plugin-Plugin_Name");
         String pluginVersion = Inter.getLocText("FR-Plugin-Plugin_Version");
         String startVersion = Inter.getLocText("FR-Plugin-Start_Version");

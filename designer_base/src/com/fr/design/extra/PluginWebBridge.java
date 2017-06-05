@@ -4,10 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.exe.*;
 import com.fr.design.extra.exe.callback.JSCallback;
-import com.fr.design.extra.exe.extratask.ExtraPluginTask;
-import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -19,7 +16,6 @@ import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -488,8 +484,11 @@ public class PluginWebBridge {
      * @param password
      * @return
      */
-    public String defaultLogin(String username, String password) {
-        return LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
+    public void defaultLogin(String username, String password, final JSObject callback) {
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        String result = LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
+        jsCallback.execute(result);
+
     }
 
     /**
