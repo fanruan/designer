@@ -1,17 +1,15 @@
 package com.fr.design.actions.report;
 
-import java.awt.event.ActionEvent;
-
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.ReportExportAttrPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.general.IOUtils;
 import com.fr.main.TemplateWorkBook;
-import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
+
+import java.awt.event.ActionEvent;
 
 public class ReportExportAttrAction extends JWorkBookAction {
 
