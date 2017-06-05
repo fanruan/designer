@@ -47,7 +47,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                     if (jsonArray != null && jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                            if (!RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
+                            if (alphaCellModel != null && !RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
                                 this.modelList.add(alphaCellModel);
                             }
                         }
