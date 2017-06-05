@@ -8,7 +8,6 @@ import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginConfigManager;
-import com.fr.stable.plugin.PluginConstants;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
 import com.fr.plugin.dependence.PluginDependence;
@@ -18,11 +17,15 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.plugin.PluginConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class PluginHelper {
     public static final String DEPENDENCE_DOWNLOAD_PATH = System.getProperty("user.dir") + "/download/dependence";
     public static final String TEMP_FILE = "temp.zip";
     public static final String CONNECTION_404 = "404";
+    
+    private static final String LOW_VERSION = "0";
 
     /**
      * 下载插件
@@ -337,7 +342,66 @@ public class PluginHelper {
      * @return 当前插件比老的插件版本高则返回true，否则返回false
      */
     public static boolean isNewThan(Plugin plugin, Plugin oldPlugin) {
-        return ComparatorUtils.compare(plugin.getVersion(), oldPlugin.getVersion()) >= 0;
+    
+        return compareVersion(plugin.getVersion(), oldPlugin.getVersion()) >= 0;
+    }
+    
+    private static int compareVersion(String version1, String version2) {
+        
+        if (StringUtils.isBlank(version1)) {
+            version1 = LOW_VERSION;
+        }
+        if (StringUtils.isBlank(version2)) {
+            version2 = LOW_VERSION;
+        }
+        //1.1.1类型
+        String[] v1 = parseVersion(version1);
+        String[] v2 = parseVersion(version2);
+        return compareVersion(v1, v2);
+    }
+    
+    private static int compareVersion(String[] v1, String[] v2) {
+        //v1，v2都是1.1.1类型的数组
+        int result = 0;
+        int tempResult;
+        for (int i = 0; i < v1.length; i++) {
+            if (i >= v2.length) {
+                //一直没分出大小，v2用完了，v1大
+                result = 1;
+                break;
+            }
+            tempResult = compareIntStr(v1[i], v2[i]);
+            if (tempResult != 0) {
+                //分出大小，停止后续比较
+                result = tempResult;
+                break;
+            }
+        }
+        //循环完了v1，如果还没比出大小
+        if (result == 0 && v2.length > v1.length) {
+            result = -1;
+        }
+        return result;
+    }
+    
+    private static int compareIntStr(String s1, String s2) {
+        
+        return Integer.parseInt(s1) - Integer.parseInt(s2);
+    }
+    
+    private static String[] parseVersion(String versionStr) {
+        
+        char c;
+        StringBuilder sBuilder = new StringBuilder();
+        for (int i = 0; i < versionStr.length(); i++) {
+            c = versionStr.charAt(i);
+            if (Character.isDigit(c)) {
+                sBuilder.append(c);
+            } else if (c == '.') {
+                sBuilder.append("-");
+            }
+        }
+        return sBuilder.toString().split("-");
     }
 
     private static String sendInstalledPluginInfo(final Plugin plugin) {
