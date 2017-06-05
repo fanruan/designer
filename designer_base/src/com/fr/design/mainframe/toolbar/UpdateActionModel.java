@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.toolbar;
 
 import com.fr.design.actions.UpdateAction;
-import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinFormat;
 import com.fr.stable.pinyin.PinyinHelper;
 
@@ -16,7 +15,7 @@ public class UpdateActionModel {
     private static final String SEPARATOR = "/";
     private String parentName;
     private String actionName;
-    private String relatedKey;
+    private String className;
     private String searchKey;
     private UpdateAction action;
 
@@ -80,19 +79,19 @@ public class UpdateActionModel {
         this.actionName = actionName;
     }
 
-    public String getRelatedKey() {
-        return relatedKey;
-    }
-
-    public void setRelatedKey(String relatedKey) {
-        this.relatedKey = relatedKey;
-    }
-
     public String getSearchKey() {
         return searchKey;
     }
 
     public void setSearchKey(String searchKey) {
         this.searchKey = searchKey;
+    }
+
+    public String getClassName() {
+        return getAction().getClass().getName();
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

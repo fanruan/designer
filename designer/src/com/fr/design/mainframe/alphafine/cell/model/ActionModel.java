@@ -13,7 +13,7 @@ import javax.swing.*;
 public class ActionModel extends AlphaCellModel {
     private Action action;
 
-    private String actionName;
+    private String className;
 
     public ActionModel(String name, String content, CellType type) {
         super(name, content, type);
@@ -43,11 +43,6 @@ public class ActionModel extends AlphaCellModel {
         this.setDescription(description);
     }
 
-    public ActionModel(String name, Action action) {
-        super(name, null, CellType.ACTION);
-        this.action = action;
-    }
-
     public Action getAction() {
         return action;
     }
@@ -69,14 +64,14 @@ public class ActionModel extends AlphaCellModel {
 
     @Override
     public String getStoreInformation() {
-        return getActionName();
+        return getClassName();
     }
 
-    public String getActionName() {
+    public String getClassName() {
         return getAction().getClass().getName();
     }
 
-    public void setActionName(String actionName) {
-        this.actionName = actionName;
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

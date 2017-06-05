@@ -9,6 +9,7 @@ import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.mainframe.toolbar.UpdateActionModel;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -71,24 +72,17 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     }
 
     /**
-     * 根据类名反射获取对象
+     * 根据类名获取对象
      * @param actionName
      * @return
      */
     public static ActionModel getModelFromCloud(String actionName ) {
-        UpdateAction action = null;
-        String name = null;
-        try {
-            Class<?> className =  Class.forName(actionName);
-            action = (UpdateAction) className.newInstance();
-            name = action.getName();
-        } catch (ClassNotFoundException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        } catch (IllegalAccessException e) {
-            FRLogger.getLogger().error(e.getMessage());
-        } catch (InstantiationException e) {
-            FRLogger.getLogger().error(e.getMessage());
+        List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
+        for (UpdateActionModel updateActionModel : updateActions) {
+            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName())) {
+                return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
+            }
         }
-        return new ActionModel(name, action);
+        return null;
     }
 }
