@@ -305,7 +305,7 @@ public class AlphaFineDialog extends UIDialog {
         });
 
         /**
-         *单击时触发右侧面板动作
+         *单击时触发右侧面板展示搜索结果
          */
         searchResultList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -482,6 +482,9 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
+    /**
+     * 窗口拖拽
+     */
     private void initMouseListener() {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
