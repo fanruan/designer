@@ -20,7 +20,7 @@ public class ChartsEditPane extends ChartEditPane {
 
         dataPane4SupportCell = new ChartDataPane(listener);
         dataPane4SupportCell.setSupportCellData(true);
-        chartsConfigPane = new ChartsConfigPane();
+        chartsConfigPane = new DefaultChartsConfigPane();
 
         paneList.add(dataPane4SupportCell);
         paneList.add(chartsConfigPane);
