@@ -32,7 +32,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
-        } else if (result.errorCode() == PluginErrorCode.OperationNotSupport.getCode()) {
+        } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),

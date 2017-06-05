@@ -27,6 +27,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.plugin.context.PluginContext;
@@ -34,7 +35,6 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -88,7 +88,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
         createAddMenuDef();
     
-        PluginListenerRegistration.getInstance().listenRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
         
             @Override
             public void on(PluginEvent event) {
