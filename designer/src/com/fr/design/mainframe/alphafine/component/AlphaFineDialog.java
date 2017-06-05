@@ -156,15 +156,15 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 执行搜索，暂时字符要求超过两个才开始搜索
+     * 执行搜索
      * @param text
      */
     private void doSearch(String text) {
-        if (text.length() < 2 || text.contains("'")) {
-            return;
-        }
+
         if (StringUtils.isBlank(text) || text.equals("AlphaFine")) {
             removeSearchResult();
+        } else if (text.contains("'")) {
+           return; 
         } else {
             showSearchResult(text);
         }
