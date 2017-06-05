@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.toolbar;
 
 import com.fr.design.actions.UpdateAction;
+import com.fr.stable.pinyin.PinyinFormat;
+import com.fr.stable.pinyin.PinyinHelper;
 
 /**
  * Created by XiaXiang on 2017/5/24.
@@ -10,6 +12,7 @@ import com.fr.design.actions.UpdateAction;
  * action对象
  */
 public class UpdateActionModel {
+    private static final String SEPARATOR = "/";
     private String parentName;
     private String actionName;
     private String relatedKey;
@@ -20,7 +23,21 @@ public class UpdateActionModel {
         this.parentName = parentName;
         this.action = action;
         this.actionName = action.getName();
-        this.searchKey = action.getSearchText();
+        setSearchKey(parentName, action);
+    }
+
+    /**
+     * 获取搜索关键字，包括上级菜单名，菜单名，以及对应打开面板的所有文字信息（使其能够支持模糊搜索）
+     * @param parentName
+     * @param action
+     */
+    private void setSearchKey(String parentName, UpdateAction action) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(parentName).append(PinyinHelper.convertToPinyinString(parentName, SEPARATOR, PinyinFormat.WITHOUT_TONE))
+                .append(PinyinHelper.getShortPinyin(parentName))
+                .append(actionName).append(PinyinHelper.convertToPinyinString(actionName, SEPARATOR, PinyinFormat.WITHOUT_TONE))
+                .append(PinyinHelper.getShortPinyin(actionName)).append(action.getSearchText());
+        this.searchKey = buffer.toString();
     }
 
     /**

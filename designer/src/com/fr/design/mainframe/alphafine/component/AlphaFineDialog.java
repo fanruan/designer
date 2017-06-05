@@ -231,6 +231,13 @@ public class AlphaFineDialog extends UIDialog {
                         searchResultList.repaint();
                         validate();
                         repaint();
+                        /**
+                         * 默认选中第1项，第0项为title
+                         */
+                        if (searchResultList.getModel().getSize() > 0) {
+                            searchResultList.setSelectedIndex(1);
+                        }
+
                     }
                 } catch (InterruptedException e) {
                     FRLogger.getLogger().error(e.getMessage());
