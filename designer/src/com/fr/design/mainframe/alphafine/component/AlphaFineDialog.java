@@ -78,6 +78,9 @@ public class AlphaFineDialog extends UIDialog {
         initComponents();
     }
 
+    /**
+     * 初始化全部组件
+     */
     private void initComponents() {
         searchTextField = new AlphaFineTextField("AlphaFine");
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
@@ -123,6 +126,9 @@ public class AlphaFineDialog extends UIDialog {
         });
     }
 
+    /**
+     *
+     */
     private void initProperties() {
         setUndecorated(true);
         addComponentListener(new ComponentHandler());
@@ -130,6 +136,10 @@ public class AlphaFineDialog extends UIDialog {
         centerWindow(this);
     }
 
+    /**
+     * 设置面板位置
+     * @param win
+     */
     private void centerWindow(Window win) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -145,6 +155,10 @@ public class AlphaFineDialog extends UIDialog {
         win.setLocation((screenSize.width - winSize.width ) / 2, (screenSize.height - winSize.height) / AlphaFineConstants.SHOW_SIZE);
     }
 
+    /**
+     * 执行搜索，暂时字符要求超过两个才开始搜索
+     * @param text
+     */
     private void doSearch(String text) {
         if (text.length() < 2 || text.contains("'")) {
             return;
@@ -157,6 +171,9 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
+    /**
+     * 移除搜索结果
+     */
     private void removeSearchResult() {
         if (searchResultPane != null) {
             remove(searchResultPane);
@@ -179,7 +196,10 @@ public class AlphaFineDialog extends UIDialog {
 //    }
 
 
-
+    /**
+     * 展示搜索结果
+     * @param searchText
+     */
     private void showSearchResult(String searchText) {
         if (searchResultPane == null) {
             initSearchResultComponents();
@@ -188,6 +208,9 @@ public class AlphaFineDialog extends UIDialog {
         initSearchWorker(searchText);
     }
 
+    /**
+     * 初始化搜索面板
+     */
     private void initSearchResultComponents() {
         searchResultList = new JList();
         searchResultPane = new JPanel();
@@ -209,6 +232,10 @@ public class AlphaFineDialog extends UIDialog {
         setSize(AlphaFineConstants.FULL_SIZE);
     }
 
+    /**
+     * 异步加载搜索结构
+     * @param searchText
+     */
     private void initSearchWorker(final String searchText) {
         searchResultList.setModel(new SearchListModel(AlphaSearchManager.getSearchManager().showDefaultSearchResult()));
         if (this.searchWorker != null && !this.searchWorker.isDone()) {
@@ -251,7 +278,14 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker.execute();
     }
 
+    /**
+     * 初始化监听器
+     * @param searchText
+     */
     private void initListListener(final String searchText) {
+        /**
+         * 鼠标监听器
+         */
         searchResultList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -270,7 +304,9 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
 
-        // TODO: 2017/5/8  xiaxiang: e.getClickCount() == 1 时，偶发性的不能触发，所以先放到valueChanged
+        /**
+         *单击时触发右侧面板动作
+         */
         searchResultList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -281,6 +317,9 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
 
+        /**
+         * 键盘监听器
+         */
         searchResultList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
