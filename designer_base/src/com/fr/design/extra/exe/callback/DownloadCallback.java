@@ -12,6 +12,7 @@ import javax.swing.*;
 public class DownloadCallback extends AbstractPluginTaskCallback {
     private ExtraPluginTask extraPluginTask;
     private JSCallback jsCallback;
+    private static int HUNDRED_PERCENT = 100;
 
     public DownloadCallback(final ExtraPluginTask extraPluginTask, final JSCallback jsCallback) {
         this.extraPluginTask = extraPluginTask;
@@ -20,12 +21,11 @@ public class DownloadCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void updateProgress(String description, double aProgress) {
-        jsCallback.execute(String.valueOf(aProgress));
+        jsCallback.execute(String.valueOf(aProgress * HUNDRED_PERCENT +  "%"));
     }
 
     @Override
     public void done(PluginTaskResult result) {
-        jsCallback.execute("done");
         if (result.isSuccess()) {
             extraPluginTask.doExtraPluginTask();
         } else {

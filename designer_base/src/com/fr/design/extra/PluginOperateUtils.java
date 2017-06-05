@@ -16,14 +16,11 @@ import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.view.PluginView;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import netscape.javascript.JSObject;
 import org.json.JSONArray;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -79,7 +76,7 @@ public class PluginOperateUtils {
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
         PluginContext plugin = PluginManager.getContext(pluginMarker);
         boolean active = plugin.isActive();
-        PluginTaskCallback modifyStatusCallback = new ModifyStatusCallback(active);
+        PluginTaskCallback modifyStatusCallback = new ModifyStatusCallback(active, jsCallback);
         if (active) {
             PluginManager.getController().forbid(pluginMarker, modifyStatusCallback);
         } else {
@@ -89,7 +86,7 @@ public class PluginOperateUtils {
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, JSCallback jsCallback) {
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
-        PluginManager.getController().uninstall(pluginMarker, isForce, new UnistallPluginCallback());
+        PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(jsCallback));
     }
 
     public static void readUpdateOnline(JSCallback jsCallback) {
@@ -120,30 +117,36 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginFromStore(String category, String seller, String fee, JSCallback jsCallback) {
-        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
-        if (StringUtils.isNotBlank(plistUrl)) {
-            StringBuilder url = new StringBuilder();
-            url.append(plistUrl);
-            if (StringUtils.isNotBlank(category)) {
-                url.append("&cid=").append(category.split("-")[1]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
+                if (StringUtils.isNotBlank(plistUrl)) {
+                    StringBuilder url = new StringBuilder();
+                    url.append(plistUrl);
+                    if (StringUtils.isNotBlank(category)) {
+                        url.append("&cid=").append(category.split("-")[1]);
+                    }
+                    if (StringUtils.isNotBlank(seller)) {
+                        url.append("&seller=").append(seller.split("-")[1]);
+                    }
+                    if (StringUtils.isNotBlank(fee)) {
+                        url.append("&fee=").append(fee.split("-")[1]);
+                    }
+                    try {
+                        HttpClient httpClient = new HttpClient(url.toString());
+                        String result = httpClient.getResponseText();
+                        jsCallback.execute(result);
+                    } catch (Exception e) {
+                        FRLogger.getLogger().error(e.getMessage());
+                    }
+                } else {
+                    String result = PluginConstants.CONNECTION_404;
+                    jsCallback.execute(result);
+                }
             }
-            if (StringUtils.isNotBlank(seller)) {
-                url.append("&seller=").append(seller.split("-")[1]);
-            }
-            if (StringUtils.isNotBlank(fee)) {
-                url.append("&fee=").append(fee.split("-")[1]);
-            }
-            try {
-                HttpClient httpClient = new HttpClient(url.toString());
-                String result = httpClient.getResponseText();
-                jsCallback.execute(result);
-            } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
-        } else {
-            String result = PluginConstants.CONNECTION_404;
-            jsCallback.execute(result);
-        }
+        }).start();
+
     }
 
     public static void getPluginCategories(JSCallback jsCallback) {
@@ -176,4 +179,4 @@ public class PluginOperateUtils {
                 && StringUtils.isNotEmpty(pluginView.getEnvVersion());
     }
 
-}
+ }

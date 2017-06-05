@@ -1,38 +1,50 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.stable.StringUtils;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
  * Created by ibm on 2017/5/27.
  */
-public class JSCallback {
-    private WebEngine webEngine;
-    private JSObject callback;
+public class JSCallback<T> extends Task<T> {
+
 
     public JSCallback(final WebEngine webEngine, final JSObject callback) {
-        this.webEngine = webEngine;
-        this.callback = callback;
+        init(webEngine, callback);
+    }
+
+    public void init(final WebEngine webEngine, final JSObject callback){
+        messageProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        String fun = "(" + callback + ")(\"" + trimText(newValue) + "\")";
+                        try {
+                            webEngine.executeScript(fun);
+                        } catch (Exception e) {
+                            webEngine.executeScript("alert(\"" + e.getMessage() + "\")");
+                        }
+                    }
+                });
+            }
+        });
+    }
+    @Override
+    protected T call() throws Exception {
+        return null;
     }
 
     public void execute(String newValue) {
-        String fun = "(" + callback + ")(\"" + trimText(newValue) + "\")";
-        try {
-            webEngine.executeScript(fun);
-        } catch (Exception e) {
-            webEngine.executeScript("alert(\"" + e.getMessage() + "\")");
-        }
+        updateMessage(newValue);
     }
 
-    public void execute(double progress) {
-        String fun = "(" + callback + ")(\"" + trimText(String.valueOf(progress)) + "\")";
-        try {
-            webEngine.executeScript(fun);
-        } catch (Exception e) {
-            webEngine.executeScript("alert(\"" + e.getMessage() + "\")");
-        }
-    }
 
     /**
      * vito:由于使用webEngine.executeScript("(" + callback + ")(\"" + newValue + "\")")
