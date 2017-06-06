@@ -1,5 +1,6 @@
 package com.fr.design.gui.frpane;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 
@@ -22,11 +23,13 @@ public class UITextPane extends JTextPane implements UIObserver {
 
     public UITextPane() {
         super();
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         iniListener();
     }
 
     public UITextPane(StyledDocument doc) {
         super(doc);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         iniListener();
     }
 

@@ -6,6 +6,8 @@ package com.fr.design.report;
 import java.awt.Dimension;
 
 import javax.swing.JFormattedTextField;
+
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -67,6 +69,7 @@ public class UnitFieldPane extends JPanel {
         valueSpinner = new UIBasicSpinner(new SpinnerNumberModel(0.0, 0.0, Double.MAX_VALUE, 1.0));
         textField = ((JSpinner.DefaultEditor) valueSpinner.getEditor()).getTextField();
         textField.setColumns(4);
+        InputEventBaseOnOS.addBasicEditInputMap(textField);
         this.add(valueSpinner);
         unitLable = new UnitLabel(unitType, valueSpinner.getPreferredSize().height);
         this.add(unitLable);
