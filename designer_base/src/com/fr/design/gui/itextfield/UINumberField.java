@@ -1,19 +1,16 @@
 package com.fr.design.gui.itextfield;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-
 import com.fr.base.Utils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+import java.awt.*;
 
 /**
  * Number Field.
@@ -54,7 +51,6 @@ public class UINumberField extends UITextField {
 		this.maxDecimalLength = maxDecimalLength;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
-
 		setFieldDocument();
 	}
 
