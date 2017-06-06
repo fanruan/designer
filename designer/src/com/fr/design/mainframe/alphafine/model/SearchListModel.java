@@ -14,7 +14,9 @@ public class SearchListModel extends DefaultListModel {
 
     @Override
     public void addElement(Object element) {
+        int index = myDelegate.size();
         myDelegate.add(element);
+        fireContentsChanged(this, index, index);
     }
 
     @Override
@@ -23,13 +25,17 @@ public class SearchListModel extends DefaultListModel {
     }
 
     @Override
-    public void insertElementAt(Object element, int index) {
-        this.myDelegate.add(index, element);
+    public void add(int index, Object element) {
+        myDelegate.add(index, element);
+        fireIntervalAdded(this, index, index);
     }
 
     @Override
-    public void removeElementAt(int index) {
-        this.myDelegate.remove(index);
+    public Object remove(int index) {
+        Object object = myDelegate.get(index);
+        myDelegate.remove(object);
+        fireIntervalRemoved(this, index, index);
+        return object;
     }
 
     @Override
