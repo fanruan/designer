@@ -3,14 +3,10 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
 import com.fr.design.gui.ilable.UILabel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ChartPropertyPane extends MiddleChartPropertyPane{
 
@@ -18,11 +14,9 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	 * 创建图表属性表实例.
 	 */
 	private synchronized static ChartPropertyPane getInstance() {
-		if(singleton == null) {
-			singleton = new ChartPropertyPane();
-		}
-
-		singleton.setSureProperty();
+		//todo
+		//创建新图表时，创建属性表配置面板
+		singleton = new ChartPropertyPane();
 		return singleton;
 	}
 

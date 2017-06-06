@@ -184,8 +184,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	        	reCalculateRoot(screenValue, true);
 	        } else {
 	        	// 组件间隔啊
-	        	int val = layout.getAcualInterval();
-	        	layout.addCompInterval(val);
+				// REPORT-2585 原有的逻辑导致嵌套的tab中的间隔加不上去，会在后续拖动的过程中出问题
+				reCalculateDefaultRoot(screenValue, true);
 	        }
 		}
 		LayoutUtils.layoutContainer(root);
@@ -355,6 +355,40 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 			START_VALUE = value;
 		}
     }
+
+	/**
+	 * 按照界面大小的百分比值调整root大小
+	 * @param needCalculateParaHeight 是否需要调整参数界面高度
+	 * @param value
+	 */
+	private void reCalculateDefaultRoot(double value, boolean needCalculateParaHeight) {
+		XLayoutContainer root = FormArea.this.designer.getRootComponent();
+		if (root.acceptType(XWFitLayout.class)) {
+			XWFitLayout layout = (XWFitLayout) root;
+			layout.setContainerPercent(1.0);
+			traverAndAdjust(layout, 0.0);
+			layout.adjustCreatorsWhileSlide(0.0);
+
+			// 拖动滑块，先将内部组件百分比大小计算，再计算容器大小
+
+			Dimension d = new Dimension(layout.getWidth(), layout.getHeight());
+			// 自适应布局的父层是border
+			if (layout.getParent() != null) {
+				int paraHeight = designer.getParaHeight();
+				if (needCalculateParaHeight && paraHeight > 0) {
+					designer.setParaHeight(paraHeight);
+					XWBorderLayout parent =  (XWBorderLayout) layout.getParent();
+					parent.toData().setNorthSize(paraHeight);
+					parent.removeAll();
+					parent.add(designer.getParaComponent(),WBorderLayout.NORTH);
+					parent.add(designer.getRootComponent(),WBorderLayout.CENTER);
+				}
+				layout.getParent().setSize(d.width, d.height+paraHeight);
+				// 调整自适应布局大小后，同步调整参数界面和border大小，此时刷新下formArea
+				FormArea.this.validate();
+			}
+		}
+	}
     
     //循环遍历布局，按百分比调整子组件大小
     private void  traverAndAdjust(XCreator creator,double percent){

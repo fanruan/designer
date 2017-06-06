@@ -2,7 +2,6 @@ package com.fr.design.gui.chart;
 
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.designer.TargetComponent;
-import com.fr.design.mainframe.BaseWidgetPropertyPane;
 import com.fr.design.mainframe.DockingView;
 
 /**
@@ -22,6 +21,8 @@ public abstract class BaseChartPropertyPane extends DockingView {
 	public abstract void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane);
 
 	public abstract ChartEditPaneProvider getChartEditPane();
+
+	public abstract void addChartEditPane(String plotID);
 
 	//public abstract void clear();
 }

@@ -17,11 +17,7 @@ import javax.swing.*;
  */
 public class LoginWebPane extends JFXPanel {
 
-    private WebEngine webEngine;
-    private LoginPane loginPane;
-
-    public LoginWebPane(final String installHome,LoginPane loginPane) {
-        this.loginPane = loginPane;
+    public LoginWebPane(final String installHome) {
         Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
             @Override
@@ -30,7 +26,7 @@ public class LoginWebPane extends JFXPanel {
                 Scene scene = new Scene(root);
                 LoginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
-                webEngine = webView.getEngine();
+                WebEngine webEngine = webView.getEngine();
                 webEngine.load("file:///" + installHome + "/scripts/qqLogin/web/login.html");
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                     @Override
@@ -39,15 +35,11 @@ public class LoginWebPane extends JFXPanel {
                     }
                 });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
-                obj.setMember("LoginHelper", LoginWebBridge.getHelper(webEngine));
+                obj.setMember("LoginHelper", LoginWebBridge.getHelper());
                 webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }
         });
-    }
-
-    public void setEngine(WebEngine webEngine) {
-        this.webEngine = webEngine;
     }
 
     private void showAlert(final String message) {

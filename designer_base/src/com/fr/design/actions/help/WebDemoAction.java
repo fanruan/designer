@@ -23,7 +23,7 @@ public class WebDemoAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        StartServer.browerDemoURL();
+        StartServer.browserDemoURL();
     }
 
     public static final MenuKeySet PRODUCT_DEMO = new MenuKeySet() {
@@ -34,7 +34,7 @@ public class WebDemoAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("Product_Demo");
+            return Inter.getLocText("FR-Product_Demo");
         }
 
         @Override

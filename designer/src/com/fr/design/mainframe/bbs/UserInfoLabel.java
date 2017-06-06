@@ -5,7 +5,6 @@ package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -103,17 +102,13 @@ public class UserInfoLabel extends UILabel {
         if (StableUtils.getMajorJavaVersion() == 8) {
             PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
         }
-        QQLoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
+        LoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
 
         UserLoginContext.addLoginContextListener(new LoginContextListener() {
             @Override
             public void showLoginContext() {
-                LoginPane managerPane = new LoginPane();
-                UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), managerPane);
-                LoginWebBridge.getHelper().setDialogHandle(qqdlg);
+                WebViewDlgHelper.createLoginDialog();
                 LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-                QQLoginWebBridge.getHelper().setLoginlabel();
-                qqdlg.setVisible(true);
                 clearLoginInformation();
                 updateInfoPane();
             }

@@ -7,9 +7,12 @@ import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
+import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StableUtils;
 
 /**
  * Created by Mitisky on 16/3/7.
@@ -65,4 +68,8 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
     public String getPlotTypeTitle4PopupWindow(){
         return getPlotTypePane().title4PopupWindow();
     }
+
+    public ChartEditPane getChartEditPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
+
+    public ChartsConfigPane getChartConfigPane(String plotID){return null;}
 }
