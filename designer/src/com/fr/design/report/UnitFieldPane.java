@@ -43,13 +43,13 @@ public class UnitFieldPane extends JPanel {
     	}
     	
     	public void setUnitType(int unitType) {
-    		if (unitType == Constants.UNIT_CM) {
-    			this.setText(Inter.getLocText("Unit_CM"));
-    		} else if (unitType == Constants.UNIT_INCH) {
-	            this.setText(Inter.getLocText("PageSetup-inches"));
-	        } else {
-	            this.setText(Inter.getLocText("PageSetup-mm"));
-	        }
+            if (unitType == Constants.UNIT_CM) {
+                this.setText(Inter.getLocText("FR-Designer_Unit_CM"));
+            } else if (unitType == Constants.UNIT_INCH) {
+                this.setText(Inter.getLocText("FR-Designer_Unit_INCH"));
+            } else {
+                this.setText(Inter.getLocText("FR-Designer_Unit_MM-mm"));
+            }
 
             //ajust the heigt of unitLabel.
             Dimension unitDimension = new Dimension(this.getPreferredSize().width,
