@@ -36,4 +36,9 @@ public class SearchListModel extends DefaultListModel {
     public int getSize() {
         return this.myDelegate.size();
     }
+
+    @Override
+    public void removeAllElements() {
+        this.myDelegate.clear();
+    }
 }
