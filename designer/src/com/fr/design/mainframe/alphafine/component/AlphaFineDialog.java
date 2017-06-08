@@ -2,7 +2,6 @@ package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineContext;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -93,6 +92,7 @@ public class AlphaFineDialog extends UIDialog {
                 if (waitingForSearch) {
                     long currentTime = System.currentTimeMillis();
                     if (currentTime - lastUpdateTime > 1000) {
+                        System.out.print(searchTextField.getText() + "............\n");
                         doSearch(searchTextField.getText());
                         waitingForSearch = false;
                     }
@@ -144,6 +144,8 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
             protected void textChanged(DocumentEvent e) {
+//                lastUpdateTime = System.currentTimeMillis();
+//                waitingForSearch = true;
                 doSearch(searchTextField.getText());
             }
         });
@@ -275,8 +277,11 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker.execute();
     }
 
-    private synchronized void rebuildList(String searchText) {
-        System.out.print("background===" + searchText + "\n");
+    /**
+     * 重新构建搜索结果列表
+     * @param searchText
+     */
+    private void rebuildList(String searchText) {
         searchListModel.removeAllElements();
         getRecentList(searchText);
         getRecommendList(searchText);
@@ -286,20 +291,15 @@ public class AlphaFineDialog extends UIDialog {
         getPluginList(searchText);
     }
 
-    private void checkCancel() {
-        if (Thread.interrupted()) {
-            throw new ProcessCanceledException();
-        }
-    }
+
+
     private synchronized void getDocumentList(final String searchText) {
 
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
-        checkCancel();
         for (Object object : documentModelList) {
-
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("document" + "-----" + searchText + "\n");
 
 
 
@@ -309,41 +309,42 @@ public class AlphaFineDialog extends UIDialog {
     private synchronized void getFileList(final String searchText) {
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
         for (Object object : fileModelList) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("file" + "-----" + searchText + "\n");
     }
 
     private synchronized void getActionList(final String searchText) {
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
         for (Object object : actionModelList) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("action" + "-----" + searchText + "\n");
     }
 
     private synchronized void getPluginList(final String searchText) {
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
         for (Object object : pluginModelList) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("plugin" + "-----" + searchText + "\n");
     }
 
     private synchronized void getRecommendList(final String searchText) {
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
         for (Object object : recommendModelList) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("recommend" + "-----" + searchText + "\n");
     }
 
     private synchronized void getRecentList(final String searchText) {
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
         for (Object object : recentModelList) {
+            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-        System.out.print("recent" + "-----" + searchText + "\n");
+
     }
 
 

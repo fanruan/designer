@@ -13,6 +13,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -57,15 +58,18 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                     return getNoConnectList();
                 }
                 result = httpClient.getResponseText();
+                AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("result");
                 if (jsonArray != null) {
                     int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
                     for (int i = 0; i < length; i++) {
+                        AlphaFineHelper.checkCancel();
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
                         this.lessModelList.add(cellModel);
                     }
                     for (int i = length; i < jsonArray.length(); i++) {
+                        AlphaFineHelper.checkCancel();
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
                         this.moreModelList.add(cellModel);
                     }

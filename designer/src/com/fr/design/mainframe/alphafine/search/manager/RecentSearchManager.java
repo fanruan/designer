@@ -3,6 +3,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
@@ -273,9 +274,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
      * @param searchText
      * @return
      */
-    public List<AlphaCellModel> getRecentModelList(String searchText) {
+    public synchronized List<AlphaCellModel> getRecentModelList(String searchText) {
         recentModelList = new ArrayList<>();
         for (String key : recentKVModelMap.keySet()) {
+            AlphaFineHelper.checkCancel();
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
                 int size = recentModelList.size();

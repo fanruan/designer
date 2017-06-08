@@ -41,12 +41,14 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 return getNoConnectList();
             }
             result = httpClient.getResponseText();
+            AlphaFineHelper.checkCancel();
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.optString("status").equals("success")) {
                     JSONArray jsonArray = jsonObject.optJSONArray("result");
                     if (jsonArray != null && jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
+                            AlphaFineHelper.checkCancel();
                             AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
                             if (alphaCellModel != null && !RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
                                 this.modelList.add(alphaCellModel);

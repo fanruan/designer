@@ -47,27 +47,20 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
-            if (Thread.interrupted()) {
-                System.out.print(searchText + "--------崩了1111\n");
-                throw new ProcessCanceledException();
-
-            }
             result = httpClient.getResponseText();
-            if (Thread.interrupted()) {
-                System.out.print(searchText + "--------崩了22222\n");
-                throw new ProcessCanceledException();
-
-            }
+            AlphaFineHelper.checkCancel();
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("docdata");
                 if (jsonArray != null) {
                     final int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
                     for (int i = 0; i < length; i++) {
+                        AlphaFineHelper.checkCancel();
                         DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
                         this.lessModelList.add(cellModel);
                     }
                     for (int i = length; i < jsonArray.length(); i++) {
+                        AlphaFineHelper.checkCancel();
                         DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
                         this.moreModelList.add(cellModel);
                     }
