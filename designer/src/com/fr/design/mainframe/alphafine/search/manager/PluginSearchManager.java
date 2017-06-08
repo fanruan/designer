@@ -23,7 +23,7 @@ import java.net.URLEncoder;
 public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
 
-    private static final MoreModel titleModel = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
 
 
     private SearchResult lessModelList;
@@ -72,7 +72,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                     if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
                     } else {
-                        lessModelList.add(0, titleModel);
+                        lessModelList.add(0, TITLE_MODEL);
                         if (lessModelList.size() == 1) {
                             lessModelList.add(AlphaFineHelper.noResultModel);
                         }
@@ -94,7 +94,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoResultList() {
         SearchResult result = new SearchResult();
-        result.add(0, titleModel);
+        result.add(0, TITLE_MODEL);
         result.add(AlphaFineHelper.noResultModel);
         return result;
 
@@ -102,7 +102,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, titleModel);
+        result.add(0, TITLE_MODEL);
         result.add(AlphaFineHelper.noConnectionModel);
         return result;
     }

@@ -21,7 +21,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
-    private static final MoreModel titleModel = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -64,7 +64,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                     if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                     } else  {
-                        lessModelList.add(0, titleModel);
+                        lessModelList.add(0, TITLE_MODEL);
                         if (lessModelList.size() == 1) {
                             lessModelList.add(AlphaFineHelper.noResultModel);
                         }
@@ -84,7 +84,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoResultList() {
         SearchResult result = new SearchResult();
-        result.add(0, titleModel);
+        result.add(0, TITLE_MODEL);
         result.add(AlphaFineHelper.noResultModel);
         return result;
 
@@ -92,7 +92,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, titleModel);
+        result.add(0, TITLE_MODEL);
         result.add(AlphaFineHelper.noConnectionModel);
         return result;
     }
