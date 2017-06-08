@@ -10,8 +10,8 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchListModel;
@@ -27,7 +27,6 @@ import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
@@ -40,19 +39,19 @@ import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -70,10 +69,6 @@ public class AlphaFineDialog extends UIDialog {
     private SwingWorker searchWorker;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
-    //。。。
-    private boolean isSearchCancel;
-    private boolean waitingForSearch;
-    private long lastUpdateTime;
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
@@ -81,25 +76,8 @@ public class AlphaFineDialog extends UIDialog {
         initProperties();
         initListener();
         initComponents();
-        //initSearcheTimer();
     }
 
-    private void initSearcheTimer() {
-        java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (waitingForSearch) {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastUpdateTime > 1000) {
-                        System.out.print(searchTextField.getText() + "............\n");
-                        doSearch(searchTextField.getText());
-                        waitingForSearch = false;
-                    }
-                }
-            }
-        }, 1000, 1000);
-    }
 
     /**
      * 初始化全部组件
@@ -272,6 +250,13 @@ public class AlphaFineDialog extends UIDialog {
             protected Object doInBackground() throws Exception {
                 rebuildList(searchTextField.getText());
                 return null;
+            }
+
+            @Override
+            protected void done() {
+                if (!isCancelled()) {
+                    searchResultList.setSelectedIndex(1);
+                }
             }
         };
         this.searchWorker.execute();
@@ -801,11 +786,4 @@ public class AlphaFineDialog extends UIDialog {
         this.forceOpen = forceOpen;
     }
 
-    public boolean isSearchCancel() {
-        return isSearchCancel;
-    }
-
-    public void setSearchCancel(boolean searchCancel) {
-        isSearchCancel = searchCancel;
-    }
 }
