@@ -1,5 +1,6 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -85,7 +86,7 @@ public class AlphaFineConfigPane extends BasicPane {
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_SearchRange"));
-        isContainRecommendCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Conclude"));
+        isContainRecommendCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Recommend"));
         isContainActionCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Set"));
         isContainPluginCheckbox = new UICheckBox(Inter.getLocText("FR-Designer-Plugin_Addon"));
         isContainDocumentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
@@ -156,6 +157,7 @@ public class AlphaFineConfigPane extends BasicPane {
 
     public void populate(AlphaFineConfigManager alphaFineConfigManager) {
         this.isEnabledCheckbox.setSelected(alphaFineConfigManager.isEnabled());
+        this.isSearchOnlineCheckbox.setEnabled(FRContext.isChineseEnv());
         this.isSearchOnlineCheckbox.setSelected(alphaFineConfigManager.isSearchOnLine());
         this.isContainActionCheckbox.setSelected(alphaFineConfigManager.isContainAction());
         this.isContainTemplateCheckbox.setSelected(alphaFineConfigManager.isContainTemplate());

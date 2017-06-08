@@ -61,7 +61,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 FRLogger.getLogger().error("data transform error! :" + e.getMessage());
             }
             if (modelList.size() > 0) {
-                modelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude"), false));
+                modelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
             }
         }
 
@@ -70,7 +70,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude"), false));
+        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
         result.add(AlphaFineHelper.noConnectionModel);
         return result;
     }
