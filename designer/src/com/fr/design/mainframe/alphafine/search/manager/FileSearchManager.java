@@ -171,7 +171,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 } else {
                     nodeList.add(fns[i]);
                 }
-            } else {
+            } else if (fileNode.isFileType("cpt") || fileNode.isFileType("frm")) {
                 nodeList.add(fileNode);
             }
         }
