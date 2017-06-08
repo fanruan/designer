@@ -9,8 +9,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
-import com.fr.plugin.PluginLicense;
-import com.fr.plugin.PluginLicenseManager;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
@@ -278,17 +276,7 @@ public class PluginWebBridge {
         List<PluginContext> plugins = PluginManager.getContexts();
         return plugins.toArray(new PluginContext[plugins.size()]);
     }
-
-
-    /**
-     * 获取已经安装的插件的授权情况
-     *
-     * @return 已安装的插件授权对象
-     */
-    public PluginLicense getPluginLicenseByID(String pluginID) {
-        return PluginLicenseManager.getInstance().getPluginLicenseByID(pluginID);
-    }
-
+    
     private String[] jsObjectToStringArray(JSObject obj) {
         if (obj == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;

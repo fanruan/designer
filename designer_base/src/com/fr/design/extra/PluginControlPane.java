@@ -8,9 +8,9 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.PluginLicense;
-import com.fr.plugin.PluginLicenseManager;
+import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.license.Licensed;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.manage.control.PluginTaskResult;
@@ -68,15 +68,18 @@ public class PluginControlPane extends BasicPane {
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof PluginView) {
-                    PluginLicense pluginLicense = PluginLicenseManager.getInstance().getPluginLicenseByID(((PluginView) value).getID());
+                    Licensed context = PluginManager.getContext(PluginMarker.read((PluginView) value));
+                    if (context == null) {
+                        return this;
+                    }
                     String extraInfo = "";
-                    if (pluginLicense.isJarDamage()) {
+                    if (context.isLicDamaged()) {
                         extraInfo = "(" + Inter.getLocText("FR-Plugin-Plugin_Damaged") + ")";
-                    } else if (pluginLicense.getLeftTime() != -1) {
-                        if (pluginLicense.isAvailable()) {
-                            extraInfo = "(" + (pluginLicense.isTrial() ? Inter.getLocText("FR-Plugin-Designer_Trial") : Inter.getLocText("FR-Plugin-Designer_Authorized")) + pluginLicense.getLeftTime() + Inter.getLocText("FR-Plugin-Designer_Left") + ")";
+                    } else if (!context.isFree()) {
+                        if (context.isAvailable()) {
+                            extraInfo = "(" + (context.isOnTrial() ? Inter.getLocText("FR-Plugin-Designer_Trial") : Inter.getLocText("FR-Plugin-Designer_Authorized")) + context.getLeftDays() + Inter.getLocText("FR-Plugin-Designer_Left") + ")";
                         } else {
-                            extraInfo = "(" + (pluginLicense.isTrial() ? Inter.getLocText("FR-Plugin-Designer_Trial") : Inter.getLocText("FR-Plugin-Designer_Authorized")) + Inter.getLocText("FR-Plugin-Designer_Expired") + ")";
+                            extraInfo = "(" + (context.isOnTrial() ? Inter.getLocText("FR-Plugin-Designer_Trial") : Inter.getLocText("FR-Plugin-Designer_Authorized")) + Inter.getLocText("FR-Plugin-Designer_Expired") + ")";
                         }
                     }
                     setText(((PluginView) value).getName() + extraInfo);
