@@ -2,8 +2,8 @@ package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineContext;
-import com.fr.design.actions.help.alphafine.AlphafineListener;
+import com.fr.design.actions.help.alphafine.AlphaFineContext;
+import com.fr.design.actions.help.alphafine.AlphaFineListener;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
@@ -28,7 +28,7 @@ public class AlphaFinePane extends BasicPane {
     }
     public AlphaFinePane() {
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 14));
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isEnabled()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
         }
         UIButton refreshButton = new UIButton();
@@ -42,7 +42,7 @@ public class AlphaFinePane extends BasicPane {
                 AlphaFineHelper.showAlphaFineDialog(false);
             }
         });
-        AlphafineContext.addAlphafineContextListener(new AlphafineListener() {
+        AlphaFineContext.addAlphafineContextListener(new AlphaFineListener() {
             @Override
             public void showDialog() {
                 AlphaFineHelper.showAlphaFineDialog(true);

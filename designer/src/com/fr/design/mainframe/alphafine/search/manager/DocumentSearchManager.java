@@ -1,8 +1,6 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineContext;
-import com.fr.design.actions.help.alphafine.AlphafineListener;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
@@ -11,7 +9,6 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -38,7 +35,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainDocument()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
             HttpClient httpClient = new HttpClient(url);

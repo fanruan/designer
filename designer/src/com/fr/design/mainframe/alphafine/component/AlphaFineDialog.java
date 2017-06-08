@@ -613,7 +613,7 @@ public class AlphaFineDialog extends UIDialog {
                 if (event instanceof KeyEvent) {
                     KeyEvent e = (KeyEvent) event;
                     KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
-                    KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphafineConfigManager().getShortCutKeyStore();
+                    KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().getShortCutKeyStore();
                     if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString())) {
                         doClickAction();
                     }

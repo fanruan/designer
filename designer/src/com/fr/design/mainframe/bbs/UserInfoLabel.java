@@ -213,15 +213,15 @@ public class UserInfoLabel extends UILabel {
                     para.put("username", encode(encode(userName)));
                     HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
                     getMessage.asGet();
-                    if (getMessage.isServerAlive()) {
-                        try {
-                            String res = getMessage.getResponseText();
-                            if (StringUtils.isNotEmpty(res)) {
-                                setMessageCount(Integer.parseInt(res));
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
+//                    if (getMessage.isServerAlive()) {
+//                        try {
+//                            String res = getMessage.getResponseText();
+//                            if (StringUtils.isNotEmpty(res)) {
+//                                setMessageCount(Integer.parseInt(res));
+//                            }
+//                        } catch (Exception e) {
+//                        }
+//                    }
                     sleep(CHECK_MESSAGE_TIME);
                 }
             }

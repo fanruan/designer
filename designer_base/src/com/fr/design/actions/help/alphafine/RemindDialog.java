@@ -22,7 +22,7 @@ public class RemindDialog extends UIDialog {
     }
 
     private void initComponent() {
-        final AlphafineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphafineConfigManager();
+        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
         remindPane = new RemindPane(manager, this);
         this.add(remindPane);
 

@@ -6,14 +6,14 @@ import java.util.List;
 /**
  * Created by XiaXiang on 2017/5/27.
  */
-public class AlphafineContext {
-    private static List<AlphafineListener> fireLoginContextListener = new ArrayList<AlphafineListener>();
+public class AlphaFineContext {
+    private static List<AlphaFineListener> fireLoginContextListener = new ArrayList<AlphaFineListener>();
 
     /**
      * 触发AlphaFine弹窗
      */
     public static void fireAlphaFineContextListener() {
-        for (AlphafineListener l : fireLoginContextListener) {
+        for (AlphaFineListener l : fireLoginContextListener) {
             l.showDialog();
         }
     }
@@ -23,7 +23,7 @@ public class AlphafineContext {
      *
      * @param l AlphaFine框弹出监听事件
      */
-    public static void addAlphafineContextListener(AlphafineListener l) {
+    public static void addAlphafineContextListener(AlphaFineListener l) {
         fireLoginContextListener.add(l);
     }
 }

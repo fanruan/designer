@@ -1,6 +1,5 @@
 package com.fr.design.actions.help.alphafine;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -17,13 +16,13 @@ import java.awt.event.ActionEvent;
 /**
  * Created by XiaXiang on 2017/4/1.
  */
-public class AlphafineAction extends UpdateAction {
-    public AlphafineAction() {
+public class AlphaFineAction extends UpdateAction {
+    public AlphaFineAction() {
         this.setMenuKeySet(ALPHAFINE);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
-        this.setSearchText(new AlphafineConfigPane());
+        this.setSearchText(new AlphaFineConfigPane());
     }
 
     public static final MenuKeySet ALPHAFINE = new MenuKeySet() {
@@ -49,15 +48,15 @@ public class AlphafineAction extends UpdateAction {
     public void actionPerformed(ActionEvent e) {
         final DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
 
-        final AlphafineConfigPane alphafineConfigPane = new AlphafineConfigPane();
-        alphafineConfigPane.populate(DesignerEnvManager.getEnvManager().getAlphafineConfigManager());
+        final AlphaFineConfigPane alphaFineConfigPane = new AlphaFineConfigPane();
+        alphaFineConfigPane.populate(DesignerEnvManager.getEnvManager().getAlphaFineConfigManager());
         DialogActionListener dialogActionListener = new DialogActionAdapter() {
             public void doOk() {
-                alphafineConfigPane.update();
+                alphaFineConfigPane.update();
                 designerFrame.refreshToolbar();
             }
         };
-        BasicDialog basicDialog = alphafineConfigPane.showMediumWindow(designerFrame, dialogActionListener);
+        BasicDialog basicDialog = alphaFineConfigPane.showMediumWindow(designerFrame, dialogActionListener);
         basicDialog.setVisible(true);
     }
 }

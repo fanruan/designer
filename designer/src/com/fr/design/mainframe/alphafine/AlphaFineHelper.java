@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.alphafine;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineConfigManager;
+import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
@@ -21,7 +21,7 @@ public class AlphaFineHelper {
      */
     public static void showAlphaFineDialog(boolean forceOpen) {
         AlphaFineDialog dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
-        final AlphafineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphafineConfigManager();
+        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
         manager.setNeedRemind(false);
         dialog.setVisible(true);
     }

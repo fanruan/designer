@@ -197,7 +197,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             }
         });
 
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isEnabled()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
 			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
 		}
 		return northEastPane;

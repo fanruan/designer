@@ -11,7 +11,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.*;
 import com.fr.design.actions.file.*;
 import com.fr.design.actions.help.AboutAction;
-import com.fr.design.actions.help.alphafine.AlphafineAction;
+import com.fr.design.actions.help.alphafine.AlphaFineAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.server.*;
@@ -374,7 +374,7 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
         shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(new AlphafineAction());
+        shortCuts.add(new AlphaFineAction());
 
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }

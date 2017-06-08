@@ -32,7 +32,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainRecommend()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
             HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
             httpClient.asGet();

@@ -1,19 +1,15 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineContext;
-import com.fr.design.actions.help.alphafine.AlphafineListener;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -46,7 +42,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainPlugin()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {
                 String encodedKey = URLEncoder.encode(searchText, "UTF-8");

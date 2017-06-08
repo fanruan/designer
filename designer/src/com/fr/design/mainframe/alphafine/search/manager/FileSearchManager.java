@@ -44,7 +44,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             Env env = FRContext.getCurrentEnv();
             fileNodes = new ArrayList<>();
             fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
@@ -87,7 +87,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      * @param filePath
      */
     private void searchFileContent(String searchText, FileNode node, boolean isAlreadyContain, String filePath) {
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainFileContent()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
 
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -121,7 +121,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      * @return
      */
     private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
                 FileModel model = new FileModel(node.getName(), node.getEnvPath());
                 this.filterModelList.add(model);
