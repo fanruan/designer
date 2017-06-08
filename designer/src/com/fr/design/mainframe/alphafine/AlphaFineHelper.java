@@ -3,7 +3,6 @@ package com.fr.design.mainframe.alphafine;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
-import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.Inter;
 import com.fr.general.ProcessCanceledException;
 import com.fr.stable.StringUtils;
