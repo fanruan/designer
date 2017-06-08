@@ -7,14 +7,20 @@ import java.util.List;
  * Created by XiaXiang on 2017/5/27.
  */
 public class AlphaFineContext {
-    private static List<AlphaFineListener> fireLoginContextListener = new ArrayList<AlphaFineListener>();
+    private static List<AlphaFineListener> fireAlphaFineListener = new ArrayList<AlphaFineListener>();
 
     /**
      * 触发AlphaFine弹窗
      */
-    public static void fireAlphaFineContextListener() {
-        for (AlphaFineListener l : fireLoginContextListener) {
+    public static void fireAlphaFineShowDialog() {
+        for (AlphaFineListener l : fireAlphaFineListener) {
             l.showDialog();
+        }
+    }
+
+    public static void fireAlphaFineEnable(boolean isEnable) {
+        for (AlphaFineListener l : fireAlphaFineListener) {
+            l.setEnable(isEnable);
         }
     }
 
@@ -23,7 +29,8 @@ public class AlphaFineContext {
      *
      * @param l AlphaFine框弹出监听事件
      */
-    public static void addAlphafineContextListener(AlphaFineListener l) {
-        fireLoginContextListener.add(l);
+    public static void addAlphaFineListener(AlphaFineListener l) {
+        fireAlphaFineListener.add(l);
     }
+
 }

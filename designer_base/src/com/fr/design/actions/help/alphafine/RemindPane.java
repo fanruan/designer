@@ -63,7 +63,7 @@ public class RemindPane extends JPanel {
             public void mousePressed(MouseEvent e) {
                 manager.setOperateCount(0);
                 dialog.dispose();
-                AlphaFineContext.fireAlphaFineContextListener();
+                AlphaFineContext.fireAlphaFineShowDialog();
 
             }
         });

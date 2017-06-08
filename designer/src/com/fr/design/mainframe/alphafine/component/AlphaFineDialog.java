@@ -122,8 +122,6 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
             protected void textChanged(DocumentEvent e) {
-//                lastUpdateTime = System.currentTimeMillis();
-//                waitingForSearch = true;
                 doSearch(searchTextField.getText());
             }
         });
@@ -590,7 +588,7 @@ public class AlphaFineDialog extends UIDialog {
                     if (SwingUtilities.isLeftMouseButton(k)) {
                         Point p = k.getLocationOnScreen();
                         Rectangle dialogRectangle = AlphaFineDialog.this.getBounds();
-                        Rectangle paneRectangle = new Rectangle(AlphaFinePane.createAlphaFinePane().getLocationOnScreen(), AlphaFinePane.createAlphaFinePane().getSize());
+                        Rectangle paneRectangle = new Rectangle(AlphaFinePane.getAlphaFinePane().getLocationOnScreen(), AlphaFinePane.getAlphaFinePane().getSize());
                         if (!dialogRectangle.contains(p) && !paneRectangle.contains(p) && !forceOpen) {
                             AlphaFineDialog.this.dispose();
                             forceOpen = false;
@@ -614,7 +612,7 @@ public class AlphaFineDialog extends UIDialog {
                     KeyEvent e = (KeyEvent) event;
                     KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
                     KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().getShortCutKeyStore();
-                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString())) {
+                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFinePane.getAlphaFinePane().isVisible()) {
                         doClickAction();
                     }
 

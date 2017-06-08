@@ -1,5 +1,6 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -49,11 +50,15 @@ public class AlphaFineAction extends UpdateAction {
         final DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
 
         final AlphaFineConfigPane alphaFineConfigPane = new AlphaFineConfigPane();
-        alphaFineConfigPane.populate(DesignerEnvManager.getEnvManager().getAlphaFineConfigManager());
+        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
+        if (!FRContext.isChineseEnv()) {
+            manager.setSearchOnLine(false);
+        }
+        alphaFineConfigPane.populate(manager);
         DialogActionListener dialogActionListener = new DialogActionAdapter() {
             public void doOk() {
                 alphaFineConfigPane.update();
-                designerFrame.refreshToolbar();
+                AlphaFineContext.fireAlphaFineEnable(manager.isEnabled());
             }
         };
         BasicDialog basicDialog = alphaFineConfigPane.showMediumWindow(designerFrame, dialogActionListener);

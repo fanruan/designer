@@ -5,4 +5,5 @@ package com.fr.design.actions.help.alphafine;
  */
 public interface AlphaFineListener {
     void showDialog();
+    void setEnable(boolean isEnable);
 }
