@@ -1,13 +1,17 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.help.alphafine.AlphafineContext;
+import com.fr.design.actions.help.alphafine.AlphafineListener;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -20,6 +24,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
+    private static final MoreModel titleModel = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -40,13 +45,23 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             httpClient.setTimeout(5000);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
-                return lessModelList;
+                return getNoConnectList();
+            }
+            if (Thread.interrupted()) {
+                System.out.print(searchText + "--------崩了1111\n");
+                throw new ProcessCanceledException();
+
             }
             result = httpClient.getResponseText();
+            if (Thread.interrupted()) {
+                System.out.print(searchText + "--------崩了22222\n");
+                throw new ProcessCanceledException();
+
+            }
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("docdata");
-                if (jsonArray != null && jsonArray.length() > 0) {
+                if (jsonArray != null) {
                     final int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
                     for (int i = 0; i < length; i++) {
                         DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
@@ -59,7 +74,10 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                     if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                     } else  {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT));
+                        lessModelList.add(0, titleModel);
+                        if (lessModelList.size() == 1) {
+                            lessModelList.add(AlphaFineHelper.noResultModel);
+                        }
                     }
 
 
@@ -67,12 +85,26 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
             } catch (JSONException e) {
                 FRLogger.getLogger().error(e.getMessage());
-                return lessModelList;
+                return getNoResultList();
             }
-
 
         }
         return lessModelList;
+    }
+
+    private SearchResult getNoResultList() {
+        SearchResult result = new SearchResult();
+        result.add(0, titleModel);
+        result.add(AlphaFineHelper.noResultModel);
+        return result;
+
+    }
+
+    private SearchResult getNoConnectList() {
+        SearchResult result = new SearchResult();
+        result.add(0, titleModel);
+        result.add(AlphaFineHelper.noConnectionModel);
+        return result;
     }
 
     /**

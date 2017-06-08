@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
@@ -37,7 +38,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
             httpClient.asGet();
             httpClient.setTimeout(5000);
             if (!httpClient.isServerAlive()) {
-                return modelList;
+                return getNoConnectList();
             }
             result = httpClient.getResponseText();
             try {
@@ -63,6 +64,13 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         }
 
         return modelList;
+    }
+
+    private SearchResult getNoConnectList() {
+        SearchResult result = new SearchResult();
+        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Conclude"), false));
+        result.add(AlphaFineHelper.noConnectionModel);
+        return result;
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.help.alphafine.AlphafineContext;
+import com.fr.design.actions.help.alphafine.AlphafineListener;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -21,8 +25,13 @@ import java.net.URLEncoder;
  */
 public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
+
+    private static final MoreModel titleModel = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
+
+
     private SearchResult lessModelList;
     private SearchResult moreModelList;
+
 
     public synchronized static PluginSearchManager getPluginSearchManager() {
         if (pluginSearchManager == null) {
@@ -34,7 +43,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
 
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
-
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainPlugin()) {
@@ -46,12 +54,12 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 httpClient.setTimeout(5000);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
-                    return lessModelList;
+                    return getNoConnectList();
                 }
                 result = httpClient.getResponseText();
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("result");
-                if (jsonArray != null && jsonArray.length() > 0) {
+                if (jsonArray != null) {
                     int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
                     for (int i = 0; i < length; i++) {
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
@@ -64,17 +72,39 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                     if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
                     } else {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
+                        lessModelList.add(0, titleModel);
+                        if (lessModelList.size() == 1) {
+                            lessModelList.add(AlphaFineHelper.noResultModel);
+                        }
                     }
 
+                } else {
+                    return getNoResultList();
                 }
 
             } catch (Exception e) {
                 FRLogger.getLogger().error(e.getMessage());
-                return lessModelList;
+                return getNoResultList();
             }
         }
         return this.lessModelList;
+
+
+    }
+
+    private SearchResult getNoResultList() {
+        SearchResult result = new SearchResult();
+        result.add(0, titleModel);
+        result.add(AlphaFineHelper.noResultModel);
+        return result;
+
+    }
+
+    private SearchResult getNoConnectList() {
+        SearchResult result = new SearchResult();
+        result.add(0, titleModel);
+        result.add(AlphaFineHelper.noConnectionModel);
+        return result;
     }
 
     private static PluginModel getPluginModel(JSONObject object, boolean isFromCloud) {

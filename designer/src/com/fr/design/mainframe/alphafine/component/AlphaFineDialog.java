@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.help.alphafine.AlphafineContext;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -27,6 +28,7 @@ import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
@@ -39,6 +41,7 @@ import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -50,8 +53,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -69,6 +71,10 @@ public class AlphaFineDialog extends UIDialog {
     private SwingWorker searchWorker;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
+    //。。。
+    private boolean isSearchCancel;
+    private boolean waitingForSearch;
+    private long lastUpdateTime;
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
@@ -76,6 +82,23 @@ public class AlphaFineDialog extends UIDialog {
         initProperties();
         initListener();
         initComponents();
+        //initSearcheTimer();
+    }
+
+    private void initSearcheTimer() {
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (waitingForSearch) {
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastUpdateTime > 1000) {
+                        doSearch(searchTextField.getText());
+                        waitingForSearch = false;
+                    }
+                }
+            }
+        }, 1000, 1000);
     }
 
     /**
@@ -134,6 +157,7 @@ public class AlphaFineDialog extends UIDialog {
         addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
+
     }
 
     /**
@@ -164,9 +188,9 @@ public class AlphaFineDialog extends UIDialog {
         if (StringUtils.isBlank(text) || text.equals("AlphaFine")) {
             removeSearchResult();
         } else if (text.contains("'")) {
-           return; 
+           return;
         } else {
-            showSearchResult(text);
+            showSearchResult();
         }
 
     }
@@ -198,14 +222,13 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 展示搜索结果
-     * @param searchText
      */
-    private void showSearchResult(String searchText) {
+    private void showSearchResult() {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initListListener(searchText);
+            initListListener();
         }
-        initSearchWorker(searchText);
+        initSearchWorker();
     }
 
     /**
@@ -213,6 +236,8 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initSearchResultComponents() {
         searchResultList = new JList();
+        searchListModel = new SearchListModel(new SearchResult());
+        searchResultList.setModel(searchListModel);
         searchResultPane = new JPanel();
         searchResultPane.setPreferredSize(AlphaFineConstants.CONTENT_SIZE);
         searchResultPane.setLayout(new BorderLayout());
@@ -233,56 +258,99 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 异步加载搜索结构
-     * @param searchText
+     * 异步加载搜索结果
      */
-    private void initSearchWorker(final String searchText) {
-        searchResultList.setModel(new SearchListModel(AlphaSearchManager.getSearchManager().showDefaultSearchResult()));
+    private void initSearchWorker() {
         if (this.searchWorker != null && !this.searchWorker.isDone()) {
             this.searchWorker.cancel(true);
             this.searchWorker = null;
         }
-        this.searchWorker = new SwingWorker<SearchListModel, String>() {
-
+        this.searchWorker = new SwingWorker() {
             @Override
-            protected SearchListModel doInBackground() {
-                return setListModel(new SearchListModel(AlphaSearchManager.getSearchManager().getLessSearchResult(searchText)));
+            protected Object doInBackground() throws Exception {
+                rebuildList(searchTextField.getText());
+                return null;
             }
-
-            @Override
-            protected void done() {
-                try {
-                    if (!isCancelled()) {
-                        searchResultList.setModel(get());
-                        searchResultList.validate();
-                        searchResultList.repaint();
-                        validate();
-                        repaint();
-                        /**
-                         * 默认选中第1项，第0项为title
-                         */
-                        if (searchResultList.getModel().getSize() > 0) {
-                            searchResultList.setSelectedIndex(1);
-                        }
-
-                    }
-                } catch (InterruptedException e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                } catch (ExecutionException e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-
-            }
-
         };
         this.searchWorker.execute();
     }
 
+    private synchronized void rebuildList(String searchText) {
+        System.out.print("background===" + searchText + "\n");
+        searchListModel.removeAllElements();
+        getRecentList(searchText);
+        getRecommendList(searchText);
+        getActionList(searchText);
+        getFileList(searchText);
+        getDocumentList(searchText);
+        getPluginList(searchText);
+    }
+
+    private void checkCancel() {
+        if (Thread.interrupted()) {
+            throw new ProcessCanceledException();
+        }
+    }
+    private synchronized void getDocumentList(final String searchText) {
+
+        SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
+        checkCancel();
+        for (Object object : documentModelList) {
+
+            searchListModel.addElement(object);
+        }
+        System.out.print("document" + "-----" + searchText + "\n");
+
+
+
+
+    }
+
+    private synchronized void getFileList(final String searchText) {
+        SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
+        for (Object object : fileModelList) {
+            searchListModel.addElement(object);
+        }
+        System.out.print("file" + "-----" + searchText + "\n");
+    }
+
+    private synchronized void getActionList(final String searchText) {
+        SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
+        for (Object object : actionModelList) {
+            searchListModel.addElement(object);
+        }
+        System.out.print("action" + "-----" + searchText + "\n");
+    }
+
+    private synchronized void getPluginList(final String searchText) {
+        SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
+        for (Object object : pluginModelList) {
+            searchListModel.addElement(object);
+        }
+        System.out.print("plugin" + "-----" + searchText + "\n");
+    }
+
+    private synchronized void getRecommendList(final String searchText) {
+        SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
+        for (Object object : recommendModelList) {
+            searchListModel.addElement(object);
+        }
+        System.out.print("recommend" + "-----" + searchText + "\n");
+    }
+
+    private synchronized void getRecentList(final String searchText) {
+        SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
+        for (Object object : recentModelList) {
+            searchListModel.addElement(object);
+        }
+        System.out.print("recent" + "-----" + searchText + "\n");
+    }
+
+
     /**
      * 初始化监听器
-     * @param searchText
      */
-    private void initListListener(final String searchText) {
+    private void initListListener() {
         /**
          * 鼠标监听器
          */
@@ -663,11 +731,11 @@ public class AlphaFineDialog extends UIDialog {
         SearchResult moreResult = getMoreResult(selectedValue);
         if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.insertElementAt(moreResult.get(i), index + AlphaFineConstants.SHOW_SIZE + 1 + i);
+                this.searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResult.get(i));
             }
         } else {
             for (int i = 0; i < moreResult.size(); i++) {
-                this.searchListModel.removeElementAt(index + AlphaFineConstants.SHOW_SIZE + 1);
+                this.searchListModel.remove(index + AlphaFineConstants.SHOW_SIZE + 1);
 
             }
         }
@@ -701,7 +769,7 @@ public class AlphaFineDialog extends UIDialog {
                 moreResult = ActionSearchManager.getActionSearchManager().getMoreSearchResult();
                 break;
             default:
-                moreResult = AlphaSearchManager.getSearchManager().getMoreSearchResult();
+                moreResult = new SearchResult();
         }
         return moreResult;
     }
@@ -730,5 +798,13 @@ public class AlphaFineDialog extends UIDialog {
 
     public void setForceOpen(boolean forceOpen) {
         this.forceOpen = forceOpen;
+    }
+
+    public boolean isSearchCancel() {
+        return isSearchCancel;
+    }
+
+    public void setSearchCancel(boolean searchCancel) {
+        isSearchCancel = searchCancel;
     }
 }

@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
@@ -44,21 +45,24 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     }
                 }
             }
-            if (filterModelList != null && filterModelList.size() > 0) {
-                final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
-                for (int i = 0; i < length; i++) {
-                    lessModelList.add(filterModelList.get(i));
-                }
-                for (int i = length; i < filterModelList.size(); i++) {
-                    moreModelList.add(filterModelList.get(i));
-                }
-                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
-                } else {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
-                }
 
+            final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
+            for (int i = 0; i < length; i++) {
+                lessModelList.add(filterModelList.get(i));
             }
+            for (int i = length; i < filterModelList.size(); i++) {
+                moreModelList.add(filterModelList.get(i));
+            }
+            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
+            } else {
+                lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
+                if (lessModelList.size() == 1) {
+                    lessModelList.add(AlphaFineHelper.noResultModel);
+                }
+            }
+
+
 
         }
         return lessModelList;

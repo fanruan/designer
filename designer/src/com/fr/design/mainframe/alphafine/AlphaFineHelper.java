@@ -1,13 +1,18 @@
 package com.fr.design.mainframe.alphafine;
 
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
+import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
+    public static final NoResultModel noResultModel = new NoResultModel(Inter.getLocText("FR-Designere_AlphaFine_NoResult"));
+    public static final NoResultModel noConnectionModel = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
 
     /**
      * 弹出alphafine搜索面板
@@ -16,6 +21,7 @@ public class AlphaFineHelper {
         AlphaFineDialog dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
         dialog.setVisible(true);
     }
+
 
     /**
      * 获取文件名上级目录

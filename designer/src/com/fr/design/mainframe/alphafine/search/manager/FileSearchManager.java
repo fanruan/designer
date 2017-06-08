@@ -44,32 +44,38 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        Env env = FRContext.getCurrentEnv();
-        fileNodes = new ArrayList<>();
-        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
-        for (FileNode node : fileNodes) {
-            boolean isAlreadyContain = false;
-            String fileEnvPath = node.getEnvPath();
-            String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
-            isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
-            searchFileContent(searchText, node, isAlreadyContain, filePath);
+        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainTemplate()) {
+            Env env = FRContext.getCurrentEnv();
+            fileNodes = new ArrayList<>();
+            fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+            for (FileNode node : fileNodes) {
+                boolean isAlreadyContain = false;
+                String fileEnvPath = node.getEnvPath();
+                String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
+                isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
+                searchFileContent(searchText, node, isAlreadyContain, filePath);
 
-        }
+            }
 
-        final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
-        for (int i = 0; i < length; i++) {
-            lessModelList.add(filterModelList.get(i));
-        }
-        for (int i = length; i< filterModelList.size(); i++) {
-            moreModelList.add(filterModelList.get(i));
-        }
-        if (filterModelList.size() > 0) {
+            final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
+            for (int i = 0; i < length; i++) {
+                lessModelList.add(filterModelList.get(i));
+            }
+            for (int i = length; i< filterModelList.size(); i++) {
+                moreModelList.add(filterModelList.get(i));
+            }
+
             if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
                 lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE));
             } else {
                 lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE));
+                if (lessModelList.size() == 1) {
+                    lessModelList.add(AlphaFineHelper.noResultModel);
+                }
             }
         }
+
+
         return this.lessModelList;
     }
 
