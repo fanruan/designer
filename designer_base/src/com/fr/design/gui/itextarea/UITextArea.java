@@ -1,5 +1,6 @@
 package com.fr.design.gui.itextarea;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -7,33 +8,14 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class UITextArea extends JTextArea implements UIObserver {
     private UIObserverListener uiObserverListener;
 
     public UITextArea(int i, int j) {
         super(i, j);
-        InputMap inputMap = this.getInputMap();
-        while (inputMap.getParent() != null) {
-            inputMap = inputMap.getParent();
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, DEFAULT_MODIFIER), DefaultEditorKit.selectAllAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), DefaultEditorKit.copyAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), DefaultEditorKit.pasteAction);
-        }
-        if (inputMap.get(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER)) == null) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), DefaultEditorKit.cutAction);
-        }
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initComponents();
     }
 
@@ -44,11 +26,13 @@ public class UITextArea extends JTextArea implements UIObserver {
 
     public UITextArea() {
         super();
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initComponents();
     }
 
     public UITextArea(String s) {
         super(s);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initComponents();
     }
 
