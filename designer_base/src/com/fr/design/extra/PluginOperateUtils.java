@@ -133,7 +133,8 @@ public class PluginOperateUtils {
             public void run() {
 //                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
                 String plistUrl = "http://shop.finereport.com/shopServer?pg=plist";
-                if (StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee)){
+                boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
+                if (getRecommend){
                     plistUrl = "http://shop.finereport.com/ShopServer?pg=feature";
                 }
                 if (StringUtils.isNotBlank(plistUrl)) {
