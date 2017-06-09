@@ -18,6 +18,10 @@ public class AlphaFineContext {
         }
     }
 
+    /**
+     * 触发开启或关闭AlphaFine功能
+     * @param isEnable
+     */
     public static void fireAlphaFineEnable(boolean isEnable) {
         for (AlphaFineListener l : fireAlphaFineListener) {
             l.setEnable(isEnable);
@@ -25,9 +29,9 @@ public class AlphaFineContext {
     }
 
     /**
-     * 添加一个弹出AlphaFine的监听事件
+     * 添加一个AlphaFine的监听事件
      *
-     * @param l AlphaFine框弹出监听事件
+     * @param l AlphaFine监听事件
      */
     public static void addAlphaFineListener(AlphaFineListener l) {
         fireAlphaFineListener.add(l);

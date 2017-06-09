@@ -4,7 +4,6 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
-import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;

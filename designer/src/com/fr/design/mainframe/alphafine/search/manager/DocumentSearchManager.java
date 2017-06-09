@@ -81,7 +81,10 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         return lessModelList;
     }
 
-
+    /**
+     * 无连接
+     * @return
+     */
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
         result.add(0, TITLE_MODEL);

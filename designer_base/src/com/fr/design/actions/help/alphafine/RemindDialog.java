@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * Created by XiaXiang on 2017/5/26.
+ * 提示弹窗
  */
 public class RemindDialog extends UIDialog {
     private RemindPane remindPane;
