@@ -4,12 +4,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import com.fr.design.beans.GroupModel;
-import com.fr.design.event.ChangeEvent;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.mainframe.FormDesigner;
