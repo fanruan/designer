@@ -32,16 +32,6 @@ import java.util.ArrayList;
 public class DesignModuleFactory {
     private static DesignModuleFactory instance = new DesignModuleFactory();
 
-    private static ChartCollection chartCollection;
-
-    public static ChartCollection getChartCollection() {
-        return chartCollection;
-    }
-
-    public static void setChartCollection(ChartCollection chartCollection) {
-        DesignModuleFactory.chartCollection = chartCollection;
-    }
-
     private DesignModuleFactory() {
 
     }
