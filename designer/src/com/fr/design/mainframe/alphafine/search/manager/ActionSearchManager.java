@@ -50,8 +50,10 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
             }
             SearchResult result = new SearchResult();
             for (Object object : filterModelList) {
-                if (!AlphaFineHelper.getFilterResult().contains(object))
+                if (!AlphaFineHelper.getFilterResult().contains(object)) {
                     result.add(object);
+                }
+
             }
             if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                 lessModelList.add(0, TITLE_MODEL);
