@@ -1,8 +1,6 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.actions.HyperlinkPluginAction;
-import com.fr.design.actions.UpdateAction;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -12,14 +10,12 @@ import com.fr.general.NameObject;
 import com.fr.js.JavaScript;
 import com.fr.js.NameJavaScript;
 import com.fr.js.NameJavaScriptGroup;
-import com.fr.plugin.PluginManager;
 import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * 超级链接 界面.
@@ -39,15 +35,6 @@ public class HyperlinkGroupPane extends JListControlPane {
         NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
         for (NameableCreator creator : creators) {
             nameCreators.put(creator.menuName(), creator);
-        }
-        PluginManager.getInstance().setExtensionPoint(HyperlinkPluginAction.XML_TAG);
-        ArrayList<UpdateAction> templateArrayLisy = PluginManager.getInstance().getResultList();
-//        if (templateArrayLisy.isEmpty()) {
-//            return creators;
-//        }
-        for (int i = 0; i < templateArrayLisy.size(); i++) {
-            NameableCreator nameableCreator = ((HyperlinkPluginAction) templateArrayLisy.get(i)).getHyperlinkCreator();
-            nameCreators.put(nameableCreator.menuName(), nameableCreator);
         }
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         for (HyperlinkProvider provider : providers) {
