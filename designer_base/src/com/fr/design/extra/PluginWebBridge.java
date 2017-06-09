@@ -312,6 +312,13 @@ public class PluginWebBridge {
         PluginOperateUtils.getPluginFromStore(category, seller, fee, jsCallback);
     }
 
+
+    public void getPluginPrefix(final JSObject callback){
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginPrefix(jsCallback);
+    }
+
+
     /**
      * 在线获取插件分类
      *
