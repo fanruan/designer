@@ -3,7 +3,8 @@ package com.fr.design.mainframe.alphafine.search.manager;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -39,10 +40,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private static RecentSearchManager recentSearchManager = null;
     private static File recentFile = null;
     private SearchResult modelList;
-    private List<AlphaCellModel> fileList = new ArrayList<>();
-    private List<AlphaCellModel> actionList = new ArrayList<>();
-    private List<AlphaCellModel> documentList = new ArrayList<>();
-    private List<AlphaCellModel> pluginList = new ArrayList<>();
     private List<AlphaCellModel> recentModelList = new ArrayList<>();
     private Map<String, List<AlphaCellModel>> recentKVModelMap = new HashMap<>();
 
@@ -98,7 +95,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     private void addModelToList(List<AlphaCellModel> list, String name) {
         try {
-            AlphaCellModel model = getModelFromJson(new JSONObject(name));
+            AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(name));
             if (model != null) {
                 list.add(model);
             }
@@ -107,60 +104,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         }
     }
 
-    /**
-     * 转成cellModel
-     * @param object
-     * @return
-     */
-    private AlphaCellModel getModelFromJson(JSONObject object) {
-        int typeValue = object.optInt("cellType");
-        AlphaCellModel cellModel = null;
-        switch (CellType.parse(typeValue)) {
-            case ACTION:
-                cellModel = ActionSearchManager.getModelFromCloud(object.optString("result"));
-                if (cellModel != null) {
-                    actionList.add(cellModel);
-                }
-                break;
-            case DOCUMENT:
-                cellModel = DocumentSearchManager.getModelFromCloud(object.optJSONObject("result"));
-                if (cellModel != null) {
-                    documentList.add(cellModel);
-                }
-                break;
-            case FILE:
-                cellModel = FileSearchManager.getModelFromCloud(object.optString("result"));
-                if (cellModel != null) {
-                    fileList.add(cellModel);
-                }
-                break;
-            case PLUGIN:
-            case REUSE:
-                cellModel = PluginSearchManager.getModelFromCloud(object.optJSONObject("result"));
-                if (cellModel != null) {
-                    pluginList.add(cellModel);
-                }
-                break;
-
-        }
-        return cellModel;
-    }
-
-    public List<AlphaCellModel> getFileList() {
-        return fileList;
-    }
-
-    public List<AlphaCellModel> getActionList() {
-        return actionList;
-    }
-
-    public List<AlphaCellModel> getDocumentList() {
-        return documentList;
-    }
-
-    public List<AlphaCellModel> getPluginList() {
-        return pluginList;
-    }
 
     @Override
     public void writeXML(XMLPrintWriter writer) {
@@ -209,7 +152,6 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         if (!envFile.exists()) {
             createRecentFile(envFile);
         }
-
         return envFile;
     }
 
@@ -273,9 +215,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
      * @param searchText
      * @return
      */
-    public List<AlphaCellModel> getRecentModelList(String searchText) {
+    public synchronized List<AlphaCellModel> getRecentModelList(String searchText) {
         recentModelList = new ArrayList<>();
         for (String key : recentKVModelMap.keySet()) {
+            AlphaFineHelper.checkCancel();
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
                 int size = recentModelList.size();

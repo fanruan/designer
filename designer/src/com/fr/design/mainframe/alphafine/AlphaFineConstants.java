@@ -47,6 +47,8 @@ public class AlphaFineConstants {
 
     public static final Color LIGHT_GRAY = new Color(0xcccccc);
 
+    public static final Color MEDIUM_GRAY = new Color(0x999999);
+
     public static final Color BLUE = new Color(0x3394f0);
 
     public static final Color BLACK = new Color(0x222222);

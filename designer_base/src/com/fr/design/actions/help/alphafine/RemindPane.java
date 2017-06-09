@@ -42,7 +42,7 @@ public class RemindPane extends JPanel {
         }
     };
 
-    public RemindPane(AlphafineConfigManager manager, UIDialog remindDialog) {
+    public RemindPane(AlphaFineConfigManager manager, UIDialog remindDialog) {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         initUI(manager, remindDialog);
         this.setLayout(getAbsoluteLayout());
@@ -53,7 +53,7 @@ public class RemindPane extends JPanel {
      * @param manager
      * @param dialog
      */
-    private void initUI(final AlphafineConfigManager manager, final UIDialog dialog) {
+    private void initUI(final AlphaFineConfigManager manager, final UIDialog dialog) {
 
         openButton = new UIButton();
         openButton.setIcon(openIcon);
@@ -63,7 +63,7 @@ public class RemindPane extends JPanel {
             public void mousePressed(MouseEvent e) {
                 manager.setOperateCount(0);
                 dialog.dispose();
-                AlphafineContext.fireAlphaFineContextListener();
+                AlphaFineContext.fireAlphaFineShowDialog();
 
             }
         });

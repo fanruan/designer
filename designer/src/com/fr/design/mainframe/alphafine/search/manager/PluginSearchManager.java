@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
@@ -11,6 +12,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -21,8 +23,13 @@ import java.net.URLEncoder;
  */
 public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
+
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
+    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN);
+
     private SearchResult lessModelList;
     private SearchResult moreModelList;
+
 
     public synchronized static PluginSearchManager getPluginSearchManager() {
         if (pluginSearchManager == null) {
@@ -34,10 +41,9 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
 
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
-
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainPlugin()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {
                 String encodedKey = URLEncoder.encode(searchText, "UTF-8");
@@ -46,35 +52,51 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 httpClient.setTimeout(5000);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
-                    return lessModelList;
+                    return getNoConnectList();
                 }
                 result = httpClient.getResponseText();
+                AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("result");
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
-                    for (int i = 0; i < length; i++) {
+                if (jsonArray != null) {
+                    SearchResult searchResult = new SearchResult();
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        this.lessModelList.add(cellModel);
+                        if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                            searchResult.add(cellModel);
+                        }
                     }
-                    for (int i = length; i < jsonArray.length(); i++) {
-                        PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        this.moreModelList.add(cellModel);
-                    }
-                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
+                    if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                        lessModelList.add(0, TITLE_MODEL);
+                        if (searchResult.size() == 0) {
+                            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+                        } else {
+                            lessModelList.addAll(searchResult);
+                        }
                     } else {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN));
+                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
+                        moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
 
                 }
 
-            } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage());
-                return lessModelList;
+            } catch (JSONException e) {
+                FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
+            } catch (UnsupportedEncodingException e) {
+                FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
             }
         }
         return this.lessModelList;
+
+
+    }
+
+    private SearchResult getNoConnectList() {
+        SearchResult result = new SearchResult();
+        result.add(0, TITLE_MODEL);
+        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
+        return result;
     }
 
     private static PluginModel getPluginModel(JSONObject object, boolean isFromCloud) {
@@ -121,8 +143,4 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         }
 
     }
-
-
-
-
 }

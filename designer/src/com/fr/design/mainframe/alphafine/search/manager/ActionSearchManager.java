@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
@@ -23,6 +24,9 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION);
+    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION);
+
     public synchronized static ActionSearchManager getActionSearchManager() {
         if (actionSearchManager == null) {
             actionSearchManager = new ActionSearchManager();
@@ -35,29 +39,33 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isContainAction()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
                 if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
-                    if (updateActionModel.getSearchKey().toLowerCase().contains(searchText.toLowerCase()) ) {
+                    if (updateActionModel.getSearchKey().toLowerCase().contains(searchText.toLowerCase()) && updateActionModel.getAction().isEnabled()) {
                         filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
                     }
                 }
             }
-            if (filterModelList != null && filterModelList.size() > 0) {
-                final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
-                for (int i = 0; i < length; i++) {
-                    lessModelList.add(filterModelList.get(i));
-                }
-                for (int i = length; i < filterModelList.size(); i++) {
-                    moreModelList.add(filterModelList.get(i));
-                }
-                if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
-                } else {
-                    lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION));
+            SearchResult result = new SearchResult();
+            for (Object object : filterModelList) {
+                if (!AlphaFineHelper.getFilterResult().contains(object)) {
+                    result.add(object);
                 }
 
+            }
+            if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                lessModelList.add(0, TITLE_MODEL);
+                if (result.size() == 0) {
+                    lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+                } else {
+                    lessModelList.addAll(result);
+                }
+            } else {
+                lessModelList.add(0, MORE_MODEL);
+                lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
+                moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }
 
         }

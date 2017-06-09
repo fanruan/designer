@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * Created by XiaXiang on 2017/4/5.
  */
-public class AlphafineConfigManager implements XMLable {
+public class AlphaFineConfigManager implements XMLable {
 
     /**
      * 是否开启alphafine
@@ -80,10 +80,10 @@ public class AlphafineConfigManager implements XMLable {
 
 
 
-    private static AlphafineConfigManager alphafineConfigManager = new AlphafineConfigManager();
+    private static AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
 
-    public static AlphafineConfigManager getInstance() {
-        return alphafineConfigManager;
+    public static AlphaFineConfigManager getInstance() {
+        return alphaFineConfigManager;
     }
 
     @Override
