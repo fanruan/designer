@@ -105,7 +105,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         int pluginId = object.optInt("id");
         String imageUrl = null;
         try {
-            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
+            imageUrl = isFromCloud? AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8") : object.optString("pic");
         } catch (UnsupportedEncodingException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
