@@ -4,10 +4,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import com.fr.design.beans.GroupModel;
+import com.fr.design.event.ChangeEvent;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.mainframe.FormDesigner;
@@ -27,8 +29,6 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 
 	private FormDesigner designer;
 	private static final int LEFT_COLUMN_WIDTH = 97;  // "属性名"列的宽度
-	private static final int RIGHT_COLUMN_WIDTH = 138;  // "属性值"列的宽度
-
 
 	public WidgetPropertyTable(FormDesigner designer) {
 		super();
@@ -87,14 +87,19 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		}
 		TableModel model = new BeanTableModel();
 		setModel(model);
+		this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		TableColumn tc = this.getColumn(this.getColumnName(0));
 		tc.setMinWidth(LEFT_COLUMN_WIDTH);
 		tc.setMaxWidth(LEFT_COLUMN_WIDTH);
-		TableColumn tcRight = this.getColumn(this.getColumnName(1));
-		tcRight.setMinWidth(RIGHT_COLUMN_WIDTH);
-		tcRight.setMaxWidth(RIGHT_COLUMN_WIDTH);
 
 		this.repaint();
+	}
+
+	private void setRightColumnWidth(boolean automode) {
+		int rightColumnWidth = this.getWidth() - LEFT_COLUMN_WIDTH;
+		TableColumn tcRight = this.getColumn(this.getColumnName(1));
+		tcRight.setMinWidth(automode ? 0 : rightColumnWidth);
+		tcRight.setMaxWidth(automode ? this.getWidth() : rightColumnWidth);
 	}
 	
 	private void setDesigner(FormDesigner designer) {
@@ -117,7 +122,14 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		}
 		return null;
 	}
-	
+
+	@Override
+	public void columnMarginChanged(javax.swing.event.ChangeEvent e) {
+		setRightColumnWidth(false);
+		super.columnMarginChanged(e);
+		setRightColumnWidth(true);
+	}
+
     /**
      * 待说明
      */
