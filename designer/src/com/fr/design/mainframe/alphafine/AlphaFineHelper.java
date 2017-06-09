@@ -3,18 +3,24 @@ package com.fr.design.mainframe.alphafine;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
+import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
 import com.fr.general.Inter;
 import com.fr.general.ProcessCanceledException;
 import com.fr.stable.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
-    public static final NoResultModel noResultModel = new NoResultModel(Inter.getLocText("FR-Designere_AlphaFine_NoResult"));
-    public static final NoResultModel noConnectionModel = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
+    public static final NoResultModel NO_RESULT_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_AlphaFine_NoResult"));
+    public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
 
     /**
      * 弹出alphafine搜索面板
@@ -68,6 +74,13 @@ public class AlphaFineHelper {
         if (Thread.interrupted()) {
             throw new ProcessCanceledException();
         }
+    }
+
+    public static List<AlphaCellModel> getFilterResult() {
+        List<AlphaCellModel> recentList = RecentSearchManager.getRecentSearchManger().getRecentModelList();
+        List<AlphaCellModel> recommendList = RecommendSearchManager.getRecommendSearchManager().getRecommendModelList();
+        recentList.addAll(recommendList);
+        return recentList;
     }
 
 

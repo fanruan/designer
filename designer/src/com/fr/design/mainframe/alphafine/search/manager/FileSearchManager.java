@@ -29,6 +29,9 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private List<FileNode> fileNodes = null;
     private static FileSearchManager fileSearchManager = null;
 
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
+    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE);
+
     public synchronized static FileSearchManager getFileSearchManager() {
         init();
         return fileSearchManager;
@@ -56,26 +59,24 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                 searchFileContent(searchText, node, isAlreadyContain, filePath);
 
             }
-
-            final int length = Math.min(AlphaFineConstants.SHOW_SIZE, filterModelList.size());
-            for (int i = 0; i < length; i++) {
-                lessModelList.add(filterModelList.get(i));
+            SearchResult result = new SearchResult();
+            for (Object object : filterModelList) {
+                if (!AlphaFineHelper.getFilterResult().contains(object))
+                result.add(object);
             }
-            for (int i = length; i< filterModelList.size(); i++) {
-                moreModelList.add(filterModelList.get(i));
-            }
-
-            if (filterModelList.size() > AlphaFineConstants.SHOW_SIZE) {
-                lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE));
-            } else {
-                lessModelList.add(0,new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE));
-                if (lessModelList.size() == 1) {
-                    lessModelList.add(AlphaFineHelper.noResultModel);
+            if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                lessModelList.add(0, TITLE_MODEL);
+                if (result.size() == 0) {
+                    lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+                } else {
+                    lessModelList.addAll(result);
                 }
+            } else {
+                lessModelList.add(0, MORE_MODEL);
+                lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
+                moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }
         }
-
-
         return this.lessModelList;
     }
 

@@ -14,12 +14,16 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
+    private List<AlphaCellModel> recommendModelList = new ArrayList<>();
     //todo:for test
     private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
 
@@ -51,17 +55,18 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                             AlphaFineHelper.checkCancel();
                             AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
                             if (alphaCellModel != null && !RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
-                                this.modelList.add(alphaCellModel);
+                                this.recommendModelList.add(alphaCellModel);
                             }
                         }
                     }
                 }
 
             } catch (JSONException e) {
-                FRLogger.getLogger().error("data transform error! :" + e.getMessage());
+                FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
             }
             if (modelList.size() > 0) {
-                modelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
+                modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
+                modelList.addAll(recommendModelList);
             }
         }
 
@@ -71,7 +76,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
         result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
-        result.add(AlphaFineHelper.noConnectionModel);
+        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }
 
@@ -80,4 +85,11 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         return new SearchResult();
     }
 
+    public List<AlphaCellModel> getRecommendModelList() {
+        return recommendModelList;
+    }
+
+    public void setRecommendModelList(List<AlphaCellModel> recommendModelList) {
+        this.recommendModelList = recommendModelList;
+    }
 }

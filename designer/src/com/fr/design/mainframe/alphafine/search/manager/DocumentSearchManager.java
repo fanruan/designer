@@ -22,6 +22,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private SearchResult lessModelList;
     private SearchResult moreModelList;
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
+    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -50,50 +51,41 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("docdata");
                 if (jsonArray != null) {
-                    final int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
-                    for (int i = 0; i < length; i++) {
+                    SearchResult searchResult = new SearchResult();
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         AlphaFineHelper.checkCancel();
                         DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
-                        this.lessModelList.add(cellModel);
-                    }
-                    for (int i = length; i < jsonArray.length(); i++) {
-                        AlphaFineHelper.checkCancel();
-                        DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
-                        this.moreModelList.add(cellModel);
-                    }
-                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
-                    } else  {
-                        lessModelList.add(0, TITLE_MODEL);
-                        if (lessModelList.size() == 1) {
-                            lessModelList.add(AlphaFineHelper.noResultModel);
+                        if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                            searchResult.add(cellModel);
                         }
                     }
-
-
+                    if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                        lessModelList.add(0, TITLE_MODEL);
+                        if (searchResult.size() == 0) {
+                            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+                        } else {
+                            lessModelList.addAll(searchResult);
+                        }
+                    } else {
+                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
+                        moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
+                    }
                 }
 
             } catch (JSONException e) {
-                FRLogger.getLogger().error(e.getMessage());
-                return getNoResultList();
+                FRLogger.getLogger().error("document search error: " + e.getMessage());
             }
 
         }
         return lessModelList;
     }
 
-    private SearchResult getNoResultList() {
-        SearchResult result = new SearchResult();
-        result.add(0, TITLE_MODEL);
-        result.add(AlphaFineHelper.noResultModel);
-        return result;
-
-    }
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
         result.add(0, TITLE_MODEL);
-        result.add(AlphaFineHelper.noConnectionModel);
+        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }
 

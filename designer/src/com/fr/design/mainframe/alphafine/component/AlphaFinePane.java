@@ -33,7 +33,7 @@ public class AlphaFinePane extends BasicPane {
         }
         UIButton refreshButton = new UIButton();
         refreshButton.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
-        refreshButton.setToolTipText(Inter.getLocText("AlphaFine"));
+        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         this.add(refreshButton);
         refreshButton.addActionListener(new ActionListener() {

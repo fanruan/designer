@@ -12,6 +12,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -24,7 +25,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
 
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
-
+    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN);
 
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -58,33 +59,32 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.optJSONArray("result");
                 if (jsonArray != null) {
-                    int length = Math.min(AlphaFineConstants.SHOW_SIZE, jsonArray.length());
-                    for (int i = 0; i < length; i++) {
-                        AlphaFineHelper.checkCancel();
+                    SearchResult searchResult = new SearchResult();
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        this.lessModelList.add(cellModel);
-                    }
-                    for (int i = length; i < jsonArray.length(); i++) {
-                        AlphaFineHelper.checkCancel();
-                        PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        this.moreModelList.add(cellModel);
-                    }
-                    if (jsonArray.length() > AlphaFineConstants.SHOW_SIZE) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
-                    } else {
-                        lessModelList.add(0, TITLE_MODEL);
-                        if (lessModelList.size() == 1) {
-                            lessModelList.add(AlphaFineHelper.noResultModel);
+                        if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                            searchResult.add(cellModel);
                         }
                     }
+                    if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                        lessModelList.add(0, TITLE_MODEL);
+                        if (searchResult.size() == 0) {
+                            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+                        } else {
+                            lessModelList.addAll(searchResult);
+                        }
+                    } else {
+                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
+                        moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
+                    }
 
-                } else {
-                    return getNoResultList();
                 }
 
-            } catch (Exception e) {
-                FRLogger.getLogger().error(e.getMessage());
-                return getNoResultList();
+            } catch (JSONException e) {
+                FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
+            } catch (UnsupportedEncodingException e) {
+                FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
             }
         }
         return this.lessModelList;
@@ -92,18 +92,10 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
 
     }
 
-    private SearchResult getNoResultList() {
-        SearchResult result = new SearchResult();
-        result.add(0, TITLE_MODEL);
-        result.add(AlphaFineHelper.noResultModel);
-        return result;
-
-    }
-
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
         result.add(0, TITLE_MODEL);
-        result.add(AlphaFineHelper.noConnectionModel);
+        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }
 
@@ -151,8 +143,4 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         }
 
     }
-
-
-
-
 }
