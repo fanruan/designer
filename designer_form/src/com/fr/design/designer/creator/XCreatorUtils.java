@@ -69,6 +69,37 @@ public class XCreatorUtils {
     
     private static void init() {
         
+        putDefault();
+        putExtraEditor();
+        putDefaultLayouts();
+        reInitExtra();
+    }
+    
+    private static void putDefaultLayouts() {
+        
+        xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
+        xLayoutMap.put(WParameterLayout.class, XWParameterLayout.class);
+        xLayoutMap.put(WAbsoluteBodyLayout.class, XWAbsoluteBodyLayout.class);
+        xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
+        xLayoutMap.put(WHorizontalBoxLayout.class, XWHorizontalBoxLayout.class);
+        xLayoutMap.put(WBorderLayout.class, XWBorderLayout.class);
+        xLayoutMap.put(WCardLayout.class, XWCardLayout.class);
+        xLayoutMap.put(WVerticalBoxLayout.class, XWVerticalBoxLayout.class);
+        xLayoutMap.put(WHorizontalSplitLayout.class, XWHorizontalSplitLayout.class);
+        xLayoutMap.put(WVerticalSplitLayout.class, XWVerticalSplitLayout.class);
+        xLayoutMap.put(WGridLayout.class, XWGridLayout.class);
+        
+        xLayoutMap.put(WFitLayout.class, XWFitLayout.class);
+        xLayoutMap.put(WScaleLayout.class, XWScaleLayout.class);
+        xLayoutMap.put(WTitleLayout.class, XWTitleLayout.class);
+        xLayoutMap.put(WCardTagLayout.class, XWCardTagLayout.class);
+        xLayoutMap.put(WCardTitleLayout.class, XWCardTitleLayout.class);
+        xLayoutMap.put(WTabFitLayout.class, XWTabFitLayout.class);
+        xLayoutMap.put(WCardMainBorderLayout.class, XWCardMainBorderLayout.class);
+    }
+    
+    private static void putDefault() {
+        
         objectMap.put(TextEditor.class, XTextEditor.class);
         objectMap.put(TextArea.class, XTextArea.class);
         objectMap.put(NumberEditor.class, XNumberEditor.class);
@@ -99,29 +130,6 @@ public class XCreatorUtils {
         objectMap.put(NameWidget.class, XNameWidget.class);
         objectMap.put(CardSwitchButton.class, XCardSwitchButton.class);
         objectMap.put(CardAddButton.class, XCardAddButton.class);
-        putExtraEditor();
-        
-        xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
-        xLayoutMap.put(WParameterLayout.class, XWParameterLayout.class);
-        xLayoutMap.put(WAbsoluteBodyLayout.class, XWAbsoluteBodyLayout.class);
-        xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
-        xLayoutMap.put(WHorizontalBoxLayout.class, XWHorizontalBoxLayout.class);
-        xLayoutMap.put(WBorderLayout.class, XWBorderLayout.class);
-        xLayoutMap.put(WCardLayout.class, XWCardLayout.class);
-        xLayoutMap.put(WVerticalBoxLayout.class, XWVerticalBoxLayout.class);
-        xLayoutMap.put(WHorizontalSplitLayout.class, XWHorizontalSplitLayout.class);
-        xLayoutMap.put(WVerticalSplitLayout.class, XWVerticalSplitLayout.class);
-        xLayoutMap.put(WGridLayout.class, XWGridLayout.class);
-        
-        xLayoutMap.put(WFitLayout.class, XWFitLayout.class);
-        xLayoutMap.put(WScaleLayout.class, XWScaleLayout.class);
-        xLayoutMap.put(WTitleLayout.class, XWTitleLayout.class);
-        xLayoutMap.put(WCardTagLayout.class, XWCardTagLayout.class);
-        xLayoutMap.put(WCardTitleLayout.class, XWCardTitleLayout.class);
-        xLayoutMap.put(WTabFitLayout.class, XWTabFitLayout.class);
-        xLayoutMap.put(WCardMainBorderLayout.class, XWCardMainBorderLayout.class);
-        
-        reInitExtra();
     }
     
     private static void reInitExtra() {
