@@ -268,21 +268,25 @@ public class AlphaFineDialog extends UIDialog {
     private void rebuildList(String searchText) {
         searchListModel.removeAllElements();
         if (searchText.startsWith("k:1 ") || searchText.startsWith("k:setting ")) {
-            getActionList(searchText.substring(4, searchText.length()));
+            int index = searchText.indexOf(" ");
+            getActionList(searchText.substring(index + 1, searchText.length()));
             return;
         } else if (searchText.startsWith("k:2 ") || searchText.startsWith("k:help ")) {
-            getDocumentList(searchText.substring(4, searchText.length()));
+            int index = searchText.indexOf(" ");
+            getDocumentList(searchText.substring(index + 1, searchText.length()));
             return;
 
         } else if (searchText.startsWith("k:3 ") || searchText.startsWith("k:reportlets ")) {
-            getFileList(searchText.substring(4, searchText.length()));
+            int index = searchText.indexOf(" ");
+            getFileList(searchText.substring(index + 1, searchText.length()));
             return;
 
         } else if (searchText.startsWith("k:cpt ") || searchText.startsWith("k:frm ")) {
             getFileList(searchText);
             return;
         } else if (searchText.startsWith("k:4 ") || searchText.startsWith("k:shop ")) {
-            getPluginList(searchText.substring(4, searchText.length()));
+            int index = searchText.indexOf(" ");
+            getPluginList(searchText.substring(index + 1, searchText.length()));
             return;
 
         }

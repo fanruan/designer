@@ -14,6 +14,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.stable.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,6 +44,11 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {

@@ -13,6 +13,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import java.io.*;
@@ -58,10 +59,17 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             isContainFrm = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             Env env = FRContext.getCurrentEnv();
             fileNodes = new ArrayList<>();
             fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+            isContainCpt = true;
+            isContainFrm = true;
             for (FileNode node : fileNodes) {
                 boolean isAlreadyContain = false;
                 String fileEnvPath = node.getEnvPath();

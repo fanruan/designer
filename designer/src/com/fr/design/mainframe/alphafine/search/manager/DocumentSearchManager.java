@@ -6,6 +6,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -13,6 +14,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/3/27.
@@ -36,6 +38,11 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
@@ -75,6 +82,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
             } catch (JSONException e) {
                 FRLogger.getLogger().error("document search error: " + e.getMessage());
+                return lessModelList;
             }
 
         }
