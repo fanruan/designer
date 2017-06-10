@@ -40,7 +40,7 @@ public class UpdateActionModel {
                 .append(SEPARATOR).append(PinyinHelper.getShortPinyin(parentName)).append(SEPARATOR)
                 .append(actionName).append(SEPARATOR).append(PinyinHelper.convertToPinyinString(actionName, "", PinyinFormat.WITHOUT_TONE))
                 .append(SEPARATOR).append(PinyinHelper.getShortPinyin(actionName)).append(action.getSearchText());
-        this.searchKey = buffer.toString();
+        this.searchKey = buffer.toString().toLowerCase();
     }
 
     /**
