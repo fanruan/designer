@@ -6,7 +6,6 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
