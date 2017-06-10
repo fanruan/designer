@@ -246,7 +246,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
-                rebuildList(searchTextField.getText());
+                rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
 
@@ -262,10 +262,38 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 重新构建搜索结果列表
+     * 先根据输入判断是不是隐藏的搜索功能
      * @param searchText
      */
     private void rebuildList(String searchText) {
         searchListModel.removeAllElements();
+        if (searchText.startsWith("k:1 ") || searchText.startsWith("k:setting ")) {
+            getActionList(searchText.substring(4, searchText.length()));
+            return;
+        } else if (searchText.startsWith("k:2 ") || searchText.startsWith("k:help ")) {
+            getDocumentList(searchText.substring(4, searchText.length()));
+            return;
+
+        } else if (searchText.startsWith("k:3 ") || searchText.startsWith("k:reportlets ")) {
+            getFileList(searchText.substring(4, searchText.length()));
+            return;
+
+        } else if (searchText.startsWith("k:cpt ") || searchText.startsWith("k:frm ")) {
+            getFileList(searchText);
+            return;
+        } else if (searchText.startsWith("k:4 ") || searchText.startsWith("k:shop ")) {
+            getPluginList(searchText.substring(4, searchText.length()));
+            return;
+
+        }
+        doNormalSearch(searchText.trim());
+    }
+
+    /**
+     * 普通搜索
+     * @param searchText
+     */
+    private void doNormalSearch(String searchText) {
         getRecentList(searchText);
         getRecommendList(searchText);
         getActionList(searchText);
@@ -275,17 +303,12 @@ public class AlphaFineDialog extends UIDialog {
     }
 
 
-
     private synchronized void getDocumentList(final String searchText) {
-
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
         for (Object object : documentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-
-
-
 
     }
 

@@ -27,7 +27,11 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private SearchResult lessModelList;
     private SearchResult moreModelList;
     private List<FileNode> fileNodes = null;
+    //隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
+    private boolean isContainCpt = true;
+    private boolean isContainFrm = true;
     private static FileSearchManager fileSearchManager = null;
+    private static final int MARK_LENGTH = 6;
 
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
     private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE);
@@ -47,6 +51,13 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
+        if (searchText.startsWith("k:frm ")) {
+            isContainCpt = false;
+            searchText = searchText.substring(MARK_LENGTH, searchText.length());
+        } else if (searchText.startsWith("k:cpt ")) {
+            isContainFrm = false;
+            searchText = searchText.substring(MARK_LENGTH, searchText.length());
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
             Env env = FRContext.getCurrentEnv();
             fileNodes = new ArrayList<>();
@@ -151,7 +162,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         try {
             listAll(env, rootFilePath, fileNodeList, recurse);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FRContext.getLogger().error("file search error: " + e.getMessage(), e);
         }
         return fileNodeList;
     }
@@ -168,14 +179,16 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         FileNode[] fns = env.listFile(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
-            if (fileNode.isDirectory()) {
+            if (isContainCpt && fileNode.isFileType("cpt")) {
+                nodeList.add(fileNode);
+            } else if (isContainFrm && fileNode.isFileType("frm")) {
+                nodeList.add(fileNode);
+            } else if (fileNode.isDirectory()) {
                 if (recurse) {
                     listAll(env, rootFilePath + File.separator + fns[i].getName(), nodeList, true);
                 } else {
                     nodeList.add(fns[i]);
                 }
-            } else if (fileNode.isFileType("cpt") || fileNode.isFileType("frm")) {
-                nodeList.add(fileNode);
             }
         }
     }
@@ -190,4 +203,27 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         return new FileModel(name, filePath);
     }
 
+    /**
+     * 是否包含cpt
+     * @return
+     */
+    public boolean isContainCpt() {
+        return isContainCpt;
+    }
+
+    public void setContainCpt(boolean containCpt) {
+        isContainCpt = containCpt;
+    }
+
+    /**
+     * 是否包含frm
+     * @return
+     */
+    public boolean isContainFrm() {
+        return isContainFrm;
+    }
+
+    public void setContainFrm(boolean containFrm) {
+        isContainFrm = containFrm;
+    }
 }
