@@ -24,6 +24,9 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class FileSearchManager implements AlphaFineSearchProcessor {
+    private static final int MARK_LENGTH = 6;
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
+    private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -31,11 +34,6 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     //隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
     private boolean isContainCpt = true;
     private boolean isContainFrm = true;
-    private static FileSearchManager fileSearchManager = null;
-    private static final int MARK_LENGTH = 6;
-
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.FILE);
 
     public synchronized static FileSearchManager getFileSearchManager() {
         init();
@@ -46,6 +44,17 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         if (fileSearchManager == null) {
             fileSearchManager = new FileSearchManager();
         }
+    }
+
+    /**
+     * 根据文件路径获取文件模型
+     *
+     * @param filePath
+     * @return
+     */
+    public static FileModel getModelFromCloud(String filePath) {
+        String name = AlphaFineHelper.findFileName(filePath);
+        return new FileModel(name, filePath);
     }
 
     public synchronized SearchResult getLessSearchResult(String searchText) {
@@ -61,48 +70,48 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         }
         if (StringUtils.isBlank(searchText)) {
             lessModelList.add(TITLE_MODEL);
-            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
             return lessModelList;
         }
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
-            Env env = FRContext.getCurrentEnv();
-            fileNodes = new ArrayList<>();
-            fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
-            isContainCpt = true;
-            isContainFrm = true;
-            for (FileNode node : fileNodes) {
-                boolean isAlreadyContain = false;
-                String fileEnvPath = node.getEnvPath();
-                String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
-                isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
-                searchFileContent(searchText, node, isAlreadyContain, filePath);
 
-            }
-            SearchResult result = new SearchResult();
-            for (Object object : filterModelList) {
-                if (!AlphaFineHelper.getFilterResult().contains(object)) {
-                    result.add(object);
-                }
+        Env env = FRContext.getCurrentEnv();
+        fileNodes = new ArrayList<>();
+        fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        isContainCpt = true;
+        isContainFrm = true;
+        for (FileNode node : fileNodes) {
+            boolean isAlreadyContain = false;
+            String fileEnvPath = node.getEnvPath();
+            String filePath = StableUtils.pathJoin(env.getPath(), fileEnvPath);
+            isAlreadyContain = searchFile(searchText, node, isAlreadyContain);
+            searchFileContent(searchText, node, isAlreadyContain, filePath);
 
-            }
-            if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                lessModelList.add(0, TITLE_MODEL);
-                if (result.size() == 0) {
-                    lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
-                } else {
-                    lessModelList.addAll(result);
-                }
-            } else {
-                lessModelList.add(0, MORE_MODEL);
-                lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
-                moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
-            }
         }
+        SearchResult result = new SearchResult();
+        for (Object object : filterModelList) {
+            if (!AlphaFineHelper.getFilterResult().contains(object)) {
+                result.add(object);
+            }
+
+        }
+        if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+            lessModelList.add(0, TITLE_MODEL);
+            if (result.size() == 0) {
+                lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
+            } else {
+                lessModelList.addAll(result);
+            }
+        } else {
+            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.FILE));
+            lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
+            moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
+        }
+
         return this.lessModelList;
     }
 
     /**
      * 搜索文件内容
+     *
      * @param searchText
      * @param node
      * @param isAlreadyContain
@@ -137,6 +146,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
     /**
      * 搜索模板
+     *
      * @param searchText
      * @param node
      * @param isAlreadyContain
@@ -144,7 +154,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
      */
     private boolean searchFile(String searchText, FileNode node, boolean isAlreadyContain) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainTemplate()) {
-            if (node.getName().toLowerCase().contains(searchText.toLowerCase())) {
+            if (node.getName().toLowerCase().contains(searchText)) {
                 FileModel model = new FileModel(node.getName(), node.getEnvPath());
                 this.filterModelList.add(model);
                 isAlreadyContain = true;
@@ -160,6 +170,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
     /**
      * 获取工作目录下所有符合要求的模板
+     *
      * @param env
      * @param rootFilePath
      * @param recurse
@@ -177,6 +188,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
     /**
      * 获取当前工作目录下所有模板
+     *
      * @param env
      * @param rootFilePath
      * @param nodeList
@@ -187,32 +199,23 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         FileNode[] fns = env.listFile(rootFilePath);
         for (int i = 0; i < fns.length; i++) {
             FileNode fileNode = fns[i];
-            if (isContainCpt && fileNode.isFileType("cpt")) {
-                nodeList.add(fileNode);
-            } else if (isContainFrm && fileNode.isFileType("frm")) {
-                nodeList.add(fileNode);
-            } else if (fileNode.isDirectory()) {
+            if (fileNode.isDirectory()) {
                 if (recurse) {
                     listAll(env, rootFilePath + File.separator + fns[i].getName(), nodeList, true);
                 } else {
                     nodeList.add(fns[i]);
                 }
+            } else if (isContainCpt && fileNode.isFileType("cpt")) {
+                nodeList.add(fileNode);
+            } else if (isContainFrm && fileNode.isFileType("frm")) {
+                nodeList.add(fileNode);
             }
         }
     }
 
     /**
-     * 根据文件路径获取文件模型
-     * @param filePath
-     * @return
-     */
-    public static FileModel getModelFromCloud(String filePath) {
-        String name = AlphaFineHelper.findFileName(filePath);
-        return new FileModel(name, filePath);
-    }
-
-    /**
      * 是否包含cpt
+     *
      * @return
      */
     public boolean isContainCpt() {
@@ -225,6 +228,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
     /**
      * 是否包含frm
+     *
      * @return
      */
     public boolean isContainFrm() {

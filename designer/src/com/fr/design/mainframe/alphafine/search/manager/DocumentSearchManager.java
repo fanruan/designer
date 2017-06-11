@@ -23,7 +23,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private SearchResult lessModelList;
     private SearchResult moreModelList;
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -39,7 +38,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
             lessModelList.add(TITLE_MODEL);
-            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
@@ -73,7 +71,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                             lessModelList.addAll(searchResult);
                         }
                     } else {
-                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }

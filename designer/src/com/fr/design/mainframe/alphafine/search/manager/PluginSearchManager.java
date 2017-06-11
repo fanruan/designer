@@ -24,10 +24,7 @@ import java.net.URLEncoder;
  */
 public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
-
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN);
-
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
@@ -46,7 +43,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         this.moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
             lessModelList.add(TITLE_MODEL);
-            lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
@@ -80,7 +76,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                             lessModelList.addAll(searchResult);
                         }
                     } else {
-                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
