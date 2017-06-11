@@ -158,6 +158,10 @@ public class JDBCDefPane extends JPanel {
 		});
 	}
 
+	/**
+	 * 获取全部组件
+	 * @return
+	 */
 	public JPanel getAllComponents() {
 		this.add(new DBCPAttrPane());
 		return this;
