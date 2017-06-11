@@ -70,6 +70,19 @@ public class AlphaFineDialog extends UIDialog {
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
 
+    private static final String ACTION_MARK_SHORT = "k:1 ";
+    private static final String ACTION_MARK = "k:setting ";
+    private static final String DOCUMENT_MARK_SHORT = "k:2 ";
+    private static final String DOCUMENT_MARK = "k:help ";
+    private static final String FILE_MARK_SHORT = "k:3 ";
+    private static final String FILE_MARK = "k:reportlets ";
+    private static final String CPT_MARK = "k:cpt ";
+    private static final String FRM_MARK = "k:frm ";
+    private static final String DS_MARK = "k:ds ";
+    private static final String PLUGIN_MARK_SHORT = "k:4 ";
+    private static final String PLUGIN_MARK = "k:shop ";
+
+
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
         this.forceOpen = forceOpen;
@@ -254,6 +267,7 @@ public class AlphaFineDialog extends UIDialog {
             protected void done() {
                 if (!isCancelled()) {
                     searchResultList.setSelectedIndex(1);
+                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
                 }
             }
         };
@@ -267,21 +281,21 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildList(String searchText) {
         searchListModel.removeAllElements();
-        if (searchText.startsWith("k:1 ") || searchText.startsWith("k:setting ")) {
+        if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
             getActionList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
             return;
-        } else if (searchText.startsWith("k:2 ") || searchText.startsWith("k:help ")) {
+        } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
             getDocumentList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
             return;
 
-        } else if (searchText.startsWith("k:3 ") || searchText.startsWith("k:reportlets ")) {
+        } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
             getFileList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
             return;
 
-        } else if (searchText.startsWith("k:cpt ") || searchText.startsWith("k:frm ")) {
+        } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
             getFileList(searchText);
             return;
-        } else if (searchText.startsWith("k:4 ") || searchText.startsWith("k:shop ")) {
+        } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
             getPluginList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
             return;
 
