@@ -9,6 +9,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.connect.ConnectionManagerPane;
 import com.fr.design.data.datapane.connect.ConnectionShowPane;
 import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
+import com.fr.design.data.datapane.connect.JDBCDefPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
@@ -33,7 +34,15 @@ public class ConnectionListAction extends UpdateAction {
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/connection.png"));
-        this.setSearchText(new DatabaseConnectionPane.JDBC());
+        this.setSearchText(getContainer());
+    }
+
+    private JPanel getContainer() {
+        JPanel panel = new JPanel();
+        panel.add(new DatabaseConnectionPane.JDBC());
+        panel.add(new DatabaseConnectionPane.JNDI());
+        panel.add(new JDBCDefPane().getAllComponents());
+        return panel;
     }
 
     public static final MenuKeySet DEFINE_DATA_CONNECTION = new MenuKeySet() {

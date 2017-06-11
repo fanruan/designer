@@ -1,21 +1,21 @@
 package com.fr.design.data.datapane.connect;
 
-import com.fr.design.constants.UIConstants;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.pool.DBCPConnectionPoolAttr;
 import com.fr.design.border.UITitledBorder;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ipasswordfield.UIPassWordField;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -156,6 +156,11 @@ public class JDBCDefPane extends JPanel {
 				wDialog.setVisible(true);
 			}
 		});
+	}
+
+	public JPanel getAllComponents() {
+		this.add(new DBCPAttrPane());
+		return this;
 	}
 
 	public void populate(JDBCDatabaseConnection jdbcDatabase) {
@@ -315,7 +320,7 @@ public class JDBCDefPane extends JPanel {
 		return new DBCPAttrPane().showWindow(SwingUtilities.getWindowAncestor(JDBCDefPane.this));
 	}
 
-	class DBCPAttrPane extends BasicPane {
+	public class DBCPAttrPane extends BasicPane {
 		public DBCPAttrPane() {
 			JPanel defaultPane = this;
 
@@ -374,4 +379,5 @@ public class JDBCDefPane extends JPanel {
 		private String driver;
 		private String url;
 	}
+
 }
