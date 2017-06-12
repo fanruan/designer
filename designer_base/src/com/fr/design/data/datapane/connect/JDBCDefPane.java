@@ -1,21 +1,21 @@
 package com.fr.design.data.datapane.connect;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.pool.DBCPConnectionPoolAttr;
 import com.fr.design.border.UITitledBorder;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ipasswordfield.UIPassWordField;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -34,7 +34,7 @@ import java.util.Map.Entry;
 public class JDBCDefPane extends JPanel {
 	public static final String DRIVER_TYPE = "driver_type";
 	public static final String USER_NAME = "user_name";
-    public static final int TIME_MULTIPLE = 1000;
+	public static final int TIME_MULTIPLE = 1000;
 
 	private static Map<String, DriverURLName[]> jdbcMap = new HashMap<String, DriverURLName[]>();
 
@@ -43,7 +43,7 @@ public class JDBCDefPane extends JPanel {
 				new DriverURLName("org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:[PATH_TO_DB_FILES]"), new DriverURLName("com.inet.tds.TdsDriver", "jdbc:inetdae7:localhost:1433/"),
 				new DriverURLName("COM.cloudscape.JDBCDriver", "jdbc:cloudscape:/cloudscape/"),
 				new DriverURLName("com.internetcds.jdbc.tds.Driver", "jdbc:freetds:sqlserver://localhost/")});
-        jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
+		jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
 				new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:inceptor://localhost:10000/default")});
 		jdbcMap.put("Oracle", new DriverURLName[]{new DriverURLName("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@localhost:1521:databaseName")});
 		jdbcMap.put("DB2", new DriverURLName[]{new DriverURLName("com.ibm.db2.jcc.DB2Driver", "jdbc:db2://localhost:50000/")});
@@ -156,15 +156,6 @@ public class JDBCDefPane extends JPanel {
 				wDialog.setVisible(true);
 			}
 		});
-	}
-
-	/**
-	 * 获取全部组件
-	 * @return
-	 */
-	public JPanel getAllComponents() {
-		this.add(new DBCPAttrPane());
-		return this;
 	}
 
 	public void populate(JDBCDatabaseConnection jdbcDatabase) {
@@ -324,7 +315,7 @@ public class JDBCDefPane extends JPanel {
 		return new DBCPAttrPane().showWindow(SwingUtilities.getWindowAncestor(JDBCDefPane.this));
 	}
 
-	public class DBCPAttrPane extends BasicPane {
+	class DBCPAttrPane extends BasicPane {
 		public DBCPAttrPane() {
 			JPanel defaultPane = this;
 
@@ -383,5 +374,4 @@ public class JDBCDefPane extends JPanel {
 		private String driver;
 		private String url;
 	}
-
 }
