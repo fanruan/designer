@@ -18,7 +18,6 @@ import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
-import com.fr.third.v2.org.apache.poi.util.StringUtil;
 
 import java.io.File;
 import java.util.List;
