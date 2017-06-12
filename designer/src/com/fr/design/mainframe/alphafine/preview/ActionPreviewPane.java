@@ -14,13 +14,14 @@ import java.awt.*;
  * Created by XiaXiang on 2017/5/5.
  */
 public class ActionPreviewPane extends JPanel {
-    private static final Font NAME = new Font("Song_TypeFace",0,14);
+    private static final Font NAME = new Font("Song_TypeFace", 0, 14);
+
     public ActionPreviewPane() {
         setLayout(new BorderLayout());
         setBackground(null);
-        setBorder(BorderFactory.createEmptyBorder(135,0,0,0));
+        setBorder(BorderFactory.createEmptyBorder(135, 0, 0, 0));
         UILabel image = new UILabel();
-        image.setPreferredSize(new Dimension(150,111));
+        image.setPreferredSize(new Dimension(150, 111));
         image.setHorizontalAlignment(SwingConstants.CENTER);
         image.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         image.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/noresult.png"));

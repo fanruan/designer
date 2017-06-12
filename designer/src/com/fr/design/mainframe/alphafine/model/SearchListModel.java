@@ -8,7 +8,7 @@ import javax.swing.*;
 public class SearchListModel extends DefaultListModel {
     SearchResult myDelegate;
 
-    public SearchListModel( SearchResult searchResult) {
+    public SearchListModel(SearchResult searchResult) {
         this.myDelegate = searchResult;
     }
 

@@ -12,7 +12,6 @@ import com.fr.general.Inter;
 import com.fr.general.ProcessCanceledException;
 import com.fr.stable.StringUtils;
 
-
 import java.util.List;
 
 /**
@@ -35,15 +34,17 @@ public class AlphaFineHelper {
 
     /**
      * 获取文件名上级目录
+     *
      * @param text
      * @return
      */
-    public static String findFolderName (String text) {
+    public static String findFolderName(String text) {
         return getSplitText(text, 2);
     }
 
     /**
      * 分割字符串，获取文件名，文件名上级目录等
+     *
      * @param text
      * @param index
      * @return
@@ -60,10 +61,11 @@ public class AlphaFineHelper {
 
     /**
      * 获取文件名
+     *
      * @param text
      * @return
      */
-    public static String findFileName (String text) {
+    public static String findFileName(String text) {
         return getSplitText(text, 1);
     }
 
@@ -82,8 +84,6 @@ public class AlphaFineHelper {
         recentList.addAll(recommendList);
         return recentList;
     }
-
-
 
 
 }

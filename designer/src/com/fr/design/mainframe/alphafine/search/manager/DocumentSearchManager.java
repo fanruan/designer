@@ -19,10 +19,10 @@ import com.fr.stable.StringUtils;
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProcessor {
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -30,6 +30,19 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
         }
         return documentSearchManager;
+    }
+
+    /**
+     * 根据json信息获取文档model
+     *
+     * @param object
+     * @return
+     */
+    public static DocumentModel getModelFromCloud(JSONObject object) {
+        String name = object.optString("title");
+        String content = object.optString("summary");
+        int documentId = object.optInt("did");
+        return new DocumentModel(name, content, documentId);
     }
 
     @Override
@@ -71,7 +84,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                             lessModelList.addAll(searchResult);
                         }
                     } else {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
@@ -86,6 +99,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
 
     /**
      * 无连接
+     *
      * @return
      */
     private SearchResult getNoConnectList() {
@@ -93,18 +107,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         result.add(0, TITLE_MODEL);
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
-    }
-
-    /**
-     * 根据json信息获取文档model
-     * @param object
-     * @return
-     */
-    public static DocumentModel getModelFromCloud(JSONObject object) {
-        String name = object.optString("title");
-        String content = object.optString("summary");
-        int documentId = object.optInt("did");
-        return new DocumentModel(name, content, documentId);
     }
 
     @Override

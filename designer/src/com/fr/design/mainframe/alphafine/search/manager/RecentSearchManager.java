@@ -135,9 +135,9 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
 
-
     /**
      * 获取xml
+     *
      * @return
      */
     private File getRecentFile() {
@@ -157,6 +157,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     /**
      * 创建XML
+     *
      * @param envFile
      */
     private void createRecentFile(File envFile) {
@@ -212,6 +213,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     /**
      * 根据搜索字段获取对应的model列表
+     *
      * @param searchText
      * @return
      */
@@ -233,6 +235,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     /**
      * 将搜索结果加入到当前MAP中
+     *
      * @param searchKey
      * @param cellModel
      */

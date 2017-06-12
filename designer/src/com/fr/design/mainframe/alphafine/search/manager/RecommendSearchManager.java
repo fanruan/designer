@@ -13,7 +13,6 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
-import com.fr.stable.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,11 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
+    //todo:for test
+    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
     private List<AlphaCellModel> recommendModelList = new ArrayList<>();
-    //todo:for test
-    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
         if (recommendSearchManager == null) {
@@ -34,6 +33,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         }
         return recommendSearchManager;
     }
+
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();

@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.alphafine.cell;
 
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
@@ -13,6 +13,7 @@ import com.fr.json.JSONObject;
  */
 public class CellModelHelper {
     private static final String RESULT = "result";
+
     public static AlphaCellModel getModelFromJson(JSONObject object) {
         int typeValue = object.optInt("cellType");
         AlphaCellModel cellModel = null;

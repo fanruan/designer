@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 public interface AlphaFineSearchProcessor {
     /**
      * 获取默认显示条数
+     *
      * @param searchText
      * @return
      */
@@ -15,6 +16,7 @@ public interface AlphaFineSearchProcessor {
 
     /**
      * 获取剩余条数
+     *
      * @return
      */
     SearchResult getMoreSearchResult();

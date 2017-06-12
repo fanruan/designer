@@ -19,6 +19,12 @@ public class ActionModel extends AlphaCellModel {
         super(name, content, type);
     }
 
+    public ActionModel(String name, String description, Action action) {
+        super(name, null, CellType.ACTION);
+        this.action = action;
+        this.setDescription(description);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -35,12 +41,6 @@ public class ActionModel extends AlphaCellModel {
     @Override
     public int hashCode() {
         return action != null ? action.hashCode() : 0;
-    }
-
-    public ActionModel(String name, String description, Action action) {
-        super(name, null, CellType.ACTION);
-        this.action = action;
-        this.setDescription(description);
     }
 
     public Action getAction() {

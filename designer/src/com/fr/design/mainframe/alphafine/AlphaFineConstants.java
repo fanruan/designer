@@ -57,21 +57,13 @@ public class AlphaFineConstants {
 
     public static final Color RED = new Color(0xf46c4c);
 
-    public static final Font SMALL_FONT = new Font("Song_TypeFace",0,10);
+    public static final Font SMALL_FONT = new Font("Song_TypeFace", 0, 10);
 
-    public static final Font MEDIUM_FONT = new Font("Song_TypeFace",0,12);
+    public static final Font MEDIUM_FONT = new Font("Song_TypeFace", 0, 12);
 
-    public static final Font LARGE_FONT = new Font("Song_TypeFace",0,18);
+    public static final Font LARGE_FONT = new Font("Song_TypeFace", 0, 18);
 
-    public static final Font GREATER_FONT = new Font("Song_TypeFace",0,20);
-
-
-
-
-
-
-
-
+    public static final Font GREATER_FONT = new Font("Song_TypeFace", 0, 20);
 
 
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
