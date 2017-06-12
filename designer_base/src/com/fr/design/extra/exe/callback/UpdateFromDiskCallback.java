@@ -38,7 +38,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Update_Dependence")),
-                    Inter.getLocText("FR-Designer-Plugin_Update_Success"),
+                    Inter.getLocText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,

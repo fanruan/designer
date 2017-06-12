@@ -18,6 +18,7 @@ import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
+import com.fr.third.v2.org.apache.poi.util.StringUtil;
 
 import java.io.File;
 import java.util.List;
@@ -113,6 +114,10 @@ public class PluginOperateUtils {
             public void run() {
                 try {
 //                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
+                    if(StringUtils.isBlank(keyword)){
+                        getRecommendPlugins(jsCallback);
+                        return;
+                    }
                     HttpClient httpClient = new HttpClient("http://shop.finereport.com/searchApi?type=all" + "&keyword=" + keyword);
                     httpClient.asGet();
                     String result = httpClient.getResponseText();
@@ -132,37 +137,79 @@ public class PluginOperateUtils {
             @Override
             public void run() {
 //                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
-                String plistUrl = "http://shop.finereport.com/shopServer?pg=plist";
+                String plistUrl = "http://shop.finereport.com/plugins" + "?";
                 boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
-                if (getRecommend){
-                    plistUrl = "http://shop.finereport.com/ShopServer?pg=feature";
+                if (getRecommend) {
+                    getRecommendPlugins(jsCallback);
+                    return;
                 }
-                if (StringUtils.isNotBlank(plistUrl)) {
-                    StringBuilder url = new StringBuilder();
-                    url.append(plistUrl);
-                    if (StringUtils.isNotBlank(category)) {
-                        url.append("&cid=").append(category.split("-")[1]);
-                    }
-                    if (StringUtils.isNotBlank(seller)) {
-                        url.append("&seller=").append(seller.split("-")[1]);
-                    }
-                    if (StringUtils.isNotBlank(fee)) {
-                        url.append("&fee=").append(fee.split("-")[1]);
-                    }
-                    try {
-                        HttpClient httpClient = new HttpClient(url.toString());
-                        String result = httpClient.getResponseText();
-                        jsCallback.execute(result);
-                    } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    }
-                } else {
-                    String result = PluginConstants.CONNECTION_404;
-                    jsCallback.execute(result);
+
+            if (StringUtils.isNotBlank(plistUrl)) {
+                StringBuilder url = new StringBuilder();
+                url.append(plistUrl);
+                dealParams(url, category, seller, fee);
+                try {
+                    HttpClient httpClient = new HttpClient(url.toString());
+                    httpClient.asGet();
+                    String result = httpClient.getResponseText();
+                    JSONObject resultJSONObject = new JSONObject(result);
+                    JSONArray resultArr = resultJSONObject.getJSONArray("result");
+                    jsCallback.execute(resultArr.toString());
+                } catch (Exception e) {
+                    FRLogger.getLogger().error(e.getMessage());
                 }
+            } else {
+                String result = PluginConstants.CONNECTION_404;
+                jsCallback.execute(result);
             }
+        }
+
         }).start();
 
+    }
+
+    public static void getRecommendPlugins(JSCallback jsCallback){
+        String plistUrl = "http://shop.finereport.com/ShopServer?pg=feature";
+        try {
+            HttpClient httpClient = new HttpClient(plistUrl.toString());
+            String result = httpClient.getResponseText();
+            jsCallback.execute(result);
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+
+    }
+
+    public static void dealParams(StringBuilder url, String category, String seller, String fee){
+        if (StringUtils.isNotBlank(category)) {
+            url.append("cid=").append(category.split("-")[1]);
+        } else {
+            url.append("cid=").append("");
+        }
+        if (StringUtils.isNotBlank(seller)) {
+            switch (seller.split("-")[1]) {
+                case "finereport":
+                    url.append("&seller=").append(1);
+                    break;
+                case "developer":
+                    url.append("&seller=").append(2);
+                    break;
+                default:
+                    url.append("&seller=").append("");
+            }
+        }
+        if (StringUtils.isNotBlank(fee)) {
+            switch (fee.split("-")[1]) {
+                case "free":
+                    url.append("&fee=").append(1);
+                    break;
+                case "charge":
+                    url.append("&fee=").append(2);
+                    break;
+                default:
+                    url.append("&fee=").append("");
+            }
+        }
     }
 
     public static void getPluginCategories(JSCallback jsCallback) {

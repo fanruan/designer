@@ -502,12 +502,25 @@ public class PluginWebBridge {
         DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
+
+    /**
+     * 初始化设计器部分
+     */
     public void initExtraDiff(final JSObject callback){
 
     }
-    public void showLoginContent(){
 
+    /**
+     * 国际化
+     */
+    public void parseI18(final String key, final JSObject callback){
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        jsCallback.execute(Inter.getLocText("FR-Designer-" + key));
     }
+
+    /**
+     * 是否是在设计器中操作
+     */
     public boolean isDesigner(){
         return true;
     }
