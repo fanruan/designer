@@ -114,6 +114,10 @@ public class PluginOperateUtils {
             public void run() {
                 try {
 //                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
+                    if(StringUtils.isBlank(keyword)){
+                        getRecommendPlugins(jsCallback);
+                        return;
+                    }
                     HttpClient httpClient = new HttpClient("http://shop.finereport.com/searchApi?type=all" + "&keyword=" + keyword);
                     httpClient.asGet();
                     String result = httpClient.getResponseText();

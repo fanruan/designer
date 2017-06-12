@@ -29,6 +29,7 @@ public class DownloadCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             extraPluginTask.doExtraPluginTask();
         } else {
+            jsCallback.execute("failed");
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
