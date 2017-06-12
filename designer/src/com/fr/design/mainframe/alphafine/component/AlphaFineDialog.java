@@ -80,6 +80,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String CPT_MARK = "k:cpt ";
     private static final String FRM_MARK = "k:frm ";
     private static final String DS_MARK = "k:ds ";
+    private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
 
@@ -296,6 +297,10 @@ public class AlphaFineDialog extends UIDialog {
         } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
             getFileList(searchText);
             return;
+        } else if (searchText.startsWith(DS_MARK)) {
+            getFileList(DS_NAME + searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            return;
+
         } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
             getPluginList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
             return;

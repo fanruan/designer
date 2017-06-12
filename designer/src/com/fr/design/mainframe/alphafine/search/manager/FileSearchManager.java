@@ -10,6 +10,7 @@ import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.file.filetree.FileNode;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 public class FileSearchManager implements AlphaFineSearchProcessor {
     private static final int MARK_LENGTH = 6;
+    private static final String DS_NAME = "dsname=\"";
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
@@ -68,7 +70,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             isContainFrm = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
-        if (StringUtils.isBlank(searchText)) {
+        if (StringUtils.isBlank(searchText) || ComparatorUtils.equals(searchText, DS_NAME)) {
             lessModelList.add(TITLE_MODEL);
             return lessModelList;
         }
