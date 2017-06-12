@@ -14,6 +14,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.stable.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,10 +24,7 @@ import java.net.URLEncoder;
  */
 public class PluginSearchManager implements AlphaFineSearchProcessor {
     private static PluginSearchManager pluginSearchManager = null;
-
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN);
-
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
@@ -43,6 +41,10 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {
@@ -74,13 +76,11 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                             lessModelList.addAll(searchResult);
                         }
                     } else {
-                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.PLUGIN));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
-
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
             } catch (UnsupportedEncodingException e) {
@@ -88,8 +88,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             }
         }
         return this.lessModelList;
-
-
     }
 
     private SearchResult getNoConnectList() {
@@ -105,7 +103,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         int pluginId = object.optInt("id");
         String imageUrl = null;
         try {
-            imageUrl = AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8");
+            imageUrl = isFromCloud? AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8") : object.optString("pic");
         } catch (UnsupportedEncodingException e) {
             FRLogger.getLogger().error(e.getMessage());
         }

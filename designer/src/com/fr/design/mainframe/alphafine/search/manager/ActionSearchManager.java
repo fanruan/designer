@@ -23,9 +23,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
-
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION);
 
     public synchronized static ActionSearchManager getActionSearchManager() {
         if (actionSearchManager == null) {
@@ -39,11 +37,15 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
                 if (StringUtils.isNotBlank(updateActionModel.getSearchKey())) {
-                    if (updateActionModel.getSearchKey().toLowerCase().contains(searchText.toLowerCase()) && updateActionModel.getAction().isEnabled()) {
+                    if (updateActionModel.getSearchKey().contains(searchText) && updateActionModel.getAction().isEnabled()) {
                         filterModelList.add(new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction()));
                     }
                 }
@@ -63,7 +65,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     lessModelList.addAll(result);
                 }
             } else {
-                lessModelList.add(0, MORE_MODEL);
+                lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.ACTION));
                 lessModelList.addAll(result.subList(0, AlphaFineConstants.SHOW_SIZE));
                 moreModelList.addAll(result.subList(AlphaFineConstants.SHOW_SIZE, result.size()));
             }
@@ -85,7 +87,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     public static ActionModel getModelFromCloud(String actionName ) {
         List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
         for (UpdateActionModel updateActionModel : updateActions) {
-            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName())) {
+            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName()) && updateActionModel.getAction().isEnabled()) {
                 return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
             }
         }

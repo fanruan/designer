@@ -13,6 +13,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.stable.StringUtils;
 
 /**
  * Created by XiaXiang on 2017/3/27.
@@ -22,7 +23,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     private SearchResult lessModelList;
     private SearchResult moreModelList;
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
-    private static final MoreModel MORE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT);
 
     public synchronized static DocumentSearchManager getDocumentSearchManager() {
         if (documentSearchManager == null) {
@@ -36,6 +36,10 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     public synchronized SearchResult getLessSearchResult(String searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
+        if (StringUtils.isBlank(searchText)) {
+            lessModelList.add(TITLE_MODEL);
+            return lessModelList;
+        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
@@ -67,16 +71,15 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                             lessModelList.addAll(searchResult);
                         }
                     } else {
-                        lessModelList.add(0, MORE_MODEL);
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"),true, CellType.DOCUMENT));
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("document search error: " + e.getMessage());
+                return lessModelList;
             }
-
         }
         return lessModelList;
     }
