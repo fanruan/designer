@@ -80,7 +80,7 @@ public class PluginOperateUtils {
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, JSCallback jsCallback) {
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
-        PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(jsCallback));
+        PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
     }
 
     public static void readUpdateOnline(JSCallback jsCallback) {

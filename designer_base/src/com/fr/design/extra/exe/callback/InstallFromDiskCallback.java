@@ -34,7 +34,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
-        } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
+        } else if (result.errorCode() == PluginErrorCode.NeedInstallInterPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
@@ -50,6 +50,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             }
             PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
         } else {
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }

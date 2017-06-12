@@ -32,13 +32,13 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
     public void done(PluginTaskResult result) {
         jsCallback.execute("success");
         if (result.isSuccess()) {
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
-        } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+        } else if (result.errorCode() == PluginErrorCode.NeedInstallInterPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
-                    Inter.getLocText("FR-Designer-Plugin_Install_Success"),
+                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Update_Dependence")),
+                    Inter.getLocText("FR-Designer-Plugin_Update_Success"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
@@ -50,6 +50,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
             }
             PluginManager.getController().update(zipFile, new UpdateFromDiskCallback(zipFile, jsCallback));
         } else {
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Failed"));
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
