@@ -265,7 +265,7 @@ public class AlphaFineDialog extends UIDialog {
 
             @Override
             protected void done() {
-                if (!isCancelled()) {
+                if (!isCancelled() && searchListModel.getSize() > 0) {
                     searchResultList.setSelectedIndex(1);
                     showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
                 }
