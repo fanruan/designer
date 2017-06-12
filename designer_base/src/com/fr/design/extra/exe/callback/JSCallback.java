@@ -80,7 +80,7 @@ public class JSCallback<T> extends Task<T> {
      */
     private String filterHtmlTag(String origin, String tag) {
         String matter1 = "<" + tag;
-        String matter2 = "</" + tag + ">";
+        String matter2 = tag + ">";
         int a = origin.indexOf(matter1);
         int b = origin.indexOf(matter2);
         while (a != -1 && b != -1) {
