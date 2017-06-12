@@ -16,6 +16,7 @@ import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchListModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
@@ -539,7 +540,10 @@ public class AlphaFineDialog extends UIDialog {
             this.searchWorker.execute();
 
         } else if (selectedValue instanceof ActionModel) {
-            showDefaultPreviewPane();
+            rightSearchResultPane.removeAll();
+            rightSearchResultPane.add(new ActionPreviewPane());
+            validate();
+            repaint();
         }
 
     }
