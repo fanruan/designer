@@ -34,7 +34,7 @@ import java.util.Map.Entry;
 public class JDBCDefPane extends JPanel {
 	public static final String DRIVER_TYPE = "driver_type";
 	public static final String USER_NAME = "user_name";
-	public static final int TIME_MULTIPLE = 1000;
+    public static final int TIME_MULTIPLE = 1000;
 
 	private static Map<String, DriverURLName[]> jdbcMap = new HashMap<String, DriverURLName[]>();
 
@@ -43,7 +43,7 @@ public class JDBCDefPane extends JPanel {
 				new DriverURLName("org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:[PATH_TO_DB_FILES]"), new DriverURLName("com.inet.tds.TdsDriver", "jdbc:inetdae7:localhost:1433/"),
 				new DriverURLName("COM.cloudscape.JDBCDriver", "jdbc:cloudscape:/cloudscape/"),
 				new DriverURLName("com.internetcds.jdbc.tds.Driver", "jdbc:freetds:sqlserver://localhost/")});
-		jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
+        jdbcMap.put("Inceptor",new DriverURLName[]{new DriverURLName("org.apache.hive.jdbc.HiveDriver","jdbc:inceptor2://localhost:10000/default"),
 				new DriverURLName("org.apache.hadoop.hive.jdbc.HiveDriver","jdbc:inceptor://localhost:10000/default")});
 		jdbcMap.put("Oracle", new DriverURLName[]{new DriverURLName("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@localhost:1521:databaseName")});
 		jdbcMap.put("DB2", new DriverURLName[]{new DriverURLName("com.ibm.db2.jcc.DB2Driver", "jdbc:db2://localhost:50000/")});
