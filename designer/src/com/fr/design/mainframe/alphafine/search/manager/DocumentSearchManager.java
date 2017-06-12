@@ -76,12 +76,10 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("document search error: " + e.getMessage());
                 return lessModelList;
             }
-
         }
         return lessModelList;
     }

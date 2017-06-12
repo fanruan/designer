@@ -80,9 +80,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                         lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
                         moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
                     }
-
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
             } catch (UnsupportedEncodingException e) {
@@ -90,8 +88,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             }
         }
         return this.lessModelList;
-
-
     }
 
     private SearchResult getNoConnectList() {
