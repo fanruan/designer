@@ -44,7 +44,7 @@ public class PluginWebBridge {
 
     private UILabel uiLabel;
 
-    private final String DesignerI18Prefix = "FR-Designer-";
+    private static final String DesignerI18Prefix = "FR-Designer-";
 
     /**
      * 动作枚举
