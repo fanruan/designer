@@ -44,7 +44,7 @@ public class PluginWebBridge {
 
     private UILabel uiLabel;
 
-    private static final String DesignerI18Prefix = "FR-Designer-";
+    private static final String DESIGNERI18PREFIX = "FR-Designer-";
 
     /**
      * 动作枚举
@@ -516,7 +516,7 @@ public class PluginWebBridge {
      * 国际化
      */
     public String parseI18(final String key){
-        return Inter.getLocText(DesignerI18Prefix + key);
+        return Inter.getLocText(DESIGNERI18PREFIX + key);
     }
 
     /**
