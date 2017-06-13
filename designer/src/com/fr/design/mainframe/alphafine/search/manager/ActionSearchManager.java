@@ -19,17 +19,33 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProcessor {
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION);
     private static ActionSearchManager actionSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION);
 
     public synchronized static ActionSearchManager getActionSearchManager() {
         if (actionSearchManager == null) {
             actionSearchManager = new ActionSearchManager();
         }
         return actionSearchManager;
+    }
+
+    /**
+     * 根据类名获取对象
+     *
+     * @param actionName
+     * @return
+     */
+    public static ActionModel getModelFromCloud(String actionName) {
+        List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
+        for (UpdateActionModel updateActionModel : updateActions) {
+            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName()) && updateActionModel.getAction().isEnabled()) {
+                return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
+            }
+        }
+        return null;
     }
 
     @Override
@@ -77,20 +93,5 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     @Override
     public SearchResult getMoreSearchResult() {
         return moreModelList;
-    }
-
-    /**
-     * 根据类名获取对象
-     * @param actionName
-     * @return
-     */
-    public static ActionModel getModelFromCloud(String actionName ) {
-        List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
-        for (UpdateActionModel updateActionModel : updateActions) {
-            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName()) && updateActionModel.getAction().isEnabled()) {
-                return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
-            }
-        }
-        return null;
     }
 }

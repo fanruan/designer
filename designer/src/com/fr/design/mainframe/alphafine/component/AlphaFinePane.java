@@ -20,12 +20,6 @@ import java.awt.event.ActionListener;
 public class AlphaFinePane extends BasicPane {
     private static AlphaFinePane alphaFinePane;
 
-    public static AlphaFinePane getAlphaFinePane() {
-        if (alphaFinePane == null) {
-            alphaFinePane = new AlphaFinePane();
-        }
-        return alphaFinePane;
-    }
     public AlphaFinePane() {
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 14));
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
@@ -54,6 +48,13 @@ public class AlphaFinePane extends BasicPane {
 
             }
         });
+    }
+
+    public static AlphaFinePane getAlphaFinePane() {
+        if (alphaFinePane == null) {
+            alphaFinePane = new AlphaFinePane();
+        }
+        return alphaFinePane;
     }
 
     @Override

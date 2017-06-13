@@ -21,6 +21,7 @@ public enum CellType {
         return FILE;
 
     }
+
     public int getTypeValue() {
         return typeValue;
     }

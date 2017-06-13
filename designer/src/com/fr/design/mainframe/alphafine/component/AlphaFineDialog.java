@@ -59,18 +59,6 @@ import java.util.concurrent.ExecutionException;
  * Created by XiaXiang on 2017/3/21.
  */
 public class AlphaFineDialog extends UIDialog {
-    private AlphaFineTextField searchTextField;
-    private UIButton closeButton;
-    private JPanel searchResultPane;
-    private Point pressedPoint;
-    private UIScrollPane leftSearchResultPane;
-    private JPanel rightSearchResultPane;
-    private JList searchResultList;
-    private SearchListModel searchListModel;
-    private SwingWorker searchWorker;
-    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
-    private boolean forceOpen;
-
     private static final String ACTION_MARK_SHORT = "k:1 ";
     private static final String ACTION_MARK = "k:setting ";
     private static final String DOCUMENT_MARK_SHORT = "k:2 ";
@@ -83,6 +71,17 @@ public class AlphaFineDialog extends UIDialog {
     private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
+    private AlphaFineTextField searchTextField;
+    private UIButton closeButton;
+    private JPanel searchResultPane;
+    private Point pressedPoint;
+    private UIScrollPane leftSearchResultPane;
+    private JPanel rightSearchResultPane;
+    private JList searchResultList;
+    private SearchListModel searchListModel;
+    private SwingWorker searchWorker;
+    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
+    private boolean forceOpen;
 
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
@@ -93,6 +92,32 @@ public class AlphaFineDialog extends UIDialog {
         initComponents();
     }
 
+    /**
+     * 全局快捷键
+     *
+     * @return
+     */
+    public static AWTEventListener listener() {
+        return new AWTEventListener() {
+
+            @Override
+            public void eventDispatched(AWTEvent event) {
+                if (event instanceof KeyEvent) {
+                    KeyEvent e = (KeyEvent) event;
+                    KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
+                    KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().getShortCutKeyStore();
+                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFinePane.getAlphaFinePane().isVisible()) {
+                        doClickAction();
+                    }
+
+                }
+            }
+        };
+    }
+
+    private static void doClickAction() {
+        AlphaFineHelper.showAlphaFineDialog(false);
+    }
 
     /**
      * 初始化全部组件
@@ -113,7 +138,7 @@ public class AlphaFineDialog extends UIDialog {
         closeButton = new UIButton() {
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor( Color.white );
+                g.setColor(Color.white);
                 g.fillRect(0, 0, getSize().width, getSize().height);
                 super.paintComponent(g);
             }
@@ -155,6 +180,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 设置面板位置
+     *
      * @param win
      */
     private void centerWindow(Window win) {
@@ -169,11 +195,24 @@ public class AlphaFineDialog extends UIDialog {
             winSize.width = screenSize.width;
         }
         //这里设置位置：水平居中，竖直偏上
-        win.setLocation((screenSize.width - winSize.width ) / 2, (screenSize.height - winSize.height) / AlphaFineConstants.SHOW_SIZE);
+        win.setLocation((screenSize.width - winSize.width) / 2, (screenSize.height - winSize.height) / AlphaFineConstants.SHOW_SIZE);
     }
+
+    // TODO: 2017/5/8  xiaxiang: 窗体圆角setShape()有毛边，重写paint方法可以解决毛边问题，但带来了别的问题,处理比较麻烦，暂用setShape();
+//    public void paint(Graphics g){
+//
+//        Graphics2D g2 = (Graphics2D) g.create();
+//        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//        qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+//        g2.setRenderingHints(qualityHints);
+//        g2.setPaint(Color.WHITE);
+//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+//        g2.dispose();
+//    }
 
     /**
      * 执行搜索
+     *
      * @param text
      */
     private void doSearch(String text) {
@@ -181,7 +220,7 @@ public class AlphaFineDialog extends UIDialog {
         if (StringUtils.isBlank(text) || text.equals("AlphaFine")) {
             removeSearchResult();
         } else if (text.contains("'")) {
-           return;
+            return;
         } else {
             showSearchResult();
         }
@@ -199,19 +238,6 @@ public class AlphaFineDialog extends UIDialog {
         setSize(AlphaFineConstants.FIELD_SIZE);
         repaint();
     }
-
-    // TODO: 2017/5/8  xiaxiang: 窗体圆角setShape()有毛边，重写paint方法可以解决毛边问题，但带来了别的问题,处理比较麻烦，暂用setShape();
-//    public void paint(Graphics g){
-//
-//        Graphics2D g2 = (Graphics2D) g.create();
-//        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-//        g2.setRenderingHints(qualityHints);
-//        g2.setPaint(Color.WHITE);
-//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
-//        g2.dispose();
-//    }
-
 
     /**
      * 展示搜索结果
@@ -239,7 +265,7 @@ public class AlphaFineDialog extends UIDialog {
 
         leftSearchResultPane = new UIScrollPane(searchResultList);
         leftSearchResultPane.setBackground(Color.white);
-        leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
         rightSearchResultPane.setBackground(Color.white);
@@ -279,6 +305,7 @@ public class AlphaFineDialog extends UIDialog {
     /**
      * 重新构建搜索结果列表
      * 先根据输入判断是不是隐藏的搜索功能
+     *
      * @param searchText
      */
     private void rebuildList(String searchText) {
@@ -311,6 +338,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 普通搜索
+     *
      * @param searchText
      */
     private void doNormalSearch(String searchText) {
@@ -321,7 +349,6 @@ public class AlphaFineDialog extends UIDialog {
         getDocumentList(searchText);
         getPluginList(searchText);
     }
-
 
     private synchronized void getDocumentList(final String searchText) {
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
@@ -372,7 +399,6 @@ public class AlphaFineDialog extends UIDialog {
         }
 
     }
-
 
     /**
      * 初始化监听器
@@ -567,7 +593,7 @@ public class AlphaFineDialog extends UIDialog {
     private void showDefaultPreviewPane() {
         rightSearchResultPane.removeAll();
         UILabel label = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/opening.gif")));
-        label.setBorder(BorderFactory.createEmptyBorder(120,0,0,0));
+        label.setBorder(BorderFactory.createEmptyBorder(120, 0, 0, 0));
         rightSearchResultPane.add(label, BorderLayout.CENTER);
         validate();
         repaint();
@@ -642,35 +668,8 @@ public class AlphaFineDialog extends UIDialog {
                     }
                 }
             }
-        }, AWTEvent.MOUSE_EVENT_MASK|AWTEvent.KEY_EVENT_MASK);
+        }, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
     }
-
-    /**
-     * 全局快捷键
-     * @return
-     */
-    public static AWTEventListener listener() {
-        return new AWTEventListener() {
-
-            @Override
-            public void eventDispatched(AWTEvent event) {
-                if (event instanceof KeyEvent) {
-                    KeyEvent e = (KeyEvent) event;
-                    KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
-                    KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().getShortCutKeyStore();
-                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFinePane.getAlphaFinePane().isVisible()) {
-                        doClickAction();
-                    }
-
-                }
-            }
-        };
-    }
-
-    private static void doClickAction() {
-        AlphaFineHelper.showAlphaFineDialog(false);
-    }
-
 
     @Override
     public void checkValid() throws Exception {
@@ -683,7 +682,7 @@ public class AlphaFineDialog extends UIDialog {
         if (value instanceof ActionModel) {
             ((ActionModel) value).getAction().actionPerformed(null);
         } else if (value instanceof FileModel) {
-            DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(((FileModel)value).getFilePath(), false)));
+            DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(((FileModel) value).getFilePath(), false)));
         } else if (value instanceof PluginModel) {
             String url = ((PluginModel) value).getPluginUrl();
             try {
@@ -709,6 +708,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 保存本地（本地常用）
+     *
      * @param cellModel
      */
     private void saveHistory(AlphaCellModel cellModel) {
@@ -722,6 +722,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 上传数据到服务器
+     *
      * @param searchKey
      * @param cellModel
      */
@@ -754,12 +755,13 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 点击显示更多时，添加对应的model到list；点击收起是移除model
+     *
      * @param index
      * @param selectedValue
      */
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
         SearchResult moreResult = getMoreResult(selectedValue);
-        if((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
+        if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
                 this.searchListModel.add(index + AlphaFineConstants.SHOW_SIZE + 1 + i, moreResult.get(i));
             }

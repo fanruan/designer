@@ -25,17 +25,17 @@ public abstract class DocumentAdapter implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-      textChanged(e);
+        textChanged(e);
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-      textChanged(e);
+        textChanged(e);
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-      textChanged(e);
+        textChanged(e);
     }
 
     protected abstract void textChanged(DocumentEvent e);

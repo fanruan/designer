@@ -29,6 +29,7 @@ public class MoreModel {
         this.name = name;
         this.isLoading = true;
     }
+
     public MoreModel(String name, boolean isLoading) {
         this.name = name;
         this.isLoading = isLoading;

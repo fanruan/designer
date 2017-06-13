@@ -16,6 +16,7 @@ import java.awt.*;
 public class ContentCellRender implements ListCellRenderer<Object> {
     private UILabel name;
     private UILabel content;
+
     public ContentCellRender() {
         this.name = new UILabel();
         this.content = new UILabel();
@@ -24,14 +25,14 @@ public class ContentCellRender implements ListCellRenderer<Object> {
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         if (value instanceof MoreModel) {
-            return new TitleCellRender().getListCellRendererComponent(list, value,index,isSelected,cellHasFocus);
+            return new TitleCellRender().getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.white);
         if (isSelected) {
             panel.setBackground(AlphaFineConstants.BLUE);
         }
-        panel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
         AlphaCellModel model = (AlphaCellModel) value;
         name.setText(model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";

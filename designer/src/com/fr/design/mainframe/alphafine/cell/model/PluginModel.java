@@ -10,6 +10,8 @@ import com.fr.json.JSONObject;
  * Created by XiaXiang on 2017/4/20.
  */
 public class PluginModel extends AlphaCellModel {
+    private static final String PLUGIN_INFORMATION_URL = "http://shop.finereport.com/ShopServer?pg=plugin&pid=";
+    private static final String REUSE_INFORMATION_URL = "http://shop.finereport.com/reuses/";
     private String pluginUrl;
     private String imageUrl;
     private String version;
@@ -18,12 +20,11 @@ public class PluginModel extends AlphaCellModel {
     private String informationUrl;
     private int pluginId;
     private int price;
-    private static final String PLUGIN_INFORMATION_URL = "http://shop.finereport.com/ShopServer?pg=plugin&pid=";
-    private static final String REUSE_INFORMATION_URL = "http://shop.finereport.com/reuses/";
 
     public PluginModel(String name, String content, CellType type) {
         super(name, content, type);
     }
+
     public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId) {
         super(name, content);
         this.link = link;
@@ -128,7 +129,6 @@ public class PluginModel extends AlphaCellModel {
     public int hashCode() {
         return pluginUrl != null ? pluginUrl.hashCode() : 0;
     }
-
 
 
     public int getPluginId() {
