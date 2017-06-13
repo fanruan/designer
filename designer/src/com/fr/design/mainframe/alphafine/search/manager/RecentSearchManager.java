@@ -225,16 +225,17 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             AlphaFineHelper.checkCancel();
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
-                int size = recentModelList.size();
-                for (AlphaCellModel model : recentModelList) {
+                List<AlphaCellModel> resultModelList = new ArrayList<>(recentModelList);
+                int size = resultModelList.size();
+                for (AlphaCellModel model : resultModelList) {
                     if (model.getType() == CellType.ACTION && !((ActionModel)model).getAction().isEnabled()) {
-                        recentModelList.remove(model);
+                        resultModelList.remove(model);
                     }
                 }
                 if (size > MAX_SIZE) {
-                    return recentModelList.subList(size - MAX_SIZE, size);
+                    return resultModelList.subList(size - MAX_SIZE, size);
                 }
-                return recentModelList;
+                return resultModelList;
             }
         }
         return recentModelList;
