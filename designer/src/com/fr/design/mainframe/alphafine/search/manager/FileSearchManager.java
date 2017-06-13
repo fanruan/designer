@@ -123,7 +123,8 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
 
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(filePath));
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(new File(filePath)), "UTF-8");
+                BufferedReader reader = new BufferedReader(isr);
                 String line;
                 int columnNumber;
                 boolean isFoundInContent = false;
