@@ -27,10 +27,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by XiaXiang on 2017/5/15.
@@ -226,12 +223,15 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
                 List<AlphaCellModel> resultModelList = new ArrayList<>(recentModelList);
-                int size = resultModelList.size();
-                for (AlphaCellModel model : resultModelList) {
+                Iterator<AlphaCellModel> modelIterator = resultModelList.iterator();
+                while (modelIterator.hasNext()) {
+                    AlphaCellModel model = modelIterator.next();
                     if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                         resultModelList.remove(model);
                     }
+
                 }
+                int size = resultModelList.size();
                 if (size > MAX_SIZE) {
                     return resultModelList.subList(size - MAX_SIZE, size);
                 }

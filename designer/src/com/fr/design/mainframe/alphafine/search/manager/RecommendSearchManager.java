@@ -17,6 +17,7 @@ import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,10 +69,13 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
             } catch (JSONException e) {
                 FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
             }
-            for (AlphaCellModel model : recommendModelList) {
+            Iterator<AlphaCellModel> modelIterator = recommendModelList.iterator();
+            while (modelIterator.hasNext()) {
+                AlphaCellModel model = modelIterator.next();
                 if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                     recommendModelList.remove(model);
                 }
+
             }
             if (recommendModelList.size() > 0) {
                 modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
