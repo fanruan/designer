@@ -2,7 +2,9 @@ package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -65,6 +67,11 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
 
             } catch (JSONException e) {
                 FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
+            }
+            for (AlphaCellModel model : recommendModelList) {
+                if (model.getType() == CellType.ACTION && !((ActionModel)model).getAction().isEnabled()) {
+                    recommendModelList.remove(model);
+                }
             }
             if (recommendModelList.size() > 0) {
                 modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));

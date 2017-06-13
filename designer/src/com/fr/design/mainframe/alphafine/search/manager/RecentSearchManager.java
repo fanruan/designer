@@ -4,7 +4,9 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -224,6 +226,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
                 int size = recentModelList.size();
+                for (AlphaCellModel model : recentModelList) {
+                    if (model.getType() == CellType.ACTION && !((ActionModel)model).getAction().isEnabled()) {
+                        recentModelList.remove(model);
+                    }
+                }
                 if (size > MAX_SIZE) {
                     return recentModelList.subList(size - MAX_SIZE, size);
                 }
