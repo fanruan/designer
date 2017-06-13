@@ -132,6 +132,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                     columnNumber = line.toLowerCase().indexOf(searchText);
                     if (columnNumber != -1) {
                         isFoundInContent = true;
+                        break;
                     }
                 }
                 if (isFoundInContent && !isAlreadyContain) {
