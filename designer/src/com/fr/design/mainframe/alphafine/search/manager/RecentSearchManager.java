@@ -228,7 +228,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 List<AlphaCellModel> resultModelList = new ArrayList<>(recentModelList);
                 int size = resultModelList.size();
                 for (AlphaCellModel model : resultModelList) {
-                    if (model.getType() == CellType.ACTION && !((ActionModel)model).getAction().isEnabled()) {
+                    if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                         resultModelList.remove(model);
                     }
                 }

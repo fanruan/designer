@@ -69,7 +69,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
             }
             for (AlphaCellModel model : recommendModelList) {
-                if (model.getType() == CellType.ACTION && !((ActionModel)model).getAction().isEnabled()) {
+                if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                     recommendModelList.remove(model);
                 }
             }
