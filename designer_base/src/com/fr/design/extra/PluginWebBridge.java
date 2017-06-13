@@ -44,6 +44,8 @@ public class PluginWebBridge {
 
     private UILabel uiLabel;
 
+    private final String DesignerI18Prefix = "FR-Designer-";
+
     /**
      * 动作枚举
      */
@@ -513,9 +515,8 @@ public class PluginWebBridge {
     /**
      * 国际化
      */
-    public void parseI18(final String key, final JSObject callback){
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        jsCallback.execute(Inter.getLocText("FR-Designer-" + key));
+    public String parseI18(final String key){
+        return Inter.getLocText(DesignerI18Prefix + key);
     }
 
     /**
