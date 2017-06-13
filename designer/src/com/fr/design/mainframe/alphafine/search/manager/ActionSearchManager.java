@@ -41,7 +41,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     public static ActionModel getModelFromCloud(String actionName) {
         List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
         for (UpdateActionModel updateActionModel : updateActions) {
-            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName()) && updateActionModel.getAction().isEnabled()) {
+            if (ComparatorUtils.equals(actionName, updateActionModel.getClassName())) {
                 return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
             }
         }
