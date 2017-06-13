@@ -227,7 +227,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 while (modelIterator.hasNext()) {
                     AlphaCellModel model = modelIterator.next();
                     if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
-                        resultModelList.remove(model);
+                        modelIterator.remove();
                     }
 
                 }

@@ -73,7 +73,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
             while (modelIterator.hasNext()) {
                 AlphaCellModel model = modelIterator.next();
                 if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
-                    recommendModelList.remove(model);
+                    modelIterator.remove();
                 }
 
             }
