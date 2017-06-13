@@ -71,6 +71,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
+
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
     private JPanel searchResultPane;
@@ -311,27 +312,23 @@ public class AlphaFineDialog extends UIDialog {
     private void rebuildList(String searchText) {
         searchListModel.removeAllElements();
         if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
-            getActionList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            getActionList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
             return;
         } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
-            getDocumentList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            getDocumentList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
             return;
-
         } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-            getFileList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            getFileList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
             return;
-
         } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
             getFileList(searchText);
             return;
         } else if (searchText.startsWith(DS_MARK)) {
-            getFileList(DS_NAME + searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            getFileList(DS_NAME + searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
             return;
-
         } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
-            getPluginList(searchText.substring(searchText.indexOf(" ") + 1, searchText.length()));
+            getPluginList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
             return;
-
         }
         doNormalSearch(searchText.trim());
     }
