@@ -21,7 +21,7 @@ public class ModifyStatusCallback implements PluginTaskCallback{
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Actived") : Inter.getLocText("FR-Designer-Plugin_Disabled");
+            String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Disabled") : Inter.getLocText("FR-Designer-Plugin_Actived");
             JOptionPane.showMessageDialog(null, modifyMessage);
         } else {
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);

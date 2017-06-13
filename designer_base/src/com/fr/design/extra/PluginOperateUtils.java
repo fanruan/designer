@@ -112,16 +112,15 @@ public class PluginOperateUtils {
             @Override
             public void run() {
                 try {
-//                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.plist") + "&keyword=" + keyword);
-                    if(StringUtils.isBlank(keyword)){
+                    if (StringUtils.isBlank(keyword)) {
                         getRecommendPlugins(jsCallback);
                         return;
                     }
-                    HttpClient httpClient = new HttpClient("http://shop.finereport.com/searchApi?type=all" + "&keyword=" + keyword);
+                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
                     httpClient.asGet();
                     String result = httpClient.getResponseText();
                     JSONObject jsonObject = new JSONObject(result);
-                    JSONArray jsonArray =  jsonObject.getJSONArray("result");
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
                     jsCallback.execute(jsonArray.toString());
                 } catch (Exception e) {
                     FRLogger.getLogger().error(e.getMessage());
@@ -135,40 +134,39 @@ public class PluginOperateUtils {
         new Thread(new Runnable() {
             @Override
             public void run() {
-//                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("plugin.plist");
-                String plistUrl = "http://shop.finereport.com/plugins" + "?";
+                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
                 boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
                 if (getRecommend) {
                     getRecommendPlugins(jsCallback);
                     return;
                 }
 
-            if (StringUtils.isNotBlank(plistUrl)) {
-                StringBuilder url = new StringBuilder();
-                url.append(plistUrl);
-                dealParams(url, category, seller, fee);
-                try {
-                    HttpClient httpClient = new HttpClient(url.toString());
-                    httpClient.asGet();
-                    String result = httpClient.getResponseText();
-                    JSONObject resultJSONObject = new JSONObject(result);
-                    JSONArray resultArr = resultJSONObject.getJSONArray("result");
-                    jsCallback.execute(resultArr.toString());
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
+                if (StringUtils.isNotBlank(plistUrl)) {
+                    StringBuilder url = new StringBuilder();
+                    url.append(plistUrl);
+                    dealParams(url, category, seller, fee);
+                    try {
+                        HttpClient httpClient = new HttpClient(url.toString());
+                        httpClient.asGet();
+                        String result = httpClient.getResponseText();
+                        JSONObject resultJSONObject = new JSONObject(result);
+                        JSONArray resultArr = resultJSONObject.getJSONArray("result");
+                        jsCallback.execute(resultArr.toString());
+                    } catch (Exception e) {
+                        FRLogger.getLogger().error(e.getMessage());
+                    }
+                } else {
+                    String result = PluginConstants.CONNECTION_404;
+                    jsCallback.execute(result);
                 }
-            } else {
-                String result = PluginConstants.CONNECTION_404;
-                jsCallback.execute(result);
             }
-        }
 
         }).start();
 
     }
 
-    public static void getRecommendPlugins(JSCallback jsCallback){
-        String plistUrl = "http://shop.finereport.com/ShopServer?pg=feature";
+    public static void getRecommendPlugins(JSCallback jsCallback) {
+        String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
         try {
             HttpClient httpClient = new HttpClient(plistUrl.toString());
             String result = httpClient.getResponseText();
@@ -179,7 +177,7 @@ public class PluginOperateUtils {
 
     }
 
-    public static void dealParams(StringBuilder url, String category, String seller, String fee){
+    public static void dealParams(StringBuilder url, String category, String seller, String fee) {
         if (StringUtils.isNotBlank(category)) {
             url.append("cid=").append(category.split("-")[1]);
         } else {
@@ -216,7 +214,7 @@ public class PluginOperateUtils {
             @Override
             public void run() {
                 String result;
-                String url = "http://shop.finereport.com/shopServer?pg=category";
+                String url = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.category");
                 if (url != null) {
                     HttpClient httpClient = new HttpClient(url);
                     result = httpClient.getResponseText();
