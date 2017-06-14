@@ -6,19 +6,19 @@ package com.fr.design.actions;
 import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
+import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -293,8 +293,7 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		if (!(object instanceof UpdateAction)) {
 			return false;
 		}
-
-		return ((UpdateAction) object).getName().equals(this.getName());
+		return ComparatorUtils.equals(((UpdateAction) object).getName(), this.getName());
 	}
 
 	@Override
