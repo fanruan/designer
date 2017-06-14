@@ -237,6 +237,14 @@ public class PluginOperateUtils {
     }
 
     public static void getLoginInfo(JSCallback jsCallback) {
+    
+        if (!BBSPluginLogin.getInstance().hasLogin()) {
+            String userName = DesignerEnvManager.getEnvManager().getBBSName();
+            String password = DesignerEnvManager.getEnvManager().getBBSPassword();
+            if (StringUtils.isNotBlank(userName)) {
+                BBSPluginLogin.getInstance().login(new BBSUserInfo(userName, password));
+            }
+        }
         BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
         String username = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
         String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
