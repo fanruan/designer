@@ -4,7 +4,9 @@ import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -25,10 +27,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by XiaXiang on 2017/5/15.
@@ -223,11 +222,20 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
             AlphaFineHelper.checkCancel();
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
-                int size = recentModelList.size();
-                if (size > MAX_SIZE) {
-                    return recentModelList.subList(size - MAX_SIZE, size);
+                List<AlphaCellModel> resultModelList = new ArrayList<>(recentModelList);
+                Iterator<AlphaCellModel> modelIterator = resultModelList.iterator();
+                while (modelIterator.hasNext()) {
+                    AlphaCellModel model = modelIterator.next();
+                    if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
+                        modelIterator.remove();
+                    }
+
                 }
-                return recentModelList;
+                int size = resultModelList.size();
+                if (size > MAX_SIZE) {
+                    return resultModelList.subList(size - MAX_SIZE, size);
+                }
+                return resultModelList;
             }
         }
         return recentModelList;
