@@ -149,7 +149,7 @@ public class AlphaFineConfigManager implements XMLable {
      * @return
      */
     private String getDefaultShortCuts() {
-        return OperatingSystem.isMacOS()? "meta + F" : "ctrl + F";
+        return OperatingSystem.isMacOS()? "meta + D" : "ctrl + D";
     }
 
     public void setShortcuts(String shortcuts) {
