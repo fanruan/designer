@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * Created by juhaoyu on 2017/6/15.
- * 管理正在运行中的GlobalListenerProvider接口
+ * 管理正在运行中插件的GlobalListenerProvider接口
  */
 public class GlobalListenerProviderManager {
     
