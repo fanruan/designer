@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * Created by juhaoyu on 2017/6/15.
- * 管理GlobalListenerProvider接口
+ * 管理正在运行中的GlobalListenerProvider接口
  */
 public class GlobalListenerProviderManager {
     
@@ -91,7 +91,7 @@ public class GlobalListenerProviderManager {
         
         AWTEventListener listener;
         for (GlobalListenerProvider provider : providers) {
-            listener = get(provider);
+            listener = pop(provider);
             Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
         }
     }
@@ -101,8 +101,9 @@ public class GlobalListenerProviderManager {
         map.put(provider, listener);
     }
     
-    private synchronized AWTEventListener get(GlobalListenerProvider provider) {
+    private synchronized AWTEventListener pop(GlobalListenerProvider provider) {
         
-        return map.get(provider);
+        return map.remove(provider);
     }
+ 
 }
