@@ -196,17 +196,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 return context.contain(TitlePlaceProcessor.MARK_STRING);
             }
         });
-<<<<<<< HEAD
-        
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isEnabled()) {
-            northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
-        }
         refreshNorthEastPane(northEastPane, ad);
-        return northEastPane;
-    }
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
+			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
+		}
+		return northEastPane;
+	}
     
     private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
-    
+        
         northEastPane.removeAll();
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor == null) {
@@ -219,19 +217,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         
         setName(DESIGNER_FRAME_NAME);
         this.ad = ad;
-=======
-
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
-			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
-		}
-		return northEastPane;
-	}
-	
-	public DesignerFrame(ToolBarMenuDock ad) {
-		setName(DESIGNER_FRAME_NAME);
-		this.ad = ad;
->>>>>>> d2de164e77196e797f514ec75b52974b32b99ac5
-		this.initTitleIcon();
+        this.initTitleIcon();
 		this.setTitle();// james:因为有默认的了
 		// set this to context.
 		DesignerContext.setDesignerFrame(this);
