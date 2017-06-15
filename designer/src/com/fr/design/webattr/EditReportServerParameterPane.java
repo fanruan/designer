@@ -4,6 +4,7 @@
 package com.fr.design.webattr;
 
 import com.fr.base.ConfigManager;
+import com.fr.base.ConfigManagerProvider;
 import com.fr.base.FRContext;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
@@ -12,7 +13,6 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.base.ConfigManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
 
@@ -33,17 +33,17 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
     //TODO 表单
 //    private FormToolBarPane formPane;
     private WriteToolBarPane writePane;
-    private ReportWebAttr webAttr ;
+    private ReportWebAttr webAttr;
     
     private WebCssPane cssPane;
     
     private WebJsPane jsPane;
     
     private ErrorTemplatePane errorTemplatePane;
-    
+
 
     @Override
-	protected void initComponents(JPanel container) {
+	protected synchronized void initComponents(JPanel container) {
         JPanel defaultPane = container;
         defaultPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 

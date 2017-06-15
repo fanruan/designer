@@ -62,6 +62,7 @@ public abstract class AlphaCellModel {
 
     /**
      * model转json
+     *
      * @return
      * @throws JSONException
      */
@@ -69,6 +70,7 @@ public abstract class AlphaCellModel {
 
     /**
      * 获取需要保存到云中心的信息
+     *
      * @return
      */
     abstract public String getStoreInformation();

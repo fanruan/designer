@@ -9,7 +9,7 @@ import com.fr.json.JSONObject;
 /**
  * Created by XiaXiang on 2017/4/20.
  */
-public class FileModel extends AlphaCellModel{
+public class FileModel extends AlphaCellModel {
     private String filePath;
 
     public FileModel(String name, String content, CellType type) {

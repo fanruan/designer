@@ -15,7 +15,7 @@ import java.awt.*;
 public class PluginPreviewPane extends JPanel {
     public PluginPreviewPane(String title, Image image, String version, String jartime, CellType type, int price) {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(50,0,0,0));
+        setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
         setBackground(Color.white);
         UILabel imageLabel = new UILabel();
         image = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
@@ -26,17 +26,17 @@ public class PluginPreviewPane extends JPanel {
         nameLabel.setBackground(Color.yellow);
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel line = new JPanel();
-        line.setPreferredSize(new Dimension(200,1));
+        line.setPreferredSize(new Dimension(200, 1));
         line.setBackground(AlphaFineConstants.GRAY);
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.white);
         JPanel bottomPane = new JPanel(new BorderLayout());
         bottomPane.setBackground(Color.white);
-        bottomPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        bottomPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         if (type == CellType.PLUGIN) {
             UILabel versionLabel = new UILabel("V" + version);
             versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            versionLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+            versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
             versionLabel.setForeground(AlphaFineConstants.DARK_GRAY);
             versionLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
             panel.add(versionLabel, BorderLayout.CENTER);
@@ -47,7 +47,7 @@ public class PluginPreviewPane extends JPanel {
         }
         nameLabel.setFont(AlphaFineConstants.LARGE_FONT);
         nameLabel.setBackground(AlphaFineConstants.BLUE);
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(20,20,10,20));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : String.valueOf(price);
         UILabel priceLabel = new UILabel(price0);

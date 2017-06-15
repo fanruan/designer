@@ -1,6 +1,6 @@
 package com.fr.design.actions.help.alphafine;
 
-import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,12 +17,13 @@ import java.awt.event.ActionEvent;
 /**
  * Created by XiaXiang on 2017/4/1.
  */
-public class AlphafineAction extends UpdateAction {
-    public AlphafineAction() {
+public class AlphaFineAction extends UpdateAction {
+    public AlphaFineAction() {
         this.setMenuKeySet(ALPHAFINE);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        this.setSearchText(new AlphaFineConfigPane());
     }
 
     public static final MenuKeySet ALPHAFINE = new MenuKeySet() {
@@ -47,15 +49,19 @@ public class AlphafineAction extends UpdateAction {
     public void actionPerformed(ActionEvent e) {
         final DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
 
-        final AlphafineConfigPane alphafineConfigPane = new AlphafineConfigPane();
-        alphafineConfigPane.populate(DesignerEnvManager.getEnvManager().getAlphafineConfigManager());
+        final AlphaFineConfigPane alphaFineConfigPane = new AlphaFineConfigPane();
+        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
+        if (!FRContext.isChineseEnv()) {
+            manager.setSearchOnLine(false);
+        }
+        alphaFineConfigPane.populate(manager);
         DialogActionListener dialogActionListener = new DialogActionAdapter() {
             public void doOk() {
-                alphafineConfigPane.update();
-                designerFrame.refreshToolbar();
+                alphaFineConfigPane.update();
+                AlphaFineContext.fireAlphaFineEnable(manager.isEnabled());
             }
         };
-        BasicDialog basicDialog = alphafineConfigPane.showMediumWindow(designerFrame, dialogActionListener);
+        BasicDialog basicDialog = alphaFineConfigPane.showMediumWindow(designerFrame, dialogActionListener);
         basicDialog.setVisible(true);
     }
 }
