@@ -13,6 +13,7 @@ import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.fun.GlobalListenerProvider;
+import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -114,10 +115,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void bindGlobalListener() {
-        Set<GlobalListenerProvider> providers = ExtraDesignClassManager.getInstance().getArray(GlobalListenerProvider.XML_TAG);
-        for (GlobalListenerProvider provider : providers) {
-            Toolkit.getDefaultToolkit().addAWTEventListener(provider.listener(), AWTEvent.KEY_EVENT_MASK);
-        }
+    
+        GlobalListenerProviderManager.getInstance().init();
     }
 
     private void showErrorPluginsMessage() {
