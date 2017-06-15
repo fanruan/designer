@@ -198,7 +198,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
     
     private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
-        
+    
+        northEastPane.removeAll();
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor == null) {
             processor = new DefaultTitlePlace();
