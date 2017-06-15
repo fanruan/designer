@@ -96,7 +96,7 @@ public class DataLabelPane extends TooltipContentsPane {
         }
         delimiterBox.setPreferredSize(new Dimension(70, 20));
         JPanel boxPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        boxPane.add(new UILabel(Inter.getLocText("Form-Delimiter") + ":"));
+        boxPane.add(new UILabel(Inter.getLocText("FR-Designer_Dismenber") + ":"));
         boxPane.add(delimiterBox);
         return boxPane;
     }
