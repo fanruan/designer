@@ -1,15 +1,15 @@
 package com.fr.design.actions.report;
 
-import java.awt.event.ActionEvent;
-
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.ReportExportAttrPane;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.general.IOUtils;
 import com.fr.main.TemplateWorkBook;
+
+import java.awt.event.ActionEvent;
 
 public class ReportExportAttrAction extends JWorkBookAction {
 
@@ -18,7 +18,8 @@ public class ReportExportAttrAction extends JWorkBookAction {
         this.setMenuKeySet(KeySetUtils.REPORT_EXPORT_ATTR);
         this.setName(getMenuKeySet().getMenuKeySetName()+"...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/exportAttr.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_report/exportAttr.png"));
+        this.setSearchText(new ReportExportAttrPane());
     }
 
     /**

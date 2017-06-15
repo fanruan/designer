@@ -1,4 +1,4 @@
-
+apply plugin: 'java'
 tasks.withType(JavaCompile){
 	options.encoding = 'UTF-8'
 }
@@ -36,16 +36,23 @@ jar{
 
 def srcDir="."
 def baseDir=".."
-
-//指定源码路径
-sourceSets{
-	main{
-		java{
-			srcDirs=["${srcDir}/src",
-				"${srcDir}/../designer/src"]
-		}
+ant{
+	delete(dir:"src/main")
+	mkdir(dir:"src/main/java")
+	move(todir:"src/main/java"){
+		fileset(dir:"../designer/src",includes:"com/**")
+		fileset(dir:"src",includes:"com/**")
 	}
 }
+//指定源码路径
+//sourceSets{
+//	main{
+//		java{
+//			srcDirs=["${srcDir}/src",
+//				"${srcDir}/../designer/src"]
+//		}
+//	}
+//}
 //获取什么分支名
 FileTree files =fileTree(dir:'./',include:'build.*.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))
@@ -71,8 +78,8 @@ def dataContent ={def dir ->
 
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
-		with dataContent.call("${srcDir}/src") 
-		with dataContent.call("${srcDir}/../designer/src") 
+		with dataContent.call("${srcDir}/src/main/java") 
+	//	with dataContent.call("${srcDir}/../designer/src") 
 		into 'build/classes/main'
 	}
 
@@ -87,11 +94,7 @@ task compressJS{
 		}
 	}
 	ant.yuicompress(linebreak:"500",warn:"false", munge:"yes",preserveallsemicolons:"false",charset:"utf-8",encoding:"utf-8",outputfolder:'build/classes/main'){
-		fileset (dir:"${srcDir}/src"){
-			include (name:'**/*.js')
-			include (name:'**/*.css')
-		}
-		fileset (dir:"${srcDir}/../designer/src"){
+		fileset (dir:"${srcDir}/src/main/java"){
 			include (name:'**/*.js')
 			include (name:'**/*.css')
 		}

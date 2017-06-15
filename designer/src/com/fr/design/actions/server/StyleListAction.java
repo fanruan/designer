@@ -10,6 +10,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -24,7 +25,8 @@ public class StyleListAction extends UpdateAction {
         this.setMenuKeySet(PREDEFINED_STYLES);
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_web/style.png"));
+		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/style.png"));
+		this.setSearchText(new StyleManagerPane());
 	}
 
     /**

@@ -15,8 +15,12 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.pinyin.PinyinFormat;
+import com.fr.stable.pinyin.PinyinHelper;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeListener;
@@ -49,6 +53,10 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	 * august:关键词key，是Action里面的final常量，如：Action.NAME、Action.SMALL_ICON等等
 	 */
 	private Map<String, Object> componentMap;
+
+	private String searchText = StringUtils.EMPTY;
+
+
 
 	/**
 	 * Constructor
@@ -425,4 +433,112 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 		return menuItem;
 	}
+
+	public void setSearchText(JPanel panel) {
+		this.searchText = getComponentTexts(panel, "_", new StringBuffer(), new StringBuffer(), new StringBuffer());
+
+	}
+
+	/**
+	 * 获取搜索匹配字符串
+	 * @return
+	 */
+	public String getSearchText() {
+		return searchText;
+	}
+
+	/**
+	 * 遍历面板中所有控件,获取text用于alphafine的action搜索,考虑分词，拼音，首字母检索
+	 * @param panel
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
+	 * @return
+	 */
+	public String getComponentTexts(JPanel panel, String separator,  StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin) {
+		Border border = panel.getBorder();
+		if (border instanceof TitledBorder) {
+			String title = ((TitledBorder) border).getTitle();
+			text.append(title).append(separator);
+			pinyin.append(PinyinHelper.convertToPinyinString(title, "", PinyinFormat.WITHOUT_TONE)).append(separator);
+			shortPinyin.append(PinyinHelper.getShortPinyin(title)).append(separator);
+		}
+		Component[] components = panel.getComponents();
+		for (Component component : components) {
+			if (component instanceof JPanel) {
+				getComponentTexts((JPanel) component, separator, text, pinyin, shortPinyin);
+			} else if (component instanceof JScrollPane) {
+				Component childComponent = ((JScrollPane) component).getViewport().getView();
+				if (childComponent instanceof JPanel) {
+					getComponentTexts((JPanel) childComponent, separator, text, pinyin, shortPinyin);
+				}
+			} else if (component instanceof JLabel) {
+				String title = ((JLabel) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
+			} else if (component instanceof JCheckBox) {
+				String title = ((JCheckBox) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
+			} else if (component instanceof JButton) {
+				String title = ((JButton) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
+			} else if (component instanceof JRadioButton) {
+				String title = ((JRadioButton) component).getText();
+				handleSearchText(separator, text, pinyin, shortPinyin, title);
+
+			} else if (component instanceof JComboBox) {
+				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
+					text.append(((JComboBox) component).getItemAt(i));
+					String title = String.valueOf(((JComboBox) component).getItemAt(i));
+					handleSearchText(separator, text, pinyin, shortPinyin, title);
+
+				}
+			} else if (component instanceof JTabbedPane) {
+				getTabPaneTexts((JTabbedPane) component, separator, text, pinyin, shortPinyin);
+			}
+		}
+		return String.valueOf(text.append(pinyin).append(shortPinyin));
+	}
+
+	/**
+	 * 递归遍历tabbedPane
+	 * @param component
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
+	 */
+	private synchronized void getTabPaneTexts(JTabbedPane component, String separator,  StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin) {
+		for (int i = 0; i < component.getTabCount(); i++) {
+			String title = component.getTitleAt(i);
+			handleSearchText(separator, text, pinyin, shortPinyin, title);
+			Component tabComponent = component.getComponentAt(i);
+            if (tabComponent instanceof JPanel) {
+                getComponentTexts((JPanel) tabComponent, separator, text, pinyin, shortPinyin);
+            } else if (tabComponent instanceof JTabbedPane) {
+            	getTabPaneTexts((JTabbedPane) tabComponent, separator, text, pinyin, shortPinyin);
+			}
+        }
+	}
+
+	/**
+	 * 将text,pinyin,pinyin首字母拼接到一起
+	 * @param separator
+	 * @param text
+	 * @param pinyin
+	 * @param shortPinyin
+	 * @param title
+	 */
+	private void handleSearchText(String separator, StringBuffer text, StringBuffer pinyin, StringBuffer shortPinyin, String title) {
+		if (StringUtils.isBlank(title)) {
+			return;
+		}
+		text.append(title).append(separator);
+		pinyin.append(PinyinHelper.convertToPinyinString(title, "", PinyinFormat.WITHOUT_TONE));
+		shortPinyin.append(PinyinHelper.getShortPinyin(title)).append(separator);
+	}
+
 }

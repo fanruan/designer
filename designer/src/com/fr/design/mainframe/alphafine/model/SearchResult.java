@@ -9,7 +9,6 @@ public class SearchResult extends ArrayList<Object> {
     private boolean needMore;
 
 
-
     public boolean isNeedMore() {
         return needMore;
     }

@@ -23,4 +23,10 @@ public abstract class AbstractAppProvider<T extends IOFile> extends AbstractProv
     public void process() {
         DesignerFrame.registApp(this);
     }
+    
+    @Override
+    public void undo() {
+        
+        DesignerFrame.removeApp(this);
+    }
 }

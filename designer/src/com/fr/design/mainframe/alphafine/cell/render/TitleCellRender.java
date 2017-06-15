@@ -19,12 +19,13 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         this.name = new UILabel();
         this.more = new UILabel();
     }
+
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        MoreModel moreModel = (MoreModel)value;
+        MoreModel moreModel = (MoreModel) value;
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(AlphaFineConstants.WHITE);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
         name.setText(moreModel.getName());
         name.setFont(AlphaFineConstants.SMALL_FONT);
         more.setFont(AlphaFineConstants.SMALL_FONT);
@@ -33,7 +34,7 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         more.setForeground(AlphaFineConstants.DARK_GRAY);
         panel.add(name, BorderLayout.WEST);
         if (moreModel.isNeedMore()) {
-            this.more.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
+            this.more.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
             panel.add(this.more, BorderLayout.EAST);
         }
         if (moreModel.isLoading()) {

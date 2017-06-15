@@ -1,12 +1,12 @@
 package com.fr.design.mainframe.alphafine.component;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineContext;
-import com.fr.design.actions.help.alphafine.AlphafineListener;
+import com.fr.design.actions.help.alphafine.AlphaFineContext;
+import com.fr.design.actions.help.alphafine.AlphaFineListener;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -20,20 +20,14 @@ import java.awt.event.ActionListener;
 public class AlphaFinePane extends BasicPane {
     private static AlphaFinePane alphaFinePane;
 
-    public static AlphaFinePane createAlphaFinePane() {
-        if (alphaFinePane == null) {
-            alphaFinePane = new AlphaFinePane();
-        }
-        return alphaFinePane;
-    }
     public AlphaFinePane() {
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 14));
-        if (DesignerEnvManager.getEnvManager().getAlphafineConfigManager().isEnabled()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
         }
         UIButton refreshButton = new UIButton();
-        refreshButton.setIcon(BaseUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
-        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_Alphafine"));
+        refreshButton.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         this.add(refreshButton);
         refreshButton.addActionListener(new ActionListener() {
@@ -42,12 +36,25 @@ public class AlphaFinePane extends BasicPane {
                 AlphaFineHelper.showAlphaFineDialog(false);
             }
         });
-        AlphafineContext.addAlphafineContextListener(new AlphafineListener() {
+        AlphaFineContext.addAlphaFineListener(new AlphaFineListener() {
             @Override
             public void showDialog() {
                 AlphaFineHelper.showAlphaFineDialog(true);
             }
+
+            @Override
+            public void setEnable(boolean isEnable) {
+                alphaFinePane.setVisible(isEnable);
+
+            }
         });
+    }
+
+    public static AlphaFinePane getAlphaFinePane() {
+        if (alphaFinePane == null) {
+            alphaFinePane = new AlphaFinePane();
+        }
+        return alphaFinePane;
     }
 
     @Override

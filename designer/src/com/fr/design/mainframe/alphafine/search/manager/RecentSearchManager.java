@@ -3,7 +3,10 @@ package com.fr.design.mainframe.alphafine.search.manager;
 import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
+import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -24,10 +27,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by XiaXiang on 2017/5/15.
@@ -38,11 +38,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     private static final int MAX_SIZE = 3;
     private static RecentSearchManager recentSearchManager = null;
     private static File recentFile = null;
-    private List<String> fileList;
-    private List<String> actionList;
-    private List<String> documentList;
     private SearchResult modelList;
-    private List<String> pluginList;
     private List<AlphaCellModel> recentModelList = new ArrayList<>();
     private Map<String, List<AlphaCellModel>> recentKVModelMap = new HashMap<>();
 
@@ -95,16 +91,18 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         }
     }
 
+
     private void addModelToList(List<AlphaCellModel> list, String name) {
         try {
             AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(name));
             if (model != null) {
-                list.add(CellModelHelper.getModelFromJson(new JSONObject(name)));
+                list.add(model);
             }
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
     }
+
 
     @Override
     public void writeXML(XMLPrintWriter writer) {
@@ -135,40 +133,10 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         return "alphafine_recent.xml";
     }
 
-    public List<String> getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(List<String> fileList) {
-        this.fileList = fileList;
-    }
-
-    public List<String> getActionList() {
-        return actionList;
-    }
-
-    public void setActionList(List<String> actionList) {
-        this.actionList = actionList;
-    }
-
-    public List<String> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<String> documentList) {
-        this.documentList = documentList;
-    }
-
-    public List<String> getPluginList() {
-        return pluginList;
-    }
-
-    public void setPluginList(List<String> pluginList) {
-        this.pluginList = pluginList;
-    }
 
     /**
      * 获取xml
+     *
      * @return
      */
     private File getRecentFile() {
@@ -183,12 +151,12 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
         if (!envFile.exists()) {
             createRecentFile(envFile);
         }
-
         return envFile;
     }
 
     /**
      * 创建XML
+     *
      * @param envFile
      */
     private void createRecentFile(File envFile) {
@@ -244,19 +212,30 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     /**
      * 根据搜索字段获取对应的model列表
+     *
      * @param searchText
      * @return
      */
-    public List<AlphaCellModel> getRecentModelList(String searchText) {
+    public synchronized List<AlphaCellModel> getRecentModelList(String searchText) {
         recentModelList = new ArrayList<>();
         for (String key : recentKVModelMap.keySet()) {
+            AlphaFineHelper.checkCancel();
             if (ComparatorUtils.equals(key, searchText)) {
                 recentModelList = recentKVModelMap.get(searchText);
-                int size = recentModelList.size();
-                if (size > MAX_SIZE) {
-                    return recentModelList.subList(size - MAX_SIZE, size);
+                List<AlphaCellModel> resultModelList = new ArrayList<>(recentModelList);
+                Iterator<AlphaCellModel> modelIterator = resultModelList.iterator();
+                while (modelIterator.hasNext()) {
+                    AlphaCellModel model = modelIterator.next();
+                    if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
+                        modelIterator.remove();
+                    }
+
                 }
-                return recentModelList;
+                int size = resultModelList.size();
+                if (size > MAX_SIZE) {
+                    return resultModelList.subList(size - MAX_SIZE, size);
+                }
+                return resultModelList;
             }
         }
         return recentModelList;
@@ -264,6 +243,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
     /**
      * 将搜索结果加入到当前MAP中
+     *
      * @param searchKey
      * @param cellModel
      */

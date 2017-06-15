@@ -20,7 +20,7 @@ public class DocumentPreviewPane extends JPanel {
         UITextArea contentArea = new UITextArea(summary);
         titleArea.setOpaque(false);
         contentArea.setOpaque(false);
-        titleArea.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        titleArea.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         titleArea.setForeground(AlphaFineConstants.BLUE);
         contentArea.setForeground(AlphaFineConstants.BLACK);
         titleArea.setPreferredSize(new Dimension(360, 30));

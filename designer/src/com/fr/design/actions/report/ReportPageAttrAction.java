@@ -12,6 +12,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.freeze.RepeatAndFreezeSettingPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.general.IOUtils;
 import com.fr.report.worksheet.WorkSheet;
 
 /**
@@ -27,7 +28,8 @@ public class ReportPageAttrAction extends ReportComponentAction<WorkSheetDesigne
         this.setMenuKeySet(KeySetUtils.REPORT_PAGE);
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/pageSetup.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_file/pageSetup.png"));
+        this.setSearchText(new RepeatAndFreezeSettingPane());
     }
 
     /**

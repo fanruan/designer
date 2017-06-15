@@ -26,6 +26,7 @@ import com.fr.general.ComparatorUtils;
 public class WidgetPropertyTable extends AbstractPropertyTable {
 
 	private FormDesigner designer;
+	private static final int LEFT_COLUMN_WIDTH = 97;  // "属性名"列的宽度
 
 	public WidgetPropertyTable(FormDesigner designer) {
 		super();
@@ -86,8 +87,17 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		setModel(model);
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		TableColumn tc = this.getColumn(this.getColumnName(0));
-		tc.setPreferredWidth(30);
+		tc.setMinWidth(LEFT_COLUMN_WIDTH);
+		tc.setMaxWidth(LEFT_COLUMN_WIDTH);
+
 		this.repaint();
+	}
+
+	private void setRightColumnWidth(boolean automode) {
+		int rightColumnWidth = this.getWidth() - LEFT_COLUMN_WIDTH;
+		TableColumn tcRight = this.getColumn(this.getColumnName(1));
+		tcRight.setMinWidth(automode ? 0 : rightColumnWidth);
+		tcRight.setMaxWidth(automode ? this.getWidth() : rightColumnWidth);
 	}
 	
 	private void setDesigner(FormDesigner designer) {
@@ -110,7 +120,14 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		}
 		return null;
 	}
-	
+
+	@Override
+	public void columnMarginChanged(javax.swing.event.ChangeEvent e) {
+		setRightColumnWidth(false);
+		super.columnMarginChanged(e);
+		setRightColumnWidth(true);
+	}
+
     /**
      * 待说明
      */

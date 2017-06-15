@@ -6,7 +6,8 @@ import com.fr.report.web.button.Image;
 import com.fr.stable.StringUtils;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 
@@ -64,6 +65,7 @@ public class AlphaFineTextField extends UITextField {
 
     /**
      * 添加键盘监听器
+     *
      * @param component
      */
     public void initKeyListener(final Component component) {

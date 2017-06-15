@@ -1,7 +1,7 @@
 package com.fr.aspectj.designerbase;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.actions.help.alphafine.AlphafineConfigManager;
+import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.actions.help.alphafine.RemindDialog;
 import com.fr.design.mainframe.DesignerContext;
 
@@ -30,7 +30,7 @@ public aspect AlphaFineReminder {
      * 判断是否弹出广告框
      */
     private static void remind() {
-        AlphafineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphafineConfigManager();
+        AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
 
         if (manager.isNeedRemind()) {
             if (manager.getOperateCount() > 4) {

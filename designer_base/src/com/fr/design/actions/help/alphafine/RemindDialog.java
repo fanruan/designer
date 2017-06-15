@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * Created by XiaXiang on 2017/5/26.
+ * 提示弹窗
  */
 public class RemindDialog extends UIDialog {
     private RemindPane remindPane;
@@ -22,7 +23,7 @@ public class RemindDialog extends UIDialog {
     }
 
     private void initComponent() {
-        final AlphafineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphafineConfigManager();
+        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
         remindPane = new RemindPane(manager, this);
         this.add(remindPane);
 

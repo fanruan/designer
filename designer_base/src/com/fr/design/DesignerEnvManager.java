@@ -5,7 +5,7 @@ package com.fr.design;
 
 import com.fr.base.*;
 import com.fr.dav.LocalEnv;
-import com.fr.design.actions.help.alphafine.AlphafineConfigManager;
+import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
@@ -108,7 +108,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * alphafine
      */
-    private AlphafineConfigManager alphafineConfigManager = new AlphafineConfigManager();
+    private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
 
 
     public static final String CAS_CERTIFICATE_PATH = "certificatePath";
@@ -1344,7 +1344,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readAlphaFineAttr(XMLableReader reader) {
-        reader.readXMLObject(this.alphafineConfigManager = new AlphafineConfigManager());
+        reader.readXMLObject(this.alphaFineConfigManager = new AlphaFineConfigManager());
     }
 
     private void readHttpsParas(XMLableReader reader){
@@ -1551,8 +1551,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void writeAlphaFineAttr(XMLPrintWriter writer) {
-        if (this.alphafineConfigManager != null) {
-            this.alphafineConfigManager.writeXML(writer);
+        if (this.alphaFineConfigManager != null) {
+            this.alphaFineConfigManager.writeXML(writer);
         }
     }
 
@@ -1830,11 +1830,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         return env;
     }
 
-    public AlphafineConfigManager getAlphafineConfigManager() {
-        return alphafineConfigManager;
+    public AlphaFineConfigManager getAlphaFineConfigManager() {
+        return alphaFineConfigManager;
     }
 
-    public void setAlphafineConfigManager(AlphafineConfigManager alphafineConfigManager) {
-        this.alphafineConfigManager = alphafineConfigManager;
+    public void setAlphaFineConfigManager(AlphaFineConfigManager alphaFineConfigManager) {
+        this.alphaFineConfigManager = alphaFineConfigManager;
     }
 }

@@ -34,6 +34,12 @@ public abstract class AbstractTableDataDefineProvider extends AbstractProvider i
                 classForInitTableData(),
                 appearanceForTableData()
         );
-        TableDataFactory.register(classForTableData(), creator);
+        TableDataFactory.registerExtra(classForTableData(), creator);
+    }
+    
+    @Override
+    public void undo() {
+        
+        TableDataFactory.removeExtra(classForTableData());
     }
 }

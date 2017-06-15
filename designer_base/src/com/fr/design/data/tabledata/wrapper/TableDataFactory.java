@@ -5,20 +5,15 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.*;
 import com.fr.data.impl.storeproc.StoreProcedure;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
 import com.fr.design.data.tabledata.tabledatapane.*;
-import com.fr.design.fun.TableDataCreatorProvider;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -32,6 +27,8 @@ public abstract class TableDataFactory {
      * 有顺序的,用来排序用
      */
     private static Map<String, TableDataNameObjectCreator> map = new java.util.LinkedHashMap<String, TableDataNameObjectCreator>();
+    
+    private static Map<String, TableDataNameObjectCreator> extraMap = new LinkedHashMap<>();
 
     /**
      * 同一类型的只能加一次,就加最上层的类,因为要排序。如果将所有的 FileTableData都加进来，那么FileTableData的排序就不正确了
@@ -54,11 +51,27 @@ public abstract class TableDataFactory {
      * @param clazz 数据集类
      * @param creator 组件
      */
-    public static void register(Class<? extends TableData> clazz, TableDataNameObjectCreator creator) {
-        map.put(clazz.getName(), creator);
+    public static void registerExtra(Class<? extends TableData> clazz, TableDataNameObjectCreator creator) {
+    
+        extraMap.put(clazz.getName(), creator);
     }
-
+    
+    public static void removeExtra(Class<? extends TableData> clazz) {
+        
+        extraMap.remove(clazz.getName());
+    }
+    
     private static TableDataNameObjectCreator getTableDataNameObjectCreator(TableData tabledata) {
+        
+        TableDataNameObjectCreator creator = getFrom(tabledata, extraMap);
+        if (creator == null) {
+            creator = getFrom(tabledata, map);
+        }
+        return creator;
+    }
+    
+    private static TableDataNameObjectCreator getFrom(TableData tabledata, Map<String, TableDataNameObjectCreator> map) {
+        
         TableDataNameObjectCreator tableDataNameObjectCreator = map.get(tabledata.getClass().getName());
         if (tableDataNameObjectCreator == null) {
             tableDataNameObjectCreator = map.get(tabledata.getClass().getSuperclass().getName());
@@ -69,7 +82,7 @@ public abstract class TableDataFactory {
         }
         return tableDataNameObjectCreator;
     }
-
+    
     /**
      * 获取数据集所对应的编辑面板
      *

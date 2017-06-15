@@ -3,19 +3,14 @@
  */
 package com.fr.design.gui.frpane;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
-
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author richer
@@ -46,6 +41,7 @@ public abstract class LoadingBasicPane extends BasicPane {
         }.execute();
     }
 
+
     private void initCards() {
         card = new CardLayout();
         setLayout(card);
@@ -72,6 +68,16 @@ public abstract class LoadingBasicPane extends BasicPane {
 
     protected void initComponents(JPanel container) {
 
+    }
+
+    /**
+     * 为了alphafine搜索使用，预加载面板控件，获取全部控件的信息
+     * @return
+     */
+    public JPanel getAllComponents() {
+        JPanel panel = new JPanel();
+        initComponents(panel);
+        return panel;
     }
 
     /**

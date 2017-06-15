@@ -1,5 +1,6 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -20,7 +21,7 @@ import java.awt.event.KeyEvent;
 /**
  * Created by XiaXiang on 2017/4/6.
  */
-public class AlphafineConfigPane extends BasicPane {
+public class AlphaFineConfigPane extends BasicPane {
     private static final String TYPE = "pressed";
     private static final String DISPLAY_TYPE = "+";
     private static final String BACK_SLASH = "BACK_SLASH";
@@ -56,7 +57,7 @@ public class AlphafineConfigPane extends BasicPane {
     private UICheckBox isEnabledCheckbox, isSearchOnlineCheckbox, isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox, isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox;
     private UITextField shortcutsField;
 
-    public AlphafineConfigPane() {
+    public AlphaFineConfigPane() {
         this.initComponents();
     }
 
@@ -71,7 +72,7 @@ public class AlphafineConfigPane extends BasicPane {
 
     }
 
-    private Component[][] initsearchRangeComponents() {
+    private Component[][] initSearchRangeComponents() {
         Component[][] components = new Component[][]{
                 new Component[]{isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox},
                 new Component[]{isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox}
@@ -85,13 +86,13 @@ public class AlphafineConfigPane extends BasicPane {
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_SearchRange"));
-        isContainRecommendCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Conclude"));
+        isContainRecommendCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_AlphaFine_Recommend"));
         isContainActionCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Set"));
         isContainPluginCheckbox = new UICheckBox(Inter.getLocText("FR-Designer-Plugin_Addon"));
         isContainDocumentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
         isContainTemplateCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates"));
         isContainFileContentCheckbox = new UICheckBox(Inter.getLocText("FR-Designer_Templates_Content"));
-        JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initsearchRangeComponents(), rowSize, columnSize);
+        JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initSearchRangeComponents(), rowSize, columnSize);
         northPane.add(searchConfigPane);
         contentPane.add(northPane);
     }
@@ -154,34 +155,36 @@ public class AlphafineConfigPane extends BasicPane {
         return "AlphaFine";
     }
 
-    public void populate(AlphafineConfigManager alphafineConfigManager) {
-        this.isEnabledCheckbox.setSelected(alphafineConfigManager.isEnabled());
-        this.isSearchOnlineCheckbox.setSelected(alphafineConfigManager.isSearchOnLine());
-        this.isContainActionCheckbox.setSelected(alphafineConfigManager.isContainAction());
-        this.isContainTemplateCheckbox.setSelected(alphafineConfigManager.isContainTemplate());
-        this.isContainDocumentCheckbox.setSelected(alphafineConfigManager.isContainDocument() && alphafineConfigManager.isSearchOnLine());
-        this.isContainDocumentCheckbox.setEnabled(alphafineConfigManager.isSearchOnLine());
-        this.isContainPluginCheckbox.setSelected(alphafineConfigManager.isContainPlugin() && alphafineConfigManager.isSearchOnLine());
-        this.isContainPluginCheckbox.setEnabled(alphafineConfigManager.isSearchOnLine());
-        this.isContainRecommendCheckbox.setSelected(alphafineConfigManager.isContainRecommend() && alphafineConfigManager.isSearchOnLine());
-        this.isContainRecommendCheckbox.setEnabled(alphafineConfigManager.isSearchOnLine());
-        this.shortcutsField.setText(getDisplayShortCut(alphafineConfigManager.getShortcuts()));
-        shortCutKeyStore = convert2KeyStroke(alphafineConfigManager.getShortcuts());
+    public void populate(AlphaFineConfigManager alphaFineConfigManager) {
+        this.isEnabledCheckbox.setSelected(alphaFineConfigManager.isEnabled());
+        this.isSearchOnlineCheckbox.setEnabled(FRContext.isChineseEnv());
+        this.isSearchOnlineCheckbox.setSelected(alphaFineConfigManager.isSearchOnLine());
+        this.isContainActionCheckbox.setSelected(alphaFineConfigManager.isContainAction());
+        this.isContainTemplateCheckbox.setSelected(alphaFineConfigManager.isContainTemplate());
+        this.isContainFileContentCheckbox.setSelected(alphaFineConfigManager.isContainFileContent());
+        this.isContainDocumentCheckbox.setSelected(alphaFineConfigManager.isContainDocument() && alphaFineConfigManager.isSearchOnLine());
+        this.isContainDocumentCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.isContainPluginCheckbox.setSelected(alphaFineConfigManager.isContainPlugin() && alphaFineConfigManager.isSearchOnLine());
+        this.isContainPluginCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.isContainRecommendCheckbox.setSelected(alphaFineConfigManager.isContainRecommend() && alphaFineConfigManager.isSearchOnLine());
+        this.isContainRecommendCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.shortcutsField.setText(getDisplayShortCut(alphaFineConfigManager.getShortcuts()));
+        shortCutKeyStore = convert2KeyStroke(alphaFineConfigManager.getShortcuts());
     }
 
     public void update() {
         DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
-        AlphafineConfigManager alphafineConfigManager = designerEnvManager.getAlphafineConfigManager();
-        alphafineConfigManager.setContainPlugin(this.isContainPluginCheckbox.isSelected());
-        alphafineConfigManager.setContainAction(this.isContainActionCheckbox.isSelected());
-        alphafineConfigManager.setContainDocument(this.isContainDocumentCheckbox.isSelected());
-        alphafineConfigManager.setContainRecommend(this.isContainRecommendCheckbox.isSelected());
-        alphafineConfigManager.setEnabled(this.isEnabledCheckbox.isSelected());
-        alphafineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());
-        alphafineConfigManager.setContainTemplate(this.isContainTemplateCheckbox.isSelected());
-        alphafineConfigManager.setContainFileContent(this.isContainFileContentCheckbox.isSelected());
-        alphafineConfigManager.setShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
-        designerEnvManager.setAlphafineConfigManager(alphafineConfigManager);
+        AlphaFineConfigManager alphaFineConfigManager = designerEnvManager.getAlphaFineConfigManager();
+        alphaFineConfigManager.setContainPlugin(this.isContainPluginCheckbox.isSelected());
+        alphaFineConfigManager.setContainAction(this.isContainActionCheckbox.isSelected());
+        alphaFineConfigManager.setContainDocument(this.isContainDocumentCheckbox.isSelected());
+        alphaFineConfigManager.setContainRecommend(this.isContainRecommendCheckbox.isSelected());
+        alphaFineConfigManager.setEnabled(this.isEnabledCheckbox.isSelected());
+        alphaFineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());
+        alphaFineConfigManager.setContainTemplate(this.isContainTemplateCheckbox.isSelected());
+        alphaFineConfigManager.setContainFileContent(this.isContainFileContentCheckbox.isSelected());
+        alphaFineConfigManager.setShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
+        designerEnvManager.setAlphaFineConfigManager(alphaFineConfigManager);
         try {
             DesignerEnvManager.loadLogSetting();
             DesignerEnvManager.getEnvManager().saveXMLFile();
@@ -192,8 +195,8 @@ public class AlphafineConfigPane extends BasicPane {
 
     }
 
-    private String getDisplayShortCut(String shotrCut) {
-        return shotrCut.replace(TYPE, DISPLAY_TYPE).replace(BACK_SLASH, DISPLAY_BACK_SLASH).replace(SLASH, DISPLAY_SLASH)
+    private String getDisplayShortCut(String shortCut) {
+        return shortCut.replace(TYPE, DISPLAY_TYPE).replace(BACK_SLASH, DISPLAY_BACK_SLASH).replace(SLASH, DISPLAY_SLASH)
                 .replace(CONTROL, DISPLAY_CONTROL).replace(OPEN_BRACKET, DISPLAY_OPEN_BRACKET).replace(CLOSE_BRACKET, DISPLAY_CLOSE_BRACKET)
                 .replace(COMMA, DISPLAY_COMMA).replace(PERIOD, DISPLAY_PERIOD).replace(SEMICOLON, DISPLAY_SEMICOLON).replace(QUOTE, DISPLAY_QUOTE)
                 .replace(EQUALS, DISPLAY_EQUALS).replace(MINUS, DISPLAY_MINUS).replace(COMMAND, DISPLAY_COMMAND).replace(SMALL_COMMAND, DISPLAY_COMMAND);
