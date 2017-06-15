@@ -5,8 +5,14 @@
  */
 package com.fr.design.gui.itree.checkboxtree;
 
-import java.awt.Component;
-import java.awt.Rectangle;
+import com.fr.design.gui.icheckbox.UICheckBox;
+
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.text.Position;
+import javax.swing.tree.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,19 +22,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.text.Position;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
-import com.fr.design.gui.icheckbox.UICheckBox;
-
 /**
  * CheckBoxTree is a special JTree which uses UICheckBox as the tree renderer.
  * In addition to regular JTree's features, it also allows you select any number
@@ -37,11 +30,11 @@ import com.fr.design.gui.icheckbox.UICheckBox;
  * select one or several tree nodes and press SPACE key to toggle the
  * check box selection for all selected tree nodes.
  * <p/>
- * In order to retrieve which tree paths are selected, you need to call 
+ * In order to retrieve which tree paths are selected, you need to call
  * {@link #getCheckBoxTreeSelectionModel()}.
- * It will return the selection model that keeps track of which tree 
+ * It will return the selection model that keeps track of which tree
  * paths have been checked. For example
- * {@link CheckBoxTreeSelectionModel#getSelectionPaths()} 
+ * {@link CheckBoxTreeSelectionModel#getSelectionPaths()}
  * will give the list of paths which have
  * been checked.
  */
@@ -111,7 +104,7 @@ public class CheckBoxTree extends JTree {
         addPropertyChangeListener(JTree.SELECTION_MODEL_PROPERTY, _modelChangeListener);
         updateRowMapper();
     }
-    
+
     /**
      * Inserts the mouse listener at the particular index in the listeners' chain.
      *
@@ -122,7 +115,7 @@ public class CheckBoxTree extends JTree {
     private void insertMouseListener(Component component, MouseListener l, int index) {
         MouseListener[] listeners = component.getMouseListeners();
         for (int i = 0, length = listeners.length; i < length; i++) {
-        	component.removeMouseListener(listeners[i]);
+            component.removeMouseListener(listeners[i]);
         }
 //        for (MouseListener listener : listeners) {
 //            component.removeMouseListener(listener);
@@ -168,7 +161,7 @@ public class CheckBoxTree extends JTree {
      * Gets the cell renderer with check box.
      *
      * @return CheckBoxTree's own cell renderer which has the check box. The actual cell renderer
-     *         you set by setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
+     * you set by setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
      */
     public TreeCellRenderer getCellRenderer() {
         TreeCellRenderer cellRenderer = super.getCellRenderer();
@@ -177,8 +170,7 @@ public class CheckBoxTree extends JTree {
         }
         if (_treeCellRenderer == null) {
             _treeCellRenderer = createCellRenderer(cellRenderer);
-        }
-        else {
+        } else {
             _treeCellRenderer.setActualTreeRenderer(cellRenderer);
         }
         return _treeCellRenderer;
@@ -194,8 +186,7 @@ public class CheckBoxTree extends JTree {
     public TreeCellRenderer getActualCellRenderer() {
         if (_treeCellRenderer != null) {
             return _treeCellRenderer.getActualTreeRenderer();
-        }
-        else {
+        } else {
             return super.getCellRenderer();
         }
     }
@@ -245,13 +236,13 @@ public class CheckBoxTree extends JTree {
             }
 
             TreePath path = _tree.getPathForLocation(e.getX(), e.getY());
-            if (path == null)
+            if (path == null) {
                 return null;
+            }
 
             if (clicksInCheckBox(e, path)) {
                 return path;
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -259,13 +250,11 @@ public class CheckBoxTree extends JTree {
         protected boolean clicksInCheckBox(MouseEvent e, TreePath path) {
             if (!_tree.isCheckBoxVisible(path)) {
                 return false;
-            }
-            else {
+            } else {
                 Rectangle bounds = _tree.getPathBounds(path);
                 if (_tree.getComponentOrientation().isLeftToRight()) {
                     return e.getX() < bounds.x + _hotspot;
-                }
-                else {
+                } else {
                     return e.getX() > bounds.x + bounds.width - _hotspot;
                 }
             }
@@ -320,8 +309,9 @@ public class CheckBoxTree extends JTree {
                 return;
             }
 
-            if (e.getModifiers() == 0 && e.getKeyChar() == KeyEvent.VK_SPACE)
+            if (e.getModifiers() == 0 && e.getKeyChar() == KeyEvent.VK_SPACE) {
                 toggleSelections();
+            }
         }
 
         public void keyTyped(KeyEvent e) {
@@ -349,8 +339,7 @@ public class CheckBoxTree extends JTree {
                     selectionModel.removeSelectionPath(path);
                 else
                     selectionModel.addSelectionPath(path);
-            }
-            finally {
+            } finally {
                 if (!selectionModel.isSingleEventMode()) {
                     selectionModel.setBatchMode(false);
                 }
@@ -365,8 +354,8 @@ public class CheckBoxTree extends JTree {
                 return;
             }
             for (int i = 0, length = treePaths.length; i < length; i++) {
-            	TreePath tmpTreePath = treePaths[i];
-            	toggleSelection(tmpTreePath);
+                TreePath tmpTreePath = treePaths[i];
+                toggleSelection(tmpTreePath);
             }
 //            for (TreePath treePath : treePaths) {
 //                toggleSelection(treePath);
