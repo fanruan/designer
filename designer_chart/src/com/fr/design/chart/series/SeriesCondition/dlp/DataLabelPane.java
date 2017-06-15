@@ -111,33 +111,8 @@ public class DataLabelPane extends TooltipContentsPane {
     }
 
     protected JPanel createJPanel4Position() {
-        // 标签位置:上下左右中.
-        bottomButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Bottom"));
-        leftButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Left"));
-        rigtButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Right"));
-        topButton = new UIRadioButton(Inter.getLocText("StyleAlignment-Top"));
-        centerButton = new UIRadioButton(Inter.getLocText("Center"));
-
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(bottomButton);
-        bg.add(leftButton);
-        bg.add(rigtButton);
-        bg.add(topButton);
-        bg.add(centerButton);
-        topButton.setSelected(true);
-        
-        JPanel buttonPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        buttonPane.add(new UILabel(Inter.getLocText(new String[]{"Label", "Layout"}) + ":"));
-        buttonPane.add(bottomButton);
-        buttonPane.add(leftButton);
-        buttonPane.add(rigtButton);
-        buttonPane.add(topButton);
-        buttonPane.add(centerButton);
-
-        return buttonPane;
+        return null;
     }
-
-   
 
     public void populate(AttrContents seriesAttrContents) {
     	super.populate(seriesAttrContents);
