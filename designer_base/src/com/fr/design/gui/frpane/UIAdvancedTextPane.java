@@ -143,7 +143,7 @@ public class UIAdvancedTextPane extends UITextPane {
 	        setName(Inter.getLocText("M_Edit-Cut"));
 	        setMnemonic('T');
 	        setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
-	        setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));			
+	        setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK));
 		}
 		
 		public void actionPerformed(ActionEvent evt) {

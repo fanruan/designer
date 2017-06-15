@@ -28,7 +28,7 @@ public class ChartDataPane extends AbstractChartAttrPane {
 		super();
 		this.listener = listener;
 	}
-	
+
 	@Override
 	protected JPanel createContentPane() {
 		contentsPane = new NormalChartDataPane(listener, ChartDataPane.this);

@@ -782,7 +782,6 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         NameJavaScriptGroup linkGroup = cellElement.getNameHyperlinkGroup();
         //超链接的个数+单元格可见的操作
         hyperlinkCheckBoxes = new UICheckBox[linkGroup.size()];
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[hyperlinkCheckBoxes.length + 1][];

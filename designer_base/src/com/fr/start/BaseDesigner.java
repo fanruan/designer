@@ -7,7 +7,7 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.extra.WebDialog;
+import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
@@ -72,7 +72,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    StartServer.browerDemoURL();
+                    StartServer.browserDemoURL();
                     break;
                 }
             }
@@ -128,7 +128,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                         String text = StableUtils.join(plugins, ",") + ": " + Inter.getLocText("FR-Designer_Plugin_Should_Update_Please_Contact_Developer");
                         int r = JOptionPane.showConfirmDialog(null, text, Inter.getLocText("FR-Designer_Plugin_Should_Update_Title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (r == JOptionPane.OK_OPTION) {
-                            WebDialog.createPluginDialog();
+                            WebViewDlgHelper.createPluginDialog();
                         }
                     }
                     timer.stop();

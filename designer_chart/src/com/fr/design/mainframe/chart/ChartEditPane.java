@@ -51,7 +51,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     protected JPanel center;
     private TargetComponentContainer container = null;
     private TitleChangeListener titleChangeListener = null;
-
     private Calendar lastTime;
 
     protected ChartEditPane() {
@@ -108,6 +107,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             }
             AbstractChartAttrPane selectedPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
             selectedPane.update(collection);
+
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
                 //此处画图

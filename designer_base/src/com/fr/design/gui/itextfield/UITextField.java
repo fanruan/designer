@@ -1,20 +1,17 @@
 package com.fr.design.gui.itextfield;
 
-import java.awt.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
-
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.Constants;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+import java.awt.*;
 
 /**
  * @author Jerry
@@ -186,6 +183,7 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     /**
      * 主函数
+     *
      * @param args 参数
      */
     public static void main(String... args) {
