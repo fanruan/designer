@@ -212,7 +212,7 @@ public class DesignerModule extends DesignModule {
             }
         });
     }
-
+    
     private static abstract class AbstractWorkBookApp implements App<WorkBook> {
 
         @Override
@@ -233,6 +233,11 @@ public class DesignerModule extends DesignModule {
         @Override
         public void process() {
 
+        }
+        
+        @Override
+        public void undo() {
+        
         }
     }
 

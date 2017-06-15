@@ -149,6 +149,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 			appList.add(app);
 		}
 	}
+    
+    public static void removeApp(App<?> app) {
+        
+        if (app != null) {
+            appList.remove(app);
+        }
+    }
 
 	protected DesktopCardPane getCenterTemplateCardPane() {
 		return centerTemplateCardPane;
