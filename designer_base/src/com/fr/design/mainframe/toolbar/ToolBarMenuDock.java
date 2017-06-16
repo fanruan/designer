@@ -585,11 +585,12 @@ public abstract class ToolBarMenuDock {
     protected void insertMenu(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
         
         listenPluginMenuChange(menuDef, anchor, action);
-        addExtraMenus(menuDef, anchor, action, ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING));
+        Set<MenuHandler> set = ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING);
+        addExtraMenus(menuDef, anchor, action, set);
         
     }
     
-    private void listenPluginMenuChange(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
+    private void listenPluginMenuChange(final MenuDef menuDef, final String anchor, final ShortCutMethodAction action) {
         
         PluginFilter filter = new PluginFilter() {
             

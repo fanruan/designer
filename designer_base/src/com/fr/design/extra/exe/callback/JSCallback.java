@@ -21,7 +21,7 @@ public class JSCallback<T> extends Task<T> {
     public void init(final WebEngine webEngine, final JSObject callback){
         messageProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, final String newValue) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

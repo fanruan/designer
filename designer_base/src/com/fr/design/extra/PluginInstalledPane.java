@@ -61,7 +61,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                 if (plugin != null) {
                     boolean isActive = plugin.isActive();
                     PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
-                    String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled");
+                    final String modifyMessage = isActive ? Inter.getLocText("FR-Designer-Plugin_Has_Been_Actived") : Inter.getLocText("FR-Designer-Plugin_Has_Been_Disabled");
                     if (isActive) {
                         PluginManager.getController().forbid(pluginMarker, new PluginTaskCallback() {
                             @Override

@@ -83,7 +83,7 @@ public class PluginOperateUtils {
         PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
     }
 
-    public static void readUpdateOnline(JSCallback jsCallback) {
+    public static void readUpdateOnline(final JSCallback jsCallback) {
 
         new Thread(new Runnable() {
             @Override
@@ -107,7 +107,7 @@ public class PluginOperateUtils {
 
     }
 
-    public static void searchPlugin(String keyword, JSCallback jsCallback) {
+    public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -130,7 +130,7 @@ public class PluginOperateUtils {
 
     }
 
-    public static void getPluginFromStore(String category, String seller, String fee, JSCallback jsCallback) {
+    public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -209,7 +209,7 @@ public class PluginOperateUtils {
         }
     }
 
-    public static void getPluginCategories(JSCallback jsCallback) {
+    public static void getPluginCategories(final JSCallback jsCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -226,7 +226,7 @@ public class PluginOperateUtils {
         }).start();
     }
 
-    public static void getPluginPrefix(JSCallback jsCallback) {
+    public static void getPluginPrefix(final JSCallback jsCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
