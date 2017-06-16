@@ -14,6 +14,7 @@ import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.fun.TableDataDefineProvider;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -29,8 +30,12 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.stable.plugin.PluginReadListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +50,8 @@ import java.util.Map;
 
 public class TableDataTreePane extends BasicTableDataTreePane {
     private static TableDataTreePane singleton = new TableDataTreePane();
-
+    
+    public static final int PLUGIN_LISTENER_PRIORITY = 1;
 
     public synchronized static BasicTableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
 
@@ -81,12 +87,21 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         addMenuDef.setIconPath(IconPathConstants.ADD_POPMENU_ICON_PATH);
 
         createAddMenuDef();
-
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
+    
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
+        
             @Override
-            public void success(Status status) {
+            public void on(PluginEvent event) {
+            
                 addMenuDef.clearShortCuts();
                 createAddMenuDef();
+            }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+            
+                return context.contain(PluginModule.ExtraDesign, TableDataDefineProvider.XML_TAG);
             }
         });
 

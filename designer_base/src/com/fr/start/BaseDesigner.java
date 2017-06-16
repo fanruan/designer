@@ -13,6 +13,7 @@ import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.fun.GlobalListenerProvider;
+import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -26,6 +27,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.plugin.PluginCollector;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.*;
 
 import javax.swing.*;
@@ -89,6 +91,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         switch2LastEnv();
 
         initDefaultFont();
+        //PluginManager要在环境切换和模块启动之前初始化
+        PluginManager.init();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
 
@@ -111,10 +115,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void bindGlobalListener() {
-        Set<GlobalListenerProvider> providers = ExtraDesignClassManager.getInstance().getArray(GlobalListenerProvider.XML_TAG);
-        for (GlobalListenerProvider provider : providers) {
-            Toolkit.getDefaultToolkit().addAWTEventListener(provider.listener(), AWTEvent.KEY_EVENT_MASK);
-        }
+    
+        GlobalListenerProviderManager.getInstance().init();
     }
 
     private void showErrorPluginsMessage() {

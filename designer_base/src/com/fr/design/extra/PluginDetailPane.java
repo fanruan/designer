@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
+import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -56,8 +56,8 @@ public class PluginDetailPane extends BasicPane {
 
     }
 
-    public void populate(Plugin plugin) {
-        textPane.setText(plugin.toHTML());
+    public void populate(PluginView plugin) {
+        textPane.setText(PluginUtils.pluginToHtml(plugin));
     }
 
     public void reset() {

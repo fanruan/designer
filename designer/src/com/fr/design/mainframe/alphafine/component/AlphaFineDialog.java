@@ -27,6 +27,7 @@ import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -59,17 +60,29 @@ import java.util.concurrent.ExecutionException;
  * Created by XiaXiang on 2017/3/21.
  */
 public class AlphaFineDialog extends UIDialog {
+    
     private static final String ACTION_MARK_SHORT = "k:1 ";
+    
     private static final String ACTION_MARK = "k:setting ";
+    
     private static final String DOCUMENT_MARK_SHORT = "k:2 ";
+    
     private static final String DOCUMENT_MARK = "k:help ";
+    
     private static final String FILE_MARK_SHORT = "k:3 ";
+    
     private static final String FILE_MARK = "k:reportlets ";
+    
     private static final String CPT_MARK = "k:cpt ";
+    
     private static final String FRM_MARK = "k:frm ";
+    
     private static final String DS_MARK = "k:ds ";
+    
     private static final String DS_NAME = "dsname=\"";
+    
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
+    
     private static final String PLUGIN_MARK = "k:shop ";
 
     private AlphaFineTextField searchTextField;
@@ -83,8 +96,8 @@ public class AlphaFineDialog extends UIDialog {
     private SwingWorker searchWorker;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
-
-
+    
+    
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
         this.forceOpen = forceOpen;
@@ -92,17 +105,19 @@ public class AlphaFineDialog extends UIDialog {
         initListener();
         initComponents();
     }
-
+    
     /**
      * 全局快捷键
      *
      * @return
      */
     public static AWTEventListener listener() {
+        
         return new AWTEventListener() {
-
+            
             @Override
             public void eventDispatched(AWTEvent event) {
+                
                 if (event instanceof KeyEvent) {
                     KeyEvent e = (KeyEvent) event;
                     KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
@@ -110,35 +125,39 @@ public class AlphaFineDialog extends UIDialog {
                     if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFinePane.getAlphaFinePane().isVisible()) {
                         doClickAction();
                     }
-
+                    
                 }
             }
         };
     }
-
+    
     private static void doClickAction() {
+        
         AlphaFineHelper.showAlphaFineDialog(false);
     }
-
+    
     /**
      * 初始化全部组件
      */
     private void initComponents() {
+    
         searchTextField = new AlphaFineTextField("AlphaFine");
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
         searchTextField.setBorderPainted(false);
         searchTextField.initKeyListener(this);
         JPanel topPane = new JPanel(new BorderLayout());
-        UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
+        UILabel iconLabel = new UILabel(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/bigsearch.png"));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
         iconLabel.setOpaque(true);
         iconLabel.setBackground(Color.white);
         topPane.add(iconLabel, BorderLayout.WEST);
         topPane.add(searchTextField, BorderLayout.CENTER);
         closeButton = new UIButton() {
+    
             @Override
             public void paintComponent(Graphics g) {
+        
                 g.setColor(Color.white);
                 g.fillRect(0, 0, getSize().width, getSize().height);
                 super.paintComponent(g);
@@ -146,11 +165,13 @@ public class AlphaFineDialog extends UIDialog {
         };
         closeButton.setContentAreaFilled(false);
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
-        closeButton.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png")));
+        closeButton.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/alphafine_close.png"));
         closeButton.set4ToolbarButton();
         closeButton.addActionListener(new ActionListener() {
+    
             @Override
             public void actionPerformed(ActionEvent e) {
+        
                 dispose();
             }
         });
@@ -161,34 +182,38 @@ public class AlphaFineDialog extends UIDialog {
         topPane.add(borderLabel, BorderLayout.SOUTH);
         add(topPane, BorderLayout.CENTER);
         searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
+    
             @Override
             protected void textChanged(DocumentEvent e) {
+        
                 doSearch(searchTextField.getText());
             }
         });
     }
-
+    
     /**
      *
      */
     private void initProperties() {
+    
         setUndecorated(true);
         addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
-
+    
     }
-
+    
     /**
      * 设置面板位置
      *
      * @param win
      */
     private void centerWindow(Window win) {
+    
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
+    
         Dimension winSize = win.getSize();
-
+    
         if (winSize.height > screenSize.height) {
             winSize.height = screenSize.height;
         }
@@ -198,7 +223,7 @@ public class AlphaFineDialog extends UIDialog {
         //这里设置位置：水平居中，竖直偏上
         win.setLocation((screenSize.width - winSize.width) / 2, (screenSize.height - winSize.height) / AlphaFineConstants.SHOW_SIZE);
     }
-
+    
     // TODO: 2017/5/8  xiaxiang: 窗体圆角setShape()有毛边，重写paint方法可以解决毛边问题，但带来了别的问题,处理比较麻烦，暂用setShape();
 //    public void paint(Graphics g){
 //
@@ -210,14 +235,14 @@ public class AlphaFineDialog extends UIDialog {
 //        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
 //        g2.dispose();
 //    }
-
+    
     /**
      * 执行搜索
      *
      * @param text
      */
     private void doSearch(String text) {
-
+    
         if (StringUtils.isBlank(text) || text.equals("AlphaFine")) {
             removeSearchResult();
         } else if (text.contains("'")) {
@@ -225,13 +250,14 @@ public class AlphaFineDialog extends UIDialog {
         } else {
             showSearchResult();
         }
-
+    
     }
-
+    
     /**
      * 移除搜索结果
      */
     private void removeSearchResult() {
+    
         if (searchResultPane != null) {
             remove(searchResultPane);
             searchResultPane = null;
@@ -239,7 +265,7 @@ public class AlphaFineDialog extends UIDialog {
         setSize(AlphaFineConstants.FIELD_SIZE);
         repaint();
     }
-
+    
     /**
      * 展示搜索结果
      */
@@ -250,11 +276,12 @@ public class AlphaFineDialog extends UIDialog {
         }
         initSearchWorker();
     }
-
+    
     /**
      * 初始化搜索面板
      */
     private void initSearchResultComponents() {
+    
         searchResultList = new JList();
         searchListModel = new SearchListModel(new SearchResult());
         searchResultList.setModel(searchListModel);
@@ -263,7 +290,7 @@ public class AlphaFineDialog extends UIDialog {
         searchResultPane.setLayout(new BorderLayout());
         searchResultList.setCellRenderer(new ContentCellRender());
         searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
-
+    
         leftSearchResultPane = new UIScrollPane(searchResultList);
         leftSearchResultPane.setBackground(Color.white);
         leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -276,7 +303,7 @@ public class AlphaFineDialog extends UIDialog {
         add(searchResultPane, BorderLayout.SOUTH);
         setSize(AlphaFineConstants.FULL_SIZE);
     }
-
+    
     /**
      * 异步加载搜索结果
      */
@@ -288,12 +315,14 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
+    
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
 
             @Override
             protected void done() {
+    
                 if (!isCancelled() && searchListModel.getSize() > 0) {
                     searchResultList.setSelectedIndex(1);
                     showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
@@ -302,7 +331,7 @@ public class AlphaFineDialog extends UIDialog {
         };
         this.searchWorker.execute();
     }
-
+    
     /**
      * 重新构建搜索结果列表
      * 先根据输入判断是不是隐藏的搜索功能
@@ -310,6 +339,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void rebuildList(String searchText) {
+        
         searchListModel.removeAllElements();
         if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
             getActionList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
@@ -332,13 +362,14 @@ public class AlphaFineDialog extends UIDialog {
         }
         doNormalSearch(searchText.trim());
     }
-
+    
     /**
      * 普通搜索
      *
      * @param searchText
      */
     private void doNormalSearch(String searchText) {
+        
         getRecentList(searchText);
         getRecommendList(searchText);
         getActionList(searchText);
@@ -346,57 +377,63 @@ public class AlphaFineDialog extends UIDialog {
         getDocumentList(searchText);
         getPluginList(searchText);
     }
-
+    
     private synchronized void getDocumentList(final String searchText) {
+        
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
         for (Object object : documentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-
+        
     }
-
+    
     private synchronized void getFileList(final String searchText) {
+        
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
         for (Object object : fileModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
-
+    
     private synchronized void getActionList(final String searchText) {
+        
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
         for (Object object : actionModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
-
+    
     private synchronized void getPluginList(final String searchText) {
+        
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
         for (Object object : pluginModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
-
+    
     private synchronized void getRecommendList(final String searchText) {
+        
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
         for (Object object : recommendModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
-
+    
     private synchronized void getRecentList(final String searchText) {
+        
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
         for (Object object : recentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-
+        
     }
-
+    
     /**
      * 初始化监听器
      */
@@ -421,7 +458,7 @@ public class AlphaFineDialog extends UIDialog {
                 }
             }
         });
-
+        
         /**
          *单击时触发右侧面板展示搜索结果
          */
@@ -434,7 +471,7 @@ public class AlphaFineDialog extends UIDialog {
                 }
             }
         });
-
+        
         /**
          * 键盘监听器
          */
@@ -539,11 +576,7 @@ public class AlphaFineDialog extends UIDialog {
                     try {
                         bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
                     } catch (IOException e) {
-                        try {
-                            bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
-                        } catch (IOException e1) {
-                            FRLogger.getLogger().error(e.getMessage());
-                        }
+                        bufferedImage = IOUtils.readImage("/com/fr/design/mainframe/alphafine/images/default_product.png");
                     }
                     return bufferedImage;
                 }
@@ -589,8 +622,8 @@ public class AlphaFineDialog extends UIDialog {
 
     private void showDefaultPreviewPane() {
         rightSearchResultPane.removeAll();
-        UILabel label = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/opening.gif")));
-        label.setBorder(BorderFactory.createEmptyBorder(120, 0, 0, 0));
+        UILabel label = new UILabel(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/opening.gif"));
+        label.setBorder(BorderFactory.createEmptyBorder(120,0,0,0));
         rightSearchResultPane.add(label, BorderLayout.CENTER);
         validate();
         repaint();
@@ -602,23 +635,28 @@ public class AlphaFineDialog extends UIDialog {
         initMouseListener();
 
     }
-
+    
     /**
      * 窗口拖拽
      */
     private void initMouseListener() {
+    
         addMouseMotionListener(new MouseMotionAdapter() {
+        
             @Override
             public void mouseDragged(MouseEvent e) {
+            
                 doMouseDragged(e);
             }
         });
-
+    
         addMouseListener(new MouseAdapter() {
+        
             public void mousePressed(MouseEvent e) {
+            
                 doMousePressed(e);
             }
-
+        
         });
     }
 
@@ -749,7 +787,7 @@ public class AlphaFineDialog extends UIDialog {
         }
 
     }
-
+    
     /**
      * 点击显示更多时，添加对应的model到list；点击收起是移除model
      *
@@ -757,6 +795,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param selectedValue
      */
     private void rebuildShowMoreList(int index, MoreModel selectedValue) {
+    
         SearchResult moreResult = getMoreResult(selectedValue);
         if ((selectedValue).getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"))) {
             for (int i = 0; i < moreResult.size(); i++) {
@@ -765,14 +804,14 @@ public class AlphaFineDialog extends UIDialog {
         } else {
             for (int i = 0; i < moreResult.size(); i++) {
                 this.searchListModel.remove(index + AlphaFineConstants.SHOW_SIZE + 1);
-
+                
             }
         }
         this.searchResultList.validate();
         this.searchResultList.repaint();
         validate();
         repaint();
-
+    
     }
 
     private void rebuildList() {
@@ -819,14 +858,16 @@ public class AlphaFineDialog extends UIDialog {
     public void setSearchWorker(SwingWorker searchWorker) {
         this.searchWorker = searchWorker;
     }
-
-
+    
+    
     public boolean isForceOpen() {
+        
         return forceOpen;
     }
-
+    
     public void setForceOpen(boolean forceOpen) {
+        
         this.forceOpen = forceOpen;
     }
-
+    
 }

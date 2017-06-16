@@ -4,18 +4,16 @@ import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.exe.*;
+import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginLicense;
-import com.fr.plugin.PluginLicenseManager;
-import com.fr.plugin.PluginLoader;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -45,6 +43,8 @@ public class PluginWebBridge {
     private WebEngine webEngine;
 
     private UILabel uiLabel;
+
+    private static final String DESIGNERI18PREFIX = "FR-Designer-";
 
     /**
      * 动作枚举
@@ -143,13 +143,14 @@ public class PluginWebBridge {
     /**
      * 从插件服务器上安装插件
      *
-     * @param pluginID 插件的ID
-     * @param callback 回调函数
+     * @param pluginInfo 插件的ID
+     * @param callback   回调函数
      */
-    public void installPluginOnline(final String pluginID, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new InstallOnlineExecutor(pluginID));
-        new Thread(task).start();
+    public void installPluginOnline(final String pluginInfo, final JSObject callback) {
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.installPluginOnline(pluginInfo, jsCallback);
     }
+
 
     /**
      * 从磁盘上选择插件安装包进行安装
@@ -157,19 +158,21 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void installPluginFromDisk(final String filePath, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new InstallFromDiskExecutor(filePath));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        File file = new File(filePath);
+        PluginOperateUtils.installPluginFromDisk(file, jsCallback);
     }
 
     /**
      * 卸载当前选中的插件
      *
-     * @param pluginIDs 插件集合
+     * @param pluginInfo 插件信息
      */
-    public void uninstallPlugin(JSObject pluginIDs, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UninstallExecutor(jsObjectToStringArray(pluginIDs)));
-        new Thread(task).start();
+    public void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSObject callback) {
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.uninstallPlugin(pluginInfo, isForce, jsCallback);
     }
+
 
     /**
      * 从插件服务器上更新选中的插件
@@ -177,8 +180,13 @@ public class PluginWebBridge {
      * @param pluginIDs 插件集合
      */
     public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateOnlineExecutor(jsObjectToStringArray(pluginIDs)));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        String[] pluginInfos = jsObjectToStringArray(pluginIDs);
+        List<PluginMarker> pluginMarkerList = new ArrayList<PluginMarker>();
+        for (int i = 0; i < pluginInfos.length; i++) {
+            pluginMarkerList.add(PluginUtils.createPluginMarker(pluginInfos[i]));
+        }
+        PluginOperateUtils.updatePluginOnline(pluginMarkerList, jsCallback);
     }
 
     /**
@@ -187,8 +195,8 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void updatePluginFromDisk(String filePath, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new UpdateFromDiskExecutor(filePath));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.updatePluginFromDisk(filePath, jsCallback);
     }
 
     /**
@@ -197,16 +205,16 @@ public class PluginWebBridge {
      * @param pluginID 插件ID
      */
     public void setPluginActive(String pluginID, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ModifyStatusExecutor(pluginID));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.setPluginActive(pluginID, jsCallback);
     }
 
     /**
      * 已安装插件检查更新
      */
     public void readUpdateOnline(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new ReadUpdateOnlineExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.readUpdateOnline(jsCallback);
     }
 
     /**
@@ -266,20 +274,11 @@ public class PluginWebBridge {
      *
      * @return 已安装的插件组成的数组
      */
-    public Plugin[] getInstalledPlugins() {
-        return PluginLoader.getLoader().getInstalled();
+    public PluginContext[] getInstalledPlugins() {
+        List<PluginContext> plugins = PluginManager.getContexts();
+        return plugins.toArray(new PluginContext[plugins.size()]);
     }
-
-
-    /**
-     * 获取已经安装的插件的授权情况
-     *
-     * @return 已安装的插件授权对象
-     */
-    public PluginLicense getPluginLicenseByID(String pluginID) {
-        return PluginLicenseManager.getInstance().getPluginLicenseByID(pluginID);
-    }
-
+    
     private String[] jsObjectToStringArray(JSObject obj) {
         if (obj == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
@@ -298,8 +297,8 @@ public class PluginWebBridge {
      * @param keyword 关键字
      */
     public void searchPlugin(String keyword, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.searchPlugin(keyword, jsCallback);
     }
 
     /**
@@ -311,9 +310,16 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginFromStore(category, seller, fee, jsCallback);
     }
+
+
+    public void getPluginPrefix(final JSObject callback){
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginPrefix(jsCallback);
+    }
+
 
     /**
      * 在线获取插件分类
@@ -321,8 +327,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginCategories(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getPluginCategories(jsCallback);
     }
 
     /**
@@ -372,8 +378,8 @@ public class PluginWebBridge {
      * @param callback
      */
     public void getLoginInfo(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new GetLoginInfoExecutor());
-        new Thread(task).start();
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        PluginOperateUtils.getLoginInfo(jsCallback);
     }
 
     /**
@@ -439,60 +445,6 @@ public class PluginWebBridge {
         }
     }
 
-    /**
-     * 从硬盘升级
-     *
-     * @param fileOnDisk 硬盘上的文件
-     */
-    public void updateFileFromDisk(File fileOnDisk) {
-        try {
-            Plugin plugin = PluginHelper.readPlugin(fileOnDisk);
-            if (plugin == null) {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Illegal_Plugin_Zip"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Plugin oldPlugin = PluginLoader.getLoader().getPluginById(plugin.getId());
-            if (oldPlugin != null) {
-                // 说明安装了同ID的插件，再比较两个插件的版本
-                if (PluginHelper.isNewThan(plugin, oldPlugin)) {
-                    // 说明是新的插件，删除老的然后安装新的
-                    final String[] files = PluginHelper.uninstallPlugin(FRContext.getCurrentEnv(), oldPlugin);
-                    PluginHelper.installPluginFromUnzippedTempDir(FRContext.getCurrentEnv(), plugin, new After() {
-                        @Override
-                        public void done() {
-                            int rv = JOptionPane.showOptionDialog(
-                                    null,
-                                    Inter.getLocText("FR-Designer-Plugin_Update_Successful"),
-                                    Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                    JOptionPane.YES_NO_OPTION,
-                                    JOptionPane.INFORMATION_MESSAGE,
-                                    null,
-                                    new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"),
-                                            Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")
-                                    },
-                                    null
-                            );
-
-                            if (rv == JOptionPane.OK_OPTION) {
-                                RestartHelper.restart();
-                            }
-                            // 如果不是立即重启，就把要删除的文件存放起来
-                            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
-                                RestartHelper.saveFilesWhichToDelete(files);
-                            }
-                        }
-                    });
-                } else {
-                    JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Version_Is_Lower_Than_Current"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Cannot_Update_Not_Install"), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e1) {
-            JOptionPane.showMessageDialog(null, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
 
     /*-------------------------------登录部分的处理----------------------------------*/
 
@@ -529,8 +481,11 @@ public class PluginWebBridge {
      * @param password
      * @return
      */
-    public String defaultLogin(String username, String password) {
-        return LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
+    public void defaultLogin(String username, String password, final JSObject callback) {
+        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        String result = LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
+        jsCallback.execute(result);
+
     }
 
     /**
@@ -549,4 +504,26 @@ public class PluginWebBridge {
         DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
+
+    /**
+     * 初始化设计器部分
+     */
+    public void initExtraDiff(final JSObject callback){
+
+    }
+
+    /**
+     * 国际化
+     */
+    public String parseI18(final String key){
+        return Inter.getLocText(DESIGNERI18PREFIX + key);
+    }
+
+    /**
+     * 是否是在设计器中操作
+     */
+    public boolean isDesigner(){
+        return true;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +15,9 @@ public class ChartImagePane extends ChartSelectDemoPane {
     public boolean isDoubleClicked = false;
 	
 	public ChartImagePane(String iconPath, String tipName) {// 建立太复杂? 耗费内存..
-		UILabel image = new UILabel(new ImageIcon(getClass().getResource(iconPath)));
-		this.setLayout(new BorderLayout());
-		this.add(image, BorderLayout.CENTER);
+        UILabel image = new UILabel(IOUtils.readIcon(iconPath));
+        this.setLayout(new BorderLayout());
+        this.add(image, BorderLayout.CENTER);
 		addMouseListener(this);
 		this.setToolTipText(tipName);
 		
@@ -28,7 +29,8 @@ public class ChartImagePane extends ChartSelectDemoPane {
     }
 
     private void constructImagePane(String fullIconPath, String tipName, boolean isDrawRightLine){
-        UILabel image = new UILabel(new ImageIcon(getClass().getResource(fullIconPath)));
+    
+        UILabel image = new UILabel(IOUtils.readIcon(fullIconPath));
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
         addMouseListener(this);

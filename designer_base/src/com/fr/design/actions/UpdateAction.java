@@ -13,6 +13,7 @@ import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
+import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.pinyin.PinyinFormat;
 import com.fr.stable.pinyin.PinyinHelper;
@@ -300,8 +301,7 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		if (!(object instanceof UpdateAction)) {
 			return false;
 		}
-
-		return ((UpdateAction) object).getName().equals(this.getName());
+		return ComparatorUtils.equals(((UpdateAction) object).getName(), this.getName());
 	}
 
 	@Override

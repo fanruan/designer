@@ -1,33 +1,36 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
+import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.Plugin;
-import com.fr.stable.StringUtils;
+import com.fr.json.JSONObject;
+import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.manage.control.ProgressCallback;
+import com.fr.plugin.view.PluginView;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author richie
  * @date 2015-03-10
  * @since 8.0
  */
-public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[], Void> {
+public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<PluginView>, Void> {
     private UILabel errorMsgLabel;
     private UITabbedPane tabbedPane;
     private PluginControlPane controlPane;
 
     private static final int LISTNUM1 = 1;
     private static final int LISTNUM100 = 100;
-
 
 
     public PluginFromStorePane(final UITabbedPane tabbedPane) {
@@ -37,10 +40,11 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
 
     /**
      * 创建成功页面
+     *
      * @return 创建的页面对象
      */
     public JPanel createSuccessPane() {
-        return new PluginStatusCheckCompletePane(){
+        return new PluginStatusCheckCompletePane() {
 
 
             @Override
@@ -70,7 +74,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
                 final PluginStatusCheckCompletePane s = this;
                 controlPane.addPluginSelectionListener(new PluginSelectListener() {
                     @Override
-                    public void valueChanged(Plugin plugin) {
+                    public void valueChanged(PluginView plugin) {
                         s.setInstallButtonEnable(true);
                     }
                 });
@@ -81,6 +85,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
 
     /**
      * 创建错误页面
+     *
      * @return 创建的页面对象
      */
     @Override
@@ -88,7 +93,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
         errorMsgLabel = new UILabel();
         errorMsgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        return new PluginStatusCheckCompletePane(){
+        return new PluginStatusCheckCompletePane() {
 
             @Override
             public void pressInstallButton() {
@@ -120,24 +125,27 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
 
     /**
      * 加载数据
+     *
      * @return 插件
      */
-    public Plugin[] loadData() throws Exception {
+    public List<PluginView> loadData() throws Exception {
         //Thread.sleep(3000);
         return PluginsReaderFromStore.readPlugins();
     }
 
     /**
      * 加载成功处理
+     *
      * @param plugins 插件
      */
-    public void loadOnSuccess(Plugin[] plugins) {
+    public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
-        tabbedPane.setTitleAt(2, Inter.getLocText("FR-Designer-Plugin_All_Plugins") + "(" + plugins.length + ")");
+        tabbedPane.setTitleAt(2, Inter.getLocText("FR-Designer-Plugin_All_Plugins") + "(" + plugins.size() + ")");
     }
 
     /**
      * 加载失败
+     *
      * @param e 异常消息
      */
     public void loadOnFailed(Exception e) {
@@ -159,85 +167,53 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
 
     private void installFromDiskZipFile(File chosenFile) {
         try {
-            PluginHelper.installPluginFromDisk(chosenFile, new After() {
+            PluginManager.getController().install(chosenFile, new ProgressCallback() {
                 @Override
-                public void done() {
-                    int rv = JOptionPane.showOptionDialog(
-                            PluginFromStorePane.this,
-                            Inter.getLocText("FR-Designer-Plugin_Install_Successful"),
-                            Inter.getLocText("FR-Designer-Plugin_Warning"),
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                            null
-                    );
-                    if (rv == JOptionPane.OK_OPTION) {
-                        RestartHelper.restart();
-                    }
-                }
-            });
+                public void updateProgress(String description, double progress) {
 
+                }
+
+                @Override
+                public void done(PluginTaskResult result) {
+                    if (result.isSuccess()) {
+                        FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
+                    } else {
+                        JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    }                }
+            });
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void doUpdateOnline(final PluginStatusCheckCompletePane pane) {
-        if (StringUtils.isEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
+        if (!BBSPluginLogin.getInstance().hasLogin()) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        if (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())){
-            new SwingWorker<Void, Double>(){
+        if (BBSPluginLogin.getInstance().hasLogin()) {
+            PluginView plugin = controlPane.getSelectedPlugin();
+            String id = null;
+            if (plugin != null) {
+                id = plugin.getID();
+            }
 
-                @Override
-                protected Void doInBackground() throws Exception {
-                    Plugin plugin = controlPane.getSelectedPlugin();
-                    String id = null;
-                    if (plugin != null) {
-                        id = plugin.getId();
-                    }
-                    String username = DesignerEnvManager.getEnvManager().getBBSName();
-                    String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-                    try {
-                        PluginHelper.downloadPluginFile(id,username,password, new Process<Double>() {
-                            @Override
-                            public void process(Double integer) {
-                                publish(integer);
-                            }
-                        });
-                        Thread.sleep(2000);
-                    } catch (Exception e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
-                    }
-                    return null;
-                }
+            try {
+                PluginMarker pluginMarker = PluginMarker.create(id, plugin.getVersion());
+                JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(id);
+                String latestPluginVersion = (String)latestPluginInfo.get("version");
+                PluginMarker toPluginMarker = PluginMarker.create(id, latestPluginVersion);
+                PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
+            } catch (Exception e) {
+                FRContext.getLogger().error(e.getMessage(), e);
+            }
 
-                public void process(List<Double> list) {
-                    pane.setProgress(list.get(list.size() - LISTNUM1) * LISTNUM100);
-                }
-
-                public void done() {
-                    //下载完成，开始执行安装
-                    try {
-                        get();
-                        pane.didTaskFinished();
-                        installFromDiskZipFile(PluginHelper.getDownloadTempFile());
-                    } catch (InterruptedException e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
-                    } catch (ExecutionException e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
-                    } catch (Exception e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
-                    }
-                }
-            }.execute();
         }
-
     }
 
     /**
      * 正在加载页的标题
+     *
      * @return 标题字符串
      */
     public String textForLoadingLabel() {
@@ -246,11 +222,12 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<Plugin[],
 
     /**
      * 从磁盘安装按钮的提示
+     *
      * @return 按钮标题字符串
      */
     @Override
     public String textForInstallFromDiskFileButton() {
-        return  Inter.getLocText("FR-Designer-Plugin_Install_From_Local");
+        return Inter.getLocText("FR-Designer-Plugin_Install_From_Local");
     }
 
     @Override
