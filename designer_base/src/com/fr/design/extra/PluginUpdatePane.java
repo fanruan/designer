@@ -1,8 +1,5 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -10,14 +7,11 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginMarker;
-import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
-import com.fr.stable.StringUtils;
-import sun.plugin2.main.server.Plugin;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
