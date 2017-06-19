@@ -27,6 +27,8 @@ import java.util.List;
 public class FileSearchManager implements AlphaFineSearchProcessor {
     private static final int MARK_LENGTH = 6;
     private static final String DS_NAME = "dsname=\"";
+    private static final String FRM_PREFIX = "k:frm ";
+    private static final String CPT_PREFIX = "k:cpt ";
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
@@ -63,10 +65,10 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (searchText.startsWith("k:frm ")) {
+        if (searchText.startsWith(FRM_PREFIX)) {
             isContainCpt = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
-        } else if (searchText.startsWith("k:cpt ")) {
+        } else if (searchText.startsWith(CPT_PREFIX)) {
             isContainFrm = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
@@ -139,6 +141,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                     FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
+                isr.close();
                 reader.close();
             } catch (FileNotFoundException e) {
                 FRLogger.getLogger().error(e.getMessage());

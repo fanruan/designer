@@ -60,6 +60,9 @@ public abstract class AlphaCellModel {
         this.description = description;
     }
 
+    public boolean hasNoResult() {
+        return false;
+    }
     /**
      * model转json
      *

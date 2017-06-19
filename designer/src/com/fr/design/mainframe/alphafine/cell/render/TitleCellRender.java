@@ -3,7 +3,6 @@ package com.fr.design.mainframe.alphafine.cell.render;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,13 +37,14 @@ public class TitleCellRender implements ListCellRenderer<Object> {
             panel.add(this.more, BorderLayout.EAST);
         }
         if (moreModel.isLoading()) {
-            ImageIcon imageIcon = (ImageIcon) IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/loading.gif");
-    
+            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/loading.gif"));
+
             //设置cell的加载动画
             imageIcon.setImageObserver(list);
             UILabel loadingLabel = new UILabel(imageIcon);
             panel.add(loadingLabel, BorderLayout.SOUTH);
         }
+        panel.setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth(), AlphaFineConstants.CELL_TITLE_HEIGHT));
         return panel;
     }
 }

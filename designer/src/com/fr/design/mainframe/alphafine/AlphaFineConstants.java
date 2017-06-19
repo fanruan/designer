@@ -30,6 +30,8 @@ public class AlphaFineConstants {
 
     public static final int CELL_HEIGHT = 32;
 
+    public static final int CELL_TITLE_HEIGHT = 24;
+
 
     public static final Dimension FULL_SIZE = new Dimension(680, 460);
 
