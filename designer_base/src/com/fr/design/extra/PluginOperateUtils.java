@@ -92,7 +92,7 @@ public class PluginOperateUtils {
                     List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
                     JSONArray jsonArray = new JSONArray();
                     for (PluginView plugin : plugins) {
-                        org.json.JSONObject jsonObject = new org.json.JSONObject();
+                        JSONObject jsonObject = new JSONObject();
                         jsonObject.put("pluginid", plugin.getID());
                         jsonArray.put(jsonObject);
                     }
