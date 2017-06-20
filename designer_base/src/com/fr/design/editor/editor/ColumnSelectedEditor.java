@@ -68,7 +68,7 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		dsColumn.setDsName(tableDataWrappe.getTableDataName());
 		TableDataColumn column;
 		String columnExp = (String) this.columnNameComboBox.getSelectedItem();
-		if (StringUtils.isNotBlank(columnExp) && (columnExp.length() > 0 && columnExp.charAt(0) == '#') && !columnExp.endsWith("#")) {
+		if (StringUtils.isNotBlank(columnExp) && checkColumnExp(columnExp)) {
 			String number = columnExp.substring(1);
 			Pattern pattern = Pattern.compile("[^\\d]");
 			if (pattern.matcher(number).find()) {
@@ -82,6 +82,10 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		}
 		dsColumn.setColumn(column);
 		return dsColumn;
+	}
+
+	private boolean checkColumnExp (String columnExp) {
+		return (columnExp.length() > 0 && columnExp.charAt(0) == '#') && !columnExp.endsWith("#");
 	}
 
 	public String getIconName() {
