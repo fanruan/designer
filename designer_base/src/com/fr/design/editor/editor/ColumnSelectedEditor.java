@@ -37,17 +37,18 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				TableDataWrapper tableDataWrapper = tableDataComboBox.getSelectedItem();
-				if (tableDataWrapper != null) {
-					//这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
-					List<String> nameList = tableDataComboBox.getSelectedItem().calculateColumnNameList();
-					columnNames = new String[nameList.size()];
-					columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
-					columnNameComboBox.removeAllItems();
-					for (int i = 0; i < columnNames.length; i++) {
-						columnNameComboBox.addItem(columnNames[i]);
-					}
-					columnNameComboBox.validate();
+				if (tableDataWrapper == null) {
+					return;
 				}
+				//这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
+				List<String> nameList = tableDataComboBox.getSelectedItem().calculateColumnNameList();
+				columnNames = new String[nameList.size()];
+				columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
+				columnNameComboBox.removeAllItems();
+				for (int i = 0; i < columnNames.length; i++) {
+					columnNameComboBox.addItem(columnNames[i]);
+				}
+				columnNameComboBox.validate();
 			}
 		});
 		columnNameComboBox = new UIComboBox();
