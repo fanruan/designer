@@ -17,23 +17,24 @@ public class ContentCellRender implements ListCellRenderer<Object> {
     private UILabel content;
 
     public ContentCellRender() {
-        this.name = new UILabel();
-        this.content = new UILabel();
+
     }
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        this.name = new UILabel();
+        this.content = new UILabel();
         if (value instanceof MoreModel) {
             return new TitleCellRender().getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
         AlphaCellModel model = (AlphaCellModel) value;
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.white);
+        panel.setBackground(null);
         if (isSelected && !model.hasNoResult()) {
             panel.setBackground(AlphaFineConstants.BLUE);
         }
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-        name.setText(model.getName());
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        name.setText("  " + model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
         if (model.hasNoResult()) {
             name.setIcon(null);
@@ -43,16 +44,20 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             name.setForeground(AlphaFineConstants.BLACK);
         }
         name.setFont(AlphaFineConstants.MEDIUM_FONT);
-        name.setVerticalTextPosition(SwingConstants.CENTER);
-        name.setHorizontalTextPosition(SwingConstants.RIGHT);
         String description = model.getDescription();
         if (StringUtils.isNotBlank(description)) {
             content.setText("-" + description);
             content.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(content, BorderLayout.CENTER);
+            int width = (int) (name.getPreferredSize().getWidth() + content.getPreferredSize().getWidth());
+            if ( width > AlphaFineConstants.LEFT_WIDTH - 30) {
+                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - content.getPreferredSize().getWidth() - 45);
+                name.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
+            }
         }
+
         panel.add(name, BorderLayout.WEST);
-        panel.setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth(), AlphaFineConstants.CELL_HEIGHT));
+        panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_HEIGHT));
         return panel;
     }
 }

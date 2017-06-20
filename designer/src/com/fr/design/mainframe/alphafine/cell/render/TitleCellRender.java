@@ -24,7 +24,7 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         MoreModel moreModel = (MoreModel) value;
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(AlphaFineConstants.WHITE);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         name.setText(moreModel.getName());
         name.setFont(AlphaFineConstants.SMALL_FONT);
         more.setFont(AlphaFineConstants.SMALL_FONT);
@@ -44,7 +44,7 @@ public class TitleCellRender implements ListCellRenderer<Object> {
             UILabel loadingLabel = new UILabel(imageIcon);
             panel.add(loadingLabel, BorderLayout.SOUTH);
         }
-        panel.setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth(), AlphaFineConstants.CELL_TITLE_HEIGHT));
+        panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_TITLE_HEIGHT));
         return panel;
     }
 }

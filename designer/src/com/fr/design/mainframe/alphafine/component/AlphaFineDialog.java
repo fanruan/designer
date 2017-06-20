@@ -174,7 +174,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initProperties() {
         setUndecorated(true);
-        addComponentListener(new ComponentHandler());
+        //addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
 
@@ -394,7 +394,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 初始化监听器
+     * 为各组件添加鼠标，键盘监听器
      */
     private void initListListener() {
         /**
@@ -432,7 +432,7 @@ public class AlphaFineDialog extends UIDialog {
         });
 
         /**
-         * 键盘监听器
+         * 为list添加键盘监听器
          */
         searchResultList.addKeyListener(new KeyAdapter() {
             @Override
@@ -443,6 +443,18 @@ public class AlphaFineDialog extends UIDialog {
                     if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
                         saveHistory((AlphaCellModel) selectedValue);
                     }
+                }
+            }
+        });
+
+        /**
+         * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
+         */
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+                    searchResultList.requestFocus();
                 }
             }
         });
