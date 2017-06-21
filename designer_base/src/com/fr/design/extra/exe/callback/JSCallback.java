@@ -28,7 +28,6 @@ public class JSCallback {
                     public void run() {
                         String fun = "(" + callback + ")(\"" + trimText(newValue) + "\")";
                         try {
-                            System.out.print("###"+newValue);
                             webEngine.executeScript(fun);
                         } catch (Exception e) {
                             webEngine.executeScript("alert(\"" + e.getMessage() + "\")");
