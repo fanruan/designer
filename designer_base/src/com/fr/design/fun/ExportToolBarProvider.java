@@ -1,5 +1,6 @@
 package com.fr.design.fun;
 
+import com.fr.plugin.injectable.SpecialLevel;
 import com.fr.stable.fun.mark.Mutable;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import javax.swing.*;
  */
 public interface ExportToolBarProvider extends Mutable{
 	
-	String XML_TAG = "ExportToolBarProvider";
+	String XML_TAG = SpecialLevel.ExportToolBarProvider.getTagName();
 
 	int CURRENT_LEVEL = 1;
 

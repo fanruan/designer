@@ -10,6 +10,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.injectable.SpecialLevel;
 import com.fr.stable.fun.Level;
 
 /**
@@ -19,8 +20,8 @@ import com.fr.stable.fun.Level;
  * 自定义图表类型设设计界面接口
  */
 public interface IndependentChartUIProvider extends Level {
-
-    String XML_TAG = "IndependentChartUIProvider";
+    
+    String XML_TAG = SpecialLevel.IndependentChartUIProvider.getTagName();
 
     int CURRENT_API_LEVEL = 3;
 
