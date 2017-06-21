@@ -82,6 +82,7 @@ public class AlphaFineDialog extends UIDialog {
     private JList searchResultList;
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
+    private SwingWorker showWorker;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
 
@@ -174,7 +175,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initProperties() {
         setUndecorated(true);
-        //addComponentListener(new ComponentHandler());
+        addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
 
@@ -202,13 +203,12 @@ public class AlphaFineDialog extends UIDialog {
 
     // TODO: 2017/5/8  xiaxiang: 窗体圆角setShape()有毛边，重写paint方法可以解决毛边问题，但带来了别的问题,处理比较麻烦，暂用setShape();
 //    public void paint(Graphics g){
-//
 //        Graphics2D g2 = (Graphics2D) g.create();
 //        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //        qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 //        g2.setRenderingHints(qualityHints);
 //        g2.setPaint(Color.WHITE);
-//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 //        g2.dispose();
 //    }
 
@@ -465,11 +465,8 @@ public class AlphaFineDialog extends UIDialog {
             final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             showDefaultPreviewPane();
             if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
-                if (this.searchWorker != null && !this.searchWorker.isDone()) {
-                    this.searchWorker.cancel(true);
-                    this.searchWorker = null;
-                }
-                this.searchWorker = new SwingWorker<BufferedImage, Void>() {
+                checkWorker();
+                this.showWorker = new SwingWorker<BufferedImage, Void>() {
                     @Override
                     protected BufferedImage doInBackground() throws Exception {
                         Form form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
@@ -493,13 +490,10 @@ public class AlphaFineDialog extends UIDialog {
 
                     }
                 };
-                this.searchWorker.execute();
+                this.showWorker.execute();
             } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
-                if (this.searchWorker != null && !this.searchWorker.isDone()) {
-                    this.searchWorker.cancel(true);
-                    this.searchWorker = null;
-                }
-                this.searchWorker = new SwingWorker<BufferedImage, Void>() {
+                checkWorker();
+                this.showWorker = new SwingWorker<BufferedImage, Void>() {
                     @Override
                     protected BufferedImage doInBackground() throws Exception {
                         WorkBook workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
@@ -524,7 +518,7 @@ public class AlphaFineDialog extends UIDialog {
 
                     }
                 };
-                this.searchWorker.execute();
+                this.showWorker.execute();
 
 
             }
@@ -535,11 +529,8 @@ public class AlphaFineDialog extends UIDialog {
             repaint();
         } else if (selectedValue instanceof PluginModel) {
             showDefaultPreviewPane();
-            if (this.searchWorker != null && !this.searchWorker.isDone()) {
-                this.searchWorker.cancel(true);
-                this.searchWorker = null;
-            }
-            this.searchWorker = new SwingWorker<Image, Void>() {
+            checkWorker();
+            this.showWorker = new SwingWorker<Image, Void>() {
                 @Override
                 protected Image doInBackground() {
                     BufferedImage bufferedImage = null;
@@ -572,7 +563,7 @@ public class AlphaFineDialog extends UIDialog {
 
                 }
             };
-            this.searchWorker.execute();
+            this.showWorker.execute();
 
         } else if (selectedValue instanceof ActionModel) {
             rightSearchResultPane.removeAll();
@@ -581,6 +572,16 @@ public class AlphaFineDialog extends UIDialog {
             repaint();
         }
 
+    }
+
+    /**
+     * 检查
+     */
+    private void checkWorker() {
+        if (this.showWorker != null && !this.showWorker.isDone()) {
+            this.showWorker.cancel(true);
+            this.showWorker = null;
+        }
     }
 
     private void HandleMoreOrLessResult(int index, MoreModel selectedValue) {

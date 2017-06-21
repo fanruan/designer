@@ -12,7 +12,7 @@ public class AlphaFineConstants {
 
     public static final int SHOW_SIZE = 5;
 
-    public static final int MAX_FILE_SIZE = 100;
+    public static final int MAX_FILE_SIZE = 1000;
 
     public static final int LATEST_SHOW_SIZE = 3;
 
