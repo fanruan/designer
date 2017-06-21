@@ -3,9 +3,12 @@ package com.fr.design.extra;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.exe.callback.*;
+import com.fr.design.extra.exe.extratask.InstallDependenceTask;
 import com.fr.design.extra.exe.extratask.InstallPluginTask;
+import com.fr.design.extra.exe.extratask.UpdateDependenceTask;
 import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -19,6 +22,7 @@ import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
 
@@ -28,12 +32,11 @@ import java.util.List;
  */
 public class PluginOperateUtils {
 
-    public static void installPluginOnline(final String pluginInfo, JSCallback jsCallback) {
+    public static void installPluginOnline(final PluginMarker pluginMarker, JSCallback jsCallback) {
         //下载插件
         if (!BBSPluginLogin.getInstance().hasLogin()) {
             LoginCheckContext.fireLoginCheckListener();
         }
-        PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
         if (BBSPluginLogin.getInstance().hasLogin()) {
             PluginManager.getController().download(pluginMarker, new DownloadCallback(new InstallPluginTask(pluginMarker, jsCallback), jsCallback));
         }
@@ -43,27 +46,48 @@ public class PluginOperateUtils {
         PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
     }
 
+    public static void installPluginDependence(PluginMarker pluginMarker, JSCallback jsCallback){
+        PluginManager.getController().download(pluginMarker, new DownloadCallback(new InstallDependenceTask(pluginMarker, jsCallback), jsCallback));
+    }
+
     public static void updatePluginOnline(List<PluginMarker> pluginMarkerList, JSCallback jsCallback) {
         if (!(BBSPluginLogin.getInstance().hasLogin())) {
             LoginCheckContext.fireLoginCheckListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
             for (int i = 0; i < pluginMarkerList.size(); i++) {
-                try {
-                    JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarkerList.get(i).getPluginID());
-                    String latestPluginVersion = (String) latestPluginInfo.get("version");
-                    PluginMarker pluginMarker = pluginMarkerList.get(i);
-                    PluginMarker toPluginMarker = PluginMarker.create(pluginMarkerList.get(i).getPluginID(), latestPluginVersion);
-                    PluginManager.getController().download(pluginMarkerList.get(i), new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
-                } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
-                }
+                updatePluginOnline(pluginMarkerList.get(i), jsCallback);
             }
         }
     }
 
+    public static void updatePluginOnline(PluginMarker pluginMarker, JSCallback jsCallback) {
+        try {
+            JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
+            String latestPluginVersion = (String) latestPluginInfo.get("version");
+            PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
+            PluginManager.getController().download(pluginMarker, new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+
+    }
+
+
     public static void updatePluginFromDisk(final String filePath, JSCallback jsCallback) {
         PluginManager.getController().update(new File(filePath), new UpdateFromDiskCallback(new File(filePath), jsCallback));
+    }
+
+    public static void updatePluginDependence(PluginMarker pluginMarker, JSCallback jsCallback){
+        try {
+            JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
+            String latestPluginVersion = (String) latestPluginInfo.get("version");
+            PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
+            PluginManager.getController().download(pluginMarker, new DownloadCallback(new UpdateDependenceTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+
     }
 
     public static void setPluginActive(String pluginInfo, JSCallback jsCallback) {
@@ -79,8 +103,17 @@ public class PluginOperateUtils {
     }
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, JSCallback jsCallback) {
-        PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
-        PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
+        int rv = JOptionPane.showConfirmDialog(
+                null,
+                Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
+                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        if (rv == JOptionPane.OK_OPTION) {
+            PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+            PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
+        }
     }
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
@@ -237,7 +270,7 @@ public class PluginOperateUtils {
     }
 
     public static void getLoginInfo(JSCallback jsCallback) {
-    
+
         if (!BBSPluginLogin.getInstance().hasLogin()) {
             String userName = DesignerEnvManager.getEnvManager().getBBSName();
             String password = DesignerEnvManager.getEnvManager().getBBSPassword();
