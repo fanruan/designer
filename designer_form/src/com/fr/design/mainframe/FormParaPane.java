@@ -41,7 +41,8 @@ public class FormParaPane extends JPanel {
     private static final int TOOLTIP_X = 5;
     private static final int TOOLTIP_Y = 10;
     private static Dimension originalSize;
-    private static FormParaPane THIS;
+    
+    private static volatile FormParaPane THIS;
     private java.util.List<WidgetOption> predifinedwidgeList = new ArrayList<WidgetOption>();
     private UIButton predefineButton;
     private FormWidgetPopWindow predifinedWindow;
