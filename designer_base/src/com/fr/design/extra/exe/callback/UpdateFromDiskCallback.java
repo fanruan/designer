@@ -36,11 +36,9 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
     @Override
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
-            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
-            String pluginName = pluginContext.getName();
             jsCallback.execute("success");
-            FRLogger.getLogger().info(pluginName + Inter.getLocText("FR-Designer-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, pluginName + Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Update_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,

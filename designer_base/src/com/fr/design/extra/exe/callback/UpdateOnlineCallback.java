@@ -35,7 +35,7 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
     @Override
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
-            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
+            PluginContext pluginContext = PluginManager.getContext(toPluginMarker);
             String pluginName = pluginContext.getName();
             jsCallback.execute("success");
             FRLogger.getLogger().info(pluginName + Inter.getLocText("FR-Designer-Plugin_Update_Success"));

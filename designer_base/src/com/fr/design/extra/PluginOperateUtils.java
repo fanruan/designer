@@ -61,7 +61,7 @@ public class PluginOperateUtils {
             JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
             String latestPluginVersion = (String) latestPluginInfo.get("version");
             PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
-            PluginManager.getController().download(pluginMarker, new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
+            PluginManager.getController().download(toPluginMarker, new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
