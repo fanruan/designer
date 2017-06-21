@@ -1,7 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.stable.StringUtils;
-import javafx.application.Platform;;
+import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
