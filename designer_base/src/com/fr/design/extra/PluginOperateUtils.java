@@ -3,9 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.exe.callback.*;
-import com.fr.design.extra.exe.extratask.InstallDependenceTask;
 import com.fr.design.extra.exe.extratask.InstallPluginTask;
-import com.fr.design.extra.exe.extratask.UpdateDependenceTask;
 import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -46,9 +44,6 @@ public class PluginOperateUtils {
         PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
     }
 
-    public static void installPluginDependence(PluginMarker pluginMarker, JSCallback jsCallback){
-        PluginManager.getController().download(pluginMarker, new DownloadCallback(new InstallDependenceTask(pluginMarker, jsCallback), jsCallback));
-    }
 
     public static void updatePluginOnline(List<PluginMarker> pluginMarkerList, JSCallback jsCallback) {
         if (!(BBSPluginLogin.getInstance().hasLogin())) {
@@ -78,17 +73,6 @@ public class PluginOperateUtils {
         PluginManager.getController().update(new File(filePath), new UpdateFromDiskCallback(new File(filePath), jsCallback));
     }
 
-    public static void updatePluginDependence(PluginMarker pluginMarker, JSCallback jsCallback){
-        try {
-            JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
-            String latestPluginVersion = (String) latestPluginInfo.get("version");
-            PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
-            PluginManager.getController().download(pluginMarker, new DownloadCallback(new UpdateDependenceTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
-
-    }
 
     public static void setPluginActive(String pluginInfo, JSCallback jsCallback) {
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);

@@ -3,6 +3,7 @@ package com.fr.design.extra.exe.callback;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -35,9 +36,11 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
     @Override
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
+            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
+            String pluginName = pluginContext.getName();
             jsCallback.execute("success");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+            FRLogger.getLogger().info(pluginName + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+            JOptionPane.showMessageDialog(null, pluginName +  Inter.getLocText("FR-Designer-Plugin_Install_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
@@ -55,7 +58,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             List<PluginTask> pluginTasks = result.getPreTasks();
             for(PluginTask pluginTask : pluginTasks){
                 PluginMarker marker = pluginTask.getMarker();
-                PluginOperateUtils.installPluginDependence(marker, jsCallback);
+                PluginOperateUtils.installPluginOnline(marker, jsCallback);
             }
             PluginManager.getController().install(zipFile, new InstallFromDiskCallback(zipFile, jsCallback));
         } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
