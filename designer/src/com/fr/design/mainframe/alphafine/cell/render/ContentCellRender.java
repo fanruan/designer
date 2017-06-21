@@ -14,17 +14,12 @@ import java.awt.*;
  * Created by XiaXiang on 2017/4/20.
  */
 public class ContentCellRender implements ListCellRenderer<Object> {
-    private UILabel name;
-    private UILabel content;
 
-    public ContentCellRender() {
-
-    }
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        this.name = new UILabel();
-        this.content = new UILabel();
+        UILabel titleLabel = new UILabel();
+        UILabel detailLabel = new UILabel();
         if (value instanceof MoreModel) {
             return new TitleCellRender().getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
@@ -35,29 +30,29 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             panel.setBackground(AlphaFineConstants.BLUE);
         }
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        name.setText("  " + model.getName());
+        titleLabel.setText("  " + model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
         if (model.hasNoResult()) {
-            name.setIcon(null);
-            name.setForeground(AlphaFineConstants.MEDIUM_GRAY);
+            titleLabel.setIcon(null);
+            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         } else {
-            name.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
-            name.setForeground(AlphaFineConstants.BLACK);
+            titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
+            titleLabel.setForeground(AlphaFineConstants.BLACK);
         }
-        name.setFont(AlphaFineConstants.MEDIUM_FONT);
+        titleLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
         String description = model.getDescription();
         if (StringUtils.isNotBlank(description)) {
-            content.setText("-" + description);
-            content.setForeground(AlphaFineConstants.LIGHT_GRAY);
-            panel.add(content, BorderLayout.CENTER);
-            int width = (int) (name.getPreferredSize().getWidth() + content.getPreferredSize().getWidth());
+            detailLabel.setText("-" + description);
+            detailLabel.setForeground(AlphaFineConstants.LIGHT_GRAY);
+            panel.add(detailLabel, BorderLayout.CENTER);
+            int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
             if ( width > AlphaFineConstants.LEFT_WIDTH - 30) {
-                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - content.getPreferredSize().getWidth() - 45);
-                name.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
+                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - 45);
+                titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
             }
         }
 
-        panel.add(name, BorderLayout.WEST);
+        panel.add(titleLabel, BorderLayout.WEST);
         panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_HEIGHT));
         return panel;
     }
