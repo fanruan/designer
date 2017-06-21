@@ -34,7 +34,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-        } else if (result.errorCode() == PluginErrorCode.NeedInstallInterPluginDependency) {
+        } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
