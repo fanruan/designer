@@ -51,23 +51,18 @@ public class FormParaPane extends JPanel {
     private FormDesigner designer;
     
     static {
-        listenPluginChange();
-    }
-    
-    private static void listenPluginChange() {
-        
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
+        
             @Override
             public void on(PluginEvent event) {
-                
+            
                 THIS = null;
             }
         }, new PluginFilter() {
-            
+        
             @Override
             public boolean accept(PluginContext context) {
-                
+            
                 return context.contain(PluginModule.ExtraDesign, CellWidgetOptionProvider.XML_TAG);
             }
         });
