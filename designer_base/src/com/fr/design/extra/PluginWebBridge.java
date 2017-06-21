@@ -148,7 +148,8 @@ public class PluginWebBridge {
      */
     public void installPluginOnline(final String pluginInfo, final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.installPluginOnline(pluginInfo, jsCallback);
+        PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+        PluginOperateUtils.installPluginOnline(pluginMarker, jsCallback);
     }
 
 

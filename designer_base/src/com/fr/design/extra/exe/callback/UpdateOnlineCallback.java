@@ -1,13 +1,16 @@
 package com.fr.design.extra.exe.callback;
 
+import com.fr.design.extra.PluginOperateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskResult;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * Created by ibm on 2017/5/26.
@@ -30,8 +33,8 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void done(PluginTaskResult result) {
-        jsCallback.execute("success");
         if (result.isSuccess()) {
+            jsCallback.execute("success");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Update_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
@@ -48,8 +51,14 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                 return;
             }
+            List<PluginTask> pluginTasks = result.getPreTasks();
+            for(PluginTask pluginTask : pluginTasks){
+                PluginMarker marker = pluginTask.getMarker();
+                PluginOperateUtils.updatePluginDependence(marker, jsCallback);
+            }
             PluginManager.getController().update(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, jsCallback));
         } else {
+            jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Failed"));
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }

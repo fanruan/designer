@@ -42,6 +42,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
             }
             PluginManager.getController().uninstall(pluginMarker, true, new UninstallPluginCallback(pluginMarker, jsCallback));
         } else {
+            jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Failed"));
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
