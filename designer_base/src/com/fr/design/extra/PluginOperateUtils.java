@@ -288,11 +288,14 @@ public class PluginOperateUtils {
         if(context != null){
             pluginInfo.append(context.getName());
         }
-        List<PluginTask> pluginTasks = result.getPreTasks();
-        for(PluginTask pluginTask : pluginTasks){
-            PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
-            if(pluginContext != null){
-                pluginInfo.append(pluginContext.getName());
+        List<PluginTaskResult> pluginTaskResults = result.asList();
+        for(PluginTaskResult pluginTaskResult : pluginTaskResults){
+            List<PluginTask> pluginTasks = pluginTaskResult.getPreTasks();
+            for(PluginTask pluginTask : pluginTasks){
+                PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
+                if(pluginContext != null){
+                    pluginInfo.append(pluginContext.getName());
+                }
             }
         }
         return pluginInfo.toString();
