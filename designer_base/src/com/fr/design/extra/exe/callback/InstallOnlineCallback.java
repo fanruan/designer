@@ -3,25 +3,21 @@ package com.fr.design.extra.exe.callback;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
-import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.control.PluginTask;
-import com.fr.plugin.manage.control.PluginTaskResult;
+import com.fr.plugin.manage.control.*;
 
 import javax.swing.*;
-import java.util.List;
 
 /**
  * Created by ibm on 2017/5/26.
  */
-public class InstallOnlineCallback extends AbstractPluginTaskCallback {
+public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
     protected JSCallback jsCallback;
     private static int HUNDRED_PERCENT = 100;
 
-    public InstallOnlineCallback(PluginMarker pluginMarker, JSCallback jsCallback){
-        this.pluginMarker = pluginMarker;
+    public InstallOnlineCallback(PluginTask pluginTask, JSCallback jsCallback){
+        super(pluginTask);
         this.jsCallback = jsCallback;
     }
 
@@ -32,34 +28,12 @@ public class InstallOnlineCallback extends AbstractPluginTaskCallback {
 
 
     @Override
-    public void done(PluginTaskResult result) {
+    protected void allDone(PluginTaskResult result) {
         if (result.isSuccess()) {
-            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
-            String pluginName = pluginContext.getName();
+            String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
             jsCallback.execute("success");
-            FRLogger.getLogger().info(pluginName + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null,  pluginName + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-        } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
-            int rv = JOptionPane.showOptionDialog(
-                    null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Install_Dependence")),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    null,
-                    null
-            );
-            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
-                return;
-            }
-            List<PluginTask> pluginTasks = result.getPreTasks();
-            for(PluginTask pluginTask : pluginTasks){
-                PluginMarker marker = pluginTask.getMarker();
-                PluginOperateUtils.installPluginOnline(marker, jsCallback );
-            }
-            //执行JS回调
-            PluginOperateUtils.installPluginOnline(pluginMarker, jsCallback);
+            FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+            JOptionPane.showMessageDialog(null, pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
         } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
             int rv = JOptionPane.showOptionDialog(
                     null,
@@ -74,6 +48,7 @@ public class InstallOnlineCallback extends AbstractPluginTaskCallback {
             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                 return;
             }
+            PluginMarker pluginMarker = result.getCurrentTask().getMarker();
             PluginOperateUtils.updatePluginOnline(pluginMarker, jsCallback);
         }else {
             jsCallback.execute("failed");
@@ -81,4 +56,7 @@ public class InstallOnlineCallback extends AbstractPluginTaskCallback {
             JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+
 }
