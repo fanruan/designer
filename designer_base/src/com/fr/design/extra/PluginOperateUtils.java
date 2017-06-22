@@ -35,7 +35,7 @@ public class PluginOperateUtils {
             LoginCheckContext.fireLoginCheckListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
-            PluginTask pluginTask = PluginTask.installTask(pluginMarker, pluginMarker);
+            PluginTask pluginTask = PluginTask.installTask(pluginMarker);
             PluginControllerHelper.installOnline(pluginMarker, new InstallOnlineCallback(pluginTask, jsCallback));
         }
     }
