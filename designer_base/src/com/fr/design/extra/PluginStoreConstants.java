@@ -1,9 +1,9 @@
 package com.fr.design.extra;
 
+import com.fr.base.FRContext;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
@@ -20,7 +20,7 @@ public class PluginStoreConstants {
         if (PROP == null) {
             PROP = new Properties();
             try {
-                PROP.load(new FileInputStream(StableUtils.pathJoin(new File(StableUtils.getInstallHome()).getAbsolutePath(), "scripts/store/web/plugin_store.properties")));
+                PROP.load(new FileInputStream(StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), "scripts/store/web/plugin_store.properties")));
             } catch (Exception e) {
             }
         }
