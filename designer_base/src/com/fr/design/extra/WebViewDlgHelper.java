@@ -34,6 +34,7 @@ public class WebViewDlgHelper {
     private static final int VERSION_8 = 8;
     // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
     private static String installHome = StableUtils.getInstallHome();
+    private static final int BYTES_NUM = 1024;
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
@@ -85,7 +86,7 @@ public class WebViewDlgHelper {
                 if (mainJsFile.exists()) {
                     InputStream inStream = new FileInputStream(mainJsPath);
                     FileOutputStream fs = new FileOutputStream(indexPath);
-                    byte[] buffer = new byte[1444];
+                    byte[] buffer = new byte[BYTES_NUM];
                     while ((byteread = inStream.read(buffer)) != -1) {
                         fs.write(buffer, 0, byteread);
                     }
