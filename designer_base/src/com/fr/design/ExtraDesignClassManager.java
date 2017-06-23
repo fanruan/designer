@@ -16,7 +16,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.plugin.AbstractExtraClassManager;
-import com.fr.plugin.solution.container.CompatibleInjectionContainer;
+import com.fr.plugin.solution.closeable.CompatibleInjectionContainer;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.stable.bridge.StableFactory;
