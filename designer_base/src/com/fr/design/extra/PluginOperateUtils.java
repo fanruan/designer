@@ -3,8 +3,6 @@ package com.fr.design.extra;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.exe.callback.*;
-import com.fr.design.extra.exe.extratask.InstallPluginTask;
-import com.fr.design.extra.exe.extratask.UpdatePluginTask;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -16,7 +14,10 @@ import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.bbs.BBSUserInfo;
+import com.fr.plugin.manage.control.PluginControllerHelper;
+import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
@@ -36,7 +37,8 @@ public class PluginOperateUtils {
             LoginCheckContext.fireLoginCheckListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
-            PluginManager.getController().download(pluginMarker, new DownloadCallback(new InstallPluginTask(pluginMarker, jsCallback), jsCallback));
+            PluginTask pluginTask = PluginTask.installTask(pluginMarker);
+            PluginControllerHelper.installOnline(pluginMarker, new InstallOnlineCallback(pluginTask, jsCallback));
         }
     }
 
@@ -61,7 +63,8 @@ public class PluginOperateUtils {
             JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
             String latestPluginVersion = (String) latestPluginInfo.get("version");
             PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
-            PluginManager.getController().download(toPluginMarker, new DownloadCallback(new UpdatePluginTask(pluginMarker, toPluginMarker, jsCallback), jsCallback));
+            PluginTask pluginTask = PluginTask.updateTask(pluginMarker, toPluginMarker);
+            PluginControllerHelper.updateOnline(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginTask, jsCallback));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
@@ -278,6 +281,26 @@ public class PluginOperateUtils {
                 && StringUtils.isNotEmpty(pluginView.getName())
                 && StringUtils.isNotEmpty(pluginView.getVersion())
                 && StringUtils.isNotEmpty(pluginView.getEnvVersion());
+    }
+
+    public static String getSuccessInfo(PluginTaskResult result){
+        StringBuilder pluginInfo = new StringBuilder();
+        PluginTask currentTask = result.getCurrentTask();
+        PluginContext context = PluginManager.getContext(currentTask.getMarker());
+        if(context != null){
+            pluginInfo.append(context.getName());
+        }
+        List<PluginTaskResult> pluginTaskResults = result.asList();
+        for(PluginTaskResult pluginTaskResult : pluginTaskResults){
+            List<PluginTask> pluginTasks = pluginTaskResult.getPreTasks();
+            for(PluginTask pluginTask : pluginTasks){
+                PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
+                if(pluginContext != null){
+                    pluginInfo.append(pluginContext.getName());
+                }
+            }
+        }
+        return pluginInfo.toString();
     }
 
 }
