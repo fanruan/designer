@@ -59,7 +59,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] cs = {p};
 		components = new Component[][]{
 				new Component[]{new JSeparator()},
-				new Component[]{new BoldFontTextLabel(Inter.getLocText("Data_Filter"))},
+				new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer_Data_Filter"))},
 				new Component[]{filterPane = new ChartDataFilterPane(new MeterPlot(), parent)},
 		};
 		JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, cs);
