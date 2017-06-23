@@ -91,7 +91,7 @@ public class AlphaFineDialog extends UIDialog {
         super(parent);
         this.forceOpen = forceOpen;
         initProperties();
-        initListener();
+        initGlobalListener();
         initComponents();
     }
 
@@ -392,73 +392,6 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
-    /**
-     * 为各组件添加鼠标，键盘监听器
-     */
-    private void initListListener() {
-        /**
-         * 鼠标监听器
-         */
-        searchResultList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selectedIndex = searchResultList.getSelectedIndex();
-                Object selectedValue = searchResultList.getSelectedValue();
-                if (e.getClickCount() == 2) {
-                    doNavigate(selectedIndex);
-                    if (selectedValue instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                } else if (e.getClickCount() == 1) {
-                    if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
-                        HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
-                    }
-                }
-            }
-        });
-
-        /**
-         *单击时触发右侧面板展示搜索结果
-         */
-        searchResultList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
-
-                }
-            }
-        });
-
-        /**
-         * 为list添加键盘监听器
-         */
-        searchResultList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    Object selectedValue = searchResultList.getSelectedValue();
-                    doNavigate(searchResultList.getSelectedIndex());
-                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                }
-            }
-        });
-
-        /**
-         * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
-         */
-        searchTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
-                    searchResultList.requestFocus();
-                }
-            }
-        });
-    }
-
     private void showResult(int index, final Object selectedValue) {
         if (selectedValue instanceof FileModel) {
             final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
@@ -603,11 +536,84 @@ public class AlphaFineDialog extends UIDialog {
         repaint();
     }
 
-    private void initListener() {
+    /**
+     * 为面板添加全局监听器
+     */
+    private void initGlobalListener() {
         initAWTEventListener();
-
         initMouseListener();
+    }
 
+    /**
+     * 为面板中各组件添加监听器
+     */
+    private void initListListener() {
+        initListMouseListener();
+        initListKeyListener();
+    }
+
+    private void initListKeyListener() {
+        /**
+         * 为list添加键盘监听器
+         */
+        searchResultList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    Object selectedValue = searchResultList.getSelectedValue();
+                    doNavigate(searchResultList.getSelectedIndex());
+                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
+                        saveHistory((AlphaCellModel) selectedValue);
+                    }
+                }
+            }
+        });
+        /**
+         * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
+         */
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+                    searchResultList.requestFocus();
+                }
+            }
+        });
+    }
+
+    private void initListMouseListener() {
+        /**
+         * 鼠标监听器
+         */
+        searchResultList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedIndex = searchResultList.getSelectedIndex();
+                Object selectedValue = searchResultList.getSelectedValue();
+                if (e.getClickCount() == 2) {
+                    doNavigate(selectedIndex);
+                    if (selectedValue instanceof AlphaCellModel) {
+                        saveHistory((AlphaCellModel) selectedValue);
+                    }
+                } else if (e.getClickCount() == 1) {
+                    if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
+                        HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                    }
+                }
+            }
+        });
+        /**
+         *单击时触发右侧面板展示搜索结果
+         */
+        searchResultList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
+
+                }
+            }
+        });
     }
 
     /**
