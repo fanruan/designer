@@ -10,6 +10,7 @@ import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 
+import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
@@ -29,6 +30,8 @@ import java.util.Map;
  * Created by ibm on 2017/5/25.
  */
 public class PluginUtils {
+    
+    private static final String ERROR_CODE_I18N_PREFIX = "FR-Plugin_Error_";
 
 
     public static PluginMarker createPluginMarker(String pluginInfo) {
@@ -160,5 +163,14 @@ public class PluginUtils {
             return StringUtils.EMPTY;
         }
     }
-
+    
+    public static String getMessageByErrorCode(PluginErrorCode errorCode) {
+        
+        return Inter.getLocText(getInterKeyByErrorCode(errorCode));
+    }
+    
+    private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
+        
+        return ERROR_CODE_I18N_PREFIX + errorCode.getDescription();
+    }
 }

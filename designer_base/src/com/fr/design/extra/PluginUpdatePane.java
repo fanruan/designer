@@ -200,7 +200,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
                     FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
                     JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                 } else {
-                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

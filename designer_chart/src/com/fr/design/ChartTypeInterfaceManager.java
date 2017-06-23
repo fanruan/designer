@@ -32,7 +32,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
-import com.fr.stable.collections.map.CloseableContainedMap;
+import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 
 import javax.swing.*;

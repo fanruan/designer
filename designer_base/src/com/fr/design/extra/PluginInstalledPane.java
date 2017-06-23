@@ -69,7 +69,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });
@@ -80,7 +80,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null,PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });

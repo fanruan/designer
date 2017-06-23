@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe.callback;
 
+import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -78,7 +79,7 @@ public class InstallOnlineCallback extends AbstractPluginTaskCallback {
         }else {
             jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

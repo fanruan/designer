@@ -1,9 +1,9 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.extra.PluginOperateUtils;
+import com.fr.design.extra.PluginUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
@@ -77,7 +77,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         }else {
             jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }
