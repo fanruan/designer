@@ -13,10 +13,7 @@ import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 /**
  * Created by XiaXiang on 2017/4/6.
@@ -100,7 +97,25 @@ public class AlphaFineConfigPane extends BasicPane {
     private void createShortcutsPane(JPanel contentPane) {
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_AlphaFine_Shortcut_Config"));
         shortcutsField = new UITextField();
+        shortcutsField.setEditable(false);
+        shortcutsField.selectAll();
         shortcutsField.setPreferredSize(new Dimension(100, 20));
+        initFieldListener();
+        northPane.add(new UILabel(Inter.getLocText("FR-Designer_Open") + ":"));
+        northPane.add(shortcutsField);
+        UILabel label = new UILabel(Inter.getLocText("FR-Designer-AlphaFine_SetShortcuts"));
+        label.setForeground(Color.RED);
+        northPane.add(label);
+        contentPane.add(northPane);
+    }
+
+    private void initFieldListener() {
+        shortcutsField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                shortcutsField.selectAll();
+            }
+        });
         shortcutsField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -112,11 +127,9 @@ public class AlphaFineConfigPane extends BasicPane {
                 shortCutKeyStore = KeyStroke.getKeyStroke(keyCode, modifier);
                 String str = shortCutKeyStore.toString();
                 shortcutsField.setText(getDisplayShortCut(str));
+                shortcutsField.selectAll();
             }
         });
-        northPane.add(new UILabel(Inter.getLocText("FR-Designer_Open") + ":"));
-        northPane.add(shortcutsField);
-        contentPane.add(northPane);
     }
 
     private void createOnlinePane(JPanel contentPane) {

@@ -8,11 +8,10 @@ import java.awt.*;
  * Created by XiaXiang on 2017/5/10.
  */
 public class AlphaFineConstants {
-    public static final String SAVE_FILE_NAME = "alpha.coco";
 
     public static final int SHOW_SIZE = 5;
 
-    public static final int MAX_FILE_SIZE = 100;
+    public static final int MAX_FILE_SIZE = 1000;
 
     public static final int LATEST_SHOW_SIZE = 3;
 
@@ -29,6 +28,8 @@ public class AlphaFineConstants {
     public static final int CONTENT_HEIGHT = 405;
 
     public static final int CELL_HEIGHT = 32;
+
+    public static final int CELL_TITLE_HEIGHT = 24;
 
 
     public static final Dimension FULL_SIZE = new Dimension(680, 460);

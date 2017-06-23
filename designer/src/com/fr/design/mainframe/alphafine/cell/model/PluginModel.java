@@ -21,8 +21,9 @@ public class PluginModel extends AlphaCellModel {
     private int pluginId;
     private int price;
 
-    public PluginModel(String name, String content, CellType type) {
-        super(name, content, type);
+    public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId, int serchCount) {
+        this(name, content, imageUrl, version, jartime, link, type, price, pluginId);
+        setSearchCount(serchCount);
     }
 
     public PluginModel(String name, String content, String imageUrl, String version, String jartime, String link, CellType type, int price, int pluginId) {
@@ -97,7 +98,7 @@ public class PluginModel extends AlphaCellModel {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
-            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getTypeValue()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink());
+            modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("type", getType().getTypeValue()).put("price", getPrice()).put("id", getPluginId()).put("link", getLink()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());

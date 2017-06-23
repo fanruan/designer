@@ -11,6 +11,7 @@ import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.mainframe.toolbar.UpdateActionModel;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
 
 import java.util.List;
@@ -35,14 +36,16 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     /**
      * 根据类名获取对象
      *
-     * @param actionName
+     * @param object
      * @return
      */
-    public static ActionModel getModelFromCloud(String actionName) {
+    public static ActionModel getModelFromCloud(JSONObject object) {
+        String actionName = object.optString("className");
+        int searchCount = object.optInt("searchCount");
         List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
         for (UpdateActionModel updateActionModel : updateActions) {
             if (ComparatorUtils.equals(actionName, updateActionModel.getClassName())) {
-                return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction());
+                return new ActionModel(updateActionModel.getActionName(), updateActionModel.getParentName(), updateActionModel.getAction(), searchCount);
             }
         }
         return null;

@@ -42,7 +42,8 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         String name = object.optString("title");
         String content = object.optString("summary");
         int documentId = object.optInt("did");
-        return new DocumentModel(name, content, documentId);
+        int searchCount = object.optInt("searchCount");
+        return new DocumentModel(name, content, documentId, searchCount);
     }
 
     @Override

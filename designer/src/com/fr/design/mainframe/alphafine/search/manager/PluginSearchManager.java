@@ -41,6 +41,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         String name = object.optString("name");
         String content = object.optString("description");
         int pluginId = object.optInt("id");
+        int searchCount = object.optInt("searchCount");
         String imageUrl = null;
         try {
             imageUrl = isFromCloud ? AlphaFineConstants.PLUGIN_IMAGE_URL + URLEncoder.encode(object.optString("pic").toString().substring(AlphaFineConstants.PLUGIN_IMAGE_URL.length()), "utf8") : object.optString("pic");
@@ -59,7 +60,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
             type = CellType.REUSE;
         }
         int price = object.optInt("price");
-        return new PluginModel(name, content, imageUrl, version, jartime, link, type, price, pluginId);
+        return new PluginModel(name, content, imageUrl, version, jartime, link, type, price, pluginId, searchCount);
     }
 
     /**

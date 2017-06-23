@@ -2,7 +2,6 @@ package com.fr.design.mainframe.alphafine.cell.render;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.general.IOUtils;
@@ -15,46 +14,47 @@ import java.awt.*;
  * Created by XiaXiang on 2017/4/20.
  */
 public class ContentCellRender implements ListCellRenderer<Object> {
-    private UILabel name;
-    private UILabel content;
-
-    public ContentCellRender() {
-        this.name = new UILabel();
-        this.content = new UILabel();
-    }
+    private static final int OFFSET = 30;
+    private static final int LABEL_OFFSET = 45;
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        UILabel titleLabel = new UILabel();
+        UILabel detailLabel = new UILabel();
         if (value instanceof MoreModel) {
             return new TitleCellRender().getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
+        AlphaCellModel model = (AlphaCellModel) value;
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.white);
-        if (isSelected) {
+        panel.setBackground(null);
+        if (isSelected && !model.hasNoResult()) {
             panel.setBackground(AlphaFineConstants.BLUE);
         }
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-        AlphaCellModel model = (AlphaCellModel) value;
-        name.setText(model.getName());
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        titleLabel.setText("  " + model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-        name.setIcon(IOUtils.readIcon(iconUrl));
-        if (model.getType() == CellType.NO_RESULT) {
-            name.setIcon(null);
-            name.setForeground(AlphaFineConstants.MEDIUM_GRAY);
+        if (model.hasNoResult()) {
+            titleLabel.setIcon(null);
+            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         } else {
-            name.setIcon(new ImageIcon(getClass().getResource(iconUrl)));
-            name.setForeground(AlphaFineConstants.BLACK);
+            titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
+            titleLabel.setForeground(AlphaFineConstants.BLACK);
         }
-        name.setFont(AlphaFineConstants.MEDIUM_FONT);
-        name.setVerticalTextPosition(SwingConstants.CENTER);
-        name.setHorizontalTextPosition(SwingConstants.RIGHT);
+        titleLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
         String description = model.getDescription();
         if (StringUtils.isNotBlank(description)) {
-            content.setText("-" + description);
-            content.setForeground(AlphaFineConstants.LIGHT_GRAY);
-            panel.add(content, BorderLayout.CENTER);
+            detailLabel.setText("-" + description);
+            detailLabel.setForeground(AlphaFineConstants.LIGHT_GRAY);
+            panel.add(detailLabel, BorderLayout.CENTER);
+            int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
+            if ( width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
+                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - LABEL_OFFSET);
+                titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
+            }
         }
-        panel.add(name, BorderLayout.WEST);
+
+        panel.add(titleLabel, BorderLayout.WEST);
+        panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_HEIGHT));
         return panel;
     }
 }
