@@ -343,16 +343,15 @@ public class AlphaFineDialog extends UIDialog {
         getPluginList(searchText);
     }
 
-    private synchronized void getDocumentList(final String searchText) {
+    private void getDocumentList(final String searchText) {
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
         for (Object object : documentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
-
     }
 
-    private synchronized void getFileList(final String searchText) {
+    private void getFileList(final String searchText) {
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
         for (Object object : fileModelList) {
             AlphaFineHelper.checkCancel();
@@ -360,7 +359,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private synchronized void getActionList(final String searchText) {
+    private void getActionList(final String searchText) {
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
         for (Object object : actionModelList) {
             AlphaFineHelper.checkCancel();
@@ -368,7 +367,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private synchronized void getPluginList(final String searchText) {
+    private void getPluginList(final String searchText) {
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
         for (Object object : pluginModelList) {
             AlphaFineHelper.checkCancel();
@@ -376,7 +375,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private synchronized void getRecommendList(final String searchText) {
+    private void getRecommendList(final String searchText) {
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
         for (Object object : recommendModelList) {
             AlphaFineHelper.checkCancel();
@@ -384,7 +383,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private synchronized void getRecentList(final String searchText) {
+    private void getRecentList(final String searchText) {
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
         for (Object object : recentModelList) {
             AlphaFineHelper.checkCancel();
