@@ -24,7 +24,7 @@ import java.awt.*;
 public class MeterPlotReportDataContentPane extends AbstractReportDataContentPane {
 	
 	private static final String CATENAME = Inter.getLocText(new String[]{"ChartF-Meter", "StyleFormat-Category", "WF-Name"});
-	private static final String NVALUE = Inter.getLocText("Needle Value");
+	private static final String NVALUE = Inter.getLocText("Chart-Pointer_Value");
 	
 	private TinyFormulaPane singCatePane;
 	private TinyFormulaPane singValuePane;
