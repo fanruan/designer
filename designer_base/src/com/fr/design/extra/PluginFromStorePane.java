@@ -179,7 +179,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
                         FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Success"));
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Install_Successful"));
                     } else {
-                        JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     }                }
             });
         } catch (Exception e1) {

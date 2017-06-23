@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe.callback;
 
+import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.exe.extratask.ExtraPluginTask;
 import com.fr.general.Inter;
 import com.fr.plugin.manage.control.PluginTaskResult;
@@ -30,7 +31,7 @@ public class DownloadCallback extends AbstractPluginTaskCallback {
             extraPluginTask.doExtraPluginTask();
         } else {
             jsCallback.execute("failed");
-            JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

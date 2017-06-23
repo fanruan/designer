@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe.callback;
 
+import com.fr.design.extra.PluginUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginMarker;
@@ -51,7 +52,7 @@ public class UpdateOnlineCallback extends AbstractPluginTaskCallback {
             PluginManager.getController().update(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, jsCallback));
         } else {
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, result.getMessage(), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }
