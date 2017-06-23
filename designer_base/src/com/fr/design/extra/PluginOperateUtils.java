@@ -14,8 +14,10 @@ import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.bbs.BBSPluginLogin;
 import com.fr.plugin.manage.bbs.BBSUserInfo;
-import com.fr.plugin.manage.control.*;
+import com.fr.plugin.manage.control.PluginControllerHelper;
 import com.fr.plugin.manage.control.PluginTask;
+import com.fr.plugin.manage.control.PluginTaskCallback;
+import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
