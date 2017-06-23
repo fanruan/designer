@@ -22,7 +22,7 @@ public class JSCallback {
     public void init(final WebEngine webEngine, final JSObject callback){
         executeScript = new JSExecutor() {
             @Override
-            public void executor(String newValue) {
+            public void executor(final String newValue) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
