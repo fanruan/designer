@@ -14,7 +14,8 @@ import java.awt.*;
  * Created by XiaXiang on 2017/4/20.
  */
 public class ContentCellRender implements ListCellRenderer<Object> {
-
+    private static final int OFFSET = 30;
+    private static final int LABEL_OFFSET = 45;
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -46,8 +47,8 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             detailLabel.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(detailLabel, BorderLayout.CENTER);
             int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
-            if ( width > AlphaFineConstants.LEFT_WIDTH - 30) {
-                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - 45);
+            if ( width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
+                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - LABEL_OFFSET);
                 titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
             }
         }

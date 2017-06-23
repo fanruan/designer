@@ -219,12 +219,15 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void doSearch(String text) {
 
-        if (StringUtils.isBlank(text) || text.equals("AlphaFine") || text.contains("'")) {
+        if (StringUtils.isBlank(text) || isNeedSearch(text)) {
             removeSearchResult();
         } else {
             showSearchResult();
         }
+    }
 
+    boolean isNeedSearch(String text) {
+        return ComparatorUtils.equals("AlphaFine", text) || text.contains("'");
     }
 
     /**
