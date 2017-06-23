@@ -5,9 +5,12 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
-import com.fr.plugin.manage.control.*;
+import com.fr.plugin.manage.control.AbstractDealPreTaskCallback;
+import com.fr.plugin.manage.control.PluginTask;
+import com.fr.plugin.manage.control.PluginTaskResult;
 
 import javax.swing.*;
+
 
 /**
  * Created by ibm on 2017/5/26.
