@@ -13,6 +13,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -53,12 +54,14 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     /**
      * 根据文件路径获取文件模型
      *
-     * @param filePath
+     * @param object
      * @return
      */
-    public static FileModel getModelFromCloud(String filePath) {
+    public static FileModel getModelFromCloud(JSONObject object) {
+        String filePath = object.optString("filePath");
+        int searchCount = object.optInt("searchCount");
         String name = AlphaFineHelper.findFileName(filePath);
-        return new FileModel(name, filePath);
+        return new FileModel(name, filePath, searchCount);
     }
 
     public synchronized SearchResult getLessSearchResult(String searchText) {

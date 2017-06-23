@@ -14,15 +14,16 @@ public class DocumentModel extends AlphaCellModel {
     private String informationUrl;
     private int documentId;
 
-    public DocumentModel(String name, String content, CellType type) {
-        super(name, content, type);
-    }
-
     public DocumentModel(String name, String content, int documentId) {
         super(name, content, CellType.DOCUMENT);
         this.documentId = documentId;
         this.informationUrl = AlphaFineConstants.DOCUMENT_INFORMATION_URL + documentId;
         this.documentUrl = AlphaFineConstants.DOCUMENT_DOC_URL + documentId + ".html";
+    }
+
+    public DocumentModel(String name, String content, int documentId, int searchCount) {
+        this(name, content, documentId);
+        setSearchCount(searchCount);
     }
 
     public String getDocumentUrl() {
@@ -38,7 +39,7 @@ public class DocumentModel extends AlphaCellModel {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
-            modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId());
+            modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error("DocumentModel: " + e.getMessage());

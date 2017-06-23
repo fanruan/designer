@@ -8,7 +8,6 @@ import java.awt.*;
  * Created by XiaXiang on 2017/5/10.
  */
 public class AlphaFineConstants {
-    public static final String SAVE_FILE_NAME = "alpha.coco";
 
     public static final int SHOW_SIZE = 5;
 

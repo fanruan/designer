@@ -13,10 +13,10 @@ import javax.swing.*;
 public class ActionModel extends AlphaCellModel {
     private Action action;
 
-    private String className;
 
-    public ActionModel(String name, String content, CellType type) {
-        super(name, content, type);
+    public ActionModel(String name, String description, Action action, int searchCount) {
+        this(name, description, action);
+        setSearchCount(searchCount);
     }
 
     public ActionModel(String name, String description, Action action) {
@@ -55,7 +55,9 @@ public class ActionModel extends AlphaCellModel {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("result", getAction().getClass().getName()).put("cellType", getType().getTypeValue());
+            JSONObject modelObject = JSONObject.create();
+            modelObject.put("className", getAction().getClass().getName()).put("searchCount", getSearchCount());
+            object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
@@ -71,7 +73,4 @@ public class ActionModel extends AlphaCellModel {
         return getAction().getClass().getName();
     }
 
-    public void setClassName(String className) {
-        this.className = className;
-    }
 }

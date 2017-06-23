@@ -12,8 +12,9 @@ import com.fr.json.JSONObject;
 public class FileModel extends AlphaCellModel {
     private String filePath;
 
-    public FileModel(String name, String content, CellType type) {
-        super(name, content, type);
+    public FileModel(String name, String filePath, int searchCount) {
+        this(name, filePath);
+        setSearchCount(searchCount);
     }
 
     public FileModel(String name, String filePath) {
@@ -34,7 +35,9 @@ public class FileModel extends AlphaCellModel {
     public JSONObject ModelToJson() {
         JSONObject object = JSONObject.create();
         try {
-            object.put("result", getFilePath()).put("cellType", getType().getTypeValue());
+            JSONObject modelObject = JSONObject.create();
+            modelObject.put("filePath", getFilePath()).put("searchCount", getSearchCount());
+            object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
             FRLogger.getLogger().error(e.getMessage());
         }
