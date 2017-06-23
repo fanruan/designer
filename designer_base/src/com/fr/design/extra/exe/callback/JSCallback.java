@@ -2,9 +2,6 @@ package com.fr.design.extra.exe.callback;
 
 import com.fr.stable.StringUtils;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
@@ -14,17 +11,18 @@ import java.util.regex.Pattern;
 /**
  * Created by ibm on 2017/5/27.
  */
-public class JSCallback<T> extends Task<T> {
+public class JSCallback {
 
+    private JSExecutor executeScript;
 
     public JSCallback(final WebEngine webEngine, final JSObject callback) {
         init(webEngine, callback);
     }
 
     public void init(final WebEngine webEngine, final JSObject callback){
-        messageProperty().addListener(new ChangeListener<String>() {
+        executeScript = new JSExecutor() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, final String newValue) {
+            public void executor(String newValue) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -37,15 +35,11 @@ public class JSCallback<T> extends Task<T> {
                     }
                 });
             }
-        });
-    }
-    @Override
-    protected T call() throws Exception {
-        return null;
+        };
     }
 
     public void execute(String newValue) {
-        updateMessage(newValue);
+        executeScript.executor(newValue);
     }
 
 
@@ -86,6 +80,7 @@ public class JSCallback<T> extends Task<T> {
         origin = m_html.replaceAll("");
         return origin;
     }
+
 
 
 }

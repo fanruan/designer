@@ -12,12 +12,16 @@ import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.json.JSONObject;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
@@ -30,26 +34,30 @@ public class WebViewDlgHelper {
     private static final int VERSION_8 = 8;
     // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
     private static String installHome = StableUtils.getInstallHome();
+    private static final int BYTES_NUM = 1024;
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
-            String relativePath = "index.html";
+            String relativePath = "/scripts/store/web/index.html";
             String mainJsPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), relativePath);
             File file = new File(mainJsPath);
             if (!file.exists()) {
-//                int rv = JOptionPane.showConfirmDialog(
-//                        null,
-//                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
-//                        Inter.getLocText("FR-Designer-Plugin_Warning"),
-//                        JOptionPane.OK_CANCEL_OPTION,
-//                        JOptionPane.INFORMATION_MESSAGE
-//                );
-//                if (rv == JOptionPane.OK_OPTION) {
-//                    downloadShopScripts(SHOP_SCRIPTS);
-//                }
+                int rv = JOptionPane.showConfirmDialog(
+                        null,
+                        Inter.getLocText("FR-Designer-Plugin_Shop_Need_Install"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    downloadShopScripts(SHOP_SCRIPTS);
+                }
             } else {
+                String indexPath = "index.html";
+                String mainIndexPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), indexPath);
+                checkAndCopyMainFile(mainIndexPath, mainJsPath);
                 updateShopScripts(SHOP_SCRIPTS);
-                showPluginDlg(mainJsPath);
+                showPluginDlg(mainIndexPath);
             }
         } else {
             BasicPane traditionalStorePane = new BasicPane() {
@@ -62,6 +70,31 @@ public class WebViewDlgHelper {
             traditionalStorePane.add(initTraditionalStore(), BorderLayout.CENTER);
             UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), traditionalStorePane);
             dlg.setVisible(true);
+        }
+    }
+
+    /**
+     * 检查script文件夹中的index.html文件
+     *
+     */
+    public static void checkAndCopyMainFile(String indexPath, String mainJsPath){
+        File file = new File(indexPath);
+        if (!file.exists()) {
+            try {
+                File mainJsFile = new File(mainJsPath);
+                int byteread = 0;
+                if (mainJsFile.exists()) {
+                    InputStream inStream = new FileInputStream(mainJsPath);
+                    FileOutputStream fs = new FileOutputStream(indexPath);
+                    byte[] buffer = new byte[BYTES_NUM];
+                    while ((byteread = inStream.read(buffer)) != -1) {
+                        fs.write(buffer, 0, byteread);
+                    }
+                    inStream.close();
+                }
+            } catch (Exception e) {
+                FRContext.getLogger().error(e.getMessage());
+            }
         }
     }
 
@@ -181,20 +214,23 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("store.version") + "&version=" + PluginStoreConstants.VERSION);
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv") + "&version=" + PluginStoreConstants.VERSION);
+                httpClient.asGet();
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();
-                    if (!ComparatorUtils.equals(text, LATEST)) {
-//                        int rv = JOptionPane.showConfirmDialog(
-//                                null,
-//                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
-//                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-//                                JOptionPane.OK_CANCEL_OPTION,
-//                                JOptionPane.INFORMATION_MESSAGE
-//                        );
-//                        if (rv == JOptionPane.OK_OPTION) {
-//                            downloadShopScripts(scriptsId);
-//                        }
+                    JSONObject resultJSONObject = new JSONObject(text);
+                    String isLatest = resultJSONObject.optString("result");
+                    if (!ComparatorUtils.equals(isLatest, LATEST)) {
+                        int rv = JOptionPane.showConfirmDialog(
+                                null,
+                                Inter.getLocText("FR-Designer-Plugin_Shop_Need_Update"),
+                                Inter.getLocText("FR-Designer-Plugin_Warning"),
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                        if (rv == JOptionPane.OK_OPTION) {
+                            downloadShopScripts(scriptsId);
+                        }
                     }
                 }
                 return null;

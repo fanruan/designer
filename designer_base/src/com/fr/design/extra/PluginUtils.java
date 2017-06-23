@@ -108,12 +108,15 @@ public class PluginUtils {
         map.put("id", id);
         map.put("username", username);
         map.put("password", password);
-        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("plugin.download"), map);
+        HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts"));
+        httpClient.asGet();
         String resText = httpClient.getResponseText();
+        JSONObject resultJSONObject = new JSONObject(resText);
+        String scriptUrl = resultJSONObject.optString("result");
         String charSet = EncodeConstants.ENCODING_UTF_8;
-        resText = URLDecoder.decode(URLDecoder.decode(resText, charSet), charSet);
+        scriptUrl = URLDecoder.decode(URLDecoder.decode(scriptUrl, charSet), charSet);
 
-        return resText;
+        return scriptUrl;
     }
 
     public static boolean isPluginMatch(PluginView pluginView, String text) {
