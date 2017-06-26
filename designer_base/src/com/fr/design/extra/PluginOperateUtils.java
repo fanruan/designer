@@ -118,7 +118,7 @@ public class PluginOperateUtils {
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
 
-        new Thread(new Runnable() {
+        EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -135,13 +135,13 @@ public class PluginOperateUtils {
                     FRLogger.getLogger().error(e.getMessage());
                 }
             }
-        }).start();
+        });
 
 
     }
 
     public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
-        new Thread(new Runnable() {
+        EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -159,12 +159,12 @@ public class PluginOperateUtils {
                     FRLogger.getLogger().error(e.getMessage());
                 }
             }
-        }).start();
+        });
 
     }
 
     public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
-        new Thread(new Runnable() {
+        EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
@@ -194,7 +194,7 @@ public class PluginOperateUtils {
                 }
             }
 
-        }).start();
+        });
 
     }
 
@@ -243,7 +243,7 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginCategories(final JSCallback jsCallback) {
-        new Thread(new Runnable() {
+        EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 String result;
@@ -256,17 +256,17 @@ public class PluginOperateUtils {
                 }
                 jsCallback.execute(result);
             }
-        }).start();
+        });
     }
 
     public static void getPluginPrefix(final JSCallback jsCallback) {
-        new Thread(new Runnable() {
+        EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 String result = SiteCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
                 jsCallback.execute(result);
             }
-        }).start();
+        });
     }
 
     public static void getLoginInfo(JSCallback jsCallback) {
