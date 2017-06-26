@@ -91,7 +91,7 @@ public class PluginOperateUtils {
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
     
-        new Thread(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
     
             @Override
             public void run() {
@@ -107,7 +107,7 @@ public class PluginOperateUtils {
                     PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
                 }
             }
-        }).start();
+        });
     }
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
