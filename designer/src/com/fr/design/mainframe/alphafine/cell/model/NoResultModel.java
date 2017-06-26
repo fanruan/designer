@@ -21,4 +21,9 @@ public class NoResultModel extends AlphaCellModel {
     public String getStoreInformation() {
         return null;
     }
+
+    @Override
+    public boolean hasNoResult() {
+        return true;
+    }
 }

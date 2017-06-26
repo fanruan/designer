@@ -8,11 +8,12 @@ import com.fr.json.JSONObject;
 /**
  * Created by XiaXiang on 2017/3/23.
  */
-public abstract class AlphaCellModel {
+public abstract class AlphaCellModel implements Comparable {
     private String name;
     private String content;
     private String description;
     private CellType type;
+    private int searchCount;
 
     public AlphaCellModel(String name, String content, CellType type) {
         this.name = name;
@@ -60,6 +61,9 @@ public abstract class AlphaCellModel {
         this.description = description;
     }
 
+    public boolean hasNoResult() {
+        return false;
+    }
     /**
      * model转json
      *
@@ -75,4 +79,25 @@ public abstract class AlphaCellModel {
      */
     abstract public String getStoreInformation();
 
+    public int getSearchCount() {
+        return searchCount;
+    }
+
+    public void setSearchCount(int searchCount) {
+        this.searchCount = searchCount;
+    }
+
+    public void addSearchCount() {
+        searchCount++;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        AlphaCellModel cellModel = (AlphaCellModel)o;
+        int difference = cellModel.getSearchCount() - this.getSearchCount();
+        if (difference != 0) {
+            return difference;
+        }
+        return this.getName().compareTo(cellModel.getName());
+    }
 }

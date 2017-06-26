@@ -13,6 +13,7 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.json.JSONObject;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -27,6 +28,8 @@ import java.util.List;
 public class FileSearchManager implements AlphaFineSearchProcessor {
     private static final int MARK_LENGTH = 6;
     private static final String DS_NAME = "dsname=\"";
+    private static final String FRM_PREFIX = "k:frm ";
+    private static final String CPT_PREFIX = "k:cpt ";
     private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
@@ -51,22 +54,24 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     /**
      * 根据文件路径获取文件模型
      *
-     * @param filePath
+     * @param object
      * @return
      */
-    public static FileModel getModelFromCloud(String filePath) {
+    public static FileModel getModelFromCloud(JSONObject object) {
+        String filePath = object.optString("filePath");
+        int searchCount = object.optInt("searchCount");
         String name = AlphaFineHelper.findFileName(filePath);
-        return new FileModel(name, filePath);
+        return new FileModel(name, filePath, searchCount);
     }
 
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (searchText.startsWith("k:frm ")) {
+        if (searchText.startsWith(FRM_PREFIX)) {
             isContainCpt = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
-        } else if (searchText.startsWith("k:cpt ")) {
+        } else if (searchText.startsWith(CPT_PREFIX)) {
             isContainFrm = false;
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
@@ -139,6 +144,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
                     FileModel model = new FileModel(node.getName(), node.getEnvPath());
                     this.filterModelList.add(model);
                 }
+                isr.close();
                 reader.close();
             } catch (FileNotFoundException e) {
                 FRLogger.getLogger().error(e.getMessage());

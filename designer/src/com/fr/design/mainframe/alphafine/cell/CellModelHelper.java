@@ -19,13 +19,13 @@ public class CellModelHelper {
         AlphaCellModel cellModel = null;
         switch (CellType.parse(typeValue)) {
             case ACTION:
-                cellModel = ActionSearchManager.getModelFromCloud(object.optString(RESULT));
+                cellModel = ActionSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
                 break;
             case DOCUMENT:
                 cellModel = DocumentSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
                 break;
             case FILE:
-                cellModel = FileSearchManager.getModelFromCloud(object.optString(RESULT));
+                cellModel = FileSearchManager.getModelFromCloud(object.optJSONObject(RESULT));
                 break;
             case PLUGIN:
             case REUSE:
