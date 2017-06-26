@@ -24,16 +24,12 @@ import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 
 /**
  * Created by ibm on 2017/5/26.
  */
 public class PluginOperateUtils {
-    
-    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
 
     public static void installPluginOnline(final PluginMarker pluginMarker, JSCallback jsCallback) {
         //下载插件
@@ -92,14 +88,13 @@ public class PluginOperateUtils {
             PluginManager.getController().enable(pluginMarker, modifyStatusCallback);
         }
     }
-    
+
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
-        
-        EXECUTOR.execute(new Runnable() {
-            
+    
+        new Thread(new Runnable() {
+    
             @Override
             public void run() {
-                
                 int rv = JOptionPane.showConfirmDialog(
                     null,
                     Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
@@ -112,13 +107,12 @@ public class PluginOperateUtils {
                     PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
                 }
             }
-        });
-      
+        }).start();
     }
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
-
-        EXECUTOR.execute(new Runnable() {
+    
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -135,13 +129,14 @@ public class PluginOperateUtils {
                     FRLogger.getLogger().error(e.getMessage());
                 }
             }
-        });
+        }).start();
 
 
     }
 
     public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
-        EXECUTOR.execute(new Runnable() {
+    
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -159,12 +154,13 @@ public class PluginOperateUtils {
                     FRLogger.getLogger().error(e.getMessage());
                 }
             }
-        });
+        }).start();
 
     }
 
     public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
-        EXECUTOR.execute(new Runnable() {
+    
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
@@ -193,8 +189,8 @@ public class PluginOperateUtils {
                     jsCallback.execute(result);
                 }
             }
-
-        });
+        
+        }).start();
 
     }
 
@@ -243,7 +239,8 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginCategories(final JSCallback jsCallback) {
-        EXECUTOR.execute(new Runnable() {
+    
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 String result;
@@ -256,17 +253,18 @@ public class PluginOperateUtils {
                 }
                 jsCallback.execute(result);
             }
-        });
+        }).start();
     }
 
     public static void getPluginPrefix(final JSCallback jsCallback) {
-        EXECUTOR.execute(new Runnable() {
+    
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 String result = SiteCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
                 jsCallback.execute(result);
             }
-        });
+        }).start();
     }
 
     public static void getLoginInfo(JSCallback jsCallback) {
