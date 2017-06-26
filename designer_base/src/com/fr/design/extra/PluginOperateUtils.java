@@ -63,8 +63,10 @@ public class PluginOperateUtils {
             JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
             String latestPluginVersion = (String) latestPluginInfo.get("version");
             PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
-            PluginTask pluginTask = PluginTask.updateTask(pluginMarker, toPluginMarker);
-            PluginControllerHelper.updateOnline(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginTask, jsCallback));
+            //当前已经安装的相同ID插件marker
+            PluginMarker currentMarker = PluginUtils.getInstalledPluginMarkerByID(pluginMarker.getPluginID());
+            PluginTask pluginTask = PluginTask.updateTask(currentMarker, toPluginMarker);
+            PluginControllerHelper.updateOnline(currentMarker, toPluginMarker, new UpdateOnlineCallback(pluginTask, jsCallback));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
@@ -89,22 +91,29 @@ public class PluginOperateUtils {
         }
     }
 
-    public static void uninstallPlugin(final String pluginInfo, final boolean isForce, JSCallback jsCallback) {
-        int rv = JOptionPane.showConfirmDialog(
-                null,
-                Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
-                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.INFORMATION_MESSAGE
-        );
-        if (rv == JOptionPane.OK_OPTION) {
-            PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
-            PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
-        }
+    public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
+    
+        SwingUtilities.invokeLater(new Runnable() {
+    
+            @Override
+            public void run() {
+                int rv = JOptionPane.showConfirmDialog(
+                    null,
+                    Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
+                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+                    PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
+                }
+            }
+        });
     }
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
-
+    
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,6 +137,7 @@ public class PluginOperateUtils {
     }
 
     public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
+    
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -151,6 +161,7 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
+    
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -180,7 +191,7 @@ public class PluginOperateUtils {
                     jsCallback.execute(result);
                 }
             }
-
+        
         }).start();
 
     }
@@ -230,6 +241,7 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginCategories(final JSCallback jsCallback) {
+    
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -247,6 +259,7 @@ public class PluginOperateUtils {
     }
 
     public static void getPluginPrefix(final JSCallback jsCallback) {
+    
         new Thread(new Runnable() {
             @Override
             public void run() {
