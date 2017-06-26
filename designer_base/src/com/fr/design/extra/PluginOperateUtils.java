@@ -63,8 +63,10 @@ public class PluginOperateUtils {
             JSONObject latestPluginInfo = PluginUtils.getLatestPluginInfo(pluginMarker.getPluginID());
             String latestPluginVersion = (String) latestPluginInfo.get("version");
             PluginMarker toPluginMarker = PluginMarker.create(pluginMarker.getPluginID(), latestPluginVersion);
-            PluginTask pluginTask = PluginTask.updateTask(pluginMarker, toPluginMarker);
-            PluginControllerHelper.updateOnline(pluginMarker, toPluginMarker, new UpdateOnlineCallback(pluginTask, jsCallback));
+            //当前已经安装的相同ID插件marker
+            PluginMarker currentMarker = PluginUtils.getInstalledPluginMarkerByID(pluginMarker.getPluginID());
+            PluginTask pluginTask = PluginTask.updateTask(currentMarker, toPluginMarker);
+            PluginControllerHelper.updateOnline(currentMarker, toPluginMarker, new UpdateOnlineCallback(pluginTask, jsCallback));
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }

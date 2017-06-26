@@ -11,6 +11,7 @@ import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 
 import com.fr.plugin.error.PluginErrorCode;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
@@ -172,5 +173,14 @@ public class PluginUtils {
     private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
         
         return ERROR_CODE_I18N_PREFIX + errorCode.getDescription();
+    }
+    
+    public static PluginMarker getInstalledPluginMarkerByID(String pluginID) {
+        
+        PluginContext context = PluginManager.getContext(pluginID);
+        if (context != null) {
+            return context.getMarker();
+        }
+        return null;
     }
 }
