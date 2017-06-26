@@ -24,12 +24,16 @@ import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 /**
  * Created by ibm on 2017/5/26.
  */
 public class PluginOperateUtils {
+    
+    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
 
     public static void installPluginOnline(final PluginMarker pluginMarker, JSCallback jsCallback) {
         //下载插件
@@ -88,19 +92,28 @@ public class PluginOperateUtils {
             PluginManager.getController().enable(pluginMarker, modifyStatusCallback);
         }
     }
-
-    public static void uninstallPlugin(final String pluginInfo, final boolean isForce, JSCallback jsCallback) {
-        int rv = JOptionPane.showConfirmDialog(
-                null,
-                Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
-                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.INFORMATION_MESSAGE
-        );
-        if (rv == JOptionPane.OK_OPTION) {
-            PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
-            PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
-        }
+    
+    public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
+        
+        EXECUTOR.execute(new Runnable() {
+            
+            @Override
+            public void run() {
+                
+                int rv = JOptionPane.showConfirmDialog(
+                    null,
+                    Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
+                    Inter.getLocText("FR-Designer-Plugin_Warning"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                if (rv == JOptionPane.OK_OPTION) {
+                    PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
+                    PluginManager.getController().uninstall(pluginMarker, isForce, new UninstallPluginCallback(pluginMarker, jsCallback));
+                }
+            }
+        });
+      
     }
 
     public static void readUpdateOnline(final JSCallback jsCallback) {
