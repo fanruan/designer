@@ -959,7 +959,7 @@ public class AlphaFineDialog extends UIDialog {
             setValidSelected(false);
         }
 
-        public boolean isValidSelected() {
+        private boolean isValidSelected() {
             return isValidSelected;
         }
 
