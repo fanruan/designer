@@ -44,10 +44,10 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
             String result;
             HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCHAPI + CodeUtils.cjkEncode(searchText));
             httpClient.asGet();
-            httpClient.setTimeout(5000);
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
+            httpClient.setTimeout(5000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {

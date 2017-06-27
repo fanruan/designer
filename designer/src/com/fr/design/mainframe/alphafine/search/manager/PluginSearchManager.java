@@ -93,11 +93,11 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 String encodedKey = URLEncoder.encode(searchText, "UTF-8");
                 String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
                 HttpClient httpClient = new HttpClient(url);
-                httpClient.setTimeout(5000);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
                 }
+                httpClient.setTimeout(5000);
                 result = httpClient.getResponseText();
                 AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);

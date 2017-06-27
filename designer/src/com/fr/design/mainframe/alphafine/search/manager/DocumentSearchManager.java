@@ -58,11 +58,11 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             String result;
             String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText + "-1";
             HttpClient httpClient = new HttpClient(url);
-            httpClient.setTimeout(5000);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
+            httpClient.setTimeout(5000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {
