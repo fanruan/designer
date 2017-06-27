@@ -917,11 +917,20 @@ public class AlphaFineDialog extends UIDialog {
 
             fireContentsChanged(this, index, index);
 
+            fireSelectedStateChanged(element, index);
+
+        }
+
+        /**
+         * 触发选中
+         * @param element
+         * @param index
+         */
+        private void fireSelectedStateChanged(AlphaCellModel element, int index) {
             if (element.hasAction() && !isSelected()) {
                 searchResultList.setSelectedIndex(index);
                 setSelected(true);
             }
-
         }
 
         @Override
