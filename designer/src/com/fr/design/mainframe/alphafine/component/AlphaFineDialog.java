@@ -784,7 +784,6 @@ public class AlphaFineDialog extends UIDialog {
     /**
      +-------------------------------------+
      |             自定义JList              |
-     |                                     |
      +-------------------------------------+
      */
     private class AlphaFineList extends JList<AlphaCellModel> {
