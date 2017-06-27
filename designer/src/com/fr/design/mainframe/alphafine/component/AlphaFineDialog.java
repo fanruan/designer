@@ -295,7 +295,7 @@ public class AlphaFineDialog extends UIDialog {
 
             @Override
             protected void done() {
-                if (!isCancelled()) {
+                if (!isCancelled() && getModel().getSize() > 0) {
                     searchResultList.setSelectedIndex(0);
                     showResult(searchResultList.getSelectedValue());
                 }
@@ -311,9 +311,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void rebuildList(String searchText) {
-        searchResultList.resetSelectedIndex();
-        searchListModel.removeAllElements();
-        searchResultList.resetSelectedIndex();
+        resetContainer();
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
@@ -339,6 +337,17 @@ public class AlphaFineDialog extends UIDialog {
             doNormalSearch(storeText);
         }
 
+    }
+
+    /**
+     * 重置面板
+     */
+    private void resetContainer() {
+        searchResultList.resetSelectedIndex();
+        searchListModel.removeAllElements();
+        rightSearchResultPane.removeAll();
+        rightSearchResultPane.validate();
+        rightSearchResultPane.repaint();
     }
 
     /**
@@ -569,9 +578,7 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
     }
-
-
-
+    
     /**
      * 窗口拖拽
      */
@@ -773,6 +780,11 @@ public class AlphaFineDialog extends UIDialog {
         this.storeText = storeText;
     }
 
+
+
+    //------------------------------------------------------
+    //----------------------自定义list-----------------------
+    //------------------------------------------------------
     /**
      * 自定义JList
      */
@@ -795,7 +807,7 @@ public class AlphaFineDialog extends UIDialog {
          */
         @Override
         public void setSelectedIndex(int index) {
-            if (index >= 0 && index <= getModel().getSize()) {
+            if (index >=0 && checkSelectedIndex(index)) {
                 int previousIndex = getSelectedIndex();
                 super.setSelectedIndex(index);
                 AlphaCellModel cellModel = getSelectedValue();
@@ -809,6 +821,11 @@ public class AlphaFineDialog extends UIDialog {
                 }
             }
             ensureIndexIsVisible(getSelectedIndex());
+        }
+
+        private boolean checkSelectedIndex(int index) {
+            int size = getModel().getSize();
+            return size > 0 && index < size;
         }
 
         private void initListListener() {
@@ -834,7 +851,7 @@ public class AlphaFineDialog extends UIDialog {
                 public void mouseClicked(MouseEvent e) {
                     int selectedIndex = getSelectedIndex();
                     AlphaCellModel selectedValue = getSelectedValue();
-                    if (e.getClickCount() == 2) {
+                    if (e.getClickCount() == 2 && !selectedValue.hasNoResult()) {
                         doNavigate();
                         saveHistory(selectedValue);
                     } else if (e.getClickCount() == 1) {
