@@ -578,7 +578,7 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
     }
-    
+
     /**
      * 窗口拖拽
      */
@@ -781,12 +781,11 @@ public class AlphaFineDialog extends UIDialog {
     }
 
 
-
-    //------------------------------------------------------
-    //----------------------自定义list-----------------------
-    //------------------------------------------------------
     /**
-     * 自定义JList
+     +-------------------------------------+
+     |             自定义JList              |
+     |                                     |
+     +-------------------------------------+
      */
     private class AlphaFineList extends JList<AlphaCellModel> {
 
