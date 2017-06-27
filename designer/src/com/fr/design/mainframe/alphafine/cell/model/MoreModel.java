@@ -10,14 +10,16 @@ import com.fr.json.JSONObject;
 public class MoreModel extends AlphaCellModel {
     private boolean needMore;
     private boolean isLoading;
+    private CellType contentType;
 
     public MoreModel(String name, String content, boolean needMore, CellType type) {
-        super(name, content, type);
+        super(name, content, CellType.MORE);
         this.needMore = needMore;
+        this.contentType = type;
     }
 
-    public MoreModel(String name, CellType type) {
-        super(name, null, type);
+    public MoreModel(String name) {
+        super(name, null, CellType.MORE);
         this.needMore = false;
     }
 
@@ -65,5 +67,13 @@ public class MoreModel extends AlphaCellModel {
     @Override
     public boolean isNeedToSendToServer() {
         return false;
+    }
+
+    public CellType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(CellType contentType) {
+        this.contentType = contentType;
     }
 }

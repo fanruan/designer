@@ -30,7 +30,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"), CellType.FILE);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"));
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;

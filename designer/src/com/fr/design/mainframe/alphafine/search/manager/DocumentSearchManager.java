@@ -19,7 +19,7 @@ import com.fr.stable.StringUtils;
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProcessor {
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"), CellType.DOCUMENT);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;

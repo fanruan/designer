@@ -20,7 +20,7 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProcessor {
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"), CellType.ACTION);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"));
     private static ActionSearchManager actionSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;

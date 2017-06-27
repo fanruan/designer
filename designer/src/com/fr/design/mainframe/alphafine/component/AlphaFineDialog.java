@@ -414,115 +414,131 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void showResult(final AlphaCellModel selectedValue) {
-        if (selectedValue instanceof FileModel) {
-            final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
-            showDefaultPreviewPane();
-            if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
-                checkWorker();
-                this.showWorker = new SwingWorker<BufferedImage, Void>() {
-                    @Override
-                    protected BufferedImage doInBackground() throws Exception {
-                        Form form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
-                        return FormIO.exportFormAsImage(form);
-                    }
-
-                    @Override
-                    protected void done() {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
+        switch (selectedValue.getType()) {
+            case FILE:
+                final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
+                showDefaultPreviewPane();
+                if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
+                    checkWorker();
+                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                        @Override
+                        protected BufferedImage doInBackground() {
+                            Form form = null;
                             try {
-                                rightSearchResultPane.add(new FilePreviewPane(get()));
-                            } catch (InterruptedException e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            } catch (ExecutionException e) {
+                                form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
+                            } catch (Exception e) {
                                 FRLogger.getLogger().error(e.getMessage());
                             }
-                            validate();
-                            repaint();
+                            return FormIO.exportFormAsImage(form);
                         }
 
-                    }
-                };
-                this.showWorker.execute();
-            } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
+                        @Override
+                        protected void done() {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                try {
+                                    rightSearchResultPane.add(new FilePreviewPane(get()));
+                                } catch (InterruptedException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                } catch (ExecutionException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                }
+                                validate();
+                                repaint();
+                            }
+
+                        }
+                    };
+                    this.showWorker.execute();
+                } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
+                    checkWorker();
+                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                        @Override
+                        protected BufferedImage doInBackground() {
+                            WorkBook workBook = null;
+                            try {
+                                workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
+                            } catch (Exception e) {
+                                FRLogger.getLogger().error(e.getMessage());
+                            }
+                            BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
+                            return bufferedImage;
+                        }
+
+                        @Override
+                        protected void done() {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                try {
+                                    rightSearchResultPane.add(new FilePreviewPane(get()));
+                                    validate();
+                                    repaint();
+                                } catch (InterruptedException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                } catch (ExecutionException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                }
+                            }
+
+                        }
+                    };
+                    this.showWorker.execute();
+                }
+                break;
+            case ACTION:
+                rightSearchResultPane.removeAll();
+                rightSearchResultPane.add(new ActionPreviewPane());
+                validate();
+                repaint();
+                break;
+            case DOCUMENT:
+                rightSearchResultPane.removeAll();
+                rightSearchResultPane.add(new DocumentPreviewPane((selectedValue).getName(), (selectedValue).getContent()));
+                validate();
+                repaint();
+                break;
+            case PLUGIN:
+            case REUSE:
+                showDefaultPreviewPane();
                 checkWorker();
-                this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                this.showWorker = new SwingWorker<Image, Void>() {
                     @Override
-                    protected BufferedImage doInBackground() throws Exception {
-                        WorkBook workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
-                        BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
+                    protected Image doInBackground() {
+                        BufferedImage bufferedImage = null;
+                        try {
+                            bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                        } catch (IOException e) {
+                            try {
+                                bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
+                            } catch (IOException e1) {
+                                FRLogger.getLogger().error(e.getMessage());
+                            }
+                        }
                         return bufferedImage;
                     }
 
                     @Override
                     protected void done() {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
-                            try {
-                                rightSearchResultPane.add(new FilePreviewPane(get()));
+                        try {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                rightSearchResultPane.add(new PluginPreviewPane((selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
                                 validate();
                                 repaint();
-                            } catch (InterruptedException e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            } catch (ExecutionException e) {
-                                FRLogger.getLogger().error(e.getMessage());
                             }
+                        } catch (InterruptedException e) {
+                            FRLogger.getLogger().error(e.getMessage());
+                        } catch (ExecutionException e) {
+                            FRLogger.getLogger().error(e.getMessage());
                         }
 
                     }
                 };
                 this.showWorker.execute();
+                break;
+            default:
+                return;
 
-
-            }
-        } else if (selectedValue instanceof DocumentModel) {
-            rightSearchResultPane.removeAll();
-            rightSearchResultPane.add(new DocumentPreviewPane(((DocumentModel) selectedValue).getName(), ((DocumentModel) selectedValue).getContent()));
-            validate();
-            repaint();
-        } else if (selectedValue instanceof PluginModel) {
-            showDefaultPreviewPane();
-            checkWorker();
-            this.showWorker = new SwingWorker<Image, Void>() {
-                @Override
-                protected Image doInBackground() {
-                    BufferedImage bufferedImage = null;
-                    try {
-                        bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
-                    } catch (IOException e) {
-                        try {
-                            bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
-                        } catch (IOException e1) {
-                            FRLogger.getLogger().error(e.getMessage());
-                        }
-                    }
-                    return bufferedImage;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
-                            rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
-                            validate();
-                            repaint();
-                        }
-                    } catch (InterruptedException e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    } catch (ExecutionException e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    }
-
-                }
-            };
-            this.showWorker.execute();
-
-        } else if (selectedValue instanceof ActionModel) {
-            rightSearchResultPane.removeAll();
-            rightSearchResultPane.add(new ActionPreviewPane());
-            validate();
-            repaint();
         }
 
     }
@@ -727,7 +743,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private SearchResult getMoreResult(MoreModel selectedValue) {
         SearchResult moreResult;
-        switch (selectedValue.getType()) {
+        switch (selectedValue.getContentType()) {
             case PLUGIN:
                 moreResult = PluginSearchManager.getPluginSearchManager().getMoreSearchResult();
                 break;
