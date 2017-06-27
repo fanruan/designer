@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
@@ -24,8 +25,6 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
-    //todo:for test
-    private static final String SEARCHAPI = "http://localhost:8080/cloud/intelligence/search/recommend?searchKey=";
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
     private List<AlphaCellModel> recommendModelList = new ArrayList<>();
@@ -43,7 +42,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         this.recommendModelList = new ArrayList<>();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
-            HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCHAPI + CodeUtils.cjkEncode(searchText));
             httpClient.asGet();
             httpClient.setTimeout(5000);
             if (!httpClient.isServerAlive()) {
