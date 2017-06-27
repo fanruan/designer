@@ -5,6 +5,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
@@ -70,7 +71,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                 }
             }
             SearchResult result = new SearchResult();
-            for (Object object : filterModelList) {
+            for (AlphaCellModel object : filterModelList) {
                 if (!AlphaFineHelper.getFilterResult().contains(object)) {
                     result.add(object);
                 }

@@ -27,7 +27,7 @@ import java.util.List;
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
-    private List<AlphaCellModel> recommendModelList = new ArrayList<>();
+    private SearchResult recommendModelList;
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
         if (recommendSearchManager == null) {
@@ -39,7 +39,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
-        this.recommendModelList = new ArrayList<>();
+        this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
             HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCHAPI + CodeUtils.cjkEncode(searchText));
@@ -105,7 +105,4 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         return recommendModelList;
     }
 
-    public void setRecommendModelList(List<AlphaCellModel> recommendModelList) {
-        this.recommendModelList = recommendModelList;
-    }
 }

@@ -6,6 +6,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
@@ -94,7 +95,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
         }
         SearchResult result = new SearchResult();
-        for (Object object : filterModelList) {
+        for (AlphaCellModel object : filterModelList) {
             if (!AlphaFineHelper.getFilterResult().contains(object)) {
                 result.add(object);
             }
