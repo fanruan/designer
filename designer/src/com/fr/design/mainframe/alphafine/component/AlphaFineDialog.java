@@ -78,16 +78,9 @@ public class AlphaFineDialog extends UIDialog {
     private SwingWorker searchWorker;
     private SwingWorker showWorker;
     private String storeText;
-
-    /**
-     * 是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
-     */
+    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
 
-    /**
-     *List的第一可用项是否被选中
-     */
-    private boolean isSelected;
 
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
@@ -343,7 +336,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void resetContainer() {
         searchListModel.removeAllElements();
-        setSelected(false);
+        searchListModel.resetSelectedState();
         rightSearchResultPane.removeAll();
         rightSearchResultPane.validate();
         rightSearchResultPane.repaint();
@@ -799,14 +792,6 @@ public class AlphaFineDialog extends UIDialog {
         this.storeText = storeText;
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
-
 
     /**
      +-------------------------------------+
@@ -905,6 +890,11 @@ public class AlphaFineDialog extends UIDialog {
     private class SearchListModel extends DefaultListModel<AlphaCellModel> {
         SearchResult myDelegate;
 
+        /**
+         * 第一有效的项是否被选中
+         */
+        private boolean isValidSelected;
+
         public SearchListModel(SearchResult searchResult) {
             this.myDelegate = searchResult;
         }
@@ -922,14 +912,14 @@ public class AlphaFineDialog extends UIDialog {
         }
 
         /**
-         * 触发选中
+         * 触发选中第一有效的项
          * @param element
          * @param index
          */
         private void fireSelectedStateChanged(AlphaCellModel element, int index) {
-            if (element.hasAction() && !isSelected()) {
+            if (element.hasAction() && !isValidSelected()) {
                 searchResultList.setSelectedIndex(index);
-                setSelected(true);
+                setValidSelected(true);
             }
         }
 
@@ -960,6 +950,21 @@ public class AlphaFineDialog extends UIDialog {
         @Override
         public void removeAllElements() {
             this.myDelegate.clear();
+        }
+
+        /**
+         * 重置选中状态
+         */
+        public void resetSelectedState() {
+            setValidSelected(false);
+        }
+
+        public boolean isValidSelected() {
+            return isValidSelected;
+        }
+
+        private void setValidSelected(boolean selected) {
+            isValidSelected = selected;
         }
     }
 
