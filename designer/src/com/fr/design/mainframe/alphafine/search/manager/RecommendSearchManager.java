@@ -17,7 +17,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,7 +63,6 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                         }
                     }
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
             }
@@ -74,17 +72,21 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                     modelIterator.remove();
                 }
-
             }
             if (recommendModelList.size() > 0) {
                 modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
                 modelList.addAll(recommendModelList);
             }
         }
-
         return modelList;
     }
 
+    /**
+     * 是否已包含该model
+     *
+     * @param cellModel
+     * @return
+     */
     private boolean alreadyContain(AlphaCellModel cellModel) {
         return RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
