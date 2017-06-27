@@ -6,6 +6,11 @@ import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * Created by XiaXiang on 2017/4/20.
  */
@@ -50,6 +55,17 @@ public class DocumentModel extends AlphaCellModel {
     @Override
     public String getStoreInformation() {
         return getInformationUrl();
+    }
+
+    @Override
+    public void doAction() {
+        try {
+            Desktop.getDesktop().browse(new URI(getDocumentUrl()));
+        } catch (IOException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        } catch (URISyntaxException e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
     }
 
     @Override

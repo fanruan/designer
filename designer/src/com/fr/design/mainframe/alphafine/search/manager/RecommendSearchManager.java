@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
     //todo:for test
-    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
+    private static final String SEARCHAPI = "http://localhost:8080/cloud/intelligence/search/recommend?searchKey=";
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
     private List<AlphaCellModel> recommendModelList = new ArrayList<>();
@@ -59,7 +59,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaFineHelper.checkCancel();
                             AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                            if (alphaCellModel != null && !RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
+                            if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
                                 this.recommendModelList.add(alphaCellModel);
                             }
                         }
@@ -84,6 +84,10 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         }
 
         return modelList;
+    }
+
+    private boolean alreadyContain(AlphaCellModel cellModel) {
+        return RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
 
     private SearchResult getNoConnectList() {

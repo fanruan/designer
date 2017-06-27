@@ -1,7 +1,10 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.file.FileNodeFILE;
+import com.fr.file.filetree.FileNode;
 import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
@@ -49,6 +52,15 @@ public class FileModel extends AlphaCellModel {
         return getFilePath();
     }
 
+    @Override
+    public void doAction() {
+        DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(getFilePath(), false)));
+    }
+
+    @Override
+    public boolean isNeedToSendToServer() {
+        return false;
+    }
 
     @Override
     public boolean equals(Object o) {

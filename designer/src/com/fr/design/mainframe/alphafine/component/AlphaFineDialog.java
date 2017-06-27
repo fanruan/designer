@@ -6,7 +6,6 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
@@ -21,8 +20,6 @@ import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.search.manager.*;
-import com.fr.file.FileNodeFILE;
-import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
@@ -47,8 +44,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -257,7 +252,27 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化搜索面板
      */
     private void initSearchResultComponents() {
-        searchResultList = new JList();
+        searchResultList = new JList() {
+            @Override
+            public void setSelectedIndex(int index) {
+                if (index > 0 && index < getModel().getSize()) {
+                    int previousIndex = getSelectedIndex();
+                    super.setSelectedIndex(index);
+                    Object object = getSelectedValue();
+                    if (object instanceof MoreModel || ((AlphaCellModel) object).hasNoResult()) {
+                        if (previousIndex <= getSelectedIndex()) {
+                            setSelectedIndex(index + 1);
+                        } else {
+                            setSelectedIndex(index - 1);
+                        }
+
+                    }
+                }
+                ensureIndexIsVisible(getSelectedIndex());
+
+            }
+        };
+        searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
         searchListModel = new SearchListModel(new SearchResult());
         searchResultList.setModel(searchListModel);
         searchResultPane = new JPanel();
@@ -564,7 +579,7 @@ public class AlphaFineDialog extends UIDialog {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     Object selectedValue = searchResultList.getSelectedValue();
-                    doNavigate(searchResultList.getSelectedIndex());
+                    doNavigate();
                     if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
                         saveHistory((AlphaCellModel) selectedValue);
                     }
@@ -594,7 +609,7 @@ public class AlphaFineDialog extends UIDialog {
                 int selectedIndex = searchResultList.getSelectedIndex();
                 Object selectedValue = searchResultList.getSelectedValue();
                 if (e.getClickCount() == 2) {
-                    doNavigate(selectedIndex);
+                    doNavigate();
                     if (selectedValue instanceof AlphaCellModel) {
                         saveHistory((AlphaCellModel) selectedValue);
                     }
@@ -689,34 +704,12 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
-    private void doNavigate(int index) {
+    private void doNavigate() {
         AlphaFineDialog.this.dispose();
         final Object value = searchResultList.getSelectedValue();
-        if (value instanceof ActionModel) {
-            ((ActionModel) value).getAction().actionPerformed(null);
-        } else if (value instanceof FileModel) {
-            DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(((FileModel) value).getFilePath(), false)));
-        } else if (value instanceof PluginModel) {
-            String url = ((PluginModel) value).getPluginUrl();
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            } catch (URISyntaxException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
-        } else if (value instanceof DocumentModel) {
-            String url = ((DocumentModel) value).getDocumentUrl();
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
-
-            } catch (URISyntaxException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
+        if (value instanceof AlphaCellModel) {
+            ((AlphaCellModel)(value)).doAction();
         }
-
     }
 
     /**
@@ -740,29 +733,33 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void sendToServer(String searchKey, AlphaCellModel cellModel) {
-        String username = DesignerEnvManager.getEnvManager().getBBSName();
-        String uuid = DesignerEnvManager.getEnvManager().getUUID();
-        String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
-        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
-        String key = searchKey;
-        int resultkind = cellModel.getType().getTypeValue();
-        String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
-        JSONObject object = JSONObject.create();
-        try {
-            object.put("uuid", uuid).put("activitykey", activitykey).put("username", username).put("createtime", createTime).put("key", key).put("resultkind", resultkind).put("resultValue", resultValue);
-        } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+        if (cellModel.isNeedToSendToServer()) {
+            String username = DesignerEnvManager.getEnvManager().getBBSName();
+            String uuid = DesignerEnvManager.getEnvManager().getUUID();
+            String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
+            String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+            String key = searchKey;
+            int resultKind = cellModel.getType().getTypeValue();
+            String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
+            JSONObject object = JSONObject.create();
+            try {
+                object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
+            } catch (JSONException e) {
+                FRLogger.getLogger().error(e.getMessage());
+            }
+            final HashMap<String, String> para = new HashMap<>();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+            para.put("content", object.toString());
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_TEST_URL,  para, true);
+            httpClient.setTimeout(5000);
+            httpClient.asGet();
+            if (!httpClient.isServerAlive()) {
+                FRLogger.getLogger().error("Failed to sent data to server!");
+            }
         }
-        HashMap<String, String> para = new HashMap<>();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
-        para.put("content", object.toString());
-        HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_TEST_URL, para, true);
-        httpClient.setTimeout(5000);
-        httpClient.asGet();
-        if (!httpClient.isServerAlive()) {
-            FRLogger.getLogger().error("Failed to sent data to server!");
-        }
+
+
 
     }
 

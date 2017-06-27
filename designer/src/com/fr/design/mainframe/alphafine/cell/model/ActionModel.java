@@ -69,6 +69,11 @@ public class ActionModel extends AlphaCellModel {
         return getClassName();
     }
 
+    @Override
+    public void doAction() {
+        getAction().actionPerformed(null);
+    }
+
     public String getClassName() {
         return getAction().getClass().getName();
     }
