@@ -903,12 +903,8 @@ public class AlphaFineDialog extends UIDialog {
         public void addElement(AlphaCellModel element) {
             int index = myDelegate.size();
             myDelegate.add(element);
-
-
             fireContentsChanged(this, index, index);
-
             fireSelectedStateChanged(element, index);
-
         }
 
         /**
