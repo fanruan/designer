@@ -1,11 +1,13 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 
 /**
  * Created by XiaXiang on 2017/4/20.
  */
-public class MoreModel {
+public class MoreModel extends AlphaCellModel {
     private String name;
     private boolean needMore;
     private String content;
@@ -59,6 +61,21 @@ public class MoreModel {
         this.content = content;
     }
 
+    @Override
+    public JSONObject ModelToJson() throws JSONException {
+        return null;
+    }
+
+    @Override
+    public String getStoreInformation() {
+        return null;
+    }
+
+    @Override
+    public void doAction() {
+
+    }
+
     public CellType getType() {
         return type;
     }
@@ -73,5 +90,15 @@ public class MoreModel {
 
     public void setLoading(boolean loading) {
         isLoading = loading;
+    }
+
+    @Override
+    public boolean hasNoResult() {
+        return true;
+    }
+
+    @Override
+    public boolean isNeedToSendToServer() {
+        return false;
     }
 }

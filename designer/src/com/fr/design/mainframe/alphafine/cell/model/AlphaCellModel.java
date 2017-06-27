@@ -28,6 +28,10 @@ public abstract class AlphaCellModel implements Comparable {
 
     }
 
+    public AlphaCellModel() {
+
+    }
+
     public CellType getType() {
         return type;
     }

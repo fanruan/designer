@@ -74,10 +74,11 @@ public class AlphaFineDialog extends UIDialog {
     private Point pressedPoint;
     private UIScrollPane leftSearchResultPane;
     private JPanel rightSearchResultPane;
-    private JList searchResultList;
+    private AlphaFineList searchResultList;
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
     private SwingWorker showWorker;
+    private String storeText;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
 
@@ -113,6 +114,9 @@ public class AlphaFineDialog extends UIDialog {
         };
     }
 
+    /**
+     * 打开搜索框
+     */
     private static void doClickAction() {
         AlphaFineHelper.showAlphaFineDialog(false);
     }
@@ -243,7 +247,7 @@ public class AlphaFineDialog extends UIDialog {
     private void showSearchResult() {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initListListener();
+            initTextFieldKeyListener();
         }
         initSearchWorker();
     }
@@ -252,27 +256,8 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化搜索面板
      */
     private void initSearchResultComponents() {
-        searchResultList = new JList() {
-            @Override
-            public void setSelectedIndex(int index) {
-                if (index > 0 && index < getModel().getSize()) {
-                    int previousIndex = getSelectedIndex();
-                    super.setSelectedIndex(index);
-                    Object object = getSelectedValue();
-                    if (object instanceof MoreModel || ((AlphaCellModel) object).hasNoResult()) {
-                        if (previousIndex <= getSelectedIndex()) {
-                            setSelectedIndex(index + 1);
-                        } else {
-                            setSelectedIndex(index - 1);
-                        }
-
-                    }
-                }
-                ensureIndexIsVisible(getSelectedIndex());
-
-            }
-        };
-        searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
+        searchResultList = new AlphaFineList();
+        //searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
         searchListModel = new SearchListModel(new SearchResult());
         searchResultList.setModel(searchListModel);
         searchResultPane = new JPanel();
@@ -310,9 +295,9 @@ public class AlphaFineDialog extends UIDialog {
 
             @Override
             protected void done() {
-                if (!isCancelled() && searchListModel.getSize() > 1) {
-                    searchResultList.setSelectedIndex(1);
-                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
+                if (!isCancelled()) {
+                    searchResultList.setSelectedIndex(0);
+                    showResult(searchResultList.getSelectedValue());
                 }
             }
         };
@@ -326,23 +311,32 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void rebuildList(String searchText) {
+        searchResultList.resetSelectedIndex();
         searchListModel.removeAllElements();
+        searchResultList.resetSelectedIndex();
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
-                getActionList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getActionList(storeText);
             } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
-                getDocumentList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getDocumentList(storeText);
             } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-                getFileList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getFileList(storeText);
             } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
                 getFileList(searchText);
             } else if (searchText.startsWith(DS_MARK)) {
-                getFileList(DS_NAME + searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getFileList(DS_NAME + storeText);
             } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
-                getPluginList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getPluginList(storeText);
             }
         } else {
-            doNormalSearch(searchText.trim());
+            storeText = searchText.trim();
+            doNormalSearch(storeText);
         }
 
     }
@@ -410,7 +404,7 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
-    private void showResult(int index, final Object selectedValue) {
+    private void showResult(final AlphaCellModel selectedValue) {
         if (selectedValue instanceof FileModel) {
             final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             showDefaultPreviewPane();
@@ -562,30 +556,7 @@ public class AlphaFineDialog extends UIDialog {
         initMouseListener();
     }
 
-    /**
-     * 为面板中各组件添加监听器
-     */
-    private void initListListener() {
-        initListMouseListener();
-        initListKeyListener();
-    }
-
-    private void initListKeyListener() {
-        /**
-         * 为list添加键盘监听器
-         */
-        searchResultList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    Object selectedValue = searchResultList.getSelectedValue();
-                    doNavigate();
-                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                }
-            }
-        });
+    private void initTextFieldKeyListener() {
         /**
          * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
          */
@@ -599,40 +570,7 @@ public class AlphaFineDialog extends UIDialog {
         });
     }
 
-    private void initListMouseListener() {
-        /**
-         * 鼠标监听器
-         */
-        searchResultList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selectedIndex = searchResultList.getSelectedIndex();
-                Object selectedValue = searchResultList.getSelectedValue();
-                if (e.getClickCount() == 2) {
-                    doNavigate();
-                    if (selectedValue instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                } else if (e.getClickCount() == 1) {
-                    if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
-                        HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
-                    }
-                }
-            }
-        });
-        /**
-         *单击时触发右侧面板展示搜索结果
-         */
-        searchResultList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
 
-                }
-            }
-        });
-    }
 
     /**
      * 窗口拖拽
@@ -706,10 +644,8 @@ public class AlphaFineDialog extends UIDialog {
 
     private void doNavigate() {
         AlphaFineDialog.this.dispose();
-        final Object value = searchResultList.getSelectedValue();
-        if (value instanceof AlphaCellModel) {
-            ((AlphaCellModel)(value)).doAction();
-        }
+        final AlphaCellModel model = searchResultList.getSelectedValue();
+        model.doAction();
     }
 
     /**
@@ -718,11 +654,10 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void saveHistory(AlphaCellModel cellModel) {
-        String searchText = searchTextField.getText();
         RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
-        recentSearchManager.addRecentModel(searchText, cellModel);
+        recentSearchManager.addRecentModel(storeText, cellModel);
         recentSearchManager.saveXMLFile();
-        sendToServer(searchText, cellModel);
+        sendToServer(storeText, cellModel);
 
     }
 
@@ -781,18 +716,6 @@ public class AlphaFineDialog extends UIDialog {
 
             }
         }
-        this.searchResultList.validate();
-        this.searchResultList.repaint();
-        validate();
-        repaint();
-
-    }
-
-    private void rebuildList() {
-        this.searchResultList.validate();
-        this.searchResultList.repaint();
-        validate();
-        repaint();
     }
 
     private SearchResult getMoreResult(MoreModel selectedValue) {
@@ -840,6 +763,103 @@ public class AlphaFineDialog extends UIDialog {
 
     public void setForceOpen(boolean forceOpen) {
         this.forceOpen = forceOpen;
+    }
+
+    public String getStoreText() {
+        return storeText;
+    }
+
+    public void setStoreText(String storeText) {
+        this.storeText = storeText;
+    }
+
+    /**
+     * 自定义JList
+     */
+    private class AlphaFineList extends JList<AlphaCellModel> {
+
+        public AlphaFineList() {
+            initListListener();
+        }
+
+        /**
+         * 重置选项
+         */
+        public void resetSelectedIndex() {
+            super.setSelectedIndex(0);
+        }
+
+        /**
+         * 重写选中的方法
+         * @param index
+         */
+        @Override
+        public void setSelectedIndex(int index) {
+            if (index >= 0 && index <= getModel().getSize()) {
+                int previousIndex = getSelectedIndex();
+                super.setSelectedIndex(index);
+                AlphaCellModel cellModel = getSelectedValue();
+                if (cellModel != null && cellModel.hasNoResult()) {
+                    if (previousIndex <= getSelectedIndex()) {
+                        setSelectedIndex(index + 1);
+                    } else {
+                        setSelectedIndex(index - 1);
+                    }
+
+                }
+            }
+            ensureIndexIsVisible(getSelectedIndex());
+        }
+
+        private void initListListener() {
+
+            /**
+             * 为list添加键盘监听器
+             */
+            addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        doNavigate();
+                        saveHistory(getSelectedValue());
+                    }
+                }
+            });
+
+            /**
+             * 为list添加鼠标监听器
+             */
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int selectedIndex = getSelectedIndex();
+                    AlphaCellModel selectedValue = getSelectedValue();
+                    if (e.getClickCount() == 2) {
+                        doNavigate();
+                        saveHistory(selectedValue);
+                    } else if (e.getClickCount() == 1) {
+                        if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
+                            HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                        }
+                    }
+                }
+            });
+
+            /**
+             *单击时触发右侧面板展示搜索结果
+             */
+            addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        showResult(getSelectedValue());
+
+                    }
+                }
+            });
+        }
+
+
     }
 
 }
