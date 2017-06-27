@@ -26,18 +26,18 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         AlphaCellModel model = (AlphaCellModel) value;
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(null);
-        if (isSelected && !model.hasNoResult()) {
-            panel.setBackground(AlphaFineConstants.BLUE);
-        }
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         titleLabel.setText("  " + model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-        if (model.hasNoResult()) {
-            titleLabel.setIcon(null);
-            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
-        } else {
+        if (model.hasAction()) {
+            if (isSelected) {
+                panel.setBackground(AlphaFineConstants.BLUE);
+            }
             titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
             titleLabel.setForeground(AlphaFineConstants.BLACK);
+        } else {
+            titleLabel.setIcon(null);
+            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         }
         titleLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
         String description = model.getDescription();

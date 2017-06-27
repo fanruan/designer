@@ -829,7 +829,7 @@ public class AlphaFineDialog extends UIDialog {
                 int previousIndex = getSelectedIndex();
                 super.setSelectedIndex(index);
                 AlphaCellModel cellModel = getSelectedValue();
-                if (cellModel != null && cellModel.hasNoResult()) {
+                if (cellModel != null && !cellModel.hasAction()) {
                     if (previousIndex <= getSelectedIndex()) {
                         setSelectedIndex(index + 1);
                     } else {
@@ -869,7 +869,7 @@ public class AlphaFineDialog extends UIDialog {
                 public void mouseClicked(MouseEvent e) {
                     int selectedIndex = getSelectedIndex();
                     AlphaCellModel selectedValue = getSelectedValue();
-                    if (e.getClickCount() == 2 && !selectedValue.hasNoResult()) {
+                    if (e.getClickCount() == 2 && selectedValue.hasAction()) {
                         doNavigate();
                         saveHistory(selectedValue);
                     } else if (e.getClickCount() == 1) {

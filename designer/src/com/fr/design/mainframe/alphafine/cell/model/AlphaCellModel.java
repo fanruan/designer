@@ -61,8 +61,8 @@ public abstract class AlphaCellModel implements Comparable {
         this.description = description;
     }
 
-    public boolean hasNoResult() {
-        return false;
+    public boolean hasAction() {
+        return true;
     }
 
     public boolean isNeedToSendToServer() {

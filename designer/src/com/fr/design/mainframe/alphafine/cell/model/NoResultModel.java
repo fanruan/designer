@@ -28,8 +28,8 @@ public class NoResultModel extends AlphaCellModel {
     }
 
     @Override
-    public boolean hasNoResult() {
-        return true;
+    public boolean hasAction() {
+        return false;
     }
 
     @Override
