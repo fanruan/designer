@@ -9,7 +9,10 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.FileModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
@@ -80,7 +83,6 @@ public class AlphaFineDialog extends UIDialog {
     private String storeText;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
-
 
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
@@ -407,6 +409,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 右侧面板展示搜索结果的内容
+     *
      * @param selectedValue
      */
     private void showResult(final AlphaCellModel selectedValue) {
@@ -705,14 +708,13 @@ public class AlphaFineDialog extends UIDialog {
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
             para.put("content", object.toString());
-            HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL,  para, true);
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
             httpClient.setTimeout(5000);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
                 FRLogger.getLogger().error("Failed to sent data to server!");
             }
         }
-
 
 
     }
@@ -794,9 +796,9 @@ public class AlphaFineDialog extends UIDialog {
 
 
     /**
-     +-------------------------------------+
-     |             自定义JList              |
-     +-------------------------------------+
+     * +-------------------------------------+
+     * |             自定义JList              |
+     * +-------------------------------------+
      */
     private class AlphaFineList extends JList<AlphaCellModel> {
 
@@ -806,11 +808,12 @@ public class AlphaFineDialog extends UIDialog {
 
         /**
          * 重写选中的方法
+         *
          * @param index
          */
         @Override
         public void setSelectedIndex(int index) {
-            if (index >=0 && checkSelectedIndex(index)) {
+            if (index >= 0 && checkSelectedIndex(index)) {
                 int previousIndex = getSelectedIndex();
                 super.setSelectedIndex(index);
                 AlphaCellModel cellModel = getSelectedValue();
@@ -883,9 +886,9 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     +-------------------------------------+
-     |           自定义ListModel            |
-     +-------------------------------------+
+     * +-------------------------------------+
+     * |           自定义ListModel            |
+     * +-------------------------------------+
      */
     private class SearchListModel extends DefaultListModel<AlphaCellModel> {
         SearchResult myDelegate;
@@ -909,6 +912,7 @@ public class AlphaFineDialog extends UIDialog {
 
         /**
          * 触发选中第一有效的项
+         *
          * @param element
          * @param index
          */
