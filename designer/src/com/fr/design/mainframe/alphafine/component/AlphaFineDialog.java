@@ -13,7 +13,6 @@ import com.fr.design.mainframe.alphafine.cell.model.*;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
-import com.fr.design.mainframe.alphafine.model.SearchListModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
@@ -79,8 +78,16 @@ public class AlphaFineDialog extends UIDialog {
     private SwingWorker searchWorker;
     private SwingWorker showWorker;
     private String storeText;
-    //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
+
+    /**
+     * 是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
+     */
     private boolean forceOpen;
+
+    /**
+     *List的第一可用项是否被选中
+     */
+    private boolean isSelected;
 
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
@@ -292,14 +299,6 @@ public class AlphaFineDialog extends UIDialog {
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
-
-            @Override
-            protected void done() {
-                if (!isCancelled() && getModel().getSize() > 0) {
-                    searchResultList.setSelectedIndex(0);
-                    showResult(searchResultList.getSelectedValue());
-                }
-            }
         };
         this.searchWorker.execute();
     }
@@ -343,8 +342,8 @@ public class AlphaFineDialog extends UIDialog {
      * 重置面板
      */
     private void resetContainer() {
-        searchResultList.resetSelectedIndex();
         searchListModel.removeAllElements();
+        setSelected(false);
         rightSearchResultPane.removeAll();
         rightSearchResultPane.validate();
         rightSearchResultPane.repaint();
@@ -800,6 +799,14 @@ public class AlphaFineDialog extends UIDialog {
         this.storeText = storeText;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
 
     /**
      +-------------------------------------+
@@ -810,13 +817,6 @@ public class AlphaFineDialog extends UIDialog {
 
         public AlphaFineList() {
             initListListener();
-        }
-
-        /**
-         * 重置选项
-         */
-        public void resetSelectedIndex() {
-            super.setSelectedIndex(0);
         }
 
         /**
@@ -886,7 +886,7 @@ public class AlphaFineDialog extends UIDialog {
             addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    if (!e.getValueIsAdjusting()) {
+                    if (!e.getValueIsAdjusting() && getSelectedValue() != null) {
                         showResult(getSelectedValue());
 
                     }
@@ -895,6 +895,63 @@ public class AlphaFineDialog extends UIDialog {
         }
 
 
+    }
+
+    /**
+     +-------------------------------------+
+     |           自定义ListModel            |
+     +-------------------------------------+
+     */
+    private class SearchListModel extends DefaultListModel<AlphaCellModel> {
+        SearchResult myDelegate;
+
+        public SearchListModel(SearchResult searchResult) {
+            this.myDelegate = searchResult;
+        }
+
+        @Override
+        public void addElement(AlphaCellModel element) {
+            int index = myDelegate.size();
+            myDelegate.add(element);
+
+
+            fireContentsChanged(this, index, index);
+
+            if (element.hasAction() && !isSelected()) {
+                searchResultList.setSelectedIndex(index);
+                setSelected(true);
+            }
+
+        }
+
+        @Override
+        public AlphaCellModel getElementAt(int index) {
+            return myDelegate.get(index);
+        }
+
+        @Override
+        public void add(int index, AlphaCellModel element) {
+            myDelegate.add(index, element);
+            fireIntervalAdded(this, index, index);
+        }
+
+        @Override
+        public AlphaCellModel remove(int index) {
+            AlphaCellModel object = myDelegate.get(index);
+            myDelegate.remove(object);
+            fireIntervalRemoved(this, index, index);
+            return object;
+        }
+
+        @Override
+        public int getSize() {
+            return this.myDelegate.size();
+        }
+
+        @Override
+        public void removeAllElements() {
+            this.myDelegate.clear();
+        }
     }
 
 }
