@@ -27,11 +27,7 @@ public abstract class AlphaCellModel implements Comparable {
         this.content = content;
 
     }
-
-    public AlphaCellModel() {
-
-    }
-
+    
     public CellType getType() {
         return type;
     }
