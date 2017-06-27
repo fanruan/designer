@@ -413,6 +413,10 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
+    /**
+     * 右侧面板展示搜索结果的内容
+     * @param selectedValue
+     */
     private void showResult(final AlphaCellModel selectedValue) {
         switch (selectedValue.getType()) {
             case FILE:
