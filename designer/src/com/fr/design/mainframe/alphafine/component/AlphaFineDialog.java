@@ -587,9 +587,8 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN && searchTextField.hasFocus()) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
-                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 }
             }
         });
@@ -883,6 +882,13 @@ public class AlphaFineDialog extends UIDialog {
                         showResult(getSelectedValue());
 
                     }
+                }
+            });
+
+            addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 }
             });
         }
