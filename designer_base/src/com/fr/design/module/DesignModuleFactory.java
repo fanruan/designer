@@ -2,7 +2,6 @@ package com.fr.design.module;
 
 import com.fr.base.FRContext;
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.gui.chart.MiddleChartDialog;
@@ -31,16 +30,6 @@ import java.util.ArrayList;
  */
 public class DesignModuleFactory {
     private static DesignModuleFactory instance = new DesignModuleFactory();
-
-    private static ChartCollection chartCollection;
-
-    public static ChartCollection getChartCollection() {
-        return chartCollection;
-    }
-
-    public static void setChartCollection(ChartCollection chartCollection) {
-        DesignModuleFactory.chartCollection = chartCollection;
-    }
 
     private DesignModuleFactory() {
 
