@@ -296,21 +296,17 @@ public class PluginOperateUtils {
                 && StringUtils.isNotEmpty(pluginView.getEnvVersion());
     }
 
-    public static String getSuccessInfo(PluginTaskResult result){
+    public static String getSuccessInfo(PluginTaskResult result) {
         StringBuilder pluginInfo = new StringBuilder();
-        PluginTask currentTask = result.getCurrentTask();
-        PluginContext context = PluginManager.getContext(currentTask.getMarker());
-        if(context != null){
-            pluginInfo.append(context.getName());
-        }
         List<PluginTaskResult> pluginTaskResults = result.asList();
-        for(PluginTaskResult pluginTaskResult : pluginTaskResults){
-            List<PluginTask> pluginTasks = pluginTaskResult.getPreTasks();
-            for(PluginTask pluginTask : pluginTasks){
-                PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
-                if(pluginContext != null){
-                    pluginInfo.append(pluginContext.getName());
-                }
+        for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
+            if(pluginInfo.length() != 0){
+                pluginInfo.append("、");
+            }
+            PluginTask pluginTask = pluginTaskResult.getCurrentTask();
+            PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
+            if (pluginContext != null) {
+                pluginInfo.append(pluginContext.getName());
             }
         }
         return pluginInfo.toString();
