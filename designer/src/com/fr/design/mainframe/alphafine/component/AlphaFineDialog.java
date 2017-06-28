@@ -873,13 +873,6 @@ public class AlphaFineDialog extends UIDialog {
                     }
                 }
             });
-
-            addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    setSelectedIndex(searchResultList.getSelectedIndex() + 1);
-                }
-            });
         }
     }
 
