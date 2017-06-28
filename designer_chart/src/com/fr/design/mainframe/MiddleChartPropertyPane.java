@@ -15,6 +15,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.general.Inter;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +37,8 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		
 		createNameLabel();
 		this.add(createNorthComponent(), BorderLayout.NORTH);
+		chartEditPane =  StableUtils.construct(ChartEditPane.class);
+		chartEditPane.setSupportCellData(true);
 	}
 
 	public void addChartEditPane(String plotID){
