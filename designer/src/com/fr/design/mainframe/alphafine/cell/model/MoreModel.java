@@ -1,46 +1,31 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.CellType;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 
 /**
  * Created by XiaXiang on 2017/4/20.
  */
-public class MoreModel {
-    private String name;
+public class MoreModel extends AlphaCellModel {
     private boolean needMore;
-    private String content;
-    private CellType type;
     private boolean isLoading;
+    private CellType contentType;
 
     public MoreModel(String name, String content, boolean needMore, CellType type) {
-        this.name = name;
+        super(name, content, CellType.MORE);
         this.needMore = needMore;
-        this.content = content;
-        this.type = type;
-    }
-
-    public MoreModel(String name, CellType type) {
-        this.name = name;
-        this.needMore = false;
-        this.type = type;
+        this.contentType = type;
     }
 
     public MoreModel(String name) {
-        this.name = name;
-        this.isLoading = true;
+        super(name, null, CellType.MORE);
+        this.needMore = false;
     }
 
     public MoreModel(String name, boolean isLoading) {
-        this.name = name;
+        super(name, null, CellType.MORE);
         this.isLoading = isLoading;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean isNeedMore() {
@@ -51,20 +36,19 @@ public class MoreModel {
         this.needMore = needMore;
     }
 
-    public String getContent() {
-        return content;
+    @Override
+    public JSONObject ModelToJson() throws JSONException {
+        return null;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    @Override
+    public String getStoreInformation() {
+        return null;
     }
 
-    public CellType getType() {
-        return type;
-    }
+    @Override
+    public void doAction() {
 
-    public void setType(CellType type) {
-        this.type = type;
     }
 
     public boolean isLoading() {
@@ -73,5 +57,23 @@ public class MoreModel {
 
     public void setLoading(boolean loading) {
         isLoading = loading;
+    }
+
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public boolean isNeedToSendToServer() {
+        return false;
+    }
+
+    public CellType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(CellType contentType) {
+        this.contentType = contentType;
     }
 }

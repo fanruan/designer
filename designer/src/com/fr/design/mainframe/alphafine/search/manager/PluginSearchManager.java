@@ -23,7 +23,7 @@ import java.net.URLEncoder;
  * Created by XiaXiang on 2017/3/27.
  */
 public class PluginSearchManager implements AlphaFineSearchProcessor {
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), CellType.PLUGIN);
+    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"));
     private static PluginSearchManager pluginSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -93,11 +93,11 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 String encodedKey = URLEncoder.encode(searchText, "UTF-8");
                 String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
                 HttpClient httpClient = new HttpClient(url);
-                httpClient.setTimeout(5000);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
                 }
+                httpClient.setTimeout(5000);
                 result = httpClient.getResponseText();
                 AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);

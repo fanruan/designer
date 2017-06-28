@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.alphafine.search.manager;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
@@ -16,7 +17,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,11 +24,9 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProcessor {
-    //todo:for test
-    private static final String SEARCHAPI = "http://localhost:8080/monitor/alphafine/search/recommend?searchKey=";
     private static RecommendSearchManager recommendSearchManager = null;
     private SearchResult modelList;
-    private List<AlphaCellModel> recommendModelList = new ArrayList<>();
+    private SearchResult recommendModelList;
 
     public synchronized static RecommendSearchManager getRecommendSearchManager() {
         if (recommendSearchManager == null) {
@@ -40,15 +38,15 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
-        this.recommendModelList = new ArrayList<>();
+        this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
-            HttpClient httpClient = new HttpClient(SEARCHAPI + CodeUtils.cjkEncode(searchText));
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText));
             httpClient.asGet();
-            httpClient.setTimeout(5000);
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
+            httpClient.setTimeout(5000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {
@@ -59,13 +57,12 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaFineHelper.checkCancel();
                             AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                            if (alphaCellModel != null && !RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(alphaCellModel)) {
+                            if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
                                 this.recommendModelList.add(alphaCellModel);
                             }
                         }
                     }
                 }
-
             } catch (JSONException e) {
                 FRLogger.getLogger().error("recommend search error! :" + e.getMessage());
             }
@@ -75,15 +72,23 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
                 if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
                     modelIterator.remove();
                 }
-
             }
             if (recommendModelList.size() > 0) {
                 modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
                 modelList.addAll(recommendModelList);
             }
         }
-
         return modelList;
+    }
+
+    /**
+     * 是否已包含该model
+     *
+     * @param cellModel
+     * @return
+     */
+    private boolean alreadyContain(AlphaCellModel cellModel) {
+        return RecentSearchManager.getRecentSearchManger().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
 
     private SearchResult getNoConnectList() {
@@ -102,7 +107,4 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         return recommendModelList;
     }
 
-    public void setRecommendModelList(List<AlphaCellModel> recommendModelList) {
-        this.recommendModelList = recommendModelList;
-    }
 }
