@@ -24,7 +24,7 @@ public class MoreModel extends AlphaCellModel {
     }
 
     public MoreModel(String name, boolean isLoading) {
-        super(name, null);
+        super(name, null, CellType.MORE);
         this.isLoading = isLoading;
     }
 

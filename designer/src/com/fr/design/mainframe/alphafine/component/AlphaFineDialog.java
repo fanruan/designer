@@ -587,8 +587,9 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN && searchTextField.hasFocus()) {
                     searchResultList.requestFocus();
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 }
             }
         });
@@ -813,7 +814,7 @@ public class AlphaFineDialog extends UIDialog {
          */
         @Override
         public void setSelectedIndex(int index) {
-            if (index >= 0 && checkSelectedIndex(index)) {
+            if (index > 0 && checkSelectedIndex(index)) {
                 int previousIndex = getSelectedIndex();
                 super.setSelectedIndex(index);
                 AlphaCellModel cellModel = getSelectedValue();
@@ -845,6 +846,10 @@ public class AlphaFineDialog extends UIDialog {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                         doNavigate();
                         saveHistory(getSelectedValue());
+                    } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        if (getSelectedIndex() == 1) {
+                            searchTextField.requestFocus();
+                        }
                     }
                 }
             });
