@@ -23,11 +23,15 @@ public class NullCreator extends XWidgetCreator {
 
 	@Override
 	protected JComponent initEditor() {
-		UILabel l = new UILabel("UNEXPECTED WIDGET");
+		UILabel l = new UILabel(showText());
 		l.setForeground(Color.red);
 		l.setVerticalAlignment(SwingConstants.CENTER);
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		setBorder(DEFALUTBORDER);
 		return editor = l;
+	}
+
+	protected String showText() {
+		return "UNEXPECTED WIDGET";
 	}
 }
