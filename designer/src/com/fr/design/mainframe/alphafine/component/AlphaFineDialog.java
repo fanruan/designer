@@ -587,9 +587,8 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN && searchTextField.hasFocus()) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
-                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 }
             }
         });
@@ -836,10 +835,6 @@ public class AlphaFineDialog extends UIDialog {
         }
 
         private void initListListener() {
-
-            /**
-             * 为list添加键盘监听器
-             */
             addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -854,9 +849,6 @@ public class AlphaFineDialog extends UIDialog {
                 }
             });
 
-            /**
-             * 为list添加鼠标监听器
-             */
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -873,21 +865,22 @@ public class AlphaFineDialog extends UIDialog {
                 }
             });
 
-            /**
-             *单击时触发右侧面板展示搜索结果
-             */
             addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     if (!e.getValueIsAdjusting() && getSelectedValue() != null) {
                         showResult(getSelectedValue());
-
                     }
                 }
             });
+
+            addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    setSelectedIndex(searchResultList.getSelectedIndex() + 1);
+                }
+            });
         }
-
-
     }
 
     /**

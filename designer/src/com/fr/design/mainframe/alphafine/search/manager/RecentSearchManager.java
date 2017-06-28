@@ -230,7 +230,9 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 Collections.sort(resultModelList);
                 int size = resultModelList.size();
                 if (size > MAX_SIZE) {
-                    return (SearchResult) resultModelList.subList(0, MAX_SIZE);
+                    SearchResult result = new SearchResult();
+                    result.addAll(resultModelList.subList(0, MAX_SIZE));
+                    return result;
                 }
                 return resultModelList;
             }
