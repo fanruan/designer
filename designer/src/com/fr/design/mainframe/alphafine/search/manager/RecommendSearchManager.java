@@ -41,7 +41,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             String result;
-            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCHAPI + CodeUtils.cjkEncode(searchText));
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText));
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();

@@ -83,10 +83,7 @@ public class AlphaFineConstants {
 
     public static final String CLOUD_SERVER_URL = "http://cloud.fanruan.com/api/monitor/record_of_afsearch/single";
 
-    public static final String SEARCHAPI = "http://lcloud.fanruan.com/api/intelligence/search/recommend?searchKey=";
+    public static final String SEARCH_API = "http://cloud.fanruan.com/api/intelligence/search/recommend?searchKey=";
 
-    //private static final String SEARCHAPI = "http://localhost:8080/cloud/intelligence/search/recommend?searchKey=";
-
-    //public static final String CLOUD_TEST_URL = "http://localhost:8080/cloud/monitor/record_of_afsearch/single";
 
 }
