@@ -127,11 +127,7 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化全部组件
      */
     private void initComponents() {
-        searchTextField = new AlphaFineTextField("AlphaFine");
-        searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
-        searchTextField.setBackground(Color.white);
-        searchTextField.setBorderPainted(false);
-        searchTextField.initKeyListener(this);
+        initSearchTextField();
         JPanel topPane = new JPanel(new BorderLayout());
         UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
@@ -169,6 +165,17 @@ public class AlphaFineDialog extends UIDialog {
                 doSearch(searchTextField.getText());
             }
         });
+    }
+
+    /**
+     * 初始化输入框
+     */
+    private void initSearchTextField() {
+        searchTextField = new AlphaFineTextField("AlphaFine");
+        initTextFieldKeyListener();
+        searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
+        searchTextField.setBackground(Color.white);
+        searchTextField.setBorderPainted(false);
     }
 
     /**
@@ -249,7 +256,6 @@ public class AlphaFineDialog extends UIDialog {
     private void showSearchResult() {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initTextFieldKeyListener();
         }
         initSearchWorker();
     }
@@ -580,18 +586,33 @@ public class AlphaFineDialog extends UIDialog {
         initMouseListener();
     }
 
+    /**
+     * 为textfield添加键盘监听器
+     */
     private void initTextFieldKeyListener() {
-        /**
-         * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
-         */
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (keyCode == KeyEvent.VK_ESCAPE) {
+                    if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
+                        AlphaFineDialog.this.setVisible(false);
+                    } else {
+                        searchTextField.setText(null);
+                    }
                 }
             }
         });
+
+
     }
 
     /**
@@ -826,6 +847,7 @@ public class AlphaFineDialog extends UIDialog {
 
                 }
             }
+            showResult(getSelectedValue());
             ensureIndexIsVisible(getSelectedIndex());
         }
 
