@@ -27,7 +27,13 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -60,7 +66,25 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private OpenFolderAction openFolderAction = new OpenFolderAction();
     private RenameAction renameAction = new RenameAction();
     private DelFileAction delFileAction = new DelFileAction();
-
+    
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                THIS.refreshDockingView();
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign, ShortCut.TEMPLATE_TREE);
+            }
+        });
+    }
+    
     /**
      * 刷新
      */
