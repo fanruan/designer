@@ -1,15 +1,9 @@
 package com.fr.design.mainframe.alphafine.component;
 
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.ComparatorUtils;
 import com.fr.report.web.button.Image;
-import com.fr.stable.StringUtils;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import static java.awt.event.KeyEvent.VK_ESCAPE;
 
 /**
  * Created by XiaXiang on 2017/3/21.
@@ -63,25 +57,7 @@ public class AlphaFineTextField extends UITextField {
         this.image = image;
     }
 
-    /**
-     * 添加键盘监听器
-     *
-     * @param component
-     */
-    public void initKeyListener(final Component component) {
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-                int keyCode = e.getKeyCode();
-                if (keyCode == VK_ESCAPE) {
-                    if (StringUtils.isBlank(getText()) || ComparatorUtils.equals(getText(), placeHolder)) {
-                        component.setVisible(false);
-                    } else {
-                        setText(null);
-                    }
-                }
-            }
-        });
+    public String getPlaceHolder() {
+        return placeHolder;
     }
 }
