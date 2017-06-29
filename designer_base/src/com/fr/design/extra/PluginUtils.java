@@ -166,6 +166,9 @@ public class PluginUtils {
     }
     
     public static String getMessageByErrorCode(PluginErrorCode errorCode) {
+        if(errorCode == PluginErrorCode.None){
+            return "";
+        }
         
         return Inter.getLocText(getInterKeyByErrorCode(errorCode));
     }

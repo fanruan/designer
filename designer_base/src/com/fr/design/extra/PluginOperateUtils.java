@@ -301,12 +301,19 @@ public class PluginOperateUtils {
         List<PluginTaskResult> pluginTaskResults = result.asList();
         for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
             if(pluginInfo.length() != 0){
-                pluginInfo.append("、");
+                pluginInfo.append("\n");
             }
             PluginTask pluginTask = pluginTaskResult.getCurrentTask();
-            PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
+            if(pluginTask == null){
+                pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
+                continue;
+            }
+            PluginMarker pluginMarker = pluginTask.getMarker();
+            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
             if (pluginContext != null) {
-                pluginInfo.append(pluginContext.getName());
+                pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
+            }else{
+                pluginInfo.append(pluginMarker.getPluginID()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
             }
         }
         return pluginInfo.toString();
