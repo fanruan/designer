@@ -6,6 +6,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
+import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
 import com.fr.general.Inter;
@@ -81,8 +82,10 @@ public class AlphaFineHelper {
     public static List<AlphaCellModel> getFilterResult() {
         List<AlphaCellModel> recentList = RecentSearchManager.getRecentSearchManger().getRecentModelList();
         List<AlphaCellModel> recommendList = RecommendSearchManager.getRecommendSearchManager().getRecommendModelList();
-        recentList.addAll(recommendList);
-        return recentList;
+        SearchResult filterResult = new SearchResult();
+        filterResult.addAll(recentList);
+        filterResult.addAll(recommendList);
+        return filterResult;
     }
 
 

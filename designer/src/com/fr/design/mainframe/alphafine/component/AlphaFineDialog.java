@@ -596,6 +596,9 @@ public class AlphaFineDialog extends UIDialog {
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    doNavigate();
+                    saveHistory(searchResultList.getSelectedValue());
                 }
             }
 
@@ -730,11 +733,11 @@ public class AlphaFineDialog extends UIDialog {
             para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
             para.put("content", object.toString());
             HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
-            httpClient.setTimeout(5000);
             httpClient.asGet();
             if (!httpClient.isServerAlive()) {
                 FRLogger.getLogger().error("Failed to sent data to server!");
             }
+            httpClient.setTimeout(5000);
         }
 
 
