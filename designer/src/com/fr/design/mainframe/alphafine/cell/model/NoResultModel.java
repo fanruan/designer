@@ -23,7 +23,17 @@ public class NoResultModel extends AlphaCellModel {
     }
 
     @Override
-    public boolean hasNoResult() {
-        return true;
+    public void doAction() {
+
+    }
+
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public boolean isNeedToSendToServer() {
+        return false;
     }
 }

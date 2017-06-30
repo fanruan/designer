@@ -27,7 +27,7 @@ public abstract class AlphaCellModel implements Comparable {
         this.content = content;
 
     }
-
+    
     public CellType getType() {
         return type;
     }
@@ -61,8 +61,12 @@ public abstract class AlphaCellModel implements Comparable {
         this.description = description;
     }
 
-    public boolean hasNoResult() {
-        return false;
+    public boolean hasAction() {
+        return true;
+    }
+
+    public boolean isNeedToSendToServer() {
+        return true;
     }
     /**
      * model转json
@@ -78,6 +82,11 @@ public abstract class AlphaCellModel implements Comparable {
      * @return
      */
     abstract public String getStoreInformation();
+
+    /**
+     * 双击时所需执行的操作
+     */
+    abstract public void doAction();
 
     public int getSearchCount() {
         return searchCount;

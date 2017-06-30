@@ -14,8 +14,7 @@ import java.awt.*;
  * Created by XiaXiang on 2017/4/20.
  */
 public class ContentCellRender implements ListCellRenderer<Object> {
-    private static final int OFFSET = 30;
-    private static final int LABEL_OFFSET = 45;
+    private static final int OFFSET = 45;
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -27,18 +26,18 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         AlphaCellModel model = (AlphaCellModel) value;
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(null);
-        if (isSelected && !model.hasNoResult()) {
-            panel.setBackground(AlphaFineConstants.BLUE);
-        }
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         titleLabel.setText("  " + model.getName());
         String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";
-        if (model.hasNoResult()) {
-            titleLabel.setIcon(null);
-            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
-        } else {
+        if (model.hasAction()) {
+            if (isSelected) {
+                panel.setBackground(AlphaFineConstants.BLUE);
+            }
             titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
             titleLabel.setForeground(AlphaFineConstants.BLACK);
+        } else {
+            titleLabel.setIcon(null);
+            titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         }
         titleLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
         String description = model.getDescription();
@@ -48,9 +47,11 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             panel.add(detailLabel, BorderLayout.CENTER);
             int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
             if ( width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
-                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - LABEL_OFFSET);
+                int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - OFFSET);
                 titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
             }
+        } else {
+            titleLabel.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH - OFFSET, AlphaFineConstants.CELL_HEIGHT));
         }
 
         panel.add(titleLabel, BorderLayout.WEST);

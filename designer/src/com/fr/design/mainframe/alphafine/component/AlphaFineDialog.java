@@ -6,23 +6,22 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.model.*;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.FileModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
-import com.fr.design.mainframe.alphafine.model.SearchListModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.search.manager.*;
-import com.fr.file.FileNodeFILE;
-import com.fr.file.filetree.FileNode;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
@@ -47,8 +46,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -79,10 +76,11 @@ public class AlphaFineDialog extends UIDialog {
     private Point pressedPoint;
     private UIScrollPane leftSearchResultPane;
     private JPanel rightSearchResultPane;
-    private JList searchResultList;
+    private AlphaFineList searchResultList;
     private SearchListModel searchListModel;
     private SwingWorker searchWorker;
     private SwingWorker showWorker;
+    private String storeText;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
 
@@ -118,6 +116,9 @@ public class AlphaFineDialog extends UIDialog {
         };
     }
 
+    /**
+     * 打开搜索框
+     */
     private static void doClickAction() {
         AlphaFineHelper.showAlphaFineDialog(false);
     }
@@ -126,11 +127,7 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化全部组件
      */
     private void initComponents() {
-        searchTextField = new AlphaFineTextField("AlphaFine");
-        searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
-        searchTextField.setBackground(Color.white);
-        searchTextField.setBorderPainted(false);
-        searchTextField.initKeyListener(this);
+        initSearchTextField();
         JPanel topPane = new JPanel(new BorderLayout());
         UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
@@ -168,6 +165,17 @@ public class AlphaFineDialog extends UIDialog {
                 doSearch(searchTextField.getText());
             }
         });
+    }
+
+    /**
+     * 初始化输入框
+     */
+    private void initSearchTextField() {
+        searchTextField = new AlphaFineTextField("AlphaFine");
+        initTextFieldKeyListener();
+        searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
+        searchTextField.setBackground(Color.white);
+        searchTextField.setBorderPainted(false);
     }
 
     /**
@@ -248,7 +256,6 @@ public class AlphaFineDialog extends UIDialog {
     private void showSearchResult() {
         if (searchResultPane == null) {
             initSearchResultComponents();
-            initListListener();
         }
         initSearchWorker();
     }
@@ -257,7 +264,8 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化搜索面板
      */
     private void initSearchResultComponents() {
-        searchResultList = new JList();
+        searchResultList = new AlphaFineList();
+        searchResultList.setFixedCellHeight(AlphaFineConstants.CELL_HEIGHT);
         searchListModel = new SearchListModel(new SearchResult());
         searchResultList.setModel(searchListModel);
         searchResultPane = new JPanel();
@@ -292,14 +300,6 @@ public class AlphaFineDialog extends UIDialog {
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
-
-            @Override
-            protected void done() {
-                if (!isCancelled() && searchListModel.getSize() > 1) {
-                    searchResultList.setSelectedIndex(1);
-                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
-                }
-            }
         };
         this.searchWorker.execute();
     }
@@ -311,25 +311,43 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void rebuildList(String searchText) {
-        searchListModel.removeAllElements();
+        resetContainer();
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
-                getActionList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getActionList(storeText);
             } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
-                getDocumentList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getDocumentList(storeText);
             } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-                getFileList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getFileList(storeText);
             } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
                 getFileList(searchText);
             } else if (searchText.startsWith(DS_MARK)) {
-                getFileList(DS_NAME + searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getFileList(DS_NAME + storeText);
             } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
-                getPluginList(searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length()));
+                storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
+                getPluginList(storeText);
             }
         } else {
-            doNormalSearch(searchText.trim());
+            storeText = searchText.trim();
+            doNormalSearch(storeText);
         }
 
+    }
+
+    /**
+     * 重置面板
+     */
+    private void resetContainer() {
+        searchListModel.removeAllElements();
+        searchListModel.resetSelectedState();
+        rightSearchResultPane.removeAll();
+        rightSearchResultPane.validate();
+        rightSearchResultPane.repaint();
     }
 
     /**
@@ -348,7 +366,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getDocumentList(final String searchText) {
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
-        for (Object object : documentModelList) {
+        for (AlphaCellModel object : documentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
@@ -356,7 +374,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getFileList(final String searchText) {
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
-        for (Object object : fileModelList) {
+        for (AlphaCellModel object : fileModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
@@ -364,7 +382,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getActionList(final String searchText) {
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
-        for (Object object : actionModelList) {
+        for (AlphaCellModel object : actionModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
@@ -372,7 +390,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getPluginList(final String searchText) {
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
-        for (Object object : pluginModelList) {
+        for (AlphaCellModel object : pluginModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
@@ -380,7 +398,7 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getRecommendList(final String searchText) {
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
-        for (Object object : recommendModelList) {
+        for (AlphaCellModel object : recommendModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
@@ -388,123 +406,144 @@ public class AlphaFineDialog extends UIDialog {
 
     private void getRecentList(final String searchText) {
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
-        for (Object object : recentModelList) {
+        for (AlphaCellModel object : recentModelList) {
             AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
 
     }
 
-    private void showResult(int index, final Object selectedValue) {
-        if (selectedValue instanceof FileModel) {
-            final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
-            showDefaultPreviewPane();
-            if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
-                checkWorker();
-                this.showWorker = new SwingWorker<BufferedImage, Void>() {
-                    @Override
-                    protected BufferedImage doInBackground() throws Exception {
-                        Form form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
-                        return FormIO.exportFormAsImage(form);
-                    }
-
-                    @Override
-                    protected void done() {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
+    /**
+     * 右侧面板展示搜索结果的内容
+     *
+     * @param selectedValue
+     */
+    private void showResult(final AlphaCellModel selectedValue) {
+        switch (selectedValue.getType()) {
+            case FILE:
+                final String fileName = ((FileModel) selectedValue).getFilePath().substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
+                showDefaultPreviewPane();
+                if (fileName.endsWith(ProjectConstants.FRM_SUFFIX)) {
+                    checkWorker();
+                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                        @Override
+                        protected BufferedImage doInBackground() {
+                            Form form = null;
                             try {
-                                rightSearchResultPane.add(new FilePreviewPane(get()));
-                            } catch (InterruptedException e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            } catch (ExecutionException e) {
+                                form = FormIO.readForm(FRContext.getCurrentEnv(), fileName);
+                            } catch (Exception e) {
                                 FRLogger.getLogger().error(e.getMessage());
                             }
-                            validate();
-                            repaint();
+                            return FormIO.exportFormAsImage(form);
                         }
 
-                    }
-                };
-                this.showWorker.execute();
-            } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
+                        @Override
+                        protected void done() {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                try {
+                                    rightSearchResultPane.add(new FilePreviewPane(get()));
+                                } catch (InterruptedException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                } catch (ExecutionException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                }
+                                validate();
+                                repaint();
+                            }
+
+                        }
+                    };
+                    this.showWorker.execute();
+                } else if (fileName.endsWith(ProjectConstants.CPT_SUFFIX)) {
+                    checkWorker();
+                    this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                        @Override
+                        protected BufferedImage doInBackground() {
+                            WorkBook workBook = null;
+                            try {
+                                workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
+                            } catch (Exception e) {
+                                FRLogger.getLogger().error(e.getMessage());
+                            }
+                            BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
+                            return bufferedImage;
+                        }
+
+                        @Override
+                        protected void done() {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                try {
+                                    rightSearchResultPane.add(new FilePreviewPane(get()));
+                                    validate();
+                                    repaint();
+                                } catch (InterruptedException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                } catch (ExecutionException e) {
+                                    FRLogger.getLogger().error(e.getMessage());
+                                }
+                            }
+
+                        }
+                    };
+                    this.showWorker.execute();
+                }
+                break;
+            case ACTION:
+                rightSearchResultPane.removeAll();
+                rightSearchResultPane.add(new ActionPreviewPane());
+                validate();
+                repaint();
+                break;
+            case DOCUMENT:
+                rightSearchResultPane.removeAll();
+                rightSearchResultPane.add(new DocumentPreviewPane((selectedValue).getName(), (selectedValue).getContent()));
+                validate();
+                repaint();
+                break;
+            case PLUGIN:
+            case REUSE:
+                showDefaultPreviewPane();
                 checkWorker();
-                this.showWorker = new SwingWorker<BufferedImage, Void>() {
+                this.showWorker = new SwingWorker<Image, Void>() {
                     @Override
-                    protected BufferedImage doInBackground() throws Exception {
-                        WorkBook workBook = (WorkBook) TemplateWorkBookIO.readTemplateWorkBook(FRContext.getCurrentEnv(), fileName);
-                        BufferedImage bufferedImage = new ImageExporter().exportToImage(workBook);
+                    protected Image doInBackground() {
+                        BufferedImage bufferedImage = null;
+                        try {
+                            bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
+                        } catch (IOException e) {
+                            try {
+                                bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
+                            } catch (IOException e1) {
+                                FRLogger.getLogger().error(e.getMessage());
+                            }
+                        }
                         return bufferedImage;
                     }
 
                     @Override
                     protected void done() {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
-                            try {
-                                rightSearchResultPane.add(new FilePreviewPane(get()));
+                        try {
+                            if (!isCancelled()) {
+                                rightSearchResultPane.removeAll();
+                                rightSearchResultPane.add(new PluginPreviewPane((selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
                                 validate();
                                 repaint();
-                            } catch (InterruptedException e) {
-                                FRLogger.getLogger().error(e.getMessage());
-                            } catch (ExecutionException e) {
-                                FRLogger.getLogger().error(e.getMessage());
                             }
+                        } catch (InterruptedException e) {
+                            FRLogger.getLogger().error(e.getMessage());
+                        } catch (ExecutionException e) {
+                            FRLogger.getLogger().error(e.getMessage());
                         }
 
                     }
                 };
                 this.showWorker.execute();
+                break;
+            default:
+                return;
 
-
-            }
-        } else if (selectedValue instanceof DocumentModel) {
-            rightSearchResultPane.removeAll();
-            rightSearchResultPane.add(new DocumentPreviewPane(((DocumentModel) selectedValue).getName(), ((DocumentModel) selectedValue).getContent()));
-            validate();
-            repaint();
-        } else if (selectedValue instanceof PluginModel) {
-            showDefaultPreviewPane();
-            checkWorker();
-            this.showWorker = new SwingWorker<Image, Void>() {
-                @Override
-                protected Image doInBackground() {
-                    BufferedImage bufferedImage = null;
-                    try {
-                        bufferedImage = ImageIO.read(new URL(((PluginModel) selectedValue).getImageUrl()));
-                    } catch (IOException e) {
-                        try {
-                            bufferedImage = ImageIO.read(getClass().getResource("/com/fr/design/mainframe/alphafine/images/default_product.png"));
-                        } catch (IOException e1) {
-                            FRLogger.getLogger().error(e.getMessage());
-                        }
-                    }
-                    return bufferedImage;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        if (!isCancelled()) {
-                            rightSearchResultPane.removeAll();
-                            rightSearchResultPane.add(new PluginPreviewPane(((PluginModel) selectedValue).getName(), get(), ((PluginModel) selectedValue).getVersion(), ((PluginModel) selectedValue).getJartime(), ((PluginModel) selectedValue).getType(), ((PluginModel) selectedValue).getPrice()));
-                            validate();
-                            repaint();
-                        }
-                    } catch (InterruptedException e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    } catch (ExecutionException e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    }
-
-                }
-            };
-            this.showWorker.execute();
-
-        } else if (selectedValue instanceof ActionModel) {
-            rightSearchResultPane.removeAll();
-            rightSearchResultPane.add(new ActionPreviewPane());
-            validate();
-            repaint();
         }
 
     }
@@ -548,75 +587,35 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 为面板中各组件添加监听器
+     * 为textfield添加键盘监听器
      */
-    private void initListListener() {
-        initListMouseListener();
-        initListKeyListener();
-    }
-
-    private void initListKeyListener() {
-        /**
-         * 为list添加键盘监听器
-         */
-        searchResultList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    Object selectedValue = searchResultList.getSelectedValue();
-                    doNavigate(searchResultList.getSelectedIndex());
-                    if (searchResultList.getSelectedValue() instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                }
-            }
-        });
-        /**
-         * 为textField添加键盘监听器，按上下方向键时把焦点给list,实现键盘操作
-         */
+    private void initTextFieldKeyListener() {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    doNavigate();
+                    saveHistory(searchResultList.getSelectedValue());
                 }
             }
-        });
-    }
 
-    private void initListMouseListener() {
-        /**
-         * 鼠标监听器
-         */
-        searchResultList.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                int selectedIndex = searchResultList.getSelectedIndex();
-                Object selectedValue = searchResultList.getSelectedValue();
-                if (e.getClickCount() == 2) {
-                    doNavigate(selectedIndex);
-                    if (selectedValue instanceof AlphaCellModel) {
-                        saveHistory((AlphaCellModel) selectedValue);
-                    }
-                } else if (e.getClickCount() == 1) {
-                    if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
-                        HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (keyCode == KeyEvent.VK_ESCAPE) {
+                    if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
+                        AlphaFineDialog.this.setVisible(false);
+                    } else {
+                        searchTextField.setText(null);
                     }
                 }
             }
         });
-        /**
-         *单击时触发右侧面板展示搜索结果
-         */
-        searchResultList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    showResult(searchResultList.getSelectedIndex(), searchResultList.getSelectedValue());
 
-                }
-            }
-        });
+
     }
 
     /**
@@ -689,34 +688,10 @@ public class AlphaFineDialog extends UIDialog {
 
     }
 
-    private void doNavigate(int index) {
+    private void doNavigate() {
         AlphaFineDialog.this.dispose();
-        final Object value = searchResultList.getSelectedValue();
-        if (value instanceof ActionModel) {
-            ((ActionModel) value).getAction().actionPerformed(null);
-        } else if (value instanceof FileModel) {
-            DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(((FileModel) value).getFilePath(), false)));
-        } else if (value instanceof PluginModel) {
-            String url = ((PluginModel) value).getPluginUrl();
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            } catch (URISyntaxException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
-        } else if (value instanceof DocumentModel) {
-            String url = ((DocumentModel) value).getDocumentUrl();
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException e) {
-                FRLogger.getLogger().error(e.getMessage());
-
-            } catch (URISyntaxException e) {
-                FRLogger.getLogger().error(e.getMessage());
-            }
-        }
-
+        final AlphaCellModel model = searchResultList.getSelectedValue();
+        model.doAction();
     }
 
     /**
@@ -725,11 +700,10 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void saveHistory(AlphaCellModel cellModel) {
-        String searchText = searchTextField.getText();
         RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
-        recentSearchManager.addRecentModel(searchText, cellModel);
+        recentSearchManager.addRecentModel(storeText, cellModel);
         recentSearchManager.saveXMLFile();
-        sendToServer(searchText, cellModel);
+        sendToServer(storeText, cellModel);
 
     }
 
@@ -740,29 +714,32 @@ public class AlphaFineDialog extends UIDialog {
      * @param cellModel
      */
     private void sendToServer(String searchKey, AlphaCellModel cellModel) {
-        String username = DesignerEnvManager.getEnvManager().getBBSName();
-        String uuid = DesignerEnvManager.getEnvManager().getUUID();
-        String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
-        String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
-        String key = searchKey;
-        int resultkind = cellModel.getType().getTypeValue();
-        String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
-        JSONObject object = JSONObject.create();
-        try {
-            object.put("uuid", uuid).put("activitykey", activitykey).put("username", username).put("createtime", createTime).put("key", key).put("resultkind", resultkind).put("resultValue", resultValue);
-        } catch (JSONException e) {
-            FRLogger.getLogger().error(e.getMessage());
+        if (cellModel.isNeedToSendToServer()) {
+            String username = DesignerEnvManager.getEnvManager().getBBSName();
+            String uuid = DesignerEnvManager.getEnvManager().getUUID();
+            String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
+            String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+            String key = searchKey;
+            int resultKind = cellModel.getType().getTypeValue();
+            String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
+            JSONObject object = JSONObject.create();
+            try {
+                object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
+            } catch (JSONException e) {
+                FRLogger.getLogger().error(e.getMessage());
+            }
+            final HashMap<String, String> para = new HashMap<>();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+            para.put("content", object.toString());
+            HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
+            httpClient.asGet();
+            if (!httpClient.isServerAlive()) {
+                FRLogger.getLogger().error("Failed to sent data to server!");
+            }
+            httpClient.setTimeout(5000);
         }
-        HashMap<String, String> para = new HashMap<>();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
-        para.put("content", object.toString());
-        HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_TEST_URL, para, true);
-        httpClient.setTimeout(5000);
-        httpClient.asGet();
-        if (!httpClient.isServerAlive()) {
-            FRLogger.getLogger().error("Failed to sent data to server!");
-        }
+
 
     }
 
@@ -784,23 +761,11 @@ public class AlphaFineDialog extends UIDialog {
 
             }
         }
-        this.searchResultList.validate();
-        this.searchResultList.repaint();
-        validate();
-        repaint();
-
-    }
-
-    private void rebuildList() {
-        this.searchResultList.validate();
-        this.searchResultList.repaint();
-        validate();
-        repaint();
     }
 
     private SearchResult getMoreResult(MoreModel selectedValue) {
         SearchResult moreResult;
-        switch (selectedValue.getType()) {
+        switch (selectedValue.getContentType()) {
             case PLUGIN:
                 moreResult = PluginSearchManager.getPluginSearchManager().getMoreSearchResult();
                 break;
@@ -843,6 +808,180 @@ public class AlphaFineDialog extends UIDialog {
 
     public void setForceOpen(boolean forceOpen) {
         this.forceOpen = forceOpen;
+    }
+
+    public String getStoreText() {
+        return storeText;
+    }
+
+    public void setStoreText(String storeText) {
+        this.storeText = storeText;
+    }
+
+
+    /**
+     * +-------------------------------------+
+     * |             自定义JList              |
+     * +-------------------------------------+
+     */
+    private class AlphaFineList extends JList<AlphaCellModel> {
+
+        public AlphaFineList() {
+            initListListener();
+        }
+
+        /**
+         * 重写选中的方法
+         *
+         * @param index
+         */
+        @Override
+        public void setSelectedIndex(int index) {
+            if (index > 0 && checkSelectedIndex(index)) {
+                int previousIndex = getSelectedIndex();
+                super.setSelectedIndex(index);
+                AlphaCellModel cellModel = getSelectedValue();
+                if (cellModel != null && !cellModel.hasAction()) {
+                    if (previousIndex <= getSelectedIndex()) {
+                        setSelectedIndex(index + 1);
+                    } else {
+                        setSelectedIndex(index - 1);
+                    }
+
+                }
+            }
+            showResult(getSelectedValue());
+            ensureIndexIsVisible(getSelectedIndex());
+        }
+
+        private boolean checkSelectedIndex(int index) {
+            int size = getModel().getSize();
+            return size > 0 && index < size;
+        }
+
+        private void initListListener() {
+            addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        doNavigate();
+                        saveHistory(getSelectedValue());
+                    } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        if (getSelectedIndex() == 1) {
+                            searchTextField.requestFocus();
+                        }
+                    }
+                }
+            });
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int selectedIndex = getSelectedIndex();
+                    AlphaCellModel selectedValue = getSelectedValue();
+                    if (e.getClickCount() == 2 && selectedValue.hasAction()) {
+                        doNavigate();
+                        saveHistory(selectedValue);
+                    } else if (e.getClickCount() == 1) {
+                        if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
+                            HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                        }
+                    }
+                }
+            });
+
+            addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting() && getSelectedValue() != null) {
+                        showResult(getSelectedValue());
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * +-------------------------------------+
+     * |           自定义ListModel            |
+     * +-------------------------------------+
+     */
+    private class SearchListModel extends DefaultListModel<AlphaCellModel> {
+        SearchResult myDelegate;
+
+        /**
+         * 第一有效的项是否被选中
+         */
+        private boolean isValidSelected;
+
+        public SearchListModel(SearchResult searchResult) {
+            this.myDelegate = searchResult;
+        }
+
+        @Override
+        public void addElement(AlphaCellModel element) {
+            int index = myDelegate.size();
+            myDelegate.add(element);
+            fireContentsChanged(this, index, index);
+            fireSelectedStateChanged(element, index);
+        }
+
+        /**
+         * 触发选中第一有效的项
+         *
+         * @param element
+         * @param index
+         */
+        private void fireSelectedStateChanged(AlphaCellModel element, int index) {
+            if (element.hasAction() && !isValidSelected()) {
+                searchResultList.setSelectedIndex(index);
+                setValidSelected(true);
+            }
+        }
+
+        @Override
+        public AlphaCellModel getElementAt(int index) {
+            return myDelegate.get(index);
+        }
+
+        @Override
+        public void add(int index, AlphaCellModel element) {
+            myDelegate.add(index, element);
+            fireIntervalAdded(this, index, index);
+        }
+
+        @Override
+        public AlphaCellModel remove(int index) {
+            AlphaCellModel object = myDelegate.get(index);
+            myDelegate.remove(object);
+            fireIntervalRemoved(this, index, index);
+            return object;
+        }
+
+        @Override
+        public int getSize() {
+            return this.myDelegate.size();
+        }
+
+        @Override
+        public void removeAllElements() {
+            this.myDelegate.clear();
+        }
+
+        /**
+         * 重置选中状态
+         */
+        public void resetSelectedState() {
+            setValidSelected(false);
+        }
+
+        private boolean isValidSelected() {
+            return isValidSelected;
+        }
+
+        private void setValidSelected(boolean selected) {
+            isValidSelected = selected;
+        }
     }
 
 }

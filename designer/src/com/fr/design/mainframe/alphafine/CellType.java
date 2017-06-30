@@ -4,7 +4,7 @@ package com.fr.design.mainframe.alphafine;
  * Created by XiaXiang on 2017/4/27.
  */
 public enum CellType {
-    RECOMMEND(0), ACTION(1), DOCUMENT(2), FILE(3), PLUGIN(4), REUSE(5), NO_RESULT(6);
+    RECOMMEND(0), ACTION(1), DOCUMENT(2), FILE(3), PLUGIN(4), REUSE(5), NO_RESULT(6), MORE(7);
 
     private int typeValue;
 
