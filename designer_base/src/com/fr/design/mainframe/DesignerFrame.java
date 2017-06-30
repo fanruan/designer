@@ -37,6 +37,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
@@ -662,19 +663,38 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 			GUICoreUtils.setWindowFullScreen(this);
 		}
 	}
-
-	/**
-	 * 报表运行环境改变时,需要刷新某些面板
-	 * 
-	 * @param env
-	 *            环境
-	 */
-	public void refreshEnv(Env env) {
-		this.setTitle();
-		DesignerFrameFileDealerPane.getInstance().refreshDockingView();
-		TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
-		TemplateTreePane.getInstance().refreshDockingView();
-		DesignTableDataManager.clearGlobalDs();
+    
+    {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                DesignerContext.getDesignerFrame().refreshEnv(FRContext.getCurrentEnv());
+                DesignerContext.getDesignerFrame().repaint();
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign);
+            }
+        });
+    }
+    
+    /**
+     * 报表运行环境改变时,需要刷新某些面板
+     *
+     * @param env 环境
+     */
+    public void refreshEnv(Env env) {
+        
+        this.setTitle();
+        DesignerFrameFileDealerPane.getInstance().refreshDockingView();
+        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+        TemplateTreePane.getInstance().refreshDockingView();
+        DesignTableDataManager.clearGlobalDs();
 		EastRegionContainerPane.getInstance().refreshDownPane();
 	}
 

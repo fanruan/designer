@@ -3,10 +3,10 @@ package com.fr.design.mainframe;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.icontainer.UIResizableContainer;
 import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
@@ -45,8 +45,8 @@ public class WestRegionContainerPane extends UIResizableContainer {
         
             @Override
             public boolean accept(PluginContext context) {
-            
-                return context.contain(TableDataPaneProcessor.XML_TAG);
+    
+                return context.contain(PluginModule.ExtraDesign);
             }
         });
     

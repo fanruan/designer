@@ -3,34 +3,21 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import com.fr.base.BaseUtils;
-import com.fr.design.fun.CellAttributeProvider;
-import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.cell.CellElementEditPane;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
-import com.fr.plugin.context.PluginContext;
-import com.fr.plugin.injectable.PluginModule;
-import com.fr.plugin.manage.PluginFilter;
-import com.fr.plugin.observer.PluginEvent;
-import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.Elem;
 import com.fr.report.elementcase.TemplateElementCase;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -42,28 +29,6 @@ import com.fr.report.elementcase.TemplateElementCase;
  * @since 2012-5-24下午1:50:21
  */
 public class CellElementPropertyPane extends DockingView {
-    
-    static {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
-            @Override
-            public void on(PluginEvent event) {
-                
-                synchronized (CellElementPropertyPane.class) {
-                    singleton = new CellElementPropertyPane();
-                }
-            }
-        }, new PluginFilter() {
-            
-            @Override
-            public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign, PresentKindProvider.MARK_STRING) ||
-                    context.contain(PluginModule.ExtraDesign, CellAttributeProvider.MARK_STRING);
-            }
-        });
-    }
-    
     
     public synchronized static CellElementPropertyPane getInstance() {
         if (singleton == null) {
