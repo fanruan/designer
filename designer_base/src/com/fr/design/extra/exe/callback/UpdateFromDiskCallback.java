@@ -37,12 +37,12 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
     public void done(PluginTaskResult result) {
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Plugin_Update_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Update_Dependence")),
+                    Inter.getLocText(Inter.getLocText("FR-Plugin_Update_Dependence")),
                     Inter.getLocText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
@@ -62,7 +62,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
         } else if(result.errorCode() == PluginErrorCode.NoPluginToUpdate){
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText("FR-Designer-Plugin_No_Plugin_Update"),
+                    Inter.getLocText("FR-Plugin_No_Plugin_Update"),
                     Inter.getLocText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
@@ -76,7 +76,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
             PluginOperateUtils.installPluginFromDisk(zipFile, jsCallback);
         }else {
             jsCallback.execute("failed");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Failed"));
+            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Update_Failed"));
             JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
