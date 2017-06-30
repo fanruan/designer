@@ -27,7 +27,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
             jsCallback.execute("success");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Delete_Success"));
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Delete_Success"));
-        }else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
+        }else if (result.errorCode() == PluginErrorCode.NeedUninstallDependingPluginFirst) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     Inter.getLocText(Inter.getLocText("FR-Designer-Plugin_Delete_Dependence")),

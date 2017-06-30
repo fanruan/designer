@@ -296,21 +296,24 @@ public class PluginOperateUtils {
                 && StringUtils.isNotEmpty(pluginView.getEnvVersion());
     }
 
-    public static String getSuccessInfo(PluginTaskResult result){
+    public static String getSuccessInfo(PluginTaskResult result) {
         StringBuilder pluginInfo = new StringBuilder();
-        PluginTask currentTask = result.getCurrentTask();
-        PluginContext context = PluginManager.getContext(currentTask.getMarker());
-        if(context != null){
-            pluginInfo.append(context.getName());
-        }
         List<PluginTaskResult> pluginTaskResults = result.asList();
-        for(PluginTaskResult pluginTaskResult : pluginTaskResults){
-            List<PluginTask> pluginTasks = pluginTaskResult.getPreTasks();
-            for(PluginTask pluginTask : pluginTasks){
-                PluginContext pluginContext = PluginManager.getContext(pluginTask.getMarker());
-                if(pluginContext != null){
-                    pluginInfo.append(pluginContext.getName());
-                }
+        for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
+            if(pluginInfo.length() != 0){
+                pluginInfo.append("\n");
+            }
+            PluginTask pluginTask = pluginTaskResult.getCurrentTask();
+            if(pluginTask == null){
+                pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
+                continue;
+            }
+            PluginMarker pluginMarker = pluginTask.getMarker();
+            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
+            if (pluginContext != null) {
+                pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
+            }else{
+                pluginInfo.append(pluginMarker.getPluginID()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
             }
         }
         return pluginInfo.toString();

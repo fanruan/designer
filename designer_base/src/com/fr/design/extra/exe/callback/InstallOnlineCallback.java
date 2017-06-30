@@ -1,6 +1,5 @@
 package com.fr.design.extra.exe.callback;
 
-import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -33,8 +32,8 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
 
     @Override
     protected void allDone(PluginTaskResult result) {
+        String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
-            String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
             jsCallback.execute("success");
             FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
             JOptionPane.showMessageDialog(null, pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
@@ -57,7 +56,7 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
         }else {
             jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, pluginInfo, Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
