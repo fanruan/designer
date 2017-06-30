@@ -174,26 +174,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		this.resetToolkitByPlus(null);
 	}
     
-    
-    {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
-            @Override
-            public void on(PluginEvent event) {
-                
-                DesignerContext.getDesignerFrame().refreshEnv(FRContext.getCurrentEnv());
-                DesignerContext.getDesignerFrame().repaint();
-            }
-        }, new PluginFilter() {
-            
-            @Override
-            public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign);
-            }
-        });
-    }
-    
     /**
      * @param ad
      * @return
