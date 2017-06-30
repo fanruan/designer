@@ -35,12 +35,12 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
         String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
             jsCallback.execute("success");
-            FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, pluginInfo + Inter.getLocText("FR-Designer-Plugin_Install_Success"));
+            FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Plugin_Install_Success"));
+            JOptionPane.showMessageDialog(null, pluginInfo + Inter.getLocText("FR-Plugin_Install_Success"));
         } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    Inter.getLocText("FR-Designer-Plugin_Has_Install_Lower"),
+                    Inter.getLocText("FR-Plugin_Has_Install_Lower"),
                     Inter.getLocText("FR-Designer-Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
@@ -55,7 +55,7 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
             PluginOperateUtils.updatePluginOnline(pluginMarker, jsCallback);
         }else {
             jsCallback.execute("failed");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Install_Failed"));
+            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));
             JOptionPane.showMessageDialog(null, pluginInfo, Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }

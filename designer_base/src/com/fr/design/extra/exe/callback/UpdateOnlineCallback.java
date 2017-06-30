@@ -29,15 +29,15 @@ public class UpdateOnlineCallback extends AbstractDealPreTaskCallback {
 
     @Override
     public void allDone(PluginTaskResult result) {
+        String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
-            String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
             jsCallback.execute("success");
-            FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Designer-Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null,pluginInfo + Inter.getLocText("FR-Designer-Plugin_Update_Success"));
+            FRLogger.getLogger().info(pluginInfo + Inter.getLocText("FR-Plugin_Update_Success"));
+            JOptionPane.showMessageDialog(null,pluginInfo + Inter.getLocText("FR-Plugin_Update_Success"));
         } else {
             jsCallback.execute("failed");
-            FRLogger.getLogger().info(Inter.getLocText("FR-Designer-Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Update_Failed"));
+            JOptionPane.showMessageDialog(null, pluginInfo, Inter.getLocText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }
