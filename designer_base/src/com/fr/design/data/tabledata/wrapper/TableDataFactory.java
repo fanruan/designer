@@ -26,23 +26,24 @@ public abstract class TableDataFactory {
     /**
      * 有顺序的,用来排序用
      */
-    private static Map<String, TableDataNameObjectCreator> map = new java.util.LinkedHashMap<String, TableDataNameObjectCreator>();
+    private static Map<String, TableDataNameObjectCreator> map = new java.util.LinkedHashMap<>();
     
-    private static Map<String, TableDataNameObjectCreator> extraMap = new LinkedHashMap<>();
+    private static Map<String, TableDataNameObjectCreator> defaultMap = new LinkedHashMap<>();
 
     /**
      * 同一类型的只能加一次,就加最上层的类,因为要排序。如果将所有的 FileTableData都加进来，那么FileTableData的排序就不正确了
      */
     static {
-        map.put(DBTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/database.png", DBTableData.class, DBTableDataPane.class));
-        map.put(ClassTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/source/classTableData.png", ClassTableData.class, ClassTableDataPane.class));
-        map.put(EmbeddedTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/dataTable.png", EmbeddedTableData.class, EmbeddedTableDataPane.class));
-        map.put(DecoratedTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/multi.png", DecoratedTableData.class, DecoratedTableDataPane.class));
-        map.put(StoreProcedure.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/store_procedure.png", StoreProcedure.class, ProcedureDataPane.class));
-        map.put(MultiTDTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/multi.png", MultiTDTableData.class, MultiTDTableDataPane.class));
-        map.put(FileTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/file.png", FileTableData.class, FileTableDataPane.class));
-        map.put(RecursionTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/tree.png", RecursionTableData.class, TreeTableDataPane.class));
-        map.put(MultiFieldTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/database.png", MultiFieldTableData.class, null));
+        defaultMap.put(DBTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/database.png", DBTableData.class, DBTableDataPane.class));
+        defaultMap.put(ClassTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/source/classTableData.png", ClassTableData.class, ClassTableDataPane.class));
+        defaultMap.put(EmbeddedTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/dataTable.png", EmbeddedTableData.class, EmbeddedTableDataPane.class));
+        defaultMap.put(DecoratedTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/multi.png", DecoratedTableData.class, DecoratedTableDataPane.class));
+        defaultMap.put(StoreProcedure.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/store_procedure.png", StoreProcedure.class, ProcedureDataPane.class));
+        defaultMap.put(MultiTDTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/multi.png", MultiTDTableData.class, MultiTDTableDataPane.class));
+        defaultMap.put(FileTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/file.png", FileTableData.class, FileTableDataPane.class));
+        defaultMap.put(RecursionTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/tree.png", RecursionTableData.class, TreeTableDataPane.class));
+        defaultMap.put(MultiFieldTableData.class.getName(), new TableDataNameObjectCreator(null, "/com/fr/design/images/data/database.png", MultiFieldTableData.class, null));
+        map.putAll(defaultMap);
     }
 
     /**
@@ -53,24 +54,20 @@ public abstract class TableDataFactory {
      */
     public static void registerExtra(Class<? extends TableData> clazz, TableDataNameObjectCreator creator) {
     
-        extraMap.put(clazz.getName(), creator);
+        map.put(clazz.getName(), creator);
     }
     
     public static void removeExtra(Class<? extends TableData> clazz) {
-        
-        extraMap.remove(clazz.getName());
+    
+        String name = clazz.getName();
+        if (defaultMap.containsKey(name)) {
+            map.put(name, defaultMap.get(name));
+        } else {
+            map.remove(name);
+        }
     }
     
     private static TableDataNameObjectCreator getTableDataNameObjectCreator(TableData tabledata) {
-        
-        TableDataNameObjectCreator creator = getFrom(tabledata, extraMap);
-        if (creator == null) {
-            creator = getFrom(tabledata, map);
-        }
-        return creator;
-    }
-    
-    private static TableDataNameObjectCreator getFrom(TableData tabledata, Map<String, TableDataNameObjectCreator> map) {
         
         TableDataNameObjectCreator tableDataNameObjectCreator = map.get(tabledata.getClass().getName());
         if (tableDataNameObjectCreator == null) {
@@ -82,6 +79,7 @@ public abstract class TableDataFactory {
         }
         return tableDataNameObjectCreator;
     }
+    
     
     /**
      * 获取数据集所对应的编辑面板

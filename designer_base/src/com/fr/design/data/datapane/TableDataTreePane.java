@@ -14,7 +14,6 @@ import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.fun.TableDataDefineProvider;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -100,8 +99,8 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         
             @Override
             public boolean accept(PluginContext context) {
-            
-                return context.contain(PluginModule.ExtraDesign, TableDataDefineProvider.XML_TAG);
+    
+                return context.contain(PluginModule.ExtraDesign);
             }
         });
 
