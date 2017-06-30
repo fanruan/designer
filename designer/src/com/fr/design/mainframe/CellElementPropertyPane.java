@@ -8,10 +8,16 @@ import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.cell.CellElementEditPane;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.Elem;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -29,6 +35,26 @@ import java.awt.*;
  * @since 2012-5-24下午1:50:21
  */
 public class CellElementPropertyPane extends DockingView {
+    
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                synchronized (CellElementPropertyPane.class) {
+                    singleton = null;
+                }
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign);
+            }
+        });
+    }
     
     public synchronized static CellElementPropertyPane getInstance() {
         if (singleton == null) {
