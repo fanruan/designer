@@ -181,9 +181,18 @@ public class DesignUtils {
 
         // 更新CurrentEnv于FRContext & DesignerEnvManager
         FRContext.setCurrentEnv(env);
-
+    
+        refreshDesignerFrame(env);
+        // 当换了运行环境,重置服务器，让它下次预览时重启
+        if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
+            StartServer.currentEnvChanged();
+        }
+    }
+    
+    public static void refreshDesignerFrame(Env env) {
+        
         final Env run_env = env;
-
+        
         // 刷新DesignerFrame里面的面板
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -195,12 +204,8 @@ public class DesignUtils {
                 DesignerContext.getDesignerFrame().repaint();// kunsnat: 切换环境后 刷新下 报表. 比如图表某些风格改变.
             }
         });
-        // 当换了运行环境,重置服务器，让它下次预览时重启
-        if (env instanceof LocalEnv && !ComparatorUtils.equals(env.getPath(), oldEnvPath)) {
-            StartServer.currentEnvChanged();
-        }
     }
-
+    
     /**
      * p:初始化look and feel, 把一切放到这个里面.可以让多个地方调用.
      */

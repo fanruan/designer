@@ -27,6 +27,7 @@ import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
+import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
@@ -172,15 +173,35 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		basePane.add(menuPane, BorderLayout.NORTH);
 		this.resetToolkitByPlus(null);
 	}
-	
-	/**
-	 * @param ad
-	 * @return
-	 */
-	protected JPanel initNorthEastPane(final ToolBarMenuDock ad){
-		//hugh: private修改为protected方便oem的时候修改右上的组件构成
-		//顶部日志+登陆按钮
-		final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+    
+    
+    {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                DesignerContext.getDesignerFrame().refreshEnv(FRContext.getCurrentEnv());
+                DesignerContext.getDesignerFrame().repaint();
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign);
+            }
+        });
+    }
+    
+    /**
+     * @param ad
+     * @return
+     */
+    protected JPanel initNorthEastPane(final ToolBarMenuDock ad) {
+        //hugh: private修改为protected方便oem的时候修改右上的组件构成
+        //顶部日志+登陆按钮
+        final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
     
@@ -188,13 +209,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void on(PluginEvent event) {
     
                 refreshNorthEastPane(northEastPane, ad);
+                DesignUtils.refreshDesignerFrame(FRContext.getCurrentEnv());
             }
         }, new PluginFilter() {
             
             @Override
             public boolean accept(PluginContext context) {
-                
-                return context.contain(TitlePlaceProcessor.MARK_STRING);
+    
+                return context.contain(PluginModule.ExtraDesign);
             }
         });
         refreshNorthEastPane(northEastPane, ad);
@@ -664,24 +686,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		}
 	}
     
-    {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
-            @Override
-            public void on(PluginEvent event) {
-                
-                DesignerContext.getDesignerFrame().refreshEnv(FRContext.getCurrentEnv());
-                DesignerContext.getDesignerFrame().repaint();
-            }
-        }, new PluginFilter() {
-            
-            @Override
-            public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign);
-            }
-        });
-    }
     
     /**
      * 报表运行环境改变时,需要刷新某些面板
