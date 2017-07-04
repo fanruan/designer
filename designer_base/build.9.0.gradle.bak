@@ -44,13 +44,13 @@ ant{
 	}
 }
 //指定源码路径
-sourceSets{
-	main{
-		java{
-			srcDirs=["${srcDir}/src"]
-		}
-	}
-}
+//sourceSets{
+//	main{
+//		java{
+//			srcDirs=["${srcDir}/src"]
+//		}
+//	}
+//}
 //获取什么分支名
 FileTree files =fileTree(dir:'./',include:'build.*.gradle')
 def buildDir=files[0].path.substring(0,files[0].path.lastIndexOf ('\\'))

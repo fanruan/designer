@@ -78,8 +78,8 @@ def dataContent ={def dir ->
 
 task copyFile(type:Copy,dependsOn:compileJava){
 	copy{
-		with dataContent.call("${srcDir}/src") 
-		with dataContent.call("${srcDir}/../designer/src") 
+		with dataContent.call("${srcDir}/src/main/java") 
+	//	with dataContent.call("${srcDir}/../designer/src") 
 		into 'build/classes/main'
 	}
 

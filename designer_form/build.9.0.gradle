@@ -27,7 +27,7 @@ apply plugin: 'aspectj'
 //指定构建的jdk版本
 sourceCompatibility=1.7
 //指定生成jar包版本
-version='8.0'
+version='9.0'
 //生成jar包重命名
 jar{
 	baseName='fr-designer-report'
