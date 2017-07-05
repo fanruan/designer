@@ -64,7 +64,7 @@ task appletJar<<{
 		}
 
 		exec(executable:"${jdk6home}/bin/jarsigner"){
-			arg(line:"-keystore ${keystore} -storepass ${keypassword} 'build/libs/fr-applet-8.0.jar' ${keyalias}")
+			arg(line:"-keystore ${keystore} -storepass ${keypassword} 'build/libs/fr-applet-9.0.jar' ${keyalias}")
 		}
 		delete(file:"${keystore}")
 		delete(file:"${keycert}")

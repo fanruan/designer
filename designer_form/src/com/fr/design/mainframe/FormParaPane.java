@@ -3,20 +3,13 @@ package com.fr.design.mainframe;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.fun.CellWidgetOptionProvider;
 import com.fr.design.gui.core.UserDefinedWidgetOption;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.*;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.plugin.context.PluginContext;
-import com.fr.plugin.injectable.PluginModule;
-import com.fr.plugin.manage.PluginFilter;
-import com.fr.plugin.observer.PluginEvent;
-import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -49,24 +42,6 @@ public class FormParaPane extends JPanel {
 
 
     private FormDesigner designer;
-    
-    static {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-        
-            @Override
-            public void on(PluginEvent event) {
-            
-                THIS = null;
-            }
-        }, new PluginFilter() {
-        
-            @Override
-            public boolean accept(PluginContext context) {
-            
-                return context.contain(PluginModule.ExtraDesign, CellWidgetOptionProvider.XML_TAG);
-            }
-        });
-    }
     
     public static final FormParaPane getInstance(FormDesigner designer) {
         if(THIS == null) {

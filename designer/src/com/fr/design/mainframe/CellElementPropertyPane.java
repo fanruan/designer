@@ -3,17 +3,7 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import com.fr.base.BaseUtils;
-import com.fr.design.fun.CellAttributeProvider;
-import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
@@ -31,6 +21,9 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.Elem;
 import com.fr.report.elementcase.TemplateElementCase;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -50,7 +43,7 @@ public class CellElementPropertyPane extends DockingView {
             public void on(PluginEvent event) {
                 
                 synchronized (CellElementPropertyPane.class) {
-                    singleton = new CellElementPropertyPane();
+                    singleton = null;
                 }
             }
         }, new PluginFilter() {
@@ -58,12 +51,10 @@ public class CellElementPropertyPane extends DockingView {
             @Override
             public boolean accept(PluginContext context) {
                 
-                return context.contain(PluginModule.ExtraDesign, PresentKindProvider.MARK_STRING) ||
-                    context.contain(PluginModule.ExtraDesign, CellAttributeProvider.MARK_STRING);
+                return context.contain(PluginModule.ExtraDesign);
             }
         });
     }
-    
     
     public synchronized static CellElementPropertyPane getInstance() {
         if (singleton == null) {

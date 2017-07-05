@@ -17,15 +17,13 @@ import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
+import com.fr.design.module.DesignModule;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.Inter;
-import com.fr.general.ModuleContext;
+import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.*;
@@ -68,12 +66,15 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
 
+        // 先加载设计器的国际化文件
+        Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
+
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
             for (String arg : args) {
                 if (ComparatorUtils.equals(arg, "demo")) {
                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                    StartServer.browerDemoURL();
+                    StartServer.browserDemoURL();
                     break;
                 }
             }

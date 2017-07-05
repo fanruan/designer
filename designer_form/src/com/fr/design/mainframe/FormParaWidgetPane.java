@@ -2,28 +2,21 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.fun.FormWidgetOptionProvider;
 import com.fr.design.gui.core.FormWidgetOption;
 import com.fr.design.gui.core.UserDefinedWidgetOption;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.*;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.plugin.context.PluginContext;
-import com.fr.plugin.injectable.PluginModule;
-import com.fr.plugin.manage.PluginFilter;
-import com.fr.plugin.observer.PluginEvent;
-import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -35,10 +28,12 @@ import java.util.List;
 
 public class FormParaWidgetPane extends JPanel {
     private static FormParaWidgetPane THIS;
+    private final static int BORDER = 5;
+
     private List<WidgetOption> predifinedwidgeList = new ArrayList<WidgetOption>();
 
-    private JWindow chartTypeWindow;
-    private JWindow widgetTypeWindow;
+    private UIPopupMenu chartTypePopupMenu;
+    private UIPopupMenu widgetTypePopupMenu;
     private WidgetOption[] widgetOptions = null;
     private WidgetOption[] chartOptions = null;
     private WidgetOption[] layoutOptions = null;
@@ -62,26 +57,6 @@ public class FormParaWidgetPane extends JPanel {
     private UILabel paraLabel;
 
     private FormDesigner designer;
-    
-    static {
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-            
-            @Override
-            public void on(PluginEvent event) {
-                
-                synchronized (FormParaWidgetPane.class) {
-                    THIS = null;
-                }
-            }
-        }, new PluginFilter() {
-            
-            @Override
-            public boolean accept(PluginContext context) {
-                
-                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG);
-            }
-        });
-    }
     
     public static synchronized final FormParaWidgetPane getInstance(FormDesigner designer) {
         if (THIS == null) {
@@ -114,6 +89,56 @@ public class FormParaWidgetPane extends JPanel {
             }
         });
         initFormParaComponent();
+    }
+
+    private void initWidgetTypePopUp() {
+        if (widgetTypePopupMenu == null) {
+            JPanel widgetPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            loadPredefinedWidget();
+            int rowNum = calculateWidgetWindowRowNum();
+            JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            for (WidgetOption o : loadWidgetOptions()) {
+                westPanel.add(new ToolBarButton(o));
+            }
+            int x = commonWidgetNum * (widgetButtonWidth + smallGAP) - smallGAP;
+            westPanel.setPreferredSize(new Dimension(x, (int) (rowNum * westPanel.getPreferredSize().getHeight())));
+            JPanel eastPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            for (WidgetOption no : predifinedwidgeList) {
+                eastPane.add(new ToolBarButton(no));
+            }
+            int maxWidth = preWidgetShowMaxNum * (widgetButtonWidth + smallGAP) - smallGAP;
+            int width = predifinedwidgeList.size() >= preWidgetShowMaxNum ? maxWidth : (int) eastPane.getPreferredSize().getWidth();
+            eastPane.setPreferredSize(new Dimension(width, (int) (rowNum * eastPane.getPreferredSize().getHeight())));
+
+            UIScrollPane eastScrollPane = new UIScrollPane(eastPane);
+            eastScrollPane.setBorder(null);
+            int maxHeight = preWidgetShowMaxRow * (widgetButtonHeight + smallGAP) - smallGAP;
+            int height = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? maxHeight : (int) eastPane.getPreferredSize().getHeight();
+            width = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? (int) eastPane.getPreferredSize().getWidth() + smallGAP + jsparatorWidth : (int) eastPane.getPreferredSize().getWidth();
+            eastScrollPane.setPreferredSize(new Dimension(width, height));
+
+            widgetPane.add(westPanel);
+            widgetPane.add(createJSeparator(height));
+            widgetPane.add(eastScrollPane);
+
+            widgetTypePopupMenu = new UIPopupMenu();
+            widgetTypePopupMenu.add(widgetPane);
+        }
+    }
+
+    private void initChartTypePopUp() {
+        if (chartTypePopupMenu == null){
+            JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            WidgetOption[] chartOptions = loadChartOptions();
+            for (WidgetOption chartOption : chartOptions) {
+                componentsPara.add(new ToolBarButton(chartOption));
+            }
+            int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
+            int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
+            componentsPara.setPreferredSize(new Dimension(x, y));
+            chartTypePopupMenu = new UIPopupMenu();
+            chartTypePopupMenu.add(componentsPara);
+        }
     }
 
 
@@ -227,18 +252,10 @@ public class FormParaWidgetPane extends JPanel {
         chartPopUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JPanel componentsPara = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                WidgetOption[] chartOptions = loadChartOptions();
-                for (WidgetOption chartOption : chartOptions) {
-                    componentsPara.add(new ToolBarButton(chartOption));
-                }
-                int x = COMMON_CHAR_NUM * (widgetButtonWidth + smallGAP);
-                int y = (int) Math.ceil(chartOptions.length / ((double) COMMON_CHAR_NUM)) * (widgetButtonHeight + smallGAP);
-                componentsPara.setPreferredSize(new Dimension(x, y));
-                chartTypeWindow = new PopUpWindow(componentsPara, Inter.getLocText("FR-Designer-Form-ToolBar_Chart"));
-                chartTypeWindow.setLocation((int) jSeparatorLayout.getLocationOnScreen().getX() + 1, (int) jSeparatorLayout.getLocationOnScreen().getY());
-                chartTypeWindow.setSize(chartTypeWindow.getPreferredSize());
-                chartTypeWindow.setVisible(true);
+                initChartTypePopUp();
+                chartTypePopupMenu.show(FormParaWidgetPane.this,
+                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
+                        (int) jSeparatorLayout.getLocation().getY());
             }
         });
         labelPane.add(chartPopUpButton, BorderLayout.EAST);
@@ -255,40 +272,10 @@ public class FormParaWidgetPane extends JPanel {
         chartPopUpButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JPanel widgetPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-                loadPredefinedWidget();
-                int rowNum = calculateWidgetWindowRowNum();
-                JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                for (WidgetOption o : loadWidgetOptions()) {
-                    westPanel.add(new ToolBarButton(o));
-                }
-                int x = commonWidgetNum * (widgetButtonWidth + smallGAP);
-                westPanel.setPreferredSize(new Dimension(x, (int) (rowNum * westPanel.getPreferredSize().getHeight())));
-                JPanel eastPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                for (WidgetOption no : predifinedwidgeList) {
-                    eastPane.add(new ToolBarButton(no));
-                }
-                int maxWidth = preWidgetShowMaxNum * (widgetButtonWidth + smallGAP);
-                int width = predifinedwidgeList.size() >= preWidgetShowMaxNum ? maxWidth : (int) eastPane.getPreferredSize().getWidth();
-                eastPane.setPreferredSize(new Dimension(width, (int) (rowNum * eastPane.getPreferredSize().getHeight())));
-
-                UIScrollPane eastScrollPane = new UIScrollPane(eastPane);
-                eastScrollPane.setBorder(null);
-                int maxHeight = preWidgetShowMaxRow * (widgetButtonHeight + smallGAP);
-                int height = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? maxHeight : (int) eastPane.getPreferredSize().getHeight();
-                width = predifinedwidgeList.size() >= preWidgetShowMaxNum * preWidgetShowMaxRow ? (int) eastPane.getPreferredSize().getWidth() + smallGAP + jsparatorWidth : (int) eastPane.getPreferredSize().getWidth();
-                eastScrollPane.setPreferredSize(new Dimension(width, height));
-
-                widgetPane.add(westPanel);
-                widgetPane.add(createJSeparator(height));
-                widgetPane.add(eastScrollPane);
-
-                widgetTypeWindow = new PopUpWindow(widgetPane, Inter.getLocText("FR-Designer-Form-ToolBar_Widget"));
-                widgetTypeWindow.setSize(widgetTypeWindow.getPreferredSize());
-                if (jSeparatorChart != null) {
-                    widgetTypeWindow.setLocation((int) jSeparatorChart.getLocationOnScreen().getX() + 1, (int) jSeparatorChart.getLocationOnScreen().getY());
-                }
-                widgetTypeWindow.setVisible(true);
+                initWidgetTypePopUp();
+                widgetTypePopupMenu.show(FormParaWidgetPane.this,
+                        (int) jSeparatorChart.getLocation().getX() + BORDER,
+                        (int) jSeparatorChart.getLocation().getY());
             }
 
         });
@@ -378,83 +365,6 @@ public class FormParaWidgetPane extends JPanel {
          */
         public void fireCreatorModified(DesignerEvent evt) {
             button.setEnabled(designer.getParaComponent() == null);
-        }
-    }
-
-
-    private class PopUpWindow extends JWindow {
-        private JPanel northPane;
-        private String typeName;
-        private int LineWidth = 5;
-        private int BarWidth = 10;
-
-        public PopUpWindow(JPanel northPane, String typeName) {
-            super();
-            this.northPane = northPane;
-            this.typeName = typeName;
-            this.getContentPane().add(initComponents());
-            this.doLayout();
-            Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
-        }
-
-        private AWTEventListener awt = new AWTEventListener() {
-            public void eventDispatched(AWTEvent event) {
-                if (event instanceof MouseEvent) {
-                    MouseEvent mv = (MouseEvent) event;
-                    if (mv.getClickCount() > 0) {
-                        Point point = new Point((int) (mv.getLocationOnScreen().getX()), (int) mv.getLocationOnScreen().getY());
-                        // 直接contains在mac下，点击内部也会消失
-                        Dimension d = PopUpWindow.this.getSize();
-                        Point p = PopUpWindow.this.getLocation();
-                        Rectangle rect = new Rectangle(p, d);
-                        if (!rect.contains(point)) {
-                            PopUpWindow.this.setVisible(false);
-                        }
-                    }
-                }
-            }
-        };
-
-
-        protected JPanel initComponents() {
-            JPanel rootPane = new EditorChoosePane();
-            JPanel contentPane = new JPanel();
-            contentPane.setLayout(new BorderLayout(17, 0));
-            contentPane.add(northPane, BorderLayout.CENTER);
-            JPanel labelPane = new JPanel(new BorderLayout());
-            labelPane.add(new UILabel(typeName, UILabel.CENTER), BorderLayout.CENTER);
-            JButton popUpButton = createPopDownButton();
-            popUpButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    PopUpWindow.this.setVisible(false);
-                }
-            });
-            labelPane.add(popUpButton, BorderLayout.EAST);
-            contentPane.add(labelPane, BorderLayout.SOUTH);
-            rootPane.add(contentPane, BorderLayout.CENTER);
-            return rootPane;
-
-        }
-
-
-    }
-
-    private class EditorChoosePane extends JPanel {
-        public EditorChoosePane() {
-            super();
-            ((FlowLayout) this.getLayout()).setVgap(1);
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            Rectangle r = this.getBounds();
-            g.setColor(UIConstants.NORMAL_BACKGROUND);
-            g.fillRoundRect(r.x, r.y, r.width, r.height, 0, 0);
-            g.setColor(UIConstants.LINE_COLOR);
-            g.drawLine(r.x, r.y, r.x, r.y + r.height);
-            g.drawLine(r.x, r.y + r.height - 1, r.x + r.width - 1, r.y + r.height - 1);
-            g.drawLine(r.x + r.width - 1, r.y, r.x + r.width - 1, r.y + r.height - 1);
         }
     }
 
