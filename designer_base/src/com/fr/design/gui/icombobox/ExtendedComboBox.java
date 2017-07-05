@@ -1,13 +1,23 @@
 package com.fr.design.gui.icombobox;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicComboPopup;
-import javax.swing.plaf.basic.ComboPopup;
-import java.awt.*;
+import com.fr.common.inputevent.InputEventBaseOnOS;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -68,12 +78,12 @@ public class ExtendedComboBox extends UIComboBox {
         protected JList createList() {
             return new JList(comboBox.getModel()) {
                 public void processMouseEvent(MouseEvent e) {
-                    if (e.isControlDown()) {
+                    if (InputEventBaseOnOS.isControlDown(e)) {
                         //   Fix   for   4234053.   Filter   out   the   Control
                         //   Key   from   the   list.
                         //   ie.,   don't   allow   CTRL   key   deselection.
                         e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers()
-                                ^ InputEvent.CTRL_MASK, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
+                                ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
                     }
                     super.processMouseEvent(e);
                 }

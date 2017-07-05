@@ -20,6 +20,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
+
+
 /**
  * Adds auto-completion to a text component.  Provides a popup window with a
  * list of auto-complete choices on a given keystroke, such as Crtrl+Space.<p>
@@ -307,7 +310,7 @@ public class AutoCompletion {
      */
     public static KeyStroke getDefaultTriggerKey() {
         // Default to CTRL, even on Mac, since Ctrl+Space activates Spotlight
-        return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_MASK);
+        return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, DEFAULT_MODIFIER);
     }
 
 

@@ -1,20 +1,31 @@
 package com.fr.design.gui.icombobox;
 
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
-import sun.swing.DefaultLookup;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
+import com.fr.common.inputevent.InputEventBaseOnOS;
+import com.fr.design.constants.UIConstants;
+import sun.swing.DefaultLookup;
+
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * @author zhou                                                                                                                       F
@@ -199,8 +210,8 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
 
                 @Override
                 public void processMouseEvent(MouseEvent e) {
-                    if (e.isControlDown()) {
-                        e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ InputEvent.CTRL_MASK, e.getX(), e.getY(), e.getClickCount(),
+                    if (InputEventBaseOnOS.isControlDown(e)) {
+                        e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers() ^ DEFAULT_MODIFIER, e.getX(), e.getY(), e.getClickCount(),
                                 e.isPopupTrigger());
                     }
                     super.processMouseEvent(e);

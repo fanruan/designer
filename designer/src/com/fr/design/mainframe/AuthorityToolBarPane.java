@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.ConfigManager;
 import com.fr.base.ConfigManagerProvider;
 import com.fr.base.FRContext;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -67,7 +68,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
                         buttonlists.get(i).setSelected(true);
                     }
                 }
-            } else if (!e.isControlDown()) {
+            } else if (!InputEventBaseOnOS.isControlDown(e)) {
                 //实现单选
                 removeSelection();
                 if (selectedIndex != -1) {
@@ -235,7 +236,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
                 dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
             }
         }
-
+        
     }
 
     private void dealWithWebContent(WebContent wc, Widget widget, boolean isSelected, String selectedRole) {

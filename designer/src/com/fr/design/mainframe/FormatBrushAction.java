@@ -12,8 +12,9 @@ import com.fr.report.elementcase.TemplateElementCase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+
+import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 /**
  * Author : daisy
@@ -31,7 +32,7 @@ public class FormatBrushAction extends ElementCaseAction {
         this.setName(Inter.getLocText("M_Edit-FormatBrush"));
         this.setMnemonic('B');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/formatBrush.png"));
-        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+        this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, DEFAULT_MODIFIER));
     }
 
     public boolean executeActionReturnUndoRecordNeeded() {

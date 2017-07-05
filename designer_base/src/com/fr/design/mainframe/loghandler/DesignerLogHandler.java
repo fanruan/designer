@@ -13,7 +13,10 @@ import com.fr.general.LogRecordTime;
 import com.fr.stable.xml.LogRecordTimeProvider;
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -130,6 +133,7 @@ public class DesignerLogHandler {
 
         private LogHandlerArea() {
             jTextArea = new JTextPane();
+
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             UIScrollPane js = new UIScrollPane(jTextArea);
             this.add(js, BorderLayout.CENTER);
@@ -293,4 +297,6 @@ public class DesignerLogHandler {
         };
 
     }
+
+
 }

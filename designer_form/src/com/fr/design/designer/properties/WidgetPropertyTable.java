@@ -26,13 +26,13 @@ import com.fr.general.ComparatorUtils;
 public class WidgetPropertyTable extends AbstractPropertyTable {
 
 	private FormDesigner designer;
-    private static final int LEFT_COLUMN_WIDTH = 97;  // "属性名"列的宽度
+	private static final int LEFT_COLUMN_WIDTH = 97;  // "属性名"列的宽度
 
 	public WidgetPropertyTable(FormDesigner designer) {
 		super();
 		setDesigner(designer);
 	}
-
+	
 	public static ArrayList<PropertyGroup> getCreatorPropertyGroup(FormDesigner designer, XCreator source) {
 		ArrayList<PropertyGroup> groups = new ArrayList<PropertyGroup>();
 		ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, source);
@@ -85,7 +85,7 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		}
 		TableModel model = new BeanTableModel();
 		setModel(model);
-        this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		TableColumn tc = this.getColumn(this.getColumnName(0));
 		tc.setMinWidth(LEFT_COLUMN_WIDTH);
 		tc.setMaxWidth(LEFT_COLUMN_WIDTH);
@@ -93,13 +93,13 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		this.repaint();
 	}
 
-    private void setRightColumnWidth(boolean automode) {
+	private void setRightColumnWidth(boolean automode) {
 		int rightColumnWidth = this.getWidth() - LEFT_COLUMN_WIDTH;
 		TableColumn tcRight = this.getColumn(this.getColumnName(1));
 		tcRight.setMinWidth(automode ? 0 : rightColumnWidth);
 		tcRight.setMaxWidth(automode ? this.getWidth() : rightColumnWidth);
 	}
-
+	
 	private void setDesigner(FormDesigner designer) {
 		this.designer = designer;
 	}
@@ -107,8 +107,8 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 
 	/**
 	 * 单元格tooltip
-	 * 属性名悬浮提示
-	 *
+	 * 属性名悬浮提示 
+	 * 
 	 * @param 鼠标点击事件
 	 * @return 单元格tooltip
 	 */
@@ -121,7 +121,7 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		return null;
 	}
 
-    @Override
+	@Override
 	public void columnMarginChanged(javax.swing.event.ChangeEvent e) {
 		setRightColumnWidth(false);
 		super.columnMarginChanged(e);

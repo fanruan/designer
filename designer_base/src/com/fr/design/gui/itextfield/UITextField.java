@@ -1,5 +1,6 @@
 package com.fr.design.gui.itextfield;
 
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
@@ -27,26 +28,32 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     public UITextField() {
         super();
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initListener();
     }
 
     public UITextField(int columns) {
         super(columns);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initListener();
     }
 
     public UITextField(String text, int columns) {
         super(text, columns);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initListener();
     }
 
     public UITextField(String text) {
         super(text);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
+
         initListener();
     }
 
     public UITextField(Document doc, String text, int columns) {
         super(doc, text, columns);
+        InputEventBaseOnOS.addBasicEditInputMap(this);
         initListener();
     }
 
