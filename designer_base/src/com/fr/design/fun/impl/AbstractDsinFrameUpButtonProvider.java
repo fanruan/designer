@@ -2,6 +2,7 @@ package com.fr.design.fun.impl;
 
 import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.stable.fun.impl.AbstractProvider;
 import com.fr.stable.fun.mark.API;
 
 /**
@@ -10,7 +11,7 @@ import com.fr.stable.fun.mark.API;
  * Time: 15:50
  */
 @API(level = DesignerFrameUpButtonProvider.CURRENT_LEVEL)
-public abstract class AbstractDsinFrameUpButtonProvider implements DesignerFrameUpButtonProvider {
+public abstract class AbstractDsinFrameUpButtonProvider extends AbstractProvider implements DesignerFrameUpButtonProvider {
     @Override
     public UIButton[] getUpButtons(int menuState) {
         return new UIButton[0];

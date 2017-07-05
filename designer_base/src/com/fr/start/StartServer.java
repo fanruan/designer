@@ -45,10 +45,10 @@ public class StartServer {
      * 预览Demo
      * 找默认工作目录，不应该按照名字去找，而应该按照安装路径，因为默认工作目录的名字可能会改变。
      */
-	public static void browerDemoURL() {
+	public static void browserDemoURL() {
 		if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
 			String web = GeneralContext.getCurrentAppNameOfEnv();
-			browerURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
+			browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
 					+ "?op=fs");
 			return;
 		}
@@ -65,16 +65,16 @@ public class StartServer {
 					} catch (Exception e) {
 						FRContext.getLogger().errorWithServerLevel(e.getMessage());
 					}
-					initDemoServerAndBrower();
+					initDemoServerAndBrowser();
 				}
 
 			}).setVisible(true);
 		} else {
-			initDemoServerAndBrower();
+			initDemoServerAndBrowser();
 		}
 	}
 
-	private static void initDemoServerAndBrower() {
+	private static void initDemoServerAndBrowser() {
 		if (jettyHost != null) {
 			if (!jettyHost.isDemoAppLoaded()) {
 				jettyHost.exit();
@@ -104,7 +104,7 @@ public class StartServer {
      *
      * @param url 指定路径
      */
-	public static void browerURLWithLocalEnv(String url) {
+	public static void browserURLWithLocalEnv(String url) {
 		try {
 			if (jettyHost != null) {
 				if (NEED_LOAD_ENV) {

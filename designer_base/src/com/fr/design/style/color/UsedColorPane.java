@@ -42,7 +42,7 @@ public class UsedColorPane extends BasicPane {
      * @param rows                行
      * @param columns             列
      * @param reserveCells        留白的单元格个数
-     * @param colors              最近使用的颜色
+     * @param selectable
      * @param needPickColorButton 是否需要加上取色器按钮
      * @param setColorRealTime    取色器是否实时设定颜色
      */
@@ -68,7 +68,6 @@ public class UsedColorPane extends BasicPane {
         //最近使用颜色
         Color[] colors = ColorSelectConfigManager.getInstance().getColors();
         int size = colors.length;
-
         int i = 0;
         if (needPickColorButton) {
             // 取色按钮
@@ -84,7 +83,8 @@ public class UsedColorPane extends BasicPane {
             i++;
         }
         while (i < total) {
-            Color color = i < size ? colors[size - (i - this.reserveCells) - 1] : DEFAULT_COLOR;
+            Color color = i - this.reserveCells < size ? colors[size - (i - this.reserveCells) - 1] :
+                    DEFAULT_COLOR;
             panel.add(new ColorCell(color == null ? DEFAULT_COLOR : color, selectable));
             i++;
         }
@@ -100,7 +100,7 @@ public class UsedColorPane extends BasicPane {
         int size = colors.length;
         for (int i = this.reserveCells; i < total; i++) {
             ColorCell cell = (ColorCell) this.pane.getComponent(i);
-            Color color = i < size ? colors[size - (i - this.reserveCells) - 1] : DEFAULT_COLOR;
+            Color color = i - this.reserveCells < size ? colors[size - (i - this.reserveCells) - 1] : DEFAULT_COLOR;
             cell.setColor(color == null ? DEFAULT_COLOR : color);
         }
     }

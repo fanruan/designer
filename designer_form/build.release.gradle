@@ -49,7 +49,7 @@ buildDir=buildDir.substring(0,buildDir.lastIndexOf ('\\'))
 def branchName=buildDir.substring(buildDir.lastIndexOf ('\\')+1)
 //声明外部依赖
 dependencies{
-compile fileTree(dir:'../../../finereport-lib-stable/master',include:'**/*.jar')
+compile fileTree(dir:"../../../finereport-lib-stable/${branchName}",include:'**/*.jar')
 compile fileTree(dir:'../../../',include:"finereport-*-stable/${branchName}/**/build/libs/*.jar")
 
  	testCompile 'junit:junit:4.12'

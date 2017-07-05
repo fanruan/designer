@@ -112,7 +112,7 @@ public class DesignUtils {
                         String line = null;
                         while ((line = reader.readLine()) != null) {
                             if (line.startsWith("demo")) {
-                                StartServer.browerDemoURL();
+                                StartServer.browserDemoURL();
                             } else if (StringUtils.isNotEmpty(line)) {
                                 File f = new File(line);
                                 String path = f.getAbsolutePath();
@@ -320,7 +320,7 @@ public class DesignUtils {
                 String web = GeneralContext.getCurrentAppNameOfEnv();
                 String url = "http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
                         + postfixOfUri;
-                StartServer.browerURLWithLocalEnv(url);
+                StartServer.browserURLWithLocalEnv(url);
             } catch (Throwable e) {
                 //
             }
