@@ -33,7 +33,7 @@ public class WebViewDlgHelper {
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
     // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
-    private static String installHome = StableUtils.getInstallHome();
+    private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
     private static final int BYTES_NUM = 1024;
 
     public static void createPluginDialog() {
