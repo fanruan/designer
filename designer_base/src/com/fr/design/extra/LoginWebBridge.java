@@ -110,9 +110,6 @@ public class LoginWebBridge {
         if (StringUtils.isEmpty(userName)) {
             return;
         }
-        if (StringUtils.isNotEmpty(this.userName)) {
-            updateMessageCount();
-        }
         this.userName = userName;
     }
 
@@ -124,43 +121,6 @@ public class LoginWebBridge {
     private boolean testConnection() {
         HttpClient client = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.test"));
         return client.isServerAlive();
-    }
-
-    /**
-     * 定时取后台论坛消息
-     */
-    public void updateMessageCount() {
-        //启动获取消息更新的线程
-        //登陆状态, 根据存起来的用户名密码, 每1分钟发起一次请求, 更新消息条数.
-        Thread updateMessageThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sleep(CHECK_MESSAGE_TIME);
-                while (StringUtils.isNotEmpty(DesignerEnvManager.getEnvManager().getBBSName())) {
-                    HashMap<String, String> para = new HashMap<>();
-                    int uid = DesignerEnvManager.getEnvManager().getBbsUid();
-                    para.put("uid", String.valueOf(uid));
-                    HttpClient getMessage = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("bbs.message"), para);
-                    getMessage.asGet();
-                    if (getMessage.isServerAlive()) {
-                        try {
-                            String res = getMessage.getResponseText();
-                            if (res.equals(FAILED_MESSAGE_STATUS)) {
-                            } else {
-                                JSONObject jo = new JSONObject(res);
-                                if (jo.optString("status").equals(SUCCESS_MESSAGE_STATUS)) {
-                                    setMessageCount(Integer.parseInt(jo.getString("message")));
-                                }
-                            }
-                        } catch (Exception e) {
-                            FRContext.getLogger().info(e.getMessage());
-                        }
-                    }
-                    sleep(CHECK_MESSAGE_TIME);
-                }
-            }
-        });
-        updateMessageThread.start();
     }
 
     /**

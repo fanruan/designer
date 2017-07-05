@@ -14,6 +14,8 @@ import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
+import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -29,10 +31,10 @@ import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
-import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 
 import javax.swing.*;
@@ -507,4 +509,39 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         
         return !(injection == null || injection.getObject() == null) && IndependentChartUIProvider.XML_TAG.equals(injection.getName()) && injection.getObject() instanceof IndependentChartUIProvider;
     }
+
+
+    //获取指定图表的编辑面板
+    public ChartEditPane getChartEditPane(String plotID) {
+        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String priority = (String) entry.getKey();
+            if (plotInChart(plotID, priority)) {
+                return getChartEditPane(priority, plotID);
+            }
+        }
+        return getChartEditPane(ChartTypeManager.CHART_PRIORITY, plotID);
+    }
+
+    private ChartEditPane getChartEditPane(String priority, String plotID) {
+        return chartTypeInterfaces.get(priority).get(plotID).getChartEditPane(plotID);
+    }
+
+    public ChartsConfigPane getChartConfigPane(String plotID) {
+        Iterator iterator = chartTypeInterfaces.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String priority = (String) entry.getKey();
+            if (plotInChart(plotID, priority)) {
+                return getChartConfigPane(priority, plotID);
+            }
+        }
+        return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plotID);
+    }
+
+    private ChartsConfigPane getChartConfigPane(String priority, String plotID) {
+        return chartTypeInterfaces.get(priority).get(plotID).getChartConfigPane(plotID);
+    }
+
 }
