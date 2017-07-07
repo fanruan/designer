@@ -69,6 +69,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
+    private static final String PLACE_HOLDER = "AlphaFine";
 
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
@@ -171,7 +172,7 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化输入框
      */
     private void initSearchTextField() {
-        searchTextField = new AlphaFineTextField("AlphaFine");
+        searchTextField = new AlphaFineTextField(PLACE_HOLDER);
         initTextFieldKeyListener();
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
@@ -235,7 +236,30 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     boolean isNeedSearch(String text) {
-        return ComparatorUtils.equals("AlphaFine", text) || text.contains("'");
+        return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'");
+    }
+
+    @Override
+    public void setVisible(boolean isVisible) {
+        if (!isVisible) {
+            dispose();
+            return;
+        }
+        super.setVisible(isVisible);
+    }
+
+    @Override
+    public void dispose() {
+        resetDialog();
+        super.dispose();
+    }
+
+    /**
+     * 重置搜索框
+     */
+    private void resetDialog() {
+        removeSearchResult();
+        searchTextField.setText(null);
     }
 
     /**
