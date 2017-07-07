@@ -182,8 +182,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         //hugh: private修改为protected方便oem的时候修改右上的组件构成
         //顶部日志+登陆按钮
         final JPanel northEastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+        //优先级为-1，保证最后全面刷新一次
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(-1) {
     
             @Override
             public void on(PluginEvent event) {

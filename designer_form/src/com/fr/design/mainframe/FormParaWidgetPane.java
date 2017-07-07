@@ -5,6 +5,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.fun.FormWidgetOptionProvider;
 import com.fr.design.gui.core.FormWidgetOption;
 import com.fr.design.gui.core.UserDefinedWidgetOption;
 import com.fr.design.gui.core.WidgetOption;
@@ -16,12 +17,21 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.*;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +67,26 @@ public class FormParaWidgetPane extends JPanel {
     private UILabel paraLabel;
 
     private FormDesigner designer;
+    
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                synchronized (FormParaWidgetPane.class) {
+                    THIS = null;
+                }
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG);
+            }
+        });
+    }
     
     public static synchronized final FormParaWidgetPane getInstance(FormDesigner designer) {
         if (THIS == null) {
@@ -254,8 +284,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initChartTypePopUp();
                 chartTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
-                        (int) jSeparatorLayout.getLocation().getY());
+                        (int) jSeparatorChart.getLocation().getX() + BORDER,
+                        (int) jSeparatorChart.getLocation().getY());
             }
         });
         labelPane.add(chartPopUpButton, BorderLayout.EAST);
@@ -274,8 +304,8 @@ public class FormParaWidgetPane extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 initWidgetTypePopUp();
                 widgetTypePopupMenu.show(FormParaWidgetPane.this,
-                        (int) jSeparatorChart.getLocation().getX() + BORDER,
-                        (int) jSeparatorChart.getLocation().getY());
+                        (int) jSeparatorLayout.getLocation().getX() + BORDER,
+                        (int) jSeparatorLayout.getLocation().getY());
             }
 
         });
