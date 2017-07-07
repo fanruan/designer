@@ -147,6 +147,7 @@ public class AlphaFineDialog extends UIDialog {
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
         closeButton.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png")));
         closeButton.set4ToolbarButton();
+        closeButton.setBorderPainted(false);
         closeButton.setRolloverEnabled(false);
         closeButton.addActionListener(new ActionListener() {
             @Override
@@ -154,11 +155,7 @@ public class AlphaFineDialog extends UIDialog {
                 dispose();
             }
         });
-        UILabel borderLabel = new UILabel();
-        borderLabel.setBackground(AlphaFineConstants.GRAY);
-        borderLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
         topPane.add(closeButton, BorderLayout.EAST);
-        topPane.add(borderLabel, BorderLayout.SOUTH);
         add(topPane, BorderLayout.CENTER);
         searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
@@ -184,7 +181,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initProperties() {
         setUndecorated(true);
-        addComponentListener(new ComponentHandler());
+        //addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
 
@@ -306,6 +303,10 @@ public class AlphaFineDialog extends UIDialog {
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
         rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
+        UILabel splitLabel = new UILabel();
+        splitLabel.setBackground(AlphaFineConstants.GRAY);
+        splitLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
+        searchResultPane.add(splitLabel, BorderLayout.NORTH);
         add(searchResultPane, BorderLayout.SOUTH);
         setSize(AlphaFineConstants.FULL_SIZE);
     }
