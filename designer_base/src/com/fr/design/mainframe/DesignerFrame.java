@@ -200,9 +200,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             }
         });
         refreshNorthEastPane(northEastPane, ad);
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
-			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
-		}
 		return northEastPane;
 	}
     
@@ -214,6 +211,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             processor = new DefaultTitlePlace();
         }
         processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+		if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
+			northEastPane.add(ad.createAlphafinePane(), BorderLayout.CENTER);
+		}
     }
     
     public DesignerFrame(ToolBarMenuDock ad) {
