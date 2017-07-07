@@ -35,7 +35,7 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 猜您需要
      */
-    private boolean isContainRecommend;
+    private boolean isContainRecommend = true;
 
     /**
      * 设置
