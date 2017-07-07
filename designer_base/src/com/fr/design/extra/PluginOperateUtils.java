@@ -34,11 +34,13 @@ public class PluginOperateUtils {
     public static void installPluginOnline(final PluginMarker pluginMarker, JSCallback jsCallback) {
         //下载插件
         if (!BBSPluginLogin.getInstance().hasLogin()) {
-            LoginCheckContext.fireLoginCheckListener();
+            UserLoginContext.fireLoginContextListener();
         }
         if (BBSPluginLogin.getInstance().hasLogin()) {
             PluginTask pluginTask = PluginTask.installTask(pluginMarker);
             PluginControllerHelper.installOnline(pluginMarker, new InstallOnlineCallback(pluginTask, jsCallback));
+        }else{
+            jsCallback.execute("success");
         }
     }
 
