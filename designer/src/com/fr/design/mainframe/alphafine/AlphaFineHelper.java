@@ -21,15 +21,22 @@ import java.util.List;
 public class AlphaFineHelper {
     public static final NoResultModel NO_RESULT_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_AlphaFine_NoResult"));
     public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
+    private static AlphaFineDialog alphaFineDialog;
 
     /**
      * 弹出alphafine搜索面板
      */
     public static void showAlphaFineDialog(boolean forceOpen) {
-        AlphaFineDialog dialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
-        final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
-        manager.setNeedRemind(false);
-        dialog.setVisible(true);
+        if (alphaFineDialog == null) {
+            alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
+            alphaFineDialog.setVisible(true);
+            final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
+            manager.setNeedRemind(false);
+        } else {
+            alphaFineDialog.setVisible(!alphaFineDialog.isVisible());
+        }
+
+
     }
 
 
