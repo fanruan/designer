@@ -371,8 +371,8 @@ public class AlphaFineDialog extends UIDialog {
         searchListModel.removeAllElements();
         searchListModel.resetSelectedState();
         rightSearchResultPane.removeAll();
-        rightSearchResultPane.validate();
-        rightSearchResultPane.repaint();
+        validate();
+        repaint();
     }
 
     /**
