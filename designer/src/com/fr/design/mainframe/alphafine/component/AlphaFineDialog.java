@@ -14,7 +14,6 @@ import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
-import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
@@ -325,8 +324,22 @@ public class AlphaFineDialog extends UIDialog {
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
+
+            @Override
+            protected void done() {
+                if (!isCancelled()) {
+                    fireStopLoading();
+                }
+            }
         };
         this.searchWorker.execute();
+    }
+
+    /**
+     * 停止加载状态
+     */
+    private void fireStopLoading() {
+        searchListModel.resetState();
     }
 
     /**
@@ -979,7 +992,7 @@ public class AlphaFineDialog extends UIDialog {
         public AlphaCellModel remove(int index) {
             AlphaCellModel object = myDelegate.get(index);
             myDelegate.remove(object);
-            fireIntervalRemoved(this, index, index);
+            fireContentsChanged(this, index, index);
             return object;
         }
 
@@ -1006,6 +1019,12 @@ public class AlphaFineDialog extends UIDialog {
 
         private void setValidSelected(boolean selected) {
             isValidSelected = selected;
+        }
+
+        public void resetState() {
+            for (int i = 0; i< getSize(); i++) {
+                getElementAt(i).resetState();
+            }
         }
     }
 
