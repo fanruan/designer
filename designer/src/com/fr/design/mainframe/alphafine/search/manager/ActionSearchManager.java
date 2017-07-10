@@ -21,7 +21,6 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/27.
  */
 public class ActionSearchManager implements AlphaFineSearchProcessor {
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Set"));
     private static ActionSearchManager actionSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
@@ -58,7 +57,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Set")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
@@ -78,7 +77,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
 
             }
             if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                lessModelList.add(0, TITLE_MODEL);
+                lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set")));
                 if (result.size() == 0) {
                     lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
                 } else {

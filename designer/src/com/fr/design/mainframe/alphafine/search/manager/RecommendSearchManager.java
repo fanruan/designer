@@ -93,7 +93,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
 
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend"), false));
+        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Recommend")));
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }

@@ -12,6 +12,7 @@ import java.awt.*;
  * Created by XiaXiang on 2017/4/20.
  */
 public class TitleCellRender implements ListCellRenderer<Object> {
+    private static final int LOAD_OFFSET = 28;
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -23,9 +24,9 @@ public class TitleCellRender implements ListCellRenderer<Object> {
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         titleLabel.setText(moreModel.getName());
         titleLabel.setFont(AlphaFineConstants.SMALL_FONT);
+        titleLabel.setForeground(AlphaFineConstants.DARK_GRAY);
         showMoreLabel.setFont(AlphaFineConstants.SMALL_FONT);
         showMoreLabel.setText(moreModel.getContent());
-        titleLabel.setForeground(AlphaFineConstants.DARK_GRAY);
         showMoreLabel.setForeground(AlphaFineConstants.DARK_GRAY);
         panel.add(titleLabel, BorderLayout.WEST);
         if (moreModel.isNeedMore()) {
@@ -33,11 +34,12 @@ public class TitleCellRender implements ListCellRenderer<Object> {
             panel.add(showMoreLabel, BorderLayout.EAST);
         }
         if (moreModel.isLoading()) {
-            ImageIcon imageIcon = (ImageIcon) IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/loading.gif");
+            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/loading.gif"));
             //设置cell的加载动画
             imageIcon.setImageObserver(list);
             UILabel loadingLabel = new UILabel(imageIcon);
-            panel.add(loadingLabel, BorderLayout.SOUTH);
+            loadingLabel.setBorder(BorderFactory.createEmptyBorder(LOAD_OFFSET,0,0,0));
+            panel.add(loadingLabel, 0);
         }
         panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_TITLE_HEIGHT));
         return panel;

@@ -109,4 +109,11 @@ public abstract class AlphaCellModel implements Comparable {
         }
         return this.getName().compareTo(cellModel.getName());
     }
+
+    /**
+     * 恢复正常状态
+     */
+    public void resetState() {
+
+    }
 }

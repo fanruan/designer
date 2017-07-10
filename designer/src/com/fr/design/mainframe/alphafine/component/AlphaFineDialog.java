@@ -14,7 +14,6 @@ import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
-import com.fr.design.mainframe.alphafine.listener.ComponentHandler;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
@@ -144,21 +143,18 @@ public class AlphaFineDialog extends UIDialog {
                 super.paintComponent(g);
             }
         };
-        closeButton.setContentAreaFilled(false);
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
         closeButton.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png")));
         closeButton.set4ToolbarButton();
+        closeButton.setBorderPainted(false);
+        closeButton.setRolloverEnabled(false);
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        UILabel borderLabel = new UILabel();
-        borderLabel.setBackground(AlphaFineConstants.GRAY);
-        borderLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
         topPane.add(closeButton, BorderLayout.EAST);
-        topPane.add(borderLabel, BorderLayout.SOUTH);
         add(topPane, BorderLayout.CENTER);
         searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
@@ -184,7 +180,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initProperties() {
         setUndecorated(true);
-        addComponentListener(new ComponentHandler());
+        //addComponentListener(new ComponentHandler());
         setSize(AlphaFineConstants.FIELD_SIZE);
         centerWindow(this);
 
@@ -306,6 +302,10 @@ public class AlphaFineDialog extends UIDialog {
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
         rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
+        UILabel splitLabel = new UILabel();
+        splitLabel.setBackground(AlphaFineConstants.GRAY);
+        splitLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
+        searchResultPane.add(splitLabel, BorderLayout.NORTH);
         add(searchResultPane, BorderLayout.SOUTH);
         setSize(AlphaFineConstants.FULL_SIZE);
     }
@@ -324,8 +324,22 @@ public class AlphaFineDialog extends UIDialog {
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
+
+            @Override
+            protected void done() {
+                if (!isCancelled()) {
+                    fireStopLoading();
+                }
+            }
         };
         this.searchWorker.execute();
+    }
+
+    /**
+     * 停止加载状态
+     */
+    private void fireStopLoading() {
+        searchListModel.resetState();
     }
 
     /**
@@ -370,8 +384,8 @@ public class AlphaFineDialog extends UIDialog {
         searchListModel.removeAllElements();
         searchListModel.resetSelectedState();
         rightSearchResultPane.removeAll();
-        rightSearchResultPane.validate();
-        rightSearchResultPane.repaint();
+        validate();
+        repaint();
     }
 
     /**
@@ -978,7 +992,7 @@ public class AlphaFineDialog extends UIDialog {
         public AlphaCellModel remove(int index) {
             AlphaCellModel object = myDelegate.get(index);
             myDelegate.remove(object);
-            fireIntervalRemoved(this, index, index);
+            fireContentsChanged(this, index, index);
             return object;
         }
 
@@ -1005,6 +1019,12 @@ public class AlphaFineDialog extends UIDialog {
 
         private void setValidSelected(boolean selected) {
             isValidSelected = selected;
+        }
+
+        public void resetState() {
+            for (int i = 0; i< getSize(); i++) {
+                getElementAt(i).resetState();
+            }
         }
     }
 
