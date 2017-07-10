@@ -61,11 +61,11 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         }
         BuildContext.setBuildFilePath(buildPropertiesPath());
 
-        //下面这两句的位置不能随便调换，因为会影响语言切换的问题
-        initLanguage();
-
         // 先加载设计器的国际化文件
         Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
+
+        //下面这两句的位置不能随便调换，因为会影响语言切换的问题
+        initLanguage();
 
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
