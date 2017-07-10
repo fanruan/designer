@@ -89,7 +89,7 @@ public class PluginOperateUtils {
             public void run() {
                 int rv = JOptionPane.showConfirmDialog(
                     null,
-                    Inter.getLocText("FR-Designer-Plugin_Delete_Confirmed"),
+                    Inter.getLocText("FR-Plugin_Delete_Confirmed"),
                     Inter.getLocText("FR-Designer-Plugin_Warning"),
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE
