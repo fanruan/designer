@@ -19,7 +19,6 @@ import com.fr.stable.StringUtils;
  * Created by XiaXiang on 2017/3/27.
  */
 public class DocumentSearchManager implements AlphaFineSearchProcessor {
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP"));
     private static DocumentSearchManager documentSearchManager = null;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -51,7 +50,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
             return lessModelList;
         }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
@@ -78,7 +77,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                         }
                     }
                     if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, TITLE_MODEL);
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
                         if (searchResult.size() == 0) {
                             lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
                         } else {
@@ -105,7 +104,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
      */
     private SearchResult getNoConnectList() {
         SearchResult result = new SearchResult();
-        result.add(0, TITLE_MODEL);
+        result.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
     }
