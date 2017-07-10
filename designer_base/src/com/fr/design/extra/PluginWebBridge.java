@@ -12,6 +12,8 @@ import com.fr.general.SiteCenter;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -196,7 +198,8 @@ public class PluginWebBridge {
      */
     public void updatePluginFromDisk(String filePath, final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.updatePluginFromDisk(filePath, jsCallback);
+        File file = new File(filePath);
+        PluginOperateUtils.updatePluginFromDisk(file, jsCallback);
     }
 
     /**
@@ -377,9 +380,20 @@ public class PluginWebBridge {
      *
      * @param callback
      */
-    public void getLoginInfo(final JSObject callback) {
+    public String getLoginInfo(final JSObject callback) {
+        registerLoginInfo(callback);
+        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
+        return bbsUserInfo == null ? "": bbsUserInfo.getUserName();
+    }
+
+    /**
+     * 系统登录注册
+     *
+     * @param callback
+     */
+    public void registerLoginInfo(final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getLoginInfo(jsCallback);
+        PluginOperateUtils.getLoginInfo(jsCallback, uiLabel);
     }
 
     /**

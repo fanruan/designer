@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.exe.callback.*;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -33,15 +33,8 @@ public class PluginOperateUtils {
 
     public static void installPluginOnline(final PluginMarker pluginMarker, JSCallback jsCallback) {
         //下载插件
-        if (!BBSPluginLogin.getInstance().hasLogin()) {
-            UserLoginContext.fireLoginContextListener();
-        }
-        if (BBSPluginLogin.getInstance().hasLogin()) {
-            PluginTask pluginTask = PluginTask.installTask(pluginMarker);
-            PluginControllerHelper.installOnline(pluginMarker, new InstallOnlineCallback(pluginTask, jsCallback));
-        }else{
-            jsCallback.execute("success");
-        }
+        PluginTask pluginTask = PluginTask.installTask(pluginMarker);
+        PluginControllerHelper.installOnline(pluginMarker, new InstallOnlineCallback(pluginTask, jsCallback));
     }
 
     public static void installPluginFromDisk(File zipFile, JSCallback jsCallback) {
@@ -50,13 +43,8 @@ public class PluginOperateUtils {
 
 
     public static void updatePluginOnline(List<PluginMarker> pluginMarkerList, JSCallback jsCallback) {
-        if (!(BBSPluginLogin.getInstance().hasLogin())) {
-            LoginCheckContext.fireLoginCheckListener();
-        }
-        if (BBSPluginLogin.getInstance().hasLogin()) {
-            for (int i = 0; i < pluginMarkerList.size(); i++) {
-                updatePluginOnline(pluginMarkerList.get(i), jsCallback);
-            }
+        for (int i = 0; i < pluginMarkerList.size(); i++) {
+            updatePluginOnline(pluginMarkerList.get(i), jsCallback);
         }
     }
 
@@ -76,8 +64,8 @@ public class PluginOperateUtils {
     }
 
 
-    public static void updatePluginFromDisk(final String filePath, JSCallback jsCallback) {
-        PluginManager.getController().update(new File(filePath), new UpdateFromDiskCallback(new File(filePath), jsCallback));
+    public static void updatePluginFromDisk(File zipFile, JSCallback jsCallback) {
+        PluginManager.getController().update(zipFile, new UpdateFromDiskCallback(zipFile, jsCallback));
     }
 
 
@@ -271,22 +259,16 @@ public class PluginOperateUtils {
         }).start();
     }
 
-    public static void getLoginInfo(JSCallback jsCallback) {
-
-        if (!BBSPluginLogin.getInstance().hasLogin()) {
-            String userName = DesignerEnvManager.getEnvManager().getBBSName();
-            String password = DesignerEnvManager.getEnvManager().getBBSPassword();
-            if (StringUtils.isNotBlank(userName)) {
-                BBSPluginLogin.getInstance().login(new BBSUserInfo(userName, password));
-            }
-        }
+    public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {
         BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
         String username = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
-        String inShowUsername = DesignerEnvManager.getEnvManager().getInShowBBsName();
-        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(inShowUsername)) {
-            return;
+
+        if (StringUtils.isEmpty(username)) {
+            jsCallback.execute("");
+            uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
         } else {
-            String result = StringUtils.isEmpty(inShowUsername) ? username : inShowUsername;
+            uiLabel.setText(username);
+            String result =  username;
             jsCallback.execute(result);
         }
     }
