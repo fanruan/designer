@@ -39,7 +39,7 @@ public class WebViewDlgHelper {
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
             String relativePath = "/scripts/store/web/index.html";
-            String mainJsPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), relativePath);
+            String mainJsPath = StableUtils.pathJoin(installHome, relativePath);
             File file = new File(mainJsPath);
             if (!file.exists()) {
                 int rv = JOptionPane.showConfirmDialog(
@@ -54,7 +54,7 @@ public class WebViewDlgHelper {
                 }
             } else {
                 String indexPath = "index.html";
-                String mainIndexPath = StableUtils.pathJoin(FRContext.getCurrentEnv().getWebReportPath(), indexPath);
+                String mainIndexPath = StableUtils.pathJoin(installHome, indexPath);
                 checkAndCopyMainFile(mainIndexPath, mainJsPath);
                 updateShopScripts(SHOP_SCRIPTS);
                 showPluginDlg(mainIndexPath);
@@ -144,7 +144,7 @@ public class WebViewDlgHelper {
     }
 
     private static void showLoginDlg() {
-        LoginWebPane webPane = new LoginWebPane(FRContext.getCurrentEnv().getWebReportPath());
+        LoginWebPane webPane = new LoginWebPane(installHome);
         UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
         LoginWebBridge.getHelper().setDialogHandle(qqdlg);
         qqdlg.setVisible(true);
@@ -186,7 +186,7 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), FRContext.getCurrentEnv().getWebReportPath());
+                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         int rv = JOptionPane.showOptionDialog(
                                 null,
