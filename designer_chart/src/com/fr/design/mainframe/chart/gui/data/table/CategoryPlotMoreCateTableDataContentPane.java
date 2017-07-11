@@ -43,7 +43,7 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	
 	private UIObserverListener uiobListener = null;
 
-	public ArrayList<UIComboBox> getBoxList() {
+	public List<UIComboBox> getBoxList() {
 		return boxList;
 	}
 
