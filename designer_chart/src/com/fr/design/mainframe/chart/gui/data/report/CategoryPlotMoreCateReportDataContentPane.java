@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -38,7 +39,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 	private ArrayList<TinyFormulaPane> formualList = new ArrayList<TinyFormulaPane>();
 	private UIObserverListener uiobListener = null;
 
-	public ArrayList<TinyFormulaPane> getFormualList() {
+	public List<TinyFormulaPane> getFormualList() {
 		return formualList;
 	}
 
