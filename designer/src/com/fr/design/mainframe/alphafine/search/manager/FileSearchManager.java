@@ -31,7 +31,6 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static final MoreModel TITLE_MODEL = new MoreModel(Inter.getLocText("FR-Designer_Templates"));
     private static FileSearchManager fileSearchManager = null;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
@@ -77,7 +76,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             searchText = searchText.substring(MARK_LENGTH, searchText.length());
         }
         if (StringUtils.isBlank(searchText) || ComparatorUtils.equals(searchText, DS_NAME)) {
-            lessModelList.add(TITLE_MODEL);
+            lessModelList.add(new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             return lessModelList;
         }
 
@@ -102,7 +101,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
 
         }
         if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-            lessModelList.add(0, TITLE_MODEL);
+            lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             if (result.size() == 0) {
                 lessModelList.add(AlphaFineHelper.NO_RESULT_MODEL);
             } else {

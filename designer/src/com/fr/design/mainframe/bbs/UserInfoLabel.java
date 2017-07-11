@@ -16,6 +16,8 @@ import com.fr.general.DateUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
@@ -236,7 +238,8 @@ public class UserInfoLabel extends UILabel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            userName = DesignerEnvManager.getEnvManager().getBBSName();
+            BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
+            userName = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
             if (StringUtils.isNotEmpty(userName)) {
                 UIPopupMenu menu = new UIPopupMenu();
                 menu.setOnlyText(true);
@@ -262,6 +265,7 @@ public class UserInfoLabel extends UILabel {
                 UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent e) {
+                        BBSPluginLogin.getInstance().logOut();
                         UserLoginContext.fireLoginContextListener();
                     }
 

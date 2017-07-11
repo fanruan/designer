@@ -16,11 +16,11 @@ public class MoreModel extends AlphaCellModel {
         super(name, content, CellType.MORE);
         this.needMore = needMore;
         this.contentType = type;
+        setLoading(true);
     }
 
     public MoreModel(String name) {
-        super(name, null, CellType.MORE);
-        this.needMore = false;
+        this(name, true);
     }
 
     public MoreModel(String name, boolean isLoading) {
@@ -49,6 +49,11 @@ public class MoreModel extends AlphaCellModel {
     @Override
     public void doAction() {
 
+    }
+
+    @Override
+    public void resetState() {
+        setLoading(false);
     }
 
     public boolean isLoading() {

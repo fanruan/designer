@@ -272,11 +272,11 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
 
 
     @Override
-    public SearchResult getLessSearchResult(String searchText) {
+    public synchronized SearchResult getLessSearchResult(String searchText) {
         this.modelList = new SearchResult();
         recentModelList = getRecentModelList(searchText);
         if (recentModelList != null && recentModelList.size() > 0) {
-            modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest"), false));
+            modelList.add(new MoreModel(Inter.getLocText("FR-Designer_AlphaFine_Latest")));
         }
         modelList.addAll(recentModelList);
         return modelList;

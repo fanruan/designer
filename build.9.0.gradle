@@ -18,7 +18,7 @@ task appletJar<<{
 		}
 		unjar(src:"${libDir}/3rd.jar",dest:"./tmp")
 		unjar(src:"${libDir}/servlet-api.jar",dest:"./tmp")
-		jar(jarfile:"build/libs/fr-applet-8.0.jar"){
+		jar(jarfile:"build/libs/fr-applet-9.0.jar"){
 			fileset(dir:"build/classes"){
 				exclude(name:"*.*")
 				exclude(name:"bin/*.*")
