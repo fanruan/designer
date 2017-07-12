@@ -168,7 +168,7 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化输入框
      */
     private void initSearchTextField() {
-        searchTextField = new AlphaFineTextField(PLACE_HOLDER);
+        searchTextField = new AlphaFineTextField(Inter.getLocText("FR-Designer_AlphaFine"));
         initTextFieldKeyListener();
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
