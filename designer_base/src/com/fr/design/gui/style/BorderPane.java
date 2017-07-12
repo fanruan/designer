@@ -184,7 +184,7 @@ public class BorderPane extends AbstractBasicStylePane {
 	}
 
 	public Style update(Style style) {
-//		style = style.deriveBackground(backgroundPane.update());
+		style = style.deriveBackground(backgroundPane.update());
 		if (style == null) {
 			style = Style.DEFAULT_STYLE;
 		}

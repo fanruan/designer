@@ -11,13 +11,9 @@ import com.fr.base.BaseUtils;
 import com.fr.design.fun.CellAttributeProvider;
 import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
-import com.fr.design.gui.ibutton.UIHeadGroup;
-import com.fr.design.gui.ibutton.UISideGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.cell.CellElementEditPane;
-import com.fr.design.mainframe.cell.settingpane.AbstractCellAttrPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
@@ -87,43 +83,6 @@ public class CellElementPropertyPane extends DockingView {
         }
     };
 
-    public static void main(String[] args){
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GUICoreUtils.centerWindow(jf);
-        final JPanel jPanel = (JPanel) jf.getContentPane();
-        jPanel.setLayout(new BorderLayout());
-        final CardLayout card = new CardLayout();
-        final JPanel center = new JPanel();
-        center.setLayout( new CardLayout());
-
-        final JPanel content = new JPanel();
-        content.setLayout(new BorderLayout());
-        final CellElementPropertyPane pane = new CellElementPropertyPane();
-        content.add(new CellElementPropertyPane(), BorderLayout.CENTER);
-        Icon[] iconArray = new Icon[2];
-        iconArray[0] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
-        center.add(content,content.getUIClassID());
-        iconArray[1] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
-        center.add(new JPanel(),"");
-//        for (int i = 0; i < 4; i++) {
-//                iconArray[0] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
-//                center.add(content,content.getUIClassID());
-//        }
-
-
-        final TitleChangeListener titleChangeListener = null;
-        UISideGroup tabsHeaderIconPane = new UISideGroup(iconArray) {
-        };
-        JPanel j1 = new JPanel();
-        j1.setLayout(new GridLayout(10,1));
-        j1.add(tabsHeaderIconPane);
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-        jPanel.add(j1, BorderLayout.WEST);
-        jPanel.add(center,BorderLayout.CENTER);
-        jf.setSize(500, 500);
-        jf.setVisible(true);
-    }
 
     private CellElementPropertyPane() {
         this.setLayout(new BorderLayout());
