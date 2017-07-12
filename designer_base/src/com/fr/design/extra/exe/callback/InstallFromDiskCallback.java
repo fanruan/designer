@@ -73,7 +73,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                 return;
             }
-            PluginOperateUtils.updatePluginOnline(pluginMarker, jsCallback);
+            PluginOperateUtils.updatePluginFromDisk(zipFile, jsCallback);
         }else {
             jsCallback.execute("failed");
             FRLogger.getLogger().info(Inter.getLocText("FR-Plugin_Install_Failed"));

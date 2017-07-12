@@ -14,11 +14,12 @@ import java.util.Date;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.extra.LoginWebBridge;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.plugin.manage.bbs.BBSPluginLogin;
+import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.StringUtils;
 
 
@@ -168,6 +169,8 @@ public class UserInfoPane extends BasicPane{
 	 * 
 	 */
 	public void markSignIn(String userName){
+		String password = DesignerEnvManager.getEnvManager().getBBSPassword();
+		BBSPluginLogin.getInstance().login(new BBSUserInfo(userName, password));
 		this.userInfoLabel.setText(userName);
 		this.userInfoLabel.setUserName(userName);
 		this.userInfoLabel.setOpaque(true);
