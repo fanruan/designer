@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart.gui.data.report;
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
+import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.NormalReportDataDefinition;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -36,6 +38,10 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 	
 	private ArrayList<TinyFormulaPane> formualList = new ArrayList<TinyFormulaPane>();
 	private UIObserverListener uiobListener = null;
+
+	public List<TinyFormulaPane> getFormualList() {
+		return formualList;
+	}
 
 	public CategoryPlotMoreCateReportDataContentPane() {
 		
@@ -105,13 +111,13 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 			public void actionPerformed(ActionEvent e) {
 				boxPane.remove(newButtonPane);
 				formualList.remove(pane);
-				checkAddButton();
+				checkComponent();
 				relayoutPane();
 			}
 		});
 		delButton.registerChangeListener(uiobListener);
-		
-		checkAddButton();
+
+		checkComponent();
 		relayoutPane();
 		
 		return pane;
@@ -121,7 +127,11 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 		int size = formualList.size();
 		addButton.setEnabled(size < 2);
 	}
-	
+
+	protected void checkComponent() {
+		checkAddButton();
+	}
+
 	private void relayoutPane() {
 		this.revalidate();
 	}
@@ -163,20 +173,25 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 		
 		checkAddButton();
 	}
-	
+
 	public void updateBean(ChartCollection collection) {
 		super.updateBean(collection);
-		
+
 		TopDefinitionProvider definition = collection.getSelectedChart().getFilterDefinition();
+		Axis axis = collection.getSelectedChart().getPlot().getxAxis();
 		if (definition instanceof NormalReportDataDefinition) {
 			NormalReportDataDefinition reportDefinition = (NormalReportDataDefinition) definition;
-			
+
 			reportDefinition.clearMoreCate();
-			
-			for(int i = 0, size = formualList.size(); i < size; i++) {
-				TinyFormulaPane pane = formualList.get(i);
-				reportDefinition.addMoreCate(canBeFormula(pane.updateBean()));
-			}
+			updateMoreCate(reportDefinition, axis);
+
+		}
+	}
+
+	protected void updateMoreCate(NormalReportDataDefinition reportDefinition, Axis axis) {
+		for (int i = 0, size = formualList.size(); i < size; i++) {
+			TinyFormulaPane pane = formualList.get(i);
+			reportDefinition.addMoreCate(canBeFormula(pane.updateBean()));
 		}
 	}
 }
