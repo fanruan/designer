@@ -4,7 +4,6 @@ import com.fr.design.DesignState;
 import com.fr.design.actions.MenuAction;
 import com.fr.file.XMLFileManager;
 import com.fr.general.FRLogger;
-import com.fr.general.GeneralUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
@@ -140,7 +139,7 @@ public class MenuManager extends XMLFileManager {
                     return;
                 }
                 try {
-                    MenuAction action = (MenuAction) GeneralUtils.classForName(name).newInstance();
+                    MenuAction action = (MenuAction) reader.getAttrAsClass().newInstance();
                     menu.addShortCut(action);
                 } catch (Exception exp) {
                     FRLogger.getLogger().error(exp.getMessage(), exp);
