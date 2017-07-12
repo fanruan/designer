@@ -299,8 +299,12 @@ public class AlphaFineDialog extends UIDialog {
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
         rightSearchResultPane.setBackground(Color.white);
+        UILabel splitLine = new UILabel();
+        splitLine.setBackground(AlphaFineConstants.GRAY);
+        splitLine.setPreferredSize(new Dimension(1, AlphaFineConstants.CONTENT_HEIGHT));
+        rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH - 1, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-        rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
+        searchResultPane.add(splitLine, BorderLayout.CENTER);
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
         UILabel splitLabel = new UILabel();
         splitLabel.setBackground(AlphaFineConstants.GRAY);
