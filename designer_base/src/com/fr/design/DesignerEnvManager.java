@@ -14,7 +14,6 @@ import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.file.FILEFactory;
 import com.fr.general.*;
-import com.fr.general.xml.GeneralXMLTools;
 import com.fr.stable.*;
 import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
@@ -1803,7 +1802,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     
         writer.startTAG("Env");
-        GeneralXMLTools.writeClassNameAttr(env.getClass(), writer);
+        writer.classAttr(env.getClass());
         writer.attr("name", name);
 
         env.writeXML(writer);
