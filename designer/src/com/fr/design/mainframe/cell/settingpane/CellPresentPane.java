@@ -25,21 +25,22 @@ public class CellPresentPane extends AbstractCellAttrPane {
      */
 	public JPanel createContentPane() {
 		presentPane = new PresentPane();
-		JPanel content = new JPanel(new BorderLayout());
-		content.add(presentPane, BorderLayout.CENTER);
-		presentPane.addTabChangeListener(new ItemListener() {
+        JPanel content = new JPanel(new BorderLayout());
+        content.add(presentPane, BorderLayout.CENTER);
+        presentPane.addTabChangeListener(new ItemListener() {
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				adjustValues();
-			}
-		});
-		return content;
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                adjustValues();
+            }
+        });
+        return content;
 	}
 
 	@Override
 	public String getIconPath() {
-		return "com/fr/design/images/data/source/dataDictionary.png";
+//		return "com/fr/design/images/data/source/dataDictionary.png";
+        return Inter.getLocText("Present");
 	}
 
 	@Override

@@ -9,8 +9,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -21,6 +24,7 @@ import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
@@ -45,22 +49,28 @@ public class BorderPane extends AbstractBasicStylePane {
 
 	private LineComboBox currentLineCombo;
 	private NewColorSelectBox currentLineColorPane;
+	private JPanel panel;
+	private JPanel borderPanel;
+	private JPanel backgroundPanel;
+	private BackgroundPane backgroundPane;
 
 	public BorderPane() {
 		this.initComponents();
 	}
 
+	public static void main(String[] args){
+		JFrame jf = new JFrame("test");
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel content = (JPanel) jf.getContentPane();
+		content.setLayout(new BorderLayout());
+		content.add(new BorderPane(), BorderLayout.CENTER);
+		GUICoreUtils.centerWindow(jf);
+		jf.setSize(290, 400);
+		jf.setVisible(true);
+	}
 	protected void initComponents() {
 		initButtonsWithIcon();
 		this.setLayout(new BorderLayout(0, 6));
-		double p = TableLayout.PREFERRED, f = TableLayout.FILL;
-		double[] columnSize1 = {p, f}, rowSize1 = {p, p};
-		Component[][] components1 = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style") + ":"), currentLineCombo},
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + ":"), currentLineColorPane},
-		};
-		JPanel northPane = TableLayoutHelper.createTableLayoutPane(components1, rowSize1, columnSize1);
-		double[] columnSize2 = {p, f}, rowSize2 = {p, p};
 		JPanel externalPane = new JPanel(new GridLayout(0, 4));
 		externalPane.add(topToggleButton);
 		externalPane.add(leftToggleButton);
@@ -69,14 +79,32 @@ public class BorderPane extends AbstractBasicStylePane {
 		JPanel insidePane = new JPanel(new GridLayout(0, 2));
 		insidePane.add(horizontalToggleButton);
 		insidePane.add(verticalToggleButton);
-		Component[][] components2 = new Component[][]{
-				new Component[]{outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png")), innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
-				new Component[]{externalPane, insidePane,}
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{null,null},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style") + "    ", SwingConstants.LEFT), currentLineCombo},
+				new Component[]{null,null},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
+				new Component[]{null,null},
+				new Component[]{new UILabel("外边框    ", SwingConstants.LEFT),outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png"))},
+				new Component[]{null,externalPane},
+				new Component[]{null,null},
+				new Component[]{new UILabel("内边框    ", SwingConstants.LEFT),innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
+				new Component[]{null,insidePane},
+				new Component[]{null,null}
 		};
-		JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components2, rowSize2, columnSize2);
-		this.setLayout(new BorderLayout(0, 6));
-		this.add(northPane, BorderLayout.NORTH);
-		this.add(centerPane, BorderLayout.CENTER);
+		double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
+		double[] columnSize = {p,f};
+		int[][] rowCount = {{1, 1},{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+		panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+		borderPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Border"),280,20,panel);
+		this.add(borderPanel,BorderLayout.NORTH);
+
+		backgroundPane = new BackgroundPane();
+		backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"),280,20,backgroundPane);
+		this.add(backgroundPanel,BorderLayout.CENTER);
+
 		outerToggleButton.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -113,7 +141,8 @@ public class BorderPane extends AbstractBasicStylePane {
 		return Inter.getLocText("FR-Designer_Border");
 	}
 
-	public void populate(Style style) {
+	@Override
+	public void populateBean(Style style) {
 		if (style == null) {
 			style = Style.DEFAULT_STYLE;
 		}
@@ -127,8 +156,9 @@ public class BorderPane extends AbstractBasicStylePane {
 		cellBorderStyle.setBottomColor(style.getBorderBottomColor());
 		cellBorderStyle.setRightStyle(style.getBorderRight());
 		cellBorderStyle.setRightColor(style.getBorderRightColor());
-
+		this.backgroundPane.populateBean(style.getBackground());
 		this.populateBean(cellBorderStyle, false, style.getBorderTop(), style.getBorderTopColor());
+
 	}
 
 	public void populateBean(CellBorderStyle cellBorderStyle, boolean insideMode, int currentStyle, Color currentColor) {
@@ -151,10 +181,10 @@ public class BorderPane extends AbstractBasicStylePane {
         this.innerToggleButton.setEnabled(this.insideMode);
 		this.horizontalToggleButton.setEnabled(this.insideMode);
 		this.verticalToggleButton.setEnabled(this.insideMode);
-
 	}
 
 	public Style update(Style style) {
+//		style = style.deriveBackground(backgroundPane.update());
 		if (style == null) {
 			style = Style.DEFAULT_STYLE;
 		}
@@ -163,7 +193,6 @@ public class BorderPane extends AbstractBasicStylePane {
 
 		style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
 				cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-
 		return style;
 	}
 

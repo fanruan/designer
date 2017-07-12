@@ -7,6 +7,7 @@ package com.fr.design.gui.style;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,12 +38,15 @@ import com.fr.design.utils.gui.GUICoreUtils;
  * Pane to edit Font.
  */
 public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObserver {
+    private static final int MAX_FONT_SIZE = 100;
     public static Integer[] FONT_SIZES = {new Integer(6), new Integer(8), new Integer(9), new Integer(10), new Integer(11), new Integer(12), new Integer(14), new Integer(16),
             new Integer(18), new Integer(20), new Integer(22), new Integer(24), new Integer(26), new Integer(28), new Integer(36), new Integer(48), new Integer(72)};
-    private static final Dimension BUTTON_SIZE = new Dimension(24, 20);
+    private static final Dimension BUTTON_SIZE = new Dimension(20, 18);
+    private final String[] fontSizeStyles = {Inter.getLocText("FRFont-plain"), Inter.getLocText("FRFont-bold"), Inter.getLocText("FRFont-italic"), Inter.getLocText("FRFont-bolditalic")};
     private JPanel buttonPane;
     private JPanel isSuperOrSubPane;
     private UIComboBox fontNameComboBox;
+    private UIComboBox fontSizeStyleComboBox;
     private UIComboBox fontSizeComboBox;
     private UIToggleButton bold;
     private UIToggleButton italic;
@@ -58,10 +62,23 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private UIToggleButton superPane;
     private UIToggleButton subPane;
     private JPanel linePane;
+    private int italic_bold;
 
     public FRFontPane() {
         this.initComponents();
     }
+
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new FRFontPane(), BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(290, 400);
+        jf.setVisible(true);
+    }
+
 
     @Override
     protected String title4PopupWindow() {
@@ -73,7 +90,8 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
      */
     public void populateBean(FRFont frFont) {
         fontNameComboBox.setSelectedItem(frFont.getFamily());
-        fontSizeComboBox.setSelectedItem(frFont.getSize());
+        fontSizeStyleComboBox.setSelectedIndex(frFont.getStyle());
+        fontSizeComboBox.setSelectedItem(Utils.round5(frFont.getSize2D()));
         bold.setSelected(frFont.isBold());
         italic.setSelected(frFont.isItalic());
 
@@ -115,8 +133,11 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-Family"))) {
             frFont = frFont.applyName((String) fontNameComboBox.getSelectedItem());
         }
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-Style"))) {
+            frFont = frFont.applyStyle(fontSizeStyleComboBox.getSelectedIndex());
+        }
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-Size"))) {
-            frFont = frFont.applySize((Integer) fontSizeComboBox.getSelectedItem());
+            frFont = frFont.applySize(Float.parseFloat(fontSizeComboBox.getSelectedItem().toString()));
         }
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-Foreground"))) {
             frFont = frFont.applyForeground(this.colorSelectPane.getColor());
@@ -147,7 +168,6 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
 
 
     private FRFont updateOthers(FRFont frFont) {
-        frFont = updateItalicBold(frFont);
         frFont = updateSubSuperscript(frFont);
         return frFont;
     }
@@ -176,29 +196,6 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         return frFont;
     }
 
-    private FRFont updateItalicBold(FRFont frFont) {
-        int italic_bold = frFont.getStyle();
-        boolean isItalic = italic_bold == Font.ITALIC || italic_bold == (Font.BOLD + Font.ITALIC);
-        boolean isBold = italic_bold == Font.BOLD || italic_bold == (Font.BOLD + Font.ITALIC);
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-italic"))) {
-            if (italic.isSelected() && !isItalic) {
-                italic_bold += Font.ITALIC;
-            } else if (!italic.isSelected() && isItalic) {
-                italic_bold -= Font.ITALIC;
-            }
-            frFont = frFont.applyStyle(italic_bold);
-        }
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), Inter.getLocText("FRFont-bold"))) {
-            if (bold.isSelected() && !isBold) {
-                italic_bold += Font.BOLD;
-            } else if (!bold.isSelected() && isBold) {
-                italic_bold -= Font.BOLD;
-            }
-            frFont = frFont.applyStyle(italic_bold);
-        }
-        return frFont;
-    }
-
     @Override
     public void populateBean(Style style) {
         this.populateBean(style.getFRFont());
@@ -212,10 +209,20 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         return style.deriveFRFont(frFont);
     }
 
+    public static Vector<Integer> getFontSizes(){
+        Vector<Integer> FONT_SIZES = new Vector<Integer>();
+        for (int i = 1; i < MAX_FONT_SIZE; i++) {
+            FONT_SIZES.add(i);
+        }
+        return FONT_SIZES;
+    }
+
     protected void initComponents() {
+        fontSizeStyleComboBox = new UIComboBox(fontSizeStyles);
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         fontNameComboBox.setPreferredSize(new Dimension(144, 20));
-        fontSizeComboBox = new UIComboBox(FONT_SIZES);
+        fontSizeComboBox = new UIComboBox(getFontSizes());
+        fontSizeComboBox.setEditable(true);
         this.underlineCombo = new LineComboBox(UIConstants.BORDER_LINE_STYLE_ARRAY);
         colorSelectPane = new UIColorButton();
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
@@ -229,26 +236,31 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         isShadowCheckBox = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/shadow.png"));
         isShadowCheckBox.setPreferredSize(BUTTON_SIZE);
         superPane = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/sup.png"));
-        superPane.setPreferredSize(new Dimension(22, 18));
+        superPane.setPreferredSize(BUTTON_SIZE);
         subPane = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/sub.png"));
-        subPane.setPreferredSize(new Dimension(22, 18));
+        subPane.setPreferredSize(BUTTON_SIZE);
         isSuperOrSubPane = new TwoButtonPane(superPane, subPane);
+//        Component[] components_font = new Component[]{
+//                colorSelectPane, italic, bold, underline, isStrikethroughCheckBox, isShadowCheckBox
+//        };
         Component[] components_font = new Component[]{
-                colorSelectPane, italic, bold, underline, isStrikethroughCheckBox, isShadowCheckBox
+                colorSelectPane, underline, isStrikethroughCheckBox, isShadowCheckBox
         };
         buttonPane = new JPanel(new BorderLayout());
         buttonPane.add(GUICoreUtils.createFlowPane(components_font, FlowLayout.LEFT, LayoutConstants.HGAP_SMALL));
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+//        buttonPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         linePane = new JPanel(new CardLayout());
         initAllNames();
         setToolTips();
         this.setLayout(new BorderLayout());
+        this.add(fontNameComboBox, BorderLayout.NORTH);
         this.add(createPane(), BorderLayout.CENTER);
         DefaultValues defaultValues = FRContext.getDefaultValues();
         populateBean(defaultValues.getFRFont());
     }
 
     private void initAllNames() {
+        fontSizeStyleComboBox.setGlobalName(Inter.getLocText("FRFont-Style"));
         fontNameComboBox.setGlobalName(Inter.getLocText("FRFont-Family"));
         fontSizeComboBox.setGlobalName(Inter.getLocText("FRFont-Size"));
         colorSelectPane.setGlobalName(Inter.getLocText("FRFont-Foreground"));
@@ -292,10 +304,11 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
 
     private JPanel createLeftPane() {
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p};
+        double f = TableLayout.FILL;
+        double[] columnSize = {f};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{fontNameComboBox},
+                new Component[]{fontSizeStyleComboBox},
                 new Component[]{buttonPane},
                 new Component[]{createLinePane()}
         };
@@ -317,9 +330,10 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private JPanel createPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p};
+        double[] columnSize = {f, f};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{createLeftPane(), createRightPane()},
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -349,7 +363,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         public TwoButtonPane(UIToggleButton leftButton, UIToggleButton rightButton) {
             this.leftButton = leftButton;
             this.rightButton = rightButton;
-            this.setLayout(new FlowLayout(FlowLayout.RIGHT, 1, 0));
+            this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 0));
             this.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             initButton(leftButton);
             initButton(rightButton);

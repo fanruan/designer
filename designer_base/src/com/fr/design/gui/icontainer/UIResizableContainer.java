@@ -5,7 +5,6 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.stable.Constants;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.stable.collections.utils.MathUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +18,9 @@ public class UIResizableContainer extends JPanel {
     private int containerWidth = 240;
     private int preferredWidth = 240;
     private int toolPaneY = 300;
+    private int toolPaneHeightRight = 20;
     private int toolPaneHeight = 10;
+    private int clickToolPaneHeight = 40;
     private int bottomHeight = 30;
 
     private JComponent upPane;
@@ -28,7 +29,7 @@ public class UIResizableContainer extends JPanel {
     private JComponent parameterPane = new JPanel();
 
     private HorizotalToolPane horizontToolPane;
-    private VerticalToolPane verticalToolPane;
+    private VerticalToolPaneRight verticalToolPane;
 
     private int direction;
     private boolean hasParameterPane;
@@ -45,7 +46,7 @@ public class UIResizableContainer extends JPanel {
     private boolean isDownPaneVisible = true ;
     private int paraHeight;
 
-    public UIResizableContainer(int direction) {
+        public UIResizableContainer(int direction) {
         this(new JPanel(), new JPanel(), direction);
     }
 
@@ -79,19 +80,35 @@ public class UIResizableContainer extends JPanel {
 
     public UIResizableContainer(JComponent upPane, JComponent downPane, int direction) {
         setBackground(UIConstants.NORMAL_BACKGROUND);
-
         this.upPane = upPane;
         this.direction = direction;
         this.downPane = downPane;
 
         this.horizontToolPane = new HorizotalToolPane();
-        this.verticalToolPane = new VerticalToolPane();
+        this.verticalToolPane = new VerticalToolPaneRight();
 
         setLayout(containerLayout);
         add(upPane);
         add(horizontToolPane);
         add(downPane);
         add(verticalToolPane);
+    }
+
+    public static void main(String... args) {
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+
+        UIResizableContainer bb = new UIResizableContainer(1);
+        JPanel cc = new JPanel();
+        cc.setBackground(Color.white);
+
+        content.add(bb, BorderLayout.EAST);
+        content.add(cc, BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(500, 500);
+        jf.setVisible(true);
     }
 
     public UIResizableContainer(JComponent upPane, int direction) {
@@ -101,17 +118,17 @@ public class UIResizableContainer extends JPanel {
         this.direction = direction;
 
         this.horizontToolPane = new HorizotalToolPane();
+
         setLayout(containerLayout);
         add(upPane);
         add(horizontToolPane);
-
     }
 
     public void setDownPane(JComponent downPane) {
         if (this.downPane != null){
             return;
         }
-        this.verticalToolPane = new VerticalToolPane();
+        this.verticalToolPane = new VerticalToolPaneRight();
         this.downPane = downPane;
         add(downPane);
         add(verticalToolPane);
@@ -232,6 +249,11 @@ public class UIResizableContainer extends JPanel {
                     upPane.setBounds(toolPaneHeight, getParameterPaneHeight(), containerWidth - toolPaneHeight, getHeight() - getParameterPaneHeight());
                     verticalToolPane.setBounds(0, 0, toolPaneHeight, getHeight());
                 }
+            }else {
+                parameterPane.setBounds(20, 0, 230, getParameterPaneHeight());//10,0,230,462
+                upPane.setBounds(0, toolPaneHeightRight, containerWidth, getHeight() - toolPaneHeightRight);//20,0,230,0
+                verticalToolPane.setBounds(0, 0, containerWidth, toolPaneHeightRight);//0,0,10,462
+
             }
         }
 
@@ -488,6 +510,7 @@ public class UIResizableContainer extends JPanel {
         public void paint(Graphics g) {
             Image button;
             if (direction == Constants.RIGHT) {
+//                g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
                 g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
                 if (containerWidth == toolPaneHeight) {
                     if (model == UIConstants.MODEL_NORMAL) {
@@ -526,22 +549,134 @@ public class UIResizableContainer extends JPanel {
         }
     }
 
+    private class VerticalToolPaneRight extends JPanel {
+        private int model = UIConstants.MODEL_NORMAL;
+
+        public VerticalToolPaneRight() {
+            super();
+            addMouseMotionListener(new MouseMotionListener() {
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    if (e.getY() <= ARROW_RANGE_VERTICAL) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        model = UIConstants.MODEL_PRESS;
+                    } else if (isLeftRightDragEnabled) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                    }
+                    repaint();
+                }
+
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    if (!isLeftRightDragEnabled) {
+                        return;
+                    }
+                    upPane.setVisible(true);
+                    downPane.setVisible(true);
+                    if (direction == Constants.RIGHT) {
+                        containerWidth = e.getXOnScreen() - UIResizableContainer.this.getLocationOnScreen().x;
+                    } else if (direction == Constants.LEFT) {
+                        containerWidth = UIResizableContainer.this.getWidth() + (UIResizableContainer.this.getLocationOnScreen().x - e.getXOnScreen());
+                    }
+
+                    containerWidth = containerWidth > MAX_WIDTH ? MAX_WIDTH : containerWidth;
+                    containerWidth = containerWidth < MIN_WIDTH ? MIN_WIDTH : containerWidth;
+                    if (containerWidth < MIN_WIDTH) {
+                        upPane.setVisible(false);
+                        downPane.setVisible(false);
+                        containerWidth = toolPaneHeight;
+                    }
+                    refreshContainer();
+                    if (BaseUtils.isAuthorityEditing()) {
+                        DesignerContext.getDesignerFrame().doResize();
+                    }
+
+
+                }
+            });
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (!isLeftRightDragEnabled) {
+                        return;
+                    }
+                    setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getDefaultCursor());
+                    model = UIConstants.MODEL_NORMAL;
+                    repaint();
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getY() <= ARROW_RANGE_VERTICAL) {
+                        if (containerWidth == clickToolPaneHeight) {
+                            containerWidth = preferredWidth;
+                        } else {
+                            setPreferredWidth(containerWidth);
+                            containerWidth = clickToolPaneHeight;
+                        }
+                        refreshContainer();
+                        if (BaseUtils.isAuthorityEditing()) {
+                            DesignerContext.getDesignerFrame().doResize();
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            Image button;
+            if (direction == Constants.RIGHT) {
+                g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
+                if (containerWidth == toolPaneHeight) {
+                    if (model == UIConstants.MODEL_NORMAL) {
+                        button = UIConstants.DRAG_RIGHT_NORMAL;
+                    } else {
+                        button = UIConstants.DRAG_RIGHT_PRESS;
+                    }
+                } else {
+                    if (model == UIConstants.MODEL_NORMAL) {
+                        button = UIConstants.DRAG_LEFT_NORMAL;
+                    } else {
+                        button = UIConstants.DRAG_LEFT_PRESS;
+                    }
+                }
+                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
+                if (isLeftRightDragEnabled) {
+                    g.drawImage(UIConstants.DRAG_DOT_VERTICAL, 2, getHeight() / 2, 5, toolPaneHeight, null);
+                }
+            } else {
+                g.drawImage(UIConstants.DRAG_BAR, 0, 0, containerWidth, toolPaneHeightRight, null);
+//                g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
+                if (containerWidth == clickToolPaneHeight) {
+                    if (model == UIConstants.MODEL_NORMAL) {
+                        button = UIConstants.DRAG_LEFT_NORMAL;
+                    } else {
+                        button = UIConstants.DRAG_LEFT_PRESS;
+                    }
+                } else {
+                    if (model == UIConstants.MODEL_NORMAL) {
+                        button = UIConstants.DRAG_RIGHT_NORMAL;
+                    } else {
+                        button = UIConstants.DRAG_RIGHT_PRESS;
+                    }
+                }
+//                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
+                g.drawImage(button, 14, 7, 5, 5, null);
+            }
+
+        }
+    }
+
     /**
      * 主函数
      * @param args  参数
      */
-    public static void main(String... args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        UIResizableContainer bb = new UIResizableContainer(Constants.RIGHT);
-        JPanel cc = new JPanel();
-        cc.setBackground(Color.blue);
-        content.add(bb, BorderLayout.EAST);
-        content.add(cc, BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(500, 500);
-        jf.setVisible(true);
-    }
+
 }

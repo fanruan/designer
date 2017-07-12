@@ -1,21 +1,24 @@
 package com.fr.design.mainframe.cell;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.CellAttributeProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.EastTopArrow;
 import com.fr.design.mainframe.cell.settingpane.*;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
@@ -44,21 +47,33 @@ public class CellElementEditPane extends BasicPane {
     private int PaneListIndex;
     private CardLayout card;
     private JPanel center;
-
+    private JPanel downTitle;
+    private JPanel title;
+    private UILabel titlename;
     private TitleChangeListener titleChangeListener = null;
 
     private CellAttributeProvider cellAttributeProvider = null;
 
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel)jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new CellElementEditPane(),BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(270, 400);
+        jf.setVisible(true);
+    }
 
     public CellElementEditPane() {
         setLayout(new BorderLayout());
         initPaneList();
-        Icon[] iconArray = new Icon[paneList.size()];
+        String[] iconArray = new String[paneList.size()];
         card = new CardLayout();
         center = new JPanel(card);
         for (int i = 0; i < paneList.size(); i++) {
             AbstractCellAttrPane pane = paneList.get(i);
-            iconArray[i] = BaseUtils.readIcon(pane.getIconPath());
+            iconArray[i] = pane.getIconPath();
             center.add(pane, pane.title4PopupWindow());
         }
 
@@ -74,8 +89,22 @@ public class CellElementEditPane extends BasicPane {
             }
         };
         tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-        this.add(tabsHeaderIconPane, BorderLayout.NORTH);
-        this.add(center, BorderLayout.CENTER);
+
+        titlename = new UILabel(Inter.getLocText("Cell-Cell_Attributes"));
+        titlename.setFont(new Font("Dialog",   1,   14));
+        titlename.setForeground(new Color(30,190,245));
+        title = new JPanel();
+        title.setLayout(new BorderLayout());
+        title.add(titlename, BorderLayout.NORTH);
+
+        downTitle = new JPanel();
+        downTitle.setLayout(new BorderLayout());
+        downTitle.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        downTitle.add(center, BorderLayout.CENTER);
+
+        this.add(title, BorderLayout.NORTH);
+        this.add(downTitle, BorderLayout.CENTER);
+
     }
 
 

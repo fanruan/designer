@@ -22,6 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public abstract class ExpandFatherPane extends JPanel implements GlobalNameObserver {
 
@@ -33,6 +35,7 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
     private String expandFatherName = "";
     private GlobalNameListener globalNameListener = null;
     private boolean isAlreadyAddListener = false;
+    private final JPanel customPane;
 
     public ExpandFatherPane() {
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
@@ -41,7 +44,7 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
                 Inter.getLocText("Default"),
                 Inter.getLocText("Custom")});
         final CardLayout cardLayout = new CardLayout();
-        final JPanel customPane = new JPanel(cardLayout);
+        customPane = new JPanel(cardLayout);
         customParentColumnRowPane = new ColumnRowPane() {
 
             @Override
@@ -63,13 +66,22 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
         cc.add(imageButton, BorderLayout.EAST);
         customPane.add(cc, "content");
         customPane.add(new JPanel(), "none");
+        customPane.setPreferredSize(new Dimension(0, 0) );
         this.add(comboBox, BorderLayout.NORTH);
         this.add(customPane, BorderLayout.CENTER);
+
         comboBox.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                cardLayout.show(customPane, comboBox.getSelectedIndex() == 2 ? "content" : "none");
+                if(comboBox.getSelectedIndex() == 2){
+                    customPane.setPreferredSize(new Dimension(100, 20) );
+                    cardLayout.show(customPane,"content");
+                }else {
+                    cardLayout.show(customPane,"none");
+                    customPane.setPreferredSize(new Dimension(0, 0) );
+                }
+//                cardLayout.show(customPane, comboBox.getSelectedIndex() == 2 ? "content" : "none");
                 if (globalNameListener != null && shouldResponseNameListener()) {
                     globalNameListener.setGlobalName(expandFatherName);
                 }

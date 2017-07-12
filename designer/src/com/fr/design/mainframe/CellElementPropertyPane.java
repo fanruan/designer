@@ -3,11 +3,21 @@
  */
 package com.fr.design.mainframe;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import com.fr.base.BaseUtils;
+import com.fr.design.fun.CellAttributeProvider;
+import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UITitlePanel;
+import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ibutton.UISideGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.cell.CellElementEditPane;
+import com.fr.design.mainframe.cell.settingpane.AbstractCellAttrPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
@@ -22,9 +32,6 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.Elem;
 import com.fr.report.elementcase.TemplateElementCase;
 
-import javax.swing.*;
-import java.awt.*;
-
 
 /**
  * 所有组件一次全部加载，不存在延迟加载。 原因：设计器打开第一张模板的时候，会初始化许多许多东西。这个过程需要很长时间（快的3-5s）。
@@ -35,7 +42,7 @@ import java.awt.*;
  * @since 2012-5-24下午1:50:21
  */
 public class CellElementPropertyPane extends DockingView {
-    
+
     static {
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
             
@@ -43,7 +50,7 @@ public class CellElementPropertyPane extends DockingView {
             public void on(PluginEvent event) {
                 
                 synchronized (CellElementPropertyPane.class) {
-                    singleton = null;
+                    singleton = new CellElementPropertyPane();
                 }
             }
         }, new PluginFilter() {
@@ -51,10 +58,12 @@ public class CellElementPropertyPane extends DockingView {
             @Override
             public boolean accept(PluginContext context) {
                 
-                return context.contain(PluginModule.ExtraDesign);
+                return context.contain(PluginModule.ExtraDesign, PresentKindProvider.MARK_STRING) ||
+                    context.contain(PluginModule.ExtraDesign, CellAttributeProvider.MARK_STRING);
             }
         });
     }
+    
     
     public synchronized static CellElementPropertyPane getInstance() {
         if (singleton == null) {
@@ -78,6 +87,43 @@ public class CellElementPropertyPane extends DockingView {
         }
     };
 
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GUICoreUtils.centerWindow(jf);
+        final JPanel jPanel = (JPanel) jf.getContentPane();
+        jPanel.setLayout(new BorderLayout());
+        final CardLayout card = new CardLayout();
+        final JPanel center = new JPanel();
+        center.setLayout( new CardLayout());
+
+        final JPanel content = new JPanel();
+        content.setLayout(new BorderLayout());
+        final CellElementPropertyPane pane = new CellElementPropertyPane();
+        content.add(new CellElementPropertyPane(), BorderLayout.CENTER);
+        Icon[] iconArray = new Icon[2];
+        iconArray[0] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
+        center.add(content,content.getUIClassID());
+        iconArray[1] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
+        center.add(new JPanel(),"");
+//        for (int i = 0; i < 4; i++) {
+//                iconArray[0] = BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png");
+//                center.add(content,content.getUIClassID());
+//        }
+
+
+        final TitleChangeListener titleChangeListener = null;
+        UISideGroup tabsHeaderIconPane = new UISideGroup(iconArray) {
+        };
+        JPanel j1 = new JPanel();
+        j1.setLayout(new GridLayout(10,1));
+        j1.add(tabsHeaderIconPane);
+        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
+        jPanel.add(j1, BorderLayout.WEST);
+        jPanel.add(center,BorderLayout.CENTER);
+        jf.setSize(500, 500);
+        jf.setVisible(true);
+    }
 
     private CellElementPropertyPane() {
         this.setLayout(new BorderLayout());
@@ -97,7 +143,7 @@ public class CellElementPropertyPane extends DockingView {
         title.setVerticalAlignment(SwingConstants.CENTER);
         titlePane.add(title, BorderLayout.CENTER);
         titlePane.setBorder(BorderFactory.createEmptyBorder(0,0,1,0));
-        this.add(titlePane, BorderLayout.NORTH);
+//        this.add(titlePane, BorderLayout.NORTH);
         this.add(cellElementEditPane, BorderLayout.CENTER);
 
     }
@@ -130,7 +176,7 @@ public class CellElementPropertyPane extends DockingView {
 
     public void reInit(ElementCasePane ePane) {
         if (titlePane.getParent() == null) {  // 如果处于隐藏状态，则让其显示
-            this.add(titlePane, BorderLayout.NORTH);
+//            this.add(titlePane, BorderLayout.NORTH);
             this.add(cellElementEditPane, BorderLayout.CENTER);
         }
         cellElementEditPane.populate(ePane);

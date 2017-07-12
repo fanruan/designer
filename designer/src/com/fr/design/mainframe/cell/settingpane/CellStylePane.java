@@ -2,12 +2,13 @@ package com.fr.design.mainframe.cell.settingpane;
 
 import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fr.base.Style;
 import com.fr.design.mainframe.cell.settingpane.style.StylePane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -40,10 +41,23 @@ public class CellStylePane extends AbstractCellAttrPane {
 		return content;
 	}
 
+	public static void main(String[] args){
+		JFrame jf = new JFrame("test");
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel content = (JPanel) jf.getContentPane();
+		content.setLayout(new BorderLayout());
+		content.add(new CellStylePane().createContentPane(), BorderLayout.CENTER);
+		GUICoreUtils.centerWindow(jf);
+		jf.setSize(290, 400);
+		jf.setVisible(true);
+	}
+
 	@Override
 	public String getIconPath() {
-		return "com/fr/design/images/m_format/cell.png";
+//		return "com/fr/design/images/m_format/cell.png";
+		return Inter.getLocText("FR-Designer_Style");
 	}
+
 
 	@Override
 	public void updateBean(TemplateCellElement cellElement) {
