@@ -478,7 +478,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                         formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
             } else {
                 // 只在报表块里撤销是不需要修改外部form对象的, 因为编辑的是当前报表块.
-                // 修改了JForm的Target需 要同步修改formDesign的Target.
+                // 修改了JForm的Target需要同步修改formDesign的Target.
                 Form undoForm = (Form) u.getForm().clone();
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
