@@ -2,7 +2,6 @@ package com.fr.design.module;
 
 import com.fr.base.FRContext;
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.gui.chart.MiddleChartDialog;
