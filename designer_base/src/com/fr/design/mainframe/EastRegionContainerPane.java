@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
 import com.fr.design.gui.icontainer.UIResizableContainer;
+import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Constants;
 
@@ -90,6 +91,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     // 左侧按钮面板
     private void initLeftPane() {
         leftPane = new JPanel();
+        leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0));
         for (PropertyItem item : propertyItemList) {
             leftPane.add(item.getButton());
         }
@@ -186,7 +188,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     class PropertyItem {
         //        private UIButton button;
-        private JButton button;
+        private UIButton button;
         private String name;
         private JPanel propertyPanel;
         private JComponent contentPane;
@@ -243,20 +245,33 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         private void initButton(String btnUrl) {
-            button = new JButton(BaseUtils.readIcon(btnUrl));
+            button = new UIButton(BaseUtils.readIcon(btnUrl)) {
+                public Dimension getPreferredSize() {
+                    return new Dimension(BUTTON_WIDTH, BUTTON_WIDTH);
+                }
+            };
 //            button = new UIButton("btnd\nssdg");
 //            button.set4LargeToolbarButton();
-            button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_WIDTH));
-            button.setContentAreaFilled(false);
+//            button.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
+//            button.setMargin(null);
+//            button.setOpaque(false);
+            button.set4LargeToolbarButton();
+//            button.setSize(new Dimension(BUTTON_WIDTH, BUTTON_WIDTH));
+//            button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_WIDTH));
+//            button.setContentAreaFilled(false);
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    propertyCard.show(rightPane, name);
+                    if (isRightPaneVisible()) {
+                        propertyCard.show(rightPane, name);
+                    } else {
+                        popOut();
+                    }
                 }
             });
         }
 
-        public JButton getButton() {
+        public UIButton getButton() {
             return button;
         }
 
@@ -266,6 +281,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public JPanel getPropertyPanel() {
             return propertyPanel;
+        }
+
+        // 弹出对话框
+        public void popOut() {
+            JDialog dialog = new JDialog();
+            dialog.setVisible(true);
         }
     }
 }

@@ -33,7 +33,7 @@ public class UIEastResizableContainer extends JPanel {
     private static final int ARROW_MARGIN = 15;
     private static final int ARROW_RANGE = 35;
 
-    private boolean isRightPaneVisible = true;
+//    private boolean isRightPaneVisible = true;
 
     public UIEastResizableContainer() {
         this(new JPanel(), new JPanel());
@@ -49,10 +49,14 @@ public class UIEastResizableContainer extends JPanel {
         this.preferredWidth = width;
     }
 
-
-    public void setRightPaneVisible(boolean isVisible){
-        this.isRightPaneVisible = isVisible;
+    public boolean isRightPaneVisible() {
+        return containerWidth > leftPaneWidth;
     }
+
+
+//    public void setRightPaneVisible(boolean isVisible){
+//        this.isRightPaneVisible = isVisible;
+//    }
 
     private void setPreferredWidth(int width) {
         this.preferredWidth = width;
