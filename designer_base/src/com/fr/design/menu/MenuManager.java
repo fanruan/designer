@@ -138,12 +138,12 @@ public class MenuManager extends XMLFileManager {
                 if (name.isEmpty()) {
                     return;
                 }
-//                try {
-//                    MenuAction action = (MenuAction) reader.getAttrAsClass().newInstance();
-//                    menu.addShortCut(action);
-//                } catch (Exception exp) {
-//                    FRLogger.getLogger().error(exp.getMessage(), exp);
-//                }
+                try {
+                    MenuAction action = (MenuAction) reader.getAttrAsClass().newInstance();
+                    menu.addShortCut(action);
+                } catch (Exception exp) {
+                    FRLogger.getLogger().error(exp.getMessage(), exp);
+                }
             } else if (reader.getTagName().equals("Menu")) {
                 final MenuDef submenu = new MenuDef();
                 String tmpVal = StringUtils.EMPTY;

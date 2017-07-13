@@ -265,7 +265,7 @@ public class UserInfoLabel extends UILabel {
                 UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent e) {
-//                        BBSPluginLogin.getInstance().logOut();
+                        BBSPluginLogin.getInstance().logOut();
                         UserLoginContext.fireLoginContextListener();
                     }
 

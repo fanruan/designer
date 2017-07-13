@@ -19,7 +19,7 @@ import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.general.data.DataModel;
 import com.fr.stable.StringUtils;
-//import org.apache.batik.swing.svg.SVGFileFilter;
+import org.apache.batik.swing.svg.SVGFileFilter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,7 +107,7 @@ refreshAreaNameBox();
 
 		public void actionPerformed(ActionEvent evt) {
             JFileChooser svgFileChooser = new JFileChooser();
-//            svgFileChooser.addChoosableFileFilter(new SVGFileFilter());
+            svgFileChooser.addChoosableFileFilter(new SVGFileFilter());
 			if (StringUtils.isNotBlank(lastSelectPath)) {
 				svgFileChooser.setSelectedFile(new File(lastSelectPath));
 			}

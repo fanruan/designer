@@ -1802,7 +1802,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     
         writer.startTAG("Env");
-//        writer.classAttr(env.getClass());
+        writer.classAttr(env.getClass());
         writer.attr("name", name);
 
         env.writeXML(writer);
