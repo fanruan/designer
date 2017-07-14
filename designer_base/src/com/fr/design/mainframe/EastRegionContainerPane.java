@@ -2,18 +2,22 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
 import com.fr.design.gui.icontainer.UIResizableContainer;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.style.AbstractPopBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +28,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private JPanel leftPane;
     private JPanel rightPane;
     private static final int CONTAINER_WIDTH = 260;
-    private static final int BUTTON_WIDTH = 40;
+    private static final int TAB_WIDTH = 40;
+    private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
+    private static final int POPUP_TOOLPANE_HEIGHT = 25;
+    private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
 
     /**
      * 得到实例
@@ -176,6 +183,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      * 刷新右面板
      */
     public void refreshRightPane() {
+
         if (this.getRightPane() instanceof DockingView) {
             ((DockingView) this.getRightPane()).refreshDockingView();
         }
@@ -188,6 +196,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
     }
 
+    private void refreshContainer() {
+        validate();
+        repaint();
+        revalidate();
+    }
+
     public int getToolPaneY() {
         return 0;
     }
@@ -198,9 +212,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         //        private UIButton button;
         private UIButton button;
         private String name;
-        private JPanel propertyPanel;
+        private JComponent propertyPanel;
         private JComponent contentPane;
         private PropertyFixedPopupPane popupPane;  // 左侧固定弹出框
+        private PopupToolPane popupToolPane;  // 弹出工具条
         private int x, y;  // 弹出框的坐标
         private int height; // 弹出框的高度
         private boolean isPoppedOut;  // 是否弹出
@@ -221,7 +236,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             propertyPanel = new JPanel();
             propertyPanel.setBackground(Color.pink);
             contentPane = generateContentPane();
+            popupToolPane = new PopupToolPane(contentPane, PopupToolPane.UP_BUTTON);
             propertyPanel.setLayout(new BorderLayout());
+            propertyPanel.add(popupToolPane, BorderLayout.NORTH);
             propertyPanel.add(contentPane, BorderLayout.CENTER);
         }
 
@@ -256,16 +273,16 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             }
         }
 
-        private void refreshContainer() {
-            propertyPanel.validate();
-            propertyPanel.repaint();
-            propertyPanel.revalidate();
-        }
+//        private void refreshContainer() {
+//            propertyPanel.validate();
+//            propertyPanel.repaint();
+//            propertyPanel.revalidate();
+//        }
 
         private void initButton(String btnUrl) {
             button = new UIButton(BaseUtils.readIcon(btnUrl)) {
                 public Dimension getPreferredSize() {
-                    return new Dimension(BUTTON_WIDTH, BUTTON_WIDTH);
+                    return new Dimension(TAB_WIDTH, TAB_WIDTH);
                 }
             };
             button.set4LargeToolbarButton();
@@ -289,7 +306,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             return name;
         }
 
-        public JPanel getPropertyPanel() {
+        public JComponent getPropertyPanel() {
             return propertyPanel;
         }
 
@@ -307,7 +324,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         PropertyFixedPopupPane(JComponent contentPane) {
             this.contentPane = contentPane;
             this.add(contentPane);
-            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - BUTTON_WIDTH, getPreferredSize().height));
+            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, getPreferredSize().height));
         }
 
         public JComponent getContentPane() {
@@ -319,6 +336,142 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             this.remove(this.contentPane);
             this.add(this.contentPane = pane);
             refreshContainer();
+        }
+
+        private void refreshContainer() {
+            validate();
+            repaint();
+            revalidate();
+        }
+    }
+
+    // 弹出属性面板的工具条
+    private class PopupToolPane extends JPanel {
+        private int model = UIConstants.MODEL_NORMAL;
+        private String title = "单元格元素";
+        private JComponent contentPane;
+        private String buttonType;
+        private static final String NO_BUTTON = "NoButton";
+        private static final String UP_BUTTON = "UpButton";
+        private static final String DOWN_BUTTON = "DownButton";
+
+        public PopupToolPane(JComponent contentPane) {
+            this(contentPane, NO_BUTTON);
+        }
+
+        public PopupToolPane(JComponent contentPane, String buttonType) {
+            super();
+            this.contentPane = contentPane;
+            setLayout(new BorderLayout());
+            UILabel label = new UILabel(title);
+            label.setForeground(new Color(69, 135, 255));
+            add(label, BorderLayout.WEST);
+            setBorder(new EmptyBorder(5, 10, 0, 0));
+
+            initToolButton(buttonType);
+        }
+
+        private void initToolButton(String buttonType) {
+            this.buttonType = buttonType;
+            if (buttonType.equals(NO_BUTTON)) {
+                return;
+            }
+
+            if (buttonType.equals(UP_BUTTON)) {
+
+            } else if (buttonType.equals(DOWN_BUTTON)) {
+
+            } else {
+                throw new IllegalArgumentException("unknown button type: " + buttonType);
+            }
+
+            addMouseMotionListener(new MouseMotionListener() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    if (e.getX() >= ARROW_RANGE_START) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        model = UIConstants.MODEL_PRESS;
+                    } else {
+                        setCursor(Cursor.getDefaultCursor());
+                        model = UIConstants.MODEL_NORMAL;
+                    }
+                    repaint();
+                }
+
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                }
+            });
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setCursor(Cursor.getDefaultCursor());
+                    model = UIConstants.MODEL_NORMAL;
+                    repaint();
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getX() >= ARROW_RANGE_START) {
+                        popupDialog();
+                    }
+                }
+            });
+        }
+
+        public void popupDialog() {
+            new PopupDialog(contentPane);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(super.getPreferredSize().width, POPUP_TOOLPANE_HEIGHT);
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            Image button;
+            g.setColor(new Color(69, 135, 255));
+            g.setFont(FRFont.getInstance().applySize(14));
+//            g.drawString(title, 5, 20);
+//            g.drawImage(UIConstants.DRAG_BAR, 0, 0, CONTENT_WIDTH, POPUP_TOOLPANE_HEIGHT, null);
+
+            if (buttonType.equals(NO_BUTTON)) {
+                return;
+            }
+            if (buttonType.equals(UP_BUTTON)) {
+                if (model == UIConstants.MODEL_NORMAL) {
+                    button = UIConstants.DRAG_LEFT_NORMAL;
+                } else {
+                    button = UIConstants.DRAG_LEFT_PRESS;
+                }
+            } else {
+                if (model == UIConstants.MODEL_NORMAL) {
+                    button = UIConstants.DRAG_RIGHT_NORMAL;
+                } else {
+                    button = UIConstants.DRAG_RIGHT_PRESS;
+                }
+            }
+//                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
+            g.drawImage(button, ARROW_RANGE_START + 12, 7, 5, 5, null);
+        }
+    }
+
+    private class PopupDialog extends JDialog {
+        public PopupDialog(JComponent contentPane) {
+//            setUndecorated(true);
+//            JPanel pane = new JPanel();
+//            pane.setBackground(Color.yellow);
+//            pane.setPreferredSize(new Dimension(100, 100));
+//
+//            getContentPane().add(pane);
+//            setSize(CONTENT_WIDTH, pane.getPreferredSize().height);
+            getContentPane().add(contentPane);
+            setSize(CONTENT_WIDTH, contentPane.getPreferredSize().height);
+            validate();
+
+            this.setVisible(true);
         }
 
         private void refreshContainer() {
