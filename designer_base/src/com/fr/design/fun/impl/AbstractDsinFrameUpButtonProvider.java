@@ -11,7 +11,7 @@ import com.fr.stable.fun.mark.API;
  * Time: 15:50
  */
 @API(level = DesignerFrameUpButtonProvider.CURRENT_LEVEL)
-public abstract class AbstractDsinFrameUpButtonProvider extends AbstractProvider implements DesignerFrameUpButtonProvider {
+public abstract class AbstractDsinFrameUpButtonProvider exte nds AbstractProvider implements DesignerFrameUpButtonProvider {
     @Override
     public UIButton[] getUpButtons(int menuState) {
         return new UIButton[0];
