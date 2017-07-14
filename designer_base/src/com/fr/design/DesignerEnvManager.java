@@ -152,17 +152,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     designerEnvManager.setCurEnvName(name);
                 }
             }
+    
+            GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+                @Override
+                public void envChanged() {
+            
+                    designerEnvManager.setCurrentDirectoryPrefix(FILEFactory.ENV_PREFIX);
+                    designerEnvManager.setDialogCurrentDirectory(ProjectConstants.REPORTLETS_NAME);
+                }
+            });
+    
         }
 
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            @Override
-            public void envChanged() {
-
-                designerEnvManager.setCurrentDirectoryPrefix(FILEFactory.ENV_PREFIX);
-                designerEnvManager.setDialogCurrentDirectory(ProjectConstants.REPORTLETS_NAME);
-            }
-        });
-
+      
         return designerEnvManager;
     }
 
