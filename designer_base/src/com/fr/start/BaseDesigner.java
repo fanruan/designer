@@ -16,13 +16,15 @@ import com.fr.design.fun.GlobalListenerProvider;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
-import com.fr.design.module.DesignModule;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
 import com.fr.plugin.PluginCollector;
 import com.fr.stable.*;
 
@@ -60,9 +62,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             return;
         }
         BuildContext.setBuildFilePath(buildPropertiesPath());
-
-        // 先加载设计器的国际化文件
-        Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
 
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
