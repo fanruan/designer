@@ -16,6 +16,14 @@ public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartA
 
     public abstract Class<? extends Charts> acceptType();
 
+    /**
+     * 拼错了的方法，暂时做下兼容，后面就删掉
+     */
+    @Deprecated
+    public Class<? extends Charts> accptType() {
+        return acceptType();
+    }
+
     @Override
     public void populate(ChartCollection collection) {
         if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(), acceptType())) {
