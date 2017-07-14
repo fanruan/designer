@@ -228,6 +228,12 @@ public class UIEastResizableContainer extends JPanel {
         revalidate();
     }
 
+    /**
+     * 伸缩右子面板时，触发此方法
+     */
+    public void onResize() {
+    }
+
     private class TopToolPane extends JPanel {
         private int model = UIConstants.MODEL_NORMAL;
 
@@ -268,6 +274,7 @@ public class UIEastResizableContainer extends JPanel {
                             setPreferredWidth(containerWidth);
                             containerWidth = leftPaneWidth;
                         }
+                        onResize();
                         refreshContainer();
                         if (BaseUtils.isAuthorityEditing()) {
                             DesignerContext.getDesignerFrame().doResize();

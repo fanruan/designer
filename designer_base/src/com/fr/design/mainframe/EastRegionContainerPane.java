@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
 import com.fr.design.gui.icontainer.UIResizableContainer;
 import com.fr.design.layout.VerticalFlowLayout;
+import com.fr.design.style.AbstractPopBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Constants;
 
@@ -46,7 +47,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         initRightPane();
         initLeftPane();
 //        super(leftPane, rightPane);
-        setContainerWidth(260);
+        setContainerWidth(CONTAINER_WIDTH);
     }
 
     private void initPropertyItemList() {
@@ -99,6 +100,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 //        leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.Y_AXIS));
         leftPane.setBackground(Color.yellow);
         replaceLeftPane(leftPane);
+    }
+
+    @Override
+    public void onResize() {
+        for (PropertyItem item : propertyItemList) {
+            item.onResize();
+        }
     }
 
     public EastRegionContainerPane(JPanel leftPane, JPanel rightPane) {
@@ -192,9 +200,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private String name;
         private JPanel propertyPanel;
         private JComponent contentPane;
+        private PropertyFixedPopupPane popupPane;  // 左侧固定弹出框
         private int x, y;  // 弹出框的坐标
         private int height; // 弹出框的高度
         private boolean isPoppedOut;  // 是否弹出
+        private Dimension fixedSize;
 
         public PropertyItem(String name, String btnUrl) {
             this.name = name;
@@ -210,10 +220,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private void initPropertyPanel() {
             propertyPanel = new JPanel();
             propertyPanel.setBackground(Color.pink);
-//            propertyPanel.setPreferredSize(getPreferredSize());
-//            JPanel titlePanel = new JPanel();
-//            titlePanel.setPreferredSize(new Dimension(propertyPanel.getPreferredSize().width, 20));
-//            titlePanel
+            contentPane = generateContentPane();
+            propertyPanel.setLayout(new BorderLayout());
+            propertyPanel.add(contentPane, BorderLayout.CENTER);
+        }
+
+        public JComponent generateContentPane() {
+            JComponent contentPane = new JPanel();
             JButton testBtn = new JButton(name);
             testBtn.addActionListener(new ActionListener() {
                 @Override
@@ -221,14 +234,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     setEnabled(!button.isEnabled());
                 }
             });
-            contentPane = new JPanel();
             contentPane.add(testBtn);
-            propertyPanel.setLayout(new BorderLayout());
-            propertyPanel.add(contentPane, BorderLayout.CENTER);
+            return contentPane;
         }
 
         public void replaceContentPane(JComponent pane) {
-//            remove(pane);
             propertyPanel.remove(this.contentPane);
             propertyPanel.add(this.contentPane = pane);
             refreshContainer();
@@ -236,6 +246,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public JComponent getContentPane() {
             return contentPane;
+        }
+
+        public void onResize() {
+            if (isRightPaneVisible()) {
+                replaceContentPane(contentPane);
+            } else if(popupPane != null) {
+                popupPane.replaceContentPane(contentPane);
+            }
         }
 
         private void refreshContainer() {
@@ -250,22 +268,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     return new Dimension(BUTTON_WIDTH, BUTTON_WIDTH);
                 }
             };
-//            button = new UIButton("btnd\nssdg");
-//            button.set4LargeToolbarButton();
-//            button.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-//            button.setMargin(null);
-//            button.setOpaque(false);
             button.set4LargeToolbarButton();
-//            button.setSize(new Dimension(BUTTON_WIDTH, BUTTON_WIDTH));
-//            button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_WIDTH));
-//            button.setContentAreaFilled(false);
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (isRightPaneVisible()) {
                         propertyCard.show(rightPane, name);
                     } else {
-                        popOut();
+                        popupFixedPane();
                     }
                 }
             });
@@ -284,9 +294,37 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         // 弹出对话框
-        public void popOut() {
-            JDialog dialog = new JDialog();
-            dialog.setVisible(true);
+        public void popupFixedPane() {
+            if (popupPane == null) {
+                popupPane = new PropertyFixedPopupPane(contentPane);
+            }
+            GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
+        }
+    }
+
+    private class PropertyFixedPopupPane extends JPopupMenu {
+        private JComponent contentPane;
+        PropertyFixedPopupPane(JComponent contentPane) {
+            this.contentPane = contentPane;
+            this.add(contentPane);
+            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - BUTTON_WIDTH, getPreferredSize().height));
+        }
+
+        public JComponent getContentPane() {
+            return contentPane;
+        }
+
+        public void replaceContentPane(JComponent pane) {
+//            remove(pane);
+            this.remove(this.contentPane);
+            this.add(this.contentPane = pane);
+            refreshContainer();
+        }
+
+        private void refreshContainer() {
+            validate();
+            repaint();
+            revalidate();
         }
     }
 }
