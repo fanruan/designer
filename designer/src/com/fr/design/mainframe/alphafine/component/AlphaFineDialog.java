@@ -68,7 +68,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String DS_NAME = "dsname=\"";
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
-    private static final String PLACE_HOLDER = "AlphaFine";
+    private static final String PLACE_HOLDER = Inter.getLocText("FR-Designer_AlphaFine");
 
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
@@ -168,7 +168,7 @@ public class AlphaFineDialog extends UIDialog {
      * 初始化输入框
      */
     private void initSearchTextField() {
-        searchTextField = new AlphaFineTextField(Inter.getLocText("FR-Designer_AlphaFine"));
+        searchTextField = new AlphaFineTextField(PLACE_HOLDER);
         initTextFieldKeyListener();
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.white);
