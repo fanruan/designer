@@ -14,11 +14,11 @@ public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartA
 
     public final static String CHART_STYLE_TITLE = Inter.getLocText("Chart-Style_Name");
 
-    public abstract Class<? extends Charts> accptType();
+    public abstract Class<? extends Charts> acceptType();
 
     @Override
     public void populate(ChartCollection collection) {
-        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),accptType())) {
+        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),acceptType())) {
             populate(collection, (T)collection.getSelectedChart());
         }
     }
@@ -27,7 +27,7 @@ public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartA
 
     @Override
     public void update(ChartCollection collection) {
-        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),accptType())) {
+        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),acceptType())) {
             update(collection, (T)collection.getSelectedChart());
         }
     }
