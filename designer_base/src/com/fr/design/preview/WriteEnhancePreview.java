@@ -2,6 +2,7 @@ package com.fr.design.preview;
 
 import com.fr.base.io.IOFile;
 import com.fr.design.fun.impl.AbstractPreviewProvider;
+import com.fr.general.Inter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,7 @@ import java.util.Map;
 public class WriteEnhancePreview extends AbstractPreviewProvider {
     @Override
     public String nameForPopupItem() {
-        //TODO 国际化
-        return "新填报预览";
+        return Inter.getLocText("FR-Designer_Write_Enhance_Preview");
     }
 
     @Override
