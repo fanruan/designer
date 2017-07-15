@@ -5,14 +5,10 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
-import com.fr.design.gui.icontainer.UIResizableContainer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
-import com.fr.design.style.AbstractPopBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -225,11 +221,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private String name;
         private JComponent propertyPanel;
         private JComponent contentPane;
-        private PropertyFixedPopupPane popupPane;  // 左侧固定弹出框
+        private FixedPopupPane popupPane;  // 左侧固定弹出框
         private PopupToolPane popupToolPane;  // 弹出工具条
         private int x, y;  // 弹出框的坐标
         private int height; // 弹出框的高度
-        private boolean isPoppedOut;  // 是否弹出
+        private boolean isPoppedOut = false;  // 是否弹出
         private Dimension fixedSize;
 
         public PropertyItem(String name, String btnUrl) {
@@ -328,15 +324,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 弹出对话框
         public void popupFixedPane() {
             if (popupPane == null) {
-                popupPane = new PropertyFixedPopupPane(contentPane);
+                popupPane = new FixedPopupPane(contentPane);
             }
             GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
         }
     }
 
-    private class PropertyFixedPopupPane extends JPopupMenu {
+    private class FixedPopupPane extends JPopupMenu {
         private JComponent contentPane;
-        PropertyFixedPopupPane(JComponent contentPane) {
+        FixedPopupPane(JComponent contentPane) {
             this.contentPane = contentPane;
             this.add(contentPane);
             this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, getPreferredSize().height));
@@ -370,6 +366,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private JDialog parentDialog;  // 如果不在对话框中，值为null
         private boolean isMovable = false;
         private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
+
+        private static final int MIN_X = -150;
+        private static final int MIN_Y_SHIFT = 50;
+        private static final int MAX_X_SHIFT = 50;
+        private static final int MAX_Y_SHIFT = 50;
+
 
         private static final String NO_BUTTON = "NoButton";
         private static final String UP_BUTTON = "UpButton";
@@ -426,9 +428,28 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
                 @Override
                 public void mouseDragged(MouseEvent e) {
-                    if (isMovable && e.getX() < ARROW_RANGE_START) {
+                    if (isMovable && mouseDownCompCoords != null) {
                         Point currCoords = e.getLocationOnScreen();
-                        parentDialog.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+                        int x = currCoords.x - mouseDownCompCoords.x;
+                        int y = currCoords.y - mouseDownCompCoords.y;
+                        //屏幕可用区域
+                        Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+                        int minY = screen.y;
+                        int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - MAX_X_SHIFT;
+                        int maxY = Toolkit.getDefaultToolkit().getScreenSize().height - MAX_Y_SHIFT;
+                        if (x < MIN_X) {
+                            x = MIN_X;
+                        } else if (x > maxX) {
+                            x = maxX;
+                        }
+                        if (y < minY) {
+                            y = minY;
+                        } else if (y > maxY) {
+                            y = maxY;
+                        }
+                        // 移动到屏幕边缘时，需要校正位置
+                        parentDialog.setLocation(x, y);
                     }
                 }
             });
@@ -453,7 +474,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 }
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    mouseDownCompCoords = e.getPoint();
+                    if (e.getX() < ARROW_RANGE_START) {
+                        mouseDownCompCoords = e.getPoint();
+                    }
                 }
 
             });
@@ -463,6 +486,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private void onPop() {
             if (buttonType.equals(UP_BUTTON)) {
                 popUpDialog();
+            } else if (buttonType.equals(DOWN_BUTTON)) {
+                popToFrame();
             }
         }
 
@@ -472,6 +497,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 //            initContentPane();
 //            refreshContainer();
             removeItem(propertyItem);
+        }
+
+        public void popToFrame() {
+            propertyItem.setIsPoppedOut(false);
+            parentDialog.dispose();
+            initContentPane();
+            onResize();
+            refreshContainer();
         }
 
         @Override
@@ -526,8 +559,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             container.add(popupToolPane, BorderLayout.NORTH);
             container.add(contentPane, BorderLayout.CENTER);
             setSize(CONTENT_WIDTH, container.getPreferredSize().height);
-            validate();
 
+            validate();
+            Point btnCoords = propertyItem.getButton().getLocationOnScreen();
+            this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
             this.setVisible(true);
         }
     }
