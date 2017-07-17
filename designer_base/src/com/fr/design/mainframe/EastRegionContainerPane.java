@@ -79,6 +79,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemList.add(widgetLib);
     }
 
+    // "无可用配置项"面板
+    private JPanel getDefaultPane() {
+        JPanel defaultPane = new JPanel();
+        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        defaultPane.setLayout(new BorderLayout());
+        defaultPane.add(label, BorderLayout.CENTER);
+        return defaultPane;
+    }
+
     private void initContentPane() {
         initRightPane();
         initLeftPane();
@@ -91,8 +100,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         rightPane.setBackground(Color.green);
         rightPane.setLayout(propertyCard);
         for (PropertyItem item : propertyItemList) {
+            if (item.isPoppedOut()) {
+                continue;
+            }
             rightPane.add(item.getName(), item.getPropertyPanel());
         }
+        rightPane.add(getDefaultPane());
 
         replaceRightPane(rightPane);
     }
@@ -102,6 +115,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         leftPane = new JPanel();
         leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0));
         for (PropertyItem item : propertyItemList) {
+            if (item.isPoppedOut()) {
+                continue;
+            }
             leftPane.add(item.getButton());
         }
 
@@ -257,6 +273,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public void setIsPoppedOut(boolean isPoppedOut) {
             this.isPoppedOut = isPoppedOut;
+        }
+
+        public boolean isPoppedOut() {
+            return isPoppedOut;
         }
 
         public JComponent generateContentPane() {
