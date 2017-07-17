@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -56,19 +57,19 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemList = new ArrayList<>();
 
         // 单元格元素
-        PropertyItem cellElement = new PropertyItem("cellElement", "/com/fr/design/images/buttonicon/add.png");
+        PropertyItem cellElement = new PropertyItem("cellElement", Inter.getLocText("FR-Designer_Cell_Element"), "/com/fr/design/images/buttonicon/add.png");
         // 单元格属性
-        PropertyItem cellAttr = new PropertyItem("cellAttr", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem cellAttr = new PropertyItem("cellAttr", Inter.getLocText("FR-Designer_Cell_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
         // 悬浮元素
-        PropertyItem floatElement = new PropertyItem("floatElement", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem floatElement = new PropertyItem("floatElement", Inter.getLocText("FR-Designer_Float_Element"), "com/fr/design/images/toolbarbtn/close.png");
         // 控件设置
-        PropertyItem widgetSettings = new PropertyItem("widgetSettings", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem widgetSettings = new PropertyItem("widgetSettings", Inter.getLocText("FR-Designer-Widget_Settings"), "com/fr/design/images/toolbarbtn/close.png");
         // 条件属性
-        PropertyItem conditionAttr = new PropertyItem("conditionAttr", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem conditionAttr = new PropertyItem("conditionAttr", Inter.getLocText("FR-Designer_Condition_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
         // 超级链接
-        PropertyItem hyperlink = new PropertyItem("hyperlink", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem hyperlink = new PropertyItem("hyperlink", Inter.getLocText("FR-Designer_Hyperlink"), "com/fr/design/images/toolbarbtn/close.png");
         // 组件库
-        PropertyItem widgetLib = new PropertyItem("widgetLib", "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem widgetLib = new PropertyItem("widgetLib", Inter.getLocText("FR-Designer_Widget_Library"), "com/fr/design/images/toolbarbtn/close.png");
         propertyItemList.add(cellElement);
         propertyItemList.add(cellAttr);
         propertyItemList.add(floatElement);
@@ -220,7 +221,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     class PropertyItem {
         //        private UIButton button;
         private UIButton button;
-        private String name;
+        private String name;  // 用于 card 切换
+        private String title;  // 用于显示
         private JComponent propertyPanel;
         private JComponent contentPane;
         private FixedPopupPane popupPane;  // 左侧固定弹出框
@@ -231,8 +233,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private boolean isPoppedOut = false;  // 是否弹出
         private Dimension fixedSize;
 
-        public PropertyItem(String name, String btnUrl) {
+        public PropertyItem(String name, String title, String btnUrl) {
             this.name = name;
+            this.title = title;
             initButton(btnUrl);
             initPropertyPanel();
         }
@@ -327,6 +330,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             return name;
         }
 
+        public String getTitle() {
+            return title;
+        }
+
         public JComponent getPropertyPanel() {
             return propertyPanel;
         }
@@ -411,7 +418,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     // 弹出属性面板的工具条
     private class PopupToolPane extends JPanel {
         private int model = UIConstants.MODEL_NORMAL;
-        private String title = "单元格元素";
+        private String title;
         private JComponent contentPane;
         private PropertyItem propertyItem;
         private String buttonType;
@@ -435,6 +442,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public PopupToolPane(PropertyItem propertyItem, String buttonType) {
             super();
             this.propertyItem = propertyItem;
+            this.title = propertyItem.getTitle();
             this.contentPane = propertyItem.getContentPane();
             setLayout(new BorderLayout());
             UILabel label = new UILabel(title);
