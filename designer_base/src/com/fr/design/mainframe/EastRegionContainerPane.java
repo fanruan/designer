@@ -547,26 +547,74 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private class PopupDialog extends JDialog {
         private Container container;
+        private static final int RESIZE_RANGE = 4;
+        private Cursor originCursor;
+        private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+        private Point mouseDownCompCoords;
+        private int minHeight;  // 对话框最小高度
         public PopupDialog(PropertyItem propertyItem) {
             container = getContentPane();
             setUndecorated(true);
-//            JPanel pane = new JPanel();
-//            pane.setBackground(Color.yellow);
-//            pane.setPreferredSize(new Dimension(100, 100));
-//
-//            getContentPane().add(pane);
-//            setSize(CONTENT_WIDTH, pane.getPreferredSize().height);
             PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.DOWN_BUTTON);
             popupToolPane.setParentDialog(this);
             JComponent contentPane = propertyItem.getContentPane();
             container.add(popupToolPane, BorderLayout.NORTH);
             container.add(contentPane, BorderLayout.CENTER);
-            setSize(CONTENT_WIDTH, container.getPreferredSize().height);
-
+            minHeight = container.getPreferredSize().height;
+            setSize(CONTENT_WIDTH, minHeight);
             validate();
             Point btnCoords = propertyItem.getButton().getLocationOnScreen();
             this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
+
+            initListener();
             this.setVisible(true);
+        }
+        private void initListener() {
+            addMouseMotionListener(new MouseMotionListener() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    if (mouseDownCompCoords != null) {
+                        Rectangle bounds = getBounds();
+                        Point currCoords = e.getLocationOnScreen();
+                        bounds.height = currCoords.y - mouseDownCompCoords.y + bounds.height;
+                        // 校正位置
+                        if (bounds.height < minHeight) {
+                            bounds.height = minHeight;
+                        }
+                        mouseDownCompCoords.y = currCoords.y;
+                        setBounds(bounds);
+                    }
+                }
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    if (originCursor == null) {  // 记录最初的光标
+                        originCursor = getCursor();
+                    }
+                    if (e.getY() > getHeight() - RESIZE_RANGE) {
+                        setCursor(southResizeCursor);
+                    } else {
+                        // 还原
+                        if (mouseDownCompCoords == null && getCursor().equals(southResizeCursor)) {
+                            setCursor(originCursor);
+                        }
+                    }
+
+                    repaint();
+                }
+            });
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (getCursor().equals(southResizeCursor)) {
+                        mouseDownCompCoords = e.getLocationOnScreen();
+                    }
+                }
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    mouseDownCompCoords = null;
+                }
+            });
         }
     }
 }
