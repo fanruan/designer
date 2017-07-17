@@ -9,7 +9,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-import ij.gui.Toolbar;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -156,6 +155,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public static void main(String[] args){
         JFrame jf = new JFrame("test");
+//        jf = new JFrame("test");
+
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel cc = new JPanel();
@@ -224,6 +225,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private JComponent contentPane;
         private FixedPopupPane popupPane;  // 左侧固定弹出框
         private PopupToolPane popupToolPane;  // 弹出工具条
+        private PopupDialog popupDialog;  // 弹出框
         private int x, y;  // 弹出框的坐标
         private int height; // 弹出框的高度
         private boolean isPoppedOut = false;  // 是否弹出
@@ -270,6 +272,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public void replaceContentPane(JComponent pane) {
             propertyPanel.remove(this.contentPane);
             propertyPanel.add(this.contentPane = pane);
+            if (popupDialog != null && isPoppedOut) {
+                popupDialog.replaceContentPane(contentPane);
+            }
+            if (popupPane != null && !isRightPaneVisible()) {
+                popupPane.replaceContentPane(contentPane);
+            }
+
             refreshContainer();
         }
 
@@ -322,23 +331,62 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             return propertyPanel;
         }
 
-        // 弹出对话框
+        // 固定弹窗
         public void popupFixedPane() {
             if (popupPane == null) {
                 popupPane = new FixedPopupPane(this);
             }
             GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
         }
+
+        // 弹出对话框
+        public void popupDialog() {
+//            setIsPoppedOut(true);
+            if (isPoppedOut) {
+                return;
+            }
+            isPoppedOut = true;
+            if (popupDialog == null) {
+                popupDialog = new PopupDialog(this);
+            } else {
+                popupDialog.replaceContentPane(contentPane);
+                popupDialog.setVisible(true);
+            }
+//            initContentPane();
+//            refreshContainer();
+            removeItem(this);
+        }
+
+        public void popToFrame() {
+            if (isPoppedOut) {
+                isPoppedOut = false;
+//                popupDialog.dispose();
+                popupDialog.setVisible(false);
+                initContentPane();
+                onResize();
+                refreshContainer();
+            }
+        }
     }
 
     private class FixedPopupPane extends JPopupMenu {
         private JComponent contentPane;
+//        private PopupToolPane popupToolPane;
+        private int fixedHeight;
         FixedPopupPane(PropertyItem propertyItem) {
             contentPane = propertyItem.getContentPane();
-            this.add(new PopupToolPane(propertyItem));
-            this.add(contentPane);
+            this.setLayout(new BorderLayout());
+//            popupToolPane = ;
+            this.add(new PopupToolPane(propertyItem), BorderLayout.NORTH);
+            this.add(contentPane, BorderLayout.CENTER);
             this.setOpaque(false);
-            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, getPreferredSize().height));
+            fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
+            updateSize();
+        }
+
+        private void updateSize() {
+            int newHeight = fixedHeight + contentPane.getPreferredSize().height;
+            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, newHeight));
         }
 
         public JComponent getContentPane() {
@@ -349,6 +397,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 //            remove(pane);
             this.remove(this.contentPane);
             this.add(this.contentPane = pane);
+            updateSize();
             refreshContainer();
         }
 
@@ -371,7 +420,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
 
         private static final int MIN_X = -150;
-        private static final int MIN_Y_SHIFT = 50;
         private static final int MAX_X_SHIFT = 50;
         private static final int MAX_Y_SHIFT = 50;
 
@@ -488,26 +536,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 触发弹入、弹出
         private void onPop() {
             if (buttonType.equals(UP_BUTTON)) {
-                popUpDialog();
+                propertyItem.popupDialog();
             } else if (buttonType.equals(DOWN_BUTTON)) {
-                popToFrame();
+                propertyItem.popToFrame();
             }
-        }
-
-        public void popUpDialog() {
-            propertyItem.setIsPoppedOut(true);
-            new PopupDialog(propertyItem);
-//            initContentPane();
-//            refreshContainer();
-            removeItem(propertyItem);
-        }
-
-        public void popToFrame() {
-            propertyItem.setIsPoppedOut(false);
-            parentDialog.dispose();
-            initContentPane();
-            onResize();
-            refreshContainer();
         }
 
         @Override
@@ -552,23 +584,41 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         private Point mouseDownCompCoords;
         private int minHeight;  // 对话框最小高度
+        private JComponent contentPane;
         public PopupDialog(PropertyItem propertyItem) {
+            super(DesignerContext.getDesignerFrame());
             container = getContentPane();
             setUndecorated(true);
             PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.DOWN_BUTTON);
             popupToolPane.setParentDialog(this);
-            JComponent contentPane = propertyItem.getContentPane();
+            contentPane = propertyItem.getContentPane();
             container.add(popupToolPane, BorderLayout.NORTH);
             container.add(contentPane, BorderLayout.CENTER);
             minHeight = container.getPreferredSize().height;
             setSize(CONTENT_WIDTH, minHeight);
-            validate();
+//            validate();
             Point btnCoords = propertyItem.getButton().getLocationOnScreen();
             this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
 
             initListener();
             this.setVisible(true);
         }
+        public void replaceContentPane(JComponent contentPane) {
+            container.remove(this.contentPane);
+            container.add(this.contentPane = contentPane);
+//            pack();
+            if (getSize().height < container.getPreferredSize().height) {
+                setSize(CONTENT_WIDTH, container.getPreferredSize().height);
+            }
+            refreshContainer();
+        }
+
+        private void refreshContainer() {
+            validate();
+            repaint();
+            revalidate();
+        }
+
         private void initListener() {
             addMouseMotionListener(new MouseMotionListener() {
                 @Override
