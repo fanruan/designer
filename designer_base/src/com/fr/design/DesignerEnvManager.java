@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
+import org.apache.log4j.Level;
 
 /**
  * The manager of Designer GUI.

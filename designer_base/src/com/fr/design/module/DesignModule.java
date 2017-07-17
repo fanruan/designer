@@ -12,11 +12,11 @@ import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.mainframe.App;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.loghandler.DesignerLogAppendThread;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.js.*;
 import com.fr.module.TopModule;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
@@ -45,6 +45,10 @@ public abstract class DesignModule extends TopModule {
 		ActionFactory.registerCellInsertActionClass(actionsForInsertCellElement());
 		ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
 		DesignModuleFactory.registerCreators4Hyperlink(hyperlinkTypes());
+
+		// 将log4j日志输出到设计器日志面板的线程.
+		DesignerLogAppendThread logTread = new DesignerLogAppendThread();
+		logTread.start();
 	}
 
     public boolean isStarted() {
