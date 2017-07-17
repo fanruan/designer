@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import ij.gui.Toolbar;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -324,7 +325,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 弹出对话框
         public void popupFixedPane() {
             if (popupPane == null) {
-                popupPane = new FixedPopupPane(contentPane);
+                popupPane = new FixedPopupPane(this);
             }
             GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
         }
@@ -332,9 +333,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private class FixedPopupPane extends JPopupMenu {
         private JComponent contentPane;
-        FixedPopupPane(JComponent contentPane) {
-            this.contentPane = contentPane;
+        FixedPopupPane(PropertyItem propertyItem) {
+            contentPane = propertyItem.getContentPane();
+            this.add(new PopupToolPane(propertyItem));
             this.add(contentPane);
+            this.setOpaque(false);
             this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, getPreferredSize().height));
         }
 
