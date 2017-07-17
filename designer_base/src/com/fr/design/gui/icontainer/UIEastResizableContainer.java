@@ -33,7 +33,7 @@ public class UIEastResizableContainer extends JPanel {
     private static final int ARROW_MARGIN = 15;
     private static final int ARROW_RANGE = 35;
 
-    private boolean isRightPaneVisible = true;
+//    private boolean isRightPaneVisible = true;
 
     public UIEastResizableContainer() {
         this(new JPanel(), new JPanel());
@@ -49,10 +49,14 @@ public class UIEastResizableContainer extends JPanel {
         this.preferredWidth = width;
     }
 
-
-    public void setRightPaneVisible(boolean isVisible){
-        this.isRightPaneVisible = isVisible;
+    public boolean isRightPaneVisible() {
+        return containerWidth > leftPaneWidth;
     }
+
+
+//    public void setRightPaneVisible(boolean isVisible){
+//        this.isRightPaneVisible = isVisible;
+//    }
 
     private void setPreferredWidth(int width) {
         this.preferredWidth = width;
@@ -224,6 +228,12 @@ public class UIEastResizableContainer extends JPanel {
         revalidate();
     }
 
+    /**
+     * 伸缩右子面板时，触发此方法
+     */
+    public void onResize() {
+    }
+
     private class TopToolPane extends JPanel {
         private int model = UIConstants.MODEL_NORMAL;
 
@@ -264,6 +274,7 @@ public class UIEastResizableContainer extends JPanel {
                             setPreferredWidth(containerWidth);
                             containerWidth = leftPaneWidth;
                         }
+                        onResize();
                         refreshContainer();
                         if (BaseUtils.isAuthorityEditing()) {
                             DesignerContext.getDesignerFrame().doResize();
