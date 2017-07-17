@@ -249,7 +249,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             propertyPanel = new JPanel();
             propertyPanel.setBackground(Color.pink);
             contentPane = generateContentPane();
-            popupToolPane = new PopupToolPane(this, PopupToolPane.UP_BUTTON);
+            popupToolPane = new PopupToolPane(this, PopupToolPane.DOWN_BUTTON);
             propertyPanel.setLayout(new BorderLayout());
             propertyPanel.add(popupToolPane, BorderLayout.NORTH);
             propertyPanel.add(contentPane, BorderLayout.CENTER);
@@ -466,9 +466,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 return;
             }
 
-            if (buttonType.equals(UP_BUTTON)) {
+            if (buttonType.equals(DOWN_BUTTON)) {
 
-            } else if (buttonType.equals(DOWN_BUTTON)) {
+            } else if (buttonType.equals(UP_BUTTON)) {
 
             } else {
                 throw new IllegalArgumentException("unknown button type: " + buttonType);
@@ -554,9 +554,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         // 触发弹入、弹出
         private void onPop() {
-            if (buttonType.equals(UP_BUTTON)) {
+            if (buttonType.equals(DOWN_BUTTON)) {
                 propertyItem.popupDialog();
-            } else if (buttonType.equals(DOWN_BUTTON)) {
+            } else if (buttonType.equals(UP_BUTTON)) {
                 propertyItem.popToFrame();
             }
         }
@@ -578,7 +578,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             if (buttonType.equals(NO_BUTTON)) {
                 return;
             }
-            if (buttonType.equals(UP_BUTTON)) {
+            if (buttonType.equals(DOWN_BUTTON)) {
                 if (model == UIConstants.MODEL_NORMAL) {
                     button = UIConstants.DRAG_LEFT_NORMAL;
                 } else {
@@ -608,7 +608,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             super(DesignerContext.getDesignerFrame());
             container = getContentPane();
             setUndecorated(true);
-            PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.DOWN_BUTTON);
+            PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.UP_BUTTON);
             popupToolPane.setParentDialog(this);
             contentPane = propertyItem.getContentPane();
             container.add(popupToolPane, BorderLayout.NORTH);
