@@ -423,6 +423,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private PropertyItem propertyItem;
         private String buttonType;
         private JDialog parentDialog;  // 如果不在对话框中，值为null
+        private Color originColor;  // 初始背景
         private boolean isMovable = false;
         private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
 
@@ -444,6 +445,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             this.propertyItem = propertyItem;
             this.title = propertyItem.getTitle();
             this.contentPane = propertyItem.getContentPane();
+            originColor = getBackground();
             setLayout(new BorderLayout());
             UILabel label = new UILabel(title);
             label.setForeground(new Color(69, 135, 255));
@@ -478,6 +480,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     if (e.getX() >= ARROW_RANGE_START) {
                         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         model = UIConstants.MODEL_PRESS;
+                    } else if (isMovable) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                        setBackground(Color.pink);
                     } else {
                         setCursor(Cursor.getDefaultCursor());
                         model = UIConstants.MODEL_NORMAL;
@@ -516,6 +521,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 @Override
                 public void mouseExited(MouseEvent e) {
                     setCursor(Cursor.getDefaultCursor());
+                    if (mouseDownCompCoords == null) {
+                        setBackground(originColor);
+                    }
                     model = UIConstants.MODEL_NORMAL;
                     repaint();
                 }
@@ -530,6 +538,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     mouseDownCompCoords = null;
+                    if (!getBounds().contains(e.getPoint())) {
+                        setBackground(originColor);
+                    }
                 }
                 @Override
                 public void mousePressed(MouseEvent e) {
