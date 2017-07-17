@@ -23,25 +23,25 @@ public class DesignerLogAppendThread extends Thread{
 
     public DesignerLogAppendThread() {
         Logger root = Logger.getRootLogger();
-        // »ñÈ¡×Ó¼ÇÂ¼Æ÷µÄÊä³öÔ´
+        // è·å–å­è®°å½•å™¨çš„è¾“å‡ºæº
         Appender appender = root.getAppender("design");
-        // ¶¨ÒåÒ»¸öÎ´Á¬½ÓµÄÊäÈëÁ÷¹ÜµÀ
+        // å®šä¹‰ä¸€ä¸ªæœªè¿æ¥çš„è¾“å…¥æµç®¡é“
         reader = new PipedReader();
-        // ¶¨ÒåÒ»¸öÒÑÁ¬½ÓµÄÊä³öÁ÷¹ÜÀí£¬²¢Á¬½Óµ½reader
+        // å®šä¹‰ä¸€ä¸ªå·²è¿æ¥çš„è¾“å‡ºæµç®¡ç†ï¼Œå¹¶è¿æ¥åˆ°reader
         Writer writer = null;
         try {
             writer = new PipedWriter(reader);
-            // ÉèÖÃ appender Êä³öÁ÷
+            // è®¾ç½® appender è¾“å‡ºæµ
             ((WriterAppender) appender).setWriter(writer);
         } catch (Throwable e) {
         }
     }
 
     public void run() {
-        // ²»¼ä¶ÏµØÉ¨ÃèÊäÈëÁ÷
+        // ä¸é—´æ–­åœ°æ‰«æè¾“å…¥æµ
         Scanner scanner = new Scanner(reader);
 
-        // ½«É¨Ãèµ½µÄ×Ö·ûÁ÷´òÓ¡ÔÚÆÁÄ¿
+        // å°†æ‰«æåˆ°çš„å­—ç¬¦æµæ‰“å°åœ¨å±ç›®
         while (scanner.hasNext()) {
             try {
                 Thread.sleep(100);
