@@ -48,8 +48,9 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 if (BaseUtils.isAuthorityEditing()) {
                     AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
                     authorityPropertyPane.populate();
-                    EastRegionContainerPane.getInstance().replaceUpPane(authorityPropertyPane);
-                    EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+                    EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
+                    EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
                     return;
                 }
 

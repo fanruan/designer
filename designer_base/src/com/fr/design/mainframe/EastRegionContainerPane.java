@@ -35,6 +35,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final String KEY_CONDITION_ATTR = "conditionAttr";
     private static final String KEY_HYPERLINK = "hyperlink";
     private static final String KEY_WIDGET_LIB = "widgetLib";
+    private static final String KEY_AUTHORITY_EDITION = "authorityEdition";
+    private static final String KEY_CONFIGURED_ROLES = "editedRoles";
     private static final String DEFAULT_PANE = "defaultPane";  // "无可用配置项"面板
 
     public enum PropertyMode {
@@ -45,7 +47,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         FORM_REPORT,  // 表单报表块
         POLY,  // 聚合报表
         POLY_REPORT,  // 聚合报表-报表块
-        POLY_CHART  // 聚合报表-图表块
+        POLY_CHART,  // 聚合报表-图表块
+        AUTHORITY_EDITION  // 权限编辑
     }
     private PropertyMode currentMode;  // 当前模式（根据不同模式，显示不同的可用面板）
 
@@ -104,6 +107,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
                 "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.FORM},
                 new PropertyMode[]{PropertyMode.FORM});
+        // 权限编辑
+        PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, Inter.getLocText("FR-Designer_Permissions_Edition"),
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
+        // 已配置角色
+        PropertyItem configuredRoles = new PropertyItem(KEY_CONFIGURED_ROLES, Inter.getLocText("FR-Designer_Configured_Roles"),
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
 
         propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);
         propertyItemMap.put(KEY_CELL_ATTR, cellAttr);
@@ -112,6 +123,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemMap.put(KEY_CONDITION_ATTR, conditionAttr);
         propertyItemMap.put(KEY_HYPERLINK, hyperlink);
         propertyItemMap.put(KEY_WIDGET_LIB, widgetLib);
+        propertyItemMap.put(KEY_AUTHORITY_EDITION, authorityEdition);
+        propertyItemMap.put(KEY_CONFIGURED_ROLES, configuredRoles);
     }
 
     // "无可用配置项"面板
@@ -256,6 +269,22 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public JComponent getWidgetLibPane() {
         return propertyItemMap.get(KEY_WIDGET_LIB).getContentPane();
+    }
+
+    public void replaceAuthorityEditionPane(JComponent pane) {
+        propertyItemMap.get(KEY_AUTHORITY_EDITION).replaceContentPane(pane);
+    }
+
+    public JComponent getAuthorityEditionPane() {
+        return propertyItemMap.get(KEY_AUTHORITY_EDITION).getContentPane();
+    }
+
+    public void replaceConfiguredRolesPane(JComponent pane) {
+        propertyItemMap.get(KEY_CONFIGURED_ROLES).replaceContentPane(pane);
+    }
+
+    public JComponent getConfiguredRolesPane() {
+        return propertyItemMap.get(KEY_CONFIGURED_ROLES).getContentPane();
     }
 
     public void addParameterPane(JComponent paraPane) {

@@ -88,6 +88,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         super(form, file);
     }
 
+    @Override
+    public void refreshEastPropertiesPane() {
+    }
+
     public int getMenuState() {
 
         return DesignState.JFORM;

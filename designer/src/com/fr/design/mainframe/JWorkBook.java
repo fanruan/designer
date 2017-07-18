@@ -103,6 +103,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
+    public void refreshEastPropertiesPane() {
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+        EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
+        EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+    }
+
+    @Override
     protected UIModeControlContainer createCenterPane() {
         parameterPane = ModuleContext.isModuleStarted(Module.FORM_MODULE) ? new ParameterDefinitePane() : null;
         centerPane = new UIModeControlContainer(parameterPane, reportComposite = new ReportComponentComposite(this)) {
