@@ -73,6 +73,9 @@ public class XCreatorUtils {
         objectMap.put(NameWidget.class, XNameWidget.class);
         objectMap.put(CardSwitchButton.class, XCardSwitchButton.class);
         objectMap.put(CardAddButton.class, XCardAddButton.class);
+
+        objectMap.put(ErrorMarker.class, ErrorCreator.class);
+
         putExtraEditor();
 
         xLayoutMap.put(WAbsoluteLayout.class, XWAbsoluteLayout.class);
