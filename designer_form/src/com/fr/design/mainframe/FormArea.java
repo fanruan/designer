@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
@@ -45,8 +47,8 @@ import com.fr.general.Inter;
 
 public class FormArea extends JComponent implements ScrollRulerComponent {
 
-	private static final double SLIDER_FLOAT = 120.0;
-	private static final double SLIDER_MIN = 60.0;
+	private static final double SLIDER_FLOAT = 400.0;
+	private static final double SLIDER_MIN = 10.0;
 	public static final double DEFAULT_SLIDER = 100.0;
     private static final int ROTATIONS = 50;
     private FormDesigner designer;
@@ -59,11 +61,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     //显示和设置表单界面大小的控件
     private UINumberField widthPane;
     private UINumberField heightPane;
-    private UINumberSlidePane slidePane;
+    private JSliderPane slidePane;
     private boolean isValid = true;
     // 初始时滑块值为100，托动后的值设为START_VALUE;
     private double START_VALUE = DEFAULT_SLIDER;
     private double screenValue;
+	private JSliderPane sliderPane;
     
     public FormScrollBar getHorScrollBar() {
 		return horScrollBar;
@@ -114,8 +117,13 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     	widthPane.setPreferredSize(new Dimension(60, 0));
     	heightPane = new UINumberField();
     	heightPane.setPreferredSize(new Dimension(60, 0));
-    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
-    	slidePane.setPreferredSize(new Dimension(200,0));
+
+//    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
+//    	slidePane.setPreferredSize(new Dimension(260,20));
+		slidePane = JSliderPane.getInstance();
+		slidePane.setPreferredSize(new Dimension(300,20));
+
+
     	JPanel resizePane =TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"),
                 heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane}},
@@ -124,8 +132,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     	setWidgetsConfig();
     	// 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小
     	slidePane.setEnabled(false);
-    	slidePane.setVisible(false);
-//    	initTransparent();
+    	slidePane.setVisible(true);
+    	initTransparent();
     	initCalculateSize();
     }
     
@@ -143,16 +151,36 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     
     private void initTransparent() {
     	initCalculateSize();
-    	slidePane.addChangeListener(new ChangeListener() {
-    		public void stateChanged(ChangeEvent e) {
-    			double value = ((UINumberSlidePane) e.getSource()).getValue();
-    			reCalculateRoot(value, true);
-    			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-    			if(form != null){
-    				form.fireTargetModified();
-    			}
-    		}
-    	});
+		slidePane.getShowVal().getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+//				slidePane.getShowVal().getDocument()
+				double value = slidePane.getshowValue();
+				reCalculateRoot(value, true);
+				JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+				if(form != null){
+					form.fireTargetModified();
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+//    	slidePane.addChangeListener(new ChangeListener() {
+//    		public void stateChanged(ChangeEvent e) {
+//    			double value = ((UINumberSlidePane) e.getSource()).getValue();
+//    			reCalculateRoot(value, true);
+//    			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+//    			if(form != null){
+//    				form.fireTargetModified();
+//    			}
+//    		}
+//    	});
     }
     
     /**

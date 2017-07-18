@@ -36,11 +36,12 @@ public class ReportComponentComposite extends JComponent {
 
     private JPanel hbarContainer;
 
+    private JPanel jSliderContainer;
+
 
     /**
      * Constructor with workbook..
      *
-     * @param workBook the current workbook.
      */
     public ReportComponentComposite(JWorkBook jwb) {
         this.parent = jwb;
@@ -52,7 +53,7 @@ public class ReportComponentComposite extends JComponent {
         this.add(CellElementRegion, BorderLayout.NORTH);
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
     }
-    
+
     protected void doBeforeChange(int oldIndex) {
         if (oldIndex >= 0) {
             templateStateList.set(oldIndex, centerCardPane.editingComponet.createEditingState());
@@ -153,13 +154,30 @@ public class ReportComponentComposite extends JComponent {
     }
 
     private JComponent createSouthControlPane() {
+//        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
+//        hbarContainer.add(createSouthControlPaneWithJSliderPane());
         hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
         hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
-        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, hbarContainer);
+//        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, hbarContainer);
+        JPanel southPane = new JPanel(new BorderLayout());
+        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, JSliderPane.getInstance());
         splitpane.setBorder(null);
         splitpane.setDividerSize(3);
-        splitpane.setResizeWeight(0.6);
-        return splitpane;
+        splitpane.setResizeWeight(1);
+        southPane.add(hbarContainer,BorderLayout.NORTH);
+        southPane.add(splitpane,BorderLayout.CENTER);
+        return southPane;
+    }
+
+    private JComponent createSouthControlPaneWithJSliderPane() {
+        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
+        JSplitPane splitWithJSliderPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, hbarContainer, JSliderPane.getInstance());
+        splitWithJSliderPane.setBorder(null);
+        splitWithJSliderPane.setDividerLocation(0.9);
+        splitWithJSliderPane.setDividerSize(3);
+        splitWithJSliderPane.setResizeWeight(1);
+        return splitWithJSliderPane;
     }
 
     public void setSelectedIndex(int selectedIndex) {

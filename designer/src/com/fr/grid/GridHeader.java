@@ -6,7 +6,7 @@ import java.awt.Color;
 
 public abstract class GridHeader<T> extends BaseGridComponent {
 	public final static int SIZE_ADJUST = 4;
-	
+
     //属性
     private Color separatorLineColor = new Color(172, 168, 153); //separator lines
     private Color selectedForeground = Color.black;
@@ -22,7 +22,7 @@ public abstract class GridHeader<T> extends BaseGridComponent {
         
         initByConstructor();
     }
-    
+
     protected abstract void initByConstructor();
     
     protected abstract T getDisplay(int index) ;
