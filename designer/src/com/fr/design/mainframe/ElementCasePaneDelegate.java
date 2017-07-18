@@ -56,8 +56,8 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
-                    EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());
-                    EastRegionContainerPane.getInstance().replaceUpPane(QuickEditorRegion.getInstance());
+                    EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+                    EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                     EastRegionContainerPane.getInstance().removeParameterPane();
                 }
             }

@@ -16,11 +16,12 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class EastRegionContainerPane extends UIEastResizableContainer {
     private static EastRegionContainerPane THIS;
-    private List<PropertyItem> propertyItemList;
+    private Map<String, PropertyItem> propertyItemMap;
     private CardLayout propertyCard;
     private JPanel leftPane;
     private JPanel rightPane;
@@ -29,6 +30,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
     private static final int POPUP_TOOLPANE_HEIGHT = 25;
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
+    private static final String KEY_CELL_ELEMENT = "cellElement";
+    private static final String KEY_CELL_ATTR = "cellAttr";
+    private static final String KEY_FLOAT_ELEMENT = "floatElement";
+    private static final String KEY_WIDGET_SETTINGS = "widgetSettings";
+    private static final String KEY_CONDITION_ATTR = "conditionAttr";
+    private static final String KEY_HYPERLINK = "hyperlink";
+    private static final String KEY_WIDGET_LIB = "widgetLib";
 
     /**
      * 得到实例
@@ -54,29 +62,29 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     private void initPropertyItemList() {
-        propertyItemList = new ArrayList<>();
+        propertyItemMap = new LinkedHashMap<>();  // 有序map
 
         // 单元格元素
-        PropertyItem cellElement = new PropertyItem("cellElement", Inter.getLocText("FR-Designer_Cell_Element"), "/com/fr/design/images/buttonicon/add.png");
+        PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, Inter.getLocText("FR-Designer_Cell_Element"), "/com/fr/design/images/buttonicon/add.png");
         // 单元格属性
-        PropertyItem cellAttr = new PropertyItem("cellAttr", Inter.getLocText("FR-Designer_Cell_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, Inter.getLocText("FR-Designer_Cell_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
         // 悬浮元素
-        PropertyItem floatElement = new PropertyItem("floatElement", Inter.getLocText("FR-Designer_Float_Element"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, Inter.getLocText("FR-Designer_Float_Element"), "com/fr/design/images/toolbarbtn/close.png");
         // 控件设置
-        PropertyItem widgetSettings = new PropertyItem("widgetSettings", Inter.getLocText("FR-Designer-Widget_Settings"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, Inter.getLocText("FR-Designer-Widget_Settings"), "com/fr/design/images/toolbarbtn/close.png");
         // 条件属性
-        PropertyItem conditionAttr = new PropertyItem("conditionAttr", Inter.getLocText("FR-Designer_Condition_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, Inter.getLocText("FR-Designer_Condition_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
         // 超级链接
-        PropertyItem hyperlink = new PropertyItem("hyperlink", Inter.getLocText("FR-Designer_Hyperlink"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"), "com/fr/design/images/toolbarbtn/close.png");
         // 组件库
-        PropertyItem widgetLib = new PropertyItem("widgetLib", Inter.getLocText("FR-Designer_Widget_Library"), "com/fr/design/images/toolbarbtn/close.png");
-        propertyItemList.add(cellElement);
-        propertyItemList.add(cellAttr);
-        propertyItemList.add(floatElement);
-        propertyItemList.add(widgetSettings);
-        propertyItemList.add(conditionAttr);
-        propertyItemList.add(hyperlink);
-        propertyItemList.add(widgetLib);
+        PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"), "com/fr/design/images/toolbarbtn/close.png");
+        propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);
+        propertyItemMap.put(KEY_CELL_ATTR, cellAttr);
+        propertyItemMap.put(KEY_FLOAT_ELEMENT, floatElement);
+        propertyItemMap.put(KEY_WIDGET_SETTINGS, widgetSettings);
+        propertyItemMap.put(KEY_CONDITION_ATTR, conditionAttr);
+        propertyItemMap.put(KEY_HYPERLINK, hyperlink);
+        propertyItemMap.put(KEY_WIDGET_LIB, widgetLib);
     }
 
     // "无可用配置项"面板
@@ -99,7 +107,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyCard = new CardLayout();
         rightPane.setBackground(Color.green);
         rightPane.setLayout(propertyCard);
-        for (PropertyItem item : propertyItemList) {
+        for (PropertyItem item : propertyItemMap.values()) {
             if (item.isPoppedOut()) {
                 continue;
             }
@@ -114,7 +122,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private void initLeftPane() {
         leftPane = new JPanel();
         leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0));
-        for (PropertyItem item : propertyItemList) {
+        for (PropertyItem item : propertyItemMap.values()) {
             if (item.isPoppedOut()) {
                 continue;
             }
@@ -135,7 +143,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     @Override
     public void onResize() {
-        for (PropertyItem item : propertyItemList) {
+        for (PropertyItem item : propertyItemMap.values()) {
             item.onResize();
         }
     }
@@ -147,23 +155,55 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void replaceUpPane(JComponent pane) {
-        propertyItemList.get(0).replaceContentPane(pane);
+        replaceCellElementPane(pane);
     }
 
     public void replaceDownPane(JComponent pane) {
-        propertyItemList.get(1).replaceContentPane(pane);
+        replaceCellAttrPane(pane);
     }
 
     public JComponent getUpPane() {
-        return propertyItemList.get(0).getContentPane();
+        return getCellElementPane();
     }
 
     public JComponent getDownPane() {
-        return propertyItemList.get(1).getContentPane();
+        return getCellAttrPane();
+    }
+
+    public void replaceCellElementPane(JComponent pane) {
+        propertyItemMap.get(KEY_CELL_ELEMENT).replaceContentPane(pane);
+    }
+
+    public JComponent getCellElementPane() {
+        return propertyItemMap.get(KEY_CELL_ELEMENT).getContentPane();
+    }
+
+    public void replaceCellAttrPane(JComponent pane) {
+        propertyItemMap.get(KEY_CELL_ATTR).replaceContentPane(pane);
+    }
+
+    public JComponent getCellAttrPane() {
+        return propertyItemMap.get(KEY_CELL_ATTR).getContentPane();
+    }
+
+    public void replaceWidgetSettingsPane(JComponent pane) {
+        propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceContentPane(pane);
+    }
+
+    public JComponent getWidgetSettingsPane() {
+        return propertyItemMap.get(KEY_WIDGET_SETTINGS).getContentPane();
+    }
+
+    public void replaceWidgetLibPane(JComponent pane) {
+        propertyItemMap.get(KEY_WIDGET_LIB).replaceContentPane(pane);
+    }
+
+    public JComponent getWidgetLibPane() {
+        return propertyItemMap.get(KEY_WIDGET_LIB).getContentPane();
     }
 
     public void addParameterPane(JComponent paraPane) {
-        propertyItemList.get(2).replaceContentPane(paraPane);
+        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(paraPane);
     }
 
     public void setParameterHeight(int height) {
@@ -210,16 +250,16 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      */
     public void refreshRightPane() {
 
-        if (this.getRightPane() instanceof DockingView) {
-            ((DockingView) this.getRightPane()).refreshDockingView();
-        }
+//        if (this.getRightPane() instanceof DockingView) {
+//            ((DockingView) this.getRightPane()).refreshDockingView();
+//        }
     }
 
     public void refreshDownPane() {
-        JComponent pane = propertyItemList.get(1).getContentPane();
-        if (pane instanceof DockingView) {
-            ((DockingView) pane).refreshDockingView();
-        }
+//        JComponent pane = propertyItemList.get(1).getContentPane();
+//        if (pane instanceof DockingView) {
+//            ((DockingView) pane).refreshDockingView();
+//        }
     }
 
     private void refreshContainer() {
