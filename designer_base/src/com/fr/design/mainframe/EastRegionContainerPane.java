@@ -15,9 +15,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class EastRegionContainerPane extends UIEastResizableContainer {
     private static EastRegionContainerPane THIS;
@@ -37,6 +35,25 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final String KEY_CONDITION_ATTR = "conditionAttr";
     private static final String KEY_HYPERLINK = "hyperlink";
     private static final String KEY_WIDGET_LIB = "widgetLib";
+    private static final String DEFAULT_PANE = "defaultPane";  // "无可用配置项"面板
+
+
+//    public static final String MODE_REPORT = "report";  // 报表模式
+//    public static final String MODE_REPORT_PARA = "reportPara";  // 报表参数面板
+//    public static final String MODE_FORM = "form";  // 表单模式
+//    public static final String MODE_POLY = "poly";  // 聚合报表模式
+    public enum PropertyMode {
+        REPORT,  // 报表
+        REPORT_PARA,  // 报表参数面板
+        REPORT_FLOAT,  // 报表悬浮元素
+        FORM,  // 表单
+        FORM_REPORT,  // 表单报表块
+        POLY,  // 聚合报表
+        POLY_REPORT,  // 聚合报表-报表块
+        POLY_CHART  // 聚合报表-图表块
+    }
+    private PropertyMode currentMode;  // 当前模式（根据不同模式，显示不同的可用面板）
+
 
     /**
      * 得到实例
@@ -56,28 +73,46 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         super();
 //        setVerticalDragEnabled(false);
         initPropertyItemList();
-        initContentPane();
+        switchMode(PropertyMode.REPORT);
+//        initContentPane();
 //        super(leftPane, rightPane);
         setContainerWidth(CONTAINER_WIDTH);
     }
 
     private void initPropertyItemList() {
         propertyItemMap = new LinkedHashMap<>();  // 有序map
-
         // 单元格元素
-        PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, Inter.getLocText("FR-Designer_Cell_Element"), "/com/fr/design/images/buttonicon/add.png");
+        PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, Inter.getLocText("FR-Designer_Cell_Element"),
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 单元格属性
-        PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, Inter.getLocText("FR-Designer_Cell_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, Inter.getLocText("FR-Designer_Cell_Attributes"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 悬浮元素
-        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, Inter.getLocText("FR-Designer_Float_Element"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, Inter.getLocText("FR-Designer_Float_Element"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
-        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, Inter.getLocText("FR-Designer-Widget_Settings"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, Inter.getLocText("FR-Designer-Widget_Settings"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT});
         // 条件属性
-        PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, Inter.getLocText("FR-Designer_Condition_Attributes"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, Inter.getLocText("FR-Designer_Condition_Attributes"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 超级链接
-        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库
-        PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"), "com/fr/design/images/toolbarbtn/close.png");
+        PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
+                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.FORM},
+                new PropertyMode[]{PropertyMode.FORM});
+//        // 图表属性设置
+//        PropertyItem chartSettings = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
+//                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.FORM},
+//                new PropertyMode[]{PropertyMode.FORM});
         propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);
         propertyItemMap.put(KEY_CELL_ATTR, cellAttr);
         propertyItemMap.put(KEY_FLOAT_ELEMENT, floatElement);
@@ -108,14 +143,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         rightPane.setBackground(Color.green);
         rightPane.setLayout(propertyCard);
         for (PropertyItem item : propertyItemMap.values()) {
-            if (item.isPoppedOut()) {
+            if (item.isPoppedOut() || !item.isVisible()) {
                 continue;
             }
             rightPane.add(item.getName(), item.getPropertyPanel());
         }
-        rightPane.add(getDefaultPane());
+        rightPane.add(DEFAULT_PANE, getDefaultPane());
 
         replaceRightPane(rightPane);
+        refreshRightPane();
     }
 
     // 左侧按钮面板
@@ -123,7 +159,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         leftPane = new JPanel();
         leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0));
         for (PropertyItem item : propertyItemMap.values()) {
-            if (item.isPoppedOut()) {
+            if (item.isPoppedOut() || !item.isVisible()) {
                 continue;
             }
             leftPane.add(item.getButton());
@@ -134,10 +170,30 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         replaceLeftPane(leftPane);
     }
 
+    public void switchMode(PropertyMode mode) {
+        if (currentMode != null && currentMode.equals(mode)) {
+            return;
+        }
+        currentMode = mode;
+        updateAllPropertyPane();
+    }
+
+    public void updateAllPropertyPane() {
+        updatePropertyItemMap();
+        initContentPane();
+    }
+
+    private void updatePropertyItemMap() {
+        for (PropertyItem item : propertyItemMap.values()) {
+            item.updateStatus();
+        }
+    }
+
     // 弹出面板时，更新框架内容
     private void removeItem(PropertyItem propertyItem) {
         leftPane.remove(propertyItem.getButton());
         rightPane.remove(propertyItem.getPropertyPanel());
+        refreshRightPane();
         refreshContainer();
     }
 
@@ -186,6 +242,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return propertyItemMap.get(KEY_CELL_ATTR).getContentPane();
     }
 
+    public void replaceFloatElementPane(JComponent pane) {
+        propertyItemMap.get(KEY_FLOAT_ELEMENT).replaceContentPane(pane);
+    }
+
+    public JComponent getFloatElementPane() {
+        return propertyItemMap.get(KEY_FLOAT_ELEMENT).getContentPane();
+    }
+
     public void replaceWidgetSettingsPane(JComponent pane) {
         propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceContentPane(pane);
     }
@@ -203,7 +267,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void addParameterPane(JComponent paraPane) {
-        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(paraPane);
+//        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(paraPane);
     }
 
     public void setParameterHeight(int height) {
@@ -249,6 +313,18 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      * 刷新右面板
      */
     public void refreshRightPane() {
+        boolean hasAvailableTab = false;
+        for (String name : propertyItemMap.keySet()) {
+            PropertyItem propertyItem = propertyItemMap.get(name);
+            if (propertyItem.isVisible() && !propertyItem.isPoppedOut() && propertyItem.isEnabled()) {
+                propertyCard.show(rightPane, name);  // 显示第一个可用tab
+                hasAvailableTab = true;
+                break;
+            }
+        }
+        if (!hasAvailableTab) {
+            propertyCard.show(rightPane, DEFAULT_PANE);
+        }
 
 //        if (this.getRightPane() instanceof DockingView) {
 //            ((DockingView) this.getRightPane()).refreshDockingView();
@@ -275,7 +351,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
 
     class PropertyItem {
-        //        private UIButton button;
         private UIButton button;
         private String name;  // 用于 card 切换
         private String title;  // 用于显示
@@ -284,21 +359,54 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private FixedPopupPane popupPane;  // 左侧固定弹出框
         private PopupToolPane popupToolPane;  // 弹出工具条
         private PopupDialog popupDialog;  // 弹出框
-        private int x, y;  // 弹出框的坐标
-        private int height; // 弹出框的高度
         private boolean isPoppedOut = false;  // 是否弹出
-        private Dimension fixedSize;
+        private boolean isVisible = true;  // 是否可见
+        private boolean isEnabled = true;  // 是否可用
+        private Set<PropertyMode> visibleModes;
+        private Set<PropertyMode> enableModes;
 
-        public PropertyItem(String name, String title, String btnUrl) {
+        public PropertyItem(String name, String title, String btnUrl, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
             this.name = name;
             this.title = title;
             initButton(btnUrl);
             initPropertyPanel();
+//            this.visibleModes = new ArrayList<PropertyMode>(visibleModes);
+            initModes(visibleModes, enableModes);
+        }
+
+        private void initModes(PropertyMode[] visibleModes, PropertyMode[] enableModes) {
+            this.enableModes = new HashSet<>();
+            this.visibleModes = new HashSet<>();
+            for (PropertyMode enableMode : enableModes) {
+                this.enableModes.add(enableMode);
+            }
+            for (PropertyMode visibleMode : visibleModes) {
+                this.visibleModes.add(visibleMode);
+            }
+            this.visibleModes.addAll(this.enableModes);  // 可用必可见
+        }
+
+        public void updateStatus() {
+            setEnabled(enableModes.contains(currentMode));
+            setVisible(visibleModes.contains(currentMode));
+        }
+
+        public boolean isVisible() {
+            return isVisible;
+        }
+
+        public void setVisible(boolean isVisible) {
+            this.isVisible = isVisible;
+        }
+
+        public boolean isEnabled() {
+            return isEnabled;
         }
 
         // 选项不可用
-        public void setEnabled(boolean enabled) {
-            button.setEnabled(enabled);
+        public void setEnabled(boolean isEnabled) {
+            this.isEnabled = isEnabled;
+            button.setEnabled(isEnabled);
         }
 
         private void initPropertyPanel() {
@@ -309,10 +417,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             propertyPanel.setLayout(new BorderLayout());
             propertyPanel.add(popupToolPane, BorderLayout.NORTH);
             propertyPanel.add(contentPane, BorderLayout.CENTER);
-        }
-
-        public void setIsPoppedOut(boolean isPoppedOut) {
-            this.isPoppedOut = isPoppedOut;
         }
 
         public boolean isPoppedOut() {

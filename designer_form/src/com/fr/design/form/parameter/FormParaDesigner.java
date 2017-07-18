@@ -109,6 +109,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      */
     public void initBeforeUpEdit() {
         WidgetToolBarPane.getInstance(this);
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_PARA);
         EastRegionContainerPane.getInstance().replaceWidgetLibPane(
                 FormWidgetDetailPane.getInstance(this));
         if (!BaseUtils.isAuthorityEditing()) {
