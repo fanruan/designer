@@ -746,7 +746,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             if (delegate4ToolbarMenuAdapter() instanceof PolyDesigner) {
                 PolyDesigner polyDesigner = (PolyDesigner) delegate4ToolbarMenuAdapter();
                 if (polyDesigner.getSelectionType() == PolyDesigner.SelectionType.NONE || polyDesigner.getSelection() == null) {
-                    EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+//                    EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
                     QuickEditorRegion.getInstance().populate(QuickEditor.DEFAULT_EDITOR);
                 } else {
                     EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());

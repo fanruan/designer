@@ -37,11 +37,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final String KEY_WIDGET_LIB = "widgetLib";
     private static final String DEFAULT_PANE = "defaultPane";  // "无可用配置项"面板
 
-
-//    public static final String MODE_REPORT = "report";  // 报表模式
-//    public static final String MODE_REPORT_PARA = "reportPara";  // 报表参数面板
-//    public static final String MODE_FORM = "form";  // 表单模式
-//    public static final String MODE_POLY = "poly";  // 聚合报表模式
     public enum PropertyMode {
         REPORT,  // 报表
         REPORT_PARA,  // 报表参数面板
@@ -83,36 +78,33 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemMap = new LinkedHashMap<>();  // 有序map
         // 单元格元素
         PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, Inter.getLocText("FR-Designer_Cell_Element"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 单元格属性
         PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, Inter.getLocText("FR-Designer_Cell_Attributes"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 悬浮元素
         PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, Inter.getLocText("FR-Designer_Float_Element"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
         PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, Inter.getLocText("FR-Designer-Widget_Settings"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
-                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT});
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT, PropertyMode.POLY_CHART});
         // 条件属性
         PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, Inter.getLocText("FR-Designer_Condition_Attributes"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 超级链接
         PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库
         PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
-                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.FORM},
+                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.FORM},
                 new PropertyMode[]{PropertyMode.FORM});
-//        // 图表属性设置
-//        PropertyItem chartSettings = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
-//                "com/fr/design/images/toolbarbtn/close.png", new PropertyMode[]{PropertyMode.FORM},
-//                new PropertyMode[]{PropertyMode.FORM});
+
         propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);
         propertyItemMap.put(KEY_CELL_ATTR, cellAttr);
         propertyItemMap.put(KEY_FLOAT_ELEMENT, floatElement);
