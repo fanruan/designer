@@ -210,6 +210,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      */
     public abstract void removeParameterPaneSelection();
 
+    public abstract void setScale(int resolution);
+
+    public abstract int getScale();
+
     protected abstract DesignModelAdapter<T, ?> createDesignModel();
 
     /**

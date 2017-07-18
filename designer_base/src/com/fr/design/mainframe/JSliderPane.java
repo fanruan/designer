@@ -1,23 +1,32 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ScreenResolution;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.grid.DefaultGridUIProcessor;
+import com.fr.grid.Grid;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.Observable;
 
 /**
  * Created by MoMeak on 2017/7/13.
@@ -25,6 +34,8 @@ import java.awt.event.ActionListener;
 public class JSliderPane extends JPanel {
 
     private final int KERNING = 2;
+    public int showValue = 100;
+    public double resolutionTimes = 1.0;
     private static JSliderPane THIS;
     private UITextField showVal;
     private UISlider slider;
@@ -32,9 +43,9 @@ public class JSliderPane extends JPanel {
     private int sliderValue;
     private UIButton downButton;
     private UIButton upButton;
-    private int showValue;
     //拖动条处理和button、直接输入不一样
     private boolean isButtonOrIsTxt = true;
+
 
 
     public JSliderPane() {
@@ -45,7 +56,7 @@ public class JSliderPane extends JPanel {
 
         showVal = new UITextField();
         showVal.setText("100%");
-
+        showVal.setPreferredSize(new Dimension(40,18));
         showVal.getDocument().addDocumentListener(showValDocumentListener);
 
         downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveDown.png"));
@@ -54,15 +65,6 @@ public class JSliderPane extends JPanel {
         upButton.setActionCommand("more");
         downButton.addActionListener(buttonActionListener);
         upButton.addActionListener(buttonActionListener);
-
-//        double f = TableLayout.FILL;
-//        double p = TableLayout.PREFERRED;
-//        Component[][] components = new Component[][]{
-//                new Component[]{downButton, slider, upButton, showVal},
-//        };
-//        double[] rowSize = {p};
-//        double[] columnSize = {p,p,p,p};
-//        JPanel panel =  TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         JPanel panel = new JPanel(new FlowLayout(1,1,0));
 
@@ -85,9 +87,10 @@ public class JSliderPane extends JPanel {
     }
 
     public static final JSliderPane getInstance() {
-        if (THIS == null) {
-            THIS = new JSliderPane();
-        }
+//        if (THIS == null) {
+//            THIS = new JSliderPane();
+//        }
+        THIS = new JSliderPane();
         return THIS;
     }
 
@@ -118,6 +121,7 @@ public class JSliderPane extends JPanel {
         public void insertUpdate(DocumentEvent e) {
             isButtonOrIsTxt = true;
             refreshSlider();
+            refreshBody();
         }
 
         @Override
@@ -142,7 +146,28 @@ public class JSliderPane extends JPanel {
         }
     }
 
-    ActionListener buttonActionListener = new ActionListener() {
+    private void refreshBody(){
+        this.resolutionTimes = divide(showValue,100,2);
+        int resolution =  (int) (ScreenResolution.getScreenResolution()*resolutionTimes);
+        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
+
+    }
+
+    public double getResolutionTimes(){
+        return this.resolutionTimes;
+    }
+
+    public int getshowValue(){
+        return this.showValue;
+    }
+
+    public static double divide(double v1, double v2,int scale) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.divide(b2,scale).doubleValue();
+    }
+
+        ActionListener buttonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             showValue = Integer.parseInt(showVal.getText().substring(0, showVal.getText().indexOf("%")));
@@ -177,6 +202,10 @@ public class JSliderPane extends JPanel {
         }
     }
 
+
+    public UITextField getShowVal(){
+        return this.showVal;
+    }
 
     public static void main(String[] args)
     {

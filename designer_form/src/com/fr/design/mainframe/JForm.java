@@ -240,6 +240,16 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return;
     }
 
+    @Override
+    public void setScale(int resolution) {
+
+    }
+
+    @Override
+    public int getScale() {
+        return 0;
+    }
+
     /**
      * 创建权限细粒度编辑面板
      *

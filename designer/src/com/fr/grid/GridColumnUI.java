@@ -16,6 +16,8 @@ import com.fr.base.ScreenResolution;
 import com.fr.cache.list.IntList;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.GridScaleEdit;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.ColumnRowPrivilegeControl;
@@ -29,7 +31,14 @@ import com.fr.report.elementcase.ElementCase;
 public class GridColumnUI extends ComponentUI {
 
     protected Color withoutDetailsBackground = Color.lightGray;
-    protected int resolution = ScreenResolution.getScreenResolution();
+    private int resolution ;
+
+    public GridColumnUI(int resolution){
+        if (resolution == 0){
+            resolution =  ScreenResolution.getScreenResolution();
+        }
+        this.resolution = resolution;
+    }
 
     @Override
     public void paint(Graphics g, JComponent c) {
