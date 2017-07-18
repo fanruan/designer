@@ -426,10 +426,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 				BaseUtils.setAuthorityEditing(false);
 				WestRegionContainerPane.getInstance().replaceDownPane(
 						TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
-				EastRegionContainerPane.getInstance().replaceUpPane(
-						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEastUpPane());
-				EastRegionContainerPane.getInstance().replaceDownPane(
-						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEastDownPane());
+				HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
 				DesignerContext.getDesignerFrame().resetToolkitByPlus(
 						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getToolBarMenuDockPlus());
 				needToAddAuhtorityPaint();

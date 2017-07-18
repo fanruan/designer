@@ -502,7 +502,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     public void setSelection(Selection selection) {
         if (!ComparatorUtils.equals(this.selection, selection) ||
-                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getDownPane(), CellElementPropertyPane.getInstance())) {
+                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
             this.selection = selection;
             fireSelectionChanged();
         }

@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.general.Inter;
+import com.fr.grid.selection.FloatSelection;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.DesignState;
@@ -47,8 +48,9 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 if (BaseUtils.isAuthorityEditing()) {
                     AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
                     authorityPropertyPane.populate();
-                    EastRegionContainerPane.getInstance().replaceUpPane(authorityPropertyPane);
-                    EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+                    EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
+                    EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
                     return;
                 }
 
@@ -56,8 +58,15 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
-                    EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());
-                    EastRegionContainerPane.getInstance().replaceUpPane(QuickEditorRegion.getInstance());
+                    if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
+                        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
+//                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+                        EastRegionContainerPane.getInstance().replaceFloatElementPane(QuickEditorRegion.getInstance());
+                    } else {
+                        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+                        EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
+                    }
                     EastRegionContainerPane.getInstance().removeParameterPane();
                 }
             }

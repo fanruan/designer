@@ -88,6 +88,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         super(form, file);
     }
 
+    @Override
+    public void refreshEastPropertiesPane() {
+    }
+
     public int getMenuState() {
 
         return DesignState.JFORM;
@@ -267,12 +271,12 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             return;
         }
         editingComponent = comp.createToolPane(this, formDesign);
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         if (BaseUtils.isAuthorityEditing()) {
-            EastRegionContainerPane.getInstance().replaceUpPane(
+            EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
                     ComparatorUtils.equals(editingComponent.getClass(), NoSupportAuthorityEdit.class) ? editingComponent : createAuthorityEditPane());
         } else {
-            EastRegionContainerPane.getInstance().replaceUpPane(editingComponent);
-
+            EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(editingComponent);
         }
     }
 
@@ -627,17 +631,19 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
         if (formDesign.isReportBlockEditing()) {
             if (elementCaseDesign != null) {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM_REPORT);
                 EastRegionContainerPane.getInstance().removeParameterPane();
-                EastRegionContainerPane.getInstance().replaceDownPane(elementCaseDesign.getEastDownPane());
-                EastRegionContainerPane.getInstance().replaceUpPane(elementCaseDesign.getEastUpPane());
+                EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
+                EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
                 return;
             }
         }
 
-        EastRegionContainerPane.getInstance().replaceUpPane(WidgetPropertyPane.getInstance(formDesign));
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
+        EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         EastRegionContainerPane.getInstance().addParameterPane(ParameterPropertyPane.getInstance(formDesign));
         EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance(formDesign).getPreferredSize().height);
-        if (EastRegionContainerPane.getInstance().getDownPane() == null) {
+        if (EastRegionContainerPane.getInstance().getWidgetLibPane() == null) {
             new Thread() {
                 public void run() {
                     try {
@@ -648,15 +654,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                     JPanel pane = new JPanel();
                     pane.setLayout(new BorderLayout());
                     pane.add(FormWidgetDetailPane.getInstance(formDesign), BorderLayout.CENTER);
-                    EastRegionContainerPane.getInstance().replaceDownPane(pane);
+                    EastRegionContainerPane.getInstance().replaceWidgetLibPane(pane);
                 }
             }.start();
         } else {
             JPanel pane = new JPanel();
             pane.setLayout(new BorderLayout());
             pane.add(FormWidgetDetailPane.getInstance(formDesign), BorderLayout.CENTER);
-            EastRegionContainerPane.getInstance().replaceDownPane(pane);
-
+            EastRegionContainerPane.getInstance().replaceWidgetLibPane(pane);
         }
     }
 
