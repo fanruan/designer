@@ -107,6 +107,7 @@ public class JSliderPane extends JPanel {
                     public void run() {
                         sliderValue = slider.getValue();
                         getTimes(sliderValue);
+                        showValue = times;
                         showVal.setText(times + "%");
                     }
                 });
@@ -120,6 +121,7 @@ public class JSliderPane extends JPanel {
         @Override
         public void insertUpdate(DocumentEvent e) {
             isButtonOrIsTxt = true;
+            resolutionTimes = divide(showValue,100,2);
             refreshSlider();
             refreshBody();
         }
@@ -147,9 +149,9 @@ public class JSliderPane extends JPanel {
     }
 
     private void refreshBody(){
-        this.resolutionTimes = divide(showValue,100,2);
-        int resolution =  (int) (ScreenResolution.getScreenResolution()*resolutionTimes);
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
+
+//        int resolution =  (int) (ScreenResolution.getScreenResolution()*resolutionTimes);
+//        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
 
     }
 
@@ -175,16 +177,20 @@ public class JSliderPane extends JPanel {
             if(e.getActionCommand().equals("less")){
                 int newDownVal = showValue - 10;
                 if (newDownVal >= 10 ){
+                    showValue = newDownVal;
                     showVal.setText(newDownVal + "%");
                 }else {
+                    showValue = newDownVal;
                     showVal.setText(10 + "%");
                 }
             }
             if(e.getActionCommand().equals("more")){
                 int newUpVal = showValue + 10;
                 if (newUpVal <= 400 ){
+                    showValue = newUpVal;
                     showVal.setText(newUpVal + "%");
                 }else {
+                    showValue = newUpVal;
                     showVal.setText(400 + "%");
                 }
             }

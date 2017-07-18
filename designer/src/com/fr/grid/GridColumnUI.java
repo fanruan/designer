@@ -163,11 +163,11 @@ public class GridColumnUI extends ComponentUI {
         }
 
         double stringWidth = gridColumn.getFont().getStringBounds(columnContent, fontRenderContext).getWidth();
-        if (stringWidth > tmpIncreaseWidth) {
-            paintMoreContent(i, g2d, tmpWidth1, size, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
-        } else {
+//        if (stringWidth > tmpIncreaseWidth) {
+//            paintMoreContent(i, g2d, tmpWidth1, size, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
+//        } else {
             paintNormalContent(i, g2d, tmpWidth1, tmpIncreaseWidth, isSelectedBounds, gridColumn, elementCase, columnContent, stringWidth, fmAscent);
-        }
+//        }
     }
 
 
