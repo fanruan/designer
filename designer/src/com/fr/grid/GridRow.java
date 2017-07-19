@@ -21,6 +21,7 @@ import javax.swing.plaf.ComponentUI;
  */
 public class GridRow extends GridHeader<Integer> {
 
+	private static final int MAX = 5;
 	private int resolution = ScreenResolution.getScreenResolution();
 
 	@Override
@@ -65,7 +66,7 @@ public class GridRow extends GridHeader<Integer> {
 	 * Calculates max char number.
 	 */
 	private int caculateMaxCharNumber(ElementCasePane reportPane) {
-		int maxCharNumber = 5;
+		int maxCharNumber = MAX;
 		maxCharNumber = Math.max(maxCharNumber, ("" + (reportPane.getGrid().getVerticalValue() + reportPane.getGrid().getVerticalExtent())).length() + 1);
 
 		return maxCharNumber;

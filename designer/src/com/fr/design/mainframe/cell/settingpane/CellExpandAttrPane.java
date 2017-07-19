@@ -62,22 +62,22 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 
 
 	public static void main(String[] args){
-		JFrame jf = new JFrame("test");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel content = (JPanel) jf.getContentPane();
-		content.setLayout(new BorderLayout());
-		content.add(new CellExpandAttrPane().layoutPane(), BorderLayout.CENTER);
-		GUICoreUtils.centerWindow(jf);
-		jf.setSize(290, 400);
-		jf.setVisible(true);
+//		JFrame jf = new JFrame("test");
+//		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		JPanel content = (JPanel) jf.getContentPane();
+//		content.setLayout(new BorderLayout());
+//		content.add(new CellExpandAttrPane().layoutPane(), BorderLayout.CENTER);
+//		GUICoreUtils.centerWindow(jf);
+//		jf.setSize(290, 400);
+//		jf.setVisible(true);
 	}
 
 	private void initAllNames() {
-		expandDirectionButton.setGlobalName(Inter.getLocText("ExpandD-Expand_Direction"));
-		leftFatherPane.setGlobalName(Inter.getLocText("LeftParent"));
-		rightFatherPane.setGlobalName(Inter.getLocText("ExpandD-Up_Father_Cell"));
-		horizontalExpandableCheckBox.setGlobalName(Inter.getLocText("ExpandD-Expandable"));
-		verticalExpandableCheckBox.setGlobalName(Inter.getLocText("ExpandD-Expandable"));
+		expandDirectionButton.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"));
+		leftFatherPane.setGlobalName(Inter.getLocText("FR-Designer_LeftParent"));
+		rightFatherPane.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Up_Father_Cell"));
+		horizontalExpandableCheckBox.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Expandable"));
+		verticalExpandableCheckBox.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Expandable"));
 	}
 
 	private JPanel layoutPane() {
@@ -111,9 +111,9 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{null,null},
-				new Component[]{new UILabel(" "+Inter.getLocText("ExpandD-Expand_Direction")+"   ", SwingConstants.LEFT), expandDirectionButton},
-				new Component[]{new UILabel(" "+Inter.getLocText("LeftParent"), SwingConstants.LEFT), leftFatherPane},
-				new Component[]{new UILabel(" "+Inter.getLocText("ExpandD-Up_Father_Cell"), SwingConstants.LEFT), rightFatherPane},
+				new Component[]{new UILabel(" "+Inter.getLocText("FR-Designer_ExpandD_Expand_Direction")+"   ", SwingConstants.LEFT), expandDirectionButton},
+				new Component[]{new UILabel(" "+Inter.getLocText("FR-Designer_LeftParent"), SwingConstants.LEFT), leftFatherPane},
+				new Component[]{new UILabel(" "+Inter.getLocText("FR-Designer_ExpandD_Up_Father_Cell"), SwingConstants.LEFT), rightFatherPane},
 		};
 		double[] rowSize = {p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -128,7 +128,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 				new Component[]{null,null},
 				new Component[]{horizontalExpandableCheckBox, null},
 				new Component[]{verticalExpandableCheckBox, null},
-				new Component[]{new UILabel(" "+Inter.getLocText("ExpandD-Sort_After_Expand") + Inter.getLocText("FR-Action_Sort"), SwingConstants.RIGHT), sortAfterExpand},
+				new Component[]{new UILabel(" "+Inter.getLocText("FR-Designer_ExpendSort"), SwingConstants.RIGHT), sortAfterExpand},
 		};
 		double[] rowSize = {p, p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -176,7 +176,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 	@Override
 	public String getIconPath() {
 //		return "com/fr/design/images/expand/cellAttr.gif";
-		return Inter.getLocText("Expand");
+		return Inter.getLocText("FR-Designer_Expand");
 	}
 
 
@@ -187,19 +187,19 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 			cellExpandAttr = new CellExpandAttr();
 			cellElement.setCellExpandAttr(cellExpandAttr);
 		}
-		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("ExpandD-Expand_Direction"))) {
+		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"))) {
 			cellExpandAttr.setDirection(expandDirectionButton.getSelectedItem());
 		}
-		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("LeftParent"))) {
+		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_LeftParent"))) {
 			this.leftFatherPane.update(cellExpandAttr);
 		}
-		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("ExpandD-Up_Father_Cell"))) {
+		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_ExpandD_Up_Father_Cell"))) {
 			this.rightFatherPane.update(cellExpandAttr);
 		}
 
 
 		// extendable
-		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("ExpandD-Expandable"))) {
+		if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_ExpandD-Expandable"))) {
 			if (horizontalExpandableCheckBox.isSelected()) {
 				if (verticalExpandableCheckBox.isSelected()) {
 					cellExpandAttr.setExtendable(CellExpandAttr.Both_EXTENDABLE);

@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.itextfield.UITextField;
@@ -9,6 +10,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -17,14 +19,24 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
-import java.util.Observable;
 
 /**
  * Created by MoMeak on 2017/7/13.
  */
 public class JSliderPane extends JPanel {
 
-    private final int KERNING = 2;
+    private static final double ONEPOINTEIGHT = 1.8;
+    private static final int SIX = 6;
+    private static final int TEN = 10;
+    private static final int ONEEIGHT = 18;
+    private static final int FOURTEN = 40;
+    private static final int HALFHUNDRED = 50;
+    private static final int HUNDRED = 100;
+    private static final int TWOHUNDRED = 200;
+    private static final int THREEHUNDRED = 300;
+    private static final int FOURHUNDRED = 400;
+    private static final int DIALOGWIDTH = 150;
+    private static final int DIALOGHEIGHT = 200;
     public int showValue = 100;
     public double resolutionTimes = 1.0;
     private static JSliderPane THIS;
@@ -34,23 +46,30 @@ public class JSliderPane extends JPanel {
     private int sliderValue;
     private UIButton downButton;
     private UIButton upButton;
+    private UIButton showValButton;
+    private UIRadioButton twoHundredButton;
+    private UIRadioButton oneHundredButton;
+    private UIRadioButton SevenFiveButton;
+    private UIRadioButton fiveTenButton;
+    private UIRadioButton twoFiveButton;
+    private UIRadioButton selfAdaptButton;
+    private UIRadioButton customButton;
     //拖动条处理和button、直接输入不一样
     private boolean isButtonOrIsTxt = true;
-    private boolean isDialogOut = false;  // 是否弹出
-    private Dialog dialog;
+    private PopupPane dialog;
+    private int upButtonX;
 
 
     public JSliderPane() {
         this.setLayout(new BorderLayout());
-        slider = new UISlider(0,100,50);
+        slider = new UISlider(0,HUNDRED,HALFHUNDRED);
         slider.setUI(new JSliderPaneUI(slider));
         slider.addChangeListener(listener);
 
         showVal = new UITextField();
         showVal.setText("100%");
-        showVal.setPreferredSize(new Dimension(40,18));
+        showVal.setPreferredSize(new Dimension(FOURTEN,ONEEIGHT));
         showVal.getDocument().addDocumentListener(showValDocumentListener);
-//        showVal.addMouseListener(showValMouseListener);
 
         downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveDown.png"));
         upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveUp.png"));
@@ -61,21 +80,23 @@ public class JSliderPane extends JPanel {
 
         JPanel panel = new JPanel(new FlowLayout(1,1,0));
 
+        showValButton = new UIButton(showVal.getText());
+        showValButton.setBorderPainted(false);
+        showValButton.setPreferredSize(new Dimension(HALFHUNDRED,ONEEIGHT));
+
+        showValButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popupDialog();
+            }
+        });
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
-        panel.add(showVal);
-//        JPanel panel = new JPanel(null);
-//        panel.add(downButton);
-//        panel.add(slider);
-//        panel.add(upButton);
-//        panel.add(showVal);
-//        downButton.setBounds(0,0,16,16);
-//        slider.setBounds(16+KERNING,0,160,16);
-//        upButton.setBounds(176+KERNING*2,0,16,16);
-//        showVal.setBounds(192+KERNING*3,0,40,16);
+        panel.add(showValButton);
         this.add(panel,BorderLayout.NORTH);
-        this.setBounds(0,0,300,16);
+        this.setBounds(0,0,THREEHUNDRED,ONEEIGHT);
+
     }
 
     public static final JSliderPane getInstance() {
@@ -86,6 +107,24 @@ public class JSliderPane extends JPanel {
         return THIS;
     }
 
+    private void initUIRadioButton(){
+        twoHundredButton = new UIRadioButton("200%");
+        oneHundredButton = new UIRadioButton("100%");
+        SevenFiveButton = new UIRadioButton("75%");
+        fiveTenButton = new UIRadioButton("50%");
+        twoFiveButton = new UIRadioButton("25%");
+        selfAdaptButton = new UIRadioButton(Inter.getLocText("FR-Designer_Scale_selfAdaptButton"));
+        customButton = new UIRadioButton(Inter.getLocText("FR-Designer_Scale_customButton"));
+
+        ButtonGroup bg=new ButtonGroup();// 初始化按钮组
+        bg.add(twoHundredButton);// 加入按钮组
+        bg.add(oneHundredButton);
+        bg.add(SevenFiveButton);
+        bg.add(fiveTenButton);
+        bg.add(twoFiveButton);
+        bg.add(selfAdaptButton);
+        bg.add(customButton);
+    }
 
 
     //定义一个监听器，用于监听所有滑动条
@@ -115,7 +154,7 @@ public class JSliderPane extends JPanel {
             isButtonOrIsTxt = true;
             resolutionTimes = divide(showValue,100,2);
             refreshSlider();
-            refreshBody();
+            refreshBottun();
         }
 
         @Override
@@ -129,49 +168,20 @@ public class JSliderPane extends JPanel {
         }
     };
 
-    MouseListener showValMouseListener = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            popupDialog();
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    };
-
     private void refreshSlider(){
         showValue = Integer.parseInt(showVal.getText().substring(0, showVal.getText().indexOf("%")));
-        if (showValue >100){
-            slider.setValue((int)(showValue+200)/6);
-        }else if (showValue <100){
-            slider.setValue((int)((showValue-10)/1.8));
-        }else if (showValue == 100){
-            slider.setValue(50);
+        if (showValue >HUNDRED){
+            slider.setValue((int)(showValue+TWOHUNDRED)/SIX);
+        }else if (showValue <HUNDRED){
+            slider.setValue((int)((showValue-TEN)/ONEPOINTEIGHT));
+        }else if (showValue == HUNDRED){
+            slider.setValue(HALFHUNDRED);
         }
     }
 
-    private void refreshBody(){
 
-//        int resolution =  (int) (ScreenResolution.getScreenResolution()*resolutionTimes);
-//        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
-
+    private void refreshBottun(){
+        showValButton.setText(showVal.getText());
     }
 
     public double getResolutionTimes(){
@@ -188,42 +198,44 @@ public class JSliderPane extends JPanel {
         return b1.divide(b2,scale).doubleValue();
     }
 
-        ActionListener buttonActionListener = new ActionListener() {
+    ActionListener buttonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             showValue = Integer.parseInt(showVal.getText().substring(0, showVal.getText().indexOf("%")));
             isButtonOrIsTxt = true;
             if(e.getActionCommand().equals("less")){
-                int newDownVal = showValue - 10;
-                if (newDownVal >= 10 ){
+                int newDownVal = showValue - TEN;
+                if (newDownVal >= TEN ){
                     showValue = newDownVal;
                     showVal.setText(newDownVal + "%");
                 }else {
                     showValue = newDownVal;
-                    showVal.setText(10 + "%");
+                    showVal.setText(TEN + "%");
                 }
             }
             if(e.getActionCommand().equals("more")){
-                int newUpVal = showValue + 10;
-                if (newUpVal <= 400 ){
+                int newUpVal = showValue + TEN;
+                if (newUpVal <= FOURHUNDRED ){
                     showValue = newUpVal;
                     showVal.setText(newUpVal + "%");
                 }else {
                     showValue = newUpVal;
-                    showVal.setText(400 + "%");
+                    showVal.setText(FOURHUNDRED + "%");
                 }
             }
             isButtonOrIsTxt = true;
         }
     };
 
+
+
     private void getTimes(int value){
-        if (value == 50){
-            times=100;
-        }else if (value < 50){
-            times = (int) Math.round(1.8*value + 10);
+        if (value == HALFHUNDRED){
+            times=HUNDRED;
+        }else if (value < HALFHUNDRED){
+            times = (int) Math.round(ONEPOINTEIGHT*value + TEN);
         }else {
-            times = (int) (6*value - 200);
+            times = (int) (SIX*value - TWOHUNDRED);
         }
     }
 
@@ -233,17 +245,20 @@ public class JSliderPane extends JPanel {
     }
 
     private void popupDialog(){
-        if (isDialogOut) {
-            dialog.setVisible(false);
-            isDialogOut = false;
-            return;
-        }
-        if (dialog == null) {
-            dialog = new Dialog(showVal);
-            isDialogOut = true;
-        } else {
-            dialog.setVisible(true);
-            isDialogOut = true;
+        Point btnCoords = upButton.getLocationOnScreen();
+        if (dialog == null){
+            dialog = new PopupPane(upButton,showVal);
+            if (upButtonX == 0) {
+                upButtonX = btnCoords.x;
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +HALFHUNDRED, -DIALOGHEIGHT);
+            }
+        }else {
+            if (upButtonX == 0) {
+                upButtonX = btnCoords.x;
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +HALFHUNDRED, -DIALOGHEIGHT);
+            } else {
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +HALFHUNDRED, -DIALOGHEIGHT);
+            }
         }
     }
 
@@ -263,6 +278,12 @@ public class JSliderPane extends JPanel {
 
 class JSliderPaneUI extends BasicSliderUI {
 
+    private static final int VERTICAL_WIDTH = 11;
+    private static final int VERTICAL_HEIGHT = 16;
+    private static final int FOUR = 4;
+    private static final int FIVE = 5;
+    private static final int SIX = 6;
+
     public JSliderPaneUI(UISlider b) {
         super(b);
     }
@@ -276,12 +297,12 @@ class JSliderPaneUI extends BasicSliderUI {
         Dimension size = new Dimension();
 
         if ( slider.getOrientation() == JSlider.VERTICAL ) {
-            size.width = 11;
-            size.height = 16;
+            size.width = VERTICAL_WIDTH;
+            size.height = VERTICAL_HEIGHT;
         }
         else {
-            size.width = 11;
-            size.height = 16;
+            size.width = VERTICAL_WIDTH;
+            size.height = VERTICAL_HEIGHT;
         }
 
         return size;
@@ -300,7 +321,7 @@ class JSliderPaneUI extends BasicSliderUI {
             g.setColor(slider.getBackground().darker());
         }
         g.setColor(Color.darkGray);
-        g.fillRect(0, 1, w-6, h+1);
+        g.fillRect(0, 1, w-SIX, h+1);
     }
 
     /** */
@@ -315,43 +336,82 @@ class JSliderPaneUI extends BasicSliderUI {
             cy = (trackBounds.height / 2);
             cw = trackBounds.width;
             g.setColor(Color.lightGray);
-            g.drawLine(0, cy, cw+5, cy);
-            g.drawLine(5+cw/2, cy-4, 5+cw/2, cy+4);
+            g.drawLine(0, cy, cw+FIVE, cy);
+            g.drawLine(FIVE+cw/2, cy-FOUR, FIVE+cw/2, cy+FOUR);
         } else {
             super.paintTrack(g);
         }
     }
+
 }
 class Dialog extends JDialog {
-    private Container container;
-    private static final int RESIZE_RANGE = 4;
-    private Cursor originCursor;
-    private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-    private Point mouseDownCompCoords;
-    private int minHeight;  // 对话框最小高度
+//    private Container container;
+//    private static final int UPLABELHEIGHT = 25;
+//    private static final int HALFHUNDRED = 50;
+//    private static final int DIALOGWIDTH = 150;
+//    private static final int DIALOGHEIGHT = 200;
+//    private static final int UPLABELWIDTH = 300;
+//    private int minHeight;  // 对话框最小高度
+//    private JComponent contentPane;
+//    private JComponent centerPane;
+//    private UILabel upLabel;
+
+//    public Dialog(UIButton b,UITextField j) {
+//        super(DesignerContext.getDesignerFrame());
+//        container = getContentPane();
+//        setUndecorated(true);
+//        contentPane = new JPanel(new BorderLayout());
+//        centerPane = new JPanel(new BorderLayout());
+//        upLabel = new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
+//        upLabel.setOpaque(true);
+//        upLabel.setPreferredSize(new Dimension(UPLABELWIDTH,UPLABELHEIGHT));
+//        upLabel.setBackground(Color.LIGHT_GRAY);
+//        upLabel.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+//        upLabel.setBorder(new MatteBorder(0,0,1,0,Color.gray));
+//        centerPane.add(j,BorderLayout.NORTH);
+//        contentPane.add(upLabel,BorderLayout.NORTH);
+//        contentPane.add(centerPane,BorderLayout.CENTER);
+////        contentPane.setBorder(BorderFactory.createLineBorder(Color.gray,1));
+//        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
+////        contentPane.add(new JPanel())
+//        container.add(contentPane, BorderLayout.CENTER);
+//        minHeight = container.getPreferredSize().height;
+//        setSize(DIALOGWIDTH, DIALOGHEIGHT);
+////            validate();
+//        Point btnCoords = b.getLocationOnScreen();
+//
+//        this.setLocation(btnCoords.x - DIALOGWIDTH + b.getWidth() +HALFHUNDRED, btnCoords.y -DIALOGHEIGHT);
+////            initListener();
+//
+//        this.setVisible(true);
+//    }
+}
+class PopupPane extends JPopupMenu {
     private JComponent contentPane;
+    private static final int UPLABELHEIGHT = 25;
+    private static final int HALFHUNDRED = 50;
+    private static final int DIALOGWIDTH = 150;
+    private static final int DIALOGHEIGHT = 200;
+    private static final int UPLABELWIDTH = 300;
+    private JComponent centerPane;
     private UILabel upLabel;
-
-    public Dialog(UITextField j) {
-        super(DesignerContext.getDesignerFrame());
-        container = getContentPane();
-        setUndecorated(true);
+    PopupPane(UIButton b,UITextField j) {
         contentPane = new JPanel(new BorderLayout());
-        upLabel = new UILabel(Inter.getLocText("Enlarge_Or_Reduce"));
+        centerPane = new JPanel(new BorderLayout());
+        upLabel = new UILabel(Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(300,25));
+        upLabel.setPreferredSize(new Dimension(UPLABELWIDTH,UPLABELHEIGHT));
         upLabel.setBackground(Color.LIGHT_GRAY);
+        upLabel.setBorder(new MatteBorder(0,0,1,0,Color.gray));
+        centerPane.add(j,BorderLayout.NORTH);
         contentPane.add(upLabel,BorderLayout.NORTH);
-//        contentPane.add(new JPanel())
-        container.add(contentPane, BorderLayout.CENTER);
-        minHeight = container.getPreferredSize().height;
-        setSize(150, 250);
-//            validate();
-        Point btnCoords = j.getLocationOnScreen();
-
-        this.setLocation(btnCoords.x -150+j.getWidth(), btnCoords.y -250);
-
-//            initListener();
-        this.setVisible(true);
+        contentPane.add(centerPane,BorderLayout.CENTER);
+//        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
+        this.add(contentPane, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(DIALOGWIDTH, DIALOGHEIGHT));
+        this.setOpaque(false);
     }
+
+
+
 }
