@@ -30,6 +30,7 @@ import com.fr.report.report.TemplateReport;
 public class ReportComponentComposite extends JComponent {
 
     private static final int MAX = 400;
+    private static final int HUND = 100;
     private static final int MIN = 10;
     private JWorkBook parent;
     private UIModeControlContainer parentContainer = null;
@@ -68,7 +69,7 @@ public class ReportComponentComposite extends JComponent {
             double value = Integer.parseInt(jSliderContainer.getShowVal().getText().substring(0, jSliderContainer.getShowVal().getText().indexOf("%")));
             value = value>MAX ? MAX : value;
             value = value<MIN ? MIN : value;
-            int resolution =  (int) (ScreenResolution.getScreenResolution()*value/100);
+            int resolution =  (int) (ScreenResolution.getScreenResolution()*value/HUND);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }
 

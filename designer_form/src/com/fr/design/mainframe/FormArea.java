@@ -51,8 +51,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	private static final double SLIDER_MIN = 10.0;
 	public static final double DEFAULT_SLIDER = 100.0;
 	private static final int ROTATIONS = 50;
-	private static final int showValMax = 400;
-	private static final int showValMin = 10;
+	private static final int SHOWVALMAX = 400;
+	private static final int SHOWVALMIN = 10;
 	private FormDesigner designer;
 	private int horizontalValue = 0;
 	private int verticalValue = 0;
@@ -158,8 +158,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 			public void insertUpdate(DocumentEvent e) {
 //				slidePane.getShowVal().getDocument()
 				double value = Integer.parseInt(slidePane.getShowVal().getText().substring(0, slidePane.getShowVal().getText().indexOf("%")));
-				value = value>showValMax ? showValMax : value;
-				value = value<showValMin ? showValMin : value;
+				value = value>SHOWVALMAX ? SHOWVALMAX : value;
+				value = value<SHOWVALMIN ? SHOWVALMIN : value;
 				reCalculateRoot(value, true);
 				JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
 				if(form != null){
