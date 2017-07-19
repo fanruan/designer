@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.fr.base.FRContext;
+import com.fr.base.ScreenResolution;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
@@ -24,6 +28,9 @@ import com.fr.report.report.TemplateReport;
  * @since 2012-3-27下午12:12:05
  */
 public class ReportComponentComposite extends JComponent {
+
+    private static final int MAX = 400;
+    private static final int MIN = 10;
     private JWorkBook parent;
     private UIModeControlContainer parentContainer = null;
 
@@ -36,7 +43,7 @@ public class ReportComponentComposite extends JComponent {
 
     private JPanel hbarContainer;
 
-    private JPanel jSliderContainer;
+    private JSliderPane jSliderContainer;
 
 
     /**
@@ -52,7 +59,27 @@ public class ReportComponentComposite extends JComponent {
         CellElementRegion = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(CellElementRegion, BorderLayout.NORTH);
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
+        jSliderContainer.getShowVal().getDocument().addDocumentListener(jSliderContainerListener);
     }
+
+    DocumentListener jSliderContainerListener = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            double value = Integer.parseInt(jSliderContainer.getShowVal().getText().substring(0, jSliderContainer.getShowVal().getText().indexOf("%")));
+            value = value>MAX ? MAX : value;
+            value = value<MIN ? MIN : value;
+            int resolution =  (int) (ScreenResolution.getScreenResolution()*value/100);
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+    };
 
     protected void doBeforeChange(int oldIndex) {
         if (oldIndex >= 0) {
@@ -63,7 +90,7 @@ public class ReportComponentComposite extends JComponent {
     protected void doAfterChange(int newIndex) {
         WorkBook workbook = getEditingWorkBook();
         if (workbook == null) {
-            FRContext.getLogger().error(Inter.getLocText("Read_failure") + "!");
+            FRContext.getLogger().error(Inter.getLocText("FR-Designer_Read_failure") + "!");
             //AUGUST:加个报错,不然测试总是SB的认为打不开一个坏的excel文件就是BUG，也不知道去检查下源文件。
             return;
         }
@@ -160,7 +187,8 @@ public class ReportComponentComposite extends JComponent {
         hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
 //        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, hbarContainer);
         JPanel southPane = new JPanel(new BorderLayout());
-        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, JSliderPane.getInstance());
+        jSliderContainer = JSliderPane.getInstance();
+        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, jSliderContainer);
         splitpane.setBorder(null);
         splitpane.setDividerSize(3);
         splitpane.setResizeWeight(1);

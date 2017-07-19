@@ -87,10 +87,10 @@ public class BorderPane extends AbstractBasicStylePane {
 				new Component[]{null,null},
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
 				new Component[]{null,null},
-				new Component[]{new UILabel("外边框    ", SwingConstants.LEFT),outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png"))},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_outBorder") +"    ", SwingConstants.LEFT),outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png"))},
 				new Component[]{null,externalPane},
 				new Component[]{null,null},
-				new Component[]{new UILabel("内边框    ", SwingConstants.LEFT),innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_inBorder") +"    ", SwingConstants.LEFT),innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
 				new Component[]{null,insidePane},
 				new Component[]{null,null}
 		};
@@ -105,25 +105,29 @@ public class BorderPane extends AbstractBasicStylePane {
 		backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"),280,20,backgroundPane);
 		this.add(backgroundPanel,BorderLayout.CENTER);
 
-		outerToggleButton.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				boolean value = outerToggleButton.isSelected();
-				topToggleButton.setSelected(value);
-				bottomToggleButton.setSelected(value);
-				leftToggleButton.setSelected(value);
-				rightToggleButton.setSelected(value);
-			}
-		});
-		innerToggleButton.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				boolean value = innerToggleButton.isSelected();
-				horizontalToggleButton.setSelected(value);
-				verticalToggleButton.setSelected(value);
-			}
-		});
+		outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
+		innerToggleButton.addChangeListener(innerToggleButtonChangeListener);
 	}
+
+	ChangeListener outerToggleButtonChangeListener = new ChangeListener() {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			boolean value = outerToggleButton.isSelected();
+			topToggleButton.setSelected(value);
+			bottomToggleButton.setSelected(value);
+			leftToggleButton.setSelected(value);
+			rightToggleButton.setSelected(value);
+		}
+	};
+
+	ChangeListener innerToggleButtonChangeListener = new ChangeListener() {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			boolean value = innerToggleButton.isSelected();
+			horizontalToggleButton.setSelected(value);
+			verticalToggleButton.setSelected(value);
+		}
+	};
 
 	private void initButtonsWithIcon(){
 		topToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/top.png"));

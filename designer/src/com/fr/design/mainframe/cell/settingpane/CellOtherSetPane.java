@@ -215,7 +215,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     @Override
     public String getIconPath() {
 //        return "com/fr/design/images/m_format/cellstyle/otherset.png";
-        return Inter.getLocText("Other");
+        return Inter.getLocText("FR-Designer_Other");
     }
 
     @Override

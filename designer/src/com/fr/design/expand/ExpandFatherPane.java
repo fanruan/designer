@@ -40,9 +40,9 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
     public ExpandFatherPane() {
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
         comboBox = new UIComboBox(new String[]{
-                Inter.getLocText("None"),
-                Inter.getLocText("Default"),
-                Inter.getLocText("Custom")});
+                Inter.getLocText("FR-Designer_None"),
+                Inter.getLocText("FR-Designer_DEFAULT"),
+                Inter.getLocText("FR-Designer_Custom")});
         final CardLayout cardLayout = new CardLayout();
         customPane = new JPanel(cardLayout);
         customParentColumnRowPane = new ColumnRowPane() {

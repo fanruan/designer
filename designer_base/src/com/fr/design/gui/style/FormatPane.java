@@ -81,9 +81,7 @@ public class FormatPane extends AbstractBasicStylePane{
 
     protected void initComponents(Integer[] types) {
         this.setLayout(new BorderLayout(0, 4));
-
         iniSampleLable();
-
         contentPane = new JPanel(new BorderLayout(0, 4)) {
             @Override
             public Dimension getPreferredSize() {
@@ -91,33 +89,24 @@ public class FormatPane extends AbstractBasicStylePane{
             }
         };
         typeComboBox = new UIComboBox(types);
-
         UIComboBoxRenderer render = createComBoxRender();
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
         contentPane.add(sampleLabel, BorderLayout.NORTH);
-//        this.add(typeComboBox, BorderLayout.NORTH);
         centerPane = new JPanel(new CardLayout());
         centerPane.add(new JPanel(), "hide");
         centerPane.setPreferredSize(new Dimension(0, 0) );
         centerPane.add(contentPane, "show");
-
         formatFontPane = new JPanel(new BorderLayout());
         formatFontPane.add(centerPane, BorderLayout.NORTH);
         formatFontPane.add(new FRFontPane(), BorderLayout.CENTER);
-
-//        this.add(formatFontPane, BorderLayout.CENTER);
-        // content pane.
         txtCenterPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         contentPane.add(txtCenterPane, BorderLayout.CENTER);
-
         textField = new UIComboBox(FormatField.getInstance().getFormatArray(getFormatContents()));
         textField.addItemListener(textFieldItemListener);
         textField.setEditable(true);
         txtCenterPane.add(textField, BorderLayout.NORTH);
-
         frFontPane = new FRFontPane();
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -132,7 +121,6 @@ public class FormatPane extends AbstractBasicStylePane{
         int[][] rowCount = {{1, 1},{1, 1}, {1, 1}, {1, 3}, {1, 1}};
         JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
         this.add(panel,BorderLayout.CENTER);
-
     }
 
     protected UIComboBoxRenderer createComBoxRender(){
@@ -323,12 +311,9 @@ public class FormatPane extends AbstractBasicStylePane{
                     cardLayout.show(centerPane, "hide");
                 } else {
                     textField.removeAllItems();
-                    long begin = System.currentTimeMillis();
                     for (int i = 0; i < items.length; i++) {
                         textField.addItem(items[i]);
                     }
-                    long end = System.currentTimeMillis();
-                    System.out.println(end-begin+"ms");
                     centerPane.setPreferredSize(new Dimension(270, 70) );
                     cardLayout.show(centerPane, "show");
                 }

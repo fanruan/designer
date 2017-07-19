@@ -40,7 +40,7 @@ public class CellPresentPane extends AbstractCellAttrPane {
 	@Override
 	public String getIconPath() {
 //		return "com/fr/design/images/data/source/dataDictionary.png";
-        return Inter.getLocText("Present");
+        return Inter.getLocText("FR-Designer_Present");
 	}
 
 	@Override

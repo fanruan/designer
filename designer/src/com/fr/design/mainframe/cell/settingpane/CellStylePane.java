@@ -42,14 +42,14 @@ public class CellStylePane extends AbstractCellAttrPane {
 	}
 
 	public static void main(String[] args){
-		JFrame jf = new JFrame("test");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel content = (JPanel) jf.getContentPane();
-		content.setLayout(new BorderLayout());
-		content.add(new CellStylePane().createContentPane(), BorderLayout.CENTER);
-		GUICoreUtils.centerWindow(jf);
-		jf.setSize(290, 400);
-		jf.setVisible(true);
+//		JFrame jf = new JFrame("test");
+//		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		JPanel content = (JPanel) jf.getContentPane();
+//		content.setLayout(new BorderLayout());
+//		content.add(new CellStylePane().createContentPane(), BorderLayout.CENTER);
+//		GUICoreUtils.centerWindow(jf);
+//		jf.setSize(290, 400);
+//		jf.setVisible(true);
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class CellStylePane extends AbstractCellAttrPane {
 
 	@Override
 	public String title4PopupWindow() {
-		return Inter.getLocText("Style");
+		return Inter.getLocText(Inter.getLocText("FR-Designer_Style"));
 	}
 
 	public void setSelectedByIds(int level, String... id) {
