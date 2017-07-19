@@ -155,7 +155,9 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 //				slidePane.getShowVal().getDocument()
-				double value = slidePane.getshowValue();
+				double value = Integer.parseInt(slidePane.getShowVal().getText().substring(0, slidePane.getShowVal().getText().indexOf("%")));
+				value = value>400 ? 400 : value;
+				value = value<10 ? 10 : value;
 				reCalculateRoot(value, true);
 				JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
 				if(form != null){
