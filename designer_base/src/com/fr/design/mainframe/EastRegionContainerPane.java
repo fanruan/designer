@@ -8,14 +8,18 @@ import com.fr.design.gui.icontainer.UIEastResizableContainer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
+import com.fr.third.fr.pdf.kernel.utils.CompareTool;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 
 public class EastRegionContainerPane extends UIEastResizableContainer {
     private static EastRegionContainerPane THIS;
@@ -446,7 +450,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public JComponent generateContentPane() {
             JComponent contentPane = new JPanel();
-            JButton testBtn = new JButton(name);
+            UIButton testBtn = new UIButton(name);
             testBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -616,10 +620,83 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private static final int MAX_X_SHIFT = 50;
         private static final int MAX_Y_SHIFT = 50;
 
-
         private static final String NO_BUTTON = "NoButton";
         private static final String UP_BUTTON = "UpButton";
         private static final String DOWN_BUTTON = "DownButton";
+
+        private MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(Cursor.getDefaultCursor());
+                if (mouseDownCompCoords == null) {
+                    setBackground(originColor);
+                }
+                model = UIConstants.MODEL_NORMAL;
+                repaint();
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getX() >= ARROW_RANGE_START) {
+                    onPop();
+                }
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+                if (!getBounds().contains(e.getPoint())) {
+                    setBackground(originColor);
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getX() < ARROW_RANGE_START) {
+                    mouseDownCompCoords = e.getPoint();
+                }
+            }
+        };
+
+        private MouseMotionListener mouseMotionListener = new MouseMotionListener() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (e.getX() >= ARROW_RANGE_START) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    model = UIConstants.MODEL_PRESS;
+                } else if (isMovable) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                    setBackground(Color.pink);
+                } else {
+                    setCursor(Cursor.getDefaultCursor());
+                    model = UIConstants.MODEL_NORMAL;
+                }
+                repaint();
+            }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (isMovable && mouseDownCompCoords != null) {
+                    Point currCoords = e.getLocationOnScreen();
+                    int x = currCoords.x - mouseDownCompCoords.x;
+                    int y = currCoords.y - mouseDownCompCoords.y;
+                    //屏幕可用区域
+                    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+                    int minY = screen.y;
+                    int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - MAX_X_SHIFT;
+                    int maxY = Toolkit.getDefaultToolkit().getScreenSize().height - MAX_Y_SHIFT;
+                    if (x < MIN_X) {
+                        x = MIN_X;
+                    } else if (x > maxX) {
+                        x = maxX;
+                    }
+                    if (y < minY) {
+                        y = minY;
+                    } else if (y > maxY) {
+                        y = maxY;
+                    }
+                    // 移动到屏幕边缘时，需要校正位置
+                    parentDialog.setLocation(x, y);
+                }
+            }
+        };
 
         public PopupToolPane(PropertyItem propertyItem) {
             this(propertyItem, NO_BUTTON);
@@ -647,94 +724,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         private void initToolButton(final String buttonType) {
             this.buttonType = buttonType;
-            if (buttonType.equals(NO_BUTTON)) {
+            if (StringUtils.isEmpty(buttonType) || buttonType.equals(NO_BUTTON)) {
                 return;
             }
-
-            if (buttonType.equals(DOWN_BUTTON)) {
-
-            } else if (buttonType.equals(UP_BUTTON)) {
-
-            } else {
+            // validate
+            if (!buttonType.equals(UP_BUTTON) || !buttonType.equals(DOWN_BUTTON)) {
                 throw new IllegalArgumentException("unknown button type: " + buttonType);
             }
-
-            addMouseMotionListener(new MouseMotionListener() {
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    if (e.getX() >= ARROW_RANGE_START) {
-                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                        model = UIConstants.MODEL_PRESS;
-                    } else if (isMovable) {
-                        setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                        setBackground(Color.pink);
-                    } else {
-                        setCursor(Cursor.getDefaultCursor());
-                        model = UIConstants.MODEL_NORMAL;
-                    }
-                    repaint();
-                }
-
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    if (isMovable && mouseDownCompCoords != null) {
-                        Point currCoords = e.getLocationOnScreen();
-                        int x = currCoords.x - mouseDownCompCoords.x;
-                        int y = currCoords.y - mouseDownCompCoords.y;
-                        //屏幕可用区域
-                        Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-
-                        int minY = screen.y;
-                        int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - MAX_X_SHIFT;
-                        int maxY = Toolkit.getDefaultToolkit().getScreenSize().height - MAX_Y_SHIFT;
-                        if (x < MIN_X) {
-                            x = MIN_X;
-                        } else if (x > maxX) {
-                            x = maxX;
-                        }
-                        if (y < minY) {
-                            y = minY;
-                        } else if (y > maxY) {
-                            y = maxY;
-                        }
-                        // 移动到屏幕边缘时，需要校正位置
-                        parentDialog.setLocation(x, y);
-                    }
-                }
-            });
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    setCursor(Cursor.getDefaultCursor());
-                    if (mouseDownCompCoords == null) {
-                        setBackground(originColor);
-                    }
-                    model = UIConstants.MODEL_NORMAL;
-                    repaint();
-                }
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getX() >= ARROW_RANGE_START) {
-                        onPop();
-                    }
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    mouseDownCompCoords = null;
-                    if (!getBounds().contains(e.getPoint())) {
-                        setBackground(originColor);
-                    }
-                }
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    if (e.getX() < ARROW_RANGE_START) {
-                        mouseDownCompCoords = e.getPoint();
-                    }
-                }
-
-            });
+            addMouseMotionListener(mouseMotionListener);
+            addMouseListener(mouseListener);
         }
 
         // 触发弹入、弹出
