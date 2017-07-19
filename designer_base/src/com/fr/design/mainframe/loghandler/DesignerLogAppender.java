@@ -12,7 +12,7 @@ import java.util.Date;
 public class DesignerLogAppender extends AppenderSkeleton {
 
     public DesignerLogAppender() {
-        this.layout = new org.apache.log4j.PatternLayout("%d{HH\\:mm\\:ss} %t %p [%c] %m%n");
+        this.layout = new org.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
     }
 
     protected void append(LoggingEvent event) {
