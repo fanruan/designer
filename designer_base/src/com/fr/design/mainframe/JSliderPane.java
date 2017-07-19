@@ -1,30 +1,21 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ScreenResolution;
-import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.grid.DefaultGridUIProcessor;
-import com.fr.grid.Grid;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.math.BigDecimal;
 import java.util.Observable;
 
@@ -45,7 +36,8 @@ public class JSliderPane extends JPanel {
     private UIButton upButton;
     //拖动条处理和button、直接输入不一样
     private boolean isButtonOrIsTxt = true;
-
+    private boolean isDialogOut = false;  // 是否弹出
+    private Dialog dialog;
 
 
     public JSliderPane() {
@@ -58,6 +50,7 @@ public class JSliderPane extends JPanel {
         showVal.setText("100%");
         showVal.setPreferredSize(new Dimension(40,18));
         showVal.getDocument().addDocumentListener(showValDocumentListener);
+//        showVal.addMouseListener(showValMouseListener);
 
         downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveDown.png"));
         upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveUp.png"));
@@ -72,7 +65,6 @@ public class JSliderPane extends JPanel {
         panel.add(slider);
         panel.add(upButton);
         panel.add(showVal);
-
 //        JPanel panel = new JPanel(null);
 //        panel.add(downButton);
 //        panel.add(slider);
@@ -83,7 +75,7 @@ public class JSliderPane extends JPanel {
 //        upButton.setBounds(176+KERNING*2,0,16,16);
 //        showVal.setBounds(192+KERNING*3,0,40,16);
         this.add(panel,BorderLayout.NORTH);
-        this.setBounds(0,0,260,16);
+        this.setBounds(0,0,300,16);
     }
 
     public static final JSliderPane getInstance() {
@@ -134,6 +126,33 @@ public class JSliderPane extends JPanel {
         @Override
         public void changedUpdate(DocumentEvent e) {
 //            refreshSlider();
+        }
+    };
+
+    MouseListener showValMouseListener = new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            popupDialog();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     };
 
@@ -213,6 +232,21 @@ public class JSliderPane extends JPanel {
         return this.showVal;
     }
 
+    private void popupDialog(){
+        if (isDialogOut) {
+            dialog.setVisible(false);
+            isDialogOut = false;
+            return;
+        }
+        if (dialog == null) {
+            dialog = new Dialog(showVal);
+            isDialogOut = true;
+        } else {
+            dialog.setVisible(true);
+            isDialogOut = true;
+        }
+    }
+
     public static void main(String[] args)
     {
         JFrame jf = new JFrame("test");
@@ -221,7 +255,7 @@ public class JSliderPane extends JPanel {
         content.setLayout(new BorderLayout());
         content.add(JSliderPane.getInstance(),BorderLayout.CENTER);
         GUICoreUtils.centerWindow(jf);
-        jf.setSize(320, 80);
+        jf.setSize(400, 80);
         jf.setVisible(true);
 
     }
@@ -287,5 +321,37 @@ class JSliderPaneUI extends BasicSliderUI {
             super.paintTrack(g);
         }
     }
+}
+class Dialog extends JDialog {
+    private Container container;
+    private static final int RESIZE_RANGE = 4;
+    private Cursor originCursor;
+    private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+    private Point mouseDownCompCoords;
+    private int minHeight;  // 对话框最小高度
+    private JComponent contentPane;
+    private UILabel upLabel;
 
+    public Dialog(UITextField j) {
+        super(DesignerContext.getDesignerFrame());
+        container = getContentPane();
+        setUndecorated(true);
+        contentPane = new JPanel(new BorderLayout());
+        upLabel = new UILabel(Inter.getLocText("Enlarge_Or_Reduce"));
+        upLabel.setOpaque(true);
+        upLabel.setPreferredSize(new Dimension(300,25));
+        upLabel.setBackground(Color.LIGHT_GRAY);
+        contentPane.add(upLabel,BorderLayout.NORTH);
+//        contentPane.add(new JPanel())
+        container.add(contentPane, BorderLayout.CENTER);
+        minHeight = container.getPreferredSize().height;
+        setSize(150, 250);
+//            validate();
+        Point btnCoords = j.getLocationOnScreen();
+
+        this.setLocation(btnCoords.x -150+j.getWidth(), btnCoords.y -250);
+
+//            initListener();
+        this.setVisible(true);
+    }
 }
