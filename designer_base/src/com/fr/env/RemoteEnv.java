@@ -2181,7 +2181,7 @@ public class RemoteEnv extends AbstractEnv {
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
-            para.put("cmd", "get_states");
+            para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
             
