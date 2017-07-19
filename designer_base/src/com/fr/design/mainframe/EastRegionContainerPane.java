@@ -728,7 +728,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 return;
             }
             // validate
-            if (!buttonType.equals(UP_BUTTON) || !buttonType.equals(DOWN_BUTTON)) {
+            if (!buttonType.equals(UP_BUTTON) && !buttonType.equals(DOWN_BUTTON)) {
                 throw new IllegalArgumentException("unknown button type: " + buttonType);
             }
             addMouseMotionListener(mouseMotionListener);
