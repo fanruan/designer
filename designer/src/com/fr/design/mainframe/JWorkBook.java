@@ -1,9 +1,9 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
-import com.fr.base.parameter.ParameterUI;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -51,16 +51,17 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.general.web.ParameterConsts;
+import com.fr.grid.Grid;
+import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.poly.PolyDesigner;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
-import com.fr.report.cellcase.CellCase;
+import com.fr.report.ReportHelper;
+import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.report.poly.PolyWorkSheet;
-import com.fr.report.report.Report;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
@@ -86,6 +87,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private UIModeControlContainer centerPane;
     private ReportComponentComposite reportComposite;
     private ParameterDefinitePane parameterPane;
+    private int resolution;
 
     public JWorkBook() {
         super(new WorkBook(new WorkSheet()), "WorkBook");
@@ -100,6 +102,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public JWorkBook(WorkBook workBook, FILE file) {
         super(workBook, file);
         populateReportParameterAttr();
+    }
+
+    @Override
+    public void refreshEastPropertiesPane() {
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+        EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
+        EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
     }
 
     @Override
@@ -158,6 +167,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             cancelFormat();
         }
     }
+
 
     /**
      * 无条件取消格式刷
@@ -315,6 +325,34 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     public void removeParameterPaneSelection() {
         parameterPane.getParaDesigner().removeSelection();
+    }
+
+    /**
+     * 缩放条
+     */
+    @Override
+    public void setScale(int resolution) {
+        //更新resolution
+        this.resolution = resolution;
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setResolution(resolution);
+        //更新Grid
+        Grid grid = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid();
+        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
+        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
+        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
+        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().updateUI();
+        //更新Column和Row
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().setResolution(resolution);
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().updateUI();
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().setResolution(resolution);
+        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().updateUI();
+    }
+
+    @Override
+    public int getScale() {
+        return this.resolution;
     }
 
     public int getToolBarHeight() {
@@ -746,7 +784,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             if (delegate4ToolbarMenuAdapter() instanceof PolyDesigner) {
                 PolyDesigner polyDesigner = (PolyDesigner) delegate4ToolbarMenuAdapter();
                 if (polyDesigner.getSelectionType() == PolyDesigner.SelectionType.NONE || polyDesigner.getSelection() == null) {
-                    EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+//                    EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
                     QuickEditorRegion.getInstance().populate(QuickEditor.DEFAULT_EDITOR);
                 } else {
                     EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());

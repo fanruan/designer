@@ -37,9 +37,9 @@ public class UIResizableContainer extends JPanel {
     private static final int MIN_WIDTH = 165;
 
     private static final int ARROW_MARGIN = 15;
-    private static final int ARROW_MARGIN_VERTICAL = 20;
+    private static final int ARROW_MARGIN_VERTICAL = 7;
     private static final int ARROW_RANGE = 35;
-    private static final int ARROW_RANGE_VERTICAL = 40;
+    private static final int ARROW_RANGE_VERTICAL = 25;
 
     private boolean isLeftRightDragEnabled = true;
     private boolean isDownPaneVisible = true ;
@@ -502,7 +502,7 @@ public class UIResizableContainer extends JPanel {
                         button = UIConstants.DRAG_LEFT_PRESS;
                     }
                 }
-                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
+                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, 5, null);
             } else {
                 g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
                 if (containerWidth == toolPaneHeight) {

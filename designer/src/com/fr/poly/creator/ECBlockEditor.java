@@ -142,6 +142,6 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 		}
 		QuickEditorRegion.getInstance().populate(editComponent.getCurrentEditor());
 		CellElementPropertyPane.getInstance().populate(editComponent);
-		EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());
+		EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
 	}
 }
