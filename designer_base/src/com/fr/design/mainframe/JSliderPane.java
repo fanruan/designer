@@ -29,6 +29,7 @@ public class JSliderPane extends JPanel {
     private static final int SIX = 6;
     private static final int TEN = 10;
     private static final int ONEEIGHT = 18;
+    private static final int TWOFIVE = 25;
     private static final int FOURTEN = 40;
     private static final int HALFHUNDRED = 50;
     private static final int HUNDRED = 100;
@@ -82,7 +83,7 @@ public class JSliderPane extends JPanel {
 
         showValButton = new UIButton(showVal.getText());
         showValButton.setBorderPainted(false);
-        showValButton.setPreferredSize(new Dimension(HALFHUNDRED,ONEEIGHT));
+        showValButton.setPreferredSize(new Dimension(HALFHUNDRED,TWOFIVE));
 
         showValButton.addActionListener(new ActionListener() {
             @Override
