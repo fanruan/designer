@@ -3,13 +3,14 @@ package com.fr.design.mainframe.loghandler;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Inter;
+import com.fr.stable.script.Atom;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LogHandlerBar extends JPanel implements ItemSelectable {
 
@@ -25,8 +26,6 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	private int SERVERNUM = 0;
 
 	private boolean isWithSerious;
-	private int i;
-	private Timer timer;
 
 	public LogHandlerBar() {
 		this(null);
@@ -86,35 +85,14 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		timerPaint();
 	}
 
-	private static final  int UNKNOWN_COUNT = 5;
 
-	public synchronized void timerPaint() {
-		isWithSerious = true;
-		timer = new Timer(500, null);
-		ActionListener taskAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (i < UNKNOWN_COUNT) {
-					isWithSerious = (i & 1) == 0 ? true : false;
-					repaint();
-				} else if (i == UNKNOWN_COUNT) {
-					if (timer == null) {
-						return;
-					}
-					timer.stop();
-					timer = null;
-					i = 0;
-					isWithSerious = true;
-					return;
-				}
-				i++;
-			}
-		};
-		if (timer != null) {
-			timer.addActionListener(taskAction);
-		}
-		// taskAction里还有可能置空timer.
-		if (timer != null) {
-			timer.start();
+	private AtomicBoolean painting = new AtomicBoolean(false);
+
+	public  void timerPaint() {
+		if(!painting.get()) {
+			painting.set(true);
+			repaint();
+			painting.set(false);
 		}
 	}
 
