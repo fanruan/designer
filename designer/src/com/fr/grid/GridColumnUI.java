@@ -16,8 +16,6 @@ import com.fr.base.ScreenResolution;
 import com.fr.cache.list.IntList;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.GridScaleEdit;
-import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.ColumnRowPrivilegeControl;

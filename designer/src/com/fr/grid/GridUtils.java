@@ -6,7 +6,6 @@ import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.GridScaleEdit;
 import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;

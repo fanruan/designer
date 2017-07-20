@@ -7,7 +7,6 @@ import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.GridScaleEdit;
 import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.utils.gui.GUICoreUtils;
