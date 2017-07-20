@@ -86,15 +86,17 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		timerPaint();
 	}
 
+	private static final  int UNKNOWN_COUNT = 5;
+
 	public synchronized void timerPaint() {
 		isWithSerious = true;
 		timer = new Timer(500, null);
 		ActionListener taskAction = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (i < 5) {
+				if (i < UNKNOWN_COUNT) {
 					isWithSerious = i % 2 == 0 ? true : false;
 					repaint();
-				} else if (i == 5) {
+				} else if (i == UNKNOWN_COUNT) {
 					if (timer == null)
 						return;
 					timer.stop();
