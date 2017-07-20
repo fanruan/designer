@@ -36,6 +36,7 @@ import com.fr.design.parameter.ParameterDefinitePane;
 import com.fr.design.parameter.ParameterInputPane;
 import com.fr.design.preview.PagePreview;
 import com.fr.design.preview.ViewPreview;
+import com.fr.design.preview.WriteEnhancePreview;
 import com.fr.design.preview.WritePreview;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
@@ -711,7 +712,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public PreviewProvider[] supportPreview() {
         Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
         return ArrayUtils.addAll(new PreviewProvider[]{
-                new PagePreview(), new WritePreview(), new ViewPreview()
+                new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview()
         }, set.toArray(new PreviewProvider[set.size()]));
     }
 

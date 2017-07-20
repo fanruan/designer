@@ -1,23 +1,16 @@
 package com.fr.design.mainframe.loghandler;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.ItemSelectable;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Inter;
+import com.fr.stable.script.Atom;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LogHandlerBar extends JPanel implements ItemSelectable {
 
@@ -33,8 +26,6 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	private int SERVERNUM = 0;
 
 	private boolean isWithSerious;
-	private int i;
-	private Timer timer;
 
 	public LogHandlerBar() {
 		this(null);
@@ -48,17 +39,17 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		clear.setMargin(null);
 		clear.setOpaque(false);
 		clear.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		clear.setToolTipText(Inter.getLocText("Clear_All"));
+		clear.setToolTipText(Inter.getLocText("FR-Designer_Clear_All"));
 		selectedall = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/selectedall.png"));
 		selectedall.setMargin(null);
 		selectedall.setOpaque(false);
 		selectedall.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		selectedall.setToolTipText(Inter.getLocText("Select_All"));
+		selectedall.setToolTipText(Inter.getLocText("FR-Designer_Select_All"));
 		set = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/setting.png"));
 		set.setMargin(null);
 		set.setOpaque(false);
 		set.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		set.setToolTipText(Inter.getLocText("Set"));
+		set.setToolTipText(Inter.getLocText("FR-Designer_Set"));
 
 		this.add(clear);
 		this.add(selectedall);
@@ -94,29 +85,14 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		timerPaint();
 	}
 
-	public synchronized void timerPaint() {
-		isWithSerious = true;
-		timer = new Timer(500, null);
-		ActionListener taskAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (i < 5) {
-					isWithSerious = i % 2 == 0 ? true : false;
-					repaint();
-				} else if (i == 5) {
-					if (timer == null)
-						return;
-					timer.stop();
-					timer = null;
-					i = 0;
-					isWithSerious = true;
-					return;
-				}
-				i++;
-			}
-		};
-		if (timer != null) {
-			timer.addActionListener(taskAction);
-			timer.start();
+
+	private AtomicBoolean painting = new AtomicBoolean(false);
+
+	public  void timerPaint() {
+		if(!painting.get()) {
+			painting.set(true);
+			repaint();
+			painting.set(false);
 		}
 	}
 
@@ -197,11 +173,16 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 			Insets insets = target.getInsets();
 			int top = insets.top;
 			int right = target.getWidth() - insets.right;
-			clear.setBounds(right - 130, top + 4, clear.getPreferredSize().width, clear.getPreferredSize().height);
-			selectedall.setBounds(right - 100, top + 4, selectedall.getPreferredSize().width, selectedall.getPreferredSize().height);
-			set.setBounds(right - 70, top + 4, set.getPreferredSize().width, set.getPreferredSize().height);
+			clear.setBounds(right - CLEAR_OFFSET, top + TOP_OFFSET, clear.getPreferredSize().width, clear.getPreferredSize().height);
+			selectedall.setBounds(right - SELECT_OFFSET, top + TOP_OFFSET, selectedall.getPreferredSize().width, selectedall.getPreferredSize().height);
+			set.setBounds(right - SET_OFFSET, top + TOP_OFFSET, set.getPreferredSize().width, set.getPreferredSize().height);
 
 		}
+
+		private static final  int CLEAR_OFFSET = 130;
+		private static final  int TOP_OFFSET = 4;
+		private static final  int SELECT_OFFSET = 100;
+		private static final  int SET_OFFSET = 70;
 	}
 
 }
