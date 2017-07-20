@@ -40,17 +40,17 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		clear.setMargin(null);
 		clear.setOpaque(false);
 		clear.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		clear.setToolTipText(Inter.getLocText("Clear_All"));
+		clear.setToolTipText(Inter.getLocText("FR-Designer_Clear_All"));
 		selectedall = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/selectedall.png"));
 		selectedall.setMargin(null);
 		selectedall.setOpaque(false);
 		selectedall.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		selectedall.setToolTipText(Inter.getLocText("Select_All"));
+		selectedall.setToolTipText(Inter.getLocText("FR-Designer_Select_All"));
 		set = new UIButton(BaseUtils.readIcon("com/fr/design/images/log/setting.png"));
 		set.setMargin(null);
 		set.setOpaque(false);
 		set.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		set.setToolTipText(Inter.getLocText("Set"));
+		set.setToolTipText(Inter.getLocText("FR-Designer_Set"));
 
 		this.add(clear);
 		this.add(selectedall);
@@ -94,11 +94,12 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 		ActionListener taskAction = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (i < UNKNOWN_COUNT) {
-					isWithSerious = i % 2 == 0 ? true : false;
+					isWithSerious = (i & 1) == 0 ? true : false;
 					repaint();
 				} else if (i == UNKNOWN_COUNT) {
-					if (timer == null)
+					if (timer == null) {
 						return;
+					}
 					timer.stop();
 					timer = null;
 					i = 0;
