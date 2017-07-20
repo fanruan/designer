@@ -192,11 +192,16 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 			Insets insets = target.getInsets();
 			int top = insets.top;
 			int right = target.getWidth() - insets.right;
-			clear.setBounds(right - 130, top + 4, clear.getPreferredSize().width, clear.getPreferredSize().height);
-			selectedall.setBounds(right - 100, top + 4, selectedall.getPreferredSize().width, selectedall.getPreferredSize().height);
-			set.setBounds(right - 70, top + 4, set.getPreferredSize().width, set.getPreferredSize().height);
+			clear.setBounds(right - CLEAR_OFFSET, top + TOP_OFFSET, clear.getPreferredSize().width, clear.getPreferredSize().height);
+			selectedall.setBounds(right - SELECT_OFFSET, top + TOP_OFFSET, selectedall.getPreferredSize().width, selectedall.getPreferredSize().height);
+			set.setBounds(right - SET_OFFSET, top + TOP_OFFSET, set.getPreferredSize().width, set.getPreferredSize().height);
 
 		}
+
+		private static final  int CLEAR_OFFSET = 130;
+		private static final  int TOP_OFFSET = 4;
+		private static final  int SELECT_OFFSET = 100;
+		private static final  int SET_OFFSET = 70;
 	}
 
 }
