@@ -38,4 +38,9 @@ public class JPolyWorkBook extends JWorkBook {
     public SheetNameTabPane createSheetNameTabPane(ReportComponentComposite reportCompositeX){
     	return new PolySheetNameTabPane(reportCompositeX);
     }
+
+	@Override
+	public void refreshEastPropertiesPane() {
+		EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+	}
 }

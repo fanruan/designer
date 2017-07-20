@@ -429,6 +429,7 @@ public class GridUI extends ComponentUI {
             this.calculateForcedPagingOfCellElement(reportPane, tmpCellElement, hideWidth, hideHeight);
             storeFatherLocation(selectedCellElement, tmpCellElement);
             // element bounds
+            // TODO: 2017/7/13  tmpRectangle : 72*19
             this.caculateScrollVisibleBounds(this.tmpRectangle, tmpCellElement.getColumn(),
                     tmpCellElement.getRow(), tmpCellElement.getColumnSpan(),
                     tmpCellElement.getRowSpan());
@@ -455,8 +456,9 @@ public class GridUI extends ComponentUI {
             paintCellElementList.add(tmpCellElement);
             paintCellElementRectangleList.add(this.tmpRectangle.clone());
 
-            int cellWidth = (int) this.tmpRectangle.getWidth(), cellHeight = (int) this.tmpRectangle
-                    .getHeight();
+
+            int cellWidth = (int) this.tmpRectangle.getWidth();
+            int cellHeight = (int) this.tmpRectangle.getHeight();
             // denny_Grid: 画Grid中单元格的内容(包括单元格的背景Content + Background), 不包括边框
 
             painter.paintBackground(g2d, report, tmpCellElement, cellWidth, cellHeight);
@@ -1076,6 +1078,7 @@ public class GridUI extends ComponentUI {
 
         grid.ajustEditorComponentBounds(); // refresh size
     }
+
 
     private void dealWithSizeBeforePaint(Grid grid, TemplateElementCase elementCase) {
         // 取出所有的行高和列宽的List

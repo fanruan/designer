@@ -7,6 +7,7 @@ import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
@@ -71,6 +72,8 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
 
     private int ECBlockGap = 40;
 
+    private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+
     protected GridMouseAdapter(Grid grid) {
         this.grid = grid;
     }
@@ -101,7 +104,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             // 用户没有按住Shift键时，tempOldSelectedCell是一直变化的。如果一直按住shift，是不变的
             ElementCasePane ePane = grid.getElementCasePane();
             if (!evt.isShiftDown() && ePane.getSelection() instanceof CellSelection) {
-                tempOldSelectedCell = GridUtils.getAdjustEventColumnRow(ePane, oldEvtX, oldEvtY);
+                tempOldSelectedCell = GridUtils.getAdjustEventColumnRow_withresolution(ePane, oldEvtX, oldEvtY,resolution);
             }
         }
 
@@ -118,7 +121,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
 
         int horizentalScrollValue = grid.getHorizontalValue();
         int verticalScrollValue = grid.getVerticalValue();
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
         FU evtX_fu = FU.valueOfPix(this.oldEvtX, resolution);
         FU evtY_fu = FU.valueOfPix(this.oldEvtY, resolution);
 
@@ -142,7 +145,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             FloatElement selectedFloatElement = (FloatElement) tmpFloatElementCursor[0];
             reportPane.setSelection(new FloatSelection(selectedFloatElement.getName()));
         } else {
-            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(reportPane, this.oldEvtX, this.oldEvtY);
+            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, this.oldEvtX, this.oldEvtY, this.resolution);
             if (!reportPane.getSelection().containsColumnRow(selectedCellPoint)) {
                 GridUtils.doSelectCell(reportPane, selectedCellPoint.getColumn(), selectedCellPoint.getRow());
             }
@@ -187,7 +190,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         // peter:选择GridSelection,支持Shift
         doOneClickSelection(this.oldEvtX, this.oldEvtY, isShiftDown, isControlDown);
         // 得到点击所在的column and row
-        ColumnRow columnRow = GridUtils.getEventColumnRow(reportPane, this.oldEvtX, this.oldEvtY);
+        ColumnRow columnRow = GridUtils.getEventColumnRow_withresolution(reportPane, this.oldEvtX, this.oldEvtY, this.resolution);
         TemplateCellElement cellElement = report.getTemplateCellElement(columnRow.getColumn(), columnRow.getRow());
         if (clickCount >= 2 && !BaseUtils.isAuthorityEditing()) {
             grid.startEditing();
@@ -206,7 +209,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      */
 
     private void showWidetWindow(TemplateCellElement cellElement, TemplateElementCase report) {
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
         DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
         double fixed_pos_x = this.oldEvtX - columnWidthList.getRangeValue(grid.getHorizontalValue(), cellElement.getColumn()).toPixD(resolution);
@@ -221,6 +224,10 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
     private boolean fitSizeToShow(double cell_width, double cell_height, double fixed_pos_x, double fixed_pos_y) {
         return cell_width - fixed_pos_x > 0 && cell_height - fixed_pos_y > 0
                 && cell_width - fixed_pos_x < WIDGET_WIDTH && cell_height - fixed_pos_y < WIDGET_WIDTH;
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
     }
 
     /**
@@ -372,7 +379,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             doWithCellElementDragged(evtX, evtY, (CellSelection) selection);
         } else if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION && !BaseUtils.isAuthorityEditing()) {
             // peter:获得调整过的Selected Column Row.
-            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(reportPane, evtX, evtY);
+            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
             if (selectedCellPoint.getColumn() != grid.getDragRectangle().x || selectedCellPoint.getRow() != grid.getDragRectangle().y) {
                 grid.getDragRectangle().x = selectedCellPoint.getColumn();
                 grid.getDragRectangle().y = selectedCellPoint.getRow();
@@ -393,7 +400,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
 
     private void doWithFloatElementDragged(int evtX, int evtY, FloatSelection fs) {
         ElementCase report = grid.getElementCasePane().getEditingElementCase();
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
         String floatName = fs.getSelectedFloatName();
         FloatElement floatElement = report.getFloatElement(floatName);
         int cursorType = grid.getCursor().getType();
@@ -453,7 +460,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         ElementCasePane reportPane = grid.getElementCasePane();
         java.awt.Rectangle cellRectangle = cs.toRectangle();
 
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(reportPane, evtX, evtY);
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
         if (cellRectangle.contains(selectedCellPoint.getColumn(), selectedCellPoint.getRow())) {
             grid.getDragRectangle().setBounds(cellRectangle);
         } else {
@@ -507,7 +514,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         if (s instanceof FloatSelection) {
             return;
         }
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(reportPane, evtX, evtY);
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
         int selectedCellPointX = selectedCellPoint.getColumn();
         int selectedCellPointY = selectedCellPoint.getRow();
         CellSelection gridSelection = ((CellSelection) s).clone();
@@ -543,7 +550,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             return;
         }
 
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(reportPane, evtX, evtY);
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
         //拷贝，而不是直接强制使用以监听单元格选择变化
         CellSelection gridSelection = ((CellSelection) s).clone();
         gridSelection.setSelectedType(((CellSelection) s).getSelectedType());
@@ -606,7 +613,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         } else {
             grid.setCursor(UIConstants.CELL_DEFAULT_CURSOR);
         }
-        ColumnRow selectedCellColumnRow = GridUtils.getEventColumnRow(reportPane, evtX, evtY);
+        ColumnRow selectedCellColumnRow = GridUtils.getEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
         TemplateCellElement curCellElement = report.getTemplateCellElement(selectedCellColumnRow.getColumn(), selectedCellColumnRow.getRow());
 
         if (curCellElement != null) {
@@ -630,7 +637,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      * @param report
      */
     private void setCursorAndToolTips(TemplateCellElement curCellElement, TemplateElementCase report) {
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
         // 计算相对Grid的显示位置.
         DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
@@ -674,7 +681,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
 
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
 
         double leftColDistance = columnWidthList.getRangeValue(grid.getHorizontalValue(), cs.getColumn()).toPixD(resolution);
         double rightColDistance = columnWidthList.getRangeValue(grid.getHorizontalValue(), cs.getColumn() + cs.getColumnSpan()).toPixD(resolution);
@@ -725,7 +732,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         } else if (isControlDown) {
             doControlSelectCell(evtX, evtY);
         } else {
-            ColumnRow selectedCellPoint = GridUtils.getEventColumnRow(reportPane, evtX, evtY);
+            ColumnRow selectedCellPoint = GridUtils.getEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
             int type = reportPane.ensureColumnRowVisible(selectedCellPoint.getColumn(), selectedCellPoint.getRow());
             if (type == ElementCasePane.NO_OVER) {
                 GridUtils.doSelectCell(reportPane, selectedCellPoint.getColumn(), selectedCellPoint.getRow());
@@ -766,7 +773,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             this.oldEvtX = evtX;
             this.oldEvtY = evtY;
             FloatElement el = report.getFloatElement(floatName);
-            int resolution = ScreenResolution.getScreenResolution();
+//            int resolution = ScreenResolution.getScreenResolution();
             int verticalValue = grid.getVerticalValue();
             int horizentalValue = grid.getHorizontalValue();
             DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);

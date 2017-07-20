@@ -6,7 +6,12 @@ package com.fr.grid;
 import java.awt.Dimension;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.mainframe.ElementCasePane;
+
+import javax.swing.plaf.ComponentUI;
 
 /**
  * GridRow used to paint and edit grid row.
@@ -15,6 +20,10 @@ import com.fr.design.mainframe.ElementCasePane;
  * @since 2012-3-22下午6:12:03
  */
 public class GridRow extends GridHeader<Integer> {
+
+	private static final int MAX = 5;
+	private int resolution = ScreenResolution.getScreenResolution();
+
 	@Override
 	protected void initByConstructor() {
 		GridRowMouseHandler gridRowMouseHandler = new GridRowMouseHandler(this);
@@ -30,8 +39,13 @@ public class GridRow extends GridHeader<Integer> {
 
 	@Override
 	public void updateUI() {
-		this.setUI(new GridRowUI());
+		this.setUI(new GridRowUI(resolution));
 	}
+
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
+	}
+
 
 	/**
 	 * Gets the preferred size.
@@ -52,7 +66,7 @@ public class GridRow extends GridHeader<Integer> {
 	 * Calculates max char number.
 	 */
 	private int caculateMaxCharNumber(ElementCasePane reportPane) {
-		int maxCharNumber = 5;
+		int maxCharNumber = MAX;
 		maxCharNumber = Math.max(maxCharNumber, ("" + (reportPane.getGrid().getVerticalValue() + reportPane.getGrid().getVerticalExtent())).length() + 1);
 
 		return maxCharNumber;

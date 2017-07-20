@@ -842,11 +842,14 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             if (BaseUtils.isAuthorityEditing()) {
                 EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
             } else if (isChooseBlock()) {
-                EastRegionContainerPane.getInstance().replaceDownPane(PolyBlockProperPane.getInstance(PolyDesigner.this));
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_CHART);
+                EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(PolyBlockProperPane.getInstance(PolyDesigner.this));
             } else if (type != SelectionType.NONE) {
-                EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_REPORT);
+                EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
             } else {
-                EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+//                EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
             }
         }
     }

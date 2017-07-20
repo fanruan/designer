@@ -6,6 +6,7 @@ import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.CellSelection;
@@ -48,6 +49,7 @@ public class GridUtils {
     //peter:下面这几个量是在Drag列的时候用.
     public final static int DRAG_CELL_SIZE = 1; //peter:drag的时候改变格子的宽度.
     public final static int DRAG_SELECT_UNITS = 2; //peter:drag的时候,选中单元格.
+//    public static int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
 
     /**
      * Is above float element.(the return may be null). <br>
@@ -67,7 +69,8 @@ public class GridUtils {
             double[] floatArray = caculateFloatElementLocations(tmpFloatElement, ReportHelper.getColumnWidthList(report),
                     ReportHelper.getRowHeightList(report), reportPane.getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue());
 
-            int resolution = ScreenResolution.getScreenResolution();
+//            int resolution = ScreenResolution.getScreenResolution();
+            int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
             //peter:悬浮元素的范围.
             Rectangle2D floatElementRect = new Rectangle2D.Double(floatArray[0], floatArray[1], tmpFloatElement.getWidth().toPixD(resolution), tmpFloatElement.getHeight().toPixD(resolution));
             //peter:不是当前选中的悬浮元素,不支持六个改变大小的点.
@@ -123,8 +126,8 @@ public class GridUtils {
      */
     public static double[] caculateFloatElementLocations(FloatElement floatElement, DynamicUnitList columnWidthList, DynamicUnitList rowHeightList,
                                                          int verticalValue, int horizentalValue) {
-        int resolution = ScreenResolution.getScreenResolution();
-
+//        int resolution = ScreenResolution.getScreenResolution();
+        int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
 
         double floatX = columnWidthList.getRangeValue(horizentalValue, 0).toPixD(resolution) + floatElement.getLeftDistance().toPixD(resolution);
         double floatY = rowHeightList.getRangeValue(verticalValue, 0).toPixD(resolution) + floatElement.getTopDistance().toPixD(resolution);
@@ -166,7 +169,66 @@ public class GridUtils {
     private static int cc_selected_column_or_row(double mouseEvtPosition, int beginValue, int value, DynamicUnitList sizeList) {
         double tmpIntIndex = 0;
         int selectedCellIndex = 0;
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
+        int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+        if (mouseEvtPosition < 0) {
+            selectedCellIndex = value;
+            for (; true; selectedCellIndex--) {
+                if (tmpIntIndex < mouseEvtPosition) {
+                    break;
+                }
+                tmpIntIndex -= sizeList.get(selectedCellIndex).toPixD(resolution);
+
+            }
+        } else {
+            boolean isInnerFrozen = false;
+            for (int i = beginValue; i < 0; i++) {
+                tmpIntIndex += sizeList.get(i).toPixD(resolution);
+
+                if (tmpIntIndex > mouseEvtPosition) {
+                    selectedCellIndex = i;
+                    isInnerFrozen = true;
+                    break;
+                }
+            }
+
+            if (!isInnerFrozen) {
+                selectedCellIndex = value;
+                for (; true; selectedCellIndex++) {
+                    tmpIntIndex += sizeList.get(selectedCellIndex).toPixD(resolution);
+                    if (tmpIntIndex > mouseEvtPosition) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return selectedCellIndex;
+    }
+
+    public static ColumnRow getEventColumnRow_withresolution(ElementCasePane reportPane, double evtX, double evtY, int resolution) {
+        ElementCase report = reportPane.getEditingElementCase();
+
+        // Width and height list.
+        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
+        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
+
+        int verticalValue = reportPane.getGrid().getVerticalValue();
+        int horizentalValue = reportPane.getGrid().getHorizontalValue();
+
+        // denny: get verticalBeginValue and horizontalBeginValue;
+        int verticalBeginValue = reportPane.getGrid().getVerticalBeginValue();
+        int horizontalBeginValue = reportPane.getGrid().getHorizontalBeginValue();
+        return ColumnRow.valueOf(
+                cc_selected_column_or_row_withresolution(evtX, horizontalBeginValue, horizentalValue, columnWidthList, resolution),
+                cc_selected_column_or_row_withresolution(evtY, verticalBeginValue, verticalValue, rowHeightList, resolution)
+        );
+    }
+
+    private static int cc_selected_column_or_row_withresolution(double mouseEvtPosition, int beginValue, int value, DynamicUnitList sizeList, int resolution) {
+        double tmpIntIndex = 0;
+        int selectedCellIndex = 0;
+//        int resolution = ScreenResolution.getScreenResolution();
         if (mouseEvtPosition < 0) {
             selectedCellIndex = value;
             for (; true; selectedCellIndex--) {
@@ -214,6 +276,16 @@ public class GridUtils {
      */
     public static ColumnRow getAdjustEventColumnRow(ElementCasePane reportPane, double evtX, double evtY) {
         ColumnRow selectedCellPoint = GridUtils.getEventColumnRow(reportPane, evtX, evtY);
+
+        int col = Math.max(selectedCellPoint.getColumn(), 0);
+        int row = Math.max(selectedCellPoint.getRow(), 0);
+
+
+        return ColumnRow.valueOf(col, row);
+    }
+
+    public static ColumnRow getAdjustEventColumnRow_withresolution(ElementCasePane reportPane, double evtX, double evtY, int resolution) {
+        ColumnRow selectedCellPoint = GridUtils.getEventColumnRow_withresolution(reportPane, evtX, evtY, resolution);
 
         int col = Math.max(selectedCellPoint.getColumn(), 0);
         int row = Math.max(selectedCellPoint.getRow(), 0);
@@ -394,5 +466,6 @@ public class GridUtils {
             }
         }
     }
+
 
 }

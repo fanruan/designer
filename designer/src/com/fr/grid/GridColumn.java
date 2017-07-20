@@ -6,8 +6,13 @@ package com.fr.grid;
 import java.awt.Dimension;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
+import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.stable.StableUtils;
+
+import javax.swing.plaf.ComponentUI;
 
 /**
  * GridColumn used to paint and edit grid column.
@@ -16,6 +21,8 @@ import com.fr.stable.StableUtils;
  * @since 2012-3-22下午6:12:40
  */
 public class GridColumn extends GridHeader<String> {
+
+	private int resolution = ScreenResolution.getScreenResolution();
 
 	@Override
 	protected void initByConstructor() {
@@ -32,7 +39,11 @@ public class GridColumn extends GridHeader<String> {
 
 	@Override
 	public void updateUI() {
-		this.setUI(new GridColumnUI());
+		this.setUI(new GridColumnUI(resolution));
+	}
+
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
 	}
 
 	/**

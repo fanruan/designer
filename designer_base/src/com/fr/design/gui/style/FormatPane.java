@@ -7,27 +7,24 @@ import com.fr.base.TextFormat;
 import com.fr.data.core.FormatField;
 import com.fr.data.core.FormatField.FormatContents;
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +34,7 @@ import java.text.SimpleDateFormat;
  * @author zhou
  * @since 2012-5-24上午10:57:00
  */
-public class FormatPane extends AbstractBasicStylePane {
+public class FormatPane extends AbstractBasicStylePane{
     private static final long serialVersionUID = 724330854437726751L;
 
     private static final int LABLE_X = 4;
@@ -54,13 +51,16 @@ public class FormatPane extends AbstractBasicStylePane {
     private Format format;
 
     private UIComboBox typeComboBox;
+    private UIComboBox textField;
     private UILabel sampleLabel;
-
-    private FormatePaneNumField patternTextField = null;
-    private JList patternList = null;
+    private JPanel contentPane;
+    private JPanel txtCenterPane;
     private JPanel centerPane;
+    private JPanel formatFontPane;
+    private FRFontPane frFontPane;
     private boolean isRightFormate;
     private boolean isDate = false;
+    private boolean isFormat = false;
     /**
      * Constructor.
      */
@@ -68,41 +68,59 @@ public class FormatPane extends AbstractBasicStylePane {
         this.initComponents(TYPES);
     }
 
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new FormatPane(), BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(290, 400);
+        jf.setVisible(true);
+    }
+
     protected void initComponents(Integer[] types) {
         this.setLayout(new BorderLayout(0, 4));
-
         iniSampleLable();
-
-        JPanel contentPane = new JPanel(new BorderLayout(0, 4)) {
+        contentPane = new JPanel(new BorderLayout(0, 4)) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(super.getPreferredSize().width, 185);
+                return new Dimension(super.getPreferredSize().width, 70);
             }
-
         };
         typeComboBox = new UIComboBox(types);
         UIComboBoxRenderer render = createComBoxRender();
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
         contentPane.add(sampleLabel, BorderLayout.NORTH);
-        this.add(typeComboBox, BorderLayout.NORTH);
         centerPane = new JPanel(new CardLayout());
         centerPane.add(new JPanel(), "hide");
+        centerPane.setPreferredSize(new Dimension(0, 0) );
         centerPane.add(contentPane, "show");
-        this.add(centerPane, BorderLayout.CENTER);
-        // content pane.
-        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        contentPane.add(centerPane, BorderLayout.CENTER);
-        patternTextField = new FormatePaneNumField();
-        centerPane.add(patternTextField, BorderLayout.NORTH);
-        patternTextField.getDocument().addDocumentListener(patternTextDocumentListener);
-        patternList = new JList(new DefaultListModel());
-        centerPane.add(new UIScrollPane(patternList), BorderLayout.CENTER);
-        patternList.addListSelectionListener(patternListSelectionListener);
-        patternList.setSelectionBackground(UIConstants.LIGHT_BLUE);
-        patternList.setSelectionForeground(Color.black);
-        // init values.
-
+        formatFontPane = new JPanel(new BorderLayout());
+        formatFontPane.add(centerPane, BorderLayout.NORTH);
+        formatFontPane.add(new FRFontPane(), BorderLayout.CENTER);
+        txtCenterPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        contentPane.add(txtCenterPane, BorderLayout.CENTER);
+        textField = new UIComboBox(FormatField.getInstance().getFormatArray(getFormatContents()));
+        textField.addItemListener(textFieldItemListener);
+        textField.setEditable(true);
+        txtCenterPane.add(textField, BorderLayout.NORTH);
+        frFontPane = new FRFontPane();
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format")+"   ", SwingConstants.LEFT), typeComboBox },
+                new Component[]{null,centerPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT), frFontPane},
+                new Component[]{null,null}
+        };
+        double[] rowSize = {p, p, p, p, p};
+        double[] columnSize = {p,f};
+        int[][] rowCount = {{1, 1},{1, 1}, {1, 1}, {1, 3}, {1, 1}};
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        this.add(panel,BorderLayout.CENTER);
     }
 
     protected UIComboBoxRenderer createComBoxRender(){
@@ -187,7 +205,6 @@ public class FormatPane extends AbstractBasicStylePane {
                 } else {
                     setPatternComboBoxAndList(FormatContents.NUMBER, pattern);
                 }
-                patternTextField.setText(pattern);
             } else if (format instanceof SimpleDateFormat) { // date and time
                 String pattern = ((SimpleDateFormat) format).toPattern();
                 if (!isTimeType(pattern)) {
@@ -195,7 +212,6 @@ public class FormatPane extends AbstractBasicStylePane {
                 } else {
                     setPatternComboBoxAndList(FormatContents.TIME, pattern);
                 }
-                patternTextField.setText(pattern);
             } else if (format instanceof TextFormat) { // Text
                 this.typeComboBox.setSelectedItem(FormatContents.TEXT);
             }
@@ -224,9 +240,9 @@ public class FormatPane extends AbstractBasicStylePane {
         this.typeComboBox.setSelectedItem(formatStyle);
         int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle), pattern);
         if (i == -1) {
-            this.patternList.setSelectedIndices(ArrayUtils.EMPTY_INT_ARRAY);
+            this.textField.setSelectedIndex(0);
         } else {
-            this.patternList.setSelectedIndex(i);
+            this.textField.setSelectedIndex(i);
         }
     }
 
@@ -238,7 +254,7 @@ public class FormatPane extends AbstractBasicStylePane {
      * update
      */
     public Format update() {
-        String patternString = patternTextField.getText();
+        String patternString = String.valueOf(textField.getSelectedItem());
         if (getFormatContents() == FormatContents.TEXT) {
             return FormatField.getInstance().getFormat(getFormatContents(), patternString);
         }
@@ -262,10 +278,10 @@ public class FormatPane extends AbstractBasicStylePane {
         this.sampleLabel.setForeground(UIManager.getColor("Label.foreground"));
         try {
             isRightFormate = true;
-            if (StringUtils.isEmpty(patternTextField.getText())) {
+            if (StringUtils.isEmpty(String.valueOf(textField.getSelectedItem()))) {
                 return;
             }
-            this.sampleLabel.setText(FormatField.getInstance().getFormatValue(getFormatContents(), patternTextField.getText()));
+            this.sampleLabel.setText(FormatField.getInstance().getFormatValue(getFormatContents(), String.valueOf(textField.getSelectedItem())));
         } catch (Exception e) {
             this.sampleLabel.setForeground(Color.red);
             this.sampleLabel.setText(e.getMessage());
@@ -285,55 +301,34 @@ public class FormatPane extends AbstractBasicStylePane {
 
         @Override
         public void itemStateChanged(ItemEvent e) {
-            int contents = getFormatContents();
-            CardLayout cardLayout = (CardLayout) centerPane.getLayout();
-            if (isTextOrNull()) {
-                cardLayout.show(centerPane, "hide");
-                patternTextField.setText("");
-            } else {
-                cardLayout.show(centerPane, "show");
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                int contents = getFormatContents();
+                String[] items = FormatField.getInstance().getFormatArray(contents);
+                CardLayout cardLayout = (CardLayout) centerPane.getLayout();
+
+                if (isTextOrNull()) {
+                    centerPane.setPreferredSize(new Dimension(0, 0) );
+                    cardLayout.show(centerPane, "hide");
+                } else {
+                    textField.removeAllItems();
+                    for (int i = 0; i < items.length; i++) {
+                        textField.addItem(items[i]);
+                    }
+                    centerPane.setPreferredSize(new Dimension(270, 70) );
+                    cardLayout.show(centerPane, "show");
+                }
+                isFormat = true;
             }
 
-            String[] patternArray = FormatField.getInstance().getFormatArray(contents, false);
-            //
-            DefaultListModel patternModel = (DefaultListModel) patternList.getModel();
-            patternModel.removeAllElements();
-
-            for (int i = 0; i < patternArray.length; i++) {
-                patternModel.addElement(patternArray[i]);
-            }
-
-            if (patternModel.size() > 0) {
-                patternList.setSelectedIndex(0);
-            }
-        }
-
-    };
-    /**
-     * text pattern document listener.
-     */
-    DocumentListener patternTextDocumentListener = new DocumentListener() {
-
-        public void insertUpdate(DocumentEvent evt) {
-            refreshPreviewLabel();
-        }
-
-        public void removeUpdate(DocumentEvent evt) {
-            refreshPreviewLabel();
-        }
-
-        public void changedUpdate(DocumentEvent evt) {
-            refreshPreviewLabel();
         }
     };
-    /**
-     * Pattern list selection listener.
-     */
-    ListSelectionListener patternListSelectionListener = new ListSelectionListener() {
 
-        public void valueChanged(ListSelectionEvent evt) {
-            if (!evt.getValueIsAdjusting()) {
-                patternTextField.setText((String) patternList.getSelectedValue());
+    ItemListener textFieldItemListener = new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                isFormat = true;
+                refreshPreviewLabel();
             }
         }
     };
@@ -344,6 +339,8 @@ public class FormatPane extends AbstractBasicStylePane {
      */
     public void populateBean(Style style) {
         this.populateBean(style.getFormat());
+        isFormat = false;
+        this.frFontPane.populateBean(style.getFRFont());
     }
 
     @Override
@@ -351,7 +348,12 @@ public class FormatPane extends AbstractBasicStylePane {
      * update
      */
     public Style update(Style style) {
-        return style.deriveFormat(this.update());
+        if (isFormat){
+            isFormat = false;
+            return style.deriveFormat(this.update());
+        } else {
+            return style.deriveFRFont(this.frFontPane.update(style.getFRFont()));
+        }
     }
 
     /**
@@ -401,4 +403,5 @@ public class FormatPane extends AbstractBasicStylePane {
             }
         }
     }
+
 }

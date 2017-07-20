@@ -109,6 +109,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         }
     }
 
+    // 刷新右侧属性面板
+    public abstract void refreshEastPropertiesPane();
+
     // 为收集模版信息作准备
     private void initForCollect() {
         template.initTemplateID();  // 为新模板设置 templateID 属性
@@ -209,6 +212,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 去除参数面板选择
      */
     public abstract void removeParameterPaneSelection();
+
+    public abstract void setScale(int resolution);
+
+    public abstract int getScale();
 
     protected abstract DesignModelAdapter<T, ?> createDesignModel();
 

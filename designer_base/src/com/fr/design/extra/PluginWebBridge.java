@@ -509,6 +509,13 @@ public class PluginWebBridge {
         LoginWebBridge.getHelper().showQQ();
     }
 
+    //通过QQ登录后通知登录
+    public void ucsynLogin(long uid, String username){
+        BBSUserInfo bbsUserInfo = new BBSUserInfo(username, "");
+        BBSPluginLogin.getInstance().login(bbsUserInfo);
+        uiLabel.setText(username);
+    }
+
     /**
      * 清除用户信息
      */

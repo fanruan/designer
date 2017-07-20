@@ -255,6 +255,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 		
 		basePane.add(centerPane, BorderLayout.CENTER);
         laoyoutWestPane();
+//		JPanel eastRegionPane = new JPanel(new BorderLayout());
+//		eastRegionPane.add(EastRegionContainerPane.getInstance(), BorderLayout.CENTER);
+//		eastRegionPane.add(JSliderPane.getInstance(), BorderLayout.SOUTH);
+//		basePane.add(eastRegionPane, BorderLayout.EAST);
+
 		basePane.add(EastRegionContainerPane.getInstance(), BorderLayout.EAST);
 		basePane.setBounds(0, 0, contentWidth, contentHeight);
 
@@ -421,10 +426,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 				BaseUtils.setAuthorityEditing(false);
 				WestRegionContainerPane.getInstance().replaceDownPane(
 						TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
-				EastRegionContainerPane.getInstance().replaceUpPane(
-						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEastUpPane());
-				EastRegionContainerPane.getInstance().replaceDownPane(
-						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEastDownPane());
+				HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
 				DesignerContext.getDesignerFrame().resetToolkitByPlus(
 						HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getToolBarMenuDockPlus());
 				needToAddAuhtorityPaint();
