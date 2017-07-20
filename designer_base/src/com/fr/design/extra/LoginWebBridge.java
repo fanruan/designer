@@ -327,6 +327,7 @@ public class LoginWebBridge {
             DesignerEnvManager.getEnvManager().setBBSName(username);
             DesignerEnvManager.getEnvManager().setBbsUid(uid);
             DesignerEnvManager.getEnvManager().setInShowBBsName(username);
+            BBSPluginLogin.getInstance().login(new BBSUserInfo(username, ""));
         } else if (status.equals(LOGIN_FAILED)) {
             //账号没有QQ授权
             closeQQWindow();
