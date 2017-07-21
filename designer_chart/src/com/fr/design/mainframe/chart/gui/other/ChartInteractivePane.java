@@ -12,6 +12,7 @@ import com.fr.chart.chartdata.GisMapTableDefinition;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
@@ -21,6 +22,8 @@ import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.fun.HyperlinkProvider;
+import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -53,6 +56,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIObserver{
 	private static final long serialVersionUID = 3477409806918835992L;
@@ -654,6 +658,13 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
     private void populateHyperlink(Plot plot) {
         HashMap paneMap = renewMapWithPlot(plot);
+
+        //安装平台内打开插件时,添加相应按钮
+        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
+        for (HyperlinkProvider provider : providers) {
+            NameableCreator nc = provider.createHyperlinkCreator();
+            paneMap.put(nc.getClazz(), nc.getUpdatePane());
+        }
 
         List<UIMenuNameableCreator> list = refreshList(paneMap);
         superLink.refreshMenuAndAddMenuAction(list);
