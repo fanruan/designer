@@ -3,9 +3,9 @@ package com.fr.design.mainframe.chart.gui.data.report;
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
-import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartdata.NormalReportDataDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -178,17 +178,17 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 		super.updateBean(collection);
 
 		TopDefinitionProvider definition = collection.getSelectedChart().getFilterDefinition();
-		Axis axis = collection.getSelectedChart().getPlot().getxAxis();
+		Plot plot = collection.getSelectedChart().getPlot();
 		if (definition instanceof NormalReportDataDefinition) {
 			NormalReportDataDefinition reportDefinition = (NormalReportDataDefinition) definition;
 
 			reportDefinition.clearMoreCate();
-			updateMoreCate(reportDefinition, axis);
+			updateMoreCate(reportDefinition, plot);
 
 		}
 	}
 
-	protected void updateMoreCate(NormalReportDataDefinition reportDefinition, Axis axis) {
+	protected void updateMoreCate(NormalReportDataDefinition reportDefinition, Plot plot) {
 		for (int i = 0, size = formualList.size(); i < size; i++) {
 			TinyFormulaPane pane = formualList.get(i);
 			reportDefinition.addMoreCate(canBeFormula(pane.updateBean()));
