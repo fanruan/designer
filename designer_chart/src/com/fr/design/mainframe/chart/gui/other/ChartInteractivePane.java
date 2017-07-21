@@ -663,7 +663,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
-            paneMap.put(nc.getClazz(), nc.getUpdatePane());
+            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
         }
 
         List<UIMenuNameableCreator> list = refreshList(paneMap);
