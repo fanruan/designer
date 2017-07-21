@@ -175,7 +175,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
 //        leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.Y_AXIS));
-        leftPane.setBackground(Color.yellow);
+        leftPane.setBackground(new Color(210, 210, 210));
         replaceLeftPane(leftPane);
     }
 

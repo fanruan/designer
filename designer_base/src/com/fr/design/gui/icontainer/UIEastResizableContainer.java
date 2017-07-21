@@ -159,11 +159,12 @@ public class UIEastResizableContainer extends JPanel {
                 return;
             }
 
-            topToolPane.setBounds(0, 0, containerWidth, topToolPaneHeight);//0,0,10,462
+//            topToolPane.setBounds(0, 0, containerWidth, topToolPaneHeight);//0,0,10,462
+            topToolPane.setBounds(0, 0, leftPaneWidth, topToolPaneHeight);//0,0,10,462
             leftPane.setBounds(0, topToolPaneHeight, leftPaneWidth, getHeight() - topToolPaneHeight);
 
 //            parameterPane.setBounds(20, 0, 230, getParameterPaneHeight());//10,0,230,462
-            rightPane.setBounds(leftPaneWidth, topToolPaneHeight, containerWidth-leftPaneWidth, getHeight() - topToolPaneHeight);//20,0,230,0
+            rightPane.setBounds(leftPaneWidth, 0, containerWidth-leftPaneWidth, getHeight());//20,0,230,0
         }
 
         @Override
@@ -303,7 +304,7 @@ public class UIEastResizableContainer extends JPanel {
                 }
             }
 //                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
-            g.drawImage(button, 20, 7, 5, 5, null);
+            g.drawImage(button, 18, 7, 5, 5, null);
         }
     }
 
