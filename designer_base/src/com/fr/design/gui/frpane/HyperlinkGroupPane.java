@@ -23,8 +23,7 @@ import java.util.Set;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-6-25 上午11:17:57
  */
-public class HyperlinkGroupPane extends JListControlPane {
-
+public abstract class HyperlinkGroupPane extends JListControlPane {
     /**
      * 生成添加按钮的NameableCreator
      *

@@ -867,9 +867,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 返回当前支持的超链界面pane
      * @return 超链连接界面
      */
-    public HyperlinkGroupPane getHyperLinkPane() {
-        return new HyperlinkGroupPane();
-    }
+    public abstract HyperlinkGroupPane getHyperLinkPane();
 
     /**
      * 是否是图表

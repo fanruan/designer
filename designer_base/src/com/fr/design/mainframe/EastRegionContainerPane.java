@@ -267,6 +267,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return propertyItemMap.get(KEY_WIDGET_SETTINGS).getContentPane();
     }
 
+    public void replaceHyperlinkPane(JComponent pane) {
+        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(pane);
+    }
+
+    public JComponent getHyperlinkPane() {
+        return propertyItemMap.get(KEY_HYPERLINK).getContentPane();
+    }
+
     public void replaceWidgetLibPane(JComponent pane) {
         propertyItemMap.get(KEY_WIDGET_LIB).replaceContentPane(pane);
     }
