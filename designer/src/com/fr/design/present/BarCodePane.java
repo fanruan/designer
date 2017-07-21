@@ -69,6 +69,17 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         addlistener();
     }
 
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel)jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new BarCodePane(),BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(270, 400);
+        jf.setVisible(true);
+    }
+
     private void initComponents() {
         barCodePreviewPane = new BarCodePreviewPane();
         this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 100, 0.1));

@@ -10,6 +10,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.GridUIProcessor;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.stable.StableUtils;
 
 import javax.swing.plaf.ComponentUI;
@@ -22,11 +23,15 @@ import javax.swing.plaf.ComponentUI;
  */
 public class GridColumn extends GridHeader<String> {
 
-	private int resolution = ScreenResolution.getScreenResolution();
+	public int resolution = ScreenResolution.getScreenResolution();
+
+	private GridColumnMouseHandler gridColumnMouseHandler;
 
 	@Override
 	protected void initByConstructor() {
-		GridColumnMouseHandler gridColumnMouseHandler = new GridColumnMouseHandler(this);
+		resolution = ScreenResolution.getScreenResolution();
+		this.setResolution(resolution);
+		gridColumnMouseHandler = new GridColumnMouseHandler(this);
 		this.addMouseListener(gridColumnMouseHandler);
 		this.addMouseMotionListener(gridColumnMouseHandler);
 		this.updateUI();
@@ -39,11 +44,22 @@ public class GridColumn extends GridHeader<String> {
 
 	@Override
 	public void updateUI() {
+		this.removeMouseListener(gridColumnMouseHandler);
+		this.removeMouseMotionListener(gridColumnMouseHandler);
+		gridColumnMouseHandler = new GridColumnMouseHandler(this);
+		this.addMouseListener(gridColumnMouseHandler);
+		this.addMouseMotionListener(gridColumnMouseHandler);
+//		gridColumnMouseHandler.setResolution(resolution);
 		this.setUI(new GridColumnUI(resolution));
 	}
 
 	public void setResolution(int resolution) {
 		this.resolution = resolution;
+	}
+
+	@Override
+	public int getResolution() {
+		return this.resolution;
 	}
 
 	/**

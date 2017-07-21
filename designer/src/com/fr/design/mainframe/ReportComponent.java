@@ -27,9 +27,13 @@ import com.fr.design.selection.Selectedable;
  */
 public abstract class ReportComponent<T extends TemplateReport, E extends ElementCasePane, S extends SelectableElement> extends TargetComponent<T> implements Selectedable<S> {
 	protected E elementCasePane;
+//	protected P polyElementCasePane;
 	public E getEditingElementCasePane() {
 		return elementCasePane;
 	}
+//	public P getEditingPolyElementCasePane() {
+//		return polyElementCasePane;
+//	}
 	public ReportComponent(T t) {
 		super(t);
 	}

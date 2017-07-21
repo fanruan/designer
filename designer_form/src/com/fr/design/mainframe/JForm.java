@@ -254,6 +254,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return 0;
     }
 
+    @Override
+    public int selfAdaptUpdate() {
+        return 0;
+    }
+
     /**
      * 创建权限细粒度编辑面板
      *

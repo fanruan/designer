@@ -25,7 +25,7 @@ public class ReportComponentCardPane extends JComponent implements TargetModifie
 
     private CardLayout cl;
     private WorkSheetDesigner sheetDezi;
-    private PolyDesigner polyDezi;
+    protected PolyDesigner polyDezi;
 
     public ReportComponentCardPane() {
         this.setLayout(cl = new CardLayout());

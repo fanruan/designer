@@ -31,6 +31,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.UINumberSlidePane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -153,11 +154,13 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 
 	private void initTransparent() {
 		initCalculateSize();
-		slidePane.getShowVal().getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-//				slidePane.getShowVal().getDocument()
-				double value = Integer.parseInt(slidePane.getShowVal().getText().substring(0, slidePane.getShowVal().getText().indexOf("%")));
+		slidePane.getShowVal().addChangeListener(showValSpinnerChangeListener);
+	}
+
+	ChangeListener showValSpinnerChangeListener = new ChangeListener() {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+				double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
 				value = value>SHOWVALMAX ? SHOWVALMAX : value;
 				value = value<SHOWVALMIN ? SHOWVALMIN : value;
 				reCalculateRoot(value, true);
@@ -165,27 +168,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 				if(form != null){
 					form.fireTargetModified();
 				}
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
-//    	slidePane.addChangeListener(new ChangeListener() {
-//    		public void stateChanged(ChangeEvent e) {
-//    			double value = ((UINumberSlidePane) e.getSource()).getValue();
-//    			reCalculateRoot(value, true);
-//    			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-//    			if(form != null){
-//    				form.fireTargetModified();
-//    			}
-//    		}
-//    	});
-	}
+		}
+	};
 
 	/**
 	 *  返回当前的屏幕分辨率对应的百分比值

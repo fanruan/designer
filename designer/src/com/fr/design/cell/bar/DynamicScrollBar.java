@@ -59,6 +59,10 @@ public class DynamicScrollBar extends JScrollBar {
         });
     }
 
+    public void setDpi(int dpi){
+        this.dpi = dpi;
+    }
+
     public ElementCasePane getReportPane() {
         return reportPane;
     }
@@ -111,6 +115,8 @@ public class DynamicScrollBar extends JScrollBar {
             horizontalBarHelper.setValue(value);
         }
     }
+
+
 
     private abstract class DynamicScrollBarHelper extends BarHelper {
         protected abstract DynamicUnitList getSizeList();

@@ -217,6 +217,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     public abstract int getScale();
 
+    public abstract int selfAdaptUpdate();
+
     protected abstract DesignModelAdapter<T, ?> createDesignModel();
 
     /**
