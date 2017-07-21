@@ -68,8 +68,8 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
-                        EastRegionContainerPane.getInstance().replaceHyperlinkPane(ReportHyperlinkGroupPane.getInstance());
                     }
+                    EastRegionContainerPane.getInstance().replaceHyperlinkPane(ReportHyperlinkGroupPane.getInstance());
                     EastRegionContainerPane.getInstance().removeParameterPane();
                 }
             }

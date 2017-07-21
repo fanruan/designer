@@ -106,7 +106,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         // 超级链接
         PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"),
                 "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
-                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
+                new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库
         PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
                 "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.FORM},
