@@ -75,6 +75,10 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 		LayoutUtils.layoutContainer(this);
 	}
 
+	public void setResolution(int resolution){
+		this.resolution = resolution;
+	}
+
 	//默认大小, 报表块默认3列6行, 图表块默认330*240
 	public abstract UnitRectangle getDefaultBlockBounds();
 	

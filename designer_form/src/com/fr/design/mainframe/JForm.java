@@ -105,6 +105,16 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
+    public void setJTemplateResolution(int resolution) {
+
+    }
+
+    @Override
+    public int getJTemplateResolution() {
+        return 0;
+    }
+
+    @Override
     protected boolean accept(Object o) {
         return !(o instanceof FloatElementsProvider);
     }

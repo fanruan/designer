@@ -56,6 +56,7 @@ import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.poly.PolyDesigner;
+import com.fr.poly.creator.BlockCreator;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
 import com.fr.report.elementcase.ElementCase;
@@ -145,6 +146,16 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             processInfo = new JWorkBookProcessInfo(template);
         }
         return processInfo;
+    }
+
+    @Override
+    public void setJTemplateResolution(int resolution) {
+        this.resolution = resolution;
+    }
+
+    @Override
+    public int getJTemplateResolution() {
+        return this.resolution;
     }
 
     /**
@@ -353,6 +364,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         }
         if (reportComposite.centerCardPane.polyDezi != null){
             reportComposite.centerCardPane.polyDezi.setResolution(resolution);
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
             reportComposite.centerCardPane.polyDezi.updateUI();
         }
 //        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setVerticalValue(10);
@@ -361,23 +373,45 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
     @Override
     public int selfAdaptUpdate(){
-        ElementCasePane reportPane = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getElementCasePane();
-        int column = reportPane.getSelection().getSelectedColumns()[0];
-        double columnLength = reportPane.getSelection().getSelectedColumns().length;
-        double columnExtent = reportPane.getGrid().getHorizontalExtent();
-        int row = reportPane.getSelection().getSelectedRows()[0];
-        double rowLength = reportPane.getSelection().getSelectedRows().length;
-        double rowExtent = reportPane.getGrid().getVerticalExtent();
-        if (columnLength == 0||rowLength == 0){
+        if (resolution == 0){
+            resolution = ScreenResolution.getScreenResolution();
+        }
+        if (reportComposite.centerCardPane.polyDezi.getSelection() !=null){
+            BlockCreator blockCreator =reportComposite.centerCardPane.polyDezi.getSelection();
+            double x = blockCreator.getEditorBounds().getX();
+            double y = blockCreator.getEditorBounds().getY();
+            reportComposite.centerCardPane.polyDezi.setHorizontalValue((int) x);
+            reportComposite.centerCardPane.polyDezi.setVerticalValue((int) y);
+            double creatorHeight = blockCreator.getEditorBounds().height;
+            double creatorWidth = blockCreator.getEditorBounds().width;
+            double areaHeight = reportComposite.centerCardPane.polyDezi.polyArea.getHeight();
+            double areaWidth = reportComposite.centerCardPane.polyDezi.polyArea.getWidth();
+            if (creatorWidth == 0||creatorHeight == 0){
+                return resolution;
+            }
+            double time =(areaHeight/creatorHeight)<(areaWidth/creatorWidth) ? (areaHeight/creatorHeight) : (areaWidth/creatorWidth);
+            return (int) (time * reportComposite.centerCardPane.polyDezi.getResolution());
+
+        }else if (reportComposite.centerCardPane.editingComponet.elementCasePane != null) {
+            ElementCasePane reportPane = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getElementCasePane();
+            int column = reportPane.getSelection().getSelectedColumns()[0];
+            double columnLength = reportPane.getSelection().getSelectedColumns().length;
+            double columnExtent = reportPane.getGrid().getHorizontalExtent();
+            int row = reportPane.getSelection().getSelectedRows()[0];
+            double rowLength = reportPane.getSelection().getSelectedRows().length;
+            double rowExtent = reportPane.getGrid().getVerticalExtent();
+            if (columnLength == 0||rowLength == 0){
+                return resolution;
+            }
+            double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
+            if (reportPane.isHorizontalScrollBarVisible()) {
+                reportPane.getVerticalScrollBar().setValue(row);
+                reportPane.getHorizontalScrollBar().setValue(column);
+            }
+            return (int) (time * reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getResolution());
+        }else {
             return resolution;
         }
-        double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
-        if (reportPane.isHorizontalScrollBarVisible()) {
-            reportPane.getVerticalScrollBar().setValue(row);
-            reportPane.getHorizontalScrollBar().setValue(column);
-        }
-
-        return (int) (time * reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getResolution());
     }
 
     @Override

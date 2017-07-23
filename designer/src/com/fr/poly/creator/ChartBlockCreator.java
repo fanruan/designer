@@ -3,13 +3,15 @@
  */
 package com.fr.poly.creator;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
+import javax.swing.*;
 
+import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -34,12 +36,17 @@ public class ChartBlockCreator extends BlockCreator<PolyChartBlock> {
 	private static final UNIT DEFAULT_WIDTH = FU.getInstance(12573000);
 	private static final UNIT DEFAULT_HEIGHT = FU.getInstance(9144000);
 
+
 	public ChartBlockCreator() {
 
 	}
 
 	public ChartBlockCreator(PolyChartBlock block) {
 		super(block);
+	}
+
+	public void setResolution(int resolution){
+		this.resolution = resolution;
 	}
 
 	/**
@@ -63,6 +70,7 @@ public class ChartBlockCreator extends BlockCreator<PolyChartBlock> {
 		}
 		return editor;
 	}
+
 
 
 	/**

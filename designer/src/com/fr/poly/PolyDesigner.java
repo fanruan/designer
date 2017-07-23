@@ -3,14 +3,10 @@
  */
 package com.fr.poly;
 
-import java.awt.AWTEvent;
-import java.awt.Adjustable;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,16 +32,7 @@ import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.AuthorityEditPane;
-import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.EastRegionContainerPane;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.ElementCasePaneAuthorityEditPane;
-import com.fr.design.mainframe.FormScrollBar;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.NoSupportAuthorityEdit;
-import com.fr.design.mainframe.ReportComponent;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -75,6 +62,7 @@ import com.fr.report.block.Block;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.poly.TemplateBlock;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
@@ -98,7 +86,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     public static enum SelectionType {
         NONE, INNER, BLOCK
     }
-
+    public JComponent polyArea;
     private SelectionType selectedtype = SelectionType.NONE;
     private AddingData addingData;
     private AddedData addedData;
@@ -108,16 +96,16 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private int horizontalValue = 0;
     private int verticalValue = 0;
     private transient ArrayList<TemplateBlock> clip_board = new ArrayList<TemplateBlock>();
-
     // richer:鼠标滚轮每滚动一下，PolyDesignPane的尺寸就改变ROTATIONS这么多
     private static final int ROTATIONS = 50;
     private JScrollBar verScrollBar;
     private JScrollBar horScrollBar;
-    private JComponent polyArea;
+
     private PolyComponetsBar polyComponetsBar = new PolyComponetsBar();
     private JComponent[] toolBarComponent = null;
 
-    private int resolution = ScreenResolution.getScreenResolution();
+    private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+    private float time;
 
     public PolyDesigner(PolyWorkSheet report) {
         super(report);
@@ -157,7 +145,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel ployareaPane = new JPanel(new PolyDesignerLayout());
-        polyArea = new PolyArea(this);
+        polyArea = new PolyArea(this, resolution);
         ployareaPane.add(PolyDesignerLayout.Center, polyArea);
 
         horScrollBar = new FormScrollBar(Adjustable.HORIZONTAL, this);
@@ -179,6 +167,20 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             addedData.addBlockCreator(creator);
         }
         repaint();
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
+    }
+
+    public int getResolution() {
+        return this.resolution;
+    }
+
+    public void updateUI(){
+        ((PolyArea)this.polyArea).setResolution(resolution);
+        polyArea.repaint();
+//        this.polyArea = (JComponent) new PolyArea(this, resolution);
     }
 
     /**
@@ -250,11 +252,22 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     @Override
     public void paintComponent(Graphics g) {
 
+        this.time = (float)resolution/ScreenResolution.getScreenResolution();
         resetEditorComponentBounds();
+        LayoutUtils.layoutRootContainer(this);
         g.setColor(Color.black);
         GraphHelper.drawLine(g, 0, 0, this.getWidth(), 0);
         GraphHelper.drawLine(g, 0, 0, 0, this.getHeight());
         super.paintComponent(g);
+    }
+
+    private void resetEditorComponentBounds() {
+        if (selection != null) {
+            selection.setResolution(this.resolution);
+            selection.getEditor().setBounds((int) (selection.getEditorBounds().x*time), (int) (selection.getEditorBounds().y*time),
+                    (int) (selection.getEditorBounds().width*time), (int) (selection.getEditorBounds().height*time));
+            LayoutUtils.layoutRootContainer(this);
+        }
     }
 
     /**
@@ -368,12 +381,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         repaint();
     }
 
-    private void resetEditorComponentBounds() {
-        if (selection != null) {
-            selection.getEditor().setBounds(selection.getEditorBounds());
-            LayoutUtils.layoutRootContainer(this);
-        }
-    }
+
 
     /**
      * @return

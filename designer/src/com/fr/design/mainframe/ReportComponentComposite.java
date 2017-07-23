@@ -85,7 +85,7 @@ public class ReportComponentComposite extends JComponent {
         public void itemStateChanged(ItemEvent e) {
             if (jSliderContainer.getSelfAdaptButton().isSelected()){
                 int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().selfAdaptUpdate();
-                jSliderContainer.getShowVal().setValue(resolution);
+                jSliderContainer.getShowVal().setValue(resolution*HUND/ScreenResolution.getScreenResolution());
             }
         }
     };
