@@ -58,8 +58,8 @@ public class ErrorInfoUploader {
                 String filePath = file.getPath();
                 String suffix = filePath.substring(filePath.lastIndexOf("."));
 
-                Thread.sleep(1000L);
                 if (suffix.endsWith(SUFFIX)) {
+                    Thread.sleep(1000L);
                     String content = IOUtils.inputStream2String(new FileInputStream(file));
                     String url = SiteCenter.getInstance().acquireUrlByKind("design.error");
                     if (sendErroInfo(url, content)) {
