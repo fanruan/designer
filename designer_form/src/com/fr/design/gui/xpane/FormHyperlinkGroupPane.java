@@ -8,8 +8,20 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.js.EmailJavaScript;
 
-public class FormHyperlinkGroupPane extends  HyperlinkGroupPane{
-	
+public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
+	private static FormHyperlinkGroupPane singleton;
+
+	private FormHyperlinkGroupPane() {
+		super();
+	}
+
+	public synchronized static FormHyperlinkGroupPane getInstance() {
+		if (singleton == null) {
+			singleton = new FormHyperlinkGroupPane();
+		}
+		return singleton;
+	}
+
 	/**
      * 生成添加按钮的NameableCreator
      * 由于表单报表块的单元格超链和单元格条件属性超链中的emailPane都要用表单的emailPane，这里调整下

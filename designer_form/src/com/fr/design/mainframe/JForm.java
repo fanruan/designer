@@ -142,7 +142,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 超链连接界面
      */
     public HyperlinkGroupPane getHyperLinkPane() {
-        return new FormHyperlinkGroupPane();
+        return FormHyperlinkGroupPane.getInstance();
     }
 
     //表单返回 FORM_TAB or ELEMENTCASE_TAB
