@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.fr.base.ScreenResolution;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -64,12 +65,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	//显示和设置表单界面大小的控件
 	private UINumberField widthPane;
 	private UINumberField heightPane;
-	private JSliderPane slidePane;
+	private JFormSliderPane slidePane;
 	private boolean isValid = true;
 	// 初始时滑块值为100，托动后的值设为START_VALUE;
 	private double START_VALUE = DEFAULT_SLIDER;
+	private int resolution = ScreenResolution.getScreenResolution();
 	private double screenValue;
-	private JSliderPane sliderPane;
 
 	public FormScrollBar getHorScrollBar() {
 		return horScrollBar;
@@ -123,8 +124,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 
 //    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
 //    	slidePane.setPreferredSize(new Dimension(260,20));
-		slidePane = JSliderPane.getInstance();
-		slidePane.setPreferredSize(new Dimension(300,20));
+		slidePane = JFormSliderPane.getInstance();
+		slidePane.setPreferredSize(new Dimension(350,20));
 
 
 		JPanel resizePane =TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
@@ -160,14 +161,18 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	ChangeListener showValSpinnerChangeListener = new ChangeListener() {
 		@Override
 		public void stateChanged(ChangeEvent e) {
-				double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
-				value = value>SHOWVALMAX ? SHOWVALMAX : value;
-				value = value<SHOWVALMIN ? SHOWVALMIN : value;
-				reCalculateRoot(value, true);
-				JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-				if(form != null){
-					form.fireTargetModified();
-				}
+			double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
+			value = value>SHOWVALMAX ? SHOWVALMAX : value;
+			value = value<SHOWVALMIN ? SHOWVALMIN : value;
+			JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+			jf.resolution = (int) value;
+			jf.getFormDesign().setResolution((int) value);
+			jf.getFormDesign().getArea().resolution = (int) value;
+			reCalculateRoot(value, true);
+			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+			if(form != null){
+				form.fireTargetModified();
+			}
 		}
 	};
 

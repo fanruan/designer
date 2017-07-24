@@ -80,7 +80,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private long openTime = 0L; // 打开模板的时间点（包括新建模板）
     private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
     private StringBuilder process = new StringBuilder("");  // 制作模板的过程
-    private int resolution = ScreenResolution.getScreenResolution();
+    public int resolution = ScreenResolution.getScreenResolution();
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);

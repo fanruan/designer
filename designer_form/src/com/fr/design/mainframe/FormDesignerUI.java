@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -15,6 +16,7 @@ import javax.swing.plaf.ComponentUI;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
 import com.fr.base.Utils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.AdapterBus;
@@ -31,6 +33,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.CoreGraphHelper;
 
 /**
  * FormDesigner的UI类，是一个有状态的UI类，它根据FormDesigner的当前状态画出
@@ -42,6 +45,7 @@ public class FormDesignerUI extends ComponentUI {
     private FormDesigner designer;
     private SelectionModel selectionModel;
     private Rectangle2D.Double back_or_selection_rect = new Rectangle2D.Double(0, 0, 0, 0);
+    private float time;
 
     public FormDesignerUI() {
     }
@@ -63,6 +67,7 @@ public class FormDesignerUI extends ComponentUI {
     @Override
     public void paint(Graphics g, JComponent c) {
         XCreator rootComponent = designer.getRootComponent();
+        this.time = (float)designer.getResolution()/ScreenResolution.getScreenResolution();
         if (rootComponent != null) {
             // 设计自适应界面
             repaintFit(g, rootComponent, c);
@@ -373,9 +378,17 @@ public class FormDesignerUI extends ComponentUI {
         // 禁止双缓冲
         ComponentUtils.disableBuffer(component, dbcomponents);
         Graphics clipg;
-        clipg = g.create(-designer.getArea().getHorizontalValue(), -designer.getArea().getVerticalValue() + designer.getParaHeight(), parent
-                .getSize().width + designer.getArea().getHorizontalValue(), parent.getSize().height
-                + designer.getArea().getVerticalValue());
+        clipg = g.create(
+                -designer.getArea().getHorizontalValue(),
+                -designer.getArea().getVerticalValue() + designer.getParaHeight(),
+                parent.getSize().width + designer.getArea().getHorizontalValue(),
+                parent.getSize().height + designer.getArea().getVerticalValue());
+
+//        BufferedImage img = CoreGraphHelper.createBufferedImage(parent.getSize().width + designer.getArea().getHorizontalValue(), parent.getSize().height + designer.getArea().getVerticalValue(), BufferedImage.TYPE_INT_RGB);
+//        Graphics2D g2d = img.createGraphics();
+//        component.printAll(g2d);
+//        g2d.dispose();
+//        g.drawImage(img,-designer.getArea().getHorizontalValue(),-designer.getArea().getVerticalValue() + designer.getParaHeight(), (int) (parent.getSize().width*time + designer.getArea().getHorizontalValue()), (int) (parent.getSize().height*time + designer.getArea().getVerticalValue()),null);
 
         designer.paintContent(clipg);
         clipg.dispose();
@@ -397,9 +410,10 @@ public class FormDesignerUI extends ComponentUI {
         // 禁止双缓冲
         ComponentUtils.disableBuffer(component, dbcomponents);
         Graphics clipg1;
-        clipg1 = g.create(-designer.getArea().getHorizontalValue(), -designer.getArea().getVerticalValue() , parent
-                .getSize().width + designer.getArea().getHorizontalValue(), designer.getParaHeight()
-                + designer.getArea().getVerticalValue());
+        clipg1 = g.create(-designer.getArea().getHorizontalValue(),
+                -designer.getArea().getVerticalValue() ,
+                parent.getSize().width + designer.getArea().getHorizontalValue(),
+                designer.getParaHeight() + designer.getArea().getVerticalValue());
 
         designer.paintPara(clipg1);
         clipg1.dispose();

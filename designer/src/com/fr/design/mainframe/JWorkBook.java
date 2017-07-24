@@ -345,6 +345,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         //更新resolution
         this.resolution = resolution;
         if (reportComposite.centerCardPane.editingComponet.elementCasePane != null){
+            reportComposite.centerCardPane.editingComponet.elementCasePane.setResolution(resolution);
             reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
             reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setResolution(resolution);
             //更新Grid

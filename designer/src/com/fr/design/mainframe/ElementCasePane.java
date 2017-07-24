@@ -209,7 +209,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         this.setLayout(new RGridLayout());
 
         //todo 直接修改分辨率
-        this.resolution = ScreenResolution.getScreenResolution();
+        if (this.resolution == 0){
+            this.resolution = ScreenResolution.getScreenResolution();
+        }
 
         this.initGridComponent();
 
@@ -343,6 +345,14 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     }
 
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
+    }
 
     /**
      * 所有的操作都必须在可见范围内，否则不做任何操作
