@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -30,21 +29,19 @@ public class JSliderPane extends JPanel {
     private static final double ONEPOINTEIGHT = 1.8;
     private static final int SIX = 6;
     private static final int TEN = 10;
-    private static final int ONEEIGHT = 18;
-    private static final int FONTSIZE = 14;
-    private static final int SPINNERWIDTH= 45;
-    private static final int SPINNERHEIGHT = 20;
-    private static final int TWOFIVE = 25;
-    private static final int FOURTEN = 40;
-    private static final int HALFHUNDRED = 50;
+    private static final int ONE_EIGHT = 18;
+    private static final int FONT_SIZE = 14;
+    private static final int SPINNER_WIDTH= 45;
+    private static final int SPINNER_HEIGHT = 20;
+    private static final int HALF_HUNDRED = 50;
     private static final int HUNDRED = 100;
-    private static final int TWOHUNDRED = 200;
-    private static final int THREEHUNDRED = 300;
-    private static final int FOURHUNDRED = 400;
-    private static final int DIALOGWIDTH = 150;
-    private static final int DIALOGHEIGHT = 240;
-    private static final int SHOWVALBUTTONWIDTH = 70;
-    private static final int SHOWVALBUTTONHEIGHTH = 25;
+    private static final int TWO_HUNDRED = 200;
+    private static final int THREE_HUNDRED = 300;
+    private static final int FOUR_HUNDRED = 400;
+    private static final int DIALOG_WIDTH = 150;
+    private static final int DIALOG_HEIGHT = 240;
+    private static final int SHOWVALBUTTON_WIDTH = 70;
+    private static final int SHOWVALBUTTON_HEIGHTH = 25;
     public int showValue = 100;
     public double resolutionTimes = 1.0;
     private static JSliderPane THIS;
@@ -72,14 +69,14 @@ public class JSliderPane extends JPanel {
 
     public JSliderPane() {
         this.setLayout(new BorderLayout());
-        slider = new UISlider(0,HUNDRED,HALFHUNDRED);
+        slider = new UISlider(0,HUNDRED,HALF_HUNDRED);
         slider.setUI(new JSliderPaneUI(slider));
         slider.addChangeListener(listener);
 
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOURHUNDRED, 1));
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1));
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
-        showValSpinner.setPreferredSize(new Dimension(SPINNERWIDTH, SPINNERHEIGHT));
+        showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
         //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
 //        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
 //        showValSpinner.setEditor(editor);
@@ -97,9 +94,8 @@ public class JSliderPane extends JPanel {
 
         showValButton = new UIButton(showValSpinner.getValue()+"%");
         showValButton.setBorderPainted(false);
-        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTONWIDTH,SHOWVALBUTTONHEIGHTH));
+        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH,SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
-
         initUIRadioButton();
         initPane();
         JPanel panel = new JPanel(new FlowLayout(1,1,0));
@@ -108,7 +104,7 @@ public class JSliderPane extends JPanel {
         panel.add(upButton);
         panel.add(showValButton);
         this.add(panel,BorderLayout.NORTH);
-        this.setBounds(0,0,THREEHUNDRED,ONEEIGHT);
+        this.setBounds(0,0,THREE_HUNDRED,ONE_EIGHT);
     }
 
     public static final JSliderPane getInstance() {
@@ -167,7 +163,7 @@ public class JSliderPane extends JPanel {
         JPanel spinnerPanel = new JPanel(new FlowLayout());
         spinnerPanel.add(showValSpinner);
         UILabel percent = new UILabel("%");
-        percent.setFont(new Font("Dialog", Font.PLAIN, FONTSIZE));
+        percent.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
         spinnerPanel.add(percent);
         return spinnerPanel;
     }
@@ -185,6 +181,14 @@ public class JSliderPane extends JPanel {
             int val = (int) ((UIBasicSpinner)e.getSource()).getValue();
             isButtonOrIsTxt = true;
             resolutionTimes = divide(showValue,100,2);
+            if (val > FOUR_HUNDRED){
+                showValSpinner.setValue(FOUR_HUNDRED);
+                val = FOUR_HUNDRED;
+            }
+            if (val < TEN){
+                showValSpinner.setValue(TEN);
+                val = TEN;
+            }
             refreshSlider(val);
             refreshBottun(val);
         }
@@ -225,11 +229,11 @@ public class JSliderPane extends JPanel {
     private void refreshSlider(int val){
         showValue = val;
         if (showValue >HUNDRED){
-            slider.setValue((int)(showValue+TWOHUNDRED)/SIX);
+            slider.setValue((int)(showValue+TWO_HUNDRED)/SIX);
         }else if (showValue <HUNDRED){
             slider.setValue((int)((showValue-TEN)/ONEPOINTEIGHT));
         }else if (showValue == HUNDRED){
-            slider.setValue(HALFHUNDRED);
+            slider.setValue(HALF_HUNDRED);
         }
     }
 
@@ -269,12 +273,12 @@ public class JSliderPane extends JPanel {
             }
             if(e.getActionCommand().equals("more")){
                 int newUpVal = showValue + TEN;
-                if (newUpVal <= FOURHUNDRED ){
+                if (newUpVal <= FOUR_HUNDRED ){
                     showValue = newUpVal;
                     showValSpinner.setValue(newUpVal);
                 }else {
                     showValue = newUpVal;
-                    showValSpinner.setValue(FOURHUNDRED);
+                    showValSpinner.setValue(FOUR_HUNDRED);
                 }
             }
             isButtonOrIsTxt = true;
@@ -285,12 +289,12 @@ public class JSliderPane extends JPanel {
 
 
     private void getTimes(int value){
-        if (value == HALFHUNDRED){
+        if (value == HALF_HUNDRED){
             times=HUNDRED;
-        }else if (value < HALFHUNDRED){
+        }else if (value < HALF_HUNDRED){
             times = (int) Math.round(ONEPOINTEIGHT*value + TEN);
         }else {
-            times = (int) (SIX*value - TWOHUNDRED);
+            times = (int) (SIX*value - TWO_HUNDRED);
         }
     }
 
@@ -309,28 +313,28 @@ public class JSliderPane extends JPanel {
             dialog = new PopupPane(upButton,dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() + SHOWVALBUTTONWIDTH , -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH , -DIALOG_HEIGHT);
             }
         }else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +SHOWVALBUTTONWIDTH, -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +SHOWVALBUTTONWIDTH, -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }
 
     public static void main(String[] args)
     {
-//        JFrame jf = new JFrame("test");
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JPanel content = (JPanel)jf.getContentPane();
-//        content.setLayout(new BorderLayout());
-//        content.add(JSliderPane.getInstance(),BorderLayout.CENTER);
-//        GUICoreUtils.centerWindow(jf);
-//        jf.setSize(400, 80);
-//        jf.setVisible(true);
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel)jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(JSliderPane.getInstance(),BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(400, 80);
+        jf.setVisible(true);
 
     }
 }
@@ -406,11 +410,10 @@ class JSliderPaneUI extends BasicSliderUI {
 
 class PopupPane extends JPopupMenu {
     private JComponent contentPane;
-    private static final int UPLABELHEIGHT = 25;
-    private static final int HALFHUNDRED = 50;
-    private static final int DIALOGWIDTH = 150;
-    private static final int DIALOGHEIGHT = 240;
-    private static final int UPLABELWIDTH = 300;
+    private static final int UPLABEL_HEIGHT = 25;
+    private static final int DIALOG_WIDTH = 150;
+    private static final int DIALOG_HEIGHT = 240;
+    private static final int UPLABEL_WIDTH = 300;
     private JComponent centerPane;
     private UILabel upLabel;
     PopupPane(UIButton b,JPanel dialogContentPanel) {
@@ -418,7 +421,7 @@ class PopupPane extends JPopupMenu {
         centerPane = new JPanel(new BorderLayout());
         upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(UPLABELWIDTH,UPLABELHEIGHT));
+        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH,UPLABEL_HEIGHT));
         upLabel.setBackground(Color.LIGHT_GRAY);
         upLabel.setBorder(new MatteBorder(0,0,1,0,Color.gray));
         centerPane.add(dialogContentPanel,BorderLayout.NORTH);
@@ -426,7 +429,7 @@ class PopupPane extends JPopupMenu {
         contentPane.add(centerPane,BorderLayout.CENTER);
 //        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
         this.add(contentPane, BorderLayout.CENTER);
-        this.setPreferredSize(new Dimension(DIALOGWIDTH, DIALOGHEIGHT));
+        this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
         this.setOpaque(false);
     }
 

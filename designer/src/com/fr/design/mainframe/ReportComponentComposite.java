@@ -1,8 +1,7 @@
 package com.fr.design.mainframe;
 
 import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -51,6 +50,8 @@ public class ReportComponentComposite extends JComponent {
 
     private JSliderPane jSliderContainer;
 
+    private boolean isCtrl = false;
+
 
     /**
      * Constructor with workbook..
@@ -67,7 +68,37 @@ public class ReportComponentComposite extends JComponent {
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
     }
+
+    KeyListener showValSpinnerKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if( e.getKeyText(e.getKeyCode()).toLowerCase().equals("ctrl")){
+                isCtrl = true ;
+            }
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCtrl = false ;
+        }
+    };
+
+    MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if (isCtrl){
+                int dir = e.getWheelRotation();
+                int old_resolution = (int) jSliderContainer.getShowVal().getValue();
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+            }
+        }
+    };
 
     ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override

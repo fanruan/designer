@@ -1,26 +1,27 @@
 package com.fr.design.mainframe.form;
 
+import com.fr.base.DynamicUnitList;
 import com.fr.base.ScreenResolution;
+import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.BaseJForm;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.JForm;
-import com.fr.design.mainframe.JSliderPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
+import com.fr.grid.Grid;
+import com.fr.grid.GridUtils;
+import com.fr.report.ReportHelper;
 import com.fr.report.worksheet.FormElementCase;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 /**
  * 整个FormElementCase编辑区域 包括滚动条、中间的grid或者聚合块、下面的sheetTab
@@ -36,7 +37,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     private FormTabPane sheetNameTab;
     private JPanel hbarContainer;
     private JSliderPane jSliderContainer;
-
+    private boolean isCtrl = false;
 
     public FormReportComponentComposite(BaseJForm jform, FormElementCaseDesigner elementCaseDesign, FormElementCaseContainerProvider ecContainer) {
         this.jForm = jform;
@@ -47,8 +48,41 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
+        ((JForm)this.jForm).getFormDesign().getArea().addMouseWheelListener(showValSpinnerMouseWheelListener);
+        ((JForm)this.jForm).getFormDesign().getArea().addKeyListener(showValSpinnerKeyListener);
+        this.elementCaseDesigner.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
+        this.elementCaseDesigner.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
         elementCaseDesigner.addTargetModifiedListener(this);
     }
+
+    KeyListener showValSpinnerKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if( e.getKeyText(e.getKeyCode()).toLowerCase().equals("ctrl")){
+                isCtrl = true ;
+            }
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCtrl = false ;
+        }
+    };
+
+    MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if (isCtrl){
+                int dir = e.getWheelRotation();
+                int old_resolution = (int) jSliderContainer.getShowVal().getValue();
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+            }
+        }
+    };
+
 
     ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
@@ -57,8 +91,8 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
             value = value > MAX ? MAX : value;
             value = value < MIN ? MIN : value;
             int resolution = (int) (ScreenResolution.getScreenResolution()*value/HUND);
-            JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
+            setScale(resolution);
+//            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }
     };
 
@@ -66,13 +100,59 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (jSliderContainer.getSelfAdaptButton().isSelected()){
-                int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().selfAdaptUpdate();
+                int resolution = selfAdaptUpdate();
                 jSliderContainer.getShowVal().setValue(resolution*HUND/ScreenResolution.getScreenResolution());
             }
         }
     };
 
     private java.util.List<TargetModifiedListener> targetModifiedList = new java.util.ArrayList<TargetModifiedListener>();
+
+    private void setScale(int resolution){
+        JForm jForm = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        ElementCasePane elementCasePane = ((FormReportComponentComposite)jForm.getReportComposite()).elementCaseDesigner.getEditingElementCasePane();
+        elementCasePane.setResolution(resolution);
+        elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
+        elementCasePane.getGrid().setResolution(resolution);
+        //更新Grid
+        Grid grid = elementCasePane.getGrid();
+        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCasePane.getEditingElementCase());
+        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(elementCasePane.getEditingElementCase());
+        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
+        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
+        elementCasePane.getGrid().updateUI();
+        //更新Column和Row
+        ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
+        ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
+        elementCasePane.getGridColumn().setResolution(resolution);
+        elementCasePane.getGridColumn().updateUI();
+        elementCasePane.getGridRow().setResolution(resolution);
+        elementCasePane.getGridRow().updateUI();
+    }
+
+    private int selfAdaptUpdate(){
+        JForm jForm = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (jForm.resolution == 0){
+            jForm.resolution = ScreenResolution.getScreenResolution();
+        }
+        ElementCasePane elementCasePane = ((FormReportComponentComposite)jForm.getReportComposite()).elementCaseDesigner.getEditingElementCasePane();
+        ElementCasePane reportPane = elementCasePane.getGrid().getElementCasePane();
+        int column = reportPane.getSelection().getSelectedColumns()[0];
+        double columnLength = reportPane.getSelection().getSelectedColumns().length;
+        double columnExtent = reportPane.getGrid().getHorizontalExtent();
+        int row = reportPane.getSelection().getSelectedRows()[0];
+        double rowLength = reportPane.getSelection().getSelectedRows().length;
+        double rowExtent = reportPane.getGrid().getVerticalExtent();
+        if (columnLength == 0||rowLength == 0){
+            return jForm.resolution;
+        }
+        double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
+        if (reportPane.isHorizontalScrollBarVisible()) {
+            reportPane.getVerticalScrollBar().setValue(row);
+            reportPane.getHorizontalScrollBar().setValue(column);
+        }
+        return (int) (time * elementCasePane.getGrid().getResolution());
+    }
 
     /**
      *  添加目标改变的监听

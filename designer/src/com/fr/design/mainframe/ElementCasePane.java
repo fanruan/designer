@@ -242,6 +242,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         initFormatBrush();
     }
 
+
+
     public int getMenuState() {
         return DesignState.WORK_SHEET;
     }

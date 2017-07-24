@@ -1,13 +1,10 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.DynamicUnitList;
-import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.cell.FloatElementsProvider;
-import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.actions.CopyAction;
 import com.fr.design.designer.beans.actions.CutAction;
@@ -29,8 +26,6 @@ import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
-import com.fr.design.mainframe.form.FormElementCasePaneDelegate;
-import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -52,9 +47,6 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.grid.Grid;
-import com.fr.grid.GridUtils;
-import com.fr.report.ReportHelper;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.bridge.StableFactory;
@@ -110,6 +102,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             processInfo = new JFormProcessInfo(template);
         }
         return processInfo;
+    }
+
+    public FormECCompositeProvider getReportComposite(){
+        return this.reportComposite;
     }
 
     @Override
@@ -264,25 +260,25 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setScale(int resolution) {
-        this.resolution = resolution;
-        ElementCasePane elementCasePane = ((FormReportComponentComposite)reportComposite).elementCaseDesigner.getEditingElementCasePane();
-        elementCasePane.setResolution(resolution);
-        elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
-        elementCasePane.getGrid().setResolution(resolution);
-        //更新Grid
-        Grid grid = elementCasePane.getGrid();
-        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCasePane.getEditingElementCase());
-        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(elementCasePane.getEditingElementCase());
-        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
-        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
-        elementCasePane.getGrid().updateUI();
-        //更新Column和Row
-        ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
-        ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
-        elementCasePane.getGridColumn().setResolution(resolution);
-        elementCasePane.getGridColumn().updateUI();
-        elementCasePane.getGridRow().setResolution(resolution);
-        elementCasePane.getGridRow().updateUI();
+//        this.resolution = resolution;
+//        ElementCasePane elementCasePane = ((FormReportComponentComposite)reportComposite).elementCaseDesigner.getEditingElementCasePane();
+//        elementCasePane.setResolution(resolution);
+//        elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
+//        elementCasePane.getGrid().setResolution(resolution);
+//        //更新Grid
+//        Grid grid = elementCasePane.getGrid();
+//        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCasePane.getEditingElementCase());
+//        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(elementCasePane.getEditingElementCase());
+//        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
+//        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
+//        elementCasePane.getGrid().updateUI();
+//        //更新Column和Row
+//        ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
+//        ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
+//        elementCasePane.getGridColumn().setResolution(resolution);
+//        elementCasePane.getGridColumn().updateUI();
+//        elementCasePane.getGridRow().setResolution(resolution);
+//        elementCasePane.getGridRow().updateUI();
     }
 
     @Override
@@ -292,26 +288,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public int selfAdaptUpdate() {
-        if (resolution == 0){
-            resolution = ScreenResolution.getScreenResolution();
-        }
-        ElementCasePane elementCasePane = ((FormReportComponentComposite)reportComposite).elementCaseDesigner.getEditingElementCasePane();
-        ElementCasePane reportPane = elementCasePane.getGrid().getElementCasePane();
-        int column = reportPane.getSelection().getSelectedColumns()[0];
-        double columnLength = reportPane.getSelection().getSelectedColumns().length;
-        double columnExtent = reportPane.getGrid().getHorizontalExtent();
-        int row = reportPane.getSelection().getSelectedRows()[0];
-        double rowLength = reportPane.getSelection().getSelectedRows().length;
-        double rowExtent = reportPane.getGrid().getVerticalExtent();
-        if (columnLength == 0||rowLength == 0){
-            return resolution;
-        }
-        double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
-        if (reportPane.isHorizontalScrollBarVisible()) {
-            reportPane.getVerticalScrollBar().setValue(row);
-            reportPane.getHorizontalScrollBar().setValue(column);
-        }
-        return (int) (time * elementCasePane.getGrid().getResolution());
+        return 0;
     }
 
     /**

@@ -29,21 +29,19 @@ public class JFormSliderPane extends JPanel {
     private static final double ONEPOINTEIGHT = 1.8;
     private static final int SIX = 6;
     private static final int TEN = 10;
-    private static final int ONEEIGHT = 18;
-    private static final int FONTSIZE = 14;
-    private static final int SPINNERWIDTH= 45;
-    private static final int SPINNERHEIGHT = 20;
-    private static final int TWOFIVE = 25;
-    private static final int FOURTEN = 40;
-    private static final int HALFHUNDRED = 50;
+    private static final int ONE_EIGHT = 18;
+    private static final int FONT_SIZE = 14;
+    private static final int SPINNER_WIDTH= 45;
+    private static final int SPINNER_HEIGHT = 20;
+    private static final int HALF_HUNDRED = 50;
     private static final int HUNDRED = 100;
-    private static final int TWOHUNDRED = 200;
-    private static final int THREEHUNDRED = 300;
-    private static final int FOURHUNDRED = 400;
-    private static final int DIALOGWIDTH = 150;
-    private static final int DIALOGHEIGHT = 220;
-    private static final int SHOWVALBUTTONWIDTH = 70;
-    private static final int SHOWVALBUTTONHEIGHTH = 25;
+    private static final int TWO_HUNDRED = 200;
+    private static final int THREE_HUNDRED = 300;
+    private static final int FOUR_HUNDRED = 400;
+    private static final int DIALOG_WIDTH = 150;
+    private static final int DIALOG_HEIGHT = 240;
+    private static final int SHOWVALBUTTON_WIDTH = 70;
+    private static final int SHOWVALBUTTON_HEIGHTH = 25;
     public int showValue = 100;
     public double resolutionTimes = 1.0;
     private static JFormSliderPane THIS;
@@ -71,14 +69,14 @@ public class JFormSliderPane extends JPanel {
 
     public JFormSliderPane() {
         this.setLayout(new BorderLayout());
-        slider = new UISlider(0,HUNDRED,HALFHUNDRED);
+        slider = new UISlider(0,HUNDRED,HALF_HUNDRED);
         slider.setUI(new JSliderPaneUI(slider));
         slider.addChangeListener(listener);
 
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOURHUNDRED, 1));
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1));
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
-        showValSpinner.setPreferredSize(new Dimension(SPINNERWIDTH, SPINNERHEIGHT));
+        showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
         //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
 //        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
 //        showValSpinner.setEditor(editor);
@@ -96,7 +94,7 @@ public class JFormSliderPane extends JPanel {
 
         showValButton = new UIButton(showValSpinner.getValue()+"%");
         showValButton.setBorderPainted(false);
-        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTONWIDTH,SHOWVALBUTTONHEIGHTH));
+        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH,SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
 
         initUIRadioButton();
@@ -107,7 +105,7 @@ public class JFormSliderPane extends JPanel {
         panel.add(upButton);
         panel.add(showValButton);
         this.add(panel,BorderLayout.NORTH);
-        this.setBounds(0,0,THREEHUNDRED,ONEEIGHT);
+        this.setBounds(0,0,THREE_HUNDRED,ONE_EIGHT);
     }
 
     public static final JFormSliderPane getInstance() {
@@ -166,7 +164,7 @@ public class JFormSliderPane extends JPanel {
         JPanel spinnerPanel = new JPanel(new FlowLayout());
         spinnerPanel.add(showValSpinner);
         UILabel percent = new UILabel("%");
-        percent.setFont(new Font("Dialog", Font.PLAIN, FONTSIZE));
+        percent.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
         spinnerPanel.add(percent);
         return spinnerPanel;
     }
@@ -184,6 +182,14 @@ public class JFormSliderPane extends JPanel {
             int val = (int) ((UIBasicSpinner)e.getSource()).getValue();
             isButtonOrIsTxt = true;
             resolutionTimes = divide(showValue,100,2);
+            if (val > FOUR_HUNDRED){
+                showValSpinner.setValue(FOUR_HUNDRED);
+                val = FOUR_HUNDRED;
+            }
+            if (val < TEN){
+                showValSpinner.setValue(TEN);
+                val = TEN;
+            }
             refreshSlider(val);
             refreshBottun(val);
         }
@@ -224,11 +230,11 @@ public class JFormSliderPane extends JPanel {
     private void refreshSlider(int val){
         showValue = val;
         if (showValue >HUNDRED){
-            slider.setValue((int)(showValue+TWOHUNDRED)/SIX);
+            slider.setValue((int)(showValue+TWO_HUNDRED)/SIX);
         }else if (showValue <HUNDRED){
             slider.setValue((int)((showValue-TEN)/ONEPOINTEIGHT));
         }else if (showValue == HUNDRED){
-            slider.setValue(HALFHUNDRED);
+            slider.setValue(HALF_HUNDRED);
         }
     }
 
@@ -268,12 +274,12 @@ public class JFormSliderPane extends JPanel {
             }
             if(e.getActionCommand().equals("more")){
                 int newUpVal = showValue + TEN;
-                if (newUpVal <= FOURHUNDRED ){
+                if (newUpVal <= FOUR_HUNDRED ){
                     showValue = newUpVal;
                     showValSpinner.setValue(newUpVal);
                 }else {
                     showValue = newUpVal;
-                    showValSpinner.setValue(FOURHUNDRED);
+                    showValSpinner.setValue(FOUR_HUNDRED);
                 }
             }
             isButtonOrIsTxt = true;
@@ -284,12 +290,12 @@ public class JFormSliderPane extends JPanel {
 
 
     private void getTimes(int value){
-        if (value == HALFHUNDRED){
+        if (value == HALF_HUNDRED){
             times=HUNDRED;
-        }else if (value < HALFHUNDRED){
+        }else if (value < HALF_HUNDRED){
             times = (int) Math.round(ONEPOINTEIGHT*value + TEN);
         }else {
-            times = (int) (SIX*value - TWOHUNDRED);
+            times = (int) (SIX*value - TWO_HUNDRED);
         }
     }
 
@@ -308,14 +314,14 @@ public class JFormSliderPane extends JPanel {
             dialog = new FormPopupPane(upButton,dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() + SHOWVALBUTTONWIDTH , -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH , -DIALOG_HEIGHT);
             }
         }else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +SHOWVALBUTTONWIDTH, -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOGWIDTH + upButton.getWidth() +SHOWVALBUTTONWIDTH, -DIALOGHEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }
@@ -334,82 +340,13 @@ public class JFormSliderPane extends JPanel {
     }
 }
 
-//class JFromSliderPaneUI extends BasicSliderUI {
-//
-//    private static final int VERTICAL_WIDTH = 11;
-//    private static final int VERTICAL_HEIGHT = 16;
-//    private static final int FOUR = 4;
-//    private static final int FIVE = 5;
-//    private static final int SIX = 6;
-//
-//    public JFromSliderPaneUI(UISlider b) {
-//        super(b);
-//    }
-//
-//    /** */
-//    /**
-//     * 绘制指示物
-//     */
-//
-//    public Dimension getThumbSize() {
-//        Dimension size = new Dimension();
-//
-//        if ( slider.getOrientation() == JSlider.VERTICAL ) {
-//            size.width = VERTICAL_WIDTH;
-//            size.height = VERTICAL_HEIGHT;
-//        }
-//        else {
-//            size.width = VERTICAL_WIDTH;
-//            size.height = VERTICAL_HEIGHT;
-//        }
-//
-//        return size;
-//    }
-//
-//    public void paintThumb(Graphics g) {
-//        Rectangle knobBounds = thumbRect;
-//        int w = knobBounds.width;
-//        int h = knobBounds.height;
-//
-//        g.translate(knobBounds.x, knobBounds.y);
-//        if ( slider.isEnabled() ) {
-//            g.setColor(slider.getBackground());
-//        }
-//        else {
-//            g.setColor(slider.getBackground().darker());
-//        }
-//        g.setColor(Color.darkGray);
-//        g.fillRect(0, 1, w-SIX, h+1);
-//    }
-//
-//    /** */
-//    /**
-//     * 绘制刻度轨迹
-//     */
-//    public void paintTrack(Graphics g) {
-//        int cy, cw;
-//        Rectangle trackBounds = trackRect;
-//        if (slider.getOrientation() == UISlider.HORIZONTAL) {
-//            Graphics2D g2 = (Graphics2D) g;
-//            cy = (trackBounds.height / 2);
-//            cw = trackBounds.width;
-//            g.setColor(Color.lightGray);
-//            g.drawLine(0, cy, cw+FIVE, cy);
-//            g.drawLine(FIVE+cw/2, cy-FOUR, FIVE+cw/2, cy+FOUR);
-//        } else {
-//            super.paintTrack(g);
-//        }
-//    }
-//
-//}
-//
+
 class FormPopupPane extends JPopupMenu {
     private JComponent contentPane;
-    private static final int UPLABELHEIGHT = 25;
-    private static final int HALFHUNDRED = 50;
-    private static final int DIALOGWIDTH = 150;
-    private static final int DIALOGHEIGHT = 220;
-    private static final int UPLABELWIDTH = 300;
+    private static final int UPLABEL_HEIGHT = 25;
+    private static final int DIALOG_WIDTH = 150;
+    private static final int DIALOG_HEIGHT = 220;
+    private static final int UPLABEL_WIDTH = 300;
     private JComponent centerPane;
     private UILabel upLabel;
     FormPopupPane(UIButton b,JPanel dialogContentPanel) {
@@ -417,7 +354,7 @@ class FormPopupPane extends JPopupMenu {
         centerPane = new JPanel(new BorderLayout());
         upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(UPLABELWIDTH,UPLABELHEIGHT));
+        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH,UPLABEL_HEIGHT));
         upLabel.setBackground(Color.LIGHT_GRAY);
         upLabel.setBorder(new MatteBorder(0,0,1,0,Color.gray));
         centerPane.add(dialogContentPanel,BorderLayout.NORTH);
@@ -425,7 +362,7 @@ class FormPopupPane extends JPopupMenu {
         contentPane.add(centerPane,BorderLayout.CENTER);
 //        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
         this.add(contentPane, BorderLayout.CENTER);
-        this.setPreferredSize(new Dimension(DIALOGWIDTH, DIALOGHEIGHT));
+        this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
         this.setOpaque(false);
     }
 
