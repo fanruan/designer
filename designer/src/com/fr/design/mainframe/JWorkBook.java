@@ -382,7 +382,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (resolution == 0){
             resolution = ScreenResolution.getScreenResolution();
         }
-        if (polyDezi.getSelection() !=null){
+        if (polyDezi != null && polyDezi.getSelection() != null){
             BlockCreator blockCreator =polyDezi.getSelection();
             double x = blockCreator.getEditorBounds().getX();
             double y = blockCreator.getEditorBounds().getY();
