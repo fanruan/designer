@@ -155,13 +155,20 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         double[] columnSize = { p, f };
         double[] rowSize = { p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("add hyperlink "), topToolBar},
+                new Component[]{new UILabel(getAddItemText()), topToolBar},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
         leftPane.add(leftTopPane, BorderLayout.NORTH);
 
         return leftPane;
+    }
+
+    /**
+     * 子类重写此方法，可以改变标签内容
+     */
+    protected String getAddItemText() {
+        return "add item ";
     }
 
     /**

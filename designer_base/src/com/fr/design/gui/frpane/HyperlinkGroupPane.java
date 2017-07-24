@@ -53,6 +53,11 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         return Inter.getLocText("FR-Designer_Hyperlink");
     }
 
+    @Override
+    protected String getAddItemText() {
+        return "add hyperlink";
+    }
+
     public void populate(NameJavaScriptGroup nameHyperlink_array) {
         java.util.List<NameObject> list = new ArrayList<NameObject>();
         if (nameHyperlink_array != null) {
