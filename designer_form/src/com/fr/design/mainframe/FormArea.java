@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.fr.base.ScreenResolution;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -31,6 +32,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.UINumberSlidePane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -63,12 +65,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	//显示和设置表单界面大小的控件
 	private UINumberField widthPane;
 	private UINumberField heightPane;
-	private JSliderPane slidePane;
+	private JFormSliderPane slidePane;
 	private boolean isValid = true;
 	// 初始时滑块值为100，托动后的值设为START_VALUE;
 	private double START_VALUE = DEFAULT_SLIDER;
+	private int resolution = ScreenResolution.getScreenResolution();
 	private double screenValue;
-	private JSliderPane sliderPane;
 
 	public FormScrollBar getHorScrollBar() {
 		return horScrollBar;
@@ -122,8 +124,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 
 //    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
 //    	slidePane.setPreferredSize(new Dimension(260,20));
-		slidePane = JSliderPane.getInstance();
-		slidePane.setPreferredSize(new Dimension(300,20));
+		slidePane = JFormSliderPane.getInstance();
+		slidePane.setPreferredSize(new Dimension(350,20));
 
 
 		JPanel resizePane =TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
@@ -153,39 +155,26 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 
 	private void initTransparent() {
 		initCalculateSize();
-		slidePane.getShowVal().getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-//				slidePane.getShowVal().getDocument()
-				double value = Integer.parseInt(slidePane.getShowVal().getText().substring(0, slidePane.getShowVal().getText().indexOf("%")));
-				value = value>SHOWVALMAX ? SHOWVALMAX : value;
-				value = value<SHOWVALMIN ? SHOWVALMIN : value;
-				reCalculateRoot(value, true);
-				JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-				if(form != null){
-					form.fireTargetModified();
-				}
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
-//    	slidePane.addChangeListener(new ChangeListener() {
-//    		public void stateChanged(ChangeEvent e) {
-//    			double value = ((UINumberSlidePane) e.getSource()).getValue();
-//    			reCalculateRoot(value, true);
-//    			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-//    			if(form != null){
-//    				form.fireTargetModified();
-//    			}
-//    		}
-//    	});
+		slidePane.getShowVal().addChangeListener(showValSpinnerChangeListener);
 	}
+
+	ChangeListener showValSpinnerChangeListener = new ChangeListener() {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
+			value = value>SHOWVALMAX ? SHOWVALMAX : value;
+			value = value<SHOWVALMIN ? SHOWVALMIN : value;
+			JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+			jf.resolution = (int) value;
+			jf.getFormDesign().setResolution((int) value);
+			jf.getFormDesign().getArea().resolution = (int) value;
+			reCalculateRoot(value, true);
+			JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+			if(form != null){
+				form.fireTargetModified();
+			}
+		}
+	};
 
 	/**
 	 *  返回当前的屏幕分辨率对应的百分比值

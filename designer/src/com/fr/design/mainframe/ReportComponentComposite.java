@@ -1,11 +1,15 @@
 package com.fr.design.mainframe;
 
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -15,6 +19,7 @@ import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
+import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
@@ -60,25 +65,28 @@ public class ReportComponentComposite extends JComponent {
         CellElementRegion = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(CellElementRegion, BorderLayout.NORTH);
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
-        jSliderContainer.getShowVal().getDocument().addDocumentListener(jSliderContainerListener);
+        jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
+        jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
     }
 
-    DocumentListener jSliderContainerListener = new DocumentListener() {
+    ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
-        public void insertUpdate(DocumentEvent e) {
-            double value = Integer.parseInt(jSliderContainer.getShowVal().getText().substring(0, jSliderContainer.getShowVal().getText().indexOf("%")));
+        public void stateChanged(ChangeEvent e) {
+            double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
             value = value>MAX ? MAX : value;
             value = value<MIN ? MIN : value;
             int resolution =  (int) (ScreenResolution.getScreenResolution()*value/HUND);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }
+    };
 
+    ItemListener selfAdaptButtonItemListener = new ItemListener() {
         @Override
-        public void removeUpdate(DocumentEvent e) {
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
+        public void itemStateChanged(ItemEvent e) {
+            if (jSliderContainer.getSelfAdaptButton().isSelected()){
+                int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().selfAdaptUpdate();
+                jSliderContainer.getShowVal().setValue(resolution*HUND/ScreenResolution.getScreenResolution());
+            }
         }
     };
 

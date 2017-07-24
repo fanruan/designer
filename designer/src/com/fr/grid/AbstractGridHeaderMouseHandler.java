@@ -41,7 +41,6 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
     protected static final int SEPARATOR_GAP = 5;
 
     private GridHeader gHeader;
-
     private int dragType = GridUtils.DRAG_NONE;
     //james 是否为选定多行的drag
     private boolean isMultiSelectDragPermited = false;
@@ -53,10 +52,16 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
     private int dragIndex = 0;
     private JToolTip tip = null;
     private JWindow tipWindow = null;
+    protected int resolution = ScreenResolution.getScreenResolution();
 
     public AbstractGridHeaderMouseHandler(GridHeader gHeader) {
         this.gHeader = gHeader;
-    }
+        if (gHeader instanceof GridColumn){
+            this.resolution = ((GridColumn)gHeader).getResolution();
+        }else {
+            this.resolution = ((GridRow)gHeader).getResolution();
+        }
+        }
 
     public void setStartMultiSelectIndex(int index) {
         this.startMultiSelectIndex = index;
@@ -98,7 +103,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
         @Override
         public boolean run(MouseEvent evt, int index, double tmpSize1, double tmpSize2, int tmpIncreaseSize, int oldEndValueSize, ElementCase report, DynamicUnitList sizeList) {
 
-            int resolution = ScreenResolution.getScreenResolution();
+//            int resolution = ScreenResolution.getScreenResolution();
             // richer:这边这么做的原因是调整了行高列宽后需要通知聚合块改变边界
             Method method = null;
             try {
@@ -142,7 +147,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
     private ScrollAction PRESS_ACTION = new ScrollAction() {
         @Override
         public boolean run(MouseEvent evt, int index, double tmpSize1, double tmpSize2, int tmpIncreaseSize, int oldEndValueSize, ElementCase report, DynamicUnitList sizeList) {
-            int resolution = ScreenResolution.getScreenResolution();
+//            int resolution = ScreenResolution.getScreenResolution();
 
             if (isOnSeparatorLineIncludeZero(evt, tmpSize2, tmpIncreaseSize) || isOnNormalSeparatorLine(evt, tmpSize2)) {
                 dragType = GridUtils.DRAG_CELL_SIZE;
@@ -177,7 +182,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
         double tmpIncreaseSize = 0;
         double oldEndValueSize = 0;
 
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
 
         for (int index = beginValue; index < endValue; index++) { // denny:
             // beginValue
@@ -215,7 +220,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
         ePane.getGrid().stopEditing();// james 停止当前的所有编辑
 
         // peter:选中格子位置.
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(ePane, evt.getX(), evt.getY());
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(ePane, evt.getX(), evt.getY(),resolution);
 
         iterateScrollBar(ePane, evt, PRESS_ACTION);
 
@@ -255,7 +260,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
      * @param evtY
      */
     private void doShiftSelectHeader(ElementCasePane ePane, double evtX, double evtY) {
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(ePane, evtX, evtY);
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(ePane, evtX, evtY, resolution);
         int selectedCellPointX = selectedCellPoint.getColumn();// column.
         int selectedCellPointY = selectedCellPoint.getRow();// row.
         CellSelection cs = ((CellSelection) ePane.getSelection()).clone();
@@ -294,7 +299,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
 
     private String createToolTipString(double doubleValue, double totalDoubleValue) {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
         FU ulen = FU.valueOfPix((int) doubleValue, resolution);
         FU tulen = FU.valueOfPix((int) totalDoubleValue, resolution);
         String unit;
@@ -317,11 +322,11 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             unit = Inter.getLocText("Unit_MM");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(Utils.convertNumberStringToString(new Float(len)))
-                .append('/').append(Utils.convertNumberStringToString(new Float(tlen)))
+        sb.append(String.format("%.2f", new Double(len)))
+                .append('/').append(String.format("%.2f", new Double(tlen)))
                 .append(unit).append('(')
-                .append(Utils.doubleToString(doubleValue)).append('/')
-                .append(Utils.doubleToString(totalDoubleValue))
+                .append((int)(doubleValue)).append('/')
+                .append((int)(totalDoubleValue))
                 .append(Inter.getLocText("px"))
                 .append(')');
         return sb.toString();
@@ -401,7 +406,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             if (!this.isMultiSelectDragPermited) {
                 return;
             }
-            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(ePane, evt.getX(), evt.getY());
+            ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(ePane, evt.getX(), evt.getY(), resolution);
             endMultiSelectIndex = getColumnOrRowByGridHeader(selectedCellPoint);
             resetGridSelectionByDrag(cs, ePane, startMultiSelectIndex, endMultiSelectIndex);
             cs.setSelectedType(doChooseFrom());
@@ -421,7 +426,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             iterateScrollBar(ePane, evt, DRAG_ACTION);
 
             DynamicUnitList sizeList = getSizeList(report);
-            int resolution = ScreenResolution.getScreenResolution();
+//            int resolution = ScreenResolution.getScreenResolution();
             this.setToolTipText2(this.createToolTipString(sizeList.get(dragIndex).toPixD(resolution), sizeList.getRangeValue(0, dragIndex + 1).toPixD(resolution)));
         }
 
@@ -472,7 +477,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
         double tmpSize1 = 0;
         double tmpSize2;
         double tmpIncreaseSize = 0;
-        int resolution = ScreenResolution.getScreenResolution();
+//        int resolution = ScreenResolution.getScreenResolution();
 
         for (int i = beginValue; i < endValue; i++) {
             if (i == 0) {

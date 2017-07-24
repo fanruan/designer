@@ -1,9 +1,6 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
-import com.fr.base.Parameter;
+import com.fr.base.*;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -14,6 +11,7 @@ import com.fr.design.actions.report.ReportExportAttrAction;
 import com.fr.design.actions.report.ReportMobileAttrAction;
 import com.fr.design.actions.report.ReportParameterAction;
 import com.fr.design.actions.report.ReportWebAttrAction;
+import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.designer.TargetComponent;
@@ -59,6 +57,7 @@ import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.poly.PolyDesigner;
+import com.fr.poly.creator.BlockCreator;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
 import com.fr.report.elementcase.ElementCase;
@@ -71,6 +70,7 @@ import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import javax.swing.Icon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -147,6 +147,16 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             processInfo = new JWorkBookProcessInfo(template);
         }
         return processInfo;
+    }
+
+    @Override
+    public void setJTemplateResolution(int resolution) {
+        this.resolution = resolution;
+    }
+
+    @Override
+    public int getJTemplateResolution() {
+        return this.resolution;
     }
 
     /**
@@ -335,20 +345,75 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public void setScale(int resolution) {
         //更新resolution
         this.resolution = resolution;
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setResolution(resolution);
-        //更新Grid
-        Grid grid = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid();
-        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
-        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
-        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
-        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().updateUI();
-        //更新Column和Row
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().setResolution(resolution);
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().updateUI();
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().setResolution(resolution);
-        reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().updateUI();
+        if (reportComposite.centerCardPane.editingComponet.elementCasePane != null){
+            reportComposite.centerCardPane.editingComponet.elementCasePane.setResolution(resolution);
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setResolution(resolution);
+            //更新Grid
+            Grid grid = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid();
+            DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
+            DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(reportComposite.centerCardPane.editingComponet.elementCasePane.getEditingElementCase());
+            grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
+            grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().updateUI();
+            //更新Column和Row
+            ((DynamicScrollBar)reportComposite.centerCardPane.editingComponet.elementCasePane.getVerticalScrollBar()).setDpi(resolution);
+            ((DynamicScrollBar)reportComposite.centerCardPane.editingComponet.elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().setResolution(resolution);
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGridColumn().updateUI();
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().setResolution(resolution);
+            reportComposite.centerCardPane.editingComponet.elementCasePane.getGridRow().updateUI();
+        }
+        if (reportComposite.centerCardPane.polyDezi != null){
+            reportComposite.centerCardPane.polyDezi.setResolution(resolution);
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
+            reportComposite.centerCardPane.polyDezi.updateUI();
+        }
+//        reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().setVerticalValue(10);
+
+        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
+    }
+    @Override
+    public int selfAdaptUpdate(){
+        if (resolution == 0){
+            resolution = ScreenResolution.getScreenResolution();
+        }
+        if (reportComposite.centerCardPane.polyDezi.getSelection() !=null){
+            BlockCreator blockCreator =reportComposite.centerCardPane.polyDezi.getSelection();
+            double x = blockCreator.getEditorBounds().getX();
+            double y = blockCreator.getEditorBounds().getY();
+            reportComposite.centerCardPane.polyDezi.setHorizontalValue((int) x);
+            reportComposite.centerCardPane.polyDezi.setVerticalValue((int) y);
+            double creatorHeight = blockCreator.getEditorBounds().height;
+            double creatorWidth = blockCreator.getEditorBounds().width;
+            double areaHeight = reportComposite.centerCardPane.polyDezi.polyArea.getHeight();
+            double areaWidth = reportComposite.centerCardPane.polyDezi.polyArea.getWidth();
+            if (creatorWidth == 0||creatorHeight == 0){
+                return resolution;
+            }
+            double time =(areaHeight/creatorHeight)<(areaWidth/creatorWidth) ? (areaHeight/creatorHeight) : (areaWidth/creatorWidth);
+            return (int) (time * reportComposite.centerCardPane.polyDezi.getResolution());
+
+        }else if (reportComposite.centerCardPane.editingComponet.elementCasePane != null) {
+            ElementCasePane reportPane = reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getElementCasePane();
+            int column = reportPane.getSelection().getSelectedColumns()[0];
+            double columnLength = reportPane.getSelection().getSelectedColumns().length;
+            double columnExtent = reportPane.getGrid().getHorizontalExtent();
+            int row = reportPane.getSelection().getSelectedRows()[0];
+            double rowLength = reportPane.getSelection().getSelectedRows().length;
+            double rowExtent = reportPane.getGrid().getVerticalExtent();
+            if (columnLength == 0||rowLength == 0){
+                return resolution;
+            }
+            double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
+            if (reportPane.isHorizontalScrollBarVisible()) {
+                reportPane.getVerticalScrollBar().setValue(row);
+                reportPane.getHorizontalScrollBar().setValue(column);
+            }
+            return (int) (time * reportComposite.centerCardPane.editingComponet.elementCasePane.getGrid().getResolution());
+        }else {
+            return resolution;
+        }
     }
 
     @Override
