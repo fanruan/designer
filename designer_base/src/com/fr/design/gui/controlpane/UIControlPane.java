@@ -110,6 +110,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 //        mainSplitPane.setOneTouchExpandable(true);
 
         this.add(getLeftPane(), BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 10, 12, 10));
 //        mainSplitPane.setDividerLocation(getLeftPreferredSize());
         this.checkButtonEnabled();
     }
@@ -134,14 +135,21 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             toolbarDef.addShortCut(sj.getShortCut());
         }
         toolBar = ToolBarDef.createJToolBar();
+//        toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         toolbarDef.updateToolBar(toolBar);
-        leftContentPane.add(toolBar, BorderLayout.NORTH);
+        // 封装一层，加边框
+        JPanel toolBarPane = new JPanel(new BorderLayout());
+        toolBarPane.add(toolBar, BorderLayout.CENTER);
+        toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(201, 198, 184)));
+        leftContentPane.add(toolBarPane, BorderLayout.NORTH);
+//        leftContentPane.setBorder(BorderFactory.createLineBorder(new Color(201, 198, 184)));
 
         //  顶部标签及add按钮
         UIToolbar topToolBar = new UIToolbar();
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
+        topToolBar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f };
@@ -150,6 +158,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 new Component[]{new UILabel("add hyperlink "), topToolBar},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
         leftPane.add(leftTopPane, BorderLayout.NORTH);
 
         return leftPane;

@@ -24,7 +24,7 @@ import java.util.Vector;
  */
 public class UINameEdList extends UIList implements CellEditorListener {
     private static final int TEST_LIST_LENTH = 20;
-    private static final int BUTTON_WIDTH = 20;
+    private static final int BUTTON_WIDTH = 25;
     private boolean editable = true;
 
     // kunsnat: 是否强制ListName是数字 (int型)

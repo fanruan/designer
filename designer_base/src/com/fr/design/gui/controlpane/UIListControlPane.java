@@ -9,6 +9,7 @@ import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -47,7 +48,7 @@ import java.util.Comparator;
 
 public abstract class UIListControlPane extends UIControlPane {
     public static final String LIST_NAME = "UIControl_List";
-    private static final int EDIT_RANGE = 20;  // 编辑按钮的x坐标范围
+    private static final int EDIT_RANGE = 25;  // 编辑按钮的x坐标范围
 
     protected UINameEdList nameableList;
     protected int editingIndex;
@@ -358,8 +359,11 @@ public abstract class UIListControlPane extends UIControlPane {
     }
 
     private void popupEditPane() {
+        if (editingIndex < 0) {
+            return;
+        }
         GUICoreUtils.showPopupMenu(popupEditPane, this,
-                - popupEditPane.getPreferredSize().width, nameableList.getSelectedIndex() * EDIT_RANGE);
+                - popupEditPane.getPreferredSize().width, editingIndex * EDIT_RANGE);
     }
 
     /**
@@ -392,6 +396,21 @@ public abstract class UIListControlPane extends UIControlPane {
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
             wrapActionListener(creators);
+        }
+
+        /**
+         * 生成UIButton
+         * @return  菜单按钮
+         */
+        public UIButton createUIButton() {
+            createdButton = super.createUIButton();
+            // 此按钮单独抽出，不应使用工具栏外观
+            if (!createdButton.isOpaque()) {
+                createdButton.setOpaque(true);
+                createdButton.setNormalPainted(true);
+                createdButton.setBorderPaintedOnlyWhenPressed(false);
+            }
+            return createdButton;
         }
 
         private void wrapActionListener(NameableCreator[] creators) {
@@ -649,6 +668,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 selectedName = nameableList.getNameAt(editingIndex);
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
+                editingIndex = nameableList.getSelectedIndex();
                 popupEditPane();
             }
 

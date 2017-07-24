@@ -25,8 +25,9 @@ public class UINameableListCellRenderer extends
         JPanel implements ListCellRenderer {
     private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
     private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    private static final Color BORDER_COLOR = new Color(201, 198, 184);
     protected static Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
-    private static final int BUTTON_WIDTH = 20;
+    private static final int BUTTON_WIDTH = 25;
     private UILabel editButton;  // "编辑按钮"，实际上是一个 UILabel，由列表项（UIListControlPane）统一处理点击事件
     private UILabel label;
     private UIListControlPane listControlPane;
@@ -48,6 +49,8 @@ public class UINameableListCellRenderer extends
         };
 //        editButton.set4LargeToolbarButton();
         editButton.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+        editButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, BORDER_COLOR));
+        editButton.setHorizontalAlignment(SwingConstants.CENTER);
 //        editButton.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -55,30 +58,28 @@ public class UINameableListCellRenderer extends
 //            }
 //        });
         label = new UILabel();
+        label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 //        label.setEditable(false);
         this.setLayout(new BorderLayout());
         this.add(editButton, BorderLayout.WEST);
         this.add(label, BorderLayout.CENTER);
     }
 
-    private void popupEditPane() {
-        GUICoreUtils.showPopupMenu(listControlPane.popupEditPane, editButton,
-                - listControlPane.popupEditPane.getPreferredSize().width, 0);
-    }
-
     private Border getNoFocusBorder() {
-        Border border = DefaultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
-        if (System.getSecurityManager() != null) {
-            if (border != null) return border;
-            return SAFE_NO_FOCUS_BORDER;
-        } else {
-            if (border != null &&
-                    (noFocusBorder == null ||
-                            noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
-                return border;
-            }
-            return noFocusBorder;
-        }
+//        return BorderFactory.createLineBorder(new Color(201, 198, 184));
+        return BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_COLOR);
+        //        Border border = DefaultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
+//        if (System.getSecurityManager() != null) {
+//            if (border != null) return border;
+//            return SAFE_NO_FOCUS_BORDER;
+//        } else {
+//            if (border != null &&
+//                    (noFocusBorder == null ||
+//                            noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
+//                return border;
+//            }
+//            return noFocusBorder;
+//        }
     }
 
     private void setText(String t) {
