@@ -20,7 +20,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import java.io.InputStream;
 
 /**
- * ÊÕ¼¯Éè¼ÆÆ÷±¨´íĞÅÏ¢µÄappender.
+ * æ”¶é›†è®¾è®¡å™¨æŠ¥é”™ä¿¡æ¯çš„appender.
  * <p>
  * Created by Administrator on 2017/7/24 0024.
  */
@@ -28,7 +28,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
 
     private static final int ERROR_LEN = 8;
 
-    // »º´æÏÂ²»±äµÄ, Ã»±ØÒªÆµ·±È¡.
+    // ç¼“å­˜ä¸‹ä¸å˜çš„, æ²¡å¿…è¦é¢‘ç¹å–.
     private String username;
     private String uuid;
     private String activekey;
@@ -60,10 +60,10 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
 
     public void subAppend(LoggingEvent event) {
         Level level = event.getLevel();
-        // Ö»·ÖÎöÉÏ´«¼ÇÂ¼errorÒÔÉÏµÄ.
+        // åªåˆ†æä¸Šä¼ è®°å½•errorä»¥ä¸Šçš„.
         if (level.isGreaterOrEqual(FRLogLevel.ERROR)) {
             String msg = this.layout.format(event);
-            // Õâ¸öid²¢²»ÊÇÒ»¶¨»áÓĞµÄ, ÓĞ¾Í¼ÇÂ¼ÏÂ, ËµÃ÷ÊÇÔ¤ÀÀÄ£°å³öµÄ´í.
+            // è¿™ä¸ªidå¹¶ä¸æ˜¯ä¸€å®šä¼šæœ‰çš„, æœ‰å°±è®°å½•ä¸‹, è¯´æ˜æ˜¯é¢„è§ˆæ¨¡æ¿å‡ºçš„é”™.
             String templateid = readTemplateID();
             String logid = readLogID(msg);
             ErrorInfo errorInfo = new ErrorInfo(username, uuid, activekey);
@@ -103,7 +103,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
         }
 
         String bookPath = infor.getBookPath();
-        // Õâ¸öiofileÖ»¶ÁÒ»¸ötemplateid, ÆäËûÒÔºóÓĞĞèÒªÔÙ¶Á.
+        // è¿™ä¸ªiofileåªè¯»ä¸€ä¸ªtemplateid, å…¶ä»–ä»¥åæœ‰éœ€è¦å†è¯».
         IOFile file = new IOFile() {
             @Override
             public void readStream(InputStream in) throws Exception {

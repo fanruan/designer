@@ -46,7 +46,7 @@ public class ErrorInfoUploader {
     }
 
     public void sendErrorInfo(){
-        //¶ÁÈ¡ÎÄ¼ş¼ĞÀïµÄjson, ¼ÓÈëÉÏ´«¶ÓÁĞÖĞ.
+        //è¯»å–æ–‡ä»¶å¤¹é‡Œçš„json, åŠ å…¥ä¸Šä¼ é˜Ÿåˆ—ä¸­.
         File folder = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FOLDER_NAME));
         if (!folder.exists()) {
             return;
