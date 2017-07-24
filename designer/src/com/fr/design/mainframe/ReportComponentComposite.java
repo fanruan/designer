@@ -73,8 +73,8 @@ public class ReportComponentComposite extends JComponent {
         @Override
         public void stateChanged(ChangeEvent e) {
             double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
-            value = value>MAX ? MAX : value;
-            value = value<MIN ? MIN : value;
+            value = value > MAX ? MAX : value;
+            value = value < MIN ? MIN : value;
             int resolution =  (int) (ScreenResolution.getScreenResolution()*value/HUND);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }

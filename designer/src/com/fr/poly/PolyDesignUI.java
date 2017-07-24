@@ -111,15 +111,8 @@ public class PolyDesignUI extends ComponentUI {
             BlockCreator creator = addedData.getAddedAt(i);
             // richer:如果当前这个组件正在编辑，那么他是完全被他的编辑器所遮挡的，不需要画出来
 			if (creator == designer.getSelection()) {
-			    if (creator instanceof ECBlockCreator){
-			        int x = (int) ((creator.getX()-CREATORWIDTH)*time)+CREATORWIDTH;
-			        int y = (int) ((creator.getY()-CREATORGEIGHT)*time)+CREATORGEIGHT;
-                    paintPositionLine(g, x, y, (int) (designer.getHorizontalValue()*time), (int) (designer.getVerticalValue()*time));
-                }else {
-                    int x = (int) (creator.getX()*time);
-                    int y = (int) (creator.getY()*time);
-                    paintPositionLine(g, x, y, (int) (designer.getHorizontalValue()*time), (int) (designer.getVerticalValue()*time));
-                }
+                paintPositionLine(g, creator.getX(time), creator.getY(time),
+                        (int) (designer.getHorizontalValue()*time), (int) (designer.getVerticalValue()*time));
                 if (creator.getEditor().isDragging()) {
                     creator.getEditor().paintAbsorptionline(g);
                     //如果与其他块重合了, 需要画出提示禁止重叠

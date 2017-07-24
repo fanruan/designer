@@ -71,6 +71,15 @@ public class ChartBlockCreator extends BlockCreator<PolyChartBlock> {
 		return editor;
 	}
 
+	@Override
+	public int getX(float time) {
+		return (int) (this.getX() * time);
+	}
+
+	@Override
+	public int getY(float time) {
+		return (int) (this.getY() * time);
+	}
 
 
 	/**

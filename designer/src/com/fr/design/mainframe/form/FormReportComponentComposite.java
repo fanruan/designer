@@ -54,9 +54,9 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         @Override
         public void stateChanged(ChangeEvent e) {
             double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
-            value = value>MAX ? MAX : value;
-            value = value<MIN ? MIN : value;
-            int resolution =  (int) (ScreenResolution.getScreenResolution()*value/HUND);
+            value = value > MAX ? MAX : value;
+            value = value < MIN ? MIN : value;
+            int resolution = (int) (ScreenResolution.getScreenResolution()*value/HUND);
             JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }

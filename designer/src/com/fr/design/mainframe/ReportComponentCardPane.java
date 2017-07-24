@@ -25,7 +25,7 @@ public class ReportComponentCardPane extends JComponent implements TargetModifie
 
     private CardLayout cl;
     private WorkSheetDesigner sheetDezi;
-    protected PolyDesigner polyDezi;
+    private PolyDesigner polyDezi;
 
     public ReportComponentCardPane() {
         this.setLayout(cl = new CardLayout());
@@ -35,6 +35,10 @@ public class ReportComponentCardPane extends JComponent implements TargetModifie
         if (sheetDezi != null) {
             sheetDezi.requestFocus();
         }
+    }
+
+    public PolyDesigner getPolyDezi(){
+        return this.polyDezi;
     }
 
     protected void stopEditing() {

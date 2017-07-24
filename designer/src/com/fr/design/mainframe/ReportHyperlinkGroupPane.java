@@ -27,11 +27,6 @@ public class ReportHyperlinkGroupPane extends HyperlinkGroupPane {
     }
 
     public void populate(ElementCasePane reportPane) {
-//        TemplateElementCase elementCase = ePane.getEditingElementCase();
-//        if (elementCase == null) {
-//            return;
-//        }
-//        ePane.getSelection().populatePropertyPane(ePane);
         final TemplateElementCase report = reportPane.getEditingElementCase();
         NameJavaScriptGroup nameHyperlinks = getNameJSGroup(reportPane, report);
         populate(nameHyperlinks);
