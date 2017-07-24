@@ -6,6 +6,7 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -28,6 +29,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     private ToolBarDef toolbarDef;
 
     private UIToolbar toolBar;
+    protected PopupEditPane popupEditPane;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
 
@@ -101,6 +103,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         UILabel selectLabel = new UILabel();
         cardPane.add(selectLabel, "SELECT");
         cardPane.add(controlUpdatePane, "EDIT");
+        popupEditPane = new PopupEditPane(cardPane);
         // SplitPane
 //        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
 //        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
@@ -228,5 +231,44 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         toolBar.validate();
         toolBar.repaint();
         this.repaint();
+    }
+
+    // 点击"编辑"按钮，弹出面板
+    protected class PopupEditPane extends JPopupMenu {
+        private JComponent contentPane;
+        //        private PopupToolPane popupToolPane;
+        private int fixedHeight;
+
+        PopupEditPane(JComponent pane) {
+            contentPane = pane;
+            this.setLayout(new BorderLayout());
+            this.add(contentPane, BorderLayout.CENTER);
+            this.setOpaque(false);
+//            fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
+//            updateSize();
+        }
+
+//        private void updateSize() {
+//            int newHeight = fixedHeight + contentPane.getPreferredSize().height;
+//            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, newHeight));
+//        }
+
+        public JComponent getContentPane() {
+            return contentPane;
+        }
+
+        public void replaceContentPane(JComponent pane) {
+//            remove(pane);
+            this.remove(this.contentPane);
+            this.add(this.contentPane = pane);
+//            updateSize();
+            refreshContainer();
+        }
+
+        private void refreshContainer() {
+            validate();
+            repaint();
+            revalidate();
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Nameable;
 import sun.swing.DefaultLookup;
 
@@ -12,6 +13,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Nameable的ListCellRenerer
@@ -23,8 +26,8 @@ public class UINameableListCellRenderer extends
     private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
     private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
     protected static Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
-    private static final int BUTTON_WIDTH = 40;
-    private UIButton editButton;
+    private static final int BUTTON_WIDTH = 20;
+    private UILabel editButton;  // "编辑按钮"，实际上是一个 UILabel，由列表项（UIListControlPane）统一处理点击事件
     private UILabel label;
     private UIListControlPane listControlPane;
 
@@ -38,17 +41,29 @@ public class UINameableListCellRenderer extends
     }
 
     private void initComponents() {
-        editButton = new UIButton("edit") {
+        editButton = new UILabel() {
             public Dimension getPreferredSize() {
                 return new Dimension(BUTTON_WIDTH, BUTTON_WIDTH);
             }
         };
-        editButton.set4LargeToolbarButton();
+//        editButton.set4LargeToolbarButton();
+        editButton.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+//        editButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                popupEditPane();
+//            }
+//        });
         label = new UILabel();
 //        label.setEditable(false);
         this.setLayout(new BorderLayout());
         this.add(editButton, BorderLayout.WEST);
         this.add(label, BorderLayout.CENTER);
+    }
+
+    private void popupEditPane() {
+        GUICoreUtils.showPopupMenu(listControlPane.popupEditPane, editButton,
+                - listControlPane.popupEditPane.getPreferredSize().width, 0);
     }
 
     private Border getNoFocusBorder() {

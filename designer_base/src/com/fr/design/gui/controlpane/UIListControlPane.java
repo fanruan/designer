@@ -10,7 +10,7 @@ import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilist.JNameEdList;
+import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -48,7 +48,7 @@ import java.util.Comparator;
 public abstract class UIListControlPane extends UIControlPane {
     public static final String LIST_NAME = "UIControl_List";
 
-    protected JNameEdList nameableList;
+    protected UINameEdList nameableList;
     protected int editingIndex;
     protected String selectedName;
     private boolean isNameRepeated = false;
@@ -96,8 +96,8 @@ public abstract class UIListControlPane extends UIControlPane {
         });
     }
 
-    public JNameEdList createJNameList() {
-        JNameEdList nameEdList = new JNameEdList(new DefaultListModel()) {
+    public UINameEdList createJNameList() {
+        UINameEdList nameEdList = new UINameEdList(new DefaultListModel()) {
             @Override
             protected void doAfterLostFocus() {
                 UIListControlPane.this.updateControlUpdatePane();
@@ -216,7 +216,7 @@ public abstract class UIListControlPane extends UIControlPane {
     }
 
     /**
-     * 根据name,选中JNameEdList中的item
+     * 根据name,选中UINameEdList中的item
      */
     public void setSelectedName(String name) {
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
@@ -277,7 +277,7 @@ public abstract class UIListControlPane extends UIControlPane {
      * @param index    序号
      */
     public void addNameable(Nameable nameable, int index) {
-        JNameEdList nameEdList = UIListControlPane.this.nameableList;
+        UINameEdList nameEdList = UIListControlPane.this.nameableList;
         DefaultListModel model = (DefaultListModel) nameEdList.getModel();
 
         ListModelElement el = new ListModelElement(nameable);
@@ -631,7 +631,7 @@ public abstract class UIListControlPane extends UIControlPane {
     }
 
     /*
-     * JNameEdList的鼠标事件
+     * UINameEdList的鼠标事件
      */
     private MouseListener listMouseListener = new MouseAdapter() {
         @Override
