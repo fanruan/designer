@@ -79,7 +79,7 @@ public class ReportComponentComposite extends JComponent {
         }
         @Override
         public void keyPressed(KeyEvent e) {
-            if( e.getKeyText(e.getKeyCode()).toLowerCase().equals("ctrl")){
+            if( e.isControlDown()){
                 isCtrl = true ;
             }
         }

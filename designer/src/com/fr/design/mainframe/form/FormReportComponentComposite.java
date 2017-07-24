@@ -62,7 +62,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         }
         @Override
         public void keyPressed(KeyEvent e) {
-            if( e.getKeyText(e.getKeyCode()).toLowerCase().equals("ctrl")){
+            if( e.isControlDown()){
                 isCtrl = true ;
             }
         }

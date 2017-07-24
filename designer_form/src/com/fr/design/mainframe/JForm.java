@@ -260,25 +260,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setScale(int resolution) {
-//        this.resolution = resolution;
-//        ElementCasePane elementCasePane = ((FormReportComponentComposite)reportComposite).elementCaseDesigner.getEditingElementCasePane();
-//        elementCasePane.setResolution(resolution);
-//        elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
-//        elementCasePane.getGrid().setResolution(resolution);
-//        //更新Grid
-//        Grid grid = elementCasePane.getGrid();
-//        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCasePane.getEditingElementCase());
-//        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(elementCasePane.getEditingElementCase());
-//        grid.setVerticalExtent(GridUtils.getExtentValue(0, rowHeightList, grid.getHeight(), resolution));
-//        grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
-//        elementCasePane.getGrid().updateUI();
-//        //更新Column和Row
-//        ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
-//        ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
-//        elementCasePane.getGridColumn().setResolution(resolution);
-//        elementCasePane.getGridColumn().updateUI();
-//        elementCasePane.getGridRow().setResolution(resolution);
-//        elementCasePane.getGridRow().updateUI();
     }
 
     @Override

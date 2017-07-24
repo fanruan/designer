@@ -47,8 +47,6 @@ public class PolyDesignUI extends ComponentUI {
     
     private static final double SCROLL_POINT = 50;
     private static final int SCROLL_DISTANCE = 15;
-    private static final int CREATORWIDTH = 30;
-    private static final int CREATORGEIGHT = 19;
     private static final int TEN = 10;
     private static final int HHUNDRED = 100;
     private PolyDesigner designer;

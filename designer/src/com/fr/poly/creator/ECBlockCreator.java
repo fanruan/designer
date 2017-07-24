@@ -23,8 +23,8 @@ import com.fr.stable.unit.UnitRectangle;
  */
 public class ECBlockCreator extends BlockCreator<PolyECBlock> {
 	private ECBlockEditor editor;
-	private static final int CREATORWIDTH = 30;
-	private static final int CREATORGEIGHT = 19;
+	private static final int CREATOR_WIDTH = 30;
+	private static final int CREATOR_HEIGHT = 19;
 
 
 	public ECBlockCreator() {
@@ -69,12 +69,12 @@ public class ECBlockCreator extends BlockCreator<PolyECBlock> {
 
 	@Override
 	public int getX(float time) {
-		return (int) ((this.getX() - CREATORWIDTH) * time) + CREATORWIDTH;
+		return (int) ((this.getX() - CREATOR_WIDTH) * time) + CREATOR_WIDTH;
 	}
 
 	@Override
 	public int getY(float time) {
-		return (int) ((this.getY() - CREATORGEIGHT) * time) + CREATORGEIGHT;
+		return (int) ((this.getY() - CREATOR_HEIGHT) * time) + CREATOR_HEIGHT;
 	}
 
 	/**
