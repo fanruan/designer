@@ -47,6 +47,7 @@ import java.util.Comparator;
 
 public abstract class UIListControlPane extends UIControlPane {
     public static final String LIST_NAME = "UIControl_List";
+    private static final int EDIT_RANGE = 20;  // 编辑按钮的x坐标范围
 
     protected UINameEdList nameableList;
     protected int editingIndex;
@@ -356,6 +357,11 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
+    private void popupEditPane() {
+        GUICoreUtils.showPopupMenu(popupEditPane, this,
+                - popupEditPane.getPreferredSize().width, nameableList.getSelectedIndex() * EDIT_RANGE);
+    }
+
     /**
      * 增加项的UpdateAction
      */
@@ -638,11 +644,14 @@ public abstract class UIListControlPane extends UIControlPane {
         public void mouseReleased(MouseEvent evt) {
             nameableList.stopEditing();
             if (evt.getClickCount() >= 2
-                    && SwingUtilities.isLeftMouseButton(evt)) {
+                    && SwingUtilities.isLeftMouseButton(evt) && evt.getX() > EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
                 selectedName = nameableList.getNameAt(editingIndex);
                 nameableList.editItemAt(nameableList.getSelectedIndex());
+            } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
+                popupEditPane();
             }
+
             // peter:处理右键的弹出菜单
             if (!SwingUtilities.isRightMouseButton(evt)) {
                 return;

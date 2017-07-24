@@ -236,14 +236,17 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     // 点击"编辑"按钮，弹出面板
     protected class PopupEditPane extends JPopupMenu {
         private JComponent contentPane;
+        private static final int WIDTH = 460;
+        private static final int HEIGHT = 500;
         //        private PopupToolPane popupToolPane;
-        private int fixedHeight;
+//        private int fixedHeight;
 
         PopupEditPane(JComponent pane) {
             contentPane = pane;
             this.setLayout(new BorderLayout());
             this.add(contentPane, BorderLayout.CENTER);
             this.setOpaque(false);
+            contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 //            fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
 //            updateSize();
         }
