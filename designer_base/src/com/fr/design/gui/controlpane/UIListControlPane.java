@@ -358,8 +358,8 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditPane() {
-        if (editingIndex < 0) {
+    private void popupEditPane(Point mousePos) {
+        if (editingIndex < 0 || !nameableList.getCellBounds(editingIndex, editingIndex).contains(mousePos)) {
             return;
         }
         GUICoreUtils.showPopupMenu(popupEditPane, this,
@@ -669,7 +669,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
-                popupEditPane();
+                popupEditPane(evt.getPoint());
             }
 
             // peter:处理右键的弹出菜单
