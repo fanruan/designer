@@ -1,57 +1,57 @@
 package com.fr.design.mainframe.cell;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
 import com.fr.design.selection.QuickEditor;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * QuickEditorRegion
- * 
- * @editor zhou
- * @since 2012-3-23下午3:21:36
+ *
+ * @author zhou, yaoh.wu
+ * @version 2017年7月25日
+ * @since 8.0
  */
 
 public class QuickEditorRegion extends JPanel {
 
-	public static QuickEditorRegion getInstance() {
-		return singleton;
-	}
-	
-	public static JPanel getEmptyEditor() {
-		if(EMPTY == null) {
-			EMPTY = new JPanel(new BorderLayout());
-			UILabel content = new UILabel(Inter.getLocText(new String[]{"DataFunction-None", "HJS-Message", "Form-Widget_Property_Table"})+"!");
-			content.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
-			EMPTY.add(content, BorderLayout.CENTER);
-		}
-		return EMPTY;
-	}
 
-	private static QuickEditorRegion singleton = new QuickEditorRegion();
-	private static JPanel EMPTY;
+    private static QuickEditorRegion singleton = new QuickEditorRegion();
+    private static JPanel EMPTY;
 
-	public QuickEditorRegion() {
-		this.setLayout(new BorderLayout());
-	}
+    private QuickEditorRegion() {
+        this.setLayout(new BorderLayout());
+    }
 
-	/**
-	 * 传值
-	 * 
-	 * @param ePane
-	 */
-	public void populate(final QuickEditor quickEditor) {
-		this.removeAll();
-		if(quickEditor.getComponentCount() == 0) {
-			this.add(getEmptyEditor(), BorderLayout.CENTER);
-		} else {
-			this.add(quickEditor, BorderLayout.CENTER);
-		}
-		validate();
-		repaint();
-	}
+    public static QuickEditorRegion getInstance() {
+        return singleton;
+    }
+
+    public static JPanel getEmptyEditor() {
+        if (EMPTY == null) {
+            EMPTY = new JPanel(new BorderLayout());
+            UILabel content = new UILabel(Inter.getLocText(new String[]{"DataFunction-None", "HJS-Message", "Form-Widget_Property_Table"}) + "!");
+            content.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
+            EMPTY.add(content, BorderLayout.CENTER);
+        }
+        return EMPTY;
+    }
+
+    /**
+     * 更新面板显示数据
+     *
+     * @param currentEditor 当前正在编辑的单元格编辑器或者默认的单元格编辑器
+     */
+    public void populate(final QuickEditor currentEditor) {
+        this.removeAll();
+        if (currentEditor.getComponentCount() == 0) {
+            this.add(getEmptyEditor(), BorderLayout.CENTER);
+        } else {
+            this.add(currentEditor, BorderLayout.CENTER);
+        }
+        validate();
+        repaint();
+    }
 }
