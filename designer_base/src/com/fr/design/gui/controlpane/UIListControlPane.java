@@ -36,6 +36,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -92,6 +94,8 @@ public abstract class UIListControlPane extends UIControlPane {
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).update();
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).populate();
                     UIListControlPane.this.checkButtonEnabled();
+                    // plough:感觉每次valueChange都保存一下，会稍微影响效率
+                    saveSettings();
                 }
             }
         });

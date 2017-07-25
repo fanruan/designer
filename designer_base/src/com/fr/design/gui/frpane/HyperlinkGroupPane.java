@@ -5,6 +5,7 @@ import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;

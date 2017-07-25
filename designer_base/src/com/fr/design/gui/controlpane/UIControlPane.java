@@ -89,6 +89,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         this.cardPane = cardPane;
     }
 
+    public abstract void saveSettings();
+
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
@@ -271,6 +273,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                     return;
                 }
             }
+            saveSettings();
             setVisible(false);
         }
 
