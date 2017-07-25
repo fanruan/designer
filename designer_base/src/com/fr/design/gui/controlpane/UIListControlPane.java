@@ -15,6 +15,7 @@ import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
@@ -356,14 +357,45 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditPane(Point mousePos) {
+    private void popupEditDialog(Point mousePos) {
         Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
         if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
             return;
         }
-        Point listPos = nameableList.getLocationOnScreen();
-        popupEditDialog.setLocation(listPos.x - popupEditDialog.getSize().width, listPos.y + editingIndex * EDIT_RANGE);
+        popupEditDialog.setLocation(getPopupDialogLocation());
         popupEditDialog.setVisible(true);
+    }
+
+    private Point getPopupDialogLocation() {
+        Point resultPos = new Point(0, 0);
+        Point listPos = nameableList.getLocationOnScreen();
+        resultPos.x = listPos.x - popupEditDialog.getWidth();
+        resultPos.y = listPos.y + (editingIndex - 1) * EDIT_RANGE;
+
+        // 当对象在屏幕上的位置比较靠下时，往下移动弹窗至与属性面板平齐
+        Window frame = DesignerContext.getDesignerFrame();
+        // 不能太低
+        int maxY = frame.getLocationOnScreen().y + frame.getHeight() - popupEditDialog.getHeight();
+        if (resultPos.y > maxY) {
+            resultPos.y = maxY;
+        }
+        // 也不能太高
+        int minY = frame.getLocationOnScreen().y + EDIT_RANGE;
+        if (resultPos.y < minY) {
+            resultPos.y = minY;
+        }
+
+        // 当在左侧显示不下时，在右侧弹出弹窗
+        if (resultPos.x < 0) {
+            resultPos.x = listPos.x + nameableList.getParent().getWidth();
+        }
+        // 如果右侧显示不下，可以向左移动
+        int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - popupEditDialog.getWidth() - EDIT_RANGE;
+        if (resultPos.x > maxX) {
+            resultPos.x = maxX;
+        }
+
+        return resultPos;
     }
 
     /**
@@ -669,7 +701,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
-                popupEditPane(evt.getPoint());
+                popupEditDialog(evt.getPoint());
             }
 
             // peter:处理右键的弹出菜单
