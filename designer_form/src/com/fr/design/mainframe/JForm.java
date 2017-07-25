@@ -104,6 +104,20 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return processInfo;
     }
 
+    public FormECCompositeProvider getReportComposite(){
+        return this.reportComposite;
+    }
+
+    @Override
+    public void setJTemplateResolution(int resolution) {
+
+    }
+
+    @Override
+    public int getJTemplateResolution() {
+        return 0;
+    }
+
     @Override
     protected boolean accept(Object o) {
         return !(o instanceof FloatElementsProvider);
@@ -124,7 +138,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 超链连接界面
      */
     public HyperlinkGroupPane getHyperLinkPane() {
-        return new FormHyperlinkGroupPane();
+        return FormHyperlinkGroupPane.getInstance();
     }
 
     //表单返回 FORM_TAB or ELEMENTCASE_TAB
@@ -246,11 +260,15 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setScale(int resolution) {
-
     }
 
     @Override
     public int getScale() {
+        return 0;
+    }
+
+    @Override
+    public int selfAdaptUpdate() {
         return 0;
     }
 

@@ -37,6 +37,10 @@ public class ReportComponentCardPane extends JComponent implements TargetModifie
         }
     }
 
+    public PolyDesigner getPolyDezi(){
+        return this.polyDezi;
+    }
+
     protected void stopEditing() {
         if (editingComponet != null) {
             editingComponet.stopEditing();

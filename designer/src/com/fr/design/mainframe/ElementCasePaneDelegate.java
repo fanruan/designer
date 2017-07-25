@@ -58,6 +58,8 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
+                    // 模板初始化完成后，才能初始化超级链接面板
+                    ReportHyperlinkGroupPane.getInstance().populate(ElementCasePaneDelegate.this);
                     if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
 //                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
@@ -67,6 +69,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                     }
+                    EastRegionContainerPane.getInstance().replaceHyperlinkPane(ReportHyperlinkGroupPane.getInstance());
                     EastRegionContainerPane.getInstance().removeParameterPane();
                 }
             }

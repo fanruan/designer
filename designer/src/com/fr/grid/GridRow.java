@@ -23,10 +23,13 @@ public class GridRow extends GridHeader<Integer> {
 
 	private static final int MAX = 5;
 	private int resolution = ScreenResolution.getScreenResolution();
+	private GridRowMouseHandler gridRowMouseHandler;
 
 	@Override
 	protected void initByConstructor() {
-		GridRowMouseHandler gridRowMouseHandler = new GridRowMouseHandler(this);
+		resolution = ScreenResolution.getScreenResolution();
+		this.setResolution(resolution);
+		gridRowMouseHandler = new GridRowMouseHandler(this);
 		this.addMouseListener(gridRowMouseHandler);
 		this.addMouseMotionListener(gridRowMouseHandler);
 		this.updateUI();
@@ -39,11 +42,20 @@ public class GridRow extends GridHeader<Integer> {
 
 	@Override
 	public void updateUI() {
+		this.removeMouseListener(gridRowMouseHandler);
+		this.removeMouseMotionListener(gridRowMouseHandler);
+		gridRowMouseHandler = new GridRowMouseHandler(this);
+		this.addMouseListener(gridRowMouseHandler);
+		this.addMouseMotionListener(gridRowMouseHandler);
 		this.setUI(new GridRowUI(resolution));
 	}
 
 	public void setResolution(int resolution) {
 		this.resolution = resolution;
+	}
+
+	public int getResolution() {
+		return this.resolution;
 	}
 
 

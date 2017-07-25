@@ -1,5 +1,7 @@
 package com.fr.grid;
 
+import com.fr.base.ScreenResolution;
+
 import java.awt.Color;
 
 
@@ -12,6 +14,8 @@ public abstract class GridHeader<T> extends BaseGridComponent {
     private Color selectedForeground = Color.black;
     private Color selectedBackground = new Color(253, 216, 153);
 
+    protected int resolution;
+
     public GridHeader() {
         //清除所有的Key Action.
         this.getInputMap().clear();
@@ -21,6 +25,14 @@ public abstract class GridHeader<T> extends BaseGridComponent {
         this.setOpaque(true);
         
         initByConstructor();
+    }
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
     }
 
     protected abstract void initByConstructor();

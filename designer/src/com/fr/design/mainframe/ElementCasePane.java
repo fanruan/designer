@@ -12,8 +12,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.util.Set;
 
@@ -211,7 +209,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         this.setLayout(new RGridLayout());
 
         //todo 直接修改分辨率
-        this.resolution = ScreenResolution.getScreenResolution();
+        if (this.resolution == 0){
+            this.resolution = ScreenResolution.getScreenResolution();
+        }
 
         this.initGridComponent();
 
@@ -241,6 +241,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         initDefaultEditors();
         initFormatBrush();
     }
+
+
 
     public int getMenuState() {
         return DesignState.WORK_SHEET;
@@ -295,7 +297,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         if(DesignerContext.getReferencedElementCasePane() == null){
         	return;
         }
-        
+
         ((ElementCasePane) DesignerContext.getReferencedElementCasePane()).getGrid().setNotShowingTableSelectPane(true);
         ((ElementCasePane) DesignerContext.getReferencedElementCasePane()).getGrid().setCursor(UIConstants.CELL_DEFAULT_CURSOR);
         DesignerContext.setReferencedElementCasePane(null);
@@ -345,6 +347,14 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     }
 
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
+    }
 
     /**
      * 所有的操作都必须在可见范围内，否则不做任何操作

@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
+import com.fr.base.ScreenResolution;
 import com.fr.design.DesignState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.AdapterBus;
@@ -47,6 +48,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.bridge.StableFactory;
 
 import javax.swing.*;
@@ -103,6 +105,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     // 存储被选择组件和剪切板的model
     private transient SelectionModel selectionModel;
 
+    private int resolution = ScreenResolution.getScreenResolution();
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
     protected Action[] designerActions;
@@ -1415,5 +1418,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             return new TreePath(components);
         }
 
+    }
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
     }
 }

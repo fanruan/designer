@@ -141,6 +141,10 @@ public class Grid extends BaseGridComponent {
         this.resolution = resolution;
     }
 
+    public int getResolution() {
+        return this.resolution;
+    }
+
     /**
 	 * 应用界面设置
 	 * 
