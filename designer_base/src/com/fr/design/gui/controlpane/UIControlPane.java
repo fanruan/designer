@@ -250,8 +250,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     // 点击"编辑"按钮，弹出面板
     protected class PopupEditDialog extends JDialog {
         private JComponent editPane;
-        private static final int WIDTH = 460;
-        private static final int HEIGHT = 500;
+        private static final int WIDTH = 470;
+        private static final int HEIGHT = 550;
 
         PopupEditDialog(JComponent pane) {
             super(DesignerContext.getDesignerFrame());
@@ -259,6 +259,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             this.editPane = pane;
             this.getContentPane().add(editPane, BorderLayout.CENTER);
             setSize(WIDTH, HEIGHT);
+//            pack();
             this.setVisible(false);
             initListener();
         }
