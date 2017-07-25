@@ -1,6 +1,7 @@
 package com.fr.design.gui.ilist;
 
 import com.fr.data.core.db.TableProcedure;
+import com.fr.design.gui.controlpane.UINameableListCellRenderer;
 import com.fr.design.gui.itooltip.UIToolTip;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.stable.StringUtils;
@@ -43,6 +44,10 @@ public class UIList extends JList {
             Object value = getModel().getElementAt(index);
             ListCellRenderer renderer = getCellRenderer();
             Component rendererComp = renderer.getListCellRendererComponent(this, value, index, true, false);
+            // UINameableListCellRenderer 继承自JPanel，无法强转为JLabel，直接返回即可
+            if (rendererComp instanceof UINameableListCellRenderer) {
+                return null;
+            }
             if (rendererComp.getPreferredSize().width > getVisibleRect().width) {
                 String tips = (rendererComp instanceof JComponent) ? ((JComponent) rendererComp).getToolTipText() : null;
                 if (tips == null) {

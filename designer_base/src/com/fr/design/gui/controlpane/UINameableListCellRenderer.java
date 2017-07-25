@@ -143,18 +143,12 @@ public class UINameableListCellRenderer extends
             Nameable wrappee = ((ListModelElement) value).wrapper;
             this.setText(((ListModelElement) value).wrapper.getName());
 
-            boolean iconSet = false;
             for (NameableCreator creator : listControlPane.creators()) {
                 if (creator.menuIcon() != null && creator.acceptObject2Populate(wrappee) != null) {
-//                    this.setIcon(creator.menuIcon());
                     this.setToolTipText(creator.createTooltip());
-                    iconSet = true;
                     break;
                 }
             }
-//            if (!iconSet) {
-//                this.setIcon(BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png"));
-//            }
         }
 
         return this;
