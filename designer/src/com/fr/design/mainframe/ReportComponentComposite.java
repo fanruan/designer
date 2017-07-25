@@ -23,6 +23,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
+import com.fr.poly.PolyArea;
 import com.fr.report.report.TemplateReport;
 
 /**
@@ -58,6 +59,8 @@ public class ReportComponentComposite extends JComponent {
      *
      */
     public ReportComponentComposite(JWorkBook jwb) {
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         this.parent = jwb;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(centerCardPane = new ReportComponentCardPane(), BorderLayout.CENTER);
@@ -135,6 +138,7 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         centerCardPane.populate(workbook.getTemplateReport(newIndex));
+
         if (parentContainer != null) {
             parentContainer.setDownPane(ReportComponentComposite.this);
         }
@@ -182,6 +186,10 @@ public class ReportComponentComposite extends JComponent {
 
     public int getEditingIndex() {
         return sheetNameTab.getSelectedIndex();
+    }
+
+    public JSliderPane getjSliderContainer(){
+        return this.jSliderContainer;
     }
 
 
@@ -237,16 +245,6 @@ public class ReportComponentComposite extends JComponent {
         return southPane;
     }
 
-    private JComponent createSouthControlPaneWithJSliderPane() {
-        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
-        JSplitPane splitWithJSliderPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, hbarContainer, JSliderPane.getInstance());
-        splitWithJSliderPane.setBorder(null);
-        splitWithJSliderPane.setDividerLocation(0.9);
-        splitWithJSliderPane.setDividerSize(3);
-        splitWithJSliderPane.setResizeWeight(1);
-        return splitWithJSliderPane;
-    }
 
     public void setSelectedIndex(int selectedIndex) {
         sheetNameTab.setSelectedIndex(selectedIndex);

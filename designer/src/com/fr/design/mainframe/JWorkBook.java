@@ -86,7 +86,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private static final int TOOLBARPANEDIMHEIGHT = 26;
 
     private UIModeControlContainer centerPane;
-    private ReportComponentComposite reportComposite;
+    public ReportComponentComposite reportComposite;
     private ParameterDefinitePane parameterPane;
     private int resolution;
 
@@ -394,7 +394,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 return resolution;
             }
             double time =(areaHeight/creatorHeight)<(areaWidth/creatorWidth) ? (areaHeight/creatorHeight) : (areaWidth/creatorWidth);
-            return (int) (time * polyDezi.getResolution());
+            return (int) (time * ScreenResolution.getScreenResolution());
 
         }else if (elementCasePane != null) {
             ElementCasePane reportPane = elementCasePane.getGrid().getElementCasePane();

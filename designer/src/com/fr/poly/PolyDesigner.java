@@ -4,8 +4,7 @@
 package com.fr.poly;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,18 +97,22 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private transient ArrayList<TemplateBlock> clip_board = new ArrayList<TemplateBlock>();
     // richer:鼠标滚轮每滚动一下，PolyDesignPane的尺寸就改变ROTATIONS这么多
     private static final int ROTATIONS = 50;
+    private static final int MIN = 10;
     private JScrollBar verScrollBar;
     private JScrollBar horScrollBar;
 
     private PolyComponetsBar polyComponetsBar = new PolyComponetsBar();
     private JComponent[] toolBarComponent = null;
-
+    private JPanel ployareaPane;
+    private JSliderPane jSliderContainer;
     private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
     private float time;
+    private boolean isCtrl = false;
 
     public PolyDesigner(PolyWorkSheet report) {
         super(report);
         setDoubleBuffered(true);
+
         // 为了处理键盘事件，需要FormDesigner能够获取焦点
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -119,10 +122,12 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 
         setOpaque(true);
+
         initComponents();
 
         this.initDataListeners();
         this.initPolyBlocks();
+
 
         this.setFocusTraversalKeysEnabled(false);
         new PolyDesignerDropTarget(this);
@@ -143,8 +148,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     private void initComponents() {
+        jSliderContainer = ((JWorkBook)HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).reportComposite.getjSliderContainer();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel ployareaPane = new JPanel(new PolyDesignerLayout());
+        ployareaPane = new JPanel(new PolyDesignerLayout());
         polyArea = new PolyArea(this, resolution);
         ployareaPane.add(PolyDesignerLayout.Center, polyArea);
 
@@ -157,7 +163,25 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         ployareaPane.add(PolyDesignerLayout.HRuler, new HorizontalRuler(this));
         this.add(ployareaPane, BorderLayout.CENTER);
         this.add(polyComponetsBar, BorderLayout.WEST);
+        this.addKeyListener(showValSpinnerKeyListener);
     }
+
+    KeyListener showValSpinnerKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if( e.isControlDown()){
+                isCtrl = true ;
+            }
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCtrl = false ;
+        }
+    };
 
     private void initPolyBlocks() {
         for (int i = 0, count = this.getTarget().getBlockCount(); i < count; i++) {
@@ -217,6 +241,10 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         this.polyArea.removeAll();
         polyArea.repaint();
 
+    }
+
+    public JPanel getPloyAreaPane(){
+        return this.ployareaPane;
     }
 
     /**
@@ -644,8 +672,14 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         int id = evt.getID();
         switch (id) {
             case MouseEvent.MOUSE_WHEEL: {
-                int rotations = evt.getWheelRotation();
-                this.getVerticalScrollBar().setValue(this.getVerticalScrollBar().getValue() + rotations * ROTATIONS);
+                if (isCtrl){
+                    int dir = evt.getWheelRotation();
+                    int old_resolution = (int) jSliderContainer.getShowVal().getValue();
+                    jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+                }else {
+                    int rotations = evt.getWheelRotation();
+                    this.getVerticalScrollBar().setValue(this.getVerticalScrollBar().getValue() + rotations * ROTATIONS);
+                }
                 break;
             }
         }
