@@ -54,7 +54,7 @@ public class UINameableListCellRenderer extends
 //        editButton.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//                popupEditPane();
+//                popupEditDialog();
 //            }
 //        });
         label = new UILabel();

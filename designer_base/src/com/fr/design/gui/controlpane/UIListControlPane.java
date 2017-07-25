@@ -26,10 +26,8 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
-import sun.swing.DefaultLookup;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -359,11 +357,13 @@ public abstract class UIListControlPane extends UIControlPane {
     }
 
     private void popupEditPane(Point mousePos) {
-        if (editingIndex < 0 || !nameableList.getCellBounds(editingIndex, editingIndex).contains(mousePos)) {
+        Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
+        if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
             return;
         }
-        GUICoreUtils.showPopupMenu(popupEditPane, this,
-                - popupEditPane.getPreferredSize().width, editingIndex * EDIT_RANGE);
+        Point listPos = nameableList.getLocationOnScreen();
+        popupEditDialog.setLocation(listPos.x - popupEditDialog.getSize().width, listPos.y + editingIndex * EDIT_RANGE);
+        popupEditDialog.setVisible(true);
     }
 
     /**

@@ -6,16 +6,15 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.EastRegionContainerPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Created by plough on 2017/7/21.
@@ -29,7 +28,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     private ToolBarDef toolbarDef;
 
     private UIToolbar toolBar;
-    protected PopupEditPane popupEditPane;
+    protected PopupEditDialog popupEditDialog;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
 
@@ -103,7 +102,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         UILabel selectLabel = new UILabel();
         cardPane.add(selectLabel, "SELECT");
         cardPane.add(controlUpdatePane, "EDIT");
-        popupEditPane = new PopupEditPane(cardPane);
+        popupEditDialog = new PopupEditDialog(cardPane);
         // SplitPane
 //        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
 //        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
@@ -185,7 +184,6 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-//                addItemShortCut(),
                 copyItemShortCut(),
                 moveUpItemShortCut(),
                 moveDownItemShortCut(),
@@ -250,44 +248,39 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     }
 
     // 点击"编辑"按钮，弹出面板
-    protected class PopupEditPane extends JPopupMenu {
-        private JComponent contentPane;
+    protected class PopupEditDialog extends JDialog {
+        private JComponent editPane;
         private static final int WIDTH = 460;
         private static final int HEIGHT = 500;
-        //        private PopupToolPane popupToolPane;
-//        private int fixedHeight;
 
-        PopupEditPane(JComponent pane) {
-            contentPane = pane;
-            this.setLayout(new BorderLayout());
-            this.add(contentPane, BorderLayout.CENTER);
-            this.setOpaque(false);
-            contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-//            fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
-//            updateSize();
+        PopupEditDialog(JComponent pane) {
+            super(DesignerContext.getDesignerFrame());
+            setUndecorated(true);
+            this.editPane = pane;
+            this.getContentPane().add(editPane, BorderLayout.CENTER);
+            setSize(WIDTH, HEIGHT);
+            this.setVisible(false);
+            initListener();
         }
 
-//        private void updateSize() {
-//            int newHeight = fixedHeight + contentPane.getPreferredSize().height;
-//            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, newHeight));
-//        }
-
-        public JComponent getContentPane() {
-            return contentPane;
+        private void hideDialog() {
+            // 检查是否有子弹窗，如果有，则不隐藏
+            for (Window window : getOwnedWindows()) {
+                if (window.isVisible()) {
+                    return;
+                }
+            }
+            setVisible(false);
         }
 
-        public void replaceContentPane(JComponent pane) {
-//            remove(pane);
-            this.remove(this.contentPane);
-            this.add(this.contentPane = pane);
-//            updateSize();
-            refreshContainer();
-        }
-
-        private void refreshContainer() {
-            validate();
-            repaint();
-            revalidate();
+        private void initListener() {
+            addWindowFocusListener(new WindowAdapter() {
+                @Override
+                public void windowLostFocus(WindowEvent e) {
+                    super.windowLostFocus(e);
+                    hideDialog();
+                }
+            });
         }
     }
 }
