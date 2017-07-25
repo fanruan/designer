@@ -4,35 +4,34 @@ package com.fr.design.gui.style;
  * Copyright(c) 2001-2010, FineReport Inc, All Rights Reserved.
  */
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Vector;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Style;
 import com.fr.base.Utils;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
-import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.LineComboBox;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DefaultValues;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 /**
  * Pane to edit Font.
@@ -68,7 +67,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         this.initComponents();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         JFrame jf = new JFrame("test");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
@@ -209,7 +208,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         return style.deriveFRFont(frFont);
     }
 
-    public static Vector<Integer> getFontSizes(){
+    public static Vector<Integer> getFontSizes() {
         Vector<Integer> FONT_SIZES = new Vector<Integer>();
         for (int i = 1; i < MAX_FONT_SIZE; i++) {
             FONT_SIZES.add(i);
@@ -240,20 +239,16 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         subPane = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/sub.png"));
         subPane.setPreferredSize(BUTTON_SIZE);
         isSuperOrSubPane = new TwoButtonPane(superPane, subPane);
-//        Component[] components_font = new Component[]{
-//                colorSelectPane, italic, bold, underline, isStrikethroughCheckBox, isShadowCheckBox
-//        };
         Component[] components_font = new Component[]{
                 colorSelectPane, underline, isStrikethroughCheckBox, isShadowCheckBox
         };
         buttonPane = new JPanel(new BorderLayout());
         buttonPane.add(GUICoreUtils.createFlowPane(components_font, FlowLayout.LEFT, LayoutConstants.HGAP_SMALL));
-//        buttonPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         linePane = new JPanel(new CardLayout());
         initAllNames();
         setToolTips();
         this.setLayout(new BorderLayout());
-        this.add(fontNameComboBox, BorderLayout.NORTH);
+//        this.add(fontNameComboBox, BorderLayout.NORTH);
         this.add(createPane(), BorderLayout.CENTER);
         DefaultValues defaultValues = FRContext.getDefaultValues();
         populateBean(defaultValues.getFRFont());
@@ -328,15 +323,11 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     }
 
     private JPanel createPane() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {f, f};
-        double[] rowSize = {p,p};
-        Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{createLeftPane(), createRightPane()},
-        };
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel createPane = new JPanel(new BorderLayout(3, 5));
+        createPane.add(fontNameComboBox, BorderLayout.NORTH);
+        createPane.add(createLeftPane(), BorderLayout.CENTER);
+        createPane.add(createRightPane(), BorderLayout.EAST);
+        return createPane;
     }
 
     /**
