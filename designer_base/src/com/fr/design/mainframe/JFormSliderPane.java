@@ -16,9 +16,11 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.math.BigDecimal;
 
 /**
@@ -31,7 +33,7 @@ public class JFormSliderPane extends JPanel {
     private static final int TEN = 10;
     private static final int ONE_EIGHT = 18;
     private static final int FONT_SIZE = 14;
-    private static final int SPINNER_WIDTH= 45;
+    private static final int SPINNER_WIDTH = 45;
     private static final int SPINNER_HEIGHT = 20;
     private static final int HALF_HUNDRED = 50;
     private static final int HUNDRED = 100;
@@ -69,7 +71,7 @@ public class JFormSliderPane extends JPanel {
 
     public JFormSliderPane() {
         this.setLayout(new BorderLayout());
-        slider = new UISlider(0,HUNDRED,HALF_HUNDRED);
+        slider = new UISlider(0, HUNDRED, HALF_HUNDRED);
         slider.setUI(new JSliderPaneUI(slider));
         slider.addChangeListener(listener);
 
@@ -92,20 +94,20 @@ public class JFormSliderPane extends JPanel {
         downButton.addActionListener(buttonActionListener);
         upButton.addActionListener(buttonActionListener);
 
-        showValButton = new UIButton(showValSpinner.getValue()+"%");
+        showValButton = new UIButton(showValSpinner.getValue() + "%");
         showValButton.setBorderPainted(false);
-        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH,SHOWVALBUTTON_HEIGHTH));
+        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
 
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1,1,0));
+        JPanel panel = new JPanel(new FlowLayout(1, 1, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
         panel.add(showValButton);
-        this.add(panel,BorderLayout.NORTH);
-        this.setBounds(0,0,THREE_HUNDRED,ONE_EIGHT);
+        this.add(panel, BorderLayout.NORTH);
+        this.setBounds(0, 0, THREE_HUNDRED, ONE_EIGHT);
     }
 
     public static final JFormSliderPane getInstance() {
@@ -116,7 +118,7 @@ public class JFormSliderPane extends JPanel {
         return THIS;
     }
 
-    private void initUIRadioButton(){
+    private void initUIRadioButton() {
         twoHundredButton = new UIRadioButton("200%");
         oneHundredButton = new UIRadioButton("100%");
         SevenFiveButton = new UIRadioButton("75%");
@@ -132,7 +134,7 @@ public class JFormSliderPane extends JPanel {
         //TODO
 //        selfAdaptButton.addItemListener();
 
-        ButtonGroup bg=new ButtonGroup();// 初始化按钮组
+        ButtonGroup bg = new ButtonGroup();// 初始化按钮组
         bg.add(twoHundredButton);// 加入按钮组
         bg.add(oneHundredButton);
         bg.add(SevenFiveButton);
@@ -143,24 +145,24 @@ public class JFormSliderPane extends JPanel {
         customButton.setSelected(true);
     }
 
-    private void initPane(){
+    private void initPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f };
-        double[] rowSize = { p,p,p,p,p,p,p};
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{twoHundredButton,null},
-                new Component[]{oneHundredButton,null},
-                new Component[]{SevenFiveButton,null},
-                new Component[]{fiveTenButton,null},
-                new Component[]{twoFiveButton,null},
+                new Component[]{twoHundredButton, null},
+                new Component[]{oneHundredButton, null},
+                new Component[]{SevenFiveButton, null},
+                new Component[]{fiveTenButton, null},
+                new Component[]{twoFiveButton, null},
 //                new Component[]{selfAdaptButton,null},
-                new Component[]{customButton,createSpinnerPanel()}
+                new Component[]{customButton, createSpinnerPanel()}
         };
-        dialogContentPanel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        dialogContentPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
-    private JPanel createSpinnerPanel(){
+    private JPanel createSpinnerPanel() {
         JPanel spinnerPanel = new JPanel(new FlowLayout());
         spinnerPanel.add(showValSpinner);
         UILabel percent = new UILabel("%");
@@ -179,14 +181,14 @@ public class JFormSliderPane extends JPanel {
     ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
-            int val = (int) ((UIBasicSpinner)e.getSource()).getValue();
+            int val = (int) ((UIBasicSpinner) e.getSource()).getValue();
             isButtonOrIsTxt = true;
-            resolutionTimes = divide(showValue,100,2);
-            if (val > FOUR_HUNDRED){
+            resolutionTimes = divide(showValue, 100, 2);
+            if (val > FOUR_HUNDRED) {
                 showValSpinner.setValue(FOUR_HUNDRED);
                 val = FOUR_HUNDRED;
             }
-            if (val < TEN){
+            if (val < TEN) {
                 showValSpinner.setValue(TEN);
                 val = TEN;
             }
@@ -197,11 +199,10 @@ public class JFormSliderPane extends JPanel {
 
 
     //定义一个监听器，用于监听所有滑动条
-    ChangeListener listener = new ChangeListener()
-    {
-        public void stateChanged( ChangeEvent event) {
+    ChangeListener listener = new ChangeListener() {
+        public void stateChanged(ChangeEvent event) {
             //取出滑动条的值，并在文本中显示出来
-            if (!isButtonOrIsTxt){
+            if (!isButtonOrIsTxt) {
                 customButton.setSelected(true);
                 EventQueue.invokeLater(new Runnable() {
                     public void run() {
@@ -211,50 +212,50 @@ public class JFormSliderPane extends JPanel {
                         showValSpinner.setValue(times);
                     }
                 });
-            }else {
+            } else {
                 isButtonOrIsTxt = false;
             }
         }
     };
 
-    ItemListener  radioButtonItemListener = new ItemListener() {
+    ItemListener radioButtonItemListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            JRadioButton temp=(JRadioButton)e.getSource();
-            if(temp.isSelected()){
+            JRadioButton temp = (JRadioButton) e.getSource();
+            if (temp.isSelected()) {
                 showValSpinner.setValue(Integer.valueOf(temp.getText().substring(0, temp.getText().indexOf("%"))));
             }
         }
     };
 
-    private void refreshSlider(int val){
+    private void refreshSlider(int val) {
         showValue = val;
-        if (showValue >HUNDRED){
-            slider.setValue((int)(showValue+TWO_HUNDRED)/SIX);
-        }else if (showValue <HUNDRED){
-            slider.setValue((int)((showValue-TEN)/ONEPOINTEIGHT));
-        }else if (showValue == HUNDRED){
+        if (showValue > HUNDRED) {
+            slider.setValue((int) (showValue + TWO_HUNDRED) / SIX);
+        } else if (showValue < HUNDRED) {
+            slider.setValue((int) ((showValue - TEN) / ONEPOINTEIGHT));
+        } else if (showValue == HUNDRED) {
             slider.setValue(HALF_HUNDRED);
         }
     }
 
 
-    private void refreshBottun(int val){
-        showValButton.setText(val+"%");
+    private void refreshBottun(int val) {
+        showValButton.setText(val + "%");
     }
 
-    public double getResolutionTimes(){
+    public double getResolutionTimes() {
         return this.resolutionTimes;
     }
 
-    public int getshowValue(){
+    public int getshowValue() {
         return this.showValue;
     }
 
-    public static double divide(double v1, double v2,int scale) {
+    public static double divide(double v1, double v2, int scale) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
-        return b1.divide(b2,scale).doubleValue();
+        return b1.divide(b2, scale).doubleValue();
     }
 
     ActionListener buttonActionListener = new ActionListener() {
@@ -262,22 +263,22 @@ public class JFormSliderPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             showValue = (int) showValSpinner.getValue();
             isButtonOrIsTxt = true;
-            if(e.getActionCommand().equals("less")){
+            if (e.getActionCommand().equals("less")) {
                 int newDownVal = showValue - TEN;
-                if (newDownVal >= TEN ){
+                if (newDownVal >= TEN) {
                     showValue = newDownVal;
                     showValSpinner.setValue(newDownVal);
-                }else {
+                } else {
                     showValue = newDownVal;
                     showValSpinner.setValue(TEN);
                 }
             }
-            if(e.getActionCommand().equals("more")){
+            if (e.getActionCommand().equals("more")) {
                 int newUpVal = showValue + TEN;
-                if (newUpVal <= FOUR_HUNDRED ){
+                if (newUpVal <= FOUR_HUNDRED) {
                     showValue = newUpVal;
                     showValSpinner.setValue(newUpVal);
-                }else {
+                } else {
                     showValue = newUpVal;
                     showValSpinner.setValue(FOUR_HUNDRED);
                 }
@@ -288,51 +289,49 @@ public class JFormSliderPane extends JPanel {
     };
 
 
-
-    private void getTimes(int value){
-        if (value == HALF_HUNDRED){
-            times=HUNDRED;
-        }else if (value < HALF_HUNDRED){
-            times = (int) Math.round(ONEPOINTEIGHT*value + TEN);
-        }else {
-            times = (int) (SIX*value - TWO_HUNDRED);
+    private void getTimes(int value) {
+        if (value == HALF_HUNDRED) {
+            times = HUNDRED;
+        } else if (value < HALF_HUNDRED) {
+            times = (int) Math.round(ONEPOINTEIGHT * value + TEN);
+        } else {
+            times = (int) (SIX * value - TWO_HUNDRED);
         }
     }
 
 
-    public JSpinner getShowVal(){
+    public JSpinner getShowVal() {
         return this.showValSpinner;
     }
 
-    public UIRadioButton getSelfAdaptButton(){
+    public UIRadioButton getSelfAdaptButton() {
         return this.selfAdaptButton;
     }
 
-    private void popupDialog(){
+    private void popupDialog() {
         Point btnCoords = upButton.getLocationOnScreen();
-        if (dialog == null){
-            dialog = new FormPopupPane(upButton,dialogContentPanel);
+        if (dialog == null) {
+            dialog = new FormPopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH , -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
-        }else {
+        } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton,  - DIALOG_WIDTH + upButton.getWidth() +SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         JFrame jf = new JFrame("test");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel)jf.getContentPane();
+        JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
-        content.add(JFormSliderPane.getInstance(),BorderLayout.CENTER);
+        content.add(JFormSliderPane.getInstance(), BorderLayout.CENTER);
         GUICoreUtils.centerWindow(jf);
         jf.setSize(400, 80);
         jf.setVisible(true);
@@ -349,17 +348,18 @@ class FormPopupPane extends JPopupMenu {
     private static final int UPLABEL_WIDTH = 300;
     private JComponent centerPane;
     private UILabel upLabel;
-    FormPopupPane(UIButton b,JPanel dialogContentPanel) {
+
+    FormPopupPane(UIButton b, JPanel dialogContentPanel) {
         contentPane = new JPanel(new BorderLayout());
         centerPane = new JPanel(new BorderLayout());
         upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
         upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH,UPLABEL_HEIGHT));
+        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH, UPLABEL_HEIGHT));
         upLabel.setBackground(Color.LIGHT_GRAY);
-        upLabel.setBorder(new MatteBorder(0,0,1,0,Color.gray));
-        centerPane.add(dialogContentPanel,BorderLayout.NORTH);
-        contentPane.add(upLabel,BorderLayout.NORTH);
-        contentPane.add(centerPane,BorderLayout.CENTER);
+        upLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
+        centerPane.add(dialogContentPanel, BorderLayout.NORTH);
+        contentPane.add(upLabel, BorderLayout.NORTH);
+        contentPane.add(centerPane, BorderLayout.CENTER);
 //        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
         this.add(contentPane, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));

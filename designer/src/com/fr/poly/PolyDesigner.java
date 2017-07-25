@@ -3,20 +3,6 @@
  */
 package com.fr.poly;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.KeyStroke;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
@@ -47,11 +33,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.Selection;
 import com.fr.poly.actions.DeleteBlockAction;
-import com.fr.poly.creator.BlockCreator;
-import com.fr.poly.creator.BlockEditor;
-import com.fr.poly.creator.ECBlockCreator;
-import com.fr.poly.creator.ECBlockEditor;
-import com.fr.poly.creator.PolyElementCasePane;
+import com.fr.poly.creator.*;
 import com.fr.poly.hanlder.DataEditingListener;
 import com.fr.poly.hanlder.PolyDesignerDropTarget;
 import com.fr.poly.model.AddedData;
@@ -61,12 +43,20 @@ import com.fr.report.block.Block;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.poly.TemplateBlock;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
 import com.fr.stable.unit.UNIT;
 import com.fr.stable.unit.UnitRectangle;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author richer
@@ -85,6 +75,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     public static enum SelectionType {
         NONE, INNER, BLOCK
     }
+
     public JComponent polyArea;
     private SelectionType selectedtype = SelectionType.NONE;
     private AddingData addingData;
@@ -105,7 +96,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private JComponent[] toolBarComponent = null;
     private JPanel ployareaPane;
     private JSliderPane jSliderContainer;
-    private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+    private int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
     private float time;
     private boolean isCtrl = false;
 
@@ -148,7 +139,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     private void initComponents() {
-        jSliderContainer = ((JWorkBook)HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).reportComposite.getjSliderContainer();
+        jSliderContainer = ((JWorkBook) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).reportComposite.getjSliderContainer();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         ployareaPane = new JPanel(new PolyDesignerLayout());
         polyArea = new PolyArea(this, resolution);
@@ -171,15 +162,17 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         public void keyTyped(KeyEvent e) {
 
         }
+
         @Override
         public void keyPressed(KeyEvent e) {
-            if( e.isControlDown()){
-                isCtrl = true ;
+            if (e.isControlDown()) {
+                isCtrl = true;
             }
         }
+
         @Override
         public void keyReleased(KeyEvent e) {
-            isCtrl = false ;
+            isCtrl = false;
         }
     };
 
@@ -201,16 +194,17 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         return this.resolution;
     }
 
-    public void updateUI(){
-        ((PolyArea)this.polyArea).setResolution(resolution);
+    public void updateUI() {
+        ((PolyArea) this.polyArea).setResolution(resolution);
         polyArea.repaint();
 //        this.polyArea = (JComponent) new PolyArea(this, resolution);
     }
 
     /**
      * 是否含有聚和报表块
-     * @param targetComponent     目标组件
-     * @return        是则返回true
+     *
+     * @param targetComponent 目标组件
+     * @return 是则返回true
      */
     public boolean containsBlocks(TargetComponent targetComponent) {
         for (int i = 0, count = this.getTarget().getBlockCount(); i < count; i++) {
@@ -243,21 +237,23 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     }
 
-    public JPanel getPloyAreaPane(){
+    public JPanel getPloyAreaPane() {
         return this.ployareaPane;
     }
 
     /**
-     *  增加组件
-     * @param currentEditor  组件
+     * 增加组件
+     *
+     * @param currentEditor 组件
      */
     public void addEditor(BlockEditor currentEditor) {
         this.polyArea.add(currentEditor);
     }
 
     /**
-     *  移除组件
-     * @param currentEditor  组件
+     * 移除组件
+     *
+     * @param currentEditor 组件
      */
     public void removeEditor(BlockEditor currentEditor) {
         this.polyArea.remove(currentEditor);
@@ -265,7 +261,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 权限编辑状态
-     * @return   权限编辑面板
+     *
+     * @return 权限编辑面板
      */
     public AuthorityEditPane createAuthorityEditPane() {
         if (elementCasePane == null) {
@@ -280,7 +277,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     @Override
     public void paintComponent(Graphics g) {
 
-        this.time = (float)resolution/ScreenResolution.getScreenResolution();
+        this.time = (float) resolution / ScreenResolution.getScreenResolution();
         resetEditorComponentBounds();
         LayoutUtils.layoutRootContainer(this);
         g.setColor(Color.black);
@@ -292,15 +289,16 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private void resetEditorComponentBounds() {
         if (selection != null) {
             selection.setResolution(this.resolution);
-            selection.getEditor().setBounds((int) (selection.getEditorBounds().x*time), (int) (selection.getEditorBounds().y*time),
-                    (int) (selection.getEditorBounds().width*time), (int) (selection.getEditorBounds().height*time));
+            selection.getEditor().setBounds((int) (selection.getEditorBounds().x * time), (int) (selection.getEditorBounds().y * time),
+                    (int) (selection.getEditorBounds().width * time), (int) (selection.getEditorBounds().height * time));
             LayoutUtils.layoutRootContainer(this);
         }
     }
 
     /**
-     *  增加组件
-     * @param creator  组件
+     * 增加组件
+     *
+     * @param creator 组件
      */
     public void addBlockCreator(BlockCreator creator) {
         TemplateBlock block = creator.getValue();
@@ -386,7 +384,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 选中的是否是报表块
-     * @return    是则返回true
+     *
+     * @return 是则返回true
      */
     public boolean isSelectedECBolck() {
         return this.selection instanceof ECBlockCreator;
@@ -408,7 +407,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         }
         repaint();
     }
-
 
 
     /**
@@ -461,6 +459,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 黏贴
+     *
      * @return 黏贴成功返回true
      */
     public boolean paste() {
@@ -520,6 +519,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 删除
+     *
      * @return 删除成功返回true
      */
     public boolean delete() {
@@ -559,6 +559,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 剪切
+     *
      * @return 剪切成功返回true
      */
     public boolean cut() {
@@ -569,8 +570,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 移动
-     * @param x    横坐标
-     * @param y    纵坐标
+     *
+     * @param x 横坐标
+     * @param y 纵坐标
      */
     public void move(int x, int y) {
         if (selection == null) {
@@ -672,11 +674,11 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         int id = evt.getID();
         switch (id) {
             case MouseEvent.MOUSE_WHEEL: {
-                if (isCtrl){
+                if (isCtrl) {
                     int dir = evt.getWheelRotation();
                     int old_resolution = (int) jSliderContainer.getShowVal().getValue();
                     jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
-                }else {
+                } else {
                     int rotations = evt.getWheelRotation();
                     this.getVerticalScrollBar().setValue(this.getVerticalScrollBar().getValue() + rotations * ROTATIONS);
                 }
@@ -687,7 +689,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 开始编辑
-     * @param blockName  聚合块名称
+     *
+     * @param blockName 聚合块名称
      */
     public void startEditing(String blockName) {
         if (StringUtils.isBlank(blockName)) {
@@ -877,9 +880,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         if (!ComparatorUtils.equals(selectedtype, type) || type == SelectionType.NONE) {
             selectedtype = type;
             JTemplate<?, ?> jt = DesignerContext.getDesignerFrame().getSelectedJTemplate();
-            if(jt != null){
-            	jt.setComposite();
-            }            
+            if (jt != null) {
+                jt.setComposite();
+            }
             DesignerContext.getDesignerFrame().resetToolkitByPlus(DesignerContext.getDesignerFrame().getSelectedJTemplate());
             if (BaseUtils.isAuthorityEditing()) {
                 EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
@@ -918,8 +921,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     /**
-     *   是否选中聚合块本身
-     * @return   是则返回true
+     * 是否选中聚合块本身
+     *
+     * @return 是则返回true
      */
     public boolean isChooseBlock() {
         return selectedtype == SelectionType.BLOCK;
@@ -967,89 +971,82 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     /**
      * 计算滚动条的值和max
-     * @param oldmax 之前最大值
-     * @param max 当前最大值
-     * @param newValue 当前value
-     * @param oldValue 之前value
-     * @param visi designer的大小
+     *
+     * @param oldmax      之前最大值
+     * @param max         当前最大值
+     * @param newValue    当前value
+     * @param oldValue    之前value
+     * @param visi        designer的大小
      * @param orientation 滚动条方向
      * @return 计算后的值和max
      */
-	public Point calculateScroll(int oldmax, int max, int newValue, int oldValue, int visi, int orientation) {
-		return new Point(newValue, max);
-	}
-	
-	/**
-	 * 获取当前聚合报表区域左上角x坐标
-	 * 
-	 * @return 当前聚合报表区域左上角x坐标
-	 * 
-	 */
-	public double getAreaLocationX(){
-		return polyArea.getLocationOnScreen().getX();
-	}
-	
-	/**
-	 * 获取当前聚合报表区域左上角y坐标
-	 * 
-	 * @return 当前聚合报表区域左上角y坐标
-	 * 
-	 */
-	public double getAreaLocationY(){
-		return polyArea.getLocationOnScreen().getY();
-	}
-	
-	/**
-	 * 检测指定块是否与其他的块有重叠区域
-	 * 
-	 * @param creator 指定的块编辑器
-	 * 
-	 * @return 是否与其他的块有重叠区域
-	 * 
-	 */
-	public boolean intersectsAllBlock(BlockCreator creator){
-		return intersectsAllBlock(creator.getValue());
-	}
-	
-	/**
-	 * 检测指定块是否与其他的块有重叠区域
-	 * 
-	 * @param block 指定的块
-	 * 
-	 * @return 是否与其他的块有重叠区域
-	 * 
-	 */
-	public boolean intersectsAllBlock(TemplateBlock block){
-		UnitRectangle rec = block.getBounds();
-		String blockName = block.getBlockName();
-		return intersectsAllBlock(rec, blockName);
-	}
-	
-	/**
-	 * 检测指定块是否与其他的块有重叠区域
-	 * 
-	 * @param rec 指定的块区域
-	 * @param blockName 指定的块名称
-	 * 
-	 * @return 是否与其他的块有重叠区域
-	 * 
-	 */
-	public boolean intersectsAllBlock(UnitRectangle rec, String blockName){
-		PolyWorkSheet worksheet = this.getTarget();
-		int count = worksheet.getBlockCount();
-		for (int i = 0; i < count; i++) {
-			Block temp_block = worksheet.getBlock(i);
-			UnitRectangle temp_rect = temp_block.getBounds();
-			
-			if(ComparatorUtils.equals(blockName, temp_block.getBlockName())){
-				continue;
-			}
-			
-			if(temp_rect.intersects(rec)){
-				return true;
-			}
-		}
-		
-		return false;
-	}
+    public Point calculateScroll(int oldmax, int max, int newValue, int oldValue, int visi, int orientation) {
+        return new Point(newValue, max);
+    }
+
+    /**
+     * 获取当前聚合报表区域左上角x坐标
+     *
+     * @return 当前聚合报表区域左上角x坐标
+     */
+    public double getAreaLocationX() {
+        return polyArea.getLocationOnScreen().getX();
+    }
+
+    /**
+     * 获取当前聚合报表区域左上角y坐标
+     *
+     * @return 当前聚合报表区域左上角y坐标
+     */
+    public double getAreaLocationY() {
+        return polyArea.getLocationOnScreen().getY();
+    }
+
+    /**
+     * 检测指定块是否与其他的块有重叠区域
+     *
+     * @param creator 指定的块编辑器
+     * @return 是否与其他的块有重叠区域
+     */
+    public boolean intersectsAllBlock(BlockCreator creator) {
+        return intersectsAllBlock(creator.getValue());
+    }
+
+    /**
+     * 检测指定块是否与其他的块有重叠区域
+     *
+     * @param block 指定的块
+     * @return 是否与其他的块有重叠区域
+     */
+    public boolean intersectsAllBlock(TemplateBlock block) {
+        UnitRectangle rec = block.getBounds();
+        String blockName = block.getBlockName();
+        return intersectsAllBlock(rec, blockName);
+    }
+
+    /**
+     * 检测指定块是否与其他的块有重叠区域
+     *
+     * @param rec       指定的块区域
+     * @param blockName 指定的块名称
+     * @return 是否与其他的块有重叠区域
+     */
+    public boolean intersectsAllBlock(UnitRectangle rec, String blockName) {
+        PolyWorkSheet worksheet = this.getTarget();
+        int count = worksheet.getBlockCount();
+        for (int i = 0; i < count; i++) {
+            Block temp_block = worksheet.getBlock(i);
+            UnitRectangle temp_rect = temp_block.getBounds();
+
+            if (ComparatorUtils.equals(blockName, temp_block.getBlockName())) {
+                continue;
+            }
+
+            if (temp_rect.intersects(rec)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
