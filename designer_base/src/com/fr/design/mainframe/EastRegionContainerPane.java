@@ -28,7 +28,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private JPanel leftPane;
     private JPanel rightPane;
     private FixedPopupPane currentPopupPane;
-    private static final int CONTAINER_WIDTH = 260;
+    private static final int CONTAINER_WIDTH = 290;
     private static final int TAB_WIDTH = 40;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
     private static final int POPUP_TOOLPANE_HEIGHT = 25;
