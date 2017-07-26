@@ -1,7 +1,7 @@
 package com.fr.design.mainframe;
 
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.chart.base.MapSvgXMLHelper;
+import com.fr.base.MapSvgAttr;
+import com.fr.base.MapSvgXMLHelper;
 import com.fr.chart.chartglyph.MapShapeValue;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.series.PlotSeries.AbstrctMapAttrEditPane;

@@ -1,10 +1,10 @@
 package com.fr.design.chart.report;
 
+import com.fr.base.MapSvgAttr;
+import com.fr.base.MapSvgXMLHelper;
 import com.fr.base.MapXMLHelper;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartConstants;
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.chart.base.MapSvgXMLHelper;
 import com.fr.chart.chartglyph.MapAttr;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;

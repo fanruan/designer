@@ -1,6 +1,6 @@
 package com.fr.design.chart.series.PlotSeries;
 
-import com.fr.chart.base.MapSvgAttr;
+import com.fr.base.MapSvgAttr;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,8 +1,8 @@
 package com.fr.design.chart.series.PlotSeries;
 
+import com.fr.base.MapSvgAttr;
+import com.fr.base.MapSvgXMLHelper;
 import com.fr.base.Utils;
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.chart.base.MapSvgXMLHelper;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.editor.ValueEditorPane;

@@ -1,34 +1,13 @@
 package com.fr.design.chart.series.PlotSeries;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.GeneralPath;
-import java.util.*;
-
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import com.fr.base.*;
-import com.fr.chart.base.MapSvgAttr;
-import com.fr.chart.base.MapSvgXMLHelper;
+import com.fr.base.BaseUtils;
+import com.fr.base.MapSvgAttr;
+import com.fr.base.MapSvgXMLHelper;
+import com.fr.base.Utils;
 import com.fr.chart.chartglyph.MapShapeValue;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.ChangeEvent;
 import com.fr.design.event.ChangeListener;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -37,13 +16,23 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UISelectTable;
 import com.fr.design.gui.itable.UITableNoOptionUI;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.dialog.UIDialog;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 地图 图片编辑界面 选中图片 编辑. 支持鼠标选中等事件
