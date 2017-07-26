@@ -1,10 +1,13 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.columnrow.DSColumnConditionAction;
 import com.fr.design.dscolumn.DSColumnAdvancedEditorPane;
 import com.fr.design.dscolumn.DSColumnBasicEditorPane;
 import com.fr.design.dscolumn.ResultSetGroupDockingPane;
 import com.fr.design.dscolumn.SelectedDataColumnPane;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.cell.CellEditorPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.quickeditor.CellQuickEditor;
@@ -30,6 +33,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private SelectedDataColumnPane dataPane;
     //数据分组设置组件
     private ResultSetGroupDockingPane groupPane;
+    //过滤条件面板
+    private JPanel conditionPane;
     // 基本和高级设置
     private ArrayList<CellEditorPane> paneList;
     // 基本和高级设置 卡片布局
@@ -171,9 +176,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
         /*基本设置面板*/
         this.dataPane = new SelectedDataColumnPane(false);
         this.groupPane = new ResultSetGroupDockingPane(tc);
+        this.conditionPane = new JPanel(new BorderLayout());
+        conditionPane.add(new UILabel("filter"), BorderLayout.WEST);
+        if (tc != null) {
+            //第一次初始化时tc为空，引发NullPointerException
+            conditionPane.add(new UIButton(new DSColumnConditionAction(tc)), BorderLayout.EAST);
+        }
         dataPane.addListener(dataListener);
         groupPane.addListener(groupListener);
-        paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane));
+        paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane, conditionPane));
 
 
         /*高级设置面板*/

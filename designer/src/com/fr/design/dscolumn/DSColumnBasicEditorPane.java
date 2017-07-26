@@ -23,11 +23,14 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
     private ResultSetGroupDockingPane groupPane;
     //当前编辑的单元格
     private TemplateCellElement cellElement;
+    //条件过滤按钮面板
+    private JPanel conditionPane;
 
-    public DSColumnBasicEditorPane(TemplateCellElement cellElement, SelectedDataColumnPane dataPane, ResultSetGroupDockingPane groupPane) {
+    public DSColumnBasicEditorPane(TemplateCellElement cellElement, SelectedDataColumnPane dataPane, ResultSetGroupDockingPane groupPane, JPanel conditionPane) {
         this.cellElement = cellElement;
         this.dataPane = dataPane;
         this.groupPane = groupPane;
+        this.conditionPane = conditionPane;
         this.add(this.createContentPane(), BorderLayout.CENTER);
     }
 
@@ -66,12 +69,14 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
+        double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 //数据集列选择
                 new Component[]{this.dataPane, null},
                 //数据分组设置
-                new Component[]{this.groupPane, null}
+                new Component[]{this.groupPane, null},
+                //条件过滤
+                new Component[]{this.conditionPane, null}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
