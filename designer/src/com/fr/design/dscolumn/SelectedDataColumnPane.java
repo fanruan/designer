@@ -81,11 +81,11 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setEditable(true);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel label1 = new UILabel(Inter.getLocText("TableData") + ":");
-        UILabel label3 = new UILabel(Inter.getLocText("DataColumn") + ":");
+        UILabel label1 = new UILabel(Inter.getLocText("TableData"));
+        UILabel label3 = new UILabel(Inter.getLocText("DataColumn"));
         if (showParameterButton) {
             //todo 国际化
-            UILabel label2 = new UILabel("param" + ":");
+            UILabel label2 = new UILabel("param");
             Component[][] components = {
                     {label1, tableNameComboBox},
                     {label2, paramButton},

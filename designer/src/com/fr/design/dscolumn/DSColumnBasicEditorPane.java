@@ -69,15 +69,15 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
     private JPanel createContentPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 //数据集列选择
-                new Component[]{this.dataPane, null},
+                new Component[]{this.dataPane},
                 //数据分组设置
-                new Component[]{this.groupPane, null},
+                new Component[]{this.groupPane},
                 //条件过滤
-                new Component[]{this.conditionPane, null}
+                new Component[]{this.conditionPane}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }

@@ -8,6 +8,8 @@ import com.fr.design.dscolumn.SelectedDataColumnPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.CellEditorPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.quickeditor.CellQuickEditor;
@@ -152,6 +154,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         String[] iconArray = new String[paneList.size()];
         card = new CardLayout();
         center = new JPanel(card);
+        center.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         for (int i = 0; i < paneList.size(); i++) {
             CellEditorPane pane = paneList.get(i);
             iconArray[i] = pane.getIconPath();
@@ -176,12 +179,18 @@ public class CellDSColumnEditor extends CellQuickEditor {
         /*基本设置面板*/
         this.dataPane = new SelectedDataColumnPane();
         this.groupPane = new ResultSetGroupDockingPane(tc);
-        this.conditionPane = new JPanel(new BorderLayout());
-        conditionPane.add(new UILabel("filter:"), BorderLayout.WEST);
+        double p = TableLayout.PREFERRED, f = TableLayout.FILL;
+        double[] rowSize = {p}, columnSize = {p, f};
+        UILabel uiLabel = new UILabel("filter");
+        UIButton uiButton = new UIButton();
         if (tc != null) {
             //第一次初始化时tc为空，引发NullPointerException
-            conditionPane.add(new UIButton(new DSColumnConditionAction(tc)), BorderLayout.CENTER);
+            uiButton = new UIButton(new DSColumnConditionAction(tc));
         }
+        Component[][] components = new Component[][]{
+                new Component[]{uiLabel, uiButton}
+        };
+        this.conditionPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         dataPane.addListener(dataListener);
         groupPane.addListener(groupListener);
         paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane, conditionPane));
