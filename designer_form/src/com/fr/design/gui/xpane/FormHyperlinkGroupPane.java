@@ -39,4 +39,8 @@ public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
 		 return creators;
 	 }
 
+	@Override
+	public void saveSettings() {
+	}
+
 }
