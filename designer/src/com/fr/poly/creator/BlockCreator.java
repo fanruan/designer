@@ -89,6 +89,11 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
 	public abstract BlockEditor getEditor();
 
+	public abstract int getX(float time);
+
+	public abstract int getY(float time);
+
+
 
 	/**
 	 * 检测按钮状态

@@ -10,6 +10,7 @@ import com.fr.data.core.db.dml.Delete;
 import com.fr.data.core.db.dml.Select;
 import com.fr.data.core.db.dml.Table;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
@@ -317,6 +318,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 sendFunctionsInfo();
                 sendUserInfo();
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
+				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
 		});
     	sendThread.start();

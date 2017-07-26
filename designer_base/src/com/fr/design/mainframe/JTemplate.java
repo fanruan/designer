@@ -143,11 +143,13 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
         return undoState;
     }
 
+    /**
+     * set/get 模板屏幕分辨率
+     */
     public abstract void setJTemplateResolution(int resolution);
 
     public abstract int getJTemplateResolution();
 
-    ;
 
     /**
      * 初始化权限细粒度撤销状态
@@ -218,10 +220,16 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      */
     public abstract void removeParameterPaneSelection();
 
+    /**
+     * 缩放参数
+     */
     public abstract void setScale(int resolution);
 
     public abstract int getScale();
 
+    /**
+     * 缩放参数自适应
+     */
     public abstract int selfAdaptUpdate();
 
     protected abstract DesignModelAdapter<T, ?> createDesignModel();

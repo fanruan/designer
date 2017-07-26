@@ -9,11 +9,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -71,6 +67,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 	private double START_VALUE = DEFAULT_SLIDER;
 	private int resolution = ScreenResolution.getScreenResolution();
 	private double screenValue;
+	private boolean isCtrl = false;
 
 	public FormScrollBar getHorScrollBar() {
 		return horScrollBar;
@@ -105,7 +102,38 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 			addFormRuler();
 		}
 		this.setFocusTraversalKeysEnabled(false);
+		this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
+		this.designer.addKeyListener(showValSpinnerKeyListener);
 	}
+
+
+	KeyListener showValSpinnerKeyListener = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if( e.isControlDown()){
+				isCtrl = true ;
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {
+			isCtrl = false ;
+		}
+	};
+
+	MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			if (isCtrl){
+				int dir = e.getWheelRotation();
+				int old_resolution = (int) slidePane.getShowVal().getValue();
+				slidePane.getShowVal().setValue(old_resolution - (dir * SHOWVALMIN));
+			}
+		}
+	};
 
 	/**
 	 * 增加表单的页面大小控制界面，包括手动修改和滑块拖动

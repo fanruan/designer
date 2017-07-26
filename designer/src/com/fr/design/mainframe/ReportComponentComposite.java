@@ -1,18 +1,5 @@
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.design.designer.EditingState;
@@ -25,6 +12,13 @@ import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.report.TemplateReport;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * 整个报表编辑区域 包括滚动条、中间的grid或者聚合块、下面的sheetTab
@@ -51,12 +45,15 @@ public class ReportComponentComposite extends JComponent {
 
     private JSliderPane jSliderContainer;
 
+    private boolean isCtrl = false;
+
 
     /**
      * Constructor with workbook..
-     *
      */
     public ReportComponentComposite(JWorkBook jwb) {
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         this.parent = jwb;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(centerCardPane = new ReportComponentCardPane(), BorderLayout.CENTER);
@@ -67,15 +64,47 @@ public class ReportComponentComposite extends JComponent {
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
     }
+
+    KeyListener showValSpinnerKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.isControlDown()) {
+                isCtrl = true;
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCtrl = false;
+        }
+    };
+
+    MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if (isCtrl) {
+                int dir = e.getWheelRotation();
+                int old_resolution = (int) jSliderContainer.getShowVal().getValue();
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+            }
+        }
+    };
 
     ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
-            double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
-            value = value>MAX ? MAX : value;
-            value = value<MIN ? MIN : value;
-            int resolution =  (int) (ScreenResolution.getScreenResolution()*value/HUND);
+            double value = (int) ((UIBasicSpinner) e.getSource()).getValue();
+            value = value > MAX ? MAX : value;
+            value = value < MIN ? MIN : value;
+            int resolution = (int) (ScreenResolution.getScreenResolution() * value / HUND);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }
     };
@@ -83,9 +112,9 @@ public class ReportComponentComposite extends JComponent {
     ItemListener selfAdaptButtonItemListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if (jSliderContainer.getSelfAdaptButton().isSelected()){
+            if (jSliderContainer.getSelfAdaptButton().isSelected()) {
                 int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().selfAdaptUpdate();
-                jSliderContainer.getShowVal().setValue(resolution*HUND/ScreenResolution.getScreenResolution());
+                jSliderContainer.getShowVal().setValue(resolution * HUND / ScreenResolution.getScreenResolution());
             }
         }
     };
@@ -104,6 +133,7 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         centerCardPane.populate(workbook.getTemplateReport(newIndex));
+
         if (parentContainer != null) {
             parentContainer.setDownPane(ReportComponentComposite.this);
         }
@@ -131,11 +161,10 @@ public class ReportComponentComposite extends JComponent {
     }
 
     /**
-	 * 移除选中状态
-	 * 
-	 * @date 2015-2-5-上午11:41:44
-	 * 
-	 */
+     * 移除选中状态
+     *
+     * @date 2015-2-5-上午11:41:44
+     */
     public void removeSelection() {
         if (centerCardPane.editingComponet instanceof WorkSheetDesigner) {
             ((WorkSheetDesigner) centerCardPane.editingComponet).removeSelection();
@@ -151,6 +180,10 @@ public class ReportComponentComposite extends JComponent {
 
     public int getEditingIndex() {
         return sheetNameTab.getSelectedIndex();
+    }
+
+    public JSliderPane getjSliderContainer() {
+        return this.jSliderContainer;
     }
 
 
@@ -201,21 +234,11 @@ public class ReportComponentComposite extends JComponent {
         splitpane.setBorder(null);
         splitpane.setDividerSize(3);
         splitpane.setResizeWeight(1);
-        southPane.add(hbarContainer,BorderLayout.NORTH);
-        southPane.add(splitpane,BorderLayout.CENTER);
+        southPane.add(hbarContainer, BorderLayout.NORTH);
+        southPane.add(splitpane, BorderLayout.CENTER);
         return southPane;
     }
 
-    private JComponent createSouthControlPaneWithJSliderPane() {
-        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
-        JSplitPane splitWithJSliderPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, hbarContainer, JSliderPane.getInstance());
-        splitWithJSliderPane.setBorder(null);
-        splitWithJSliderPane.setDividerLocation(0.9);
-        splitWithJSliderPane.setDividerSize(3);
-        splitWithJSliderPane.setResizeWeight(1);
-        return splitWithJSliderPane;
-    }
 
     public void setSelectedIndex(int selectedIndex) {
         sheetNameTab.setSelectedIndex(selectedIndex);
