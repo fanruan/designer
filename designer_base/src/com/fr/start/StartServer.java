@@ -19,7 +19,6 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.start.job.favoriteparams.FavoriteParamsJob;
 import com.fr.start.server.JettyHost;
 
 import javax.swing.*;
@@ -127,7 +126,6 @@ public class StartServer {
         } catch (Exception e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
         } finally {
-            FavoriteParamsJob.create().start();
             browser(url);
         }
     }
