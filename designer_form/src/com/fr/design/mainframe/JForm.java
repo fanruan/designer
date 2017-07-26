@@ -96,6 +96,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public TargetComponent getCurrentElementCasePane() {
+        if (elementCaseDesign == null) {
+            return null;
+        }
         return elementCaseDesign.getEditingElementCasePane();
     }
 

@@ -87,5 +87,7 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
                 }
             });
         }
+
+        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
 }
