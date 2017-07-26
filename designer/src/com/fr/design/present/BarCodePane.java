@@ -69,6 +69,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         addlistener();
     }
 
+
     private void initComponents() {
         barCodePreviewPane = new BarCodePreviewPane();
         this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 100, 0.1));

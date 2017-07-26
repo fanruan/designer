@@ -17,6 +17,12 @@ import com.fr.form.ui.EditorHolder;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.Background;
+import com.fr.general.GeneralContext;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -27,12 +33,31 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 public class ToolTipEditor extends JWindow {
-	
-	private static ToolTipEditor editor = new ToolTipEditor();
-	
-	public static ToolTipEditor getInstance() {
-		return editor;
-	}
+    
+    private static volatile ToolTipEditor editor = new ToolTipEditor();
+    
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            
+            @Override
+            public void on(PluginEvent event) {
+                
+                editor = new ToolTipEditor();
+            }
+        }, new PluginFilter() {
+            
+            @Override
+            public boolean accept(PluginContext context) {
+                
+                return context.contain(PluginModule.ExtraDesign);
+            }
+        });
+    }
+    
+    public static ToolTipEditor getInstance() {
+        
+        return editor;
+    }
 
 	private XEditorHolder holder;
 	private Border buttonBorder = new UIRoundedBorder(new Color(149, 149, 149), 1, 5);

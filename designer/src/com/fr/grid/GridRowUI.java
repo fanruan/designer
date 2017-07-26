@@ -27,6 +27,14 @@ import com.fr.report.elementcase.ElementCase;
  */
 public class GridRowUI extends ComponentUI {
     private Color detailsBackground = Color.lightGray;
+    private int resolution ;
+
+    GridRowUI(int resolution){
+        if (resolution == 0){
+            resolution =  ScreenResolution.getScreenResolution();
+        }
+        this.resolution = resolution;
+    }
 
     @Override
     public void paint(Graphics g, JComponent c) {
@@ -49,7 +57,6 @@ public class GridRowUI extends ComponentUI {
         // paint more rows(double extent), for dragging.
         int verticalEndValue = verticalValue + verticalExtent + 1;
         double horizontalLineHeight = size.getHeight();
-        int resolution = ScreenResolution.getScreenResolution();
 
         // use background to paint first.
         // denny: 用来标识已有数据
@@ -149,23 +156,20 @@ public class GridRowUI extends ComponentUI {
         float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent();
         double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth();
         double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight();
-        // AUGUST:如果高度太小了就不画了
-        if (stringHeight <= tmpIncreaseHeight + 2) {
-
-            if (isSelectedBounds) {
-                g2d.setColor(gridRow.getSelectedForeground());
+        if (isSelectedBounds) {
+            g2d.setColor(gridRow.getSelectedForeground());
+        } else {
+            // p:检查eanbled
+            if (gridRow.isEnabled()) {
+                g2d.setColor(gridRow.getForeground());
             } else {
-                // p:检查eanbled
-                if (gridRow.isEnabled()) {
-                    g2d.setColor(gridRow.getForeground());
-                } else {
-                    g2d.setPaint(UIManager.getColor("controlShadow"));
-                }
+                g2d.setPaint(UIManager.getColor("controlShadow"));
             }
-
-            GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent
-                    - 2);
         }
+
+        GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent
+                - 2);
+
     }
 
 }

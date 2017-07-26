@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 
 import com.fr.base.DynamicUnitList;
+import com.fr.base.ScreenResolution;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
@@ -22,8 +23,15 @@ import com.fr.stable.ColumnRow;
  */
 public class GridColumnMouseHandler extends AbstractGridHeaderMouseHandler {
 
+	private int resolution;
+
 	public GridColumnMouseHandler(GridColumn gridColumn) {
 		super(gridColumn);
+		this.resolution = gridColumn.resolution;
+	}
+
+	public void setResolution(int resolution){
+		this.resolution = resolution;
 	}
 
 	@Override
@@ -86,7 +94,6 @@ public class GridColumnMouseHandler extends AbstractGridHeaderMouseHandler {
 	/**
 	 * Checks whether is on zero separator line.
 	 *
-	 * @param evtX event x
 	 */
 	@Override
 	protected boolean isOnSeparatorLineIncludeZero(MouseEvent evt, double tmpWidth2, double tmpIncreaseWidth) {

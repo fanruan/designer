@@ -3,7 +3,10 @@
  */
 package com.fr.design;
 
-import com.fr.base.*;
+import com.fr.base.BaseXMLUtils;
+import com.fr.base.Env;
+import com.fr.base.FRContext;
+import com.fr.base.Utils;
 import com.fr.dav.LocalEnv;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
@@ -18,7 +21,6 @@ import com.fr.stable.xml.*;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
-
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
+import org.apache.log4j.Level;
 
 /**
  * The manager of Designer GUI.
@@ -150,17 +152,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     designerEnvManager.setCurEnvName(name);
                 }
             }
+    
+            GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+                @Override
+                public void envChanged() {
+            
+                    designerEnvManager.setCurrentDirectoryPrefix(FILEFactory.ENV_PREFIX);
+                    designerEnvManager.setDialogCurrentDirectory(ProjectConstants.REPORTLETS_NAME);
+                }
+            });
+    
         }
 
-        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
-            @Override
-            public void envChanged() {
-
-                designerEnvManager.setCurrentDirectoryPrefix(FILEFactory.ENV_PREFIX);
-                designerEnvManager.setDialogCurrentDirectory(ProjectConstants.REPORTLETS_NAME);
-            }
-        });
-
+      
         return designerEnvManager;
     }
 
@@ -1798,8 +1802,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (env == null) {
             return;
         }
-
-        writer.startTAG("Env").attr("class", env.getClass().getName()).attr("name", name);
+    
+        writer.startTAG("Env");
+        writer.classAttr(env.getClass());
+        writer.attr("name", name);
 
         env.writeXML(writer);
 

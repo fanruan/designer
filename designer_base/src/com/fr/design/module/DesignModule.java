@@ -16,7 +16,6 @@ import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.js.*;
 import com.fr.module.TopModule;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 

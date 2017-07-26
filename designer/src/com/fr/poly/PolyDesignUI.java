@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -27,12 +28,14 @@ import com.fr.general.Inter;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.poly.creator.BlockCreator;
+import com.fr.poly.creator.ECBlockCreator;
 import com.fr.poly.model.AddedData;
 import com.fr.poly.model.AddingData;
 import com.fr.report.report.Report;
 import com.fr.report.report.TemplateReport;
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Constants;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.unit.UNIT;
 
 /**
@@ -44,13 +47,17 @@ public class PolyDesignUI extends ComponentUI {
     
     private static final double SCROLL_POINT = 50;
     private static final int SCROLL_DISTANCE = 15;
-    
+    private static final int TEN = 10;
+    private static final int HHUNDRED = 100;
     private PolyDesigner designer;
-    private int resolution = ScreenResolution.getScreenResolution();
-	private int ten = 10;
-	private int hundred = 100;
+    private int resolution;
+	private float time;
 
-    public PolyDesignUI() {
+    public PolyDesignUI(int resolution) {
+        if (resolution == 0){
+            resolution = ScreenResolution.getScreenResolution();
+        }
+        this.resolution = resolution;
     }
 
     /**
@@ -83,6 +90,8 @@ public class PolyDesignUI extends ComponentUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
+        this.resolution = ((PolyArea)c).getResolution();
+        this.time = (float)resolution/ScreenResolution.getScreenResolution();
         paintBackground(g, c);
         Graphics2D g2d = (Graphics2D) g;
         paintAddedData(g2d);
@@ -100,20 +109,20 @@ public class PolyDesignUI extends ComponentUI {
             BlockCreator creator = addedData.getAddedAt(i);
             // richer:如果当前这个组件正在编辑，那么他是完全被他的编辑器所遮挡的，不需要画出来
 			if (creator == designer.getSelection()) {
-				paintPositionLine(g, creator.getX(), creator.getY(), designer.getHorizontalValue(), designer
-						.getVerticalValue());
-				if (creator.getEditor().isDragging()) {
-					creator.getEditor().paintAbsorptionline(g);
-					//如果与其他块重合了, 需要画出提示禁止重叠
-					changeForbiddenWindowVisibility(creator);
-					//到边缘地带自动滚动
-					scrollWhenCreatorAtCorner(creator);
-				}else{
-					creator.getEditor().hideForbiddenWindow();
-				}
+                paintPositionLine(g, creator.getX(time), creator.getY(time),
+                        (int) (designer.getHorizontalValue()*time), (int) (designer.getVerticalValue()*time));
+                if (creator.getEditor().isDragging()) {
+                    creator.getEditor().paintAbsorptionline(g);
+                    //如果与其他块重合了, 需要画出提示禁止重叠
+                    changeForbiddenWindowVisibility(creator);
+                    //到边缘地带自动滚动
+                    scrollWhenCreatorAtCorner(creator);
+                }else{
+                    creator.getEditor().hideForbiddenWindow();
+                }
 			} else {
-                paintCreator(g, creator, creator.getX() - designer.getHorizontalValue(), creator.getY() - designer.getVerticalValue(),
-                        creator.getWidth(), creator.getHeight());
+                paintCreator(g, creator, (int) (creator.getX()*time - designer.getHorizontalValue()*time), (int) (creator.getY()*time - designer.getVerticalValue()*time),
+                        (int) (creator.getWidth()*time), (int) (creator.getHeight()*time));
             }
         }
     }
@@ -126,8 +135,8 @@ public class PolyDesignUI extends ComponentUI {
 			return;
 		}
 		
-        int x = (int) (designer.getAreaLocationX() + pixRec.getCenterX() - designer.getHorizontalValue());
-        int y = (int) (designer.getAreaLocationY() + pixRec.getCenterY() - designer.getVerticalValue());
+        int x = (int) (designer.getAreaLocationX() + pixRec.getCenterX()*time - designer.getHorizontalValue());
+        int y = (int) (designer.getAreaLocationY() + pixRec.getCenterY()*time - designer.getVerticalValue());
 		creator.getEditor().showForbiddenWindow(x, y);
     }
     
@@ -183,16 +192,16 @@ public class PolyDesignUI extends ComponentUI {
     
 	private String convertUnit(int i) {
 		short unit = designer.getRulerLengthUnit();
-		int resolution = ScreenResolution.getScreenResolution();
+//		int resolution = ScreenResolution.getScreenResolution();
 		if (unit == Constants.UNIT_MM) {
 			Double j = (i + 2) * 1.0 * Constants.HUNDRED_FU_PER_INCH / Constants.HUNDRED_FU_PER_MM / resolution;
 			return j.intValue() + Inter.getLocText("Unit_MM");
 		} else if (unit == Constants.UNIT_CM) {
 			Double j = (i + 2) * 1.0 * Constants.HUNDRED_FU_PER_INCH / Constants.HUNDRED_FU_PER_MM / resolution;
-			return new DecimalFormat("0.0").format(j.intValue() * 1.0 / ten) + Inter.getLocText("Unit_CM");
+			return new DecimalFormat("0.0").format(j.intValue() * 1.0 / TEN) + Inter.getLocText("Unit_CM");
 		} else if (unit == Constants.UNIT_INCH) {
-			Double j = i == 0 ? 0 : (i + 2) * 1.0 / resolution * hundred;
-			return new DecimalFormat("0.00").format(j.intValue() * 1.0 / hundred) + Inter.getLocText("Unit_INCH");
+			Double j = i == 0 ? 0 : (i + 2) * 1.0 / resolution * HHUNDRED;
+			return new DecimalFormat("0.00").format(j.intValue() * 1.0 / HHUNDRED) + Inter.getLocText("Unit_INCH");
 		} else if (unit == Constants.UNIT_PT) {
 			int j = i == 0 ? 0 : (i + 2) * UNIT.PT_PER_INCH / resolution;
 			return j + Inter.getLocText("Unit_PT");
@@ -203,10 +212,10 @@ public class PolyDesignUI extends ComponentUI {
 
     private void paintAddingData(Graphics g, AddingData addingData) {
         BlockCreator comp = addingData.getCreator();
-        int x = addingData.getCurrentX();
-        int y = addingData.getCurrentY();
-        int width = comp.getWidth();
-        int height = comp.getHeight();
+        int x = (int) (addingData.getCurrentX()*time);
+        int y = (int) (addingData.getCurrentY()*time);
+        int width = (int) (comp.getWidth()*time);
+        int height = (int) (comp.getHeight()*time);
         paintCreator(g, comp, x, y, width, height);
     }
 
@@ -214,9 +223,16 @@ public class PolyDesignUI extends ComponentUI {
         ArrayList<JComponent> dbcomponents = new ArrayList<JComponent>();
         // richer:禁止双缓冲行为,否则会出现两个图像
         ComponentUtils.disableBuffer(comp, dbcomponents);
-        Graphics clipg = g.create(x, y, width, height);
-        comp.paint(clipg);
-        clipg.dispose();
+//        Graphics clipg = g.create(x, y, width*resolution/ScreenResolution.getScreenResolution(), height*resolution/ScreenResolution.getScreenResolution());
+//
+        BufferedImage img = CoreGraphHelper.createBufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = img.createGraphics();
+        comp.printAll(g2d);
+        g2d.dispose();
+        g.drawImage(img,x,y,width,height,null);
+
+//        comp.paint(clipg);
+//        clipg.dispose();
         ComponentUtils.resetBuffer(dbcomponents);
     }
 

@@ -11,12 +11,7 @@ import java.awt.Rectangle;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.util.Set;
 
@@ -191,7 +186,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * Constructor.
      */
-    public ElementCasePane(T t) {
+        public ElementCasePane(T t) {
         super(t);
         // marks:能触发processEvent，不管是否给component增加listener。这里是使在reportPane中的任意位置滑动鼠标轮都能
         // 下拉grid。
@@ -213,7 +208,10 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     protected void initComponents() {
         this.setLayout(new RGridLayout());
 
-        this.resolution = ScreenResolution.getScreenResolution();
+        //todo 直接修改分辨率
+        if (this.resolution == 0){
+            this.resolution = ScreenResolution.getScreenResolution();
+        }
 
         this.initGridComponent();
 
@@ -231,7 +229,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         verScrollBar = new DynamicScrollBar(Adjustable.VERTICAL, this, this.resolution);
         horScrollBar = new DynamicScrollBar(Adjustable.HORIZONTAL, this, this.resolution);
         this.add(RGridLayout.VerticalBar, this.verScrollBar);
-        // this.add(RGridLayout.HorizontalBar, this.horScrollBar);
+//         this.add(RGridLayout.HorizontalBar, this.horScrollBar);
 
         // Init input/action map defaultly.
         initInputActionMap();
@@ -243,6 +241,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         initDefaultEditors();
         initFormatBrush();
     }
+
+
 
     public int getMenuState() {
         return DesignState.WORK_SHEET;
@@ -297,7 +297,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         if(DesignerContext.getReferencedElementCasePane() == null){
         	return;
         }
-        
+
         ((ElementCasePane) DesignerContext.getReferencedElementCasePane()).getGrid().setNotShowingTableSelectPane(true);
         ((ElementCasePane) DesignerContext.getReferencedElementCasePane()).getGrid().setCursor(UIConstants.CELL_DEFAULT_CURSOR);
         DesignerContext.setReferencedElementCasePane(null);
@@ -347,6 +347,14 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     }
 
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
+    }
 
     /**
      * 所有的操作都必须在可见范围内，否则不做任何操作
@@ -504,7 +512,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     public void setSelection(Selection selection) {
         if (!ComparatorUtils.equals(this.selection, selection) ||
-                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getDownPane(), CellElementPropertyPane.getInstance())) {
+                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
             this.selection = selection;
             fireSelectionChanged();
         }
@@ -1049,7 +1057,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
         ElementCase elementCase = this.getEditingElementCase();
         boolean cancel = false;
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(this, evt.getX(), evt.getY());
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(this, evt.getX(), evt.getY(), this.resolution);
         ReportPageAttrProvider reportPageAttr = elementCase.getReportPageAttr();
         ElementCase report = this.getEditingElementCase();
         if (reportPageAttr != null) {
@@ -1142,7 +1150,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         HeadColumnAction headcolumnAction = new HeadColumnAction(this);
         FootColumnAction footcolumnAction = new FootColumnAction(this);
 
-        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow(this, evt.getX(), evt.getY());
+        ColumnRow selectedCellPoint = GridUtils.getAdjustEventColumnRow_withresolution(this, evt.getX(), evt.getY(),this.resolution);
         ElementCase elementCase = this.getEditingElementCase();
         boolean cancel = false;
         ReportPageAttrProvider reportPageAttr = elementCase.getReportPageAttr();

@@ -114,6 +114,7 @@ public class Grid extends BaseGridComponent {
     private int resolution;
     // 判断SmartJTablePane是否显示，做为动态虚线标识符
     private boolean notShowingTableSelectPane = true;
+    private GridMouseAdapter gridMouseAdapter;
 
     public Grid(int resolution) {
         this.resolution = resolution;
@@ -121,7 +122,7 @@ public class Grid extends BaseGridComponent {
         enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
         GridKeyAction.initGridInputActionMap(this);
-        GridMouseAdapter gridMouseAdapter = new GridMouseAdapter(this);
+        gridMouseAdapter = new GridMouseAdapter(this);
 
         this.addMouseListener(gridMouseAdapter);
         this.addMouseMotionListener(gridMouseAdapter);
@@ -136,6 +137,14 @@ public class Grid extends BaseGridComponent {
         this.updateUI();
     }
 
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
+    }
+
+    public int getResolution() {
+        return this.resolution;
+    }
+
     /**
 	 * 应用界面设置
 	 * 
@@ -148,6 +157,7 @@ public class Grid extends BaseGridComponent {
         ComponentUI localComponentUI = localGridUIProcessor.appearanceForGrid(this.resolution);
         setUI(localComponentUI);
     }
+
 
     /**
 	 * 是否显示格子线
@@ -171,6 +181,10 @@ public class Grid extends BaseGridComponent {
         this.showGridLine = isShowGridLine;
 
         this.getElementCasePane().repaint();
+    }
+
+    public GridMouseAdapter getGridMouseAdapter(){
+        return this.gridMouseAdapter;
     }
 
     /**

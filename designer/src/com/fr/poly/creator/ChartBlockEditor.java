@@ -5,6 +5,7 @@ package com.fr.poly.creator;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGetter;
@@ -13,6 +14,7 @@ import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.design.mainframe.EastRegionContainerPane;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.NoSupportAuthorityEdit;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
@@ -25,6 +27,7 @@ import com.fr.poly.PolyDesigner.SelectionType;
 import com.fr.poly.hanlder.ColumnOperationMouseHandler;
 import com.fr.poly.hanlder.RowOperationMouseHandler;
 import com.fr.report.poly.PolyChartBlock;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -32,6 +35,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 /**
  * @author richer
@@ -43,6 +47,7 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 	private static Border buttonBorder;
 	private static String[][] chartsNames;
 	private static BaseChartNameID[] typeName = BaseChartGetter.getStaticAllChartBaseNames();
+	private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
 
 	static {
 		buttonBorder = new UIRoundedBorder(new Color(149, 149, 149), 1, 5);
@@ -60,8 +65,14 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 
 	public ChartBlockEditor(PolyDesigner designer, ChartBlockCreator creator) {
 		super(designer, creator);
+		this.resolution = creator.resolution;
         //shine:和产品商量后决定把最上面一排切换按钮去掉
-		//this.initNorthBarComponent();
+//		this.initNorthBarComponent();
+	}
+
+
+	private void setResolution(int resolution){
+		this.resolution = resolution;
 	}
 
 	private void initNorthBarComponent() {

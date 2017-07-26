@@ -74,6 +74,12 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 
         addressType = new UIButtonGroup<String>(new String[]{Inter.getLocText("Chart-Gis_Address"), Inter.getLocText("Chart-Gis_LatLng")});
         lnglatOrder = new UIButtonGroup<String>(new String[]{Inter.getLocText("Chart-Lng_First"),Inter.getLocText("Chart-Lat_First")});
+		addressType.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				orderPane.setVisible(addressType.getSelectedIndex() == 1);
+			}
+		});
         addressBox = new UIComboBox();
 		addressNameBox = new UIComboBox();
 		double p = TableLayout.PREFERRED;

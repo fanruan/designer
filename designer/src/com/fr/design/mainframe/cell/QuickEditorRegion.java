@@ -35,7 +35,7 @@ public class QuickEditorRegion extends JPanel {
 	private static QuickEditorRegion singleton = new QuickEditorRegion();
 	private static JPanel EMPTY;
 
-	private QuickEditorRegion() {
+	public QuickEditorRegion() {
 		this.setLayout(new BorderLayout());
 	}
 

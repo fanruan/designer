@@ -6,6 +6,7 @@ package com.fr.poly.creator;
 import java.awt.Dimension;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ScreenResolution;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -70,6 +71,10 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 
 	@Override
 	protected void initSize() {
+		resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();
+		if (resolution == 0){
+			resolution = ScreenResolution.getScreenResolution();
+		}
 		Dimension cornerSize = getCornerSize();
 		PolyECBlock block = getValue();
 		UnitRectangle ub = block.getBounds();
@@ -142,6 +147,6 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 		}
 		QuickEditorRegion.getInstance().populate(editComponent.getCurrentEditor());
 		CellElementPropertyPane.getInstance().populate(editComponent);
-		EastRegionContainerPane.getInstance().replaceDownPane(CellElementPropertyPane.getInstance());
+		EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
 	}
 }

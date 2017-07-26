@@ -1,16 +1,20 @@
 package com.fr.grid;
 
+import com.fr.base.ScreenResolution;
+
 import java.awt.Color;
 
 
 
 public abstract class GridHeader<T> extends BaseGridComponent {
 	public final static int SIZE_ADJUST = 4;
-	
+
     //属性
     private Color separatorLineColor = new Color(172, 168, 153); //separator lines
     private Color selectedForeground = Color.black;
     private Color selectedBackground = new Color(253, 216, 153);
+
+    protected int resolution;
 
     public GridHeader() {
         //清除所有的Key Action.
@@ -22,7 +26,15 @@ public abstract class GridHeader<T> extends BaseGridComponent {
         
         initByConstructor();
     }
-    
+
+    public void setResolution(int resolution){
+        this.resolution = resolution;
+    }
+
+    public int getResolution(){
+        return this.resolution;
+    }
+
     protected abstract void initByConstructor();
     
     protected abstract T getDisplay(int index) ;

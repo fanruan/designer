@@ -17,7 +17,6 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
@@ -1788,8 +1787,7 @@ public class RemoteEnv extends AbstractEnv {
         }
         LogRecordTime[] records = DavXMLUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
-            DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
-
+            //TODO
         }
     }
 
@@ -2181,7 +2179,7 @@ public class RemoteEnv extends AbstractEnv {
         try {
             HashMap<String, String> para = new HashMap<String, String>();
             para.put("op", "plugin");
-            para.put("cmd", "get_states");
+            para.put("cmd", "get_status");
             para.put("current_uid", this.createUserID());
             para.put("currentUsername", this.getUser());
             

@@ -80,21 +80,29 @@ public class WebViewDlgHelper {
     public static void checkAndCopyMainFile(String indexPath, String mainJsPath){
         File file = new File(indexPath);
         if (!file.exists()) {
-            try {
-                File mainJsFile = new File(mainJsPath);
-                int byteread = 0;
-                if (mainJsFile.exists()) {
-                    InputStream inStream = new FileInputStream(mainJsPath);
-                    FileOutputStream fs = new FileOutputStream(indexPath);
-                    byte[] buffer = new byte[BYTES_NUM];
-                    while ((byteread = inStream.read(buffer)) != -1) {
-                        fs.write(buffer, 0, byteread);
-                    }
-                    inStream.close();
+            copyMainFile(indexPath, mainJsPath);
+        }
+    }
+
+    /**
+     * 將script文件夹中的index.html文件复制到webreport下
+     *
+     */
+    public static void copyMainFile(String indexPath, String mainJsPath){
+        try {
+            File mainJsFile = new File(mainJsPath);
+            int byteread = 0;
+            if (mainJsFile.exists()) {
+                InputStream inStream = new FileInputStream(mainJsPath);
+                FileOutputStream fs = new FileOutputStream(indexPath);
+                byte[] buffer = new byte[BYTES_NUM];
+                while ((byteread = inStream.read(buffer)) != -1) {
+                    fs.write(buffer, 0, byteread);
                 }
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
+                inStream.close();
             }
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage());
         }
     }
 
@@ -186,7 +194,9 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
+                        String relativePath = "/scripts/store/web/index.html";
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
+                        copyMainFile(StableUtils.pathJoin(installHome, "index.html"),  StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         int rv = JOptionPane.showOptionDialog(
                                 null,

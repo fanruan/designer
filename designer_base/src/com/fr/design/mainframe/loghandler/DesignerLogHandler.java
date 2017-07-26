@@ -6,11 +6,10 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogLevel;
-import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
+import com.fr.general.*;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
+import org.apache.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -18,19 +17,28 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
 public class DesignerLogHandler {
-    protected static final int INFO_INT = FRLogLevel.INFO.intValue();
-    protected static final int ERRO_INT = FRLogLevel.ERROR.intValue();
-    protected static final int SERVER_INT = FRLogLevel.SEVERE.intValue();
+    protected static final int INFO_INT = FRLogLevel.INFO.toInt();
+    protected static final int ERRO_INT = FRLogLevel.ERROR.toInt();
+    protected static final int SERVER_INT = FRLogLevel.SEVERE.toInt();
     private static final int GAP_X = -150;
     private static final int INFO_GAP_Y = -60;
     private static final int ERRO_GAP_Y = -40;
     private static final int SERVER_GAP_Y = -20;
+
+    static {
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+            @Override
+            public void envChanged() {
+                // envchange后需要重新读取webinf里的log4j配置, 重新添加appender
+                FRLogger.getLogger().addLogAppender(new DesignerLogAppender());
+            }
+        });
+    }
 
     public static DesignerLogHandler getInstance() {
         return HOLDER.singleton;
@@ -91,7 +99,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu showsetPopup = new JPopupMenu();
-                int logLevelvalue = DesignerEnvManager.getEnvManager().getLogLevel().intValue();
+                int logLevelvalue = DesignerEnvManager.getEnvManager().getLogLevel().toInt();
                 if (logLevelvalue <= INFO_INT) {
                     showsetPopup.add(showInfo);
                     showsetPopup.add(showError);
@@ -117,8 +125,8 @@ public class DesignerLogHandler {
         return caption;
     }
 
-    public void printRemoteLog(LogRecordTime logRecordTime) {
-        logHandlerArea.printStackTrace(logRecordTime);
+    public void printRemoteLog(String message, Level level, Date date) {
+        logHandlerArea.printStackTrace(message, level, date);
     }
 
     private class LogHandlerArea extends JPanel {
@@ -169,21 +177,6 @@ public class DesignerLogHandler {
                     }
                 }
             });
-
-            // 写到日志面板上面的Log和日志工具栏
-            FRContext.getLogger().addLogHandler(new Handler() {
-                public void publish(LogRecord logRecord) {
-                    Date date = new Date();
-                    LogRecordTime logRecordTime = new LogRecordTime(date, logRecord);
-                    printStackTrace(logRecordTime);
-                }
-
-                public void flush() {
-                }
-
-                public void close() {
-                }
-            });
         }
 
         private JTextPane initLogJTextArea() {
@@ -215,6 +208,22 @@ public class DesignerLogHandler {
                 printMessage(logRecord.getMessage(), logLevelvalue, date, logRecord.getThrown());
             }
 
+        }
+
+        public void printStackTrace(String message, Level level, Date date) {
+            int logLevelvalue = level.toInt();
+            if (logLevelvalue == INFO_INT && showInfo.isSelected()) {
+                printMessage(message, logLevelvalue, date);
+            } else if (logLevelvalue == ERRO_INT && showError.isSelected()) {
+                printMessage(message, logLevelvalue, date);
+            } else if (logLevelvalue == SERVER_INT && showServer.isSelected()) {
+                printMessage(message, logLevelvalue, date);
+            }
+
+        }
+
+        private void printMessage(String message, int logLevelvalue, Date date) {
+            printMessage(message, logLevelvalue, date, null);
         }
 
         private void printMessage(String messange, int logLevelvalue, Date date, Throwable e) {

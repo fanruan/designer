@@ -50,7 +50,7 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 	public BlockEditor(PolyDesigner designer, BlockCreator<U> creator) {
 		this.designer = designer;
 		this.creator = creator;
-		
+		this.resolution = creator.resolution;
 		this.initComponets();
 		this.addColumnRowListeners();
 

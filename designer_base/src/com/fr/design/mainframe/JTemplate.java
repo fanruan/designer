@@ -1,9 +1,6 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.ConfigManager;
-import com.fr.base.FRContext;
-import com.fr.base.Parameter;
+import com.fr.base.*;
 import com.fr.base.io.IOFile;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
@@ -51,6 +48,7 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
@@ -82,6 +80,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private long openTime = 0L; // 打开模板的时间点（包括新建模板）
     private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
     private StringBuilder process = new StringBuilder("");  // 制作模板的过程
+    public int resolution = ScreenResolution.getScreenResolution();
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
@@ -108,6 +107,9 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             process.append(tic.loadProcess(t));
         }
     }
+
+    // 刷新右侧属性面板
+    public abstract void refreshEastPropertiesPane();
 
     // 为收集模版信息作准备
     private void initForCollect() {
@@ -140,6 +142,14 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public U getUndoState() {
         return undoState;
     }
+
+    /**
+     * set/get 模板屏幕分辨率
+     */
+    public abstract void setJTemplateResolution(int resolution);
+
+    public abstract int getJTemplateResolution();
+
 
     /**
      * 初始化权限细粒度撤销状态
@@ -209,6 +219,18 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 去除参数面板选择
      */
     public abstract void removeParameterPaneSelection();
+
+    /**
+     * 缩放参数
+     */
+    public abstract void setScale(int resolution);
+
+    public abstract int getScale();
+
+    /**
+     * 缩放参数自适应
+     */
+    public abstract int selfAdaptUpdate();
 
     protected abstract DesignModelAdapter<T, ?> createDesignModel();
 
@@ -860,9 +882,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 返回当前支持的超链界面pane
      * @return 超链连接界面
      */
-    public HyperlinkGroupPane getHyperLinkPane() {
-        return new HyperlinkGroupPane();
-    }
+    public abstract HyperlinkGroupPane getHyperLinkPane();
 
     /**
      * 是否是图表

@@ -1,9 +1,15 @@
 package com.fr.design.gui.style;
 
+import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.fun.BackgroundQuickUIProvider;
+import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.*;
 import com.fr.general.Background;
 import com.fr.general.Inter;
@@ -35,7 +41,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         this.setLayout(new BorderLayout(0, 6));
         typeComboBox = new UIComboBox();
         final CardLayout cardlayout = new CardLayout();
-        this.add(typeComboBox, BorderLayout.NORTH);
+//        this.add(typeComboBox, BorderLayout.NORTH);
 
         paneList = supportKindsOfBackgroundUI();
 
@@ -50,7 +56,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
             typeComboBox.addItem(pane.title4PopupWindow());
             centerPane.add(pane, pane.title4PopupWindow());
         }
-        this.add(centerPane, BorderLayout.CENTER);
+//        this.add(centerPane, BorderLayout.CENTER);
         typeComboBox.addItemListener(new ItemListener() {
 
             @Override
@@ -59,6 +65,20 @@ public class BackgroundPane extends AbstractBasicStylePane {
                 fireStateChanged();
             }
         });
+
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill") + "     ", SwingConstants.LEFT),typeComboBox},
+                new Component[]{null, centerPane}
+        };
+        double[] rowSize = {p, p, p};
+        double[] columnSize = {p,f};
+        int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        this.add(panel, BorderLayout.CENTER);
+
     }
 
     protected BackgroundQuickPane[] supportKindsOfBackgroundUI() {
