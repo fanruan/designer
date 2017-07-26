@@ -17,6 +17,12 @@ public interface ParameterBridge {
     public boolean isDelayDisplayContent();
 
     /**
+     * 是否启用参数模板
+     * @return 显示参数模板界面则返回true，否则返回false
+     */
+    public boolean isUseParamsTemplate();
+
+    /**
      * 是否显示参数界面
      * @return 显示参数界面则返回true，否则返回false
      */
@@ -48,4 +54,6 @@ public interface ParameterBridge {
     public void setDisplay(boolean showWindow);
 
     public void setBackground(Background background);
+
+    public void setUseParamsTemplate(boolean isUse);
 }

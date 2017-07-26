@@ -354,7 +354,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
                 int value = downPanel.getVerticalScrollBar().getValue();
                 if (hasSelectParaPane(getEditingFormDesigner())) {
                     cardLayout.show(centerPane, PARA);
-                    mobileParaWidgetTable.refreshData();
+//                    mobileParaWidgetTable.refreshData();
                 } else {
                     cardLayout.show(centerPane, BODY);
                     mobileWidgetTable.refreshData();
