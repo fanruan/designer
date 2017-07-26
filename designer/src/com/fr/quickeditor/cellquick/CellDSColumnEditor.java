@@ -174,18 +174,17 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList = new ArrayList<>();
 
         /*基本设置面板*/
-        this.dataPane = new SelectedDataColumnPane(false);
+        this.dataPane = new SelectedDataColumnPane();
         this.groupPane = new ResultSetGroupDockingPane(tc);
         this.conditionPane = new JPanel(new BorderLayout());
-        conditionPane.add(new UILabel("filter"), BorderLayout.WEST);
+        conditionPane.add(new UILabel("filter:"), BorderLayout.WEST);
         if (tc != null) {
             //第一次初始化时tc为空，引发NullPointerException
-            conditionPane.add(new UIButton(new DSColumnConditionAction(tc)), BorderLayout.EAST);
+            conditionPane.add(new UIButton(new DSColumnConditionAction(tc)), BorderLayout.CENTER);
         }
         dataPane.addListener(dataListener);
         groupPane.addListener(groupListener);
         paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane, conditionPane));
-
 
         /*高级设置面板*/
         paneList.add(new DSColumnAdvancedEditorPane());

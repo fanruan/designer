@@ -40,15 +40,15 @@ import java.util.regex.Pattern;
  *
  * @author yaoh.wu
  * @version 2017年7月26日
- * todo 9.0设计器更新，修改动态参数注入按钮部分,使其能在右侧边栏正常显示
+ * 9.0设计器更新，修改动态参数注入按钮部分,使其显示动态参数按钮时能在右侧边栏正常显示
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
-    protected UITableEditorPane<ParameterProvider> editorPane;
-    protected Parameter[] ps;
+    private UITableEditorPane<ParameterProvider> editorPane;
+    private Parameter[] ps;
 
-    protected TableDataComboBox tableNameComboBox;
-    protected LazyComboBox columnNameComboBox;
+    TableDataComboBox tableNameComboBox;
+    LazyComboBox columnNameComboBox;
     private ItemListener itemListener;
 
     private UIButton paramButton;
@@ -57,7 +57,7 @@ public class SelectedDataColumnPane extends BasicPane {
         this(true);
     }
 
-    public SelectedDataColumnPane(boolean showParameterButton) {
+    SelectedDataColumnPane(boolean showParameterButton) {
         initComponent(showParameterButton);
     }
 
@@ -72,32 +72,33 @@ public class SelectedDataColumnPane extends BasicPane {
             initWithParameterButton();
         }
         columnNameComboBox = new LazyComboBox() {
-
             @Override
             public Object[] load() {
                 List<String> l = calculateColumnNameList();
                 return l.toArray(new String[l.size()]);
             }
-
         };
         columnNameComboBox.setEditable(true);
+        double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         UILabel label1 = new UILabel(Inter.getLocText("TableData") + ":");
-        UILabel label2 = new UILabel(Inter.getLocText("DataColumn") + ":");
+        UILabel label3 = new UILabel(Inter.getLocText("DataColumn") + ":");
         if (showParameterButton) {
-            label1.setPreferredSize(new Dimension(200, 25));
-            label2.setPreferredSize(new Dimension(200, 25));
-        }
-        if (showParameterButton) {
-            Component[][] comps = {{label1, null, label2}, {tableNameComboBox, paramButton, columnNameComboBox}};
-            this.add(TableLayoutHelper.createTableLayoutPane(comps, new double[]{p, p}, new double[]{p, p, p}));
+            //todo 国际化
+            UILabel label2 = new UILabel("param" + ":");
+            Component[][] components = {
+                    {label1, tableNameComboBox},
+                    {label2, paramButton},
+                    {label3, columnNameComboBox}
+            };
+            this.setLayout(new BorderLayout());
+            this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
         } else {
-            double f = TableLayout.FILL;
             double[] columnSize = {p, f};
             double[] rowSize = {p, p};
             Component[][] components = new Component[][]{
                     new Component[]{label1, tableNameComboBox},
-                    new Component[]{label2, columnNameComboBox}
+                    new Component[]{label3, columnNameComboBox}
             };
             JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
             this.setLayout(new BorderLayout());
@@ -110,16 +111,13 @@ public class SelectedDataColumnPane extends BasicPane {
         if (cellElement == null) {
             return;
         }
-
         if (itemListener != null) {
             removeListener(itemListener);
         }
-
         Object value = cellElement.getValue();
         if (!(value instanceof DSColumn)) {
             return;
         }
-
         DSColumn dsColumn = (DSColumn) value;
         String dsName = dsColumn.getDSName();
         tableNameComboBox.setSelectedTableDataByName(dsName);

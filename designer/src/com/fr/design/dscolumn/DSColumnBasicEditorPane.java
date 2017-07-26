@@ -27,6 +27,7 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
     private JPanel conditionPane;
 
     public DSColumnBasicEditorPane(TemplateCellElement cellElement, SelectedDataColumnPane dataPane, ResultSetGroupDockingPane groupPane, JPanel conditionPane) {
+        this.setLayout(new BorderLayout());
         this.cellElement = cellElement;
         this.dataPane = dataPane;
         this.groupPane = groupPane;
