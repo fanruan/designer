@@ -39,7 +39,7 @@ public class UITabGroup extends UIButtonGroup<Integer> {
         if (number < BUTTON_NUMBER || isOneLineTab) {
             return super.getGridLayout(number);
         } else if (number == BUTTON_NUMBER || number == SEVEN_NUMBER) {
-            return new FiveButtonLayout();
+            return new FiveButtonLayout(2);
         } else {
             return new GridLayout(2, 3, 1, 1);
         }
