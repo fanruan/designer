@@ -92,12 +92,14 @@ public class CellDSColumnEditor extends CellQuickEditor {
     }
 
     /**
+     * 创建面板占位
+     *
      * @return JComponent 详细信息面板
      */
     @Override
     public JComponent createCenterBody() {
-        this.initPaneList();
-        this.initSwitchTab();
+        this.createPanes();
+        this.createSwitchTab();
         dsColumnRegion = new JPanel(new BorderLayout());
         dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
         dsColumnRegion.add(center, BorderLayout.CENTER);
@@ -107,12 +109,20 @@ public class CellDSColumnEditor extends CellQuickEditor {
     }
 
     /**
-     * TODO 内容全部重新动态生成，不然容易出错
+     * 内容全部重新动态生成，不然容易出错
      * 刷新详细信息面板
      */
     @Override
     protected void refreshDetails() {
 
+        this.createPanes();
+        this.createSwitchTab();
+        dsColumnRegion = new JPanel(new BorderLayout());
+        dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        dsColumnRegion.add(center, BorderLayout.CENTER);
+        //必须removeAll之后再添加；重新再实例化一个centerJPanel，因为对象变了会显示不出来
+        centerPane.removeAll();
+        centerPane.add(dsColumnRegion, BorderLayout.CENTER);
         for (CellEditorPane cellEditorPane : paneList) {
             cellEditorPane.populate(cellElement);
         }
@@ -129,25 +139,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
         centerPane = null;
     }
 
-    /**
-     * 初始化数据列基本和高级设置面板
-     */
-    private void initPaneList() {
-        paneList = new ArrayList<>();
-
-        paneList.add(this.initBasicPane());
-        paneList.add(this.initAdvancedPane());
-
-        /*
-          todo 预留插件的接口
-          doSomething()
-         */
-    }
 
     /**
      * 初始化基本和高级设置切换tab
      */
-    private void initSwitchTab() {
+    private void createSwitchTab() {
         String[] iconArray = new String[paneList.size()];
         card = new CardLayout();
         center = new JPanel(card);
@@ -166,17 +162,21 @@ public class CellDSColumnEditor extends CellQuickEditor {
         tabsHeaderIconPane.setNeedLeftRightOutLine(false);
     }
 
-    private DSColumnBasicEditorPane initBasicPane() {
+    /**
+     * 刷新数据列基本和高级设置面板
+     */
+    private void createPanes() {
+        paneList = new ArrayList<>();
 
+        /*基本设置面板*/
         this.dataPane = new SelectedDataColumnPane(false);
         this.groupPane = new ResultSetGroupDockingPane(tc);
         dataPane.addListener(dataListener);
         groupPane.addListener(groupListener);
-        return new DSColumnBasicEditorPane(cellElement, dataPane, groupPane);
-    }
+        paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane));
 
-    private DSColumnAdvancedEditorPane initAdvancedPane() {
-        return new DSColumnAdvancedEditorPane();
-    }
 
+        /*高级设置面板*/
+        paneList.add(new DSColumnAdvancedEditorPane());
+    }
 }

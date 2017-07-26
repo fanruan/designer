@@ -31,19 +31,6 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
         this.add(this.createContentPane(), BorderLayout.CENTER);
     }
 
-    private JPanel createContentPane() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
-        Component[][] components = new Component[][]{
-                //数据集列选择
-                new Component[]{this.dataPane, null},
-                //数据分组设置
-                new Component[]{this.groupPane, null}
-        };
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-    }
 
     @Override
     public String getIconPath() {
@@ -67,5 +54,25 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
         this.cellElement = cellElement;
         dataPane.populate(null, cellElement);
         groupPane.populate(cellElement);
+    }
+
+
+    /**
+     * 创建有内容的面板显示信息
+     *
+     * @return content JPanel
+     */
+    private JPanel createContentPane() {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        Component[][] components = new Component[][]{
+                //数据集列选择
+                new Component[]{this.dataPane, null},
+                //数据分组设置
+                new Component[]{this.groupPane, null}
+        };
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 }
