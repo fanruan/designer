@@ -34,6 +34,7 @@ import com.fr.plugin.PluginLoader;
 import com.fr.share.ShareConstants;
 import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
+import com.fr.stable.help.FineClassLoader;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLTools;
@@ -46,6 +47,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
@@ -1387,10 +1389,21 @@ public class RemoteEnv extends AbstractEnv {
                     return;
                 }
                 SignIn.signIn(remoteEnv);
-                LicUtils.resetBytes();
+                resetLicenseBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);
+            }
+        }
+
+        private void resetLicenseBytes() {
+            FineClassLoader classLoader = new FineClassLoader();
+            try {
+                Class<?> clazz = classLoader.loadClass("com.fr.base.FRCoreContext");
+                Method retryMethod = clazz.getMethod("retryLicLock");
+                retryMethod.invoke(clazz);
+            } catch (Exception ignore) {
+
             }
         }
 

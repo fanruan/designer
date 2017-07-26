@@ -15,11 +15,13 @@ import com.fr.general.Inter;
 import com.fr.general.RegistEditionException;
 import com.fr.general.VT4FR;
 import com.fr.stable.StableUtils;
+import com.fr.stable.help.FineClassLoader;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.lang.reflect.Method;
 
 public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
@@ -150,7 +152,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
         Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
-            if(chart.getPlot() instanceof MapPlot && !(VT4FR.isLicAvailable(StableUtils.getBytes()) && VT4FR.CHART_MAP.support())){
+            if(chart.getPlot() instanceof MapPlot && !supportMap()){
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Chart-Map_Not_Supported"));
                 throw new RegistEditionException(VT4FR.CHART_MAP);
             }
@@ -163,6 +165,19 @@ public class ChartTypePane extends ChartCommonWizardPane {
                 }
             }
         }
+    }
+
+    private boolean supportMap() {
+        FineClassLoader classLoader = new FineClassLoader();
+        byte[] bytes = null;
+        try {
+            Class<?> clazz = classLoader.loadClass("com.fr.base.FRCoreContext");
+            Method method = clazz.getMethod("getBytes");
+            bytes = (byte[]) method.invoke(clazz);
+        } catch (Exception ignore) {
+
+        }
+        return VT4FR.isLicAvailable(bytes) && VT4FR.CHART_MAP.support();
     }
 
     public void update(ChartCollection cc) {
