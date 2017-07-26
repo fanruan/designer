@@ -59,11 +59,12 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
 
     @Override
     public void saveSettings(HyperlinkGroupPane hyperlinkGroupPane) {
-        TargetComponent tc = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
-        if (tc == null) {
+        // plough: 需要判断设计器是否初始化完成，不能用 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()
+        JTemplate jt = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+        if (jt == null) {
             return;
         }
-        ElementCasePane reportPane = (ElementCasePane)tc;
+        ElementCasePane reportPane = (ElementCasePane)jt.getCurrentElementCasePane();
         final TemplateElementCase report = reportPane.getEditingElementCase();
         final Selection sel = reportPane.getSelection();
         final NameJavaScriptGroup updateNameHyperlinks = hyperlinkGroupPane.updateJSGroup();

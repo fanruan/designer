@@ -99,6 +99,9 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
 
     @Override
     public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
         hyperlinkGroupPaneActionProvider.saveSettings(this);
     }
 }

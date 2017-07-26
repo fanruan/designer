@@ -61,8 +61,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
                     // 模板初始化完成后，才能初始化超级链接面板
 //                    HyperlinkGroupPane hyperlinkGroupPane = ReportHyperlinkGroupPane.getInstance(HyperlinkGroupPaneActionImpl.getInstance());
-                    HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
-                            .getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+                    HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
                     hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
                     if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);

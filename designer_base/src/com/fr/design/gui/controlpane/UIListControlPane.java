@@ -29,6 +29,8 @@ import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -55,6 +57,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected int editingIndex;
     protected String selectedName;
     private boolean isNameRepeated = false;
+    protected boolean isPopulating = false;
 
     public UIListControlPane() {
         this.initComponentPane();
@@ -94,9 +97,23 @@ public abstract class UIListControlPane extends UIControlPane {
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).update();
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).populate();
                     UIListControlPane.this.checkButtonEnabled();
-                    // plough:感觉每次valueChange都保存一下，会稍微影响效率
-                    saveSettings();
                 }
+            }
+        });
+        nameableList.getModel().addListDataListener(new ListDataListener() {
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                saveSettings();
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                saveSettings();
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                saveSettings();
             }
         });
     }
@@ -179,9 +196,11 @@ public abstract class UIListControlPane extends UIControlPane {
 
     @Override
     public void populate(Nameable[] nameableArray) {
+        isPopulating = true;  // 加一个标识位，避免切换单元格时，触发 saveSettings
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(nameableArray)) {
+            isPopulating = false;
             return;
         }
 
@@ -193,6 +212,8 @@ public abstract class UIListControlPane extends UIControlPane {
             this.nameableList.setSelectedIndex(0);
         }
         this.checkButtonEnabled();
+
+        isPopulating = false;
     }
 
     /**
