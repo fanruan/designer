@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
+import com.fr.design.designer.TargetComponent;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
@@ -60,6 +61,18 @@ public interface FormECDesignerProvider {
      * @return    属性面板
      */
 	public JComponent getEastUpPane();
+
+    /**
+     *   超级链接面板
+     * @return    属性面板
+     */
+    public JComponent getHyperlinkPane();
+
+    /**
+     *   超级链接面板
+     * @return    属性面板
+     */
+    public TargetComponent getEditingElementCasePane();
 
     /**
      * 获取当前ElementCase的缩略图

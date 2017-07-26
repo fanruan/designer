@@ -22,10 +22,7 @@ import com.fr.design.designer.TargetComponent;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.AuthorityEditPane;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.ElementCasePaneAuthorityEditPane;
-import com.fr.design.mainframe.JWorkBook;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
@@ -223,6 +220,10 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 
     public JPanel getEastDownPane() {
         return elementCasePane.getEastDownPane();
+    }
+
+    public JPanel getHyperlinkPane() {
+        return DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
     }
 
 

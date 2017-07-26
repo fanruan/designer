@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.general.Inter;
 import com.fr.grid.selection.FloatSelection;
@@ -59,7 +60,10 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
                     // 模板初始化完成后，才能初始化超级链接面板
-                    ReportHyperlinkGroupPane.getInstance().populate(ElementCasePaneDelegate.this);
+//                    HyperlinkGroupPane hyperlinkGroupPane = ReportHyperlinkGroupPane.getInstance(HyperlinkGroupPaneActionImpl.getInstance());
+                    HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
+                            .getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+                    hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
                     if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
 //                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
@@ -69,7 +73,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                     }
-                    EastRegionContainerPane.getInstance().replaceHyperlinkPane(ReportHyperlinkGroupPane.getInstance());
+                    EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
                     EastRegionContainerPane.getInstance().removeParameterPane();
                 }
             }

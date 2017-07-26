@@ -11,14 +11,17 @@ import com.fr.design.actions.form.FormECColumnsAction;
 import com.fr.design.actions.form.FormECFrozenAction;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.js.NameJavaScriptGroup;
 import com.fr.page.ReportSettingsProvider;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.worksheet.FormElementCase;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
@@ -34,6 +37,12 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
             public void selectionChanged(SelectionEvent e) {
                 CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
+
+                HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate().
+                        getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+                hyperlinkGroupPane.populate(FormElementCasePaneDelegate.this);
+
+//                populateHyperLinkGroupPane();
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {
@@ -43,6 +52,12 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
             }
         });
     }
+
+//    private void populateHyperLinkGroupPane() {
+//        final TemplateElementCase report = this.getEditingElementCase();
+//        NameJavaScriptGroup nameHyperlinks = ReportHyperlinkGroupPane.getNameJSGroup(this, report);
+//        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getHyperLinkPane().populate(nameHyperlinks);
+//    }
 
     @Override
     protected boolean supportRepeatedHeaderFooter() {
