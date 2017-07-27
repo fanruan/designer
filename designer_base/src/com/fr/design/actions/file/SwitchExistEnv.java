@@ -26,9 +26,11 @@ import com.fr.stable.LicUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
+import com.fr.stable.help.FineClassLoader;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -118,7 +120,7 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 SignIn.signIn(selectedEnv);
-                LicUtils.resetBytes();
+                resetLicenseBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {
@@ -127,5 +129,17 @@ public class SwitchExistEnv extends MenuDef {
                 TemplatePane.getInstance().editItems();
             }
         }
+
+        private void resetLicenseBytes() {
+            FineClassLoader classLoader = new FineClassLoader();
+            try {
+                Class<?> clazz = classLoader.loadClass("com.fr.base.FRCoreContext");
+                Method retryMethod = clazz.getMethod("retryLicLock");
+                retryMethod.invoke(clazz);
+            } catch (Exception ignore) {
+
+            }
+        }
     }
+
 }
