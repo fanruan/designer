@@ -6,6 +6,7 @@ import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.actions.CopyAction;
 import com.fr.design.designer.beans.actions.CutAction;
 import com.fr.design.designer.beans.actions.FormDeleteAction;
@@ -17,6 +18,7 @@ import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
+import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
@@ -92,6 +94,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public void refreshEastPropertiesPane() {
     }
 
+    @Override
+    public TargetComponent getCurrentElementCasePane() {
+        if (elementCaseDesign == null) {
+            return null;
+        }
+        return elementCaseDesign.getEditingElementCasePane();
+    }
+
     public int getMenuState() {
 
         return DesignState.JFORM;
@@ -137,8 +147,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      *
      * @return 超链连接界面
      */
-    public HyperlinkGroupPane getHyperLinkPane() {
-        return FormHyperlinkGroupPane.getInstance();
+    public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        return FormHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
     //表单返回 FORM_TAB or ELEMENTCASE_TAB
@@ -653,6 +663,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 EastRegionContainerPane.getInstance().removeParameterPane();
                 EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
                 EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
+                EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
                 return;
             }
         }

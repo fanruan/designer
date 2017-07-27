@@ -20,6 +20,7 @@ import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
+import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
@@ -110,6 +111,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     // 刷新右侧属性面板
     public abstract void refreshEastPropertiesPane();
+
+    public abstract TargetComponent getCurrentElementCasePane();
 
     // 为收集模版信息作准备
     private void initForCollect() {
@@ -882,7 +885,7 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * 返回当前支持的超链界面pane
      * @return 超链连接界面
      */
-    public abstract HyperlinkGroupPane getHyperLinkPane();
+    public abstract HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider);
 
     /**
      * 是否是图表

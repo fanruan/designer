@@ -1,29 +1,18 @@
 package com.fr.design.mainframe.cell.settingpane;
 
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Locale;
-
-import com.fr.base.FRContext;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -33,11 +22,21 @@ import com.fr.report.cell.cellattr.CellInsertPolicyAttr;
 import com.fr.report.cell.cellattr.CellPageAttr;
 import com.fr.report.elementcase.TemplateElementCase;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 /**
  * @author zhou
  * @since 2012-5-11下午5:24:31
  */
 public class CellOtherSetPane extends AbstractCellAttrPane {
+
+    private static final int HEAD_WDITH = 290;
+    private static final int HEAD_HEIGTH = 20;
     // normal
     private UIButtonGroup autoshrik;
 
@@ -59,7 +58,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private UICheckBox canBreakOnPaginateCheckBox;
     private UICheckBox repeatCheckBox;
-
+    private UICheckBox autoHeightCheckBox;
+    private UICheckBox autoWidthCheckBox;
     // 插入行策略
     private UIButtonGroup insertRowPolicy;
     private ValueEditorPane valueEditor;
@@ -69,116 +69,43 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     /**
      * 初始化
-     * @return   面板
+     *
+     * @return 面板
      */
     public JPanel createContentPane() {
-        final JPanel fileNamePane = createNormal();
-        createOthers();
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize1 = {p, p, p, p, p, p, p};
-        double[] columnSize1 = {p, f};
-        UILabel autoAdjustLabel = new UILabel(Inter.getLocText("FR-Designer_Auto_Adjust_Size") + ":", SwingConstants.RIGHT);
-        autoAdjustLabel.setVerticalAlignment(UILabel.TOP);
-        Component[][] components1 = new Component[][]{
-                new Component[]{autoAdjustLabel, autoshrik},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Preview") + ":", SwingConstants.RIGHT), previewCellContent},
-                new Component[]{new UILabel(Inter.getLocText("CellWrite-Print_Export") + ":", SwingConstants.RIGHT), printAndExportContent},
-                new Component[]{null, printAndExportBackground},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Show_Content") + ":", SwingConstants.RIGHT), showContent},
-                new Component[]{null, fileNamePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip") + ":", SwingConstants.RIGHT), tooltipTextField},
-        };
-        JPanel northContentPane = TableLayoutHelper.createTableLayoutPane(components1, rowSize1, columnSize1);
-        double[] rowSize2 = {p, p, p, p, p, p};
-        double[] columnSize2 = {p, f};
-        Component[][] components2 = new Component[][]{
-                new Component[]{new JSeparator(JSeparator.HORIZONTAL), null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Pagination")), null},
-                new Component[]{pageBeforeRowCheckBox, pageAfterRowCheckBox},
-                new Component[]{pageBeforeColumnCheckBox, pageAfterColumnCheckBox},
-                new Component[]{canBreakOnPaginateCheckBox, null},
-                new Component[]{repeatCheckBox, null}
-        };
-        JPanel centerContentPane = TableLayoutHelper.createTableLayoutPane(components2, rowSize2, columnSize2);
-        double[] rowSize3 = {p, p, p, p};
-        double[] columnSize3 = {f};
-        Component[][] components3 = new Component[][]{
-                new Component[]{new JSeparator(JSeparator.HORIZONTAL)},
-                new Component[]{new UILabel(Inter.getLocText("CellWrite-InsertRow_Policy"), SwingConstants.LEFT)},
-                new Component[]{insertRowPolicy},
-                new Component[]{defaultValuePane}
-        };
-        southContentPane = TableLayoutHelper.createTableLayoutPane(components3, rowSize3, columnSize3);
-        JPanel contentsmallPane = new JPanel(new BorderLayout(0, 10));
-        contentsmallPane.add(northContentPane, BorderLayout.NORTH);
-        contentsmallPane.add(centerContentPane, BorderLayout.CENTER);
+        JPanel downPane = new JPanel(new BorderLayout());
+        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
+        downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
         JPanel contentPane = new JPanel(new BorderLayout(0, 10));
-        contentPane.add(contentsmallPane, BorderLayout.NORTH);
-        contentPane.add(southContentPane, BorderLayout.CENTER);
+        contentPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
+        contentPane.add(downPane, BorderLayout.CENTER);
         initAllNames();
         return contentPane;
     }
 
 
-    private JPanel createNormal() {
-        String[] AjustRowTypes = new String[]{
-                Inter.getLocText("FR-Designer_No"), Inter.getLocText("Utils-Row_Height"), Inter.getLocText("Utils-Column_Width"), Inter.getLocText("FR-Designer_DEFAULT")};
-        autoshrik = new UIButtonGroup(AjustRowTypes);
-        if (FRContext.getLocale().equals(Locale.US)) {
-            // 英文显示不全，故每行一个按钮
-            autoshrik.setFourLine();
-            autoshrik.setLayout(new GridLayout(4, 1, 1, 1));
-        } else {
-            autoshrik.setTwoLine();
-            autoshrik.setLayout(new GridLayout(2, 2, 1, 1));
-        }
+    private JPanel basicPane() {
+        autoHeightCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
+        autoWidthCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p, p, p};
+        double[] columnSize = {p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        Component[][] components = new Component[][]{
+                new Component[]{null},
+                new Component[]{autoHeightCheckBox},
+                new Component[]{null},
+                new Component[]{autoWidthCheckBox},
+                new Component[]{null},
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
 
-        previewCellContent = new UICheckBox(Inter.getLocText("CellWrite-Preview_Cell_Content"));
-        printAndExportContent = new UICheckBox(Inter.getLocText("CellWrite-Print_Content"));
-        printAndExportBackground = new UICheckBox(Inter.getLocText("CellWrite-Print_Background"));
-
-        showContent = new UIComboBox(new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("CellWrite-Show_As_Image"), Inter.getLocText("CellWrite-Show_As_HTML"),
-                Inter.getLocText("FR-Designer_Show_As_Download")});
-        final CardLayout fileNameLayout = new CardLayout();
-        final JPanel fileNamePane = new JPanel(fileNameLayout);
-        JPanel fileNameCCPane = new JPanel(new BorderLayout(4, 0));
-
-        fileNameCCPane.add(new UILabel(Inter.getLocText("FR-Designer_File_Name_For_Download")), BorderLayout.WEST);
-        fileNameTextField = new UITextField();
-
-        tooltipTextField = new UITextField();
-        tooltipTextField.getUI();
-        fileNamePane.add(new JPanel(), "none");
-        fileNamePane.add(fileNameCCPane, "content");
-        fileNameCCPane.add(fileNameTextField, BorderLayout.CENTER);
-
-        showContent.addItemListener(new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                fileNameLayout.show(fileNamePane, showContent.getSelectedIndex() == 3 ? "content" : "none");
-            }
-        });
-
-        tooltipTextField = new UITextField();
-        tooltipTextField.getUI();
-        return fileNamePane;
     }
 
-    private void createOthers() {
-        // 分页
-        pageBeforeRowCheckBox = new UICheckBox(Inter.getLocText("CellWrite-Page_Before_Row"));
-        pageAfterRowCheckBox = new UICheckBox(Inter.getLocText("CellWrite-Page_After_Row"));
-        pageBeforeColumnCheckBox = new UICheckBox(Inter.getLocText("CellWrite-Page_Before_Column"));
-        pageAfterColumnCheckBox = new UICheckBox(Inter.getLocText("CellWrite-Page_After_Column"));
-
-        canBreakOnPaginateCheckBox = new UICheckBox(Inter.getLocText("CellPage-Can_Break_On_Paginate"));
-        repeatCheckBox = new UICheckBox(Inter.getLocText("CellWrite-Repeat_Content_When_Paging"));
-
+    private JPanel seniorPane() {
         // 插入行策略
-        insertRowPolicy = new UIButtonGroup(new String[]{Inter.getLocText("CellWrite-InsertRow_NULL"), Inter.getLocText("CellWrite-InsertRow_DEFAULT"),
-                Inter.getLocText("CellWrite-InsertRow_COPY")});
+        insertRowPolicy = new UIButtonGroup(new String[]{Inter.getLocText("FR-Designer_CellWrite_InsertRow_NULL"), Inter.getLocText("FR-Designer-Estate_Default_Text"),
+                Inter.getLocText("FR-Designer_CellWrite_InsertRow_COPY")});
         defaultValuePane = new JPanel(new BorderLayout(4, 0));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();
         defaultValuePane.add(valueEditor, BorderLayout.CENTER);
@@ -190,25 +117,121 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 defaultValuePane.setVisible(insertRowPolicy.getSelectedIndex() == 1);
             }
         });
+        JPanel fileNamePane = createNormal();
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p, p, p, p, p, p, p};
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        Component[][] components = new Component[][]{
+                new Component[]{null, null},
+                new Component[]{previewCellContent, null},
+                new Component[]{printAndExportContent, null},
+                new Component[]{printAndExportBackground, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Show_Content"), SwingConstants.LEFT), showContent},
+                new Component[]{null, fileNamePane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip"), SwingConstants.RIGHT), tooltipTextField},
+                new Component[]{null, null},
+        };
+        JPanel seniorCenterPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        double[] rowSize1 = {p, p};
+        double[] columnSize1 = {p, f};
+        int[][] rowCount1 = {{1, 1}, {1, 1}};
+        Component[][] components1 = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
+                new Component[]{null, defaultValuePane},
+        };
+        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel seniorPane = new JPanel(new BorderLayout());
+        seniorPane.add(seniorCenterPane, BorderLayout.NORTH);
+        seniorPane.add(southContentPane, BorderLayout.CENTER);
+        return seniorPane;
+    }
+
+    private JPanel pagePane() {
+        // 分页
+        pageBeforeRowCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Page_Before_Row"));
+
+        pageAfterRowCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Page_After_Row"));
+        pageBeforeColumnCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Page_Before_Column"));
+        pageAfterColumnCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Page_After_Column"));
+
+        canBreakOnPaginateCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellPage_Can_Break_On_Paginate"));
+        repeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_CellPage_Repeat_Content_When_Paging"));
+
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
+        double[] columnSize = {p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        Component[][] components = new Component[][]{
+                new Component[]{null},
+                new Component[]{pageBeforeRowCheckBox},
+                new Component[]{pageAfterRowCheckBox},
+                new Component[]{null},
+                new Component[]{pageBeforeColumnCheckBox},
+                new Component[]{pageAfterColumnCheckBox},
+                new Component[]{null},
+                new Component[]{canBreakOnPaginateCheckBox},
+                new Component[]{repeatCheckBox},
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
 
     }
 
+    private JPanel createNormal() {
+        previewCellContent = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Preview_Cell_Content"));
+        printAndExportContent = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Print_Content"));
+        printAndExportBackground = new UICheckBox(Inter.getLocText("FR-Designer_CellWrite_Print_Background"));
+        showContent = new UIComboBox(new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_CellWrite_Show_As_Image"), Inter.getLocText("FR-Designer_CellWrite_Show_As_HTML"),
+                Inter.getLocText("FR-Designer_Show_As_Download")});
+        final CardLayout fileNameLayout = new CardLayout();
+        final JPanel fileNamePane = new JPanel(fileNameLayout);
+        JPanel fileNameCCPane = new JPanel(new BorderLayout(4, 0));
+        fileNameCCPane.add(new UILabel(Inter.getLocText("FR-Designer_File_Name_For_Download")), BorderLayout.WEST);
+        fileNameTextField = new UITextField();
+        tooltipTextField = new UITextField();
+        tooltipTextField.getUI();
+        fileNamePane.add(new JPanel(), "none");
+        fileNamePane.add(fileNameCCPane, "content");
+        fileNamePane.setPreferredSize(new Dimension(0, 0));
+        fileNameCCPane.add(fileNameTextField, BorderLayout.CENTER);
+        showContent.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (showContent.getSelectedIndex() == 3) {
+                    fileNamePane.setPreferredSize(new Dimension(100, 20));
+                    fileNameLayout.show(fileNamePane, "content");
+                } else {
+                    fileNameLayout.show(fileNamePane, "none");
+                    fileNamePane.setPreferredSize(new Dimension(0, 0));
+                }
+            }
+        });
+        tooltipTextField = new UITextField();
+        tooltipTextField.getUI();
+        return fileNamePane;
+    }
+
+
     private void initAllNames() {
-        autoshrik.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Size"));
+//        autoshrik.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Size"));
+        autoHeightCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Height"));
+        autoWidthCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"));
         previewCellContent.setGlobalName(Inter.getLocText("FR-Designer_Preview"));
         printAndExportContent.setGlobalName(Inter.getLocText("CellWrite-Preview_Cell_Content"));
         printAndExportBackground.setGlobalName(Inter.getLocText("CellWrite-Print_Background"));
         showContent.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
         fileNameTextField.setGlobalName(Inter.getLocText("FR-Designer_Show_Content"));
         tooltipTextField.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_ToolTip"));
-        pageBeforeRowCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_Before_Row"));
-        pageAfterRowCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_After_Row"));
-        pageBeforeColumnCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_Before_Column"));
-        pageAfterColumnCheckBox.setGlobalName(Inter.getLocText("CellWrite-Page_After_Column"));
-        canBreakOnPaginateCheckBox.setGlobalName(Inter.getLocText("CellPage-Can_Break_On_Paginate"));
-        repeatCheckBox.setGlobalName(Inter.getLocText("CellWrite-Repeat_Content_When_Paging"));
-        insertRowPolicy.setGlobalName(Inter.getLocText("CellWrite-InsertRow_Policy"));
-        valueEditor.setGlobalName(Inter.getLocText("CellWrite-InsertRow_Policy"));
+        pageBeforeRowCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Page_Before_Row"));
+        pageAfterRowCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Page_After_Row"));
+        pageBeforeColumnCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Page_Before_Column"));
+        pageAfterColumnCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_Page_After_Column"));
+        canBreakOnPaginateCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellPage_Can_Break_On_Paginate"));
+        repeatCheckBox.setGlobalName(Inter.getLocText("FR-Designer_CellPage_Repeat_Content_When_Paging"));
+        insertRowPolicy.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"));
+        valueEditor.setGlobalName(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"));
     }
 
 
@@ -224,14 +247,34 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         if (cellGUIAttr == null) {
             cellGUIAttr = CellGUIAttr.DEFAULT_CELLGUIATTR;
         }
-        autoshrik.setSelectedIndex(cellGUIAttr.getAdjustMode());
+//        autoshrik.setSelectedIndex(cellGUIAttr.getAdjustMode());
+        switch (cellGUIAttr.getAdjustMode()) {
+            case 0:
+                autoHeightCheckBox.setSelected(false);
+                autoWidthCheckBox.setSelected(false);
+                break;
+            case 1:
+                autoHeightCheckBox.setSelected(true);
+                autoWidthCheckBox.setSelected(false);
+                break;
+            case 2:
+                autoHeightCheckBox.setSelected(false);
+                autoWidthCheckBox.setSelected(true);
+                break;
+            case 3:
+                autoHeightCheckBox.setSelected(true);
+                autoWidthCheckBox.setSelected(true);
+                break;
+            default:
+                break;
+        }
         previewCellContent.setSelected(cellGUIAttr.isPreviewContent());
         printAndExportContent.setSelected(cellGUIAttr.isPrintContent());
         printAndExportBackground.setSelected(cellGUIAttr.isPrintBackground());
         if (cellGUIAttr.isShowAsImage()) {
-            showContent.setSelectedItem(Inter.getLocText("CellWrite-Show_As_Image"));
+            showContent.setSelectedItem(Inter.getLocText("FR-Designer_CellWrite_Show_As_Image"));
         } else if (cellGUIAttr.isShowAsHTML()) {
-            showContent.setSelectedItem(Inter.getLocText("CellWrite-Show_As_HTML"));
+            showContent.setSelectedItem(Inter.getLocText("FR-Designer_CellWrite_Show_As_HTML"));
         } else if (cellGUIAttr.isShowAsDownload()) {
             showContent.setSelectedItem(Inter.getLocText("FR-Designer_Show_As_Download"));
             fileNameTextField.setText(cellGUIAttr.getFileName());
@@ -265,7 +308,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         defaultValuePane.setVisible(insertRowPolicy.getSelectedIndex() == 1);
         southContentPane.setVisible(true);
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (!jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  插入行策略
+        if (!jTemplate.isJWorkBook()) { //表单中报表块编辑屏蔽掉  插入行策略
             southContentPane.setVisible(false);
         }
     }
@@ -281,19 +324,36 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellGUIAttr = new CellGUIAttr();
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Size"))) {
-            cellGUIAttr.setAdjustMode(autoshrik.getSelectedIndex());
+//        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Size"))) {
+//            cellGUIAttr.setAdjustMode(autoshrik.getSelectedIndex());
+//        }
+
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Height")) || ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Auto_Adjust_Wdith"))) {
+            int flag;
+            if (autoHeightCheckBox.isSelected()) {
+                if (autoWidthCheckBox.isSelected()) {
+                    flag = 3;
+                } else {
+                    flag = 1;
+                }
+            } else if (autoWidthCheckBox.isSelected()) {
+                flag = 2;
+            } else {
+                flag = 0;
+            }
+            cellGUIAttr.setAdjustMode(flag);
         }
+
 
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Preview"))) {
             cellGUIAttr.setPreviewContent(previewCellContent.isSelected());
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Preview_Cell_Content"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Preview_Cell_Content"))) {
             cellGUIAttr.setPrintContent(printAndExportContent.isSelected());
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Print_Background"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Print_Background"))) {
             cellGUIAttr.setPrintBackground(printAndExportBackground.isSelected());
         }
 
@@ -334,28 +394,28 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellPageAttr = new CellPageAttr();
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Page_Before_Row"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Page_Before_Row"))) {
             cellPageAttr.setPageBeforeRow(this.pageBeforeRowCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Page_After_Row"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Page_After_Row"))) {
             cellPageAttr.setPageAfterRow(this.pageAfterRowCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Page_Before_Column"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Page_Before_Column"))) {
             cellPageAttr.setPageBeforeColumn(this.pageBeforeColumnCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Page_After_Column"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Page_After_Column"))) {
             cellPageAttr.setPageAfterColumn(this.pageAfterColumnCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellPage-Can_Break_On_Paginate"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Can_Break_On_Paginate"))) {
             cellPageAttr.setCanBreakOnPaginate(canBreakOnPaginateCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-Repeat_Content_When_Paging"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Repeat_Content_When_Paging"))) {
             cellPageAttr.setRepeat(this.repeatCheckBox.isSelected());
         }
 
         cellElement.setCellPageAttr(cellPageAttr);
 
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("CellWrite-InsertRow_Policy"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"))) {
             // 插入
             CellInsertPolicyAttr cellInsertPolicyAttr = new CellInsertPolicyAttr();
 
@@ -373,7 +433,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     }
 
     /**
-     *存储
+     * 存储
      */
     public void updateBeans() {
         TemplateElementCase elementCase = elementCasePane.getEditingElementCase();
@@ -398,10 +458,11 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     /**
      * 返回界面的标题
-     * @return    标题
+     *
+     * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Datasource-Other_Attributes");
+        return Inter.getLocText("FR-Designer_Datasource_Other_Attributes");
     }
 
 }

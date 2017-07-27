@@ -22,6 +22,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
+import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -111,6 +112,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
         EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
         EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+    }
+
+    @Override
+    public TargetComponent getCurrentElementCasePane() {
+        return getEditingElementCasePane();
     }
 
     @Override
@@ -825,8 +831,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
-    public HyperlinkGroupPane getHyperLinkPane() {
-        return ReportHyperlinkGroupPane.getInstance();
+    public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
     public void setAuthorityMode(boolean isUpMode) {

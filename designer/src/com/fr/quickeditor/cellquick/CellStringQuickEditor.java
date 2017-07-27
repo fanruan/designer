@@ -1,12 +1,5 @@
 package com.fr.quickeditor.cellquick;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JComponent;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
@@ -18,52 +11,36 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+/**
+ *
+ */
 public class CellStringQuickEditor extends CellQuickEditor {
-
-
+    //instance
     private static CellStringQuickEditor THIS;
-
+    //文本域
+    //TODO 9.0 文本域要根据具体文本数量自适应大小，比较难搞，先跳过。
     private UITextField stringTextField;
+    //编辑状态
+    private boolean isEditing = false;
 
-	private boolean isEditing = false;
-
-    public static final CellStringQuickEditor getInstance() {
+    public static CellStringQuickEditor getInstance() {
         if (THIS == null) {
             THIS = new CellStringQuickEditor();
         }
         return THIS;
     }
 
-    // august：如果是原来编辑的是公式,要保留公式里的这些属性,不然在公式和字符串转化时,就会丢失这些属性设置
+    //august：如果是原来编辑的是公式,要保留公式里的这些属性,不然在公式和字符串转化时,就会丢失这些属性设置。
     private boolean reserveInResult = false;
     private boolean reserveOnWriteOrAnaly = true;
 
-    private CellStringQuickEditor() {
-        super();
-    }
-
-    @Override
-    /**
-     *
-     */
-    public JComponent createCenterBody() {
-        stringTextField = new UITextField();
-        stringTextField.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (tc != null) {
-                    tc.getGrid().dispatchEvent(e);
-                }
-            }
-
-        });
-
-        return stringTextField;
-    }
-
-    DocumentListener documentListener = new DocumentListener() {
-
+    private DocumentListener documentListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
             changeReportPaneCell(stringTextField.getText().trim());
@@ -81,8 +58,31 @@ public class CellStringQuickEditor extends CellQuickEditor {
 
     };
 
-    protected void changeReportPaneCell(String tmpText) {
-		isEditing = true;
+    private CellStringQuickEditor() {
+        super();
+    }
+
+    /**
+     * 详细信息面板
+     * todo 文本框可自适应大小，公式编辑也是在这边，如果是公式那么要加一个公式编辑器的触发按钮
+     */
+    @Override
+    public JComponent createCenterBody() {
+        stringTextField = new UITextField();
+        stringTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (tc != null) {
+                    tc.getGrid().dispatchEvent(e);
+                }
+            }
+        });
+        return stringTextField;
+    }
+
+
+    private void changeReportPaneCell(String tmpText) {
+        isEditing = true;
         //refresh一下，如果单元格内有新添加的控件，此时并不知道
         CellSelection cs1 = (CellSelection) tc.getSelection();
         ColumnRow columnRow = ColumnRow.valueOf(cs1.getColumn(), cs1.getRow());
@@ -101,7 +101,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
             cellElement.setValue(textFormula);
         } else {
             Style style = cellElement.getStyle();
-            if (cellElement != null && style != null && style.getFormat() != null && style.getFormat() == TextFormat.getInstance()) {
+            if (style != null && style.getFormat() != null && style.getFormat() == TextFormat.getInstance()) {
                 cellElement.setValue(tmpText);
             } else {
                 cellElement.setValue(ReportHelper.convertGeneralStringAccordingToExcel(tmpText));
@@ -109,12 +109,15 @@ public class CellStringQuickEditor extends CellQuickEditor {
         }
         fireTargetModified();
         stringTextField.requestFocus();
-		isEditing = false;
+        isEditing = false;
     }
 
+    /**
+     * 刷新详细内容
+     */
     @Override
     protected void refreshDetails() {
-        String str = null;
+        String str;
         if (cellElement == null) {
             str = StringUtils.EMPTY;
         } else {
@@ -135,14 +138,15 @@ public class CellStringQuickEditor extends CellQuickEditor {
     }
 
     /**
+     * 显示文本
      *
-     * @param str
+     * @param str 文本
      */
     public void showText(String str) {
-		// 本编辑框在输入过程中引发的后续事件如果还调用了本框的setText方法不能执行
-		if (isEditing) {
-			return;
-		}
+        // 正在编辑时不处理
+        if (isEditing) {
+            return;
+        }
         stringTextField.getDocument().removeDocumentListener(documentListener);
         stringTextField.setText(str);
         stringTextField.getDocument().addDocumentListener(documentListener);

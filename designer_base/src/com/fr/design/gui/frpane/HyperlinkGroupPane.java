@@ -1,10 +1,12 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
@@ -25,6 +27,12 @@ import java.util.Set;
  * @version 创建时间：2013-6-25 上午11:17:57
  */
 public abstract class HyperlinkGroupPane extends UIListControlPane {
+    protected HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider;
+
+    public HyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        super();
+        this.hyperlinkGroupPaneActionProvider = hyperlinkGroupPaneActionProvider;
+    }
     /**
      * 生成添加按钮的NameableCreator
      *
@@ -53,6 +61,11 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         return Inter.getLocText("FR-Designer_Hyperlink");
     }
 
+    @Override
+    protected String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Hyperlink");
+    }
+
     public void populate(NameJavaScriptGroup nameHyperlink_array) {
         java.util.List<NameObject> list = new ArrayList<NameObject>();
         if (nameHyperlink_array != null) {
@@ -62,6 +75,10 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         }
 
         this.populate(list.toArray(new NameObject[list.size()]));
+    }
+
+    public void populate(TargetComponent elementCasePane) {
+        hyperlinkGroupPaneActionProvider.populate(this, elementCasePane);
     }
 
     /**
@@ -78,5 +95,13 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
         }
 
         return new NameJavaScriptGroup(res_array);
+    }
+
+    @Override
+    public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
+        hyperlinkGroupPaneActionProvider.saveSettings(this);
     }
 }

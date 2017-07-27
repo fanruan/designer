@@ -8,6 +8,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.HyperlinkGroupPaneActionImpl;
 import com.fr.general.Inter;
 import com.fr.js.*;
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
@@ -36,7 +37,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
         hyperlinkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NameJavaScriptGroup nameHyperlinks = jsGroup;
-                pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane();
+                pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
                 pane.populate(nameHyperlinks);
                 dialog = pane.showWindow(SwingUtilities.getWindowAncestor(conditionAttributesPane));
                 dialog.addDialogActionListener(new DialogActionAdapter() {
