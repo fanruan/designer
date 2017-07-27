@@ -1,7 +1,7 @@
 package com.fr.design.chart.report;
 
-import com.fr.base.MapSvgXMLHelper;
 import com.fr.base.MapXMLHelper;
+import com.fr.chart.base.MapSvgXMLHelper;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;

@@ -1,9 +1,9 @@
 package com.fr.design.chart.series.PlotSeries;
 
 import com.fr.base.FRContext;
-import com.fr.base.MapSvgAttr;
 import com.fr.base.TableData;
 import com.fr.base.Utils;
+import com.fr.chart.base.MapSvgAttr;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
