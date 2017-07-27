@@ -1,48 +1,45 @@
 package com.fr.design.present.dict;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.ItemSelectable;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.Formula;
 import com.fr.base.TableData;
-import com.fr.design.data.DesignTableDataManager;
 import com.fr.data.core.db.DBUtils;
+import com.fr.data.impl.DatabaseDictionary;
+import com.fr.data.impl.NameDatabaseConnection;
+import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.ChoosePane;
 import com.fr.design.data.datapane.DataBaseItems;
 import com.fr.design.data.datapane.VerticalChoosePane;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
-import com.fr.data.impl.DatabaseDictionary;
-import com.fr.data.impl.NameDatabaseConnection;
-import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.editor.DoubleDeckValueEditorPane;
+import com.fr.design.editor.editor.ColumnIndexEditor;
+import com.fr.design.editor.editor.ColumnNameEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.editor.editor.ColumnIndexEditor;
-import com.fr.design.editor.editor.ColumnNameEditor;
-import com.fr.design.editor.editor.Editor;
-import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> implements Previewable, UIObserver {
     /**
      * richer:数据字典和数据链面板
      */
     protected com.fr.data.impl.Connection database;
-    protected ValueEditorPane keyColumnPane;
-    protected ValueEditorPane valueDictPane;
+    protected DoubleDeckValueEditorPane keyColumnPane;
+    protected DoubleDeckValueEditorPane valueDictPane;
 
     protected ChoosePane chooseTable;
     private UIObserverListener uiObserverListener;
@@ -61,10 +58,12 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
 
     private void initBasicComponet() {
-        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+//        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+        keyColumnPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Engine_Parameter-Formula"));
         formulaEditor.setEnabled(true);
-        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
+//        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
+        valueDictPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
     }
 
     private void initComponet() {
@@ -72,13 +71,15 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
+        double[] rowSize = {p, p, p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 3}, {1, 3}};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("Actual_Value") + ":"), keyColumnPane},
-                new Component[]{new UILabel("  " + Inter.getLocText("Display_Value") + ":"), valueDictPane}
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane}
         };
-        JPanel dbDictPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
         this.setLayout(new BorderLayout(0, 4));
         this.add(chooseTable, BorderLayout.NORTH);
         this.add(dbDictPanel, BorderLayout.CENTER);
@@ -114,7 +115,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
      *
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Datasource-From_Database");
+        return Inter.getLocText("FR-Designer_Datasource_From_Database");
     }
 
     public void populateBean(DatabaseDictionary dbDict) {
@@ -135,30 +136,30 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
         this.chooseTable.populateBean(new DataBaseItems(dbName, dbDict.getSchema(), dbDict.getTableName()));
 
-        if(this.database == null){
-        	return;
+        if (this.database == null) {
+            return;
         }
-        
+
         // richer:这个也要+1才行
-    	if(StringUtils.isNotEmpty(dbDict.getKeyColumnName())){
-    		this.keyColumnPane.populate(dbDict.getKeyColumnName());
-    	}else{
-    		this.keyColumnPane.populate(dbDict.getKeyColumnIndex() + 1);
-    	}
+        if (StringUtils.isNotEmpty(dbDict.getKeyColumnName())) {
+            this.keyColumnPane.populate(dbDict.getKeyColumnName());
+        } else {
+            this.keyColumnPane.populate(dbDict.getKeyColumnIndex() + 1);
+        }
 
 
-    	if(StringUtils.isNotEmpty(dbDict.getValueColumnName())){
-    		this.valueDictPane.populate(dbDict.getValueColumnName());
-    	}else{
-    		Object value = null;
-	        if (dbDict.getFormula() != null) {
-	            value = dbDict.getFormula();
-	        } else {
-	            // alex:因为显示到界面上的index是以1为始的
-	            value = dbDict.getValueColumnIndex() + 1;
-	        }
-	        this.valueDictPane.populate(value);
-    	}
+        if (StringUtils.isNotEmpty(dbDict.getValueColumnName())) {
+            this.valueDictPane.populate(dbDict.getValueColumnName());
+        } else {
+            Object value = null;
+            if (dbDict.getFormula() != null) {
+                value = dbDict.getFormula();
+            } else {
+                // alex:因为显示到界面上的index是以1为始的
+                value = dbDict.getValueColumnIndex() + 1;
+            }
+            this.valueDictPane.populate(value);
+        }
     }
 
     public DatabaseDictionary updateBean() {
@@ -177,27 +178,27 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         dbDict.setSchema(para.getSchemaName());
         dbDict.setTableName(para.getTableName());
         // alex:因为显示到界面上的index是以1为始的,所以要减1
-		if (this.keyColumnPane.update() != null && (Integer) this.keyColumnPane.update() - 1 >= 0) {
-			int keyColumnIndex = (Integer) this.keyColumnPane.update() - 1;
-			String keyColumnName = StringUtils.EMPTY;
-			if (this.keyColumnPane.getCurrentEditor() instanceof ColumnNameEditor) {
-				keyColumnName = ((ColumnNameEditor) this.keyColumnPane.getCurrentEditor()).getColumnName();
-				keyColumnIndex = -1;
-			}
-			dbDict.setKeyColumnIndex(keyColumnIndex);
-			dbDict.setKeyColumnName(keyColumnName);
-		}
+        if (this.keyColumnPane.update() != null && (Integer) this.keyColumnPane.update() - 1 >= 0) {
+            int keyColumnIndex = (Integer) this.keyColumnPane.update() - 1;
+            String keyColumnName = StringUtils.EMPTY;
+            if (this.keyColumnPane.getCurrentEditor() instanceof ColumnNameEditor) {
+                keyColumnName = ((ColumnNameEditor) this.keyColumnPane.getCurrentEditor()).getColumnName();
+                keyColumnIndex = -1;
+            }
+            dbDict.setKeyColumnIndex(keyColumnIndex);
+            dbDict.setKeyColumnName(keyColumnName);
+        }
         Object value = this.valueDictPane.update();
-		if (value instanceof Integer) {
-			int valueColumnIndex = (Integer) this.valueDictPane.update() - 1;
-			String valueColumnName = StringUtils.EMPTY;
-			if (this.valueDictPane.getCurrentEditor() instanceof ColumnNameEditor) {
-				valueColumnName = ((ColumnNameEditor) this.valueDictPane.getCurrentEditor()).getColumnName();
-				valueColumnIndex = -1;
-			}
-			dbDict.setValueColumnIndex(valueColumnIndex);
-			dbDict.setValueColumnName(valueColumnName);
-		} else {
+        if (value instanceof Integer) {
+            int valueColumnIndex = (Integer) this.valueDictPane.update() - 1;
+            String valueColumnName = StringUtils.EMPTY;
+            if (this.valueDictPane.getCurrentEditor() instanceof ColumnNameEditor) {
+                valueColumnName = ((ColumnNameEditor) this.valueDictPane.getCurrentEditor()).getColumnName();
+                valueColumnIndex = -1;
+            }
+            dbDict.setValueColumnIndex(valueColumnIndex);
+            dbDict.setValueColumnName(valueColumnName);
+        } else {
             dbDict.setFormula(((Formula) value));
         }
 
@@ -217,7 +218,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         String columnNameValue = columnNames.length > 0 ? columnNames[0] : StringUtils.EMPTY;
         keyColumnPane.setEditors(new Editor[]{columnNameEditor1, columnIndexEditor1}, columnNameValue);
 
-        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Engine_Parameter-Formula"));
         formulaEditor.setEnabled(true);
         formulaEditor.addChangeListener(new ChangeListener() {
 

@@ -64,8 +64,6 @@ public class ReportComponentComposite extends JComponent {
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
-        this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
     }
 
     KeyListener showValSpinnerKeyListener = new KeyListener() {
@@ -154,6 +152,9 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         Grid grid = centerCardPane.editingComponet.elementCasePane.getGrid();
+
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
+        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
 
         if (!grid.hasFocus() && grid.isRequestFocusEnabled()) {
             grid.requestFocus();
