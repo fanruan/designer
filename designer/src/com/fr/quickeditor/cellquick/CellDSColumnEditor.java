@@ -1,28 +1,52 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.design.actions.columnrow.DSColumnAdvancedAction;
-import com.fr.design.actions.columnrow.DSColumnBasicAction;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
-import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dscolumn.DSColumnAdvancedEditorPane;
+import com.fr.design.dscolumn.DSColumnBasicEditorPane;
 import com.fr.design.dscolumn.ResultSetGroupDockingPane;
 import com.fr.design.dscolumn.SelectedDataColumnPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.cell.CellEditorPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.quickeditor.CellQuickEditor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
+/**
+ * 单元格元素 数据列编辑器
+ *
+ * @author yaoh.wu
+ * @version 2017年7月24日
+ * @since 9.0
+ */
 public class CellDSColumnEditor extends CellQuickEditor {
+
     private JPanel dsColumnRegion;
     private JPanel centerPane;
+    //数据集列选择组件
     private SelectedDataColumnPane dataPane;
+    //数据分组设置组件
     private ResultSetGroupDockingPane groupPane;
+    //过滤条件面板
+    private JPanel conditionPane;
+    // 基本和高级设置
+    private ArrayList<CellEditorPane> paneList;
+    // 基本和高级设置 卡片布局
+    private CardLayout card;
+    // 基本和高级设置 容器面板
+    private JPanel center;
+    // 卡片布局TAB切换按钮
+    private UIHeadGroup tabsHeaderIconPane;
+    // 分组设置监听器
     private ItemListener groupListener = new ItemListener() {
-
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e == null) {
@@ -40,9 +64,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
         }
     };
-
+    //数据集列设置监听器
     private ItemListener dataListener = new ItemListener() {
-
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -59,53 +82,120 @@ public class CellDSColumnEditor extends CellQuickEditor {
         super();
     }
 
+    /**
+     * Test Main
+     *
+     * @param args 参数
+     */
+    public static void main(String[] args) {
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new CellDSColumnEditor(), BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(220, 400);
+        jf.setVisible(true);
+    }
+
+    /**
+     * 创建面板占位
+     *
+     * @return JComponent 详细信息面板
+     */
     @Override
     public JComponent createCenterBody() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p, p};
-        Component[][] components = new Component[][]{};
-        dsColumnRegion = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        centerPane = new JPanel(new BorderLayout(0, 0));
+        this.createPanes();
+        this.createSwitchTab();
+        dsColumnRegion = new JPanel(new BorderLayout());
+        dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        dsColumnRegion.add(center, BorderLayout.CENTER);
+        centerPane = new JPanel(new BorderLayout());
         centerPane.add(dsColumnRegion, BorderLayout.CENTER);
         return centerPane;
     }
 
-    // august:这里面的东西都全部重新动态生成，不然容易出错
+    /**
+     * 内容全部重新动态生成，不然容易出错
+     * 刷新详细信息面板
+     */
     @Override
     protected void refreshDetails() {
-        JPanel pane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE, 0));
-        pane.add(new UIButton(new DSColumnConditionAction(tc)), BorderLayout.WEST);
-        pane.add(new UIButton(new DSColumnAdvancedAction(tc)), BorderLayout.CENTER);
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{new UIButton(new DSColumnBasicAction(tc)), null},
-                new Component[]{pane, null},
-                new Component[]{dataPane = new SelectedDataColumnPane(false), null},
-                new Component[]{groupPane = new ResultSetGroupDockingPane(tc), null}
-        };
+
+        this.createPanes();
+        this.createSwitchTab();
+        dsColumnRegion = new JPanel(new BorderLayout());
+        dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        dsColumnRegion.add(center, BorderLayout.CENTER);
+        //必须removeAll之后再添加；重新再实例化一个centerJPanel，因为对象变了会显示不出来
         centerPane.removeAll();
-        dsColumnRegion = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         centerPane.add(dsColumnRegion, BorderLayout.CENTER);
-        dataPane.addListener(dataListener);
-        groupPane.addListener(groupListener);
-        dataPane.populate(null, cellElement);
-        groupPane.populate(cellElement);
+        for (CellEditorPane cellEditorPane : paneList) {
+            cellEditorPane.populate(cellElement);
+        }
         this.validate();
     }
 
 
     /**
-     * for 关闭时候释放
+     * 关闭时候释放
      */
-    public void release () {
+    public void release() {
         super.release();
         dsColumnRegion = null;
         centerPane = null;
     }
 
+
+    /**
+     * 初始化基本和高级设置切换tab
+     */
+    private void createSwitchTab() {
+        String[] iconArray = new String[paneList.size()];
+        card = new CardLayout();
+        center = new JPanel(card);
+        center.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        for (int i = 0; i < paneList.size(); i++) {
+            CellEditorPane pane = paneList.get(i);
+            iconArray[i] = pane.getIconPath();
+            center.add(pane, pane.title4PopupWindow());
+        }
+        tabsHeaderIconPane = new UIHeadGroup(iconArray) {
+            @Override
+            public void tabChanged(int index) {
+                card.show(center, paneList.get(index).title4PopupWindow());
+                paneList.get(index).populate(cellElement);
+            }
+        };
+        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
+    }
+
+    /**
+     * 刷新数据列基本和高级设置面板
+     */
+    private void createPanes() {
+        paneList = new ArrayList<>();
+
+        /*基本设置面板*/
+        this.dataPane = new SelectedDataColumnPane();
+        this.groupPane = new ResultSetGroupDockingPane(tc);
+        double p = TableLayout.PREFERRED, f = TableLayout.FILL;
+        double[] rowSize = {p}, columnSize = {p, f};
+        UILabel uiLabel = new UILabel("filter");
+        UIButton uiButton = new UIButton();
+        if (tc != null) {
+            //第一次初始化时tc为空，引发NullPointerException
+            uiButton = new UIButton(new DSColumnConditionAction(tc));
+        }
+        Component[][] components = new Component[][]{
+                new Component[]{uiLabel, uiButton}
+        };
+        this.conditionPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        dataPane.addListener(dataListener);
+        groupPane.addListener(groupListener);
+        paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane, conditionPane));
+
+        /*高级设置面板*/
+        paneList.add(new DSColumnAdvancedEditorPane());
+    }
 }

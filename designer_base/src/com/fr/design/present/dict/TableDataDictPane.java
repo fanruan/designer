@@ -1,48 +1,46 @@
 package com.fr.design.present.dict;
 
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.List;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.event.UIObserver;
-import com.fr.design.event.UIObserverListener;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.Formula;
 import com.fr.base.TableData;
-import com.fr.design.data.DesignTableDataManager;
 import com.fr.data.TableDataSource;
-import com.fr.design.data.datapane.TableDataComboBox;
-import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.impl.DynamicSQLDict;
 import com.fr.data.impl.NameTableData;
 import com.fr.data.impl.TableDataDictionary;
-import com.fr.design.data.datapane.preview.PreviewLabel;
-import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
-import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.datapane.TableDataComboBox;
+import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.data.datapane.preview.PreviewLabel;
+import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
+import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
+import com.fr.design.editor.DoubleDeckValueEditorPane;
 import com.fr.design.editor.editor.ColumnIndexEditor;
 import com.fr.design.editor.editor.ColumnNameEditor;
 import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.List;
 
 /**
  * 数据字典的数据查询面板
@@ -56,8 +54,8 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
     private static final long serialVersionUID = -5469742115988153206L;
     private static final int SELECTED_NO_TABLEDATA = -2;
     public TableDataComboBox tableDataNameComboBox;
-    private ValueEditorPane keyColumnPane;
-    private ValueEditorPane valueDictPane;
+    private DoubleDeckValueEditorPane keyColumnPane;
+    private DoubleDeckValueEditorPane valueDictPane;
     private ItemListener itemListener;
     private UIObserverListener uiObserverListener;
 
@@ -65,6 +63,17 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         initBasicComponets();
         initComponents();
         iniListener();
+    }
+
+    public static void main(String[] args) {
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new TableDataDictPane(), BorderLayout.NORTH);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(290, 400);
+        jf.setVisible(true);
     }
 
     private void initBasicComponets() {
@@ -76,10 +85,12 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
                 }
             }
         });
-        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+//        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
+        keyColumnPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
         FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         formulaEditor.setEnabled(true);
-        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
+//        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
+        valueDictPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
     }
 
     private void initComponents() {
@@ -87,20 +98,20 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 3}, {1, 3}};
 
         JPanel firstLine = new JPanel(new BorderLayout(4, 0));
         firstLine.add(tableDataNameComboBox, BorderLayout.CENTER);
         firstLine.add(new PreviewLabel(this), BorderLayout.EAST);
 
-
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("FR-Designer_DS_TableData") + ":", UILabel.RIGHT), firstLine},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + ":", UILabel.RIGHT), keyColumnPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + ":", UILabel.RIGHT), valueDictPane}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS_TableData") + "  ", UILabel.LEFT), firstLine},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
     }
@@ -133,10 +144,11 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
     /**
      * 该面板标题
+     *
      * @return 返回是窗口显示的标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Dic-Data_Query");
+        return Inter.getLocText("FR-Designer_Dic_Data_Query");
     }
 
     private void tdChange(final ItemEvent e) {
@@ -239,14 +251,14 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         TableDataSource dataSource = DesignTableDataManager.getEditingTableDataSource();
         if (dataSource != null) {
             for (int i = BEGIN; i < END; i++) {
-                TableData td = dataSource.getTableData(Inter.getLocText("Dictionary-Dynamic_SQL") + i);
+                TableData td = dataSource.getTableData(Inter.getLocText("FR-Designer_Dictionary_Dynamic_SQL") + i);
                 if (td == null) {
-                    name = Inter.getLocText("Dictionary-Dynamic_SQL") + i;
-                    dataSource.putTableData(Inter.getLocText("Dictionary-Dynamic_SQL") + i, db);
+                    name = Inter.getLocText("FR-Designer_Dictionary_Dynamic_SQL") + i;
+                    dataSource.putTableData(Inter.getLocText("FR-Designer_Dictionary_Dynamic_SQL") + i, db);
                     break;
                 } else {
                     if (ComparatorUtils.equals(td, db)) {
-                        name = Inter.getLocText("Dictionary-Dynamic_SQL") + i;
+                        name = Inter.getLocText("FR-Designer_Dictionary_Dynamic_SQL") + i;
                         break;
                     } else {
                         continue;
@@ -319,6 +331,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
     /**
      * 判断ob是否是TableDataDictionary类型
+     *
      * @param ob 用于判断的Object
      * @return 如果是TableDataDictionary类型，则返回true
      */
@@ -338,7 +351,8 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
 
     /**
-     *给组件登记一个观察者监听事件
+     * 给组件登记一个观察者监听事件
+     *
      * @param listener 观察者监听事件
      */
     public void registerChangeListener(UIObserverListener listener) {
@@ -347,6 +361,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
 
     /**
      * 是否应该相应listener事件
+     *
      * @return 要是响应listener事件，则返回true
      */
     public boolean shouldResponseChangeListener() {

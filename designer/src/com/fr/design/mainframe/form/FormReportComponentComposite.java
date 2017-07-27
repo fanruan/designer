@@ -5,10 +5,12 @@ import com.fr.base.ScreenResolution;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JSliderPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
@@ -26,12 +28,12 @@ import java.awt.event.*;
 /**
  * 整个FormElementCase编辑区域 包括滚动条、中间的grid或者聚合块、下面的sheetTab
  */
-public class FormReportComponentComposite extends JComponent implements TargetModifiedListener, FormECCompositeProvider{
+public class FormReportComponentComposite extends JComponent implements TargetModifiedListener, FormECCompositeProvider {
 
     private static final int MAX = 400;
     private static final int HUND = 100;
     private static final int MIN = 10;
-	public FormElementCaseDesigner elementCaseDesigner;
+    public FormElementCaseDesigner elementCaseDesigner;
     private BaseJForm jForm;
 
     private FormTabPane sheetNameTab;
@@ -48,8 +50,6 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         this.add(createSouthControlPane(), BorderLayout.SOUTH);
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
-        ((JForm)this.jForm).getFormDesign().getArea().addMouseWheelListener(showValSpinnerMouseWheelListener);
-        ((JForm)this.jForm).getFormDesign().getArea().addKeyListener(showValSpinnerKeyListener);
         this.elementCaseDesigner.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
         this.elementCaseDesigner.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
         elementCaseDesigner.addTargetModifiedListener(this);
@@ -60,22 +60,24 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         public void keyTyped(KeyEvent e) {
 
         }
+
         @Override
         public void keyPressed(KeyEvent e) {
-            if( e.isControlDown()){
-                isCtrl = true ;
+            if (e.isControlDown()) {
+                isCtrl = true;
             }
         }
+
         @Override
         public void keyReleased(KeyEvent e) {
-            isCtrl = false ;
+            isCtrl = false;
         }
     };
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl){
+            if (isCtrl) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
                 jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
@@ -87,10 +89,10 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     ChangeListener showValSpinnerChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
-            double value = (int) ((UIBasicSpinner)e.getSource()).getValue();
+            double value = (int) ((UIBasicSpinner) e.getSource()).getValue();
             value = value > MAX ? MAX : value;
             value = value < MIN ? MIN : value;
-            int resolution = (int) (ScreenResolution.getScreenResolution()*value/HUND);
+            int resolution = (int) (ScreenResolution.getScreenResolution() * value / HUND);
             setScale(resolution);
 //            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(resolution);
         }
@@ -99,18 +101,17 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     ItemListener selfAdaptButtonItemListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if (jSliderContainer.getSelfAdaptButton().isSelected()){
+            if (jSliderContainer.getSelfAdaptButton().isSelected()) {
                 int resolution = selfAdaptUpdate();
-                jSliderContainer.getShowVal().setValue(resolution*HUND/ScreenResolution.getScreenResolution());
+                jSliderContainer.getShowVal().setValue(resolution * HUND / ScreenResolution.getScreenResolution());
             }
         }
     };
 
     private java.util.List<TargetModifiedListener> targetModifiedList = new java.util.ArrayList<TargetModifiedListener>();
 
-    private void setScale(int resolution){
-        JForm jForm = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        ElementCasePane elementCasePane = ((FormReportComponentComposite)jForm.getReportComposite()).elementCaseDesigner.getEditingElementCasePane();
+    private void setScale(int resolution) {
+        ElementCasePane elementCasePane = elementCaseDesigner.getEditingElementCasePane();
         elementCasePane.setResolution(resolution);
         elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
         elementCasePane.getGrid().setResolution(resolution);
@@ -122,20 +123,16 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
         elementCasePane.getGrid().updateUI();
         //更新Column和Row
-        ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
-        ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
+        ((DynamicScrollBar) elementCasePane.getVerticalScrollBar()).setDpi(resolution);
+        ((DynamicScrollBar) elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
         elementCasePane.getGridColumn().setResolution(resolution);
         elementCasePane.getGridColumn().updateUI();
         elementCasePane.getGridRow().setResolution(resolution);
         elementCasePane.getGridRow().updateUI();
     }
 
-    private int selfAdaptUpdate(){
-        JForm jForm = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        if (jForm.resolution == 0){
-            jForm.resolution = ScreenResolution.getScreenResolution();
-        }
-        ElementCasePane elementCasePane = ((FormReportComponentComposite)jForm.getReportComposite()).elementCaseDesigner.getEditingElementCasePane();
+    private int selfAdaptUpdate() {
+        ElementCasePane elementCasePane = elementCaseDesigner.getEditingElementCasePane();
         ElementCasePane reportPane = elementCasePane.getGrid().getElementCasePane();
         int column = reportPane.getSelection().getSelectedColumns()[0];
         double columnLength = reportPane.getSelection().getSelectedColumns().length;
@@ -143,10 +140,10 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         int row = reportPane.getSelection().getSelectedRows()[0];
         double rowLength = reportPane.getSelection().getSelectedRows().length;
         double rowExtent = reportPane.getGrid().getVerticalExtent();
-        if (columnLength == 0||rowLength == 0){
-            return jForm.resolution;
+        if (columnLength == 0 || rowLength == 0) {
+            return ScreenResolution.getScreenResolution();
         }
-        double time =(columnExtent/columnLength)<(rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
+        double time = (columnExtent / columnLength) < (rowExtent / rowLength) ? (columnExtent / columnLength) : (rowExtent / rowLength);
         if (reportPane.isHorizontalScrollBarVisible()) {
             reportPane.getVerticalScrollBar().setValue(row);
             reportPane.getHorizontalScrollBar().setValue(column);
@@ -155,23 +152,26 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     }
 
     /**
-     *  添加目标改变的监听
-     * @param targetModifiedListener     目标改变事件
+     * 添加目标改变的监听
+     *
+     * @param targetModifiedListener 目标改变事件
      */
     public void addTargetModifiedListener(TargetModifiedListener targetModifiedListener) {
-    	targetModifiedList.add(targetModifiedListener);
+        targetModifiedList.add(targetModifiedListener);
     }
 
     /**
      * 目标改变
-     * @param e      事件
+     *
+     * @param e 事件
      */
-	public void targetModified(TargetModifiedEvent e) {
+    public void targetModified(TargetModifiedEvent e) {
         for (TargetModifiedListener l : targetModifiedList) {
             l.targetModified(e);
         }
-	}
-    public void setEditingElementCase(FormElementCase formElementCase){
+    }
+
+    public void setEditingElementCase(FormElementCase formElementCase) {
         elementCaseDesigner.setTarget(formElementCase);
         fireTargetModified();
     }
@@ -183,8 +183,8 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         jSliderContainer = JSliderPane.getInstance();
 
         JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, jSliderContainer);
-        southPane.add(hbarContainer,BorderLayout.NORTH);
-        southPane.add(splitpane,BorderLayout.CENTER);
+        southPane.add(hbarContainer, BorderLayout.NORTH);
+        southPane.add(splitpane, BorderLayout.CENTER);
         splitpane.setBorder(null);
         splitpane.setDividerSize(3);
         splitpane.setResizeWeight(1);
@@ -195,7 +195,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
      * 停止编辑
      */
     public void stopEditing() {
-    	elementCaseDesigner.stopEditing();
+        elementCaseDesigner.stopEditing();
     }
 
     public void setComposite() {
@@ -203,12 +203,12 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         this.validate();
         this.repaint(40);
     }
-    
-	public void setSelectedWidget(FormElementCaseProvider fc) {
-        if (fc != null){
+
+    public void setSelectedWidget(FormElementCaseProvider fc) {
+        if (fc != null) {
             elementCaseDesigner.setTarget(fc);
         }
-	}
+    }
 
     /**
      * 模板更新
