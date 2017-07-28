@@ -15,6 +15,7 @@ import com.fr.design.actions.utils.ReportActionUtils.IterAction;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.HyperlinkGroupPaneActionImpl;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -55,7 +56,7 @@ public class HyperlinkAction extends ElementCaseAction {
         
         final TemplateElementCase report = reportPane.getEditingElementCase();
         NameJavaScriptGroup nameHyperlinks = getNameJSGroup(reportPane, report);
-        final HyperlinkGroupPane pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane();
+        final HyperlinkGroupPane pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
         pane.populate(nameHyperlinks);
         
         final Selection sel = reportPane.getSelection();

@@ -11,10 +11,8 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.EastRegionContainerPane;
-import com.fr.design.mainframe.JTemplate;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.grid.GridUtils;
 import com.fr.poly.PolyConstants;
@@ -148,5 +146,9 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 		QuickEditorRegion.getInstance().populate(editComponent.getCurrentEditor());
 		CellElementPropertyPane.getInstance().populate(editComponent);
 		EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+
+		HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
+				.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+		hyperlinkGroupPane.populate(editComponent);
 	}
 }

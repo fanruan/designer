@@ -1,13 +1,29 @@
 package com.fr.design.present;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.report.cell.cellattr.BarcodeAttr;
+import com.fr.report.cell.cellattr.BarcodePresent;
+import com.fr.report.cell.painter.barcode.BarcodeImpl;
+import com.fr.report.cell.painter.barcode.core.BarCodeUtils;
+import com.fr.stable.pinyin.ChineseHelper;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.font.FontRenderContext;
@@ -20,38 +36,12 @@ import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.*;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.border.UIRoundedBorder;
-import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
-import com.fr.report.cell.cellattr.BarcodeAttr;
-import com.fr.report.cell.cellattr.BarcodePresent;
-import com.fr.report.cell.painter.barcode.BarcodeImpl;
-import com.fr.report.cell.painter.barcode.core.BarCodeUtils;
-import com.fr.stable.pinyin.ChineseHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
-
 /**
  * @author zhou
  * @since 2012-6-4下午6:49:59
  */
 public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
-    private final int num16 = 16;
+    private final int NUM16 = 16;
     private BarCodePreviewPane barCodePreviewPane;
     private UIComboBox typeComboBox;
     private UIBasicSpinner barWidthSpinner;
@@ -69,13 +59,23 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         addlistener();
     }
 
+    public static void main(String[] args) {
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new BarCodePane(), BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(270, 400);
+        jf.setVisible(true);
+    }
 
     private void initComponents() {
         barCodePreviewPane = new BarCodePreviewPane();
-        this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, 100, 0.1));
+        this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(10.0, 1, 100, 1.0));
         this.barHeightSpinner = new UIBasicSpinner(new SpinnerNumberModel(30, 1, 100, 1));
-        this.barWidthSpinner.setPreferredSize(new Dimension(45, 20));
-        this.barHeightSpinner.setPreferredSize(new Dimension(45, 20));
+        this.barWidthSpinner.setPreferredSize(new Dimension(60, 20));
+        this.barHeightSpinner.setPreferredSize(new Dimension(60, 20));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), Inter.getLocText("StyleFormat-Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
         borderPane.setBorder(titledBorder);
@@ -95,7 +95,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p};
-        barCodePreviewPane.setPreferredSize(new Dimension(0, 145));
+        barCodePreviewPane.setPreferredSize(new Dimension(0, 125));
         final JPanel centerPane = new JPanel(new CardLayout());
 
         Component[][] components = new Component[][]{
@@ -109,7 +109,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         typeComboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 CardLayout cardLayout = (CardLayout) centerPane.getLayout();
-                cardLayout.show(centerPane, typeComboBox.getSelectedIndex() == num16 ? "special" : "normal");
+                cardLayout.show(centerPane, typeComboBox.getSelectedIndex() == NUM16 ? "special" : "normal");
                 setTestText(BarCodeUtils.getTestTextByBarCode(typeComboBox.getSelectedIndex()));
                 repaintPreviewBarCode();
             }
@@ -142,25 +142,22 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     }
 
     private JPanel getNormalPane() {
+        double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p, p, p};
-        
-       
+        double[] columnSize1 = {p, f, f};
         JPanel barWidthContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         barWidthContainer.add(barWidthSpinner);
-     
-        
         JPanel barHeightContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         barHeightContainer.add(barHeightSpinner);
         UILabel uiLabel = new UILabel(Inter.getLocText("Tree-Width") + ":", UILabel.RIGHT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
         Component[][] components_normal = new Component[][]{
-                new Component[]{uiLabel, barWidthContainer},
-                new Component[]{new UILabel(Inter.getLocText("Height") + ":", UILabel.RIGHT), barHeightContainer},
-                new Component[]{new UILabel(Inter.getLocText("Text") + ":", UILabel.RIGHT), drawingTextCheckBox}
+                new Component[]{new UILabel("条形码大小", UILabel.LEFT), barWidthContainer, barHeightContainer},
+                new Component[]{null, new UILabel(Inter.getLocText("Tree-Width"), UILabel.CENTER), new UILabel(Inter.getLocText("Height"), UILabel.CENTER)},
+                new Component[]{drawingTextCheckBox, null, null}
         };
 
-        double[] columnSize1 = {p, p};
 
         JPanel normalPane = TableLayoutHelper.createTableLayoutPane(components_normal, rowSize, columnSize1);
         return normalPane;
@@ -247,7 +244,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     private void repaintPreviewBarCode() {
         try {
             // carl:不支持中文转条形码
-            if (ChineseHelper.containChinese(getTestText()) && this.typeComboBox.getSelectedIndex() != num16) {
+            if (ChineseHelper.containChinese(getTestText()) && this.typeComboBox.getSelectedIndex() != NUM16) {
                 throw new Exception("Illegal Character.");
             }
             this.barCodePreviewPane.setObject(BarCodeUtils.getBarcodeImpl(this.updateBean().getBarcode(), getTestText()));
@@ -281,13 +278,13 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     @Override
     public BarcodePresent updateBean() {
         BarcodeAttr barcodeAttr = new BarcodeAttr();
-        if ((typeComboBox.getSelectedIndex() == num16 )) {
+        if ((typeComboBox.getSelectedIndex() == NUM16)) {
             barcodeAttr.setRCodeVersion(this.RCodeVersionComboBox.getSelectedIndex());
             barcodeAttr.setRCodeErrorCorrect(this.RCodeErrorCorrectComboBox.getSelectedIndex());
             barcodeAttr.setRcodeDrawPix(((Integer) this.RCodesizespinner.getValue()).intValue());
         }
         barcodeAttr.setType(this.typeComboBox.getSelectedIndex());
-        barcodeAttr.setBarWidth(((Double) this.barWidthSpinner.getValue()).doubleValue());
+        barcodeAttr.setBarWidth(((Double) this.barWidthSpinner.getValue()).doubleValue() / 10);
         barcodeAttr.setBarHeight(((Integer) this.barHeightSpinner.getValue()).intValue());
         barcodeAttr.setDrawingText(this.drawingTextCheckBox.isSelected());
         return new BarcodePresent(barcodeAttr);

@@ -15,6 +15,7 @@ import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
@@ -26,10 +27,10 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 import com.fr.stable.core.PropertyChangeAdapter;
-import sun.swing.DefaultLookup;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -37,6 +38,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -54,6 +57,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected int editingIndex;
     protected String selectedName;
     private boolean isNameRepeated = false;
+    protected boolean isPopulating = false;
 
     public UIListControlPane() {
         this.initComponentPane();
@@ -94,6 +98,22 @@ public abstract class UIListControlPane extends UIControlPane {
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).populate();
                     UIListControlPane.this.checkButtonEnabled();
                 }
+            }
+        });
+        nameableList.getModel().addListDataListener(new ListDataListener() {
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                saveSettings();
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                saveSettings();
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                saveSettings();
             }
         });
     }
@@ -176,9 +196,11 @@ public abstract class UIListControlPane extends UIControlPane {
 
     @Override
     public void populate(Nameable[] nameableArray) {
+        isPopulating = true;  // 加一个标识位，避免切换单元格时，触发 saveSettings
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(nameableArray)) {
+            isPopulating = false;
             return;
         }
 
@@ -190,6 +212,8 @@ public abstract class UIListControlPane extends UIControlPane {
             this.nameableList.setSelectedIndex(0);
         }
         this.checkButtonEnabled();
+
+        isPopulating = false;
     }
 
     /**
@@ -358,12 +382,45 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditPane() {
-        if (editingIndex < 0) {
+    private void popupEditDialog(Point mousePos) {
+        Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
+        if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
             return;
         }
-        GUICoreUtils.showPopupMenu(popupEditPane, this,
-                - popupEditPane.getPreferredSize().width, editingIndex * EDIT_RANGE);
+        popupEditDialog.setLocation(getPopupDialogLocation());
+        popupEditDialog.setVisible(true);
+    }
+
+    private Point getPopupDialogLocation() {
+        Point resultPos = new Point(0, 0);
+        Point listPos = nameableList.getLocationOnScreen();
+        resultPos.x = listPos.x - popupEditDialog.getWidth();
+        resultPos.y = listPos.y + (editingIndex - 1) * EDIT_RANGE;
+
+        // 当对象在屏幕上的位置比较靠下时，往下移动弹窗至与属性面板平齐
+        Window frame = DesignerContext.getDesignerFrame();
+        // 不能太低
+        int maxY = frame.getLocationOnScreen().y + frame.getHeight() - popupEditDialog.getHeight();
+        if (resultPos.y > maxY) {
+            resultPos.y = maxY;
+        }
+        // 也不能太高
+        int minY = frame.getLocationOnScreen().y + EDIT_RANGE;
+        if (resultPos.y < minY) {
+            resultPos.y = minY;
+        }
+
+        // 当在左侧显示不下时，在右侧弹出弹窗
+        if (resultPos.x < 0) {
+            resultPos.x = listPos.x + nameableList.getParent().getWidth();
+        }
+        // 如果右侧显示不下，可以向左移动
+        int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - popupEditDialog.getWidth() - EDIT_RANGE;
+        if (resultPos.x > maxX) {
+            resultPos.x = maxX;
+        }
+
+        return resultPos;
     }
 
     /**
@@ -669,7 +726,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
-                popupEditPane();
+                popupEditDialog(evt.getPoint());
             }
 
             // peter:处理右键的弹出菜单

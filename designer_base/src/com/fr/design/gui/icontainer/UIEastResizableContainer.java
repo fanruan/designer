@@ -132,7 +132,10 @@ public class UIEastResizableContainer extends JPanel {
      * @param containerWidth
      */
     public void setLastContainerWidth(int containerWidth) {
-        this.containerWidth = containerWidth;
+        if (containerWidth == leftPaneWidth) {
+            this.containerWidth = containerWidth;
+        }
+        // 忽略其他情况
     }
 
     private LayoutManager containerLayout = new LayoutManager() {

@@ -4,6 +4,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.form.javascript.FormEmailPane;
+import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.js.EmailJavaScript;
@@ -11,13 +12,13 @@ import com.fr.js.EmailJavaScript;
 public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
 	private static FormHyperlinkGroupPane singleton;
 
-	private FormHyperlinkGroupPane() {
-		super();
+	private FormHyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+		super(hyperlinkGroupPaneActionProvider);
 	}
 
-	public synchronized static FormHyperlinkGroupPane getInstance() {
+	public synchronized static FormHyperlinkGroupPane getInstance(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
 		if (singleton == null) {
-			singleton = new FormHyperlinkGroupPane();
+			singleton = new FormHyperlinkGroupPane(hyperlinkGroupPaneActionProvider);
 		}
 		return singleton;
 	}
@@ -38,5 +39,4 @@ public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
 		 }
 		 return creators;
 	 }
-
 }

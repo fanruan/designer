@@ -89,21 +89,6 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 		layoutPane.add(basicPane,BorderLayout.NORTH);
 		layoutPane.add(seniorPane,BorderLayout.CENTER);
 		return layoutPane;
-//		double f = TableLayout.FILL;
-//		double p = TableLayout.PREFERRED;
-//		Component[][] components = new Component[][]{
-//				new Component[]{new UILabel(Inter.getLocText("ExpandD-Expand_Direction") + ":", SwingConstants.RIGHT), expandDirectionButton},
-//				new Component[]{new UILabel(Inter.getLocText("LeftParent") + ":", SwingConstants.RIGHT), leftFatherPane},
-//				new Component[]{new UILabel(Inter.getLocText("ExpandD-Up_Father_Cell") + ":", SwingConstants.RIGHT), rightFatherPane},
-//				new Component[]{new JSeparator(), null},
-//				new Component[]{new UILabel(Inter.getLocText("ExpandD-Expandable") + ":", SwingConstants.RIGHT), horizontalExpandableCheckBox},
-//				new Component[]{null, verticalExpandableCheckBox},
-//				new Component[]{new UILabel(Inter.getLocText("ExpandD-Sort_After_Expand") + ":", SwingConstants.RIGHT), sortAfterExpand},
-//		};
-//		double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p, p, p};
-//		double[] columnSize = {p, f};
-//		int[][] rowCount = {{1, 1}, {1, 3}, {1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 3}};
-//		return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
 	}
 
 	private JPanel basicPane(){

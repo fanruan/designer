@@ -27,7 +27,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private CardLayout propertyCard;
     private JPanel leftPane;
     private JPanel rightPane;
-    private static final int CONTAINER_WIDTH = 260;
+    private FixedPopupPane currentPopupPane;
+    private static final int CONTAINER_WIDTH = 290;
     private static final int TAB_WIDTH = 40;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
     private static final int POPUP_TOOLPANE_HEIGHT = 25;
@@ -381,6 +382,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return 0;
     }
 
+    private void hideCurrentPopupPane() {
+        if (currentPopupPane != null && currentPopupPane.isVisible()) {
+            currentPopupPane.setVisible(false);
+        }
+    }
+
 
 
     class PropertyItem {
@@ -473,7 +480,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             propertyPanel.remove(this.contentPane);
             propertyPanel.add(this.contentPane = pane);
             if (popupDialog != null && isPoppedOut) {
-                popupDialog.replaceContentPane(contentPane);
+                popupDialog.replaceContentPane(this);
             }
             if (popupPane != null && !isRightPaneVisible()) {
                 popupPane.replaceContentPane(contentPane);
@@ -488,6 +495,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public void onResize() {
             if (isRightPaneVisible()) {
+                hideCurrentPopupPane();
                 replaceContentPane(contentPane);
             } else if(popupPane != null) {
                 popupPane.replaceContentPane(contentPane);
@@ -540,7 +548,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             if (popupPane == null) {
                 popupPane = new FixedPopupPane(this);
             }
-            GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
+            if (popupPane.isVisible()) {
+                popupPane.setVisible(false);
+            } else {
+                hideCurrentPopupPane();
+                currentPopupPane = popupPane;
+                GUICoreUtils.showPopupMenu(popupPane, button, -popupPane.getPreferredSize().width, 0);
+            }
         }
 
         // 弹出对话框
@@ -553,7 +567,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             if (popupDialog == null) {
                 popupDialog = new PopupDialog(this);
             } else {
-                popupDialog.replaceContentPane(contentPane);
+                popupDialog.replaceContentPane(this);
+                popupDialog.adjustLocation();
                 popupDialog.setVisible(true);
             }
 //            initContentPane();
@@ -586,6 +601,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             this.setOpaque(false);
             fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
             updateSize();
+        }
+
+        public void menuSelectionChanged(boolean isIncluded) {
         }
 
         private void updateSize() {
@@ -795,10 +813,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Point mouseDownCompCoords;
         private int minHeight;  // 对话框最小高度
         private JComponent contentPane;
+        private PropertyItem propertyItem;
         public PopupDialog(PropertyItem propertyItem) {
             super(DesignerContext.getDesignerFrame());
             container = getContentPane();
             setUndecorated(true);
+            this.propertyItem = propertyItem;
             PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.UP_BUTTON);
             popupToolPane.setParentDialog(this);
             contentPane = propertyItem.getContentPane();
@@ -807,13 +827,20 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             minHeight = container.getPreferredSize().height;
             setSize(CONTENT_WIDTH, minHeight);
 //            validate();
-            Point btnCoords = propertyItem.getButton().getLocationOnScreen();
-            this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
+            adjustLocation();
 
             initListener();
             this.setVisible(true);
         }
-        public void replaceContentPane(JComponent contentPane) {
+
+        public void adjustLocation() {
+            Point btnCoords = propertyItem.getButton().getLocationOnScreen();
+            this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
+        }
+
+        public void replaceContentPane(PropertyItem propertyItem) {
+            this.propertyItem = propertyItem;
+            JComponent contentPane = propertyItem.getContentPane();
             container.remove(this.contentPane);
             container.add(this.contentPane = contentPane);
 //            pack();

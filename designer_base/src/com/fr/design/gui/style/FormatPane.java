@@ -15,7 +15,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -24,7 +23,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
  * @author zhou
  * @since 2012-5-24上午10:57:00
  */
-public class FormatPane extends AbstractBasicStylePane{
+public class FormatPane extends AbstractBasicStylePane {
     private static final long serialVersionUID = 724330854437726751L;
 
     private static final int LABLE_X = 4;
@@ -61,22 +61,12 @@ public class FormatPane extends AbstractBasicStylePane{
     private boolean isRightFormate;
     private boolean isDate = false;
     private boolean isFormat = false;
+
     /**
      * Constructor.
      */
     public FormatPane() {
         this.initComponents(TYPES);
-    }
-
-    public static void main(String[] args){
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new FormatPane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
-        jf.setVisible(true);
     }
 
     protected void initComponents(Integer[] types) {
@@ -95,7 +85,7 @@ public class FormatPane extends AbstractBasicStylePane{
         contentPane.add(sampleLabel, BorderLayout.NORTH);
         centerPane = new JPanel(new CardLayout());
         centerPane.add(new JPanel(), "hide");
-        centerPane.setPreferredSize(new Dimension(0, 0) );
+        centerPane.setPreferredSize(new Dimension(0, 0));
         centerPane.add(contentPane, "show");
         formatFontPane = new JPanel(new BorderLayout());
         formatFontPane.add(centerPane, BorderLayout.NORTH);
@@ -110,20 +100,20 @@ public class FormatPane extends AbstractBasicStylePane{
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format")+"   ", SwingConstants.LEFT), typeComboBox },
-                new Component[]{null,centerPane},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format") + "   ", SwingConstants.LEFT), typeComboBox},
+                new Component[]{null, centerPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT), frFontPane},
-                new Component[]{null,null}
+                new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p};
-        double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1},{1, 1}, {1, 1}, {1, 3}, {1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
-        this.add(panel,BorderLayout.CENTER);
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 3}, {1, 1}};
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        this.add(panel, BorderLayout.CENTER);
     }
 
-    protected UIComboBoxRenderer createComBoxRender(){
+    protected UIComboBoxRenderer createComBoxRender() {
         return new UIComboBoxRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -174,10 +164,11 @@ public class FormatPane extends AbstractBasicStylePane{
 
     /**
      * 弹出框标题
+     *
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("FR-Base_Format");
+        return Inter.getLocText("FR-Designer_Text");
     }
 
     /**
@@ -223,8 +214,8 @@ public class FormatPane extends AbstractBasicStylePane{
      * 判断是否是数组有模式
      *
      * @param stringArray 字符串数组
-     * @param pattern   格式
-     * @return  是否是数组有模式
+     * @param pattern     格式
+     * @return 是否是数组有模式
      */
     public static int isArrayContainPattern(String[] stringArray, String pattern) {
         for (int i = 0; i < stringArray.length; i++) {
@@ -301,20 +292,20 @@ public class FormatPane extends AbstractBasicStylePane{
 
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if(e.getStateChange() == ItemEvent.SELECTED){
+            if (e.getStateChange() == ItemEvent.SELECTED) {
                 int contents = getFormatContents();
                 String[] items = FormatField.getInstance().getFormatArray(contents);
                 CardLayout cardLayout = (CardLayout) centerPane.getLayout();
 
                 if (isTextOrNull()) {
-                    centerPane.setPreferredSize(new Dimension(0, 0) );
+                    centerPane.setPreferredSize(new Dimension(0, 0));
                     cardLayout.show(centerPane, "hide");
                 } else {
                     textField.removeAllItems();
                     for (int i = 0; i < items.length; i++) {
                         textField.addItem(items[i]);
                     }
-                    centerPane.setPreferredSize(new Dimension(270, 70) );
+                    centerPane.setPreferredSize(new Dimension(270, 70));
                     cardLayout.show(centerPane, "show");
                 }
                 isFormat = true;
@@ -326,7 +317,7 @@ public class FormatPane extends AbstractBasicStylePane{
     ItemListener textFieldItemListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if(e.getStateChange() == ItemEvent.SELECTED){
+            if (e.getStateChange() == ItemEvent.SELECTED) {
                 isFormat = true;
                 refreshPreviewLabel();
             }
@@ -348,7 +339,7 @@ public class FormatPane extends AbstractBasicStylePane{
      * update
      */
     public Style update(Style style) {
-        if (isFormat){
+        if (isFormat) {
             isFormat = false;
             return style.deriveFormat(this.update());
         } else {

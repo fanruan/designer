@@ -41,7 +41,7 @@ public class JFormSliderPane extends JPanel {
     private static final int THREE_HUNDRED = 300;
     private static final int FOUR_HUNDRED = 400;
     private static final int DIALOG_WIDTH = 150;
-    private static final int DIALOG_HEIGHT = 240;
+    private static final int DIALOG_HEIGHT = 220;
     private static final int SHOWVALBUTTON_WIDTH = 70;
     private static final int SHOWVALBUTTON_HEIGHTH = 25;
     public int showValue = 100;
