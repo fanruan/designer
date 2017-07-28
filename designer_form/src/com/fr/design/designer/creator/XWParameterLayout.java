@@ -68,7 +68,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                         .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
                 new CRPropertyDescriptor("useParamsTemplate", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName("使用常用参数组合")
+                        .setI18NName(Inter.getLocText("FR-Designer_Use_Params_Template"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 
