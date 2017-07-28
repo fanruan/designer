@@ -152,7 +152,7 @@ class MobileParaWidgetTable extends JTable {
         }
 
         /**
-         * 设置鼠标单击时处理的事件（单击第二列的控件列表进入控件属性表）
+         * 设置鼠标单击时处理的事件
          * @param e
          */
         @Override
