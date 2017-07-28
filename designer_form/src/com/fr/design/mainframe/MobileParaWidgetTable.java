@@ -36,6 +36,7 @@ import java.util.EventObject;
  */
 class MobileParaWidgetTable extends JTable {
 
+    private final int WIDGET_NAME_COLUMN = 1;
     private FormDesigner designer;
     private String[][] cellData;
     private String[] headers = {Inter.getLocText("Form-Widget_Name")};
@@ -341,7 +342,7 @@ class MobileParaWidgetTable extends JTable {
             }
             Object[] rowValue = cellData[row];
             if (column > -1 && column < rowValue.length) {
-                return cellData[row][1];
+                return cellData[row][WIDGET_NAME_COLUMN];
             }
             return null;
         }
@@ -362,10 +363,10 @@ class MobileParaWidgetTable extends JTable {
                 return;
             }
             if (aValue == null) {
-                cellData[row][1] = null;
+                cellData[row][WIDGET_NAME_COLUMN] = null;
                 return;
             }
-            cellData[row][1] = aValue.toString();
+            cellData[row][WIDGET_NAME_COLUMN] = aValue.toString();
         }
 
         /**
@@ -376,10 +377,7 @@ class MobileParaWidgetTable extends JTable {
          * @return 是否可编辑
          */
         public boolean isCellEditable(int row, int column) {
-//            if(column ==1){
             return false;
-//            }
-//            return true;
         }
 
     }

@@ -46,7 +46,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      * @return    尺寸
      */
     public Dimension initEditorSize() {
-        return new Dimension(WFitLayout.DEFAULT_WIDTH+1000, WBorderLayout.DEFAULT_SIZE+1000);
+        return new Dimension(WFitLayout.DEFAULT_WIDTH, WBorderLayout.DEFAULT_SIZE);
     }
 
     /**
