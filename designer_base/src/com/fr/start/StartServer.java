@@ -126,6 +126,7 @@ public class StartServer {
         } catch (Exception e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage());
         } finally {
+            NEED_LOAD_ENV = false;
             browser(url);
         }
     }
