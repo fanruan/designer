@@ -301,9 +301,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void addParameterPane(JComponent paraPane) {
-//        System.out.println("add para");
         propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceHeaderPane(paraPane);
-//        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(paraPane);
     }
 
     public void setParameterHeight(int height) {
