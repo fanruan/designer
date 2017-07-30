@@ -25,7 +25,6 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
-import com.fr.stable.unit.OLDPIX;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +71,7 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
 
     private int ECBlockGap = 40;
 
-    private int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+    private int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
 
     protected GridMouseAdapter(Grid grid) {
         this.grid = grid;
@@ -93,19 +92,15 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
             grid.requestFocus();
         }
 
-        if (grid.getDrawingFloatElement() != null) {
-            doWithDrawingFloatElement();
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            doWithRightButtonPressed();
         } else {
-            if (SwingUtilities.isRightMouseButton(evt)) {
-                doWithRightButtonPressed();
-            } else {
-                doWithLeftButtonPressed(evt);
-            }
-            // 用户没有按住Shift键时，tempOldSelectedCell是一直变化的。如果一直按住shift，是不变的
-            ElementCasePane ePane = grid.getElementCasePane();
-            if (!evt.isShiftDown() && ePane.getSelection() instanceof CellSelection) {
-                tempOldSelectedCell = GridUtils.getAdjustEventColumnRow_withresolution(ePane, oldEvtX, oldEvtY,resolution);
-            }
+            doWithLeftButtonPressed(evt);
+        }
+        // 用户没有按住Shift键时，tempOldSelectedCell是一直变化的。如果一直按住shift，是不变的
+        ElementCasePane ePane = grid.getElementCasePane();
+        if (!evt.isShiftDown() && ePane.getSelection() instanceof CellSelection) {
+            tempOldSelectedCell = GridUtils.getAdjustEventColumnRow_withresolution(ePane, oldEvtX, oldEvtY, resolution);
         }
 
     }
@@ -240,14 +235,9 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         boolean isDataChanged = false;
         ElementCasePane reportPane = grid.getElementCasePane();
         Selection selection = reportPane.getSelection();
-        if (grid.getDrawingFloatElement() != null) {
-            if (grid.getDrawingFloatElement().getWidth().equal_zero() && grid.getDrawingFloatElement().getHeight().equal_zero()) {
-                grid.getDrawingFloatElement().setWidth(new OLDPIX(100));
-                grid.getDrawingFloatElement().setHeight(new OLDPIX(100));
-            }
-            grid.setDrawingFloatElement(null);
-        } else if (selection instanceof FloatSelection) {
-            grid.setCursor(Cursor.getDefaultCursor());
+
+        if (selection instanceof FloatSelection) {
+            grid.setCursor(new Cursor(Cursor.MOVE_CURSOR));
         }
         if (grid.getDragType() == GridUtils.DRAG_CELLSELECTION) {
             if (selection instanceof CellSelection) {
@@ -586,16 +576,13 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      */
     private void mouseMoveOnGrid(int evtX, int evtY) {
         grid.setToolTipText(null);
-        if (grid.getDrawingFloatElement() != null) {
-            grid.setCursor(UIConstants.DRAW_CURSOR); // august：是否是将要画悬浮元素，就是那个笔的形状
-        } else {
-            Object[] floatElementCursor = GridUtils.getAboveFloatElementCursor(grid.getElementCasePane(), evtX, evtY);
-            if (!ArrayUtils.isEmpty(floatElementCursor)) {// 鼠标在悬浮元素上移动
-                grid.setCursor((Cursor) floatElementCursor[1]);
-            } else {// 鼠标在单元格上移动
-                doMouseMoveOnCells(evtX, evtY);
-            }
+        Object[] floatElementCursor = GridUtils.getAboveFloatElementCursor(grid.getElementCasePane(), evtX, evtY);
+        if (!ArrayUtils.isEmpty(floatElementCursor)) {// 鼠标在悬浮元素上移动
+            grid.setCursor((Cursor) floatElementCursor[1]);
+        } else {// 鼠标在单元格上移动
+            doMouseMoveOnCells(evtX, evtY);
         }
+
     }
 
     /**
@@ -765,8 +752,10 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
         FloatElement floatElement = (FloatElement) tmpFloatElementCursor[0];
         String floatName = floatElement.getName();
         reportPane.setSelection(new FloatSelection(floatName));
-        double[] floatArray = GridUtils.caculateFloatElementLocations(floatElement, ReportHelper.getColumnWidthList(report), ReportHelper.getRowHeightList(report), reportPane
-                .getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue());
+//        double[] floatArray = GridUtils.caculateFloatElementLocations(floatElement, ReportHelper.getColumnWidthList(report), ReportHelper.getRowHeightList(report), reportPane
+//                .getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue());
+        double[] floatArray = GridUtils.caculateFloatElementLocations_withresolution(floatElement, ReportHelper.getColumnWidthList(report), ReportHelper.getRowHeightList(report), reportPane
+                .getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue(), grid.getResolution());
 
         int cursorType = ((Cursor) tmpFloatElementCursor[1]).getType();
         if (cursorType == Cursor.MOVE_CURSOR) {

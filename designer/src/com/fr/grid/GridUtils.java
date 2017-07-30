@@ -65,12 +65,11 @@ public class GridUtils {
         Iterator flotIt = report.floatIterator();
         while (flotIt.hasNext()) {
             FloatElement tmpFloatElement = (FloatElement) flotIt.next();
+            int resolution = reportPane.getGrid().getResolution();
             //peter:计算悬浮元素的四个角落的位置.
-            double[] floatArray = caculateFloatElementLocations(tmpFloatElement, ReportHelper.getColumnWidthList(report),
-                    ReportHelper.getRowHeightList(report), reportPane.getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue());
+            double[] floatArray = caculateFloatElementLocations_withresolution(tmpFloatElement, ReportHelper.getColumnWidthList(report),
+                    ReportHelper.getRowHeightList(report), reportPane.getGrid().getVerticalValue(), reportPane.getGrid().getHorizontalValue(), resolution);
 
-//            int resolution = ScreenResolution.getScreenResolution();
-            int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
             //peter:悬浮元素的范围.
             Rectangle2D floatElementRect = new Rectangle2D.Double(floatArray[0], floatArray[1], tmpFloatElement.getWidth().toPixD(resolution), tmpFloatElement.getHeight().toPixD(resolution));
             //peter:不是当前选中的悬浮元素,不支持六个改变大小的点.
@@ -127,7 +126,19 @@ public class GridUtils {
     public static double[] caculateFloatElementLocations(FloatElement floatElement, DynamicUnitList columnWidthList, DynamicUnitList rowHeightList,
                                                          int verticalValue, int horizentalValue) {
 //        int resolution = ScreenResolution.getScreenResolution();
-        int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+        int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
+
+        double floatX = columnWidthList.getRangeValue(horizentalValue, 0).toPixD(resolution) + floatElement.getLeftDistance().toPixD(resolution);
+        double floatY = rowHeightList.getRangeValue(verticalValue, 0).toPixD(resolution) + floatElement.getTopDistance().toPixD(resolution);
+
+        double floatX2 = floatX + floatElement.getWidth().toPixD(resolution);
+        double floatY2 = floatY + floatElement.getHeight().toPixD(resolution);
+
+        return new double[]{floatX, floatY, floatX2, floatY2};
+    }
+
+    public static double[] caculateFloatElementLocations_withresolution(FloatElement floatElement, DynamicUnitList columnWidthList, DynamicUnitList rowHeightList,
+                                                                        int verticalValue, int horizentalValue, int resolution) {
 
         double floatX = columnWidthList.getRangeValue(horizentalValue, 0).toPixD(resolution) + floatElement.getLeftDistance().toPixD(resolution);
         double floatY = rowHeightList.getRangeValue(verticalValue, 0).toPixD(resolution) + floatElement.getTopDistance().toPixD(resolution);
@@ -170,7 +181,7 @@ public class GridUtils {
         double tmpIntIndex = 0;
         int selectedCellIndex = 0;
 //        int resolution = ScreenResolution.getScreenResolution();
-        int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+        int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
         if (mouseEvtPosition < 0) {
             selectedCellIndex = value;
             for (; true; selectedCellIndex--) {
