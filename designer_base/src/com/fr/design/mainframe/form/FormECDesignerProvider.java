@@ -63,6 +63,12 @@ public interface FormECDesignerProvider {
 	public JComponent getEastUpPane();
 
     /**
+     *   条件属性面板
+     * @return    属性面板
+     */
+    public JComponent getConditionAttrPane();
+
+    /**
      *   超级链接面板
      * @return    属性面板
      */

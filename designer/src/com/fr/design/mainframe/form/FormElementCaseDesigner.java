@@ -28,6 +28,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
@@ -220,6 +221,12 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 
     public JPanel getEastDownPane() {
         return elementCasePane.getEastDownPane();
+    }
+
+    public JPanel getConditionAttrPane() {
+        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+        conditionAttributesGroupPane.populate(elementCasePane);
+        return conditionAttributesGroupPane;
     }
 
     public JPanel getHyperlinkPane() {

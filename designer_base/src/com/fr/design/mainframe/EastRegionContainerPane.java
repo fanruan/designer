@@ -30,6 +30,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private FixedPopupPane currentPopupPane;
     private static final int CONTAINER_WIDTH = 290;
     private static final int TAB_WIDTH = 40;
+    private static final int TAB_BUTTON_WIDTH = 32;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
     private static final int POPUP_TOOLPANE_HEIGHT = 25;
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
@@ -86,39 +87,39 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemMap = new LinkedHashMap<>();  // 有序map
         // 单元格元素
         PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, Inter.getLocText("FR-Designer_Cell_Element"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
+                "cellelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 单元格属性
         PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, Inter.getLocText("FR-Designer_Cell_Attributes"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
+                "cellattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 悬浮元素
         PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, Inter.getLocText("FR-Designer_Float_Element"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
+                "floatelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
         PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, Inter.getLocText("FR-Designer-Widget_Settings"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
+                "widgetsettings", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT, PropertyMode.POLY_CHART});
         // 条件属性
         PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, Inter.getLocText("FR-Designer_Condition_Attributes"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
+                "conditionattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 超级链接
         PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, Inter.getLocText("FR-Designer_Hyperlink"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
+                "hyperlink", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库
         PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, Inter.getLocText("FR-Designer_Widget_Library"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.FORM},
+                "widgetlib", new PropertyMode[]{PropertyMode.FORM},
                 new PropertyMode[]{PropertyMode.FORM});
         // 权限编辑
         PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, Inter.getLocText("FR-Designer_Permissions_Edition"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                "authorityedit", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
         // 已配置角色
         PropertyItem configuredRoles = new PropertyItem(KEY_CONFIGURED_ROLES, Inter.getLocText("FR-Designer_Configured_Roles"),
-                "/com/fr/design/images/buttonicon/add.png", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                "configuredroles", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
 
         propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);
@@ -167,7 +168,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     // 左侧按钮面板
     private void initLeftPane() {
         leftPane = new JPanel();
-        leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0));
+        leftPane.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 4, 4));
         for (PropertyItem item : propertyItemMap.values()) {
             if (item.isPoppedOut() || !item.isVisible()) {
                 continue;
@@ -176,7 +177,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
 //        leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.Y_AXIS));
-        leftPane.setBackground(new Color(210, 210, 210));
+        leftPane.setBackground(new Color(226, 226, 226));
         replaceLeftPane(leftPane);
     }
 
@@ -266,6 +267,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public JComponent getWidgetSettingsPane() {
         return propertyItemMap.get(KEY_WIDGET_SETTINGS).getContentPane();
+    }
+
+    public void replaceConditionAttrPane(JComponent pane) {
+        propertyItemMap.get(KEY_CONDITION_ATTR).replaceContentPane(pane);
+    }
+
+    public JComponent getConditionAttrPane() {
+        return propertyItemMap.get(KEY_CONDITION_ATTR).getContentPane();
     }
 
     public void replaceHyperlinkPane(JComponent pane) {
@@ -388,6 +397,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
     }
 
+    private void resetPropertyIcons() {
+        for (PropertyItem item : propertyItemMap.values()) {
+            item.resetButtonIcon();
+        }
+    }
+
 
 
     class PropertyItem {
@@ -408,10 +423,21 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Set<PropertyMode> enableModes;
         private static final int MAX_PARA_HEIGHT = 240;
 
-        public PropertyItem(String name, String title, String btnUrl, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
+        // 完整icon路径为 ICON_BASE_DIR + btnIconName + iconSuffix
+        private static final String ICON_BASE_DIR = "/com/fr/design/images/buttonicon/propertiestab/";
+        private static final String ICON_SUFFIX_NORMAL = "_normal.png";
+        private static final String ICON_SUFFIX_DISABLED = "_disabled.png";
+        private static final String ICON_SUFFIX_SELECTED = "_selected.png";
+        private String btnIconName;
+        private String iconSuffix = ICON_SUFFIX_NORMAL;  // normal, diabled, selected, 三者之一
+        private final Color selectedBtnBackground = new Color(240, 240, 240);
+        private Color originBtnBackground;
+
+        public PropertyItem(String name, String title, String btnIconName, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
             this.name = name;
             this.title = title;
-            initButton(btnUrl);
+            this.btnIconName = btnIconName;
+            initButton();
             initPropertyPanel();
 //            this.visibleModes = new ArrayList<PropertyMode>(visibleModes);
             initModes(visibleModes, enableModes);
@@ -458,6 +484,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             contentPane = generateContentPane();
             popupToolPane = new PopupToolPane(this, PopupToolPane.DOWN_BUTTON);
             headerPane = new JPanel();
+            headerPane.setPreferredSize(new Dimension(headerPane.getPreferredSize().width, 0));  // 默认隐藏
             contentArea = new JPanel(new BorderLayout());
             contentArea.add(headerPane, BorderLayout.NORTH);
             contentArea.add(contentPane, BorderLayout.CENTER);
@@ -533,14 +560,31 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 //            propertyPanel.repaint();
 //            propertyPanel.revalidate();
 //        }
+        private String getBtnIconUrl() {
+            return ICON_BASE_DIR + btnIconName + iconSuffix;
+        }
 
-        private void initButton(String btnUrl) {
-            button = new UIButton(BaseUtils.readIcon(btnUrl)) {
+        public void resetButtonIcon() {
+            if (iconSuffix.equals(ICON_SUFFIX_SELECTED)) {
+                iconSuffix = ICON_SUFFIX_NORMAL;
+                button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
+                button.setBackground(originBtnBackground);
+                button.setOpaque(false);
+            }
+        }
+
+        private void initButton() {
+            button = new UIButton(BaseUtils.readIcon(getBtnIconUrl())) {
                 public Dimension getPreferredSize() {
-                    return new Dimension(TAB_WIDTH, TAB_WIDTH);
+                    return new Dimension(TAB_BUTTON_WIDTH, TAB_BUTTON_WIDTH);
+                }
+                @Override
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
                 }
             };
             button.set4LargeToolbarButton();
+            originBtnBackground = button.getBackground();
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -549,6 +593,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     } else {
                         popupFixedPane();
                     }
+                    resetPropertyIcons();
+                    iconSuffix = ICON_SUFFIX_SELECTED;
+                    button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
+                    button.setBackground(selectedBtnBackground);
+                    button.setOpaque(true);
                 }
             });
         }

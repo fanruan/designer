@@ -12,6 +12,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.grid.GridUtils;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -32,7 +33,6 @@ import java.awt.*;
  * @since 6.5.4 创建于2011-5-5 单元格类型的聚合块编辑器
  */
 public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
-
     private static final int HEIGHT_MORE = 5;
 
     public ECBlockEditor(PolyDesigner designer, ECBlockCreator creator) {
@@ -159,8 +159,12 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 
         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
 
+        // 超级链接
         HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
                 .getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
         hyperlinkGroupPane.populate(editComponent);
+        // 条件属性
+        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+        conditionAttributesGroupPane.populate(editComponent);
     }
 }
