@@ -466,6 +466,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             contentPane = generateContentPane();
             popupToolPane = new PopupToolPane(this, PopupToolPane.DOWN_BUTTON);
             headerPane = new JPanel();
+            headerPane.setPreferredSize(new Dimension(headerPane.getPreferredSize().width, 0));  // 默认隐藏
             contentArea = new JPanel(new BorderLayout());
             contentArea.add(headerPane, BorderLayout.NORTH);
             contentArea.add(contentPane, BorderLayout.CENTER);
