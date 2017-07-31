@@ -14,6 +14,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.grid.GridUtils;
 import com.fr.poly.PolyConstants;
 import com.fr.poly.PolyDesigner;
@@ -147,8 +148,12 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
 		CellElementPropertyPane.getInstance().populate(editComponent);
 		EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
 
+		// 超级链接
 		HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
 				.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
 		hyperlinkGroupPane.populate(editComponent);
+		// 条件属性
+		ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+		conditionAttributesGroupPane.populate(editComponent);
 	}
 }
