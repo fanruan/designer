@@ -49,7 +49,7 @@ public class ThemeUtils {
     public static final int BUTTON_SPREAD_LIGHT_DISABLE = 20;
     public static final int BUTTON_SPREAD_DARK_DISABLE = 1;
 
-    public static final ColorUIResource BACK_COLOR = new ColorUIResource(212, 212, 216);
+    public static final ColorUIResource BACK_COLOR = new ColorUIResource(255, 255, 255);
     public static final ColorUIResource TOOL_SEP_DARK_COLOR = new ColorUIResource(167, 167, 163);
     public static final ColorUIResource SCROLL_TRACK_COLOR = new ColorUIResource(249, 249, 247);
     public static final ColorUIResource SCROLL_TRACK_DISABLED_COLOR = new ColorUIResource(249, 249, 247);
