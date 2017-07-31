@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
+import com.fr.js.JavaScript;
 
 import javax.swing.*;
 
@@ -68,6 +69,14 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 	 */
 	public Class<? extends BasicBeanPane> getUpdatePane() {
 		return this.clazzOfEditor;
+	}
+
+	/**
+	 * get clazzOfObject
+	 * @return clazzOfObject
+	 */
+	public Class <? extends JavaScript> getHyperlink() {
+		return this.clazzOfObject;
 	}
 
 	/**

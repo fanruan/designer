@@ -133,7 +133,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     //子类覆盖
-    protected Plot getSelectedClonedPlot(){
+    protected <T extends Plot> T getSelectedClonedPlot(){
         return null;
     }
 
