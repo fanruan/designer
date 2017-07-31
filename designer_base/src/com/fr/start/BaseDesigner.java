@@ -67,6 +67,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         // 先加载设计器的国际化文件
         Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
 
+
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
             for (String arg : args) {
