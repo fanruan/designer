@@ -1,35 +1,35 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.fun.MenuHandler;
-import com.fr.design.gui.frpane.HyperlinkGroupPane;
-import com.fr.design.menu.KeySetUtils;
-import com.fr.general.Inter;
-import com.fr.grid.selection.FloatSelection;
-import com.fr.page.ReportSettingsProvider;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.DesignState;
-import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.*;
-import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.HyperlinkAction;
-import com.fr.design.actions.edit.merge.MergeCellAction;
-import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.columnrow.InsertColumnAction;
 import com.fr.design.actions.columnrow.InsertRowAction;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.edit.merge.MergeCellAction;
+import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.fun.MenuHandler;
+import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
-import com.fr.report.worksheet.WorkSheet;
+import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
+import com.fr.general.Inter;
+import com.fr.grid.selection.FloatSelection;
+import com.fr.page.ReportSettingsProvider;
+import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 类说明: 设计面板中最上方的"插入" "单元格"下拉列表Menu模块.
@@ -63,11 +63,14 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 //                    HyperlinkGroupPane hyperlinkGroupPane = ReportHyperlinkGroupPane.getInstance(HyperlinkGroupPaneActionImpl.getInstance());
                     HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
                     hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
-                    if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
+                    if (((ElementCasePaneDelegate) e.getSource()).getSelection() instanceof FloatSelection) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
-//                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
-                        EastRegionContainerPane.getInstance().replaceFloatElementPane(QuickEditorRegion.getInstance());
+                        JPanel floatPane = new JPanel(new BorderLayout());
+                        floatPane.add(ReportFloatPane.getInstance(), BorderLayout.NORTH);
+                        floatPane.add(QuickEditorRegion.getInstance(), BorderLayout.CENTER);
+                        EastRegionContainerPane.getInstance().replaceFloatElementPane(floatPane);
                     } else {
+                        EastRegionContainerPane.getInstance().replaceFloatElementPane(ReportFloatPane.getInstance());
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
@@ -165,7 +168,6 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
 
-        menuDef.addShortCut(new HyperlinkAction(this));
         menuDef.addShortCut(SeparatorDef.DEFAULT);
         menuDef.addShortCut(new MergeCellAction(this));
         menuDef.addShortCut(new UnmergeCellAction(this));
