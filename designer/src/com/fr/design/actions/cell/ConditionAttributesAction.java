@@ -24,7 +24,7 @@ public class ConditionAttributesAction extends AbstractCellElementAction {
 
 	@Override
 	protected BasicPane populateBasicPane(TemplateCellElement cellElement) {
-        ConditionAttributesGroupPane pane = new ConditionAttributesGroupPane();
+        ConditionAttributesGroupPane pane = ConditionAttributesGroupPane.getInstance();
         pane.populate(cellElement.getHighlightGroup());
         
 		return pane;

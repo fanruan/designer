@@ -4,8 +4,11 @@ import com.fr.base.BaseUtils;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.menu.KeySetUtils;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.general.Inter;
+import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
+import com.fr.grid.selection.Selection;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.DesignState;
@@ -23,6 +26,10 @@ import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
+import com.fr.report.cell.DefaultTemplateCellElement;
+import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.core.SheetUtils;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
@@ -58,18 +65,23 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 if (editingTemplate != null && !editingTemplate.isUpMode()) {
+                    Selection editingSelection = ((ElementCasePaneDelegate)e.getSource()).getSelection();
                     // 模板初始化完成后，才能初始化超级链接面板
-//                    HyperlinkGroupPane hyperlinkGroupPane = ReportHyperlinkGroupPane.getInstance(HyperlinkGroupPaneActionImpl.getInstance());
                     HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
                     hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
-                    if (((ElementCasePaneDelegate)e.getSource()).getSelection() instanceof FloatSelection) {
+                    if (editingSelection instanceof FloatSelection) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
 //                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceFloatElementPane(QuickEditorRegion.getInstance());
                     } else {
+                        // 条件属性
+                        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+                        conditionAttributesGroupPane.populate(getEditingCellElement((CellSelection)editingSelection).getHighlightGroup());
+
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
+                        EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
                     }
                     EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
                     EastRegionContainerPane.getInstance().removeParameterPane();
@@ -82,6 +94,20 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
             }
         });
+    }
+
+    private TemplateCellElement getEditingCellElement(CellSelection cs) {
+        final ElementCasePane ePane = ElementCasePaneDelegate.this;
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
+        if (editCellElement == null) {
+            editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
+            tplEC.addCellElement(editCellElement);
+        }
+        if (tplEC != null) {
+            SheetUtils.calculateDefaultParent(tplEC);
+        }
+        return editCellElement;
     }
 
     @Override

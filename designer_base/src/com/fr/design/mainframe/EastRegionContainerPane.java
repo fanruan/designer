@@ -268,6 +268,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return propertyItemMap.get(KEY_WIDGET_SETTINGS).getContentPane();
     }
 
+    public void replaceConditionAttrPane(JComponent pane) {
+        propertyItemMap.get(KEY_CONDITION_ATTR).replaceContentPane(pane);
+    }
+
+    public JComponent getConditionAttrPane() {
+        return propertyItemMap.get(KEY_CONDITION_ATTR).getContentPane();
+    }
+
     public void replaceHyperlinkPane(JComponent pane) {
         propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(pane);
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fr.base.FRContext;
+import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
 import com.fr.design.gui.controlpane.JListControlPane;
@@ -15,11 +16,27 @@ import com.fr.report.cell.cellattr.highlight.Highlight;
 import com.fr.report.cell.cellattr.highlight.HighlightGroup;
 import com.fr.stable.Nameable;
 
-public class ConditionAttributesGroupPane extends JListControlPane {
+public class ConditionAttributesGroupPane extends UIListControlPane {
+    private static ConditionAttributesGroupPane singleton;
+
+	private ConditionAttributesGroupPane() {
+        super();
+    }
+
+    public static ConditionAttributesGroupPane getInstance() {
+        if (singleton == null) {
+            singleton = new ConditionAttributesGroupPane();
+        }
+        return singleton;
+    }
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] { new NameObjectCreator(Inter.getLocText("Condition_Attributes"), DefaultHighlight.class, HighLightConditionAttributesPane.class) };
+	}
+
+	@Override
+	public void saveSettings() {
 	}
 
 	@Override
@@ -33,6 +50,7 @@ public class ConditionAttributesGroupPane extends JListControlPane {
 	public void populate(HighlightGroup highlightGroup) {
 		// marks这个必须放在前面，不论是否有高亮分组都可以操作
 		if (highlightGroup == null || highlightGroup.size() <= 0) {
+            this.populate(new NameObject[0]);
 			return;
 		}
 		List<NameObject> nameObjectList = new ArrayList<NameObject>();
