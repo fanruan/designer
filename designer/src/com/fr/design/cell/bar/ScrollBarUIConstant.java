@@ -23,7 +23,7 @@ public class ScrollBarUIConstant {
     public static final ColorUIResource SCROLL_ARROW_COLOR = new ColorUIResource(112, 112, 112);
 
     public static final ColorUIResource PRESSED_LIGHT_COLOR = new ColorUIResource(205, 234, 252);
-    public static final ColorUIResource WHITE_BORDER_COLOR = new ColorUIResource(240, 240, 240);
+    public static final ColorUIResource WHITE_BORDER_COLOR = new ColorUIResource(212, 212, 216);
     public static final ColorUIResource NORMAL_SCROLL_BUTTON_COLOR = new ColorUIResource(0xffffff);
     public static final ColorUIResource PRESSED_SCROLL_BUTTON_COLOR = new ColorUIResource(0xd2d2d2);
 

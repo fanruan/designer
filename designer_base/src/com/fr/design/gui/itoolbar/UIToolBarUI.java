@@ -89,7 +89,7 @@ public class UIToolBarUI extends MetalToolBarUI {
      */
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(UIConstants.NORMAL_BACKGROUND);
+        g2.setColor(UIConstants.TOOLBARUI_BACKGROUND);
         g2.fillRect(0, 0, c.getWidth(), c.getHeight());
     }
 

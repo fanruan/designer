@@ -117,7 +117,7 @@ public class UIScrollButton extends BasicArrowButton {
 //                g2.fillRoundRect(1, 1, 16, 7, 3, 3);
 //                g2.setColor(a);
 //                g2.drawRoundRect(1, 1, 15, 15, 3, 3);
-//                g2.setColor(new Color(240, 240, 240));
+//                g2.setColor(new Color(212, 212, 216));
 //                g2.drawRoundRect(2, 2, 13, 13, 3, 3);
                 break;
         }

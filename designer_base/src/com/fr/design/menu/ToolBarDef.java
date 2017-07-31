@@ -21,7 +21,7 @@ public class ToolBarDef  {
      */
     public static UIToolbar createJToolBar() {
     	UIToolbar toolbar = new UIToolbar(FlowLayout.LEFT);
-    	toolbar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        toolbar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
     	return toolbar;
     }
 

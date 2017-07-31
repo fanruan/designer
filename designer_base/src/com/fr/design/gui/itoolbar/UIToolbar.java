@@ -17,6 +17,8 @@ public class UIToolbar extends JToolBar{
 	    setRollover(true);
 	    setLayout(new FlowLayout(align, 4, 0));
 	    setUI(new UIToolBarUI());
+	    setBorderPainted(false);
+	    setBackground(Color.RED);
 	}
 	
 	@Override

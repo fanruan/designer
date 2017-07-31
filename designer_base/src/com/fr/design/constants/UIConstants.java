@@ -62,7 +62,8 @@ public interface UIConstants {
     public static final Color SKY_BLUE = new Color(164, 192, 220);
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
-    public static final Color NORMAL_BACKGROUND = new Color(240, 240, 240);
+    public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
+    public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
     public static final Color SHADOW_GREY = new Color(0xe2e2e2);
     public static final Color SHADOW_CENTER = new Color(200, 200, 200);
     public static final Color SHADOW_PURPLE = new Color(255, 0, 255);

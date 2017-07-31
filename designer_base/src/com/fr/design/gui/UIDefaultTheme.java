@@ -87,7 +87,7 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("TabbedPane.tabAreaInsets", new InsetsUIResource(4, 2, 0, 0));
         table.put("TabbedPane.tabInsets", new InsetsUIResource(1, 6, 4, 6));
         table.put("Table.gridColor", ThemeUtils.TABLE_GRID_COLOR);
-        table.put("MenuBar.background", new ColorUIResource(240, 240, 240));
+        table.put("MenuBar.background", new ColorUIResource(212, 212, 216));
         table.put("Menu.foreground", ThemeUtils.MENU_ITEM_FONT_COLOR);
         table.put("MenuItem.foreground", ThemeUtils.MENU_ITEM_FONT_COLOR);
         table.put("ToolBar.background", new ColorUIResource(239, 237, 229));

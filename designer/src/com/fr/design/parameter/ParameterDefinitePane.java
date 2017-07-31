@@ -151,7 +151,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      */
     public void setComponentBg(Container cc) {
         for (Component com : cc.getComponents()) {
-            com.setBackground(new Color(240, 240, 240));
+            com.setBackground(new Color(212, 212, 216));
             if (com instanceof Container) {
                 setComponentBg((Container) com);
             }
@@ -250,6 +250,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
             bridge.setPosition(reportParameterAttr.getAlign());
             bridge.setDisplay(reportParameterAttr.isShowWindow());
             bridge.setBackground(reportParameterAttr.getBackground());
+            bridge.setUseParamsTemplate(reportParameterAttr.isUseParamsTemplate());
         }
     }
 

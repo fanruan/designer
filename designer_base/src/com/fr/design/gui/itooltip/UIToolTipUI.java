@@ -34,13 +34,13 @@ public class UIToolTipUI extends ToolTipUI {
         int height = size.height;
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint paint = new GradientPaint(0, 0, new Color(240, 240, 240), 0, height ,new Color(171, 183, 203));
+        GradientPaint paint = new GradientPaint(0, 0, new Color(212, 212, 216), 0, height ,new Color(171, 183, 203));
         g2.setPaint(paint);
         g2.fillRoundRect(0, 0, width - 3, height - 3, 6, 6);
         g2.setColor(new Color(100, 100, 100));
         g2.drawRoundRect(0, 0, width - 3, height - 3, 6, 6);
 
-        GradientPaint cornerPaint = new GradientPaint(width-3, height-3, new Color(100, 100, 100, 191), width - 1, height - 1, new Color(240, 240, 240));
+        GradientPaint cornerPaint = new GradientPaint(width-3, height-3, new Color(100, 100, 100, 191), width - 1, height - 1, new Color(212, 212, 216));
         g2.setPaint(cornerPaint);
         g2.fillArc(width - 6, height - 6, 6, 6, 270, 90 );
 
@@ -49,7 +49,7 @@ public class UIToolTipUI extends ToolTipUI {
         shadowDown.lineTo(3, height);
         shadowDown.lineTo(width - 3, height);
         shadowDown.lineTo(width - 3, height - 3);
-        GradientPaint downPaint = new GradientPaint(0, height-3, new Color(100, 100, 100, 191), 0, height, new Color(240, 240, 240));
+        GradientPaint downPaint = new GradientPaint(0, height-3, new Color(100, 100, 100, 191), 0, height, new Color(212, 212, 216));
         g2.setPaint(downPaint);
         GraphHelper.fill(g2, shadowDown);
 
@@ -58,7 +58,7 @@ public class UIToolTipUI extends ToolTipUI {
         shadowRight.lineTo(width, height - 3);
         shadowRight.lineTo(width, 3);
         shadowRight.lineTo(width - 3, 0);
-        GradientPaint rightPaint = new GradientPaint(width - 3, 0, new Color(100, 100, 100, 191), width, 0, new Color(240, 240, 240));
+        GradientPaint rightPaint = new GradientPaint(width - 3, 0, new Color(100, 100, 100, 191), width, 0, new Color(212, 212, 216));
         g2.setPaint(rightPaint);
         GraphHelper.fill(g2, shadowRight);
 
