@@ -39,7 +39,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected static final int BAIDU = 0;
     protected static final int GOOGLE = 1;
 
-    protected List<ChartImagePane> typeDemo;
+    private List<ChartImagePane> typeDemo;
     protected List<ChartImagePane> styleList;
 
     protected JPanel stylePane; //样式布局的面板
