@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.fr.base.FRContext;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
 import com.fr.design.gui.controlpane.JListControlPane;
@@ -24,6 +26,7 @@ import com.fr.stable.Nameable;
 
 public class ConditionAttributesGroupPane extends UIListControlPane {
     private static ConditionAttributesGroupPane singleton;
+    private TemplateCellElement editCellElement;  // 当前单元格对象
 
 	private ConditionAttributesGroupPane() {
         super();
@@ -43,6 +46,11 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 
 	@Override
 	public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
+        editCellElement.setHighlightGroup(updateHighlightGroup());
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
 	}
 
 	@Override
@@ -53,7 +61,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
     public void populate(ElementCasePane ePane) {
         CellSelection cs = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
-        TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
+        editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
             tplEC.addCellElement(editCellElement);
