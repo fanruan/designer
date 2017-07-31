@@ -58,6 +58,11 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 		return Inter.getLocText("Condition_Attributes");
 	}
 
+    @Override
+    public String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Condition");
+    }
+
     public void populate(ElementCasePane ePane) {
         CellSelection cs = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
