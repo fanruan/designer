@@ -4,11 +4,18 @@
 package com.fr.design.actions.insert.flot;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.DynamicUnitList;
 import com.fr.base.Formula;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
+import com.fr.grid.Grid;
+import com.fr.grid.selection.FloatSelection;
+import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
+import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.stable.unit.FU;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +24,10 @@ import java.awt.event.ActionEvent;
  * Insert formula.
  */
 public class FormulaFloatAction extends AbstractShapeAction {
-	public FormulaFloatAction(ElementCasePane t) {
-		super(t);
+    public FormulaFloatAction(ElementCasePane t) {
+        super(t);
         this.setMenuKeySet(FLOAT_INSERT_FORMULA);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
     }
@@ -33,7 +40,7 @@ public class FormulaFloatAction extends AbstractShapeAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("HF-Insert_Formula");
+            return Inter.getLocText("FR-Designer_Insert_Formula");
         }
 
         @Override
@@ -44,16 +51,48 @@ public class FormulaFloatAction extends AbstractShapeAction {
 
     /**
      * 动作
+     *
      * @param e 事件
      */
-	public void actionPerformed(ActionEvent e) {
-    	ElementCasePane jws = getEditingComponent();
+    public void actionPerformed(ActionEvent e) {
+        ElementCasePane jws = getEditingComponent();
         if (jws == null) {
             return;
         }
-        
-        // 
-        FloatElement floatElement = new FloatElement( new Formula(""));
+        //
+        FloatElement floatElement = new FloatElement(new Formula(""));
         this.startDraw(floatElement);
+        doWithDrawingFloatElement();
+        jws.getGrid().startEditing();
     }
+
+    private void doWithDrawingFloatElement() {
+        ElementCasePane jws = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
+        Grid grid = jws.getGrid();
+
+        ElementCasePane reportPane = grid.getElementCasePane();
+        TemplateElementCase report = reportPane.getEditingElementCase();
+        DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
+        DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
+
+        int horizentalScrollValue = grid.getHorizontalValue();
+        int verticalScrollValue = grid.getVerticalValue();
+
+        int resolution = grid.getResolution();
+        int floatWdith = grid.getDrawingFloatElement().getWidth().toPixI(resolution);
+        int floatHeight = grid.getDrawingFloatElement().getWidth().toPixI(resolution);
+
+        FU evtX_fu = FU.valueOfPix((grid.getWidth() - floatWdith) / 2, resolution);
+        FU evtY_fu = FU.valueOfPix((grid.getHeight() - floatHeight) / 2, resolution);
+
+        FU leftDistance = FU.getInstance(evtX_fu.toFU() + columnWidthList.getRangeValue(0, horizentalScrollValue).toFU());
+        FU topDistance = FU.getInstance(evtY_fu.toFU() + rowHeightList.getRangeValue(0, verticalScrollValue).toFU());
+
+        grid.getDrawingFloatElement().setLeftDistance(leftDistance);
+        grid.getDrawingFloatElement().setTopDistance(topDistance);
+
+        report.addFloatElement(grid.getDrawingFloatElement());
+        reportPane.setSelection(new FloatSelection(grid.getDrawingFloatElement().getName()));
+    }
+
 }

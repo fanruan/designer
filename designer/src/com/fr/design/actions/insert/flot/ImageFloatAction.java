@@ -8,6 +8,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
@@ -28,12 +29,12 @@ import java.io.File;
  */
 public class ImageFloatAction extends ElementCaseAction {
 
-    private  boolean returnValue = false;
+    private boolean returnValue = false;
 
     public ImageFloatAction(ElementCasePane t) {
-    	super(t);
+        super(t);
         this.setMenuKeySet(FLOAT_INSERT_IMAGE);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/image.png"));
     }
@@ -46,7 +47,7 @@ public class ImageFloatAction extends ElementCaseAction {
 
         @Override
         public String getMenuName() {
-            return Inter.getLocText("HF-Insert_Image");
+            return Inter.getLocText("FR-Designer_Insert_Image");
         }
 
         @Override
@@ -57,10 +58,11 @@ public class ImageFloatAction extends ElementCaseAction {
 
     /**
      * 执行动作
+     *
      * @return 成功返回true
      */
     public boolean executeActionReturnUndoRecordNeeded() {
-        final ElementCasePane reportPane = getEditingComponent();
+        final ElementCasePane reportPane = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
         if (reportPane == null) {
             return false;
         }
@@ -96,9 +98,10 @@ public class ImageFloatAction extends ElementCaseAction {
                     returnValue = true;
                 }
             }
+
             @Override
-        	public void doCancel() {
-            	 returnValue = false;
+            public void doCancel() {
+                returnValue = false;
             }
         });
         dialog.setVisible(true);

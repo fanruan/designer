@@ -67,6 +67,9 @@ public class XWParameterLayout extends XWAbsoluteLayout {
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
                         .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(Inter.getLocText("FR-Designer_WidgetDisplyPosition"))
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                new CRPropertyDescriptor("useParamsTemplate", this.data.getClass()).setEditorClass(BooleanEditor.class)
+                        .setI18NName(Inter.getLocText("FR-Designer_Use_Params_Template"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
         };
 
         ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
@@ -125,6 +128,14 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     }
 
     /**
+     * 是否启用参数模板
+     * @return 显示参数模板界面则返回true，否则返回false
+     */
+    public boolean isUseParamsTemplate() {
+        return toData().isUseParamsTemplate();
+    }
+
+    /**
      * 是否显示参数界面
      * @return 显示参数界面则返回true，否则返回false
      */
@@ -150,6 +161,10 @@ public class XWParameterLayout extends XWAbsoluteLayout {
 
     public void setDelayDisplayContent(boolean delayPlaying){
         this.toData().setDelayDisplayContent(delayPlaying);
+    }
+
+    public void setUseParamsTemplate(boolean isUse) {
+        this.toData().setUseParamsTemplate(isUse);
     }
 
     public void setPosition(int align){

@@ -68,5 +68,4 @@ public interface ParameterDesignerProvider {
     void removeSelection();
 
     ParameterBridge getParaComponent();
-
 }
