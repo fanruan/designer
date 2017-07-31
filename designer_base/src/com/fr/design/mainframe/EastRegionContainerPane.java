@@ -301,7 +301,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void addParameterPane(JComponent paraPane) {
-//        propertyItemMap.get(KEY_HYPERLINK).replaceContentPane(paraPane);
+        propertyItemMap.get(KEY_WIDGET_SETTINGS).replaceHeaderPane(paraPane);
     }
 
     public void setParameterHeight(int height) {
@@ -340,7 +340,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void removeParameterPane() {
-
+        propertyItemMap.get(KEY_WIDGET_SETTINGS).removeHeaderPane();
     }
 
     /**
@@ -396,6 +396,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private String title;  // 用于显示
         private JComponent propertyPanel;
         private JComponent contentPane;
+        private JComponent headerPane;  // 在contentPane 上方，可以用于显示参数面板
+        private Container contentArea;  // 包含 headerPane 和 contentPane
         private FixedPopupPane popupPane;  // 左侧固定弹出框
         private PopupToolPane popupToolPane;  // 弹出工具条
         private PopupDialog popupDialog;  // 弹出框
@@ -404,6 +406,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private boolean isEnabled = true;  // 是否可用
         private Set<PropertyMode> visibleModes;
         private Set<PropertyMode> enableModes;
+        private static final int MAX_PARA_HEIGHT = 240;
 
         public PropertyItem(String name, String title, String btnUrl, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
             this.name = name;
@@ -454,9 +457,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             propertyPanel.setBackground(Color.pink);
             contentPane = generateContentPane();
             popupToolPane = new PopupToolPane(this, PopupToolPane.DOWN_BUTTON);
+            headerPane = new JPanel();
+            contentArea = new JPanel(new BorderLayout());
+            contentArea.add(headerPane, BorderLayout.NORTH);
+            contentArea.add(contentPane, BorderLayout.CENTER);
             propertyPanel.setLayout(new BorderLayout());
             propertyPanel.add(popupToolPane, BorderLayout.NORTH);
-            propertyPanel.add(contentPane, BorderLayout.CENTER);
+            propertyPanel.add(contentArea, BorderLayout.CENTER);
         }
 
         public boolean isPoppedOut() {
@@ -477,8 +484,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         public void replaceContentPane(JComponent pane) {
-            propertyPanel.remove(this.contentPane);
-            propertyPanel.add(this.contentPane = pane);
+            contentArea.remove(this.contentPane);
+            contentArea.add(this.contentPane = pane);
             if (popupDialog != null && isPoppedOut) {
                 popupDialog.replaceContentPane(this);
             }
@@ -491,6 +498,25 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public JComponent getContentPane() {
             return contentPane;
+        }
+
+        public void replaceHeaderPane(JComponent pane) {
+            contentArea.remove(headerPane);
+            int height = Math.min(pane.getPreferredSize().height, MAX_PARA_HEIGHT);
+            pane.setPreferredSize(new Dimension(pane.getPreferredSize().width, height));
+            headerPane = pane;
+            contentArea.add(headerPane, BorderLayout.NORTH);
+
+            refreshContainer();
+        }
+
+        public void removeHeaderPane() {
+            contentArea.remove(headerPane);
+            refreshContainer();
+        }
+
+        public JComponent getHeaderPane() {
+            return headerPane;
         }
 
         public void onResize() {

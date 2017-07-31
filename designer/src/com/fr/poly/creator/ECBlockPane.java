@@ -10,7 +10,6 @@ import com.fr.page.ReportSettingsProvider;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.cell.*;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.actions.edit.merge.MergeCellAction;
 import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.columnrow.InsertColumnAction;
@@ -148,7 +147,6 @@ public class ECBlockPane extends PolyElementCasePane {
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
 
-        menuDef.addShortCut(new HyperlinkAction(this));
         menuDef.addShortCut(SeparatorDef.DEFAULT);
         menuDef.addShortCut(new MergeCellAction(this));
         menuDef.addShortCut(new UnmergeCellAction(this));
