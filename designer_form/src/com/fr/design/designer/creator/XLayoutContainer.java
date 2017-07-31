@@ -413,6 +413,15 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
     }
 
     /**
+     * 是否启用参数模板
+     * @return 显示参数模板界面则返回true，否则返回false
+     */
+    public boolean isUseParamsTemplate() {
+        return false;
+    }
+
+
+    /**
      * 是否显示参数界面
      *
      * @return 显示参数界面则返回true，否则返回false
@@ -482,6 +491,10 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
     }
 
     public void setDelayDisplayContent(boolean delayPlaying) {
+
+    }
+
+    public void setUseParamsTemplate(boolean isUse) {
 
     }
 

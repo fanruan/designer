@@ -355,6 +355,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
             reportParameterAttr.setShowWindow(bridge.isDisplay());
             reportParameterAttr.setAlign(bridge.getPosition());
             reportParameterAttr.setBackground(bridge.getDataBackground());
+            reportParameterAttr.setUseParamsTemplate(bridge.isUseParamsTemplate());
         }
         //这里不用 parameterUI 的原因是考虑到没有控件的时候设置宽度有效果但不保存，只有含有控件才保存属性
         paraDesignEditor.getParaTarget().setDesignSize(new Dimension(bridge.getDesignWidth(),
