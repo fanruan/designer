@@ -19,6 +19,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -37,10 +38,13 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
             public void selectionChanged(SelectionEvent e) {
                 CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
-
+                // 超级链接
                 HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate().
                         getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
                 hyperlinkGroupPane.populate(FormElementCasePaneDelegate.this);
+                // 条件属性
+                ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+                conditionAttributesGroupPane.populate(FormElementCasePaneDelegate.this);
 
 //                populateHyperLinkGroupPane();
             }

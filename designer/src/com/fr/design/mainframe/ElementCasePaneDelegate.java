@@ -76,7 +76,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                     } else {
                         // 条件属性
                         ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
-                        conditionAttributesGroupPane.populate(getEditingCellElement((CellSelection)editingSelection).getHighlightGroup());
+                        conditionAttributesGroupPane.populate(ElementCasePaneDelegate.this);
 
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
@@ -94,20 +94,6 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
             }
         });
-    }
-
-    private TemplateCellElement getEditingCellElement(CellSelection cs) {
-        final ElementCasePane ePane = ElementCasePaneDelegate.this;
-        final TemplateElementCase tplEC = ePane.getEditingElementCase();
-        TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
-        if (editCellElement == null) {
-            editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
-        }
-        if (tplEC != null) {
-            SheetUtils.calculateDefaultParent(tplEC);
-        }
-        return editCellElement;
     }
 
     @Override

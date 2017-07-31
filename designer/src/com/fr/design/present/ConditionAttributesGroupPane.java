@@ -5,15 +5,21 @@ import java.util.List;
 
 import com.fr.base.FRContext;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
+import com.fr.grid.selection.CellSelection;
+import com.fr.report.cell.DefaultTemplateCellElement;
+import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.highlight.DefaultHighlight;
 import com.fr.report.cell.cellattr.highlight.Highlight;
 import com.fr.report.cell.cellattr.highlight.HighlightGroup;
+import com.fr.report.core.SheetUtils;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.Nameable;
 
 public class ConditionAttributesGroupPane extends UIListControlPane {
@@ -43,6 +49,20 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 	public String title4PopupWindow() {
 		return Inter.getLocText("Condition_Attributes");
 	}
+
+    public void populate(ElementCasePane ePane) {
+        CellSelection cs = (CellSelection) ePane.getSelection();
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
+        if (editCellElement == null) {
+            editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
+            tplEC.addCellElement(editCellElement);
+        }
+
+        SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里
+
+        populate(editCellElement.getHighlightGroup());
+    }
 
 	/**
 	 * Populate

@@ -663,6 +663,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 EastRegionContainerPane.getInstance().removeParameterPane();
                 EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
                 EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
+                EastRegionContainerPane.getInstance().replaceConditionAttrPane(elementCaseDesign.getConditionAttrPane());
                 EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
                 return;
             }
