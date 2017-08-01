@@ -4,18 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fr.base.FRContext;
+import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.general.NameObject;
 import com.fr.design.condition.HighLightConditionAttributesPane;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
+import com.fr.grid.selection.CellSelection;
+import com.fr.report.cell.DefaultTemplateCellElement;
+import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.highlight.DefaultHighlight;
 import com.fr.report.cell.cellattr.highlight.Highlight;
 import com.fr.report.cell.cellattr.highlight.HighlightGroup;
+import com.fr.report.core.SheetUtils;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.Nameable;
 
-public class ConditionAttributesGroupPane extends JListControlPane {
+public class ConditionAttributesGroupPane extends UIListControlPane {
+    private static ConditionAttributesGroupPane singleton;
+    private TemplateCellElement editCellElement;  // 当前单元格对象
+
+	private ConditionAttributesGroupPane() {
+        super();
+    }
+
+    public static ConditionAttributesGroupPane getInstance() {
+        if (singleton == null) {
+            singleton = new ConditionAttributesGroupPane();
+        }
+        return singleton;
+    }
 
 	@Override
 	public NameableCreator[] createNameableCreators() {
@@ -23,9 +45,37 @@ public class ConditionAttributesGroupPane extends JListControlPane {
 	}
 
 	@Override
+	public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
+        editCellElement.setHighlightGroup(updateHighlightGroup());
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+	}
+
+	@Override
 	public String title4PopupWindow() {
 		return Inter.getLocText("Condition_Attributes");
 	}
+
+    @Override
+    public String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Condition");
+    }
+
+    public void populate(ElementCasePane ePane) {
+        CellSelection cs = (CellSelection) ePane.getSelection();
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
+        if (editCellElement == null) {
+            editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
+            tplEC.addCellElement(editCellElement);
+        }
+
+        SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里
+
+        populate(editCellElement.getHighlightGroup());
+    }
 
 	/**
 	 * Populate
@@ -33,6 +83,7 @@ public class ConditionAttributesGroupPane extends JListControlPane {
 	public void populate(HighlightGroup highlightGroup) {
 		// marks这个必须放在前面，不论是否有高亮分组都可以操作
 		if (highlightGroup == null || highlightGroup.size() <= 0) {
+            this.populate(new NameObject[0]);
 			return;
 		}
 		List<NameObject> nameObjectList = new ArrayList<NameObject>();

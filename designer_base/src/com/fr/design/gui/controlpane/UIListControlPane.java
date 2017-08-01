@@ -3,6 +3,7 @@ package com.fr.design.gui.controlpane;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
@@ -26,6 +27,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
+import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.*;
@@ -434,6 +436,43 @@ public abstract class UIListControlPane extends UIControlPane {
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+        }
+
+        /**
+         * Gets component on toolbar.
+         *
+         * @return the created components on toolbar.
+         */
+        @Override
+        public JComponent createToolBarComponent() {
+            Object object = this.getValue(UIButton.class.getName());
+            if (!(object instanceof AbstractButton)) {
+                // 直接使用默认UI
+                UIButton button =  new UIButton();
+                // 添加一个名字作为自动化测试用
+                button.setName(getName());
+
+                //设置属性.
+                Integer mnemonicInteger = (Integer) this.getValue(Action.MNEMONIC_KEY);
+                if (mnemonicInteger != null) {
+                    button.setMnemonic((char) mnemonicInteger.intValue());
+                }
+
+                button.setIcon((Icon) this.getValue(Action.SMALL_ICON));
+                button.addActionListener(this);
+
+                button.registerKeyboardAction(this, this.getAccelerator(), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+                this.putValue(UIButton.class.getName(), button);
+                button.setText(StringUtils.EMPTY);
+                button.setEnabled(this.isEnabled());
+
+                //peter:产生tooltip
+                button.setToolTipText(ActionFactory.createButtonToolTipText(this));
+                object = button;
+            }
+
+            return (JComponent) object;
         }
 
         @Override

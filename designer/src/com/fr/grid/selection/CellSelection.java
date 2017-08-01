@@ -458,7 +458,6 @@ public class CellSelection extends Selection {
         }
         popup.add(new CellExpandAttrAction().createMenuItem());
         popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
-        popup.add(new ConditionAttributesAction(ePane).createMenuItem());
         popup.add(new CellAttributeAction().createMenuItem());
         // cut, copy and paste
         popup.addSeparator();
