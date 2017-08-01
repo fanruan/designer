@@ -49,7 +49,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 		checkBoxDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		northPane.add(checkBoxDictPane, BorderLayout.NORTH);
 		JPanel chooseAllPane = new JPanel();
-		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		checkbox = new UICheckBox(Inter.getLocText("FR-Designer_Provide_Choose_All"));
 		chooseAllPane.add(checkbox);
 		chooseAllPane.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		northPane.add(chooseAllPane, BorderLayout.CENTER);
