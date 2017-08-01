@@ -35,7 +35,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
      */
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                EventCreator.STATECHANGE
+                new EventCreator(Widget.EVENT_STATECHANGE, WidgetEventListenerUpdatePane.class)
             };
     }
 
@@ -108,7 +108,7 @@ public class WidgetEventPane extends ObjectUIControlPane {
             return;
         }
         
-        this.refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents()));
+        this.refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
 
         List<NameObject> list = new ArrayList<NameObject>();
         Listener listener;

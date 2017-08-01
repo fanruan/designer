@@ -3,6 +3,9 @@ package com.fr.design.designer.properties;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.gui.controlpane.NameableCreator;
+import com.fr.design.gui.controlpane.ShortCut4JControlPane;
+import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.frpane.ListenerUpdatePane;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -12,6 +15,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.widget.EventCreator;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
@@ -39,11 +43,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-public class EventPropertyTable extends BasicPane {
+public class EventPropertyTable extends UIListControlPane {
 
 	private ShortCut[] shorts;
 	private XCreator creator;
-	private JNameEdList nameableList;
+//	private JNameEdList nameableList;
 	private ToolBarDef toolbarDef;
 	private AddItemMenuDef itemMenu;
 	private ShortCut editItemAction;
@@ -59,27 +63,22 @@ public class EventPropertyTable extends BasicPane {
 		this.initComponents();
 	}
 
-	protected void initComponents() {
-		this.setLayout(new BorderLayout());
-		nameableList = new JNameEdList(new DefaultListModel());
-		this.add(new JScrollPane(nameableList), BorderLayout.CENTER);
-
-		nameableList.setCellRenderer(new NameableListCellRenderer());
-		nameableList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		nameableList.addMouseListener(listMouseListener);
-		nameableList.setTransferHandler(new DnDTransferHandler());
-		nameableList.setDropMode(DropMode.INSERT);
-		nameableList.setDragEnabled(true);
-
+	@Override
+	protected void initComponentPane() {
 		toolbarDef = new ToolBarDef();
-		shorts = new ShortCut[] { itemMenu = new AddItemMenuDef(), editItemAction = new EditItemMenuDef(),
-				copyItemAction = new CopyItemAction(), removeItemAction = new RemoveItemAction() };
+//		shorts = new ShortCut[] { itemMenu = new AddItemMenuDef(), editItemAction = new EditItemMenuDef(),
+//				copyItemAction = new CopyItemAction(), removeItemAction = new RemoveItemAction() };
+		shorts = new ShortCut[] { itemMenu = new AddItemMenuDef()};
 		for (ShortCut sj : shorts) {
 			toolbarDef.addShortCut(sj);
 		}
 		toolbar = ToolBarDef.createJToolBar();
 		toolbarDef.updateToolBar(toolbar);
-		this.add(toolbar, BorderLayout.NORTH);
+
+		super.initComponentPane();
+	}
+
+	protected void initComponents() {
 	}
 
 	/**
@@ -110,74 +109,41 @@ public class EventPropertyTable extends BasicPane {
 		this.repaint();
 	}
 
-	private void checkButtonEnabled() {
-		boolean enable = nameableList.getSelectedValue() instanceof NameObject;
-		itemMenu.setEnabled(this.creator != null && itemMenu.getShortCutCount() > 0);
-		editItemAction.setEnabled(enable);
-		copyItemAction.setEnabled(enable);
-		removeItemAction.setEnabled(enable);
-	}
+	public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
 
-	private MouseListener listMouseListener = new MouseAdapter() {
 		@Override
-		public void mouseReleased(MouseEvent evt) {
-			checkButtonEnabled();
-			if (evt.getClickCount() >= 2 && SwingUtilities.isLeftMouseButton(evt)) {
-				NameObject object = (NameObject) nameableList.getSelectedValue();
-				showEventPane(object);
-			}
-		}
-	};
-
-	private void showEventPane(final NameObject object) {
-		if (listenerPane == null) {
-			listenerPane = new ListenerUpdatePane() {
+		protected JavaScriptActionPane createJavaScriptActionPane() {
+			return new JavaScriptActionPane() {
 
 				@Override
-				protected JavaScriptActionPane createJavaScriptActionPane() {
-					return new JavaScriptActionPane() {
+				protected DBManipulationPane createDBManipulationPane() {
+					return new DBManipulationPane(ValueEditorPaneFactory.formEditors());
+				}
 
-						@Override
-						protected DBManipulationPane createDBManipulationPane() {
-							return new DBManipulationPane(ValueEditorPaneFactory.formEditors());
-						}
-
-						@Override
-						protected String title4PopupWindow() {
-							return Inter.getLocText("Set_Callback_Function");
-						}
-						@Override
-						protected EmailPane initEmaiPane() {
-							return new FormEmailPane();
-						}
-						@Override
-						public boolean isForm() {
-							return  true;
-						}
-
-						protected String[] getDefaultArgs() {
-							return new String[0];
-						}
-
-					};
+				@Override
+				protected String title4PopupWindow() {
+					return Inter.getLocText("Set_Callback_Function");
 				}
 				@Override
-				protected boolean supportCellAction() {
-					return false;
+				protected EmailPane initEmaiPane() {
+					return new FormEmailPane();
 				}
-				
+				@Override
+				public boolean isForm() {
+					return  true;
+				}
+
+				protected String[] getDefaultArgs() {
+					return new String[0];
+				}
+
 			};
 		}
-		listenerPane.populateBean((Listener) object.getObject());
-		BasicDialog dialog = listenerPane.showWindow(SwingUtilities.getWindowAncestor(this));
-		dialog.addDialogActionListener(new DialogActionAdapter() {
-			@Override
-			public void doOk() {
-				object.setObject(listenerPane.updateBean());
-				updateWidgetListener(creator);
-			}
-		});
-		dialog.setVisible(true);
+
+		@Override
+		protected boolean supportCellAction() {
+			return false;
+		}
 	}
 
 	private class NameableListCellRenderer extends DefaultListCellRenderer {
@@ -226,20 +192,6 @@ public class EventPropertyTable extends BasicPane {
 			}
 		}
 	}
-
-	protected class EditItemMenuDef extends UpdateAction {
-		public EditItemMenuDef() {
-			this.setName(Inter.getLocText("Edit"));
-			this.setMnemonic('E');
-			this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/edit.png"));
-		}
-
-		public void actionPerformed(ActionEvent evt) {
-			if (nameableList.getSelectedValue() instanceof NameObject) {
-				showEventPane((NameObject) nameableList.getSelectedValue());
-			}
-		}
-	}
 	
 	private String switchLang(String eventName)	{
 		return Inter.getLocText("Event-" + eventName);
@@ -261,7 +213,7 @@ public class EventPropertyTable extends BasicPane {
 		}
 		Widget widget = creator.toData();
 
-		refreshNameableCreator(widget.supportedEvents());
+		refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
 
 		((DefaultListModel) nameableList.getModel()).removeAllElements();
 		for (int i = 0, size = widget.getListenerSize(); i < size; i++) {
@@ -288,81 +240,21 @@ public class EventPropertyTable extends BasicPane {
 		checkButtonEnabled();
 	}
 
-	private class RemoveItemAction extends UpdateAction {
-		public RemoveItemAction() {
-			this.setName(Inter.getLocText("Remove"));
-			this.setMnemonic('R');
-			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
-		}
-
-		public void actionPerformed(ActionEvent evt) {
-			GUICoreUtils.removeJListSelectedNodes(SwingUtilities.getWindowAncestor(EventPropertyTable.this),
-					nameableList);
-			updateWidgetListener(creator);
-		}
-
-	}
-
-	/*
-	 * CopyItem
-	 */
-	private class CopyItemAction extends UpdateAction {
-		public CopyItemAction() {
-			this.setName(Inter.getLocText("Copy"));
-			this.setMnemonic('C');
-			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/copy.png"));
-		}
-
-		public void actionPerformed(ActionEvent evt) {
-			NameObject selectedNameObject = (NameObject) nameableList.getSelectedValue();
-
-			// p: 用反射机制实现
-			try {
-				NameObject newNameObject = (NameObject) BaseUtils.cloneObject(selectedNameObject);
-				newNameObject.setName("CopyOf" + selectedNameObject.getName());
-
-				EventPropertyTable.this.addNameObject(newNameObject, nameableList.getSelectedIndex() + 1);
-			} catch (Exception e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
-			updateWidgetListener(creator);
-		}
-	}
-
 	@Override
 	protected String title4PopupWindow() {
 		return "Event";
 	}
 
-	/**
-	 * 生成不重复名字
-	 * @param prefix  字符
-	 * @return 返回
-	 */
-	public String createUnrepeatedName(String prefix) {
-		DefaultListModel model = (DefaultListModel) nameableList.getModel();
-		Nameable[] all = new Nameable[model.getSize()];
-		for (int i = 0; i < model.size(); i++) {
-			all[i] = (Nameable) model.get(i);
-		}
-		int count = 1;
-		while (true) {
-			String name_test = prefix + count;
-			boolean repeated = false;
-			for (int i = 0, len = model.size(); i < len; i++) {
-				Nameable nameable = all[i];
-				if (ComparatorUtils.equals(nameable.getName(), name_test)) {
-					repeated = true;
-					break;
-				}
-			}
+	@Override
+	public NameableCreator[] createNameableCreators() {
+		return new NameableCreator[]{
+				new EventCreator(Widget.EVENT_STATECHANGE, WidgetEventListenerUpdatePane.class)
+		};
+	}
 
-			if (!repeated) {
-				return name_test;
-			}
+	@Override
+	public void saveSettings() {
 
-			count++;
-		}
 	}
 
 	private class DnDTransferHandler extends TransferHandler {
