@@ -120,7 +120,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         UIScrollPane scrollPane = new UIScrollPane(dataTree);
         scrollPane.setBorder(null);
         initbuttonGroup();
-        JPanel jPanel = new JPanel(new BorderLayout(4, 4));
+        JPanel jPanel = new JPanel(new BorderLayout(0, 0));
         JPanel buttonPane = new JPanel(new GridLayout());
         buttonPane.add(buttonGroup, BorderLayout.CENTER);
         jPanel.add(buttonPane, BorderLayout.NORTH);
