@@ -87,7 +87,6 @@ public abstract class ToolBarMenuDock {
             }
         }
 
-
         refreshLargeToolbarState();
     }
 
