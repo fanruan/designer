@@ -240,7 +240,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 				FurtherBasicBeanPane pane = cards.get(i);
 				if (pane.accept(ob)) {
 
-					GUICoreUtils.setEnabled(this, ob.isValidPlot());
+					GUICoreUtils.setEnabled(chartTypeComBox.getUIComboBox(), ob.isValidPlot());
 
 					pane.populateBean(ob);
 					Object item = pane.title4PopupWindow();
