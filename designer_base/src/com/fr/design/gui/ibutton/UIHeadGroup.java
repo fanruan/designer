@@ -113,28 +113,28 @@ public class UIHeadGroup extends JPanel{
 	
 	@Override
 	protected void paintBorder(Graphics g) {
-		Graphics2D g2d = (Graphics2D)g;
-		g2d.setColor(UIConstants.LINE_COLOR);
-
-		int width = 0;
-		for(int i = 0; i < labelButtonList.size() - 1; i++) {
-			int height = labelButtonList.get(i).getHeight();
-			width += labelButtonList.get(i).getWidth() + 1;
-			g.drawLine(width, 0, width, height);
-		}
-
-		width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
-		if(isNeedLeftRightOutLine) {
-			g2d.drawRect(0, 0, width, getHeight() - 1);
-		} else {
-			g2d.drawLine(1, 0, width - 1, 0);
-			g2d.drawLine(1, getHeight() - 1, width - 1, getHeight() - 1);
-		}
-		
-		
-		g2d.setColor(UIConstants.NORMAL_BACKGROUND);
-		UIToggleButton headButton = labelButtonList.get(selectedIndex);
-		g2d.drawLine(headButton.getX(), headButton.getHeight() + 1, headButton.getX() + headButton.getWidth() - 1, headButton.getHeight() + 1);
+//		Graphics2D g2d = (Graphics2D)g;
+//		g2d.setColor(UIConstants.LINE_COLOR);
+//
+//		int width = 0;
+//		for(int i = 0; i < labelButtonList.size() - 1; i++) {
+//			int height = labelButtonList.get(i).getHeight();
+//			width += labelButtonList.get(i).getWidth() + 1;
+//			g.drawLine(width, 0, width, height);
+//		}
+//
+//		width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
+//		if(isNeedLeftRightOutLine) {
+//			g2d.drawRect(0, 0, width, getHeight() - 1);
+//		} else {
+//			g2d.drawLine(1, 0, width - 1, 0);
+//			g2d.drawLine(1, getHeight() - 1, width - 1, getHeight() - 1);
+//		}
+//
+//
+//		g2d.setColor(UIConstants.NORMAL_BACKGROUND);
+//		UIToggleButton headButton = labelButtonList.get(selectedIndex);
+//		g2d.drawLine(headButton.getX(), headButton.getHeight() + 1, headButton.getX() + headButton.getWidth() - 1, headButton.getHeight() + 1);
 	}
 	
 	private void initButton(UIToggleButton labelButton) {
