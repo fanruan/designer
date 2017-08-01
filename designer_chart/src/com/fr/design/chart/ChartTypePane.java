@@ -5,8 +5,13 @@ package com.fr.design.chart;
  */
 
 import com.fr.base.FRContext;
+import com.fr.base.FRCoreContext;
 import com.fr.chart.base.ChartInternationalNameContentBean;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.ChartIcon;
+import com.fr.chart.chartattr.MapPlot;
+import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -14,14 +19,11 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.general.RegistEditionException;
 import com.fr.general.VT4FR;
-import com.fr.stable.StableUtils;
-import com.fr.stable.help.FineClassLoader;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.lang.reflect.Method;
 
 public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
@@ -168,15 +170,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
     }
 
     private boolean supportMap() {
-        FineClassLoader classLoader = new FineClassLoader();
-        byte[] bytes = null;
-        try {
-            Class<?> clazz = classLoader.loadClass("com.fr.base.FRCoreContext");
-            Method method = clazz.getMethod("getBytes");
-            bytes = (byte[]) method.invoke(clazz);
-        } catch (Exception ignore) {
-
-        }
+        byte[] bytes = FRCoreContext.getBytes();
         return VT4FR.isLicAvailable(bytes) && VT4FR.CHART_MAP.support();
     }
 
