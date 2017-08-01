@@ -250,6 +250,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
             bridge.setPosition(reportParameterAttr.getAlign());
             bridge.setDisplay(reportParameterAttr.isShowWindow());
             bridge.setBackground(reportParameterAttr.getBackground());
+            bridge.setUseParamsTemplate(reportParameterAttr.isUseParamsTemplate());
         }
     }
 
