@@ -51,7 +51,7 @@ public class Designer extends BaseDesigner {
     private static final int PREVIEW_DOWN_X_GAP = 92;
     private static final int GAP = 7;
     
-    private static final String OLD_ENV_FOLDER_71 = ".FineReport71";
+    private static final String OLD_ENV_FOLDER_71 = ".Fine Report71";
     private static final String OLD_ENV_FOLDER_70 = ".FineReport70";
 
     private UserInfoPane userInfoPane;
