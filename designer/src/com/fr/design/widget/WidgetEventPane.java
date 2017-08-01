@@ -4,10 +4,10 @@ package com.fr.design.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fr.design.gui.controlpane.ObjectUIControlPane;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.controlpane.ObjectJControlPane;
 import com.fr.design.gui.frpane.ListenerUpdatePane;
 import com.fr.design.javascript.JavaScriptActionPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -19,7 +19,7 @@ import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
-public class WidgetEventPane extends ObjectJControlPane {
+public class WidgetEventPane extends ObjectUIControlPane {
 	
 	public WidgetEventPane() {
 	    this(null);
@@ -38,8 +38,12 @@ public class WidgetEventPane extends ObjectJControlPane {
                 EventCreator.STATECHANGE
             };
     }
-    
-    @Override
+
+	@Override
+	public void saveSettings() {
+	}
+
+	@Override
     protected String title4PopupWindow() {
     	return Inter.getLocText("Event");
     }
