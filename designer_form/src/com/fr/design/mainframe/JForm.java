@@ -649,11 +649,13 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         WidgetToolBarPane.getInstance(formDesign);
         if (BaseUtils.isAuthorityEditing()) {
             if (formDesign.isSupportAuthority()) {
-                EastRegionContainerPane.getInstance().replaceUpPane(new AuthorityPropertyPane(this));
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+                EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new AuthorityPropertyPane(this));
             } else {
-                EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
+                EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
             }
-            EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+            EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
             return;
         }
 

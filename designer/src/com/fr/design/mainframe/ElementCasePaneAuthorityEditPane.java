@@ -5,6 +5,7 @@ import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
@@ -30,6 +31,8 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -50,20 +53,26 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
     private static final int NEW_VALUE = 4;
     //新值下面的编辑器的宽度
     private static final int NEW_PANE_WIDTH = 120;
+    private static final Dimension VALUEPANE_NEW_DIMENSION = new Dimension(154,20);
+    private static final Dimension VALUEPANE_OLD_DIMENSION = new Dimension(0,0);
 
 
-    private UICheckBox floatElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
-    private UICheckBox cellElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
-    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
-    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Enabled"));
+
+    private UICheckBox floatElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Float_Visible"));
+    private UICheckBox cellElementVisibleCheckBoxes = new UICheckBox(Inter.getLocText("FR-Designer_Cell_Visible"));
+    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
+    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Enabled"));
     private UICheckBox gridColumnRowVisible = new UICheckBox(Inter.getLocText("FR-Designer_Hide"));
     private UICheckBox newValue = new UICheckBox(Inter.getLocText("FR-Designer_New_Value"));
+    private UIButtonGroup oldNewValueButton = new UIButtonGroup(new String[]{Inter.getLocText("FR-Designer_CellWrite_InsertRow_COPY"),Inter.getLocText("FR-Designer_New_Value")});
+    private JPanel newValuePane;
     private ValueEditorPane valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane(NEW_PANE_WIDTH);
     private UICheckBox[] hyperlinkCheckBoxes = null;
     private ElementCasePane elementCasePane = null;
     private int selectionType = CellSelection.NORMAL;
     private CellSelection cellSelection;
     private FloatSelection floatSelection;
+    private CardLayout newValueCard;
     private boolean isAllHasWidget;
     private boolean isAllHasHyperlink;
     private String[] selectedPathArray;
@@ -145,6 +154,22 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
 
             if (setAuthorityStyle(WIDGET_USABLE)) {
                 doAfterAuthority();
+            }
+        }
+    };
+    private ChangeListener buttonChangeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            if (oldNewValueButton.getSelectedIndex() == 1){
+                newValuePane.setPreferredSize(VALUEPANE_NEW_DIMENSION);
+                newValueCard.show(newValuePane,"new");
+                newValue.setSelected(true);
+                valueEditor.setEnabled(true);
+            }else {
+                newValue.setSelected(false);
+//                valueEditor.setEnabled(false);
+                newValuePane.setPreferredSize(VALUEPANE_OLD_DIMENSION);
+                newValueCard.show(newValuePane,"old");
             }
         }
     };
@@ -354,6 +379,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         }
         widgetAvailable.setEnabled(cellElementVisibleCheckBoxes.isSelected());
         widgetVisible.setEnabled(cellElementVisibleCheckBoxes.isSelected());
+        oldNewValueButton.setSelectedIndex(0);
     }
 
     private void initListener() {
@@ -364,6 +390,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         gridColumnRowVisible.addItemListener(columnRowAuthorityListener);
         newValue.addItemListener(newValuelistener);
         valueEditor.registerChangeListener(observerListener);
+        oldNewValueButton.addChangeListener(buttonChangeListener);
     }
 
     private void removeListener() {
@@ -374,6 +401,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         gridColumnRowVisible.removeItemListener(columnRowAuthorityListener);
         newValue.removeItemListener(newValuelistener);
         valueEditor.registerChangeListener(null);
+        oldNewValueButton.removeChangeListener(buttonChangeListener);
     }
 
     private void addHyperlinkListener() {
@@ -399,13 +427,13 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateType() {
         if (selectionType == CellSelection.NORMAL) {
-            type.setText(Inter.getLocText("FR-Designer_Cell"));
+            type.setText(" "+Inter.getLocText("FR-Designer_Cell"));
         } else if (selectionType == CellSelection.CHOOSE_ROW) {
-            type.setText(Inter.getLocText("FR-Designer_Row"));
+            type.setText(" "+Inter.getLocText("FR-Designer_Row"));
         } else if (selectionType == CellSelection.CHOOSE_COLUMN) {
-            type.setText(Inter.getLocText("FR-Designer_Column"));
+            type.setText(" "+Inter.getLocText("FR-Designer_Column"));
         } else {
-            type.setText(Inter.getLocText("M_Insert-Float"));
+            type.setText(" "+Inter.getLocText("M_Insert-Float"));
         }
     }
 
@@ -414,11 +442,11 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateName() {
         if (selectionType == CellSelection.NORMAL) {
-            name.setText(getCellSelectionName());
+            name.setText(" "+getCellSelectionName());
         } else if (selectionType == CellSelection.CHOOSE_ROW || selectionType == CellSelection.CHOOSE_COLUMN) {
-            name.setText(getCellColumnRowName());
+            name.setText(" "+getCellColumnRowName());
         } else {
-            name.setText(getFloatSelectionName());
+            name.setText(" "+getFloatSelectionName());
         }
     }
 
@@ -506,7 +534,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         } else if (selectionType == FLOAT_SELECTION) {
             populateFloatSelectionCheckPane(checkPane);
         }
-        checkPane.setBorder(BorderFactory.createEmptyBorder(ALIGNMENT_GAP, 0, 0, 0));
+        checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         return checkPane;
     }
 
@@ -538,17 +566,17 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
             }
             //单元格带控件
             if (cellElement.getCellWidgetAttr() != null) {
-                checkPane.add(populateWidgetCheckPane(), BorderLayout.WEST);
+                checkPane.add(populateWidgetCheckPane(), BorderLayout.CENTER);
             } else {
-                checkPane.add(populatCellCheckPane(), BorderLayout.WEST);
+                checkPane.add(populatCellCheckPane(), BorderLayout.CENTER);
             }
         } else {
             //批量选中单元格
             mutilRect(cellSelection);
             if (!isAllHasWidget && !isAllHasHyperlink) {
-                checkPane.add(populateMutilCellCheckPane(), BorderLayout.WEST);
+                checkPane.add(populateMutilCellCheckPane(), BorderLayout.CENTER);
             } else if (isAllHasWidget) {
-                checkPane.add(populateMutilWidgetCheckPane(), BorderLayout.WEST);
+                checkPane.add(populateMutilWidgetCheckPane(), BorderLayout.CENTER);
             }
         }
     }
@@ -609,28 +637,46 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("M_Insert-Float"), SwingConstants.LEFT), floatElementVisibleCheckBoxes}
+                new Component[]{floatElementVisibleCheckBoxes}
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
     }
+
+//    private JPanel populateWidgetCheckPane() {
+//        double f = TableLayout.FILL;
+//        double p = TableLayout.PREFERRED;
+//        Component[][] components = new Component[][]{
+//                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
+//                new Component[]{null, newValue},
+//                new Component[]{null, valueEditor},
+//                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
+//                new Component[]{null, widgetAvailable}
+//        };
+//        double[] rowSize = {p, p, p, p, p};
+//        double[] columnSize = {p, f};
+//        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+//        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+//    }
 
     private JPanel populateWidgetCheckPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
+        UILabel cv = new UILabel(Inter.getLocText("FR-Designer_Cell_Value") + "    ");
+        cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
-                new Component[]{null, newValue},
-                new Component[]{null, valueEditor},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
-                new Component[]{null, widgetAvailable}
+                new Component[]{cellElementVisibleCheckBoxes, null},
+                new Component[]{cv,valueGroup()},
+                new Component[]{null, newValuePane},
+                new Component[]{widgetVisible,null},
+                new Component[]{widgetAvailable,null}
         };
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
     }
 
     private JPanel populateMutilWidgetCheckPane() {
@@ -659,18 +705,34 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
+//    private JPanel populatCellCheckPane() {
+//        double f = TableLayout.FILL;
+//        double p = TableLayout.PREFERRED;
+//        Component[][] components = new Component[][]{
+//                new Component[]{cellElementVisibleCheckBoxes},
+//                new Component[]{newValue},
+//                new Component[]{valueEditor}
+//        };
+//        double[] rowSize = {p, p, p};
+//        double[] columnSize = {f};
+//        int[][] rowCount = {{1}, {1}, {1}};
+//        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+//    }
+
     private JPanel populatCellCheckPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
-                new Component[]{cellElementVisibleCheckBoxes},
-                new Component[]{newValue},
-                new Component[]{valueEditor}
-        };
         double[] rowSize = {p, p, p};
-        double[] columnSize = {f};
-        int[][] rowCount = {{1}, {1}, {1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        UILabel cv = new UILabel(Inter.getLocText("FR-Designer_Cell_Value") + "    ");
+        cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
+        Component[][] components = new Component[][]{
+                new Component[]{cellElementVisibleCheckBoxes,null},
+                new Component[]{cv,valueGroup()},
+                new Component[]{null,newValuePane}
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
     }
 
     public TemplateCellElement getFirstCell() {
@@ -719,12 +781,30 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         if (!firstCell.isDoneAuthority(selected)) {
             newValue.setSelected(firstCell.isDoneNewValueAuthority(selected));
             if (newValue.isSelected()) {
+                oldNewValueButton.setSelectedIndex(1);
+                if (newValuePane != null){
+                    newValuePane.setPreferredSize(VALUEPANE_NEW_DIMENSION);
+                    newValueCard.show(newValuePane,"new");
+                    newValuePane.setVisible(true);
+                }
                 valueEditor.setEnabled(true);
                 valueEditor.populate(firstCell.getCellPrivilegeControl().getNewValueMap().get(selected));
             } else {
+                if (newValuePane != null){
+                    oldNewValueButton.setSelectedIndex(0);
+                    newValuePane.setPreferredSize(VALUEPANE_OLD_DIMENSION);
+                    newValueCard.show(newValuePane,"old");
+                    newValuePane.setVisible(false);
+                }
                 valueEditor.setEnabled(false);
             }
         } else {
+            oldNewValueButton.setSelectedIndex(0);
+            if (newValuePane != null){
+                newValuePane.setPreferredSize(new Dimension(0,0));
+                newValueCard.show(newValuePane,"old");
+                newValuePane.setVisible(false);
+            }
             newValue.setSelected(false);
             valueEditor.setEnabled(false);
         }
@@ -756,6 +836,7 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         widgetAvailable.setEnabled(true);
         newValue.setSelected(false);
         valueEditor.setEnabled(false);
+        oldNewValueButton.setSelectedIndex(0);
     }
 
     private void checkColumnRowCheckBoxes(String selected) {
@@ -825,5 +906,15 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+    }
+
+    private JPanel valueGroup(){
+        newValueCard = new CardLayout();
+        newValuePane = new JPanel(newValueCard);
+        newValuePane.add(valueEditor, "new");
+        newValuePane.add(new JPanel(), "old");
+        newValuePane.setPreferredSize(VALUEPANE_OLD_DIMENSION);
+        oldNewValueButton.setPreferredSize(VALUEPANE_NEW_DIMENSION);
+        return oldNewValueButton;
     }
 }

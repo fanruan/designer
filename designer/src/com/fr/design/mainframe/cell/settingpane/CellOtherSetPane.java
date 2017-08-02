@@ -36,7 +36,7 @@ import java.awt.event.ItemListener;
 public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private static final int HEAD_WDITH = 290;
-    private static final int HEAD_HEIGTH = 20;
+    private static final int HEAD_HEIGTH = 24;
     // normal
     private UIButtonGroup autoshrik;
 

@@ -53,13 +53,15 @@ public class ECBlockPane extends PolyElementCasePane {
             public void selectionChanged(SelectionEvent e) {
                 if (BaseUtils.isAuthorityEditing()) {
                     if (designer.getSelection().getEditingElementCasePane() == null) {
-                        EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+                        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
+                        EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setAuthorityMode(false);
                         return;
                     }
                     AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(designer);
                     authorityPropertyPane.populate();
-                    EastRegionContainerPane.getInstance().replaceUpPane(authorityPropertyPane);
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+                    EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
                     return;
                 }
 

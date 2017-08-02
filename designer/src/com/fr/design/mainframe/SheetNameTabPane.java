@@ -215,8 +215,9 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     private void doWithAuthority() {
         AuthoritySheetEditedPane sheetEditedPane = new AuthoritySheetEditedPane(reportComposite.getEditingWorkBook(), selectedIndex);
         sheetEditedPane.populate();
-        EastRegionContainerPane.getInstance().replaceUpPane(sheetEditedPane);
-        EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+        EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(sheetEditedPane);
+        EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
     }
 
 

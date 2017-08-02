@@ -879,8 +879,9 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             }
         }
         if (BaseUtils.isAuthorityEditing()) {
-            EastRegionContainerPane.getInstance().replaceUpPane(allowAuthorityUpPane());
-            EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+            EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(allowAuthorityUpPane());
+            EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
         }
 
         centerPane.needToShowCoverAndHidPane();
