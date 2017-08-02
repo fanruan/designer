@@ -41,6 +41,11 @@ public class WidgetEventPane extends ObjectUIControlPane {
         this.setNameListEditable(false);
     }
 
+    @Override
+    public String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Event");
+    }
+
     /**
      * 生成添加按钮的NameableCreator
      * @return 按钮的NameableCreator
