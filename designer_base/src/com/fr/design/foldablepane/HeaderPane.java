@@ -55,7 +55,7 @@ public class HeaderPane extends JPanel {
 
         g2d.fillRect(0, 0, headWidth, headHeight);
         g2d.drawImage(UIConstants.DRAG_BAR, 0, 0, headWidth, headHeight, null);
-        g2d.setFont(new Font("OpenSans", 0, fontSize));
+        g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
 //        g2d.drawString(this.title, fontSize/2, headHeight-fontSize/3);
         g2d.drawString(this.title, 0, headHeight - fontSize / 2 - 1);
