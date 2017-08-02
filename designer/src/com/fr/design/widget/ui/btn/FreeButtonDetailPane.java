@@ -7,11 +7,11 @@ import com.fr.form.ui.FreeButton;
 import com.fr.design.widget.btn.ButtonWithHotkeysDetailPane;
 
 public class FreeButtonDetailPane extends ButtonWithHotkeysDetailPane<FreeButton> {
-	private com.fr.design.widget.ui.designer.btn.ButtonSytleDefinedPane stylePane;
+	private ButtonSytleDefinedPane stylePane;
 
 	@Override
 	protected Component createCenterPane() {
-		return stylePane = new com.fr.design.widget.ui.designer.btn.ButtonSytleDefinedPane();
+		return stylePane = new ButtonSytleDefinedPane();
 	}
 	
 	@Override

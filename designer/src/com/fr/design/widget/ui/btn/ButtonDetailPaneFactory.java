@@ -3,7 +3,6 @@ package com.fr.design.widget.ui.btn;
 import com.fr.base.FRContext;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.widget.btn.ButtonDetailPane;
-import com.fr.design.widget.ui.designer.btn.DefaultButtonDetailPane;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.form.ui.Widget;
@@ -28,7 +27,7 @@ public class ButtonDetailPaneFactory {
 
     static {
         detailMap.put(Button.class.getName(), DefaultButtonDetailPane.class);
-        detailMap.put(FreeButton.class.getName(), com.fr.design.widget.ui.designer.btn.FreeButtonDetailPane.class);
+        detailMap.put(FreeButton.class.getName(), FreeButtonDetailPane.class);
         if (StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class) != null) {
             detailMap.put(StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class).getName(), DesignModuleFactory.getButtonDetailPaneClass());
         }
