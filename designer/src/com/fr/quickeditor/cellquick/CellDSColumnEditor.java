@@ -175,7 +175,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
      */
     private void createPanes() {
         paneList = new ArrayList<>();
-
         /*基本设置面板*/
         this.dataPane = new SelectedDataColumnPane();
         this.groupPane = new ResultSetGroupDockingPane(tc);
@@ -194,7 +193,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         dataPane.addListener(dataListener);
         groupPane.addListener(groupListener);
         paneList.add(new DSColumnBasicEditorPane(cellElement, dataPane, groupPane, conditionPane));
-
         /*高级设置面板*/
         paneList.add(new DSColumnAdvancedEditorPane());
     }

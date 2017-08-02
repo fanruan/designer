@@ -33,6 +33,7 @@ public class DSColumnBasicEditorPane extends CellEditorPane {
         this.groupPane = groupPane;
         this.conditionPane = conditionPane;
         this.add(this.createContentPane(), BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
     }
 
 

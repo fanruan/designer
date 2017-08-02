@@ -19,7 +19,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.CellEditorPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.CellElement;
@@ -52,9 +51,9 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
     //排列顺序
     private ResultSetSortConfigPane sortPane;
     //结果集筛选
-    private SelectCountPane selectCountPane;
+    private ResultSetFilterConfigPane filterPane;
     //自定义值显示
-    private ValuePane valuePane;
+    private CustomValuePane valuePane;
     //横向可扩展性
     private UICheckBox horizontalExtendableCheckBox;
     //纵向可扩展性
@@ -68,6 +67,7 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
     public DSColumnAdvancedEditorPane() {
         this.setLayout(new BorderLayout());
         this.add(this.createContentPane(), BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
     }
 
 
@@ -99,22 +99,22 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
     private JPanel createContentPane() {
         this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        //结果集排序
 
         this.sortPane = new ResultSetSortConfigPane();
+        //结果筛选
 
-        selectCountPane = new DSColumnAdvancedEditorPane.SelectCountPane();
-
-        valuePane = new DSColumnAdvancedEditorPane.ValuePane();
-
+        filterPane = new ResultSetFilterConfigPane();
+        //自定义值显示
+        valuePane = new CustomValuePane();
+        //可扩展性
         JPanel extendableDirectionPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
         extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
 
-        JPanel extendablePane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("ExpandD-Expandable"));
-        extendablePane.setLayout(new BorderLayout());
-        extendablePane.add(extendableDirectionPane, BorderLayout.CENTER);
 
-        JPanel multiNumPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Fill_blank_Data"));
+        //补充空白数据
+        JPanel multiNumPane = new JPanel();
 
         useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Column_Multiple"));
         multiNumPane.add(useMultiplyNumCheckBox);
@@ -124,22 +124,20 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
         multiNumPane.add(multiNumSpinner);
 
         useMultiplyNumCheckBox.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 checkButtonEnabled();
             }
         });
 
-        double[] rowSize = {TableLayout.PREFERRED, TableLayout.PREFERRED,
-                TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED};
-        double[] columnSize = {TableLayout.FILL};
+        double p = TableLayout.PREFERRED, f = TableLayout.FILL;
+        double[] rowSize = {p, p, p, p, p, p};
+        double[] columnSize = {f};
 
-        Component[][] components = null;
-        components = new Component[][]{
+        Component[][] components = new Component[][]{
                 {sortPane},
-                {selectCountPane},
+                {filterPane},
                 {valuePane},
-                {extendablePane},
+                {extendableDirectionPane},
                 {multiNumPane}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -167,7 +165,7 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
 
 
         public ResultSetSortConfigPane() {
-            this.setLayout(new BorderLayout(0, 4));
+            this.setLayout(new BorderLayout(0, 0));
             Icon[] iconArray = {
                     IOUtils.readIcon("/com/fr/design/images/expand/none16x16.png"),
                     IOUtils.readIcon("/com/fr/design/images/expand/asc.png"),
@@ -177,24 +175,34 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
             sort_type_pane = new UIButtonGroup(iconArray);
             sort_type_pane.setAllToolTips(nameArray);
             sort_type_pane.setGlobalName(Inter.getLocText("ExpandD-Sort_After_Expand"));
-            this.add(sort_type_pane, BorderLayout.NORTH);
 
             cardLayout = new CardLayout();
             centerPane = new JPanel(cardLayout);
-
             tinyFormulaPane = new TinyFormulaPane();
-
             centerPane.add(new JPanel(), "none");
             centerPane.add(tinyFormulaPane, "content");
-
-            this.add(centerPane, BorderLayout.CENTER);
-
+            //todo 国际化
+            UILabel sortLabel = new UILabel("排列顺序");
             sort_type_pane.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    cardLayout.show(centerPane, sort_type_pane.getSelectedIndex() == 0 ? "none" : "content");
+                    boolean noContent = sort_type_pane.getSelectedIndex() == 0;
+                    cardLayout.show(centerPane, noContent ? "none" : "content");
+                    if (noContent) {
+                        centerPane.setPreferredSize(new Dimension(0, 0));
+                    } else {
+                        centerPane.setPreferredSize(new Dimension(165, 20));
+                    }
                 }
             });
+
+            Component[][] components = new Component[][]{
+                    new Component[]{sortLabel, sort_type_pane},
+                    new Component[]{null, centerPane}
+            };
+            double p = TableLayout.PREFERRED, f = TableLayout.FILL;
+            double[] rowSize = {p, p}, columnSize = {p, f};
+            this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.CENTER);
         }
 
 
@@ -224,80 +232,106 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
      *
      * @see DSColumnAdvancedPane.SelectCountPane
      */
-    protected static class SelectCountPane extends JPanel {
+    protected static class ResultSetFilterConfigPane extends JPanel {
+        private enum FilterType {
+            //前N个 后N个 奇数 偶数 自定义 未定义
+            TOP, BOTTOM, ODD, EVEN, SPECIFY, UNDEFINE;
+        }
 
         CellElement cellElement;
-        //  private Comparator sortComparator;
-        private UIComboBox selectCountComboBox;
-        private JPanel selectCountCardPane;
+        private UIComboBox rsComboBox;
+        private JPanel setCardPane;
+        private JPanel tipCardPane;
         private UITextField serialTextField;
 
         DSColumnAdvancedEditorPane.JFormulaField topFormulaPane;
         DSColumnAdvancedEditorPane.JFormulaField bottomFormulaPane;
 
-        public SelectCountPane() {
-            this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        public ResultSetFilterConfigPane() {
+            double p = TableLayout.PREFERRED, f = TableLayout.FILL;
 
-            selectCountComboBox = new UIComboBox(new String[]{
+            this.setLayout(FRGUIPaneFactory.createBorderLayout());
+            UILabel filterLabel = new UILabel("结果集筛选");
+
+            //结果集筛选下拉框
+            rsComboBox = new UIComboBox(new String[]{
                     Inter.getLocText("Undefined"),
                     Inter.getLocText("BindColumn-Top_N"),
                     Inter.getLocText("BindColumn-Bottom_N"),
                     Inter.getLocText("Odd"),
                     Inter.getLocText("Even"),
-                    Inter.getLocText("Specify"),});
-            selectCountComboBox.addActionListener(new ActionListener() {
-
+                    Inter.getLocText("Specify")
+            });
+            rsComboBox.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    int selectIndex = selectCountComboBox.getSelectedIndex();
-                    CardLayout c1 = (CardLayout) selectCountCardPane.getLayout();
+                    int selectIndex = rsComboBox.getSelectedIndex();
+                    CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
+                    CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
                     if (selectIndex == 1) {
-                        c1.show(selectCountCardPane, "TOP");
+                        setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
                     } else if (selectIndex == 2) {
-                        c1.show(selectCountCardPane, "BOTTOM");
+                        setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
                     } else if (selectIndex == 3) {
-                        c1.show(selectCountCardPane, "ODD");
+                        setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
                     } else if (selectIndex == 4) {
-                        c1.show(selectCountCardPane, "EVEN");
+                        setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
                     } else if (selectIndex == 5) {
-                        c1.show(selectCountCardPane, "SPECIFY");
+                        setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                     } else {
-                        c1.show(selectCountCardPane, "UNDEFINE");
+                        setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
                     }
                 }
             });
+            //配置展示CardLayout
+            setCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
+            //提示信息展示CardLayout
+            tipCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 
-            selectCountCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
-            this.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(INSET_TEXT), selectCountComboBox,
-                    new UILabel(INSET_TEXT), selectCountCardPane}, FlowLayout.LEFT), BorderLayout.WEST);
-//            selectCountCardPane.setLayout(new CardLayout());
+            //前N个
+            topFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("=");
+            setCardPane.add(topFormulaPane, FilterType.TOP.name());
+            tipCardPane.add(new JPanel(), FilterType.TOP.name());
 
-            //not define pane
+            //后N个
+            bottomFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("=");
+            setCardPane.add(bottomFormulaPane, FilterType.BOTTOM.name());
+            tipCardPane.add(new JPanel(), FilterType.BOTTOM.name());
 
-            JPanel undefinedPane = GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("Undefined")), FlowLayout.LEFT);
-            topFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("-1");
-            bottomFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("-1");
-            serialTextField = new UITextField(18);
-            JPanel oddPane = GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                    + "  " + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FlowLayout.LEFT);
-            JPanel evenPane = GUICoreUtils.createFlowPane(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                    + "  " + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FlowLayout.LEFT);
-            JPanel specifyPane = GUICoreUtils.createFlowPane(new JComponent[]{
-                    serialTextField, new UILabel(
+            //自定义值下方没有提示信息，也没有输入框
+            JPanel undefinedPane = new JPanel();
+            setCardPane.add(new JPanel(), FilterType.UNDEFINE.name());
+            tipCardPane.add(new JPanel(), FilterType.UNDEFINE.name());
+
+            //奇数 UILabel 占一行作为提示信息
+            setCardPane.add(new JPanel(), FilterType.ODD.name());
+            tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
+                    + "," + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FilterType.ODD.name());
+
+
+            //偶数 UILabel 占一行作为提示信息
+            setCardPane.add(new JPanel(), FilterType.EVEN.name());
+            tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
+                    + "," + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FilterType.ODD.name());
+
+            //输入框占用右半边，提示信息占一行
+            serialTextField = new UITextField(16);
+            setCardPane.add(serialTextField, FilterType.SPECIFY.name());
+            tipCardPane.add(new UILabel(
                     Inter.getLocText(new String[]{
                                     "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
-                            new String[]{": 1,2-3,5,8  ", ",", "$__count__"})
-            )
-            }, FlowLayout.LEFT);
-            serialTextField.setToolTipText(Inter.getLocText("StyleFormat-Sample") + ":=JOINARRAY(GREPARRAY(RANGE($__count__), item!=4), \",\")");
-            selectCountCardPane.add(undefinedPane, "UNDEFINE");
-            selectCountCardPane.add(topFormulaPane, "TOP");
-            selectCountCardPane.add(bottomFormulaPane, "BOTTOM");
-            //odd
-            selectCountCardPane.add(oddPane, "ODD");
-            //even
-            selectCountCardPane.add(evenPane, "EVEN");
-            //specify
-            selectCountCardPane.add(specifyPane, "SPECIFY");
+                            new String[]{": 1,2-3,5,8  ", ",", "$__count__"})), FilterType.SPECIFY.name());
+
+            this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                    {filterLabel, rsComboBox},
+                    {null, setCardPane},
+                    {tipCardPane, null}
+            }, new double[]{p, p, p}, new double[]{p, f}), BorderLayout.CENTER);
         }
 
         public void populate(CellElement cellElement) {
@@ -316,7 +350,7 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
             this.bottomFormulaPane.populateElement(cellElement);
             if (selectCount != null) {
                 int selectCountType = selectCount.getType();
-                this.selectCountComboBox.setSelectedIndex(selectCountType);
+                this.rsComboBox.setSelectedIndex(selectCountType);
                 if (selectCountType == SelectCount.TOP) {
                     this.topFormulaPane.populate(selectCount.getFormulaCount());
                 } else if (selectCountType == SelectCount.BOTTOM) {
@@ -338,7 +372,7 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
             DSColumn dSColumn = (DSColumn) (cellElement.getValue());
 
             //alex:SelectCount
-            int selectCountSelectIndex = this.selectCountComboBox.getSelectedIndex();
+            int selectCountSelectIndex = this.rsComboBox.getSelectedIndex();
             if (selectCountSelectIndex == 0) {
                 dSColumn.setSelectCount(null);
             } else {
@@ -381,19 +415,16 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
         public JFormulaField(String defaultValue) {
             this.defaultValue = defaultValue;
 
-            this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
-            UILabel bottomLabel = new UILabel("=");
-            bottomLabel.setFont(new Font("Dialog", Font.BOLD, 12));
-            this.add(bottomLabel);
-            formulaTextField = new UITextField(24);
+            this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            formulaTextField = new UITextField(11);
             this.add(formulaTextField);
             formulaTextField.setText(defaultValue);
 
-            UIButton bottomFrmulaButton = new UIButton("...");
-            this.add(bottomFrmulaButton);
-            bottomFrmulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
-            bottomFrmulaButton.setPreferredSize(new Dimension(25, formulaTextField.getPreferredSize().height));
-            bottomFrmulaButton.addActionListener(formulaButtonActionListener);
+            UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
+            this.add(formulaButton);
+            formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
+            formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
+            formulaButton.addActionListener(formulaButtonActionListener);
         }
 
         public void populate(String formulaContent) {
@@ -453,13 +484,12 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
      *
      * @see DSColumnAdvancedPane.ValuePane
      */
-    private static class ValuePane extends JPanel {
+    private static class CustomValuePane extends JPanel {
         private DSColumnAdvancedEditorPane.JFormulaField formulaField;
 
-        public ValuePane() {
+        public CustomValuePane() {
             this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
-
-            this.add(new UILabel(INSET_TEXT + Inter.getLocText("Value") + ":"));
+            UILabel customValueLabel = new UILabel("显示值");
             this.add(Box.createHorizontalStrut(2));
             this.add((formulaField = new DSColumnAdvancedEditorPane.JFormulaField("$$$")));
         }
@@ -493,7 +523,6 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
                 return;
             }
             DSColumn dSColumn = (DSColumn) (cellElement.getValue());
-
             //formula
             dSColumn.setResult(this.formulaField.getFormulaText());
         }
