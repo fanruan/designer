@@ -127,9 +127,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private void createEventTable() {
         eventTable = new EventPropertyTable(designer);
         designer.addDesignerEditListener(new EventPropertyDesignerAdapter(eventTable));
-        eventTable.setBorder(null);
-        esp = new UIScrollPane(eventTable); //用来装载事件table
-        esp.setBorder(null);
     }
 
     /**
@@ -239,7 +236,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.setBorder(null);
         tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
         tabbedPane.addTab(Inter.getLocText("FR-Designer_Properties"), psp);
-        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), esp);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), eventTable);
         tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
     }
 
