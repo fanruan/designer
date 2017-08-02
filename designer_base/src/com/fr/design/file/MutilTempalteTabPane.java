@@ -1,42 +1,6 @@
 package com.fr.design.file;
 
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Arc2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.RoundRectangle2D;
-import java.io.File;
-import java.util.logging.Level;
-
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.plaf.basic.BasicMenuItemUI;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
@@ -54,6 +18,14 @@ import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicMenuItemUI;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.io.File;
+import java.util.logging.Level;
 
 /**
  * Author : daisy
@@ -159,11 +131,10 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
      * 关闭掉当前已打开文件列表中指定的文件
      *
      * @param file 指定的文件
-     *
      */
-    public void closeFileTemplate(FILE file){
+    public void closeFileTemplate(FILE file) {
         for (JTemplate<?, ?> temp : openedTemplate) {
-            if(ComparatorUtils.equals(file, temp.getEditingFILE())){
+            if (ComparatorUtils.equals(file, temp.getEditingFILE())) {
                 closeSpecifiedTemplate(temp);
                 break;
             }
@@ -204,7 +175,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 //点击关闭其他模板，并且点击确定保存
                 if (saveSomeTempaltePane.showSavePane()) {
                     JTemplate<?, ?>[] panes = new JTemplate<?, ?>[openedTemplate.size()];
-                    for(int i = 0; i < openedTemplate.size(); i++) {
+                    for (int i = 0; i < openedTemplate.size(); i++) {
                         panes[i] = openedTemplate.get(i);
                     }
                     for (int i = 0; i < panes.length; i++) {
@@ -274,7 +245,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 刷新打开模板
-     * @param history   模板
+     *
+     * @param history 模板
      */
     public void refreshOpenedTemplate(java.util.List<JTemplate<?, ?>> history) {
         openedTemplate = history;
@@ -396,6 +368,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             g2d.draw(new Line2D.Double((float) templateStartX, getHeight() - 1, (float) maxWidth + LIST_BUTTON_WIDTH, getHeight() - 1));
         }
     }
+
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
         g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, getHeight() - 1, UIConstants.SHADOW_GREY));
@@ -646,14 +619,16 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 点击
-     * @param e   鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseClicked(MouseEvent e) {
     }
 
     /**
      * 按下
-     * @param e   鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mousePressed(MouseEvent e) {
 
@@ -688,7 +663,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 openedTemplate.get(selectedIndex).stopEditing();
                 selectedIndex = getTemplateIndex(evtX);
                 //如果在权限编辑情况下，不允许切换到表单类型的工作簿
-                if(BaseUtils.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()){
+                if (BaseUtils.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                     DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
                     JOptionPane.showMessageDialog(this, Inter.getLocText("FR-Designer_Form-AuthorityEdited_Cannot_be_Supported")
                             + "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
@@ -711,7 +686,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 关闭模板
-     * @param specifiedTemplate  模板
+     *
+     * @param specifiedTemplate 模板
      */
     public void closeSpecifiedTemplate(JTemplate<?, ?> specifiedTemplate) {
         if (specifiedTemplate == null) {
@@ -752,7 +728,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 关闭模板
-     * @param closedTemplate    模板
+     *
+     * @param closedTemplate 模板
      */
     public void closeFormat(JTemplate closedTemplate) {
         //表单不需要处理
@@ -785,7 +762,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             //如果关闭的模板是当前选中的模板，则重新激活
             if (closeIconIndex == selectedIndex) {
                 if (closeIconIndex == maxPaintIndex) {
-                    selectedIndex --;
+                    selectedIndex--;
                 }
             } else if (isCloseCurrent) {
                 //不是通过关闭按钮，而是通过文件关闭菜单关闭的当前模板的，也重新激活
@@ -806,14 +783,16 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 鼠标释放
-     * @param e    鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseReleased(MouseEvent e) {
     }
 
     /**
      * 鼠标进入
-     * @param e    鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseEntered(MouseEvent e) {
 
@@ -852,7 +831,8 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 鼠标离开
-     * @param e    鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseExited(MouseEvent e) {
         listDownMode = LIST_DOWN;
@@ -863,14 +843,16 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 鼠标拖拽
-     * @param e    鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseDragged(MouseEvent e) {
     }
 
     /**
      * 鼠标移动
-     * @param e    鼠标事件
+     *
+     * @param e 鼠标事件
      */
     public void mouseMoved(MouseEvent e) {
         int evtX = e.getX();
@@ -903,15 +885,17 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     /**
      * 加入值
+     *
      * @param key   键
-     * @param value   值
+     * @param value 值
      */
     public void putValue(String key, Object value) {
     }
 
     /**
      * 动作
-     * @param e   事件
+     *
+     * @param e 事件
      */
     public void actionPerformed(ActionEvent e) {
     }
