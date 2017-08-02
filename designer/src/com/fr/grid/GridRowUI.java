@@ -26,7 +26,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:54:21
  */
 public class GridRowUI extends ComponentUI {
-    private Color detailsBackground = Color.lightGray;
+    private Color detailsBackground = new Color(0xF0F0F3);
     private int resolution ;
 
     GridRowUI(int resolution){
@@ -68,7 +68,7 @@ public class GridRowUI extends ComponentUI {
         rowTopHeight = Math.min(horizontalLineHeight, rowTopHeight);
         if (gridRow.getBackground() != null) {
             g2d.setPaint(this.detailsBackground);
-            GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, size.getWidth(), rowTopHeight));
+                GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, size.getWidth(), rowTopHeight));
             g2d.setPaint(gridRow.getBackground());
             GraphHelper.fill(g2d, new Rectangle2D.Double(0, rowTopHeight, size.getHeight(), size.getHeight() - rowTopHeight));
         }
