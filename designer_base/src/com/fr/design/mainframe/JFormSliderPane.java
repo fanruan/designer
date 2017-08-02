@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,7 +14,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class JFormSliderPane extends JPanel {
     private static final int SIX = 6;
     private static final int TEN = 10;
     private static final int ONE_EIGHT = 18;
-    private static final int FONT_SIZE = 14;
+    private static final int FONT_SIZE = 12;
     private static final int SPINNER_WIDTH = 45;
     private static final int SPINNER_HEIGHT = 20;
     private static final int HALF_HUNDRED = 50;
@@ -40,10 +40,14 @@ public class JFormSliderPane extends JPanel {
     private static final int TWO_HUNDRED = 200;
     private static final int THREE_HUNDRED = 300;
     private static final int FOUR_HUNDRED = 400;
-    private static final int DIALOG_WIDTH = 150;
-    private static final int DIALOG_HEIGHT = 220;
-    private static final int SHOWVALBUTTON_WIDTH = 70;
-    private static final int SHOWVALBUTTON_HEIGHTH = 25;
+    private static final int DIALOG_WIDTH = 157;
+    private static final int DIALOG_HEIGHT = 172;
+    private static final int SLIDER_WIDTH = 220;
+    private static final int SLIDER_HEIGHT = 20;
+    private static final int SHOWVALBUTTON_WIDTH = 40;
+    private static final int SHOWVALBUTTON_HEIGHTH = 20;
+    private static final int SLIDER_GAP = 5;
+    private static final Color BACK_COLOR = new Color(245, 245, 247);
     public int showValue = 100;
     public double resolutionTimes = 1.0;
     private static JFormSliderPane THIS;
@@ -54,7 +58,7 @@ public class JFormSliderPane extends JPanel {
     private int sliderValue;
     private UIButton downButton;
     private UIButton upButton;
-    private UIButton showValButton;
+    private JButton showValButton;
     private UIRadioButton twoHundredButton;
     private UIRadioButton oneHundredButton;
     private UIRadioButton SevenFiveButton;
@@ -74,45 +78,50 @@ public class JFormSliderPane extends JPanel {
         slider = new UISlider(0, HUNDRED, HALF_HUNDRED);
         slider.setUI(new JSliderPaneUI(slider));
         slider.addChangeListener(listener);
-
+        slider.setPreferredSize(new Dimension(220, 20));
+        //去掉虚线框
+        slider.setFocusable(false);
+        slider.setToolTipText(Inter.getLocText("FR-Designer_Scale_Slider"));
         showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1));
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
         showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
-        //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
-//        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
-//        showValSpinner.setEditor(editor);
-//        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
-//        textField.setEditable(true);
-//        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
-//        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
-//        formatter.setAllowsInvalid(false);
-        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveDown.png"));
-        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/moveUp.png"));
+        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"));
+        downButton.setOpaque(false);
+        downButton.setBorderPainted(false);
+        downButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Down"));
+        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"));
+        upButton.setOpaque(false);
+        upButton.setBorderPainted(false);
+        upButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Up"));
         downButton.setActionCommand("less");
         upButton.setActionCommand("more");
         downButton.addActionListener(buttonActionListener);
         upButton.addActionListener(buttonActionListener);
-
-        showValButton = new UIButton(showValSpinner.getValue() + "%");
+        showValButton = new JButton(showValSpinner.getValue() + "%");
+        showValButton.setOpaque(false);
+        showValButton.setMargin(new Insets(0, 0, 0, 0));
+        showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
+        showValButton.setBackground(BACK_COLOR);
         showValButton.setBorderPainted(false);
         showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
-
+        //TODO 先注释，需要自定义tooltip
+        showValButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Grade"));
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1, 1, 0));
+        JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
         panel.add(showValButton);
+        panel.setBackground(BACK_COLOR);
         this.add(panel, BorderLayout.NORTH);
-        this.setBounds(0, 0, THREE_HUNDRED, ONE_EIGHT);
     }
 
     public static final JFormSliderPane getInstance() {
 //        if (THIS == null) {
-//            THIS = new JFormSliderPane();
+//            THIS = new JSliderPane();
 //        }
         THIS = new JFormSliderPane();
         return THIS;
@@ -124,8 +133,10 @@ public class JFormSliderPane extends JPanel {
         SevenFiveButton = new UIRadioButton("75%");
         fiveTenButton = new UIRadioButton("50%");
         twoFiveButton = new UIRadioButton("25%");
-//        selfAdaptButton = new UIRadioButton(Inter.getLocText("FR-Designer_Scale_selfAdaptButton"));
+        selfAdaptButton = new UIRadioButton(Inter.getLocText("FR-Designer_Scale_selfAdaptButton"));
+        selfAdaptButton.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
         customButton = new UIRadioButton(Inter.getLocText("FR-Designer_Scale_customButton"));
+        customButton.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
         twoHundredButton.addItemListener(radioButtonItemListener);
         oneHundredButton.addItemListener(radioButtonItemListener);
         SevenFiveButton.addItemListener(radioButtonItemListener);
@@ -140,7 +151,7 @@ public class JFormSliderPane extends JPanel {
         bg.add(SevenFiveButton);
         bg.add(fiveTenButton);
         bg.add(twoFiveButton);
-//        bg.add(selfAdaptButton);
+        bg.add(selfAdaptButton);
         bg.add(customButton);
         customButton.setSelected(true);
     }
@@ -149,25 +160,44 @@ public class JFormSliderPane extends JPanel {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p, p};
+        UILabel upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
+        upLabel.setOpaque(false);
+        JPanel septPane = new JPanel(new BorderLayout());
+        JSeparator sept = new JSeparator();
+        sept.setBackground(new Color(232, 232, 233));
+        septPane.add(sept, BorderLayout.NORTH);
+        septPane.setBorder(BorderFactory.createEmptyBorder(2, 5, 1, 10));
+        septPane.setBackground(BACK_COLOR);
+        twoHundredButton.setBackground(BACK_COLOR);
+        oneHundredButton.setBackground(BACK_COLOR);
+        SevenFiveButton.setBackground(BACK_COLOR);
+        fiveTenButton.setBackground(BACK_COLOR);
+        twoFiveButton.setBackground(BACK_COLOR);
+//        selfAdaptButton.setBackground(BACK_COLOR);
+        customButton.setBackground(BACK_COLOR);
         Component[][] components = new Component[][]{
+                new Component[]{upLabel, null},
+                new Component[]{septPane, null},
                 new Component[]{twoHundredButton, null},
                 new Component[]{oneHundredButton, null},
                 new Component[]{SevenFiveButton, null},
                 new Component[]{fiveTenButton, null},
                 new Component[]{twoFiveButton, null},
-//                new Component[]{selfAdaptButton,null},
                 new Component[]{customButton, createSpinnerPanel()}
         };
-        dialogContentPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        dialogContentPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_MEDIUM, 0);
+        dialogContentPanel.setBackground(BACK_COLOR);
+        dialogContentPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
     }
 
     private JPanel createSpinnerPanel() {
         JPanel spinnerPanel = new JPanel(new FlowLayout());
         spinnerPanel.add(showValSpinner);
         UILabel percent = new UILabel("%");
-        percent.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
+        percent.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
         spinnerPanel.add(percent);
+        spinnerPanel.setBackground(BACK_COLOR);
         return spinnerPanel;
     }
 
@@ -314,14 +344,14 @@ public class JFormSliderPane extends JPanel {
             dialog = new FormPopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
             }
         } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP, -DIALOG_HEIGHT);
             }
         }
     }
@@ -341,29 +371,13 @@ public class JFormSliderPane extends JPanel {
 
 
 class FormPopupPane extends JPopupMenu {
-    private JComponent contentPane;
-    private static final int UPLABEL_HEIGHT = 25;
-    private static final int DIALOG_WIDTH = 150;
-    private static final int DIALOG_HEIGHT = 220;
-    private static final int UPLABEL_WIDTH = 300;
-    private JComponent centerPane;
-    private UILabel upLabel;
+    private static final int DIALOG_WIDTH = 157;
+    private static final int DIALOG_HEIGHT = 172;
 
     FormPopupPane(UIButton b, JPanel dialogContentPanel) {
-        contentPane = new JPanel(new BorderLayout());
-        centerPane = new JPanel(new BorderLayout());
-        upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
-        upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH, UPLABEL_HEIGHT));
-        upLabel.setBackground(Color.LIGHT_GRAY);
-        upLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
-        centerPane.add(dialogContentPanel, BorderLayout.NORTH);
-        contentPane.add(upLabel, BorderLayout.NORTH);
-        contentPane.add(centerPane, BorderLayout.CENTER);
-//        contentPane.setBorder(new MatteBorder(1,1,1,1,Color.darkGray));
-        this.add(contentPane, BorderLayout.CENTER);
+        this.add(dialogContentPanel, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
-        this.setOpaque(false);
+        this.setBackground(new Color(245, 245, 247));
     }
 
 

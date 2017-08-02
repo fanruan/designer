@@ -14,17 +14,14 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.geom.RoundRectangle2D;
 import java.math.BigDecimal;
 
 /**
@@ -51,7 +48,7 @@ public class JSliderPane extends JPanel {
     private static final int SHOWVALBUTTON_WIDTH = 40;
     private static final int SHOWVALBUTTON_HEIGHTH = 20;
     private static final int SLIDER_GAP = 5;
-    private static final Color BACK_COLOR = new Color(245,245,247);
+    private static final Color BACK_COLOR = new Color(245, 245, 247);
     public int showValue = 100;
     public double resolutionTimes = 1.0;
     private static JSliderPane THIS;
@@ -85,36 +82,33 @@ public class JSliderPane extends JPanel {
         slider.setPreferredSize(new Dimension(220, 20));
         //去掉虚线框
         slider.setFocusable(false);
+        slider.setToolTipText(Inter.getLocText("FR-Designer_Scale_Slider"));
         showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1));
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
         showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
-        //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
-//        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
-//        showValSpinner.setEditor(editor);
-//        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
-//        textField.setEditable(true);
-//        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
-//        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
-//        formatter.setAllowsInvalid(false);
-        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"),BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"),BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"));
+        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"));
         downButton.setOpaque(false);
         downButton.setBorderPainted(false);
-        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"),BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"),BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"));
+        downButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Down"));
+        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"));
         upButton.setOpaque(false);
         upButton.setBorderPainted(false);
+        upButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Up"));
         downButton.setActionCommand("less");
         upButton.setActionCommand("more");
         downButton.addActionListener(buttonActionListener);
         upButton.addActionListener(buttonActionListener);
         showValButton = new JButton(showValSpinner.getValue() + "%");
         showValButton.setOpaque(false);
-        showValButton.setMargin(new Insets(0,0,0,0));
+        showValButton.setMargin(new Insets(0, 0, 0, 0));
         showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
         showValButton.setBackground(BACK_COLOR);
         showValButton.setBorderPainted(false);
         showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
         showValButton.addActionListener(showValButtonActionListener);
+        //TODO 先注释，需要自定义tooltip
+//        showValButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Grade"));
         initUIRadioButton();
         initPane();
         JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
@@ -124,6 +118,12 @@ public class JSliderPane extends JPanel {
         panel.add(showValButton);
         panel.setBackground(BACK_COLOR);
         this.add(panel, BorderLayout.NORTH);
+    }
+
+    public JToolTip createToolTip() {
+        JToolTip tip = new JToolTip();
+        tip.setComponent(this);
+        return tip;
     }
 
     public static final JSliderPane getInstance() {
@@ -172,9 +172,10 @@ public class JSliderPane extends JPanel {
         upLabel.setOpaque(false);
         JPanel septPane = new JPanel(new BorderLayout());
         JSeparator sept = new JSeparator();
-        sept.setBackground(new Color(232,232,233));
-        septPane.add(sept,BorderLayout.NORTH);
-        septPane.setBorder(BorderFactory.createEmptyBorder(2, 5, 1, 5));
+        sept.setBackground(new Color(232, 232, 233));
+        septPane.add(sept, BorderLayout.NORTH);
+        septPane.setBorder(BorderFactory.createEmptyBorder(2, 5, 1, 10));
+        septPane.setBackground(BACK_COLOR);
         twoHundredButton.setBackground(BACK_COLOR);
         oneHundredButton.setBackground(BACK_COLOR);
         SevenFiveButton.setBackground(BACK_COLOR);
@@ -195,6 +196,7 @@ public class JSliderPane extends JPanel {
         };
         dialogContentPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_MEDIUM, 0);
         dialogContentPanel.setBackground(BACK_COLOR);
+        dialogContentPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
     }
 
     private JPanel createSpinnerPanel() {
@@ -377,7 +379,7 @@ public class JSliderPane extends JPanel {
 
 class JSliderPaneUI extends BasicSliderUI {
 
-    private static final Color BACK_COLOR = new Color(245,245,247);
+    private static final Color BACK_COLOR = new Color(245, 245, 247);
     private static final int VERTICAL_WIDTH = 11;
     private static final int VERTICAL_HEIGHT = 16;
     private static final int FOUR = 4;
@@ -402,9 +404,9 @@ class JSliderPaneUI extends BasicSliderUI {
         g2d.translate(knobBounds.x, knobBounds.y);
 //        g2d.setColor(slider.getBackground());
 //        g2d.fillRect(0, FOUR, FOUR, 9);
-        g2d.setColor(new Color(51,51,52));
-        g2d.drawRoundRect(0,SIX,FOUR,9,2,2);
-        g2d.fillRoundRect(0,SIX,FOUR,9,2,2);
+        g2d.setColor(new Color(51, 51, 52));
+        g2d.drawRoundRect(0, SIX, FOUR, 9, 2, 2);
+        g2d.fillRoundRect(0, SIX, FOUR, 9, 2, 2);
     }
 
     /** */
@@ -420,8 +422,8 @@ class JSliderPaneUI extends BasicSliderUI {
             cw = trackBounds.width;
             g2.setPaint(BACK_COLOR);
             g2.fillRect(0, -cy, cw + 10, cy * 4);
-            g.setColor(new Color(216,216,216));
-            g.drawLine(0, cy, cw +3, cy);
+            g.setColor(new Color(216, 216, 216));
+            g.drawLine(0, cy, cw + 3, cy);
             g.drawLine(FIVE + cw / 2, cy - FOUR, FIVE + cw / 2, cy + FOUR);
         } else {
             super.paintTrack(g);
@@ -431,15 +433,13 @@ class JSliderPaneUI extends BasicSliderUI {
 }
 
 class PopupPane extends JPopupMenu {
-    private JComponent contentPane;
     private static final int DIALOG_WIDTH = 157;
     private static final int DIALOG_HEIGHT = 192;
 
     PopupPane(JButton b, JPanel dialogContentPanel) {
         this.add(dialogContentPanel, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
-        this.setBackground(new Color(245,245,247));
-//        this.setOpaque(false);
+        this.setBackground(new Color(245, 245, 247));
     }
 
 
