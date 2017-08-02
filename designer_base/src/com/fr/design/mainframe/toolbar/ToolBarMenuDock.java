@@ -29,6 +29,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.utils.ThemeUtils;
 import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
@@ -433,7 +434,7 @@ public abstract class ToolBarMenuDock {
             toolBar = (UIToolbar) toolbarComponent;
             toolBar.removeAll();
         } else {
-            toolBar = ToolBarDef.createJToolBar();
+            toolBar = ToolBarDef.createJToolBar(ThemeUtils.BACK_COLOR);
         }
 
         toolBar.setFocusable(true);
