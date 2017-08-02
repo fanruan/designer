@@ -25,16 +25,22 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		directWriteCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_Edit"), false);
 		directWriteCheckBox.setPreferredSize(new Dimension(100, 30));
-		getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 5));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
+
 		waterMarkDictPane = new WaterMarkDictPane();
-		advancedPane.add(contentPane);
 		contentPane.add(waterMarkDictPane);
 		JPanel otherContentPane = this.setSecondContentPane();
 		if (otherContentPane != null) {
 			contentPane.add(otherContentPane);
 		}
-		return advancedPane;
+		return contentPane;
+	}
+
+
+
+	public  JPanel setValidatePane(){
+		JPanel otherContentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 5));
+		return otherContentPane;
 	}
 
 	protected abstract JPanel setSecondContentPane();
