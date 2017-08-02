@@ -1,14 +1,10 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.widget.ui.btn.ButtonDetailPaneFactory;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
-import com.fr.design.widget.DataModify;
 import com.fr.design.widget.btn.ButtonDetailPane;
-import com.fr.design.widget.ui.btn.ButtonDetailPaneFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.btn;
 
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -27,16 +28,33 @@ public class TreeNodeToogleButtonDefinePane<T extends TreeNodeToggleButton> exte
 
     protected void initComponents() {
         setLayout(FRGUIPaneFactory.createBorderLayout());
+        JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p};
-        double columnSize[] = {p, 184};
+        double columnSize[] = {p, f};
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText(new String[]{"Form-Button", "Type"}) + ":"), createButtonTypeComboBox()}
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
         };
-        JPanel northPane = TableLayoutHelper.createTableLayoutPane(n_components, rowSize, columnSize);
-        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-        advancedPane.add(northPane);
-        add(advancedPane, BorderLayout.CENTER);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
+        UIExpandablePane advancedPane = new UIExpandablePane("高级", 280, 20, panel);
+        this.add(advancedPane);
+
+
+
+
+//        setLayout(FRGUIPaneFactory.createBorderLayout());
+//        double p = TableLayout.PREFERRED;
+//        double rowSize[] = {p};
+//        double columnSize[] = {p, 184};
+//        Component[][] n_components = {
+//                {new UILabel(Inter.getLocText(new String[]{"Form-Button", "Type"}) + ":"), createButtonTypeComboBox()}
+//        };
+//        JPanel northPane = TableLayoutHelper.createTableLayoutPane(n_components, rowSize, columnSize);
+//        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
+////        advancedPane.add(northPane);
+//        add(northPane);
     }
 
     @Override

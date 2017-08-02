@@ -28,18 +28,20 @@ public class DefineAppendColumnRowPane extends BasicPane {
 	}
 
 	private void initComponents() {
+		double f = TableLayout.FILL;
+
 		double p = TableLayout.PREFERRED;
-		double rowSize[] = { p, p };
-		double columnSize[] = { p, p, p };
+		double rowSize[] = { p, p ,p};
+		double columnSize[] = { p, f};
 
 		crEditor = new ColumnRowEditor();
 		jNumberEditor = new com.fr.design.editor.editor.IntegerEditor();
 
 		rowCountLable = new UILabel(Inter.getLocText("Edit-Row_Count") + ":");
-		JPanel lpane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		lpane.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+		JPanel lpane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		lpane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		lpane.add(new UILabel(Inter.getLocText("Append_Delete_Row_Message")));
-		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"}) + ":"), crEditor, lpane }, { rowCountLable, jNumberEditor } };
+		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"}) + ":"), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
 		JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 

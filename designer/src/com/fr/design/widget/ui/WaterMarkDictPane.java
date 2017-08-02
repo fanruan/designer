@@ -3,7 +3,8 @@ package com.fr.design.widget.ui;
 import java.awt.event.KeyListener;
 
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -16,8 +17,9 @@ public class WaterMarkDictPane extends JPanel{
 	
 	public WaterMarkDictPane() {
 		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		this.add(new UILabel(Inter.getLocText("WaterMark") + ":"));
-		waterMarkTextField = new UITextField(16);
+		waterMarkTextField = new UITextField(13);
 		this.add(waterMarkTextField);
 	}
 	

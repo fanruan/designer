@@ -1,14 +1,17 @@
 package com.fr.design.widget;
 
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.WidgetDesignHandler;
 import com.fr.design.gui.core.WidgetOption;
+import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
+import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.*;
@@ -25,11 +28,11 @@ import java.util.Vector;
 /**
  * CellEditorDef Pane.
  */
-public class WidgetPane extends BasicPane implements ItemListener {
+public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener {
 
     private EditorTypeComboBox editorTypeComboBox;
     private CellWidgetCardPane cellEditorCardPane;
-    private boolean shouldFireSelectedEvent;
+    private boolean shouldFireSelectedEvent = true;
     protected JPanel northPane;
 
     public WidgetPane() {
@@ -45,7 +48,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
 
     protected void initComponents(ElementCasePane pane) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         northPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         this.add(northPane, BorderLayout.NORTH);
 
@@ -58,7 +61,22 @@ public class WidgetPane extends BasicPane implements ItemListener {
 
         cellEditorCardPane = new CellWidgetCardPane(pane);
         this.add(cellEditorCardPane, BorderLayout.CENTER);
+        this.addAttributeChangeListener(listener);
     }
+
+    protected  JPanel createContentPane(){
+        return new JPanel();
+    }
+
+
+
+    AttributeChangeListener listener = new AttributeChangeListener() {
+        @Override
+        public void attributeChange() {
+            CellWidgetPropertyPane.getInstance().update();
+            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        }
+    };
 
     /**
      * 状态改变
@@ -84,13 +102,13 @@ public class WidgetPane extends BasicPane implements ItemListener {
     }
 
     @Override
-    protected String title4PopupWindow() {
+    public String title4PopupWindow() {
         return Inter.getLocText("FR-Designer_Widget");
     }
 
     public void populate(Widget widget) {
         if (widget == null) {
-            widget = new TextEditor();
+            return;
         }
 
         if (widget instanceof NameWidget) {
@@ -106,11 +124,16 @@ public class WidgetPane extends BasicPane implements ItemListener {
         if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
             clazz = Button.class;
         }
+        cellEditorCardPane.populate(widget);
+
         shouldFireSelectedEvent = false;
         editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
         shouldFireSelectedEvent = true;
 
-        cellEditorCardPane.populate(widget);
+        removeAttributeChangeListener();
+        initAllListeners();
+        this.addAttributeChangeListener(listener);
+
     }
 
     public Widget update() {
@@ -118,7 +141,7 @@ public class WidgetPane extends BasicPane implements ItemListener {
     }
 
     protected void populateWidgetConfig(Widget widget) {
-        cellEditorCardPane.populate(widget);
+        this.populate(widget);
     }
 
 
@@ -244,4 +267,8 @@ public class WidgetPane extends BasicPane implements ItemListener {
                     && ComparatorUtils.equals(((Item) o).name, name);
         }
     }
+    public  String getIconPath(){
+        return "";
+    }
+
 }

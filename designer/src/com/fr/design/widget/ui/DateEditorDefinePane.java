@@ -3,12 +3,14 @@ package com.fr.design.widget.ui;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.DateEditor;
 import com.fr.general.DateUtils;
@@ -19,8 +21,6 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.UtilEvalError;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,16 +50,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 	@Override
 	protected JPanel setSecondContentPane() {
-		JPanel otherContentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-		otherContentPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
 		returnTypeComboBox = new UIComboBox(new String[] { Inter.getLocText("String"), Inter.getLocText("Date") });
 		returnTypeComboBox.setPreferredSize(new Dimension(70, 20));
-		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);
-		JPanel firstPanel = GUICoreUtils.createFlowPane(new JComponent[]{returnTypePane}, FlowLayout.LEFT, 5);
-		firstPanel.setPreferredSize(new Dimension(141,30));
-		otherContentPane.add(firstPanel);
 
 		// sample pane
 		sampleLabel = new UILabel("");
@@ -79,9 +73,27 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		});
 		JPanel secondPanel = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"),dateFormatComboBox,sampleLabel}, FlowLayout.LEFT, 5);
 		secondPanel.setPreferredSize(new Dimension(220,30));
-		otherContentPane.add(secondPanel);
-		otherContentPane.add(initStartEndDatePane(), BorderLayout.SOUTH);
-		return otherContentPane;
+
+		startDv = ValueEditorPaneFactory.createDateValueEditorPane(null, null);
+		endDv = ValueEditorPaneFactory.createDateValueEditorPane(null, null);
+
+
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypeComboBox },
+				new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"), dateFormatComboBox},
+				new Component[]{null, sampleLabel},
+				new Component[]{new UILabel(Inter.getLocText("FS_Start_Date") + ":"), startDv},
+				new Component[]{new UILabel(Inter.getLocText("FS_End_Date") + ":"), endDv},
+		};
+		double[] rowSize = {p, p,p,p,p};
+		double[] columnSize = {p,f};
+		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, 1);
+
+
+		return panel;
 	}
 
 	private String[] getDateFormateArray() {

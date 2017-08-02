@@ -1,17 +1,14 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.gui.frpane.TreeSettingPane;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.*;
 
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.CheckBox;
 import com.fr.general.Inter;
-import com.fr.design.widget.DataModify;
 
 public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	private UITextField text;
@@ -25,12 +22,11 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
 		JPanel textPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		textPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("Advanced"));
-		advancedPane.add(textPane);
+		UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, textPane);
 		textPane.add(new UILabel(Inter.getLocText("Text") + ":"));
 		text = new UITextField(8);
 		textPane.add(text);
-		this.add(advancedPane);
+		this.add(uiExpandablePane);
 	}
 	
 	@Override

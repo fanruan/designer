@@ -7,6 +7,8 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 
 import com.fr.base.GraphHelper;
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.event.DocumentEvent;
@@ -15,18 +17,18 @@ import javax.swing.event.DocumentListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
     private static final int ALLOW_BLANK_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("FR-Designer_Allow_Null") + 30;
     private static final int ALLOW_BLANK_CHECK_BOX_HEIGHT = 30;
-    private UICheckBox allowBlankCheckBox;
+    protected UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
-    private UITextField errorMsgTextField;
-    private UITextField regErrorMsgTextField;
-    private JPanel validatePane;
+    protected UITextField errorMsgTextField;
+    protected JPanel validatePane;
 
     public FieldEditorDefinePane() {
         this.initComponents();
@@ -34,47 +36,19 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
-
-        initRegErrorMsgTextField();
-
-        //JPanel firstPanel = FRGUIPaneFactory.createBorderLayout_M_Pane();
-        allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
-        allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
-        allowBlankCheckBox.addItemListener(new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
-            }
-        });
-
         initErrorMsgPane();
+        JPanel contentPane = this.setFirstContentPane();
+        if (contentPane != null) {
+            UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, contentPane);
+            this.add(uiExpandablePane, BorderLayout.NORTH);
+        }
+        this.addValidatePane();
     }
 
-    protected void initRegErrorMsgTextField() {
-        regErrorMsgTextField = new UITextField(16);
-        regErrorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                regErrorMsgTextField.setToolTipText(regErrorMsgTextField.getText());
-            }
-        });
-    }
 
     protected void initErrorMsgPane() {
         // 错误信息
-        JPanel errorMsgPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        errorMsgPane.add(new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"));
-        errorMsgTextField = new UITextField(16);
-        errorMsgPane.add(errorMsgTextField);
+        errorMsgTextField = new UITextField(10);
 
         // richer:主要为了方便查看比较长的错误信息
         errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -91,20 +65,13 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
                 errorMsgTextField.setToolTipText(errorMsgTextField.getText());
             }
         });
-        this.addAllowBlankPane(allowBlankCheckBox);
-        JPanel contentPane = this.setFirstContentPane();
-        if (contentPane != null) {
-            //contentPane.add(firstPanel);
-            this.add(contentPane, BorderLayout.NORTH);
-        } else {
-            //this.add(firstPanel, BorderLayout.CENTER);
-        }
+
     }
 
     @Override
     public void populateBean(T ob) {
         this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
-        errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
+//        errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
         this.errorMsgTextField.setText(ob.getErrorMessage());
 
         populateSubFieldEditorBean(ob);
@@ -126,30 +93,72 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected abstract JPanel setFirstContentPane();
 
+
     @Override
     public void checkValid() throws Exception {
 
     }
 
-    public void addAllowBlankPane(UICheckBox allowBlankCheckBox) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Validate"));
-        validatePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        validatePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        northPane.add(validatePane);
-        this.add(northPane, BorderLayout.CENTER);
-        JPanel firstPane = GUICoreUtils.createFlowPane(new JComponent[]{allowBlankCheckBox}, FlowLayout.LEFT, 5);
-        validatePane.add(firstPane);
-        JPanel secondPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), errorMsgTextField}, FlowLayout.LEFT, 24);
-        secondPane.setPreferredSize(new Dimension(400, 23));
-        validatePane.add(secondPane);
+    protected void addValidatePane() {
+        validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        final UILabel uiLabel = new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":");
+        errorMsgTextField  = new UITextField(10);
+        allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
+        allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+        allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
+        allowBlankCheckBox.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                boolean isSelected = allowBlankCheckBox.isSelected();
+                uiLabel.setVisible(!isSelected);
+                errorMsgTextField.setVisible(!isSelected);
+                if(isSelected){
+                    uiLabel.setPreferredSize(new Dimension(0, 0));
+                    errorMsgTextField.setPreferredSize(new Dimension(0, 0));
+                }else{
+                    uiLabel.setPreferredSize(new Dimension(66, 20));
+                    errorMsgTextField.setPreferredSize(new Dimension(150, 20));
+                }
+            }
+        });
+
+
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{allowBlankCheckBox, null },
+                new Component[]{uiLabel, errorMsgTextField},
+        };
+        double[] rowSize = {p, p};
+        double[] columnSize = {p,f};
+        int[][] rowCount = {{1, 1},{1, 1}};
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, 1);
+        validatePane.add(panel, BorderLayout.NORTH);
+
+        JPanel contentPane = this.setValidatePane();
+        if (contentPane != null) {
+            validatePane.add(contentPane, BorderLayout.CENTER);
+        }
+
+
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Validate"), 280, 20, validatePane);
+        this.add(uiExpandablePane, BorderLayout.CENTER);
+
+//        JPanel firstPane = GUICoreUtils.createFlowPane(new JComponent[]{allowBlankCheckBox}, FlowLayout.LEFT, 5);
+//        validatePane.add(firstPane);
+//        JPanel secondPane = new JPanel(FRGUIPaneFactory.createLabelFlowLayout());
+//        secondPane.add(new UILabel("错误提示" + ":"));
+//        secondPane.add(errorMsgTextField);
+//        JPanel secondPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), errorMsgTextField}, FlowLayout.LEFT, 24);
+//        secondPane.setPreferredSize(new Dimension(400, 23));
+//        validatePane.add(secondPane);
     }
 
-    public JPanel getValidatePane() {
-        return validatePane;
+    public  JPanel setValidatePane(){
+        return null;
     }
 
-    public UITextField getRegErrorMsgTextField() {
-        return regErrorMsgTextField;
-    }
+
 
 }
