@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
-import com.fr.design.data.DesignTableDataManager;
 import com.fr.data.SimpleDSColumn;
+import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -36,9 +36,13 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-                //这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
-                List<String> nameList = tableDataComboBox.getSelectedItem().calculateColumnNameList();
-                columnNames = new String[nameList.size()];
+				TableDataWrapper tableDataWrapper = tableDataComboBox.getSelectedItem();
+				if (tableDataWrapper == null) {
+					return;
+				}
+				//这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
+				List<String> nameList = tableDataWrapper.calculateColumnNameList();
+				columnNames = new String[nameList.size()];
 				columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
 				columnNameComboBox.removeAllItems();
 				for (int i = 0; i < columnNames.length; i++) {
@@ -64,7 +68,7 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		dsColumn.setDsName(tableDataWrappe.getTableDataName());
 		TableDataColumn column;
 		String columnExp = (String) this.columnNameComboBox.getSelectedItem();
-		if (StringUtils.isNotBlank(columnExp) && (columnExp.length() > 0 && columnExp.charAt(0) == '#') && !columnExp.endsWith("#")) {
+		if (StringUtils.isNotBlank(columnExp) && checkColumnExp(columnExp)) {
 			String number = columnExp.substring(1);
 			Pattern pattern = Pattern.compile("[^\\d]");
 			if (pattern.matcher(number).find()) {
@@ -78,6 +82,10 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		}
 		dsColumn.setColumn(column);
 		return dsColumn;
+	}
+
+	private boolean checkColumnExp (String columnExp) {
+		return (columnExp.length() > 0 && columnExp.charAt(0) == '#') && !columnExp.endsWith("#");
 	}
 
 	public String getIconName() {

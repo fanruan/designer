@@ -166,7 +166,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
         this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
         this.decimalLength.setColumns(4);
-        limitNumberPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Double", "Numbers"}) + ":"), this.decimalLength},
+        limitNumberPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText("FR-Designer_Decimal_Places")), this.decimalLength},
                 FlowLayout.LEFT, 4);
         getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{this.allowDecimalsCheckBox, limitNumberPane}, FlowLayout.LEFT, 4));
         this.allowDecimalsCheckBox.addActionListener(actionListener1);
