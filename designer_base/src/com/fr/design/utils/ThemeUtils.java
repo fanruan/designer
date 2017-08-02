@@ -50,7 +50,7 @@ public class ThemeUtils {
     public static final int BUTTON_SPREAD_DARK_DISABLE = 1;
 
     public static final ColorUIResource BACK_COLOR = new ColorUIResource(255, 255, 255);
-    public static final ColorUIResource TOOL_SEP_DARK_COLOR = new ColorUIResource(167, 167, 163);
+    public static final ColorUIResource TOOL_SEP_DARK_COLOR = new ColorUIResource(220, 220, 220);
     public static final ColorUIResource SCROLL_TRACK_COLOR = new ColorUIResource(249, 249, 247);
     public static final ColorUIResource SCROLL_TRACK_DISABLED_COLOR = new ColorUIResource(249, 249, 247);
     public static final ColorUIResource SCROLL_TRACK_BORDER_COLOR = new ColorUIResource(234, 231, 218);
@@ -109,7 +109,7 @@ public class ThemeUtils {
     public static final ColorUIResource TOOL_BAR_COLOR = new ColorUIResource(239, 237, 229);
     public static final ColorUIResource TOOL_BAR_DARK_COLOR = new ColorUIResource(168, 169, 169);
     public static final ColorUIResource TOOL_GRIP_LIGHT_COLOR = new ColorUIResource(255, 255, 255);
-    public static final ColorUIResource TOOL_GRIP_DARK_COLOR = new ColorUIResource(167, 167, 163);
+    public static final ColorUIResource TOOL_GRIP_DARK_COLOR = new ColorUIResource(220, 220, 220);
 
 
     public static final ColorUIResource DEFAULT_LIGHT_COLOR = new ColorUIResource(198, 220, 233);

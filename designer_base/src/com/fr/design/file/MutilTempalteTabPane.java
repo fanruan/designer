@@ -517,7 +517,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         generalPath.closePath();
         g2d.fill(generalPath);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setPaint(UIConstants.LINE_COLOR);
+        g2d.setPaint(new Color(200, 201, 205));
         g2d.draw(new Arc2D.Double(x[0], y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));
         g2d.draw(new Line2D.Double(x[0], y[0] + CORNOR_RADIUS, x[1], y[1]));
         g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
