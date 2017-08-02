@@ -204,7 +204,8 @@ public class EventPropertyTable extends UIListControlPane {
 	 * 刷新
 	 */
 	public void refresh() {
-        isPopulating = true;
+//        isPopulating = true;
+        System.out.println("in refresh...");
 		int selectionSize = designer.getSelectionModel().getSelection().size();
 		if (selectionSize == 0 || selectionSize == 1) {
 			this.creator = selectionSize == 0 ? designer.getRootComponent() : designer.getSelectionModel()
@@ -232,21 +233,30 @@ public class EventPropertyTable extends UIListControlPane {
         populate(nameObjectList.toArray(new NameObject[widget.getListenerSize()]));
 		checkButtonEnabled();
 		this.repaint();
-        isPopulating = false;
-	}
+//        isPopulating = false;
+        System.out.println("out refresh...");
+    }
 
 	/**
 	 * 更新控件事件
 	 * @param creator 控件
 	 */
 	public void updateWidgetListener(XCreator creator, boolean isSaving) {
-		DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
-		(creator.toData()).clearListeners();
-		for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            NameObject nameObject = isSaving ? (NameObject)((ListModelElement) listModel.getElementAt(i)).wrapper : (NameObject)(listModel.getElementAt(i));
-			(creator.toData()).addListener((Listener) nameObject.getObject());
-		}
-		designer.fireTargetModified();
+//		DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
+//		(creator.toData()).clearListeners();
+//		for (int i = 0, len = listModel.getSize(); i < len; i++) {
+//            NameObject nameObject = isSaving ? (NameObject)((ListModelElement) listModel.getElementAt(i)).wrapper : (NameObject)(listModel.getElementAt(i));
+//			(creator.toData()).addListener((Listener) nameObject.getObject());
+//		}
+
+        (creator.toData()).clearListeners();
+        Nameable[] res = this.update();
+        for (int i = 0; i < res.length; i++) {
+            NameObject nameObject = (NameObject)res[i];
+            (creator.toData()).addListener((Listener) nameObject.getObject());
+        }
+
+        designer.fireTargetModified();
 		checkButtonEnabled();
 	}
 
@@ -268,6 +278,9 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
         updateWidgetListener(creator, true);
     }
 
