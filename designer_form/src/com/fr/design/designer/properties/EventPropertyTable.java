@@ -8,6 +8,7 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.frpane.ListenerUpdatePane;
 import com.fr.design.gui.ilist.JNameEdList;
+import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptActionPane;
@@ -42,6 +43,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EventPropertyTable extends UIListControlPane {
 
@@ -89,7 +91,8 @@ public class EventPropertyTable extends UIListControlPane {
 	public void addNameObject(NameObject nameObject, int index) {
 		DefaultListModel model = (DefaultListModel) nameableList.getModel();
 
-		model.add(index, nameObject);
+//		model.add(index, nameObject);
+        model.add(index, new ListModelElement(nameObject));
 		nameableList.setSelectedIndex(index);
 		nameableList.ensureIndexIsVisible(index);
 
@@ -201,6 +204,7 @@ public class EventPropertyTable extends UIListControlPane {
 	 * 刷新
 	 */
 	public void refresh() {
+        isPopulating = true;
 		int selectionSize = designer.getSelectionModel().getSelection().size();
 		if (selectionSize == 0 || selectionSize == 1) {
 			this.creator = selectionSize == 0 ? designer.getRootComponent() : designer.getSelectionModel()
@@ -215,30 +219,40 @@ public class EventPropertyTable extends UIListControlPane {
 
 		refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
 
-		((DefaultListModel) nameableList.getModel()).removeAllElements();
+//		((DefaultListModel) nameableList.getModel()).removeAllElements();
+        ArrayList<NameObject> nameObjectList = new ArrayList<>();
 		for (int i = 0, size = widget.getListenerSize(); i < size; i++) {
 			Listener listener = widget.getListener(i);
 			if (!listener.isDefault()) {
-				addNameObject(new NameObject(switchLang(listener.getEventName()) + (i + 1), listener), i);
-			}
+//				addNameObject(new NameObject(switchLang(listener.getEventName()) + (i + 1), listener), i);
+                nameObjectList.add(i, new NameObject(switchLang(listener.getEventName()) + (i + 1), listener));
+
+            }
 		}
+        populate(nameObjectList.toArray(new NameObject[widget.getListenerSize()]));
 		checkButtonEnabled();
 		this.repaint();
+        isPopulating = false;
 	}
 
 	/**
 	 * 更新控件事件
 	 * @param creator 控件
 	 */
-	public void updateWidgetListener(XCreator creator) {
+	public void updateWidgetListener(XCreator creator, boolean isSaving) {
 		DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
 		(creator.toData()).clearListeners();
 		for (int i = 0, len = listModel.getSize(); i < len; i++) {
-			(creator.toData()).addListener((Listener) ((NameObject) listModel.getElementAt(i)).getObject());
+            NameObject nameObject = isSaving ? (NameObject)((ListModelElement) listModel.getElementAt(i)).wrapper : (NameObject)(listModel.getElementAt(i));
+			(creator.toData()).addListener((Listener) nameObject.getObject());
 		}
 		designer.fireTargetModified();
 		checkButtonEnabled();
 	}
+
+    public void updateWidgetListener(XCreator creator) {
+        updateWidgetListener(creator, true);
+    }
 
 	@Override
 	protected String title4PopupWindow() {
@@ -254,8 +268,8 @@ public class EventPropertyTable extends UIListControlPane {
 
 	@Override
 	public void saveSettings() {
-
-	}
+        updateWidgetListener(creator, true);
+    }
 
 	private class DnDTransferHandler extends TransferHandler {
 		private int action;
