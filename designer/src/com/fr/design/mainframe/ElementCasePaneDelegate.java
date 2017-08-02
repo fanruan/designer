@@ -6,7 +6,6 @@ import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.present.ConditionAttributesGroupPane;
 import com.fr.general.Inter;
-import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.page.ReportSettingsProvider;
@@ -22,25 +21,13 @@ import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.fun.MenuHandler;
-import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
-import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
-import com.fr.report.cell.DefaultTemplateCellElement;
-import com.fr.report.cell.TemplateCellElement;
-import com.fr.report.core.SheetUtils;
-import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
-import com.fr.general.Inter;
-import com.fr.grid.selection.FloatSelection;
-import com.fr.page.ReportSettingsProvider;
-import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -69,7 +56,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                     EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
                     return;
                 }
-
+                CellWidgetPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
                 CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
                 QuickEditorRegion.getInstance().populate(getCurrentEditor());
                 JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
@@ -94,6 +81,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
                         EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                         EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
+                        EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
                     }
                     EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
                     EastRegionContainerPane.getInstance().removeParameterPane();

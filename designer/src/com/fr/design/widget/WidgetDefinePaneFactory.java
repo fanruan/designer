@@ -4,8 +4,6 @@ import com.fr.base.FRContext;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.core.WidgetConstants;
-import com.fr.design.gui.frpane.TreeSettingPane;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.design.widget.ui.*;
 import com.fr.form.ui.*;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
@@ -77,10 +75,10 @@ public class WidgetDefinePaneFactory {
     }
 
     public static class RN {
-        private DataModify<? extends Widget> definePane;
+        private DataModify<Widget> definePane;
         private String cardName;
 
-        public RN(DataModify<? extends Widget> definePane, String cardName) {
+        public RN(DataModify<Widget> definePane, String cardName) {
             this.definePane = definePane;
             this.cardName = cardName;
         }

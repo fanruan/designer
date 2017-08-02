@@ -19,9 +19,10 @@ import javax.swing.text.DefaultFormatter;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NumberEditor;
 import com.fr.general.Inter;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> {
     /**
@@ -141,7 +142,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     };
 
     public NumberEditorDefinePane() {
-        this.initComponents();
+        super();
     }
 
 
@@ -156,23 +157,21 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         content.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         content.setLayout(FRGUIPaneFactory.createBorderLayout());
         // richer:数字的允许直接编辑没有意义
-
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-        content.add(northPane, BorderLayout.NORTH);
-
         waterMarkDictPane = new WaterMarkDictPane();
-        northPane.add(waterMarkDictPane);
-        content.add(northPane, BorderLayout.NORTH);
+
+
+        return waterMarkDictPane;
+    }
+
+
+    public JPanel setValidatePane() {
+
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
         this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
         this.decimalLength.setColumns(4);
-        limitNumberPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Double", "Numbers"}) + ":"), this.decimalLength},
-                FlowLayout.LEFT, 4);
-        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{this.allowDecimalsCheckBox, limitNumberPane}, FlowLayout.LEFT, 4));
         this.allowDecimalsCheckBox.addActionListener(actionListener1);
 
         this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("Allow_Negative"));
-        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{this.allowNegativeCheckBox}, FlowLayout.LEFT, 4));
         this.allowNegativeCheckBox.addActionListener(actionListener2);
 
         this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("Need_Max_Value"), false);
@@ -180,7 +179,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.maxValueSpinner = new UIBasicSpinner(maxValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
         maxValueSpinner.setPreferredSize(new Dimension(120, 20));
         setNotAllowsInvalid(this.maxValueSpinner);
-        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{this.setMaxValueCheckBox, this.maxValueSpinner}, FlowLayout.LEFT, 4));
         this.maxValueSpinner.setVisible(false);
         this.setMaxValueCheckBox.addActionListener(actionListener3);
         this.maxValueSpinner.addChangeListener(changeListener1);
@@ -189,14 +187,28 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.minValueSpinner = new UIBasicSpinner(minValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
         minValueSpinner.setPreferredSize(new Dimension(120, 20));
         setNotAllowsInvalid(this.minValueSpinner);
-        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{this.setMinValueCheckBox, this.minValueSpinner}, FlowLayout.LEFT, 4));
         this.minValueSpinner.setVisible(false);
         this.setMinValueCheckBox.addActionListener(actionListener4);
         this.minValueSpinner.addChangeListener(changeListener2);
-        getValidatePane().add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), getRegErrorMsgTextField()}, FlowLayout.LEFT, 24));
 
-        return content;
+
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{allowDecimalsCheckBox, null },
+                new Component[]{new UILabel(Inter.getLocText(new String[]{"Double", "Numbers"})), decimalLength },
+                new Component[]{allowNegativeCheckBox, null},
+                new Component[]{setMaxValueCheckBox, maxValueSpinner},
+                new Component[]{setMinValueCheckBox, minValueSpinner},
+        };
+        double[] rowSize = {p, p, p, p, p};
+        double[] columnSize = {p,f};
+        int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 1);
+        return panel;
+
     }
+
 
     @Override
     protected void populateSubFieldEditorBean(NumberEditor e) {
@@ -229,7 +241,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
             minValueSpinner.setVisible(true);
             minValueSpinner.setValue(new Double(e.getMinValue()));
         }
-        this.getRegErrorMsgTextField().setText(e.getRegErrorMessage());
         this.waterMarkDictPane.populate(e);
     }
 
@@ -257,7 +268,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
         this.waterMarkDictPane.update(ob);
 
-        ob.setRegErrorMessage(this.getRegErrorMsgTextField().getText());
 
         return ob;
     }
