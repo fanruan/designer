@@ -69,7 +69,7 @@ public class GridRowUI extends ComponentUI {
         if (gridRow.getBackground() != null) {
             g2d.setPaint(this.detailsBackground);
                 GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, size.getWidth(), rowTopHeight));
-            g2d.setPaint(gridRow.getBackground());
+            g2d.setPaint(Color.white);
             GraphHelper.fill(g2d, new Rectangle2D.Double(0, rowTopHeight, size.getHeight(), size.getHeight() - rowTopHeight));
         }
         // draw top border line.

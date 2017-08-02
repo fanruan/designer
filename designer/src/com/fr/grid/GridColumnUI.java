@@ -70,7 +70,7 @@ public class GridColumnUI extends ComponentUI {
         if (gridColumn.getBackground() != null) {
             g2d.setPaint(this.withoutDetailsBackground);
             GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, columnLeftWidth, size.getHeight()));
-            g2d.setPaint(gridColumn.getBackground());
+            g2d.setPaint(Color.white);
             GraphHelper.fill(g2d, new Rectangle2D.Double(columnLeftWidth, 0, size.getWidth() - columnLeftWidth, size.getHeight()));
         }
         // draw left border line.
