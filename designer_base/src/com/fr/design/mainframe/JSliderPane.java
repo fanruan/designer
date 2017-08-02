@@ -44,8 +44,8 @@ public class JSliderPane extends JPanel {
     private static final int TWO_HUNDRED = 200;
     private static final int THREE_HUNDRED = 300;
     private static final int FOUR_HUNDRED = 400;
-    private static final int DIALOG_WIDTH = 150;
-    private static final int DIALOG_HEIGHT = 200;
+    private static final int DIALOG_WIDTH = 157;
+    private static final int DIALOG_HEIGHT = 192;
     private static final int SLIDER_WIDTH = 220;
     private static final int SLIDER_HEIGHT = 20;
     private static final int SHOWVALBUTTON_WIDTH = 40;
@@ -167,8 +167,24 @@ public class JSliderPane extends JPanel {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p, p, p};
+        UILabel upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
+        upLabel.setOpaque(false);
+        JPanel septPane = new JPanel(new BorderLayout());
+        JSeparator sept = new JSeparator();
+        sept.setBackground(new Color(232,232,233));
+        septPane.add(sept,BorderLayout.NORTH);
+        septPane.setBorder(BorderFactory.createEmptyBorder(2, 5, 1, 5));
+        twoHundredButton.setBackground(BACK_COLOR);
+        oneHundredButton.setBackground(BACK_COLOR);
+        SevenFiveButton.setBackground(BACK_COLOR);
+        fiveTenButton.setBackground(BACK_COLOR);
+        twoFiveButton.setBackground(BACK_COLOR);
+        selfAdaptButton.setBackground(BACK_COLOR);
+        customButton.setBackground(BACK_COLOR);
         Component[][] components = new Component[][]{
+                new Component[]{upLabel, null},
+                new Component[]{septPane, null},
                 new Component[]{twoHundredButton, null},
                 new Component[]{oneHundredButton, null},
                 new Component[]{SevenFiveButton, null},
@@ -178,6 +194,7 @@ public class JSliderPane extends JPanel {
                 new Component[]{customButton, createSpinnerPanel()}
         };
         dialogContentPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_MEDIUM, 0);
+        dialogContentPanel.setBackground(BACK_COLOR);
     }
 
     private JPanel createSpinnerPanel() {
@@ -186,6 +203,7 @@ public class JSliderPane extends JPanel {
         UILabel percent = new UILabel("%");
         percent.setFont(new Font("SimSun", Font.PLAIN, FONT_SIZE));
         spinnerPanel.add(percent);
+        spinnerPanel.setBackground(BACK_COLOR);
         return spinnerPanel;
     }
 
@@ -414,27 +432,14 @@ class JSliderPaneUI extends BasicSliderUI {
 
 class PopupPane extends JPopupMenu {
     private JComponent contentPane;
-    private static final int UPLABEL_HEIGHT = 25;
     private static final int DIALOG_WIDTH = 157;
-    private static final int DIALOG_HEIGHT = 200;
-    private static final int UPLABEL_WIDTH = 300;
-    private JComponent centerPane;
-    private UILabel upLabel;
+    private static final int DIALOG_HEIGHT = 192;
 
     PopupPane(JButton b, JPanel dialogContentPanel) {
-        contentPane = new JPanel(new BorderLayout());
-        centerPane = new JPanel(new BorderLayout());
-        upLabel = new UILabel(" " + Inter.getLocText("FR-Designer_Scale_EnlargeOrReduce"));
-        upLabel.setOpaque(true);
-        upLabel.setPreferredSize(new Dimension(UPLABEL_WIDTH, UPLABEL_HEIGHT));
-        upLabel.setBackground(Color.LIGHT_GRAY);
-        upLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.gray));
-        centerPane.add(dialogContentPanel, BorderLayout.NORTH);
-        contentPane.add(upLabel, BorderLayout.NORTH);
-        contentPane.add(centerPane, BorderLayout.CENTER);
-        this.add(contentPane, BorderLayout.CENTER);
+        this.add(dialogContentPanel, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
-        this.setOpaque(false);
+        this.setBackground(new Color(245,245,247));
+//        this.setOpaque(false);
     }
 
 
