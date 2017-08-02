@@ -364,14 +364,15 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             generalPath.moveTo((float) templateStartX, getHeight() - 1);
             generalPath.lineTo((float) maxWidth, getHeight() - 1);
             g2d.fill(generalPath);
-            g2d.setPaint(UIConstants.LINE_COLOR);
-            g2d.draw(new Line2D.Double((float) templateStartX, getHeight() - 1, (float) maxWidth + LIST_BUTTON_WIDTH, getHeight() - 1));
+            //TODO hzzz delete
+//            g2d.setPaint(UIConstants.LINE_COLOR);
+//            g2d.draw(new Line2D.Double((float) templateStartX, getHeight() - 1, (float) maxWidth + LIST_BUTTON_WIDTH, getHeight() - 1));
         }
     }
 
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, getHeight() - 1, UIConstants.SHADOW_GREY));
+        g2d.setPaint(new GradientPaint(1, 1, new Color(217, 218, 221), 1, getHeight() - 1, new Color(217, 218, 221)));
         g2d.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 
@@ -497,7 +498,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
         double[] y = {-1, getHeight(), getHeight(), -1, -1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(templateStartX, 1, this.getWidth(), this.getHeight(), 7, 7);
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.NORMAL_BACKGROUND, 1, getHeight() - 1, UIConstants.NORMAL_BACKGROUND));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, getHeight() - 1, UIConstants.SELECT_TAB));
         //选了30度和60度的特殊角度的x,y作为经过的两个点的坐标
         double specialLocation1 = 2.5;
         double specialLocation2 = 4.330127;
@@ -561,21 +562,22 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         unSelectedClosedPath(generalPath, isLeft, x, y);
         g2d.fill(generalPath);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setPaint(UIConstants.LINE_COLOR);
-        if (isLeft) {
-            g2d.draw(new Arc2D.Double(x[0], y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));
-        } else {
-            g2d.draw(new Arc2D.Double(x[0] - CORNOR_RADIUS * 2, y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
-        }
+        g2d.setPaint(new Color(200, 201, 205));
+        //TODO hzzz delete
+//        if (isLeft) {
+//            g2d.draw(new Arc2D.Double(x[0], y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));
+//        } else {
+//            g2d.draw(new Arc2D.Double(x[0] - CORNOR_RADIUS * 2, y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
+//        }
 
-        g2d.draw(new Line2D.Double(x[0], y[0] + CORNOR_RADIUS, x[1], y[1] + 1));
-        g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
+//        g2d.draw(new Line2D.Double(x[0], y[0] + CORNOR_RADIUS, x[1], y[1] + 1));
+//        g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
         g2d.draw(new Line2D.Double(x[2], y[2], x[3], y[3] + CORNOR_RADIUS));
-        if (isLeft) {
-            g2d.draw(new Arc2D.Double(x[3], y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));
-        } else {
-            g2d.draw(new Arc2D.Double(x[3] - CORNOR_RADIUS * 2, y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
-        }
+//        if (isLeft) {
+//            g2d.draw(new Arc2D.Double(x[3], y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));
+//        } else {
+//            g2d.draw(new Arc2D.Double(x[3] - CORNOR_RADIUS * 2, y[3], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, -90, 0));
+//        }
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         int sheetIconY = (getHeight() - sheeticon.getIconHeight()) / 2;
