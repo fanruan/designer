@@ -2,9 +2,9 @@ package com.fr.design.foldablepane;
 
 import com.fr.design.constants.UIConstants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
 /**
  * Created by MoMeak on 2017/7/5.
@@ -18,24 +18,24 @@ public class HeaderPane extends JPanel {
     private String title;
     private Image image;
     private int fontSize = 13;
+
     public void setShow(boolean isShow) {
         this.isShow = isShow;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setHeadWidth(int headwidth){
+    public void setHeadWidth(int headwidth) {
         this.headWidth = headwidth;
     }
 
-    public void setheadHeight(int headHeight){
+    public void setheadHeight(int headHeight) {
         this.headHeight = headHeight;
     }
 
-    public void setFontSize(int fontSize){
+    public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
     }
 
@@ -58,16 +58,13 @@ public class HeaderPane extends JPanel {
         g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
 //        g2d.drawString(this.title, fontSize/2, headHeight-fontSize/3);
-        g2d.drawString(this.title, 0, headHeight-fontSize/3);
-        if(this.isShow)
-        {
+        g2d.drawString(this.title, 0, headHeight - fontSize / 2 - 1);
+        if (this.isShow) {
             image = UIConstants.DRAG_DOWN_PRESS;
-            g2d.drawImage(image, title.length() * fontSize, headHeight/2-1, null);
-        }
-        else
-        {
+            g2d.drawImage(image, title.length() * fontSize, headHeight / 2 - 1, null);
+        } else {
             image = UIConstants.DRAG_RIGHT_PRESS;
-            g2d.drawImage(image, title.length() * fontSize, headHeight/3, null);
+            g2d.drawImage(image, title.length() * fontSize, headHeight / 3, null);
         }
 
 
@@ -90,18 +87,17 @@ public class HeaderPane extends JPanel {
 
     }
 
-    public HeaderPane(Color bgColor, String title , int headWidth, int headHeight) {
+    public HeaderPane(Color bgColor, String title, int headWidth, int headHeight) {
         this(bgColor);
         this.title = title;
         this.headHeight = headHeight;
         this.headWidth = headWidth;
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 //        JFrame mainFrame = new JFrame("UI Demo - Gloomyfish");
 //        mainFrame.getContentPane().setLayout(new BorderLayout());
-//        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本",280,25), BorderLayout.CENTER);
+//        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本", 280, 24), BorderLayout.CENTER);
 //        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        mainFrame.pack();
 //        mainFrame.setSize(280, 400);

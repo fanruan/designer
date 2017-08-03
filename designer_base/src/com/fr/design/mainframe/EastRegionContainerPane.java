@@ -54,7 +54,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         POLY,  // 聚合报表
         POLY_REPORT,  // 聚合报表-报表块
         POLY_CHART,  // 聚合报表-图表块
-        AUTHORITY_EDITION  // 权限编辑
+        AUTHORITY_EDITION,  // 权限编辑
+        AUTHORITY_EDITION_DISABLED  // 权限编辑
     }
     private PropertyMode currentMode;  // 当前模式（根据不同模式，显示不同的可用面板）
 
@@ -115,11 +116,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 new PropertyMode[]{PropertyMode.FORM});
         // 权限编辑
         PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, Inter.getLocText("FR-Designer_Permissions_Edition"),
-                "authorityedit", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                "authorityedit", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION_DISABLED},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
         // 已配置角色
         PropertyItem configuredRoles = new PropertyItem(KEY_CONFIGURED_ROLES, Inter.getLocText("FR-Designer_Configured_Roles"),
-                "configuredroles", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION},
+                "configuredroles", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION_DISABLED},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
 
         propertyItemMap.put(KEY_CELL_ELEMENT, cellElement);

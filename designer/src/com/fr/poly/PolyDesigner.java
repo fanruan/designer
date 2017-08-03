@@ -139,7 +139,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     private void initComponents() {
-        jSliderContainer = ((JWorkBook) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).reportComposite.getjSliderContainer();
+        jSliderContainer = JSliderPane.getInstance();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         ployareaPane = new JPanel(new PolyDesignerLayout());
         polyArea = new PolyArea(this, resolution);
@@ -395,7 +395,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * 不支持权限编辑
      */
     public void noAuthorityEdit() {
-        EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+        EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setAuthorityMode(false);
     }
 
@@ -738,7 +739,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             startEditing(blockName);
             if (selection == null) {
                 if (BaseUtils.isAuthorityEditing()) {
-                    EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
+                    EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
                 } else {
                     EastRegionContainerPane.getInstance().replaceDownPane(new JPanel());
                     QuickEditorRegion.getInstance().populate(QuickEditor.DEFAULT_EDITOR);

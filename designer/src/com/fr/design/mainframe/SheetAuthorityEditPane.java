@@ -28,12 +28,14 @@ import java.awt.event.ItemListener;
  */
 public class SheetAuthorityEditPane extends AuthorityEditPane {
     private static final int TOP_GAP = 11;
-    private static final int LEFT_GAP = 8;
+    private static final int LEFT_GAP = 4;
     private static final int ALIGNMENT_GAP = -3;
 
-    private UICheckBox sheetVisible = new UICheckBox(Inter.getLocText("Widget-Visible"));
+    private UICheckBox sheetVisible = new UICheckBox("sheet" + Inter.getLocText("Widget-Visible"));
     private WorkBook workBook = null;
     private int selectedIndex = -1;
+    private JPanel typePane;
+    private JPanel namePane;
 
     private ItemListener itemListener = new ItemListener() {
         @Override
@@ -66,45 +68,41 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         setLayout(new BorderLayout());
         type = new UILabel();
+        typePane = new JPanel(new BorderLayout());
+        typePane.add(type, BorderLayout.CENTER);
+        type.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+        typePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         name = new UILabel();
+        namePane = new JPanel(new BorderLayout());
+        namePane.add(name, BorderLayout.CENTER);
+        name.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+        namePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         checkPane = new JPanel();
         checkPane.setLayout(new BorderLayout());
-        this.add(layoutText(), BorderLayout.WEST);
-        this.add(layoutPane(), BorderLayout.CENTER);
-        this.setBorder(BorderFactory.createEmptyBorder(TOP_GAP, LEFT_GAP, 0, 0));
+//        this.add(layoutText(), BorderLayout.WEST);
+//        this.add(layoutPane(), BorderLayout.CENTER);
+        this.add(centerPane(), BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(TOP_GAP, LEFT_GAP, 0, RIGHT_GAP));
         this.workBook = editingWorkBook;
         sheetVisible.addItemListener(itemListener);
         this.selectedIndex = selectedIndex;
     }
 
-
-    private JPanel layoutText() {
-        double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Type") + ":", SwingConstants.RIGHT)},
-                new Component[]{new UILabel(Inter.getLocText("WF-Name") + ":", SwingConstants.RIGHT)},
-                new Component[]{new UILabel(Inter.getLocText("DashBoard-Potence") + ":", SwingConstants.RIGHT)},
-        };
-        double[] rowSize = {p, p, p};
-        double[] columnSize = {p};
-        int[][] rowCount = {{1}, {1}, {1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-    }
-
-
-    private JPanel layoutPane() {
+    private JPanel centerPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
-                new Component[]{type},
-                new Component[]{name},
-                new Component[]{checkPane},
-        };
         double[] rowSize = {p, p, p};
-        double[] columnSize = {f};
-        int[][] rowCount = {{1}, {1}, {1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
+                new Component[]{checkPane, null},
+        };
+
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
     }
+
 
 
     /**
@@ -121,7 +119,7 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
             return;
         }
         checkPane.add(populateCheckPane(), BorderLayout.CENTER);
-        checkPane.setBorder(BorderFactory.createEmptyBorder(ALIGNMENT_GAP, 0, 0, 0));
+        checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         checkVisibleCheckBoxes();
     }
 

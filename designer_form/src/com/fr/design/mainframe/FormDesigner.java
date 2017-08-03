@@ -475,7 +475,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         paraHeight = 0;
         paraComponent = null;
         formLayoutContainer.setSize(rootComponent.getWidth(), rootComponent.getHeight());
-        EastRegionContainerPane.getInstance().replaceDownPane(this.getEastDownPane());
+        EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(this.getEastDownPane());
         //atat
         //EastRegionContainerPane.getInstance().addTitlePane(ParameterPropertyPane.getInstance(FormDesigner.this));
         //删除后重绘下
@@ -1042,11 +1042,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         if (isSupportAuthority()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(this);
             authorityPropertyPane.populate();
-            EastRegionContainerPane.getInstance().replaceUpPane(authorityPropertyPane);
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+            EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
         } else {
-            EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
+            EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
         }
-        EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+        EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
     }
 
     /**
@@ -1259,13 +1261,13 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
 
                     pane.setLayout(new BorderLayout());
                     pane.add(FormWidgetDetailPane.getInstance(FormDesigner.this), BorderLayout.CENTER);
-                    EastRegionContainerPane.getInstance().replaceDownPane(pane);
+                    EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(pane);
                 }
             }.start();
         } else {
             pane.setLayout(new BorderLayout());
             pane.add(FormWidgetDetailPane.getInstance(this), BorderLayout.CENTER);
-            EastRegionContainerPane.getInstance().replaceDownPane(pane);
+            EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(pane);
         }
 
         return pane;

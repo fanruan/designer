@@ -76,7 +76,9 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
                 }
             }
             authorityEditToolBarPane.populate();
-            EastRegionContainerPane.getInstance().replaceUpPane(authorityEditToolBarPane);
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+            EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityEditToolBarPane);
+
         }
 
     };
@@ -114,8 +116,8 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
                 populateToolBarPane();
                 authorityEditToolBarPane = new AuthorityEditToolBarPane(toolBarPane.getToolBarButtons());
                 authorityEditToolBarPane.setAuthorityToolBarPane(AuthorityToolBarPane.this);
-                EastRegionContainerPane.getInstance().replaceUpPane(authorityEditToolBarPane);
-                EastRegionContainerPane.getInstance().replaceDownPane(RolesAlreadyEditedPane.getInstance());
+                EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityEditToolBarPane);
+                EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
             }
         }
     };
