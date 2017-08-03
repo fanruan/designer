@@ -22,7 +22,7 @@ public class XCreatorConstants {
     public static final String PROPERTY_CATEGORY = "category";
     public static final String DEFAULT_GROUP_NAME = "Form-Basic_Properties";
     public static final String PROPERTY_VALIDATE = "FR-Designer_Validate";
-    public static final Color FORM_BG = new Color(252, 252, 254);
+    public static final Color FORM_BG = new Color(255, 255, 255);
     // 拖拽标识块的大小
     public static final int RESIZE_BOX_SIZ = 5;
     // 拖拽的小方块的内部颜色
@@ -30,7 +30,8 @@ public class XCreatorConstants {
     // 拖拽的小方块的边框颜色
     public static final Color RESIZE_BOX_BORDER_COLOR = new Color(143, 171, 196);
     // 当前选取的组件的边框线着色
-	public static final Color SELECTION_COLOR = new Color(179, 209, 236);
+    public static final Color SELECTION_COLOR = new Color(179, 209, 236);
+    public static final Color FORM_BORDER_COLOR = new Color(200, 201, 205);
     // 设计器区域外边框的颜色和粗细
     public static final Border AREA_BORDER = BorderFactory.createLineBorder(new Color(224, 224, 255), 0);
     // 布局拖拽时的颜色

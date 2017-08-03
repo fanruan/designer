@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.gui.icontainer.UIResizableContainer;
 import com.fr.general.GeneralContext;
@@ -51,5 +52,6 @@ public class WestRegionContainerPane extends UIResizableContainer {
         });
     
         setContainerWidth(165);
+        setBackground(UIConstants.TREE_BACKGROUND);
     }
 }

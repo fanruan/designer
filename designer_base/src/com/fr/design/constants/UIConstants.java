@@ -63,6 +63,7 @@ public interface UIConstants {
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
     public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
+    public static final Color TREE_BACKGROUND = new Color(240, 240, 243);
     public static final Color TOOL_PANE_BACKGROUND = new Color(232, 232, 223);
     public static final Color SELECT_TAB = new Color(245, 245, 247);
     public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
@@ -88,7 +89,7 @@ public interface UIConstants {
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
-    public static final Color DEFAULT_BG_RULER = new Color(0xf7f7f7);
+    public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
     public static final Color RULER_LINE_COLOR = new Color(0xababab);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
 

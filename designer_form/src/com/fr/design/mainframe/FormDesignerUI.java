@@ -266,7 +266,7 @@ public class FormDesignerUI extends ComponentUI {
         bounds.y -= designer.getArea().getVerticalValue();
 
         drawResizingThumbs(g, selectionModel.getSelection().getDirections(), bounds.x, bounds.y, bounds.width, bounds.height);
-        g.setColor(XCreatorConstants.SELECTION_COLOR);
+        g.setColor(XCreatorConstants.FORM_BORDER_COLOR);
 
         for (XCreator creator : selectionModel.getSelection().getSelectedCreators()) {
             Rectangle creatorBounds = ComponentUtils.getRelativeBounds(creator);

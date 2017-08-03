@@ -48,7 +48,7 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         putTreeAndList(table);
         putOthers(table);
         table.put("Desktop.background", new ColorUIResource(212, 210, 194));
-        table.put("Separator.background", new ColorUIResource(173, 170, 153));
+        table.put("Separator.background", new ColorUIResource(232, 232, 233));
         table.put("Separator.foreground", new ColorUIResource(236, 233, 216));
         table.put("TitledBorder.border", new LineBorder(
                 new ColorUIResource(165, 163, 151)));

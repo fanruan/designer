@@ -51,21 +51,21 @@ public class StyleBackgroundAction extends AbstractStyleAction implements Change
     }
     
 	@Override
-	public boolean isFontStye() {
-		return false;
-	}
+        public boolean isFontStye() {
+            return false;
+        }
 
-    @Override
-	public JComponent createToolBarComponent() {
-        Object object = this.getValue(UIToolbarColorButton.class.getName());
-        if (object == null || !(object instanceof UIToolbarColorButton)) {
-            UIToolbarColorButton tbButton = new UIToolbarColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
-			tbButton.set4Toolbar();
-            this.putValue(UIToolbarColorButton.class.getName(), tbButton);
+        @Override
+        public JComponent createToolBarComponent() {
+            Object object = this.getValue(UIToolbarColorButton.class.getName());
+            if (object == null || !(object instanceof UIToolbarColorButton)) {
+                UIToolbarColorButton tbButton = new UIToolbarColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
+                tbButton.set4Toolbar();
+                this.putValue(UIToolbarColorButton.class.getName(), tbButton);
 
-            tbButton.setEnabled(this.isEnabled());
-            tbButton.setColor(Color.WHITE);
-            tbButton.addColorChangeListener(this);
+                tbButton.setEnabled(this.isEnabled());
+                tbButton.setColor(Color.WHITE);
+                tbButton.addColorChangeListener(this);
 
             //peter:产生tooltip
             tbButton.setToolTipText(ActionFactory.createButtonToolTipText(this));
