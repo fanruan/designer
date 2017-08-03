@@ -18,10 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.math.BigDecimal;
 
 /**
@@ -48,6 +45,8 @@ public class JSliderPane extends JPanel {
     private static final int SHOWVALBUTTON_WIDTH = 40;
     private static final int SHOWVALBUTTON_HEIGHTH = 20;
     private static final int SLIDER_GAP = 5;
+    private static final int TOOLTIP_Y = 25;
+
     private static final Color BACK_COLOR = new Color(245, 245, 247);
     public int showValue = 100;
     public double resolutionTimes = 1.0;
@@ -76,39 +75,10 @@ public class JSliderPane extends JPanel {
 
     public JSliderPane() {
         this.setLayout(new BorderLayout());
-        slider = new UISlider(0, HUNDRED, HALF_HUNDRED);
-        slider.setUI(new JSliderPaneUI(slider));
-        slider.addChangeListener(listener);
-        slider.setPreferredSize(new Dimension(220, 20));
-        //去掉虚线框
-        slider.setFocusable(false);
-        slider.setToolTipText(Inter.getLocText("FR-Designer_Scale_Slider"));
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1));
-        showValSpinner.setEnabled(true);
-        showValSpinner.addChangeListener(showValSpinnerChangeListener);
-        showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
-        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"));
-        downButton.setOpaque(false);
-        downButton.setBorderPainted(false);
-        downButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Down"));
-        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"));
-        upButton.setOpaque(false);
-        upButton.setBorderPainted(false);
-        upButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Up"));
-        downButton.setActionCommand("less");
-        upButton.setActionCommand("more");
-        downButton.addActionListener(buttonActionListener);
-        upButton.addActionListener(buttonActionListener);
-        showValButton = new JButton(showValSpinner.getValue() + "%");
-        showValButton.setOpaque(false);
-        showValButton.setMargin(new Insets(0, 0, 0, 0));
-        showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
-        showValButton.setBackground(BACK_COLOR);
-        showValButton.setBorderPainted(false);
-        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
-        showValButton.addActionListener(showValButtonActionListener);
-        //TODO 先注释，需要自定义tooltip
-//        showValButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Grade"));
+        initSlider();
+        initShowValSpinner();
+        initDownUpButton();
+        initShowValButton();
         initUIRadioButton();
         initPane();
         JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
@@ -120,11 +90,7 @@ public class JSliderPane extends JPanel {
         this.add(panel, BorderLayout.NORTH);
     }
 
-    public JToolTip createToolTip() {
-        JToolTip tip = new JToolTip();
-        tip.setComponent(this);
-        return tip;
-    }
+
 
     public static final JSliderPane getInstance() {
 //        if (THIS == null) {
@@ -132,6 +98,70 @@ public class JSliderPane extends JPanel {
 //        }
         THIS = new JSliderPane();
         return THIS;
+    }
+
+    private void initSlider() {
+        slider = new UISlider(0, HUNDRED, HALF_HUNDRED){
+            public Point getToolTipLocation(MouseEvent event){
+                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
+            }
+        };
+        slider.setUI(new JSliderPaneUI(slider));
+        slider.addChangeListener(listener);
+        slider.setPreferredSize(new Dimension(220, 20));
+        //去掉虚线框
+        slider.setFocusable(false);
+        slider.setToolTipText(Inter.getLocText("FR-Designer_Scale_Slider"));
+    }
+
+    private void initShowValSpinner() {
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)){
+            public Point getToolTipLocation(MouseEvent event){
+                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
+            }
+        };
+        showValSpinner.setEnabled(true);
+        showValSpinner.addChangeListener(showValSpinnerChangeListener);
+        showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
+    }
+
+    private void initDownUpButton() {
+        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png")){
+            public Point getToolTipLocation(MouseEvent event){
+                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
+            }
+        };
+        downButton.setOpaque(false);
+        downButton.setBorderPainted(false);
+        downButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Down"));
+        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png")){
+            public Point getToolTipLocation(MouseEvent event){
+                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
+            }
+        };
+        upButton.setOpaque(false);
+        upButton.setBorderPainted(false);
+        upButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Up"));
+        downButton.setActionCommand("less");
+        upButton.setActionCommand("more");
+        downButton.addActionListener(buttonActionListener);
+        upButton.addActionListener(buttonActionListener);
+    }
+
+    private void initShowValButton() {
+        showValButton = new JButton(showValSpinner.getValue() + "%"){
+            public Point getToolTipLocation(MouseEvent event){
+                return new Point(event.getX(), event.getY() - TOOLTIP_Y);
+            }
+        };
+        showValButton.setOpaque(false);
+        showValButton.setMargin(new Insets(0, 0, 0, 0));
+        showValButton.setFont(new Font("SimSun", Font.PLAIN, 12));
+        showValButton.setBackground(BACK_COLOR);
+        showValButton.setBorderPainted(false);
+        showValButton.setPreferredSize(new Dimension(SHOWVALBUTTON_WIDTH, SHOWVALBUTTON_HEIGHTH));
+        showValButton.addActionListener(showValButtonActionListener);
+        showValButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Grade"));
     }
 
     private void initUIRadioButton() {

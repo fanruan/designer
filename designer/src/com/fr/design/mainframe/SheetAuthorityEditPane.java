@@ -34,6 +34,8 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
     private UICheckBox sheetVisible = new UICheckBox("sheet" + Inter.getLocText("Widget-Visible"));
     private WorkBook workBook = null;
     private int selectedIndex = -1;
+    private JPanel typePane;
+    private JPanel namePane;
 
     private ItemListener itemListener = new ItemListener() {
         @Override
@@ -66,9 +68,15 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
         setLayout(new BorderLayout());
         type = new UILabel();
-        type.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+        typePane = new JPanel(new BorderLayout());
+        typePane.add(type, BorderLayout.CENTER);
+        type.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+        typePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         name = new UILabel();
-        name.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+        namePane = new JPanel(new BorderLayout());
+        namePane.add(name, BorderLayout.CENTER);
+        name.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+        namePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         checkPane = new JPanel();
         checkPane.setLayout(new BorderLayout());
 //        this.add(layoutText(), BorderLayout.WEST);
@@ -87,41 +95,14 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), type},
-                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), name},
+                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
                 new Component[]{checkPane, null},
         };
 
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
     }
 
-    private JPanel layoutText() {
-        double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Type") + ":", SwingConstants.RIGHT)},
-                new Component[]{new UILabel(Inter.getLocText("WF-Name") + ":", SwingConstants.RIGHT)},
-                new Component[]{new UILabel(Inter.getLocText("DashBoard-Potence") + ":", SwingConstants.RIGHT)},
-        };
-        double[] rowSize = {p, p, p};
-        double[] columnSize = {p};
-        int[][] rowCount = {{1}, {1}, {1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-    }
-
-
-    private JPanel layoutPane() {
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
-                new Component[]{type},
-                new Component[]{name},
-                new Component[]{checkPane},
-        };
-        double[] rowSize = {p, p, p};
-        double[] columnSize = {f};
-        int[][] rowCount = {{1}, {1}, {1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-    }
 
 
     /**
@@ -146,14 +127,14 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
      * 刷新类型
      */
     public void populateType() {
-        type.setText(" " + "sheet");
+        type.setText("sheet");
     }
 
     /**
      * 更新名字
      */
     public void populateName() {
-        name.setText(" " + workBook.getReportName(selectedIndex));
+        name.setText(workBook.getReportName(selectedIndex));
     }
 
     /**

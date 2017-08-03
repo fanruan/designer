@@ -84,6 +84,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         private static final int TOP_GAP = 11;
         private static final int LEFT_GAP = 4;
         private static final int LEFT_CHECKPANE = 3;
+        private JPanel typePane;
+        private JPanel namePane;
         private UILabel type = null;
         private UILabel name = null;
         private JPanel checkPane = null;
@@ -144,9 +146,15 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         public AuthorityEditPane(List<ToolBarButton> buttonlists) {
             setLayout(new BorderLayout());
             type = new UILabel();
-            type.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+            typePane = new JPanel(new BorderLayout());
+            typePane.add(type, BorderLayout.CENTER);
+            type.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            typePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             name = new UILabel();
-            name.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+            namePane = new JPanel(new BorderLayout());
+            namePane.add(name, BorderLayout.CENTER);
+            name.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            namePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             checkPane = new JPanel();
             checkPane.setLayout(new BorderLayout());
             this.add(centerPane(), BorderLayout.NORTH);
@@ -162,8 +170,8 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             double[] columnSize = {p, f};
             int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), type},
-                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), name},
+                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
                     new Component[]{checkPane, null},
             };
 
@@ -200,7 +208,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (name.getText() == "") {
                 type.setText("");
             } else {
-                type.setText(" " + Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
+                type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
             }
         }
 
@@ -214,7 +222,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             if (names != "") {
                 names = names.substring(1);
             }
-            name.setText(" " + names);
+            name.setText(names);
         }
 
         public void populateCheckPane() {

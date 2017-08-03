@@ -427,13 +427,13 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateType() {
         if (selectionType == CellSelection.NORMAL) {
-            type.setText(" "+Inter.getLocText("FR-Designer_Cell"));
+            type.setText(Inter.getLocText("FR-Designer_Cell"));
         } else if (selectionType == CellSelection.CHOOSE_ROW) {
-            type.setText(" "+Inter.getLocText("FR-Designer_Row"));
+            type.setText(Inter.getLocText("FR-Designer_Row"));
         } else if (selectionType == CellSelection.CHOOSE_COLUMN) {
-            type.setText(" "+Inter.getLocText("FR-Designer_Column"));
+            type.setText(Inter.getLocText("FR-Designer_Column"));
         } else {
-            type.setText(" "+Inter.getLocText("M_Insert-Float"));
+            type.setText(Inter.getLocText("M_Insert-Float"));
         }
     }
 
@@ -442,11 +442,11 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
      */
     public void populateName() {
         if (selectionType == CellSelection.NORMAL) {
-            name.setText(" "+getCellSelectionName());
+            name.setText(getCellSelectionName());
         } else if (selectionType == CellSelection.CHOOSE_ROW || selectionType == CellSelection.CHOOSE_COLUMN) {
-            name.setText(" "+getCellColumnRowName());
+            name.setText(getCellColumnRowName());
         } else {
-            name.setText(" "+getFloatSelectionName());
+            name.setText(getFloatSelectionName());
         }
     }
 
