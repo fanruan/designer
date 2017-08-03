@@ -1,7 +1,7 @@
 package com.fr.design.editor.editor;
 
-import com.fr.data.SimpleDSColumn;
 import com.fr.design.data.DesignTableDataManager;
+import com.fr.data.SimpleDSColumn;
 import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -36,13 +36,13 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				TableDataWrapper tableDataWrapper = tableDataComboBox.getSelectedItem();
-				if (tableDataWrapper == null) {
-					return;
-				}
-				//这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
-				List<String> nameList = tableDataWrapper.calculateColumnNameList();
-				columnNames = new String[nameList.size()];
+                TableDataWrapper tableDataWrapper = tableDataComboBox.getSelectedItem();
+                if (tableDataWrapper == null) {
+                    return;
+                }
+                //这边需要重新初始化columnNames, 否则nameList长度和columnNames长度不同导致出錯。
+                List<String> nameList = tableDataWrapper.calculateColumnNameList();
+                columnNames = new String[nameList.size()];
 				columnNames = tableDataComboBox.getSelectedItem().calculateColumnNameList().toArray(columnNames);
 				columnNameComboBox.removeAllItems();
 				for (int i = 0; i < columnNames.length; i++) {

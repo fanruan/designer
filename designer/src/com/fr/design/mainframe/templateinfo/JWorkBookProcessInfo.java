@@ -2,6 +2,7 @@ package com.fr.design.mainframe.templateinfo;
 
 import com.fr.base.parameter.ParameterUI;
 import com.fr.main.impl.WorkBook;
+import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.report.cellcase.CellCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
@@ -68,7 +69,12 @@ public class JWorkBookProcessInfo extends TemplateProcessInfo<WorkBook> {
     }
     // 获取模板控件数
     public int getWidgetCount() {
-        ParameterUI pui = template.getReportParameterAttr().getParameterUI();
+        ReportParameterAttr attr = template.getReportParameterAttr();
+        if (attr == null) {
+            return 0;
+        }
+
+        ParameterUI pui = attr.getParameterUI();
         return pui == null ? 0 : (pui.getAllWidgets().length - 1);
     }
 }
