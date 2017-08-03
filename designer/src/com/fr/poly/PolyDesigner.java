@@ -139,7 +139,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     private void initComponents() {
-        jSliderContainer = ((JWorkBook) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).reportComposite.getjSliderContainer();
+        jSliderContainer = JSliderPane.getInstance();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         ployareaPane = new JPanel(new PolyDesignerLayout());
         polyArea = new PolyArea(this, resolution);
