@@ -39,8 +39,8 @@ import java.util.regex.Pattern;
  * 数据集列动态参数设置组件
  *
  * @author yaoh.wu
- * @version 2017年7月26日
- * 9.0设计器更新，修改动态参数注入按钮部分,使其显示动态参数按钮时能在右侧边栏正常显示
+ * @version 2017年8月3日
+ * 复用对话框代码，保留对话框原始布局
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
@@ -54,11 +54,15 @@ public class SelectedDataColumnPane extends BasicPane {
     private UIButton paramButton;
 
     public SelectedDataColumnPane() {
-        this(true);
+        this(true, false);
     }
 
-    SelectedDataColumnPane(boolean showParameterButton) {
-        initComponent(showParameterButton);
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout) {
+        if (verticalLayout) {
+            initComponentVerticalLayout(true);
+        } else {
+            initComponent(showParameterButton);
+        }
     }
 
     /**
@@ -67,6 +71,51 @@ public class SelectedDataColumnPane extends BasicPane {
      * @param showParameterButton 是否显示参数按钮
      */
     public void initComponent(boolean showParameterButton) {
+        initTableNameComboBox();
+        if (showParameterButton) {
+            initWithParameterButton();
+        }
+        columnNameComboBox = new LazyComboBox() {
+
+            @Override
+            public Object[] load() {
+                List<String> l = calculateColumnNameList();
+                return l.toArray(new String[l.size()]);
+            }
+
+        };
+        columnNameComboBox.setEditable(true);
+        double p = TableLayout.PREFERRED;
+        UILabel label1 = new UILabel(Inter.getLocText("TableData") + ":");
+        UILabel label2 = new UILabel(Inter.getLocText("DataColumn") + ":");
+        if (showParameterButton) {
+            label1.setPreferredSize(new Dimension(200, 25));
+            label2.setPreferredSize(new Dimension(200, 25));
+        }
+        if (showParameterButton) {
+            Component[][] comps = {{label1, null, label2}, {tableNameComboBox, paramButton, columnNameComboBox}};
+            this.add(TableLayoutHelper.createTableLayoutPane(comps, new double[]{p, p}, new double[]{p, p, p}));
+        } else {
+            double f = TableLayout.FILL;
+            double[] columnSize = {p, f};
+            double[] rowSize = {p, p};
+            Component[][] components = new Component[][]{
+                    new Component[]{label1, tableNameComboBox},
+                    new Component[]{label2, columnNameComboBox}
+            };
+            JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            this.setLayout(new BorderLayout());
+            this.add(jPanel, BorderLayout.CENTER);
+        }
+    }
+
+
+    /**
+     * 初始化组件
+     *
+     * @param showParameterButton 是否显示参数按钮
+     */
+    public void initComponentVerticalLayout(boolean showParameterButton) {
         initTableNameComboBox();
         if (showParameterButton) {
             initWithParameterButton();

@@ -2,6 +2,7 @@ package com.fr.design.dscolumn;
 
 import com.fr.base.Formula;
 import com.fr.data.TableDataSource;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.CustomVariableResolver;
@@ -19,6 +20,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.CellEditorPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.CellElement;
@@ -270,21 +272,26 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
                     if (selectIndex == 1) {
                         setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
+                        //隐藏tip
                     } else if (selectIndex == 2) {
                         setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
+                        //隐藏tip
                     } else if (selectIndex == 3) {
                         setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
+                        //隐藏set
                     } else if (selectIndex == 4) {
                         setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
+                        //隐藏set
                     } else if (selectIndex == 5) {
                         setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                     } else {
                         setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
                         tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
+                        //隐藏set和tip
                     }
                 }
             });
@@ -413,18 +420,29 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
         private String defaultValue;
 
         public JFormulaField(String defaultValue) {
+            double p = TableLayout.PREFERRED;
+            double f = TableLayout.FILL;
+            double[] columnSize = {f};
+            double[] rowSize = {p};
             this.defaultValue = defaultValue;
-
-            this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            formulaTextField = new UITextField(11);
-            this.add(formulaTextField);
+            formulaTextField = new UITextField();
             formulaTextField.setText(defaultValue);
-
             UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-            this.add(formulaButton);
             formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
-            formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
+            formulaButton.setPreferredSize(new Dimension(24, formulaTextField.getPreferredSize().height));
             formulaButton.addActionListener(formulaButtonActionListener);
+            Component[] buttonComponent = new Component[]{
+                    formulaButton
+            };
+            JPanel pane = new JPanel(new BorderLayout(0, 0));
+            pane.add(formulaTextField, BorderLayout.CENTER);
+            pane.add(GUICoreUtils.createFlowPane(buttonComponent, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
+            Component[][] components = new Component[][]{
+                    new Component[]{pane}
+            };
+            JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            this.setLayout(new BorderLayout());
+            this.add(panel, BorderLayout.CENTER);
         }
 
         public void populate(String formulaContent) {
@@ -485,13 +503,17 @@ public class DSColumnAdvancedEditorPane extends CellEditorPane {
      * @see DSColumnAdvancedPane.ValuePane
      */
     private static class CustomValuePane extends JPanel {
-        private DSColumnAdvancedEditorPane.JFormulaField formulaField;
+        private JFormulaField formulaField;
 
         public CustomValuePane() {
+            double p = TableLayout.PREFERRED, f = TableLayout.FILL;
             this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
             UILabel customValueLabel = new UILabel("显示值");
-            this.add(Box.createHorizontalStrut(2));
-            this.add((formulaField = new DSColumnAdvancedEditorPane.JFormulaField("$$$")));
+            formulaField = new JFormulaField("$$$");
+            formulaField.setPreferredSize(new Dimension(159, 20));
+            this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                    {customValueLabel, formulaField},
+            }, new double[]{p}, new double[]{p, f}), BorderLayout.CENTER);
         }
 
         public void populate(CellElement cellElement) {

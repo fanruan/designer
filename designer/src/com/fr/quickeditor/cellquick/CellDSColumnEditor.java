@@ -176,7 +176,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private void createPanes() {
         paneList = new ArrayList<>();
         /*基本设置面板*/
-        this.dataPane = new SelectedDataColumnPane();
+        this.dataPane = new SelectedDataColumnPane(true, true);
         this.groupPane = new ResultSetGroupDockingPane(tc);
         double p = TableLayout.PREFERRED, f = TableLayout.FILL;
         double[] rowSize = {p}, columnSize = {p, f};
