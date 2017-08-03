@@ -28,12 +28,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private JPanel leftPane;
     private JPanel rightPane;
     private FixedPopupPane currentPopupPane;
-    private static final int CONTAINER_WIDTH = 290;
-    private static final int TAB_WIDTH = 40;
+    private static final int CONTAINER_WIDTH = 288;
+    private static final int TAB_WIDTH = 38;
     private static final int TAB_BUTTON_WIDTH = 32;
+    private static final int TAB_BUTTON_HEIGHT = 28;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
     private static final int POPUP_TOOLPANE_HEIGHT = 25;
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
+    // 弹出对话框高度
+    private static final int POPUP_MIN_HEIGHT = 145;
+    private static final int POPUP_MAX_HEIGHT = 480;
+    private static final int POPUP_DEFAULT_HEIGHT = 360;
     private static final String KEY_CELL_ELEMENT = "cellElement";
     private static final String KEY_CELL_ATTR = "cellAttr";
     private static final String KEY_FLOAT_ELEMENT = "floatElement";
@@ -138,6 +143,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private JPanel getDefaultPane() {
         JPanel defaultPane = new JPanel();
         UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         defaultPane.setLayout(new BorderLayout());
         defaultPane.add(label, BorderLayout.CENTER);
         return defaultPane;
@@ -177,8 +183,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             leftPane.add(item.getButton());
         }
 
-//        leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.Y_AXIS));
-        leftPane.setBackground(new Color(226, 226, 226));
+        leftPane.setBackground(UIConstants.PROPERTY_PANE_BACKGROUND);
         replaceLeftPane(leftPane);
     }
 
@@ -431,7 +436,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private static final String ICON_SUFFIX_SELECTED = "_selected.png";
         private String btnIconName;
         private String iconSuffix = ICON_SUFFIX_NORMAL;  // normal, diabled, selected, 三者之一
-        private final Color selectedBtnBackground = new Color(240, 240, 240);
+        private final Color selectedBtnBackground = new Color(0xF5F5F7);
         private Color originBtnBackground;
 
         public PropertyItem(String name, String title, String btnIconName, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
@@ -577,7 +582,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private void initButton() {
             button = new UIButton(BaseUtils.readIcon(getBtnIconUrl())) {
                 public Dimension getPreferredSize() {
-                    return new Dimension(TAB_BUTTON_WIDTH, TAB_BUTTON_WIDTH);
+                    return new Dimension(TAB_BUTTON_WIDTH, TAB_BUTTON_HEIGHT);
                 }
                 @Override
                 public void paintComponent(Graphics g) {
@@ -666,25 +671,16 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private class FixedPopupPane extends JPopupMenu {
         private JComponent contentPane;
-//        private PopupToolPane popupToolPane;
-        private int fixedHeight;
         FixedPopupPane(PropertyItem propertyItem) {
             contentPane = propertyItem.getContentPane();
             this.setLayout(new BorderLayout());
-//            popupToolPane = ;
             this.add(new PopupToolPane(propertyItem), BorderLayout.NORTH);
             this.add(contentPane, BorderLayout.CENTER);
             this.setOpaque(false);
-            fixedHeight = getPreferredSize().height - contentPane.getPreferredSize().height;
-            updateSize();
+            setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, POPUP_DEFAULT_HEIGHT));
         }
 
         public void menuSelectionChanged(boolean isIncluded) {
-        }
-
-        private void updateSize() {
-            int newHeight = fixedHeight + contentPane.getPreferredSize().height;
-            this.setPreferredSize(new Dimension(CONTAINER_WIDTH - TAB_WIDTH, newHeight));
         }
 
         public JComponent getContentPane() {
@@ -692,10 +688,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         public void replaceContentPane(JComponent pane) {
-//            remove(pane);
             this.remove(this.contentPane);
             this.add(this.contentPane = pane);
-            updateSize();
             refreshContainer();
         }
 
@@ -708,9 +702,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     // 弹出属性面板的工具条
     private class PopupToolPane extends JPanel {
-        private int model = UIConstants.MODEL_NORMAL;
         private String title;
-        private JComponent contentPane;
         private PropertyItem propertyItem;
         private String buttonType;
         private JDialog parentDialog;  // 如果不在对话框中，值为null
@@ -733,7 +725,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 if (mouseDownCompCoords == null) {
                     setBackground(originColor);
                 }
-                model = UIConstants.MODEL_NORMAL;
                 repaint();
             }
             @Override
@@ -762,13 +753,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             public void mouseMoved(MouseEvent e) {
                 if (e.getX() >= ARROW_RANGE_START) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    model = UIConstants.MODEL_PRESS;
                 } else if (isMovable) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
                     setBackground(Color.pink);
                 } else {
                     setCursor(Cursor.getDefaultCursor());
-                    model = UIConstants.MODEL_NORMAL;
                 }
                 repaint();
             }
@@ -808,13 +797,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             super();
             this.propertyItem = propertyItem;
             this.title = propertyItem.getTitle();
-            this.contentPane = propertyItem.getContentPane();
-            originColor = getBackground();
+            originColor = Color.white;
+            setBackground(originColor);
             setLayout(new BorderLayout());
             UILabel label = new UILabel(title);
-            label.setForeground(new Color(69, 135, 255));
             add(label, BorderLayout.WEST);
-            setBorder(new EmptyBorder(5, 10, 0, 0));
+            setBorder(new EmptyBorder(5, 10, 5, 0));
 
             initToolButton(buttonType);
         }
@@ -857,27 +845,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             Image button;
             g.setColor(new Color(69, 135, 255));
             g.setFont(FRFont.getInstance().applySize(14));
-//            g.drawString(title, 5, 20);
-//            g.drawImage(UIConstants.DRAG_BAR, 0, 0, CONTENT_WIDTH, POPUP_TOOLPANE_HEIGHT, null);
-
             if (buttonType.equals(NO_BUTTON)) {
                 return;
             }
             if (buttonType.equals(DOWN_BUTTON)) {
-                if (model == UIConstants.MODEL_NORMAL) {
-                    button = UIConstants.DRAG_LEFT_NORMAL;
-                } else {
-                    button = UIConstants.DRAG_LEFT_PRESS;
-                }
+                button = UIConstants.POP_BUTTON_DOWN;
             } else {
-                if (model == UIConstants.MODEL_NORMAL) {
-                    button = UIConstants.DRAG_RIGHT_NORMAL;
-                } else {
-                    button = UIConstants.DRAG_RIGHT_PRESS;
-                }
+                button = UIConstants.POP_BUTTON_UP;
             }
-//                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
-            g.drawImage(button, ARROW_RANGE_START + 12, 7, 5, 5, null);
+            g.drawImage(button, ARROW_RANGE_START + 8, 4, 16, 16, null);
         }
     }
 
@@ -887,7 +863,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Cursor originCursor;
         private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         private Point mouseDownCompCoords;
-        private int minHeight;  // 对话框最小高度
+
         private JComponent contentPane;
         private PropertyItem propertyItem;
         public PopupDialog(PropertyItem propertyItem) {
@@ -900,8 +876,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             contentPane = propertyItem.getContentPane();
             container.add(popupToolPane, BorderLayout.NORTH);
             container.add(contentPane, BorderLayout.CENTER);
-            minHeight = container.getPreferredSize().height;
-            setSize(CONTENT_WIDTH, minHeight);
+            setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT);
 //            validate();
             adjustLocation();
 
@@ -941,8 +916,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                         Point currCoords = e.getLocationOnScreen();
                         bounds.height = currCoords.y - mouseDownCompCoords.y + bounds.height;
                         // 校正位置
-                        if (bounds.height < minHeight) {
-                            bounds.height = minHeight;
+                        if (bounds.height < POPUP_MIN_HEIGHT) {
+                            bounds.height = POPUP_MIN_HEIGHT;
+                        }
+                        if (bounds.height > POPUP_MAX_HEIGHT) {
+                            bounds.height = POPUP_MAX_HEIGHT;
                         }
                         mouseDownCompCoords.y = currCoords.y;
                         setBounds(bounds);

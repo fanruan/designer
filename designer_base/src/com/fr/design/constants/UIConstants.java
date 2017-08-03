@@ -88,6 +88,7 @@ public interface UIConstants {
     public static final Color DEFAULT_BG_RULER = new Color(0xf7f7f7);
     public static final Color RULER_LINE_COLOR = new Color(0xababab);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
+    public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
 
 
 
@@ -104,6 +105,8 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
+    public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
+    public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
     public static final int MODEL_NORMAL = 0;
     public static final int MODEL_PRESS = 1;
     public static final Icon ARROW_DOWN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");

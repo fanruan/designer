@@ -63,11 +63,12 @@ public class UIEastResizableContainer extends JPanel {
     }
 
     public UIEastResizableContainer(JComponent leftPane, JComponent rightPane) {
-        setBackground(UIConstants.NORMAL_BACKGROUND);
+        setBackground(UIConstants.PROPERTY_PANE_BACKGROUND);
         this.leftPane = leftPane;
         this.rightPane = rightPane;
 
         this.topToolPane = new TopToolPane();
+        topToolPane.setBackground(UIConstants.PROPERTY_PANE_BACKGROUND);
 
         setLayout(containerLayout);
         add(topToolPane);
