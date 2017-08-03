@@ -28,6 +28,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     private ToolBarDef toolbarDef;
 
     private UIToolbar toolBar;
+    private UIToolbar topToolBar;
     protected PopupEditDialog popupEditDialog;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
@@ -146,7 +147,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 //        leftContentPane.setBorder(BorderFactory.createLineBorder(new Color(201, 198, 184)));
 
         //  顶部标签及add按钮
-        UIToolbar topToolBar = new UIToolbar();
+        topToolBar = new UIToolbar();
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
@@ -246,19 +247,27 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         toolbarDef.updateToolBar(toolBar);
         toolBar.validate();
         toolBar.repaint();
+
+
+        // 顶部按钮
+        topToolBar.removeAll();
+        ShortCut addItem = addItemShortCut().getShortCut();
+        addItem.intoJToolBar(topToolBar);
+        topToolBar.validate();
+
         this.repaint();
     }
 
     // 点击"编辑"按钮，弹出面板
     protected class PopupEditDialog extends JDialog {
         private JComponent editPane;
-        private static final int WIDTH = 490;
-        private static final int HEIGHT = 570;
+        private static final int WIDTH = 570;
+        private static final int HEIGHT = 490;
 
         PopupEditDialog(JComponent pane) {
             super(DesignerContext.getDesignerFrame());
             setUndecorated(true);
-            pane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
             this.editPane = pane;
             this.getContentPane().add(editPane, BorderLayout.CENTER);
             setSize(WIDTH, HEIGHT);

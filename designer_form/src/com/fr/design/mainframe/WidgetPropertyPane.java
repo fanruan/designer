@@ -4,10 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XCreatorUtils;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
 import com.fr.design.designer.properties.WidgetPropertyTable;
 import com.fr.design.fun.WidgetPropertyUIProvider;
@@ -130,9 +127,6 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private void createEventTable() {
         eventTable = new EventPropertyTable(designer);
         designer.addDesignerEditListener(new EventPropertyDesignerAdapter(eventTable));
-        eventTable.setBorder(null);
-        esp = new UIScrollPane(eventTable); //用来装载事件table
-        esp.setBorder(null);
     }
 
     /**
@@ -242,7 +236,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         tabbedPane.setBorder(null);
         tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
         tabbedPane.addTab(Inter.getLocText("FR-Designer_Properties"), psp);
-        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), esp);
+        tabbedPane.addTab(Inter.getLocText("FR-Designer_Event"), eventTable);
         tabbedPane.addTab(Inter.getLocText("FR-Widget_Mobile_Terminal"), wsp);
     }
 
@@ -314,6 +308,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
      */
     private class EventPropertyDesignerAdapter implements DesignerEditListener {
         EventPropertyTable propertyTable;
+        private XComponent lastAffectedCreator;
 
         EventPropertyDesignerAdapter(EventPropertyTable eventTable) {
             this.propertyTable = eventTable;
@@ -321,8 +316,14 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
 
         @Override
         public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED) {
+                propertyTable.refresh();
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
+                // 防止多次触发
+                if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
+                    return;
+                }
+                lastAffectedCreator = evt.getAffectedCreator();
                 propertyTable.refresh();
             }
         }

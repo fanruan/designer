@@ -4,10 +4,13 @@ package com.fr.design.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.controlpane.ObjectUIControlPane;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
+import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.controlpane.ObjectJControlPane;
 import com.fr.design.gui.frpane.ListenerUpdatePane;
 import com.fr.design.javascript.JavaScriptActionPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -15,18 +18,28 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.form.event.Listener;
 import com.fr.form.ui.Widget;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
+import com.fr.grid.GridUtils;
+import com.fr.grid.selection.CellSelection;
+import com.fr.privilege.finegrain.WidgetPrivilegeControl;
+import com.fr.report.cell.DefaultTemplateCellElement;
+import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.report.stable.ReportConstants;
 import com.fr.stable.Nameable;
 
-public class WidgetEventPane extends ObjectJControlPane {
-	
-	public WidgetEventPane() {
-	    this(null);
-	}
+public class WidgetEventPane extends ObjectUIControlPane {
+
     public WidgetEventPane(ElementCasePane pane) {
         super(pane);
         this.setNameListEditable(false);
+    }
+
+    @Override
+    public String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Event");
     }
 
     /**
@@ -35,20 +48,22 @@ public class WidgetEventPane extends ObjectJControlPane {
      */
     public NameableCreator[] createNameableCreators() {
         return new NameableCreator[]{
-                EventCreator.STATECHANGE
+                new EventCreator(Widget.EVENT_STATECHANGE, WidgetEventListenerUpdatePane.class)
             };
     }
-    
-    @Override
+
+	@Override
+	public void saveSettings() {
+        CellWidgetPropertyPane.getInstance().update();
+    }
+
+	@Override
     protected String title4PopupWindow() {
     	return Inter.getLocText("Event");
     }
     
     public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
-    	private  ElementCasePane epane;
-    	public WidgetEventListenerUpdatePane() {
-    		this(null);
-    	}
+    	private ElementCasePane epane;
     	public WidgetEventListenerUpdatePane(ElementCasePane epane){
     		this.epane = epane;
     		super.initComponents();
@@ -104,7 +119,7 @@ public class WidgetEventPane extends ObjectJControlPane {
             return;
         }
         
-        this.refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents()));
+        this.refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
 
         List<NameObject> list = new ArrayList<NameObject>();
         Listener listener;
