@@ -48,7 +48,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final String KEY_WIDGET_LIB = "widgetLib";
     private static final String KEY_AUTHORITY_EDITION = "authorityEdition";
     private static final String KEY_CONFIGURED_ROLES = "editedRoles";
-    private static final String DEFAULT_PANE = "defaultPane";  // "无可用配置项"面板
+    private static final String DEFAULT_PANE = "defaultPane";
+    private static final String DEFAULT_AUTHORITY_PANE = "defaultAuthorityPane";
+
+    private JPanel defaultPane;  // "无可用配置项"面板
+    private JPanel defaultAuthorityPane;  // "该元素不支持权限编辑"
 
     public enum PropertyMode {
         REPORT,  // 报表
@@ -83,6 +87,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         super();
 //        setVerticalDragEnabled(false);
         initPropertyItemList();
+        defaultPane = getDefaultPane(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        defaultAuthorityPane = getDefaultPane(Inter.getLocText("FR-Designer_Not_Support_Authority_Edit"));
         switchMode(PropertyMode.REPORT);
 //        initContentPane();
 //        super(leftPane, rightPane);
@@ -140,9 +146,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     // "无可用配置项"面板
-    private JPanel getDefaultPane() {
+    private JPanel getDefaultPane(String prompt) {
         JPanel defaultPane = new JPanel();
-        UILabel label = new UILabel(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        UILabel label = new UILabel(prompt);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         defaultPane.setLayout(new BorderLayout());
         defaultPane.add(label, BorderLayout.CENTER);
@@ -166,7 +172,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             }
             rightPane.add(item.getName(), item.getPropertyPanel());
         }
-        rightPane.add(DEFAULT_PANE, getDefaultPane());
+        rightPane.add(DEFAULT_PANE, defaultPane);
+        rightPane.add(DEFAULT_AUTHORITY_PANE, defaultAuthorityPane);
 
         replaceRightPane(rightPane);
         refreshRightPane();
@@ -363,16 +370,24 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      */
     public void refreshRightPane() {
         boolean hasAvailableTab = false;
+        boolean hasEnabledTab = false;
         for (String name : propertyItemMap.keySet()) {
             PropertyItem propertyItem = propertyItemMap.get(name);
-            if (propertyItem.isVisible() && !propertyItem.isPoppedOut() && propertyItem.isEnabled()) {
-                propertyCard.show(rightPane, name);  // 显示第一个可用tab
-                hasAvailableTab = true;
-                break;
+            if (propertyItem.isVisible() && propertyItem.isEnabled()) {
+                hasEnabledTab = true;
+                if (!propertyItem.isPoppedOut()) {
+                    propertyCard.show(rightPane, name);  // 显示第一个可用tab
+                    hasAvailableTab = true;
+                    break;
+                }
             }
         }
         if (!hasAvailableTab) {
-            propertyCard.show(rightPane, DEFAULT_PANE);
+            if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
+                propertyCard.show(rightPane, DEFAULT_AUTHORITY_PANE);
+            } else {
+                propertyCard.show(rightPane, DEFAULT_PANE);
+            }
         }
 
 //        if (this.getRightPane() instanceof DockingView) {
