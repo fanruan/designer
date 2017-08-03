@@ -50,25 +50,6 @@ public class EventCreator extends NameableSelfCreator {
 	public void saveUpdatedBean(ListModelElement wrapper, Object bean) {
 		((NameObject)wrapper.wrapper).setObject(bean);
 	}
-	
-
-//	public static final EventCreator BEFOREEDIT = new EventCreator(Widget.BEFOREEDIT);
-//
-//	public static final EventCreator AFTEREDIT = new EventCreator(Widget.AFTEREDIT);
-//
-//	public static final EventCreator CHANGE = new EventCreator(Widget.CHANGE);
-//
-//	public static final EventCreator CLICK = new EventCreator(Widget.EVENT_CLICK);
-//
-//	public static final EventCreator SUCCESS = new EventCreator("success");
-//
-//    public static final EventCreator AFTERINIT = new EventCreator(Widget.AFTERINIT);
-//
-//	public static final EventCreator STOPEDIT = new EventCreator(Widget.STOPEDIT);
-//
-//	public static final EventCreator STATECHANGE = new EventCreator(Widget.EVENT_STATECHANGE);
-//
-//	public static final EventCreator CALLBACK = new EventCreator(FileEditor.EVENT_UPLOAD_CALLBACK);
 
 	@Override
 	public String createTooltip() {

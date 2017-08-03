@@ -30,17 +30,7 @@ public abstract class ObjectUIControlPane extends UIListControlPane {
                 Constructor<? extends BasicBeanPane> constructor = getConstructor(creator.getUpdatePane(), object.getClass());
                 return constructor == null ? super.createPaneByCreators(creator) : constructor.newInstance(object);
             }
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
