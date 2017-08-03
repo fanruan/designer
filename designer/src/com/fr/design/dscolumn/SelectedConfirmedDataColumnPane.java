@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class SelectedConfirmedDataColumnPane extends SelectedDataColumnPane {
 
     public SelectedConfirmedDataColumnPane() {
-        super(false, false);
+        super(false);
     }
 
     protected void initTableNameComboBox() {

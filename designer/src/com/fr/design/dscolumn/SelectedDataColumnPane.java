@@ -17,6 +17,7 @@ import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.Inter;
 import com.fr.general.data.TableDataColumn;
 import com.fr.report.cell.CellElement;
@@ -54,12 +55,17 @@ public class SelectedDataColumnPane extends BasicPane {
     private UIButton paramButton;
 
     public SelectedDataColumnPane() {
-        this(true, false);
+        this(true, false, null);
     }
 
-    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout) {
+
+    public SelectedDataColumnPane(boolean showParameterButton) {
+        this(showParameterButton, false, null);
+    }
+
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, ElementCasePane casePane) {
         if (verticalLayout) {
-            initComponentVerticalLayout(true);
+            initComponentVerticalLayout(casePane);
         } else {
             initComponent(showParameterButton);
         }
@@ -111,15 +117,11 @@ public class SelectedDataColumnPane extends BasicPane {
 
 
     /**
-     * 初始化组件
-     *
-     * @param showParameterButton 是否显示参数按钮
+     * 初始化竖直布局的组件
      */
-    public void initComponentVerticalLayout(boolean showParameterButton) {
+    public void initComponentVerticalLayout(ElementCasePane casePane) {
         initTableNameComboBox();
-        if (showParameterButton) {
-            initWithParameterButton();
-        }
+        initWithParameterButton(casePane);
         columnNameComboBox = new LazyComboBox() {
             @Override
             public Object[] load() {
@@ -132,27 +134,17 @@ public class SelectedDataColumnPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         UILabel label1 = new UILabel(Inter.getLocText("TableData"));
         UILabel label3 = new UILabel(Inter.getLocText("DataColumn"));
-        if (showParameterButton) {
-            //todo 国际化
-            UILabel label2 = new UILabel("param");
-            Component[][] components = {
-                    {label1, tableNameComboBox},
-                    {label2, paramButton},
-                    {label3, columnNameComboBox}
-            };
-            this.setLayout(new BorderLayout());
-            this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
-        } else {
-            double[] columnSize = {p, f};
-            double[] rowSize = {p, p};
-            Component[][] components = new Component[][]{
-                    new Component[]{label1, tableNameComboBox},
-                    new Component[]{label3, columnNameComboBox}
-            };
-            JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-            this.setLayout(new BorderLayout());
-            this.add(jPanel, BorderLayout.CENTER);
-        }
+
+        //todo 国际化
+        UILabel label2 = new UILabel("param");
+        Component[][] components = {
+                {label1, tableNameComboBox},
+                {label2, paramButton},
+                {label3, columnNameComboBox}
+        };
+        this.setLayout(new BorderLayout());
+        this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
+
     }
 
 
@@ -280,6 +272,26 @@ public class SelectedDataColumnPane extends BasicPane {
                     }
                 });
 
+                editorPane.populate(ps == null ? new Parameter[0] : ps);
+                paramDialog.setVisible(true);
+            }
+        });
+    }
+
+    private void initWithParameterButton(ElementCasePane casePane) {
+        editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
+        paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
+        paramButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                    @Override
+                    public void doOk() {
+                        List<ParameterProvider> parameterList = editorPane.update();
+                        ps = parameterList.toArray(new Parameter[parameterList.size()]);
+                        editorPane.update();
+                        casePane.fireTargetModified();
+                    }
+                });
                 editorPane.populate(ps == null ? new Parameter[0] : ps);
                 paramDialog.setVisible(true);
             }

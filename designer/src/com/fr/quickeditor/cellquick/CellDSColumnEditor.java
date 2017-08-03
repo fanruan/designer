@@ -53,7 +53,7 @@ import java.util.ArrayList;
  */
 public class CellDSColumnEditor extends CellQuickEditor {
 
-    private static double P = TableLayout.PREFERRED, F = TableLayout.FILL;
+    private static final double P = TableLayout.PREFERRED, F = TableLayout.FILL;
 
     private enum FilterType {
         //前N个 后N个 奇数 偶数 自定义 未定义
@@ -204,7 +204,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         DSColumnBasicEditorPane() {
             this.setLayout(new BorderLayout());
-            dataPane = new SelectedDataColumnPane(true, true);
+            dataPane = new SelectedDataColumnPane(true, true, tc);
             groupPane = new ResultSetGroupDockingPane(tc);
             dataPane.addListener(dataListener);
             groupPane.addListener(groupListener);
