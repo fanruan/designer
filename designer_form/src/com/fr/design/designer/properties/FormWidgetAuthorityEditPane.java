@@ -93,7 +93,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
      * @date 2014-12-21-下午6:19:43
      */
     public void populateType() {
-        type.setText(" " + Inter.getLocText("Widget-Form_Widget_Config"));
+        type.setText(Inter.getLocText("Widget-Form_Widget_Config"));
     }
 
     /**
@@ -109,7 +109,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
         for (int i = 0; i < widgets.length; i++) {
             nameText += "," + widgets[i].getClass().getSimpleName();
         }
-        name.setText(" " + nameText.substring(1));
+        name.setText(nameText.substring(1));
     }
 
     /**
