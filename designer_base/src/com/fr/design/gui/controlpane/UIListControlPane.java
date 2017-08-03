@@ -210,7 +210,7 @@ public abstract class UIListControlPane extends UIControlPane {
             listModel.addElement(new ListModelElement(aNameableArray));
         }
 
-        if (listModel.size() > 0) {
+        if (listModel.size() > 0 || this.nameableList.getSelectedIndex() != 0) {
             this.nameableList.setSelectedIndex(0);
         }
         this.checkButtonEnabled();
