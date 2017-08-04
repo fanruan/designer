@@ -32,7 +32,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             if (isSelected) {
                 String iconUrl = "/com/fr/design/mainframe/alphafine/images/selected" + model.getType().getTypeValue() + ".png";
                 panel.setBackground(AlphaFineConstants.BLUE);
-                titleLabel.setForeground(Color.white);
+                titleLabel.setForeground(Color.WHITE);
                 titleLabel.setIcon(new ImageIcon(IOUtils.readImage(iconUrl)));
             } else {
                 String iconUrl = "/com/fr/design/mainframe/alphafine/images/alphafine" + model.getType().getTypeValue() + ".png";

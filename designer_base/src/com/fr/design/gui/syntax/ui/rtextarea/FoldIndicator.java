@@ -92,7 +92,7 @@ public class FoldIndicator extends AbstractGutterComponent {
 	/**
 	 * The default color used to paint the "inside" of fold icons.
 	 */
-	static final Color DEFAULT_FOLD_BACKGROUND = Color.white;
+	static final Color DEFAULT_FOLD_BACKGROUND = Color.WHITE;
 
 	/**
 	 * Listens for events in this component.
@@ -128,7 +128,7 @@ public class FoldIndicator extends AbstractGutterComponent {
 	public JToolTip createToolTip() {
 		JToolTip tip = super.createToolTip();
 		Color textAreaBG = textArea.getBackground();
-		if (textAreaBG!=null && !Color.white.equals(textAreaBG)) {
+		if (textAreaBG!=null && !Color.WHITE.equals(textAreaBG)) {
 			Color bg = TipUtil.getToolTipBackground();
 			// If current L&F's tool tip color is close enough to "yellow",
 			// and we're not using the default text background of white, use

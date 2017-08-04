@@ -20,7 +20,7 @@ public class UITextFieldUI extends BasicTextFieldUI {
 	protected boolean isRollOver;
 	private JComponent textField;
 	
-	private Color backgroundColor = Color.white;
+	private Color backgroundColor = Color.WHITE;
 
 	public UITextFieldUI(final JComponent textField) {
 		super();

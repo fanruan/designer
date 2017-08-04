@@ -88,7 +88,7 @@ public class DrawFlowRect implements Runnable {
 		g.drawLine(x, y, width, y);
 		//第二根线同上
 		g.drawLine(x-1, y-1, width, y-1);
-		g.setColor(Color.white);
+		g.setColor(Color.WHITE);
 		//第一根白色虚线
 		drawFlowLine(g, x, y, width, y);
 		isReal = oldisReal;     //还原 数据
@@ -101,7 +101,7 @@ public class DrawFlowRect implements Runnable {
 		g.setColor(Color.black);         //右
 		g.drawLine(width, y, width, height);
 		g.drawLine(width-1, y-1, width-1, height);
-		g.setColor(Color.white);
+		g.setColor(Color.WHITE);
 		isReal = oldisReal;     //还原 数据
 		lenReal = oldlenReal;
 		drawFlowLine(g, width, y, width, height);
@@ -115,7 +115,7 @@ public class DrawFlowRect implements Runnable {
         g.setColor(Color.black);          //左
         g.drawLine(x, height, x, y);
         g.drawLine(x+1, height-1, x+1, y);
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         isReal = oldisReal;     //还原 数据
         lenReal = oldlenReal;
         drawFlowLine(g, x, height, x, y );
@@ -128,7 +128,7 @@ public class DrawFlowRect implements Runnable {
 		g.setColor(Color.black);         //下
 		g.drawLine(width, height, x, height);
 		g.drawLine(width+1, height+1, x, height+1);
-		g.setColor(Color.white);
+		g.setColor(Color.WHITE);
 		isReal = oldisReal;     //还原 数据
 		lenReal = oldlenReal;
 		drawFlowLine(g, width, height, x, height);

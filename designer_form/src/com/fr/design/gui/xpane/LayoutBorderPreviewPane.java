@@ -77,7 +77,7 @@ public class LayoutBorderPreviewPane extends JPanel{
             Shape shape = new Rectangle2D.Double(smallGAP, smallGAP, this.getWidth() - GAP, this.getHeight() - GAP);
             background.paint(g, shape);
         } else {
-            g.setColor(Color.white);
+            g.setColor(Color.WHITE);
             g.fillRect(smallGAP, smallGAP, this.getWidth() - GAP, this.getHeight() - GAP);
         }
 

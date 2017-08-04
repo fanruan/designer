@@ -38,7 +38,7 @@ public class BackgroundCustomJComponent extends BackgroundJComponent {
     			path.lineTo(13, 12);
     			path.lineTo(19, 7);
     			path.closePath();
-    			g2d.setColor(Color.white);
+    			g2d.setColor(Color.WHITE);
     			g2d.fill(path);
     			g2d.setColor(Color.gray);
     			g2d.draw(path);
@@ -54,7 +54,7 @@ public class BackgroundCustomJComponent extends BackgroundJComponent {
     			path.lineTo(7, 12);
     			path.lineTo(1, 7);
     			path.closePath();
-    			g2d.setColor(Color.white);
+    			g2d.setColor(Color.WHITE);
     			g2d.fill(path);
     			g2d.setColor(Color.gray);
     			g2d.draw(path);

@@ -98,7 +98,7 @@ public class ChartDataPointLabel4GisPane extends ChartDatapointLabelPane{
                 textFontPane.populate(((AttrContents)attr).getTextAttr());
             } else {
                 FRFont tmpFont = FRFont.getInstance();
-                tmpFont.setForeground(Color.white);
+                tmpFont.setForeground(Color.WHITE);
                 textFontPane.populate(tmpFont);
             }
         }

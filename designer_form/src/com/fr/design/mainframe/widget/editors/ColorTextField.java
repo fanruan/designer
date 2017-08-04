@@ -36,7 +36,7 @@ public class ColorTextField extends JComponent implements ITextComponent {
     public void paintComponent(Graphics g) {
         int width = getWidth();
         int height = getHeight();
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
         int x = LEFT;
         int y = (height - BOX) / 2;
@@ -110,7 +110,7 @@ public class ColorTextField extends JComponent implements ITextComponent {
     @Override
     public void setEditable(boolean editable) {
         textField.setEditable(editable);
-        textField.setBackground(Color.white);
+        textField.setBackground(Color.WHITE);
     }
 
     @Override

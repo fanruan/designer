@@ -27,7 +27,7 @@ public class UITitlePanel extends JPanel {
 	public UITitlePanel(JPanel contentPanel, String title) {
 		JPanel TitleBar = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		TitleBar.setBackground(new Color(148, 148, 148));
-		TitleBar.setForeground(Color.white);
+		TitleBar.setForeground(Color.WHITE);
 		TitleBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(85, 85, 85)));
 
 		UILabel titlelabel = new UILabel("  " + title);

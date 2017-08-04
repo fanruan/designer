@@ -41,7 +41,7 @@ public class ColorWrapper implements Encoder, Decoder {
         } else if (txt.equals("red")) {
             return Color.red;
         } else if (txt.equals("white")) {
-            return Color.white;
+            return Color.WHITE;
         } else if (txt.equals("yellow")) {
             return Color.yellow;
         }
@@ -82,7 +82,7 @@ public class ColorWrapper implements Encoder, Decoder {
             return "pink";
         } else if (c.equals(Color.red)) {
             return "red";
-        } else if (c.equals(Color.white)) {
+        } else if (c.equals(Color.WHITE)) {
             return "white";
         } else if (c.equals(Color.yellow)) {
             return "yellow";

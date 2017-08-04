@@ -384,7 +384,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         if (isNeedPaintAuthority) {
             g2d.setPaint(new GradientPaint(1, 1, UIConstants.AUTHORITY_SHEET_LIGHT, 1, getHeight() - 1, UIConstants.AUTHORITY_SHEET_DARK));
         } else {
-            g2d.setPaint(new GradientPaint(1, 1, Color.white, 1, getHeight() - 1, Color.white));
+            g2d.setPaint(new GradientPaint(1, 1, Color.WHITE, 1, getHeight() - 1, Color.WHITE));
         }
         GeneralPath generalPath = new GeneralPath(Path2D.WIND_EVEN_ODD, x.length);
         generalPath.moveTo((float) x[0], (float) y[0]);

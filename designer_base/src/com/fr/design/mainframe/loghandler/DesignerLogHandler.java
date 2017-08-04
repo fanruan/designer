@@ -146,7 +146,7 @@ public class DesignerLogHandler {
             this.setPreferredSize(new Dimension(super.getPreferredSize().width, 150));
 
             jTextArea.setEditable(false);
-            jTextArea.setBackground(Color.white);
+            jTextArea.setBackground(Color.WHITE);
 
             popup = new JPopupMenu();
             selectAll = new UIMenuItem(Inter.getLocText("FR-Designer_Select_All"));

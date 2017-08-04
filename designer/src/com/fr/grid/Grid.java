@@ -57,7 +57,7 @@ public class Grid extends BaseGridComponent {
     transient private TemplateCellElement editingCellElement;
 
     private boolean showGridLine = true;
-    private Color gridLineColor = new Color(0xF0F0F3); // line color.
+    private Color gridLineColor = new Color(0xf0f0f3); // line color.
 
     private boolean isShowPaginateLine = true;
     private Color paginationLineColor = Color.RED; // line color of paper

@@ -89,7 +89,7 @@ public class ColorChooserPreview extends JPanel {
 
     private int paintSwatch(Graphics g, int offsetX) {
         int swatchX = offsetX;
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(swatchX, 0, SWATH_WIDTH, (SQUARE_SIZE) + (SQUARE_GAP / 2));
         g.setColor(myColor);
         g.fillRect(swatchX, (SQUARE_SIZE) + (SQUARE_GAP / 2), SWATH_WIDTH, (SQUARE_SIZE) + (SQUARE_GAP / 2) );
@@ -128,7 +128,7 @@ public class ColorChooserPreview extends JPanel {
         SwingUtilities2.drawString(host, g, getSampleText(), textXOffset + (TEXT_GAP / 2), height+ascent + TEXT_GAP + 2);
 
 
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
 
         g.fillRect(textXOffset, (height + TEXT_GAP) * 2, width + TEXT_GAP, height + 2);
 
@@ -149,11 +149,11 @@ public class ColorChooserPreview extends JPanel {
         int squareXOffset = offsetX;
         Color color = myColor;
         /** 方形预览框第1列第1行：从外到内（white,color,white） */
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(squareXOffset, 0, SQUARE_SIZE, SQUARE_SIZE);
         g.setColor(color);
         g.fillRect(squareXOffset + INNER_GAP, INNER_GAP, SQUARE_SIZE - INNER_GAP2, SQUARE_SIZE - INNER_GAP2);
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(squareXOffset+INNER_GAP2, INNER_GAP2, SQUARE_SIZE - INNER_GAP3, SQUARE_SIZE - INNER_GAP3);
         /** 方形预览框第1列第2行：color全色 */
         g.setColor(color);
@@ -164,19 +164,19 @@ public class ColorChooserPreview extends JPanel {
         g.fillRect(squareXOffset, 0, SQUARE_SIZE, SQUARE_SIZE);
         g.setColor(color);
         g.fillRect(squareXOffset + INNER_GAP, INNER_GAP, SQUARE_SIZE - INNER_GAP2, SQUARE_SIZE - INNER_GAP2);
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(squareXOffset + INNER_GAP2, INNER_GAP2, SQUARE_SIZE - INNER_GAP3, SQUARE_SIZE - INNER_GAP3);
         g.translate(-(SQUARE_SIZE + SQUARE_GAP), 0);
         /** 方形预览框第2列第2行：从外到内（white,color） */
         g.translate(SQUARE_SIZE + SQUARE_GAP, SQUARE_SIZE + SQUARE_GAP);
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(squareXOffset,0,SQUARE_SIZE,SQUARE_SIZE);
         g.setColor(color);
         g.fillRect(squareXOffset + INNER_GAP, INNER_GAP, SQUARE_SIZE - INNER_GAP2, SQUARE_SIZE - INNER_GAP2);
         g.translate(-(SQUARE_SIZE + SQUARE_GAP), -(SQUARE_SIZE + SQUARE_GAP));
         /** 方形预览框第3列第1行：从外到内（white,color,black） */
         g.translate((SQUARE_SIZE + SQUARE_GAP) * 2, 0);
-        g.setColor(Color.white);
+        g.setColor(Color.WHITE);
         g.fillRect(squareXOffset, 0, SQUARE_SIZE,SQUARE_SIZE);
         g.setColor(color);
         g.fillRect(squareXOffset + INNER_GAP, INNER_GAP, SQUARE_SIZE - INNER_GAP2, SQUARE_SIZE - INNER_GAP2);

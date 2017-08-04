@@ -88,7 +88,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
         this.designer.addKeyListener(showValSpinnerKeyListener);
         this.setOpaque(true);
-        this.setBackground(Color.white);
+        this.setBackground(Color.WHITE);
     }
 
 

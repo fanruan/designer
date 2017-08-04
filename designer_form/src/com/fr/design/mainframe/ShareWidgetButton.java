@@ -64,7 +64,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         Graphics2D g2d = (Graphics2D) g;
         Composite oldComposite = g2d.getComposite();
         g2d.setComposite(composite);
-        g2d.setColor(Color.white);
+        g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setComposite(oldComposite);
         super.paint(g);

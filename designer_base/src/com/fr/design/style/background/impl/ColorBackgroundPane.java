@@ -28,7 +28,7 @@ public class ColorBackgroundPane extends BackgroundDetailPane {
             ColorBackground colorBackgroud = (ColorBackground) background;
             this.detailColorSelectPane.populate(colorBackgroud.getColor());
         } else {
-            this.detailColorSelectPane.populate(Color.white);
+            this.detailColorSelectPane.populate(Color.WHITE);
         }
     }
 

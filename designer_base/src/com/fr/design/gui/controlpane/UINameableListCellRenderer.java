@@ -90,7 +90,7 @@ public class UINameableListCellRenderer extends
         if (isSelected) {
             setBackground(bg == null ? list.getSelectionBackground() : bg);
             setForeground(fg == null ? list.getSelectionForeground() : fg);
-            label.setForeground(Color.white);
+            label.setForeground(Color.WHITE);
             editButton.setIcon(UIConstants.LIST_EDIT_WHITE_ICON);
         }
         else {

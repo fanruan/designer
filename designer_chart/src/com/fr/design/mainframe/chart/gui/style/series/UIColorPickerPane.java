@@ -522,14 +522,14 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 				if(number != null) {
 					double value = number.doubleValue();
 					if(value < forValue && value > backValue) {
-						setBackgroundUIColor(i,Color.white);
+						setBackgroundUIColor(i,Color.WHITE);
 					} else {
 						setBackgroundUIColor(i, Color.red);
 					}
 					forValue = value;
 				}else{
 					//公式类型
-					setBackgroundUIColor(i,Color.white);
+					setBackgroundUIColor(i,Color.WHITE);
 				}
 			}
 			this.repaint();

@@ -27,7 +27,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:51:10
  */
 public class GridColumnUI extends ComponentUI {
-    protected Color withoutDetailsBackground =  new Color(0xF0F0F3);
+    protected Color withoutDetailsBackground =  new Color(0xf0f0f3);
     private int resolution ;
 
     public GridColumnUI(int resolution){
@@ -70,7 +70,7 @@ public class GridColumnUI extends ComponentUI {
         if (gridColumn.getBackground() != null) {
             g2d.setPaint(this.withoutDetailsBackground);
             GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, columnLeftWidth, size.getHeight()));
-            g2d.setPaint(Color.white);
+            g2d.setPaint(Color.WHITE);
             GraphHelper.fill(g2d, new Rectangle2D.Double(columnLeftWidth, 0, size.getWidth() - columnLeftWidth, size.getHeight()));
         }
         // draw left border line.

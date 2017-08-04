@@ -50,7 +50,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         stringTextField.setWrapStyleWord(true);
         stringTextField.setMargin(new Insets(5, 5, 5, 5));
         stringTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
-        stringTextField.setBackground(Color.white);
+        stringTextField.setBackground(Color.WHITE);
     }
 
     ActionListener getFormulaActionListener = new ActionListener() {

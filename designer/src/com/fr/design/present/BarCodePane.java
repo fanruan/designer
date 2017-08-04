@@ -302,7 +302,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         private Object obj;
 
         public BarCodePreviewPane() {
-//			setBackground(Color.white);
+//			setBackground(Color.WHITE);
         }
 
         /**

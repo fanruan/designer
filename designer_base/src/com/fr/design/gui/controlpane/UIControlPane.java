@@ -142,7 +142,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.white);
+                g2.setColor(Color.WHITE);
                 g2.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
         });

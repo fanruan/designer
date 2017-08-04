@@ -22,6 +22,6 @@ public class TextField extends UITextField implements ITextComponent {
     @Override
     public void setEditable(boolean b) {
         super.setEditable(b);
-        setBackground(Color.white);
+        setBackground(Color.WHITE);
     }
 }

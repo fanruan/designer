@@ -48,7 +48,7 @@ public class ColorSelectDetailPane extends BasicPane {
 
     public ColorSelectDetailPane(Color color) {
         if (color == null) {
-            color = Color.white;
+            color = Color.WHITE;
         }
         this.color = color;
         initComponents();

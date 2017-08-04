@@ -132,13 +132,13 @@ public class AlphaFineDialog extends UIDialog {
         UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
         iconLabel.setOpaque(true);
-        iconLabel.setBackground(Color.white);
+        iconLabel.setBackground(Color.WHITE);
         topPane.add(iconLabel, BorderLayout.WEST);
         topPane.add(searchTextField, BorderLayout.CENTER);
         closeButton = new UIButton() {
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(Color.white);
+                g.setColor(Color.WHITE);
                 g.fillRect(0, 0, getSize().width, getSize().height);
                 super.paintComponent(g);
             }
@@ -171,7 +171,7 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField = new AlphaFineTextField(PLACE_HOLDER);
         initTextFieldKeyListener();
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
-        searchTextField.setBackground(Color.white);
+        searchTextField.setBackground(Color.WHITE);
         searchTextField.setBorderPainted(false);
     }
 
@@ -294,11 +294,11 @@ public class AlphaFineDialog extends UIDialog {
         searchResultList.setCellRenderer(new ContentCellRender());
 
         leftSearchResultPane = new UIScrollPane(searchResultList);
-        leftSearchResultPane.setBackground(Color.white);
+        leftSearchResultPane.setBackground(Color.WHITE);
         leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
-        rightSearchResultPane.setBackground(Color.white);
+        rightSearchResultPane.setBackground(Color.WHITE);
         UILabel splitLine = new UILabel();
         splitLine.setBackground(AlphaFineConstants.GRAY);
         splitLine.setPreferredSize(new Dimension(1, AlphaFineConstants.CONTENT_HEIGHT));

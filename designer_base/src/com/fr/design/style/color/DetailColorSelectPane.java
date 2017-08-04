@@ -78,7 +78,7 @@ public class DetailColorSelectPane extends BasicPane {
         this.addChangeListener(colorPreviewLabelChangeListener);
 
         //use the white as the default color.
-        this.populate(Color.white);
+        this.populate(Color.WHITE);
     }
     
     @Override

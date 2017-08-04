@@ -69,7 +69,7 @@ public class RemindPane extends JPanel {
         });
         noRemindLabel = new UILabel(Inter.getLocText("FR-Designer-Alphafine_No_Remind"));
         noRemindLabel.setFont(MEDIUM_FONT);
-        noRemindLabel.setForeground(Color.white);
+        noRemindLabel.setForeground(Color.WHITE);
         checkLabel = new UILabel();
         checkLabel.setIcon(unCheckIcon);
         checkLabel.addMouseListener(new MouseAdapter() {

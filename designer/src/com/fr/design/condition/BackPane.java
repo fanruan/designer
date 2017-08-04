@@ -55,7 +55,7 @@ public class BackPane extends ConditionAttrSingleConditionPane<HighlightAction> 
         this.add(backgroundPreviewPane);
         this.add(editBackgroundButton);
         this.add(this.backScopeComboBox);
-        this.backgroundPreviewPane.setBackgroundObject(ColorBackground.getInstance(Color.white));
+        this.backgroundPreviewPane.setBackgroundObject(ColorBackground.getInstance(Color.WHITE));
     }
 
     @Override

@@ -139,7 +139,7 @@ public class Designer extends BaseDesigner {
                 return dim;
             }
         };
-        templeJpanel.setBackground(Color.white);
+        templeJpanel.setBackground(Color.WHITE);
         largeToolbar.add(templeJpanel);
         createRunButton(largeToolbar);
         largeToolbar.add(run);
@@ -150,7 +150,7 @@ public class Designer extends BaseDesigner {
                 return dim;
             }
         };
-        templeJpanel.setBackground(Color.white);
+        templeJpanel.setBackground(Color.WHITE);
         largeToolbar.add(templeJpanel);
         largeToolbar.setBorder(new MatteBorder(new Insets(0, 0, 1, 0), UIConstants.LINE_COLOR));
         return largeToolbar;
@@ -263,7 +263,7 @@ public class Designer extends BaseDesigner {
         run.set4Toolbar();
         run.getUpButton().setToolTipText(Inter.getLocText("FR-Designer_Preview"));
         run.getDownButton().setToolTipText(Inter.getLocText("FR-Designer_Dropdown-More-Preview"));
-        run.setBackground(Color.white);
+        run.setBackground(Color.WHITE);
     }
 
     @Override

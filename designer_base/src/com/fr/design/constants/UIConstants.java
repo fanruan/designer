@@ -81,9 +81,9 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_DARK = new Color(86, 120, 143);
     public static final Color AUTHORITY_SHEET_LIGHT = new Color(156, 204, 238);
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
-    public static final Color ATTRIBUTE_PRESS = new Color(0xdfecfc);
-    public static final Color ATTRIBUTE_NORMAL = new Color(0xe2e2e2);
-    public static final Color ATTRIBUTE_HOVER = new Color(0xd3d3d3);
+    public static final Color ATTRIBUTE_PRESS = new Color(0xD8F2FD);
+    public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
+    public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);

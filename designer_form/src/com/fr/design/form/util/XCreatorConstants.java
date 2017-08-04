@@ -26,7 +26,7 @@ public class XCreatorConstants {
     // 拖拽标识块的大小
     public static final int RESIZE_BOX_SIZ = 5;
     // 拖拽的小方块的内部颜色
-    public static final Color RESIZE_BOX_INNER_COLOR = Color.white;
+    public static final Color RESIZE_BOX_INNER_COLOR = Color.WHITE;
     // 拖拽的小方块的边框颜色
     public static final Color RESIZE_BOX_BORDER_COLOR = new Color(143, 171, 196);
     // 当前选取的组件的边框线着色

@@ -315,7 +315,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
 			g2d.fillRoundRect(1, 1, width - 2, height - 2, UIConstants.ARC, UIConstants.ARC);
 			if (isRollOver && isEnabled()) {
 				Shape shape = new RoundRectangle2D.Double(1, 1, width - 3, height - 3, UIConstants.ARC, UIConstants.ARC);
-				GUIPaintUtils.paintBorderShadow(g2d, 3, shape, UIConstants.HOVER_BLUE, Color.white);
+				GUIPaintUtils.paintBorderShadow(g2d, 3, shape, UIConstants.HOVER_BLUE, Color.WHITE);
 			} else {
 				g2d.setColor(UIConstants.LINE_COLOR);
 				g2d.drawRoundRect(1, 1, width - 2, height - 2, UIConstants.ARC, UIConstants.ARC);

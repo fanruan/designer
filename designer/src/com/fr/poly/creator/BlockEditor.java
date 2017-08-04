@@ -59,7 +59,7 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 		this.initDataChangeListener();
 	}
 	protected void initComponets(){
-		this.setBackground(Color.white);
+		this.setBackground(Color.WHITE);
 		this.setOpaque(false);
 		this.setLayout(new BlockEditorLayout());
 		editComponent = createEffective();
