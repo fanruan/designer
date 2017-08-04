@@ -19,6 +19,10 @@ public class UIScrollPane extends JScrollPane {
         this.setHorizontalScrollBar(createHorizontalScrollBar());
         this.getVerticalScrollBar().setUnitIncrement(30);
         this.getVerticalScrollBar().setBlockIncrement(30);
+        this.getHorizontalScrollBar().setOpaque(true);
+        this.getHorizontalScrollBar().setBackground(Color.WHITE);
+        this.getVerticalScrollBar().setOpaque(true);
+        this.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
     @Override

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 import javax.swing.plaf.metal.MetalScrollPaneUI;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -35,11 +36,13 @@ public class UIScrollPaneUI extends MetalScrollPaneUI implements PropertyChangeL
         // Note: It never happened before Java 1.5 that scrollbar is null
         JScrollBar sb = scrollpane.getHorizontalScrollBar();
         if (sb != null) {
+            sb.setBackground(Color.red);
             sb.putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
         }
 
         sb = scrollpane.getVerticalScrollBar();
         if (sb != null) {
+            sb.setBackground(Color.red);
             sb.putClientProperty(MetalScrollBarUI.FREE_STANDING_PROP, Boolean.FALSE);
         }
     }

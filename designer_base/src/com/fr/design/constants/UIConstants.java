@@ -70,7 +70,7 @@ public interface UIConstants {
     public static final Color SHADOW_GREY = new Color(217, 218, 221);
     public static final Color SHADOW_CENTER = new Color(200, 200, 200);
     public static final Color SHADOW_PURPLE = new Color(255, 0, 255);
-    public static final Color FLESH_BLUE = new Color(70, 157, 246);
+    public static final Color FLESH_BLUE = new Color(65, 155, 249);
     public static final Color HOVER_BLUE = new Color(0xd2d2d2);
     public static final Color DOTTED_LINE_COLOR = new Color(35, 108, 184);
     public static final Color AUTHORITY_COLOR = new Color(88, 125, 153);
@@ -142,9 +142,9 @@ public interface UIConstants {
     public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
-    public static final Color BARNOMAL = new Color(153, 153, 153);
+    public static final Color BARNOMAL = new Color(232, 232, 233);
     public static final int ARC = 0;
-    public static final int LARGEARC = 0;
+    public static final int LARGEARC = 6;
     public static final Stroke BS = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2f, new float[]{3, 1}, 0);
     public static final Icon PREVIEW_DOWN = BaseUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");
     public static final Icon CLOSE_OF_AUTHORITY = BaseUtils.readIcon("/com/fr/design/images/m_report/close.png");
