@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
-    private boolean isTwoLine = false;
-    private boolean isFourLine = false;
     private static final long serialVersionUID = 1L;
     protected List<UIToggleButton> labelButtonList;
     protected int selectedIndex = -1;
@@ -155,7 +153,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     }
 
     protected void initButton(UIToggleButton labelButton) {
-        labelButton.setRoundBorder(false);
+        labelButton.setRoundBorder(true);
         labelButton.setBorderPainted(false);
         labelButtonList.add(labelButton);
         this.add(labelButton);
@@ -166,15 +164,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     }
 
     protected LayoutManager getGridLayout(int number) {
-        return new GridLayout(0, number, 1, 0);
-    }
-
-    public void setTwoLine() {
-        this.isTwoLine = true;
-    }
-
-    public void setFourLine() {
-        this.isFourLine = true;
+        return new GridLayout(0, number, 0, 0);
     }
 
     /**
@@ -185,7 +175,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     public void paintComponents(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Shape oldClip = g2d.getClip();
-        g2d.clip(new RoundRectangle2D.Double(1, 1, getWidth(), getHeight(), UIConstants.ARC, UIConstants.ARC));
+        g2d.clip(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), UIConstants.ARC, UIConstants.ARC));
         super.paintComponents(g);
         g2d.setClip(oldClip);
     }
@@ -201,43 +191,20 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
             return;
         }
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(UIConstants.LINE_COLOR);
-        if (isTwoLine) {
-            int width = 0;
-            int upCount = (labelButtonList.size() - 1) / 2 + 1;
-            for (int i = 0; i < upCount - 1; i++) {
-                width += labelButtonList.get(i).getWidth() + 1;
-                int height = labelButtonList.get(i).getHeight() * 2 + 1;
-                g.drawLine(width, 0, width, height);
-            }
+        g2d.setColor(UIConstants.SHADOW_GREY);
 
-            width += labelButtonList.get(upCount).getWidth() + 1;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
-            g2d.drawLine(0, getHeight() / 2, width, getHeight() / 2);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        } else if (isFourLine) {
-            // 4 * 1
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
-            for (int i = 1; i <= 3; i++) {
-                g2d.drawLine(0, getHeight() / 4 * i, getWidth() - 1, getHeight() / 4 * i);
-            }
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        } else {
-            int width = 0;
-            for (int i = 0; i < labelButtonList.size() - 1; i++) {
-                width += labelButtonList.get(i).getWidth() + 1;
-                int height = labelButtonList.get(i).getHeight();
-                g.drawLine(width, 0, width, height);
-            }
-
-            width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
-
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        int width = 0;
+        for (int i = 0; i < labelButtonList.size() - 1; i++) {
+            width += labelButtonList.get(i).getWidth() + 1;
+            int height = labelButtonList.get(i).getHeight();
+            g.drawLine(width, 0, width, height);
         }
+
+        width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.BUTTON_GROUP_ARC, UIConstants.BUTTON_GROUP_ARC);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
     }
 
