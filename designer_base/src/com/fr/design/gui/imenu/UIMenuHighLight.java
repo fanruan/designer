@@ -13,7 +13,7 @@ public class UIMenuHighLight extends JPanel{
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = super.getPreferredSize();
-		dim.height = 2;
+		dim.height = 0;
 		return dim;
 	}
 	public void paint(Graphics g) {

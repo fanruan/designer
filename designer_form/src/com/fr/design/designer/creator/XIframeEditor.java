@@ -62,7 +62,7 @@ public class XIframeEditor extends XWidgetCreator {
             UITextField address = new UITextField();
             editor.add(address, BorderLayout.NORTH);
             JPanel contentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            contentPane.setBackground(Color.white);
+            contentPane.setBackground(Color.WHITE);
             editor.add(contentPane, BorderLayout.CENTER);
         }
         return editor;

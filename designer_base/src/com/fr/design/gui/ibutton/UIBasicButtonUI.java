@@ -5,9 +5,9 @@
 package com.fr.design.gui.ibutton;
 
 import com.fr.design.gui.itoolbar.UIToolBarUI;
-import com.fr.general.ComparatorUtils;
 import com.fr.design.utils.ColorRoutines;
 import com.fr.design.utils.ThemeUtils;
+import com.fr.general.ComparatorUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;

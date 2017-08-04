@@ -485,7 +485,7 @@ public class BorderPane extends BasicPane {
 		// Paint the background component which depends on cell set case
 		public void paint(Graphics g) {
 			// background
-			g.setColor(Color.white);
+			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 			// borders

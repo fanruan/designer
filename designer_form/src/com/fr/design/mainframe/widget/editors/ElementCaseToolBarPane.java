@@ -131,10 +131,10 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
         initLayoutTable();
 
         JPanel center = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        center.setBackground(Color.white);
+        center.setBackground(Color.WHITE);
         center.add(topButton, BorderLayout.NORTH);
         JPanel small = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        small.setBackground(Color.white);
+        small.setBackground(Color.WHITE);
         small.add(new UILabel(StringUtils.BLANK), BorderLayout.NORTH);
         small.add(layoutTable, BorderLayout.CENTER);
         center.add(small, BorderLayout.CENTER);
@@ -170,7 +170,7 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
         layoutTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         layoutTable.setColumnSelectionAllowed(false);
         layoutTable.setRowSelectionAllowed(false);
-        layoutTable.setBackground(Color.white);
+        layoutTable.setBackground(Color.WHITE);
         int columnWidth = Integer.parseInt(Inter.getLocText("FR-Designer_LayoutTable_Column_Width"));
         for (int i = 0; i < layoutTable.getColumnModel().getColumnCount(); i++) {
             layoutTable.getColumnModel().getColumn(i).setPreferredWidth(columnWidth);

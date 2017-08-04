@@ -11,6 +11,8 @@ import com.fr.general.Inter;
 
 import javax.swing.JPanel;
 
+import static com.fr.design.constants.UIConstants.NORMAL_BACKGROUND;
+
 public class LogMessageBar extends JPanel {
 	private UILabel messageLabel;
     private int width = 600;
@@ -34,7 +36,7 @@ public class LogMessageBar extends JPanel {
 		messageLabel = new UILabel();
 		setLayout(new BorderLayout());
 		add(messageLabel, BorderLayout.CENTER);
-
+		setBackground(NORMAL_BACKGROUND);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

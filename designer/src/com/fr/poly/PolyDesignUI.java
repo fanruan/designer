@@ -76,7 +76,7 @@ public class PolyDesignUI extends ComponentUI {
         Graphics2D g2d = (Graphics2D) g;
         Dimension d = c.getSize();
         TemplateReport report = designer.getTemplateReport();
-        g2d.setPaint(Color.white);
+        g2d.setPaint(Color.WHITE);
         GraphHelper.fillRect(g, 0, 0, d.width, d.height);
         ReportSettingsProvider rs = report.getReportSettings();
         if (rs != null) {

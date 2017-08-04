@@ -467,8 +467,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.translate(thumbBounds.x, thumbBounds.y);
-        Color color = isDragging ? UIConstants.LINE_COLOR : UIConstants.BARNOMAL;
-        color = isPressing ? UIConstants.LINE_COLOR : UIConstants.BARNOMAL;
+        Color color = isPressing ? UIConstants.LINE_COLOR : UIConstants.BARNOMAL;
         g2.setColor(color);
         g2.fillRoundRect(1, 1, width - 2, height - 2, UIConstants.LARGEARC, UIConstants.LARGEARC);
 

@@ -47,7 +47,7 @@ public class FormCardPane extends JComponent implements SwingConstants {
 		tabPane = new JPanel();
 		tabPane.setOpaque(true);
 		tabPane.setBorder(BorderFactory.createLineBorder(Color.pink));
-		tabPane.setBackground(Color.white);
+		tabPane.setBackground(Color.WHITE);
 	}
 
 	private void initCardComponent() {

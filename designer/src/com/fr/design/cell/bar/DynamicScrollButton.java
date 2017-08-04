@@ -145,12 +145,6 @@ public class DynamicScrollButton extends BasicArrowButton {
                 //GradientPaint scrollBarHight = new GradientPaint(0, 0, new Color(1.0f, 1.0f, 1.0f, 0.5f), 0, 7, new Color(1.0f, 1.0f, 1.0f, 0.2f));
                 g2.setPaint(scrollBarBg);
                 g2.fillRoundRect(1, 1, 16, 16, 0, 0);
-//                g2.setPaint(scrollBarHight);
-//                g2.fillRoundRect(1, 1, 16, 7, 3, 3);
-//                g2.setColor(a);
-//                g2.drawRoundRect(1, 1, 15, 15, 3, 3);
-//                g2.setColor(new Color(240, 240, 240));
-//                g2.drawRoundRect(2, 2, 13, 13, 3, 3);
                 break;
         }
         // dispose of image graphics

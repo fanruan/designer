@@ -337,7 +337,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel cc = new JPanel();
-        cc.setBackground(Color.white);
+        cc.setBackground(Color.WHITE);
 //        JPanel leftPane = new JPanel();
 //        leftPane.setBackground(Color.yellow);
 //        JPanel rightPane = new JPanel();
@@ -812,7 +812,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             super();
             this.propertyItem = propertyItem;
             this.title = propertyItem.getTitle();
-            originColor = Color.white;
+            originColor = Color.WHITE;
             setBackground(originColor);
             setLayout(new BorderLayout());
             UILabel label = new UILabel(title);

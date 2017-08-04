@@ -210,7 +210,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         FormArea area = new FormArea(formDesign);
         centerPane.add(area, BorderLayout.CENTER);
         tabCenterPane.add(centerPane, FORM_CARD, FORM_TAB);
-
         this.add(tabCenterPane, BorderLayout.CENTER);
 
         formDesign.addTargetModifiedListener(new TargetModifiedListener() {

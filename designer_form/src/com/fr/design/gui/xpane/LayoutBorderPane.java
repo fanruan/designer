@@ -849,7 +849,7 @@ public class LayoutBorderPane extends BasicPane {
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.setColor(lineColor);
 			g2d.drawRoundRect(0, 0, width - 1, height - 1, 5, 5);
-			g2d.setColor(Color.white);
+			g2d.setColor(Color.WHITE);
 			g2d.drawRoundRect(1, 1, width - 3, height - 3, 5, 5);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}

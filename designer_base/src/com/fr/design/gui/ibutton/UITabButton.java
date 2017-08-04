@@ -157,7 +157,7 @@ public class UITabButton extends UILabel implements UISelectedComponent {
 			GradientPaint gp = new GradientPaint(1, 1, darkColor, 1, 5, lightColor);
 			g2d.setPaint(gp);
 			g2d.fillRect(0, 0, w - 1, h);
-			this.setForeground(Color.white);
+			this.setForeground(Color.WHITE);
 		} else if (!isSelected() && isRollover) {
 			Color blue = UIConstants.LIGHT_BLUE;
 			g2d.setColor(blue);

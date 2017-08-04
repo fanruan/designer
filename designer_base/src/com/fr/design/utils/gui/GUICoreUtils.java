@@ -131,7 +131,7 @@ public abstract class GUICoreUtils{
 		if (style.getBackground() instanceof ColorBackground) {
 			textField.setBackground(((ColorBackground) style.getBackground()).getColor());
 		} else {
-			textField.setBackground(Color.white);
+			textField.setBackground(Color.WHITE);
 		}
 	}
 

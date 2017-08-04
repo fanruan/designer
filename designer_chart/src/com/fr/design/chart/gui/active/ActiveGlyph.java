@@ -64,7 +64,7 @@ public abstract class ActiveGlyph {
     	
         Paint oldPaint = g2d.getPaint();
         Composite oldComposite = g2d.getComposite();
-    	g2d.setPaint(Color.white);
+    	g2d.setPaint(Color.WHITE);
     	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
         g2d.fill(chartGlyph.getShape());

@@ -144,7 +144,7 @@ public class ToolTipEditor extends JWindow {
 
 		public EditorChoosePane() {
 			super();
-			background = new GradientBackground(Color.white, new Color(234, 246, 254), GradientBackground.TOP2BOTTOM);
+			background = new GradientBackground(Color.WHITE, new Color(234, 246, 254), GradientBackground.TOP2BOTTOM);
 			this.setLayout(new EditorLayout());
 			this.initComponents();
 		}

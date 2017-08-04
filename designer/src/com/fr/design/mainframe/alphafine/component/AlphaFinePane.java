@@ -6,6 +6,7 @@ import com.fr.design.actions.help.alphafine.AlphaFineListener;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
+import com.fr.design.utils.ThemeUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
@@ -30,6 +31,7 @@ public class AlphaFinePane extends BasicPane {
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         this.add(refreshButton);
+        this.setBackground(ThemeUtils.WHITE_BORDER_COLOR);
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

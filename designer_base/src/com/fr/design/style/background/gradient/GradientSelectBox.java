@@ -26,7 +26,7 @@ public class GradientSelectBox extends BasicPane {
 	private BackgroundJComponent displayComponent;
 	
 	private Color startColor = Color.black;
-	private Color endColor = Color.white;
+	private Color endColor = Color.WHITE;
 	
 	public GradientSelectBox() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -35,11 +35,11 @@ public class GradientSelectBox extends BasicPane {
 		startBox.setSelectObject(Color.black);
 		
 		this.add(displayComponent = new BackgroundJComponent());
-		displayComponent.setSelfBackground(new GradientBackground(Color.black, Color.white, 0));
+		displayComponent.setSelfBackground(new GradientBackground(Color.black, Color.WHITE, 0));
 		displayComponent.setPreferredSize(new Dimension(80, 15));
 		
 		this.add(endBox = new CustomSelectBox(Constants.RIGHT));
-		endBox.setSelectObject(Color.white);
+		endBox.setSelectObject(Color.WHITE);
 		
 		startBox.addSelectChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {

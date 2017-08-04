@@ -575,7 +575,7 @@ public class UICalendarPanel extends JPanel {
                 this.getComponent(selectedIndex).setForeground(Color.black);
             }
             if (index != -1 && index < getComponentCount()) {
-                this.getComponent(index).setForeground(Color.white);
+                this.getComponent(index).setForeground(Color.WHITE);
             }
             this.selectedIndex = index;
             repaint();
@@ -716,7 +716,7 @@ public class UICalendarPanel extends JPanel {
             Graphics2D g2d = (Graphics2D)g;
             if (isRolOver) {
                 Shape shape = new RoundRectangle2D.Double(1, 1, 86, 15, UIConstants.ARC, UIConstants.ARC);
-                GUIPaintUtils.paintBorderShadow(g2d, 3, shape, UIConstants.HOVER_BLUE, Color.white);
+                GUIPaintUtils.paintBorderShadow(g2d, 3, shape, UIConstants.HOVER_BLUE, Color.WHITE);
             } else {
                 GUIPaintUtils.drawBorder(g2d, 0, 0, 101, 18, true, 3);
             }

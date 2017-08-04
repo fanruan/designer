@@ -65,7 +65,7 @@ public class ColorCell extends JComponent implements ColorSelectable {
 
         // transparent
         if (color == null) {
-            g.setColor(Color.white);
+            g.setColor(Color.WHITE);
             g.fillRect(b.left, b.top, d.width - b.left - b.right,
                 d.height - b.top - b.bottom);
             g.setColor(Color.gray);

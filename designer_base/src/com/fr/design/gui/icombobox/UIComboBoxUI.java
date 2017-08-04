@@ -99,7 +99,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         if (hasFocus && !isPopupVisible(comboBox)) {
             if (comboBox.isEnabled()) {
                 c.setForeground(Color.black);
-                c.setBackground(Color.white);
+                c.setBackground(Color.WHITE);
             } else {
                 c.setForeground(DefaultLookup.getColor(
                         comboBox, this, "ComboBox.disabledForeground", comboBox.getForeground()));

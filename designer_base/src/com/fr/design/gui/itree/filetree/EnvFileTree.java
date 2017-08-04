@@ -106,7 +106,7 @@ public class EnvFileTree extends RefreshableJTree {
 			Dimension dim = label.getPreferredSize();
 			dim.height += 2;
 			this.setPreferredSize(dim);
-			this.setBackgroundNonSelectionColor(UIConstants.NORMAL_BACKGROUND);
+			this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
 			this.setForeground(UIConstants.FONT_COLOR);
 			this.setBackgroundSelectionColor(UIConstants.FLESH_BLUE);
 			return this;
@@ -327,18 +327,18 @@ public class EnvFileTree extends RefreshableJTree {
 	/*
 	 * 把FileNode[]转成ExpandMutableTreeNode[]
 	 */
-	private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fn_array) {
-		ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fn_array.length];
-		for (int i = 0; i < res.length; i++) {
-			FileNode fn = fn_array[i];
-			res[i] = new ExpandMutableTreeNode(fn);
-			if (fn.isDirectory()) {
-				res[i].add(new ExpandMutableTreeNode());
+		private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fn_array) {
+			ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fn_array.length];
+			for (int i = 0; i < res.length; i++) {
+				FileNode fn = fn_array[i];
+				res[i] = new ExpandMutableTreeNode(fn);
+				if (fn.isDirectory()) {
+					res[i].add(new ExpandMutableTreeNode());
+				}
 			}
-		}
 
-		return res;
-	}
+			return res;
+		}
 
 	/*
 	 * 是否是父子关系的文件.

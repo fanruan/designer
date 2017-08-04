@@ -517,7 +517,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				if (row == SmartJTablePane4DB.this.editingRowIndex) {
 					this.setBackground(java.awt.Color.cyan);
 				} else {
-					this.setBackground(java.awt.Color.white);
+					this.setBackground(java.awt.Color.WHITE);
 				}
 
 				return this;
@@ -550,7 +550,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				if (row == SmartJTablePane4DB.this.editingRowIndex) {
 					pane.setBackground(java.awt.Color.cyan);
 				} else {
-					pane.setBackground(java.awt.Color.white);
+					pane.setBackground(java.awt.Color.WHITE);
 				}
 
 				pane.setToolTipText(tip);
@@ -585,7 +585,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 				if (row == SmartJTablePane4DB.this.editingRowIndex) {
 					this.setBackground(java.awt.Color.cyan);
 				} else {
-					this.setBackground(java.awt.Color.white);
+					this.setBackground(java.awt.Color.WHITE);
 				}
 
 				return this;

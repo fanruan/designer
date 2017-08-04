@@ -169,7 +169,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
 
         Paint oldPaint = g2d.getPaint();
 
-        g2d.setPaint(Color.white);
+        g2d.setPaint(Color.WHITE);
         g2d.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
         g2d.setPaint(oldPaint);
 

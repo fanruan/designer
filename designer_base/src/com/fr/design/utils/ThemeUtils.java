@@ -15,7 +15,7 @@ public class ThemeUtils {
     public static final ColorUIResource NORMAL_FOREGROUND = new ColorUIResource(0, 0, 0);
     public static final ColorUIResource TEXT_SELECTED_BG_COLOR = new ColorUIResource(43, 107, 197);
     public static final ColorUIResource TEXT_SELECTED_TEXT_COLOR = new ColorUIResource(255, 255, 255);
-    public static final ColorUIResource NORMAL_BG = new ColorUIResource(242, 240, 238);
+    public static final ColorUIResource NORMAL_BG = new ColorUIResource(212, 212, 216);
     public static final ColorUIResource DISABLE_TEXT = new ColorUIResource(143, 142, 139);
     public static final ColorUIResource TEXT_DISABLED_BG_COLOR = new ColorUIResource(244, 243, 233);
     public static final ColorUIResource TEXT_BG_COLOR = new ColorUIResource(255, 255, 255);
@@ -49,8 +49,8 @@ public class ThemeUtils {
     public static final int BUTTON_SPREAD_LIGHT_DISABLE = 20;
     public static final int BUTTON_SPREAD_DARK_DISABLE = 1;
 
-    public static final ColorUIResource BACK_COLOR = new ColorUIResource(240, 240, 240);
-    public static final ColorUIResource TOOL_SEP_DARK_COLOR = new ColorUIResource(167, 167, 163);
+    public static final ColorUIResource BACK_COLOR = new ColorUIResource(245, 245, 247);
+    public static final ColorUIResource TOOL_SEP_DARK_COLOR = new ColorUIResource(220, 220, 220);
     public static final ColorUIResource SCROLL_TRACK_COLOR = new ColorUIResource(249, 249, 247);
     public static final ColorUIResource SCROLL_TRACK_DISABLED_COLOR = new ColorUIResource(249, 249, 247);
     public static final ColorUIResource SCROLL_TRACK_BORDER_COLOR = new ColorUIResource(234, 231, 218);
@@ -77,7 +77,7 @@ public class ThemeUtils {
     public static final ColorUIResource ROLLOVER_DARK_COLOR = new ColorUIResource(165, 217, 249);
     public static final ColorUIResource NORMAL_LIGHT_COLOR = new ColorUIResource(236, 236, 236);
     public static final ColorUIResource NORMAL_DARK_COLOR = new ColorUIResource(210, 210, 210);
-    public static final ColorUIResource WHITE_BORDER_COLOR = new ColorUIResource(240, 240, 240);
+    public static final ColorUIResource WHITE_BORDER_COLOR = new ColorUIResource(212, 212, 216);
     public static final ColorUIResource SCROLL_BORDER_COLOR = new ColorUIResource(198, 198, 198);
     public static final ColorUIResource BORDER_COLOR = new ColorUIResource(148, 148, 148);
     public static final boolean SCROLL_ROLLOVER = true;
@@ -109,7 +109,7 @@ public class ThemeUtils {
     public static final ColorUIResource TOOL_BAR_COLOR = new ColorUIResource(239, 237, 229);
     public static final ColorUIResource TOOL_BAR_DARK_COLOR = new ColorUIResource(168, 169, 169);
     public static final ColorUIResource TOOL_GRIP_LIGHT_COLOR = new ColorUIResource(255, 255, 255);
-    public static final ColorUIResource TOOL_GRIP_DARK_COLOR = new ColorUIResource(167, 167, 163);
+    public static final ColorUIResource TOOL_GRIP_DARK_COLOR = new ColorUIResource(220, 220, 220);
 
 
     public static final ColorUIResource DEFAULT_LIGHT_COLOR = new ColorUIResource(198, 220, 233);
@@ -139,7 +139,7 @@ public class ThemeUtils {
     public static final ColorUIResource MENU_SELECTED_TEXT_COLOR = new ColorUIResource(0, 0, 0);
     public static final ColorUIResource MENU_ICON_SHADOW_COLOR = new ColorUIResource(236, 233, 216);
     public static final ColorUIResource MENU_ICON_DISABLED_COLOR = new ColorUIResource(165, 163, 151);
-    public static final ColorUIResource MENU_BAR_COLOR = new ColorUIResource(240, 240, 240);
+    public static final ColorUIResource MENU_BAR_COLOR = new ColorUIResource(212, 212, 216);
     public static final ColorUIResource MENU_POPUP_COLOR = new ColorUIResource(255, 255, 255);
     public static final ColorUIResource MENU_BORDER_COLOR = new ColorUIResource(173, 170, 153);
     public static final boolean MENU_ROLLOVER = true;

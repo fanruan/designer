@@ -3,7 +3,7 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 
 import com.fr.design.event.TargetModifiedEvent;

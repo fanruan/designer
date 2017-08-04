@@ -44,7 +44,7 @@ public class ChartPreFillStylePane extends ChartFillStylePane {
             gradientButton.setSelected(false);
             cardLayout.show(changeColorSetPane, "acc");
 
-            colorGradient.getSelectColorPointBtnP1().setColorInner(Color.white);
+            colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
             colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);// 控件中的位置无效.
         } else {
             int colorStyle = condition.getColorStyle();

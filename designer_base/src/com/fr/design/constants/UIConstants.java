@@ -62,11 +62,15 @@ public interface UIConstants {
     public static final Color SKY_BLUE = new Color(164, 192, 220);
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
-    public static final Color NORMAL_BACKGROUND = new Color(240, 240, 240);
-    public static final Color SHADOW_GREY = new Color(0xe2e2e2);
+    public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
+    public static final Color TREE_BACKGROUND = new Color(240, 240, 243);
+    public static final Color TOOL_PANE_BACKGROUND = new Color(232, 232, 223);
+    public static final Color SELECT_TAB = new Color(245, 245, 247);
+    public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
+    public static final Color SHADOW_GREY = new Color(217, 218, 221);
     public static final Color SHADOW_CENTER = new Color(200, 200, 200);
     public static final Color SHADOW_PURPLE = new Color(255, 0, 255);
-    public static final Color FLESH_BLUE = new Color(168, 180, 202);
+    public static final Color FLESH_BLUE = new Color(65, 155, 249);
     public static final Color HOVER_BLUE = new Color(0xd2d2d2);
     public static final Color DOTTED_LINE_COLOR = new Color(35, 108, 184);
     public static final Color AUTHORITY_COLOR = new Color(88, 125, 153);
@@ -77,19 +81,18 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_DARK = new Color(86, 120, 143);
     public static final Color AUTHORITY_SHEET_LIGHT = new Color(156, 204, 238);
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
-    public static final Color ATTRIBUTE_PRESS = new Color(0xdfecfc);
-    public static final Color ATTRIBUTE_NORMAL = new Color(0xe2e2e2);
-    public static final Color ATTRIBUTE_HOVER = new Color(0xd3d3d3);
+    public static final Color ATTRIBUTE_PRESS = new Color(0xD8F2FD);
+    public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
+    public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
-    public static final Color DEFAULT_BG_RULER = new Color(0xf7f7f7);
+    public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
     public static final Color RULER_LINE_COLOR = new Color(0xababab);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
-
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
@@ -139,9 +142,10 @@ public interface UIConstants {
     public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
-    public static final Color BARNOMAL = new Color(153, 153, 153);
+    public static final Color BARNOMAL = new Color(232, 232, 233);
     public static final int ARC = 0;
-    public static final int LARGEARC = 0;
+    public static final int BUTTON_GROUP_ARC = 6;
+    public static final int LARGEARC = 6;
     public static final Stroke BS = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2f, new float[]{3, 1}, 0);
     public static final Icon PREVIEW_DOWN = BaseUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");
     public static final Icon CLOSE_OF_AUTHORITY = BaseUtils.readIcon("/com/fr/design/images/m_report/close.png");

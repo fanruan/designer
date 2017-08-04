@@ -40,7 +40,7 @@ public abstract class RefreshableJTree extends CheckBoxTree {
         ExpandMutableTreeNode root = (ExpandMutableTreeNode) model.getRoot();
         root.setExpanded(true);
         this.setRootVisible(false);
-        this.setBackground(UIConstants.NORMAL_BACKGROUND);
+        this.setBackground(UIConstants.TREE_BACKGROUND);
         this.addTreeExpansionListener(expansion);
         this.addTreeWillExpandListener(willExpand);
     }

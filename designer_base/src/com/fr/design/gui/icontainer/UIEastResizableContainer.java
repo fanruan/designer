@@ -99,7 +99,7 @@ public class UIEastResizableContainer extends JPanel {
         UIEastResizableContainer bb = new UIEastResizableContainer(leftPane, rightPane);
 
         JPanel cc = new JPanel();
-        cc.setBackground(Color.white);
+        cc.setBackground(Color.WHITE);
 
         content.add(bb, BorderLayout.EAST);
         content.add(cc, BorderLayout.CENTER);

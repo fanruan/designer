@@ -56,7 +56,7 @@ public class LabelBackgroundPane extends ConditionAttrSingleConditionPane<DataSe
         this.add(backgroundLabel);
         this.add(backgroundPreviewPane);
         this.add(editBackgroundButton);
-        this.backgroundPreviewPane.setBackgroundObject(ColorBackground.getInstance(Color.white));
+        this.backgroundPreviewPane.setBackgroundObject(ColorBackground.getInstance(Color.WHITE));
     }
 
     @Override

@@ -34,7 +34,7 @@ public class PolyComponetsBar extends JToolBar {
 		setOrientation(SwingConstants.VERTICAL);
 		setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 4));
 		setFloatable(false);
-		setBackground(UIConstants.NORMAL_BACKGROUND);
+		setBackground(UIConstants.TOOLBARUI_BACKGROUND);
 		setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
         int typeLen = typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM;
 		serIcons = new SerIcon[typeLen + 1];

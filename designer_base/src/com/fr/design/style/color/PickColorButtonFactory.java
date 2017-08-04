@@ -57,7 +57,7 @@ public class PickColorButtonFactory {
         public void paint(Graphics g, JComponent c) {
             super.paint(g, c);
             Dimension size = c.getSize();
-            g.setColor(Color.white);
+            g.setColor(Color.WHITE);
             g.fillRoundRect(0, 0, size.width - 1, size.height - 1, 1, 1);
             g.setColor(new Color(153, 153, 153));  // #999999
             g.drawRoundRect(0, 0, size.width - 1, size.height - 1, 1, 1);

@@ -154,7 +154,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
         CurrencyLineAttr currencyLineAttr;
 
         public CurrencyLinePreviewPane() {
-//			setBackground(Color.white);
+//			setBackground(Color.WHITE);
         }
 
         public void setObject(String text, CurrencyLineAttr currencyLineAttr) {

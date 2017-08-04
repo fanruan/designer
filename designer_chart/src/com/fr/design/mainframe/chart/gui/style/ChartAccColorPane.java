@@ -72,7 +72,7 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 			return;
 		}
 		Paint oldPaint = g2d.getPaint();
-        g2d.setPaint(new Color(240, 240, 240));
+        g2d.setPaint(new Color(212, 212, 216));
         g2d.fillRect(0, 0, (int)bounds.getWidth(), (int)bounds.getHeight());
         g2d.setPaint(oldPaint);
 		
@@ -80,7 +80,7 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 		int x = 0;
 		for(int i = 0; i < colors.length; i++) {
 			Color color = colors[i];
-			g2d.setColor(color != null ? color : Color.white);
+			g2d.setColor(color != null ? color : Color.WHITE);
 			
 			if(i % ROWCOUNT == 0 && i != 0) {
 				y += WIDTH;
@@ -170,7 +170,7 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 			if(i < values.length) {
 				colors[i] = values[i];
 			} else {
-				colors[i] = Color.white;
+				colors[i] = Color.WHITE;
 			}
 		}
 		this.repaint();

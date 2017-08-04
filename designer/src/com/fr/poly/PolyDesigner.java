@@ -152,6 +152,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
         ployareaPane.add(PolyDesignerLayout.VRuler, new VerticalRuler(this));
         ployareaPane.add(PolyDesignerLayout.HRuler, new HorizontalRuler(this));
+        ployareaPane.setBackground(Color.WHITE);
         this.add(ployareaPane, BorderLayout.CENTER);
         this.add(polyComponetsBar, BorderLayout.WEST);
         this.addKeyListener(showValSpinnerKeyListener);

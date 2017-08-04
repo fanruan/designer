@@ -48,7 +48,7 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         putTreeAndList(table);
         putOthers(table);
         table.put("Desktop.background", new ColorUIResource(212, 210, 194));
-        table.put("Separator.background", new ColorUIResource(173, 170, 153));
+        table.put("Separator.background", new ColorUIResource(232, 232, 233));
         table.put("Separator.foreground", new ColorUIResource(236, 233, 216));
         table.put("TitledBorder.border", new LineBorder(
                 new ColorUIResource(165, 163, 151)));
@@ -87,7 +87,7 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("TabbedPane.tabAreaInsets", new InsetsUIResource(4, 2, 0, 0));
         table.put("TabbedPane.tabInsets", new InsetsUIResource(1, 6, 4, 6));
         table.put("Table.gridColor", ThemeUtils.TABLE_GRID_COLOR);
-        table.put("MenuBar.background", new ColorUIResource(240, 240, 240));
+        table.put("MenuBar.background", new ColorUIResource(212, 212, 216));
         table.put("Menu.foreground", ThemeUtils.MENU_ITEM_FONT_COLOR);
         table.put("MenuItem.foreground", ThemeUtils.MENU_ITEM_FONT_COLOR);
         table.put("ToolBar.background", new ColorUIResource(239, 237, 229));
