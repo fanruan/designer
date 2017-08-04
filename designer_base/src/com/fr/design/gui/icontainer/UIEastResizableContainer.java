@@ -20,7 +20,7 @@ public class UIEastResizableContainer extends JPanel {
     private static final long serialVersionUID = 1854340560790476907L;
     private int containerWidth = 240;
     private int preferredWidth = 240;
-    private int topToolPaneHeight = 20;
+    private int topToolPaneHeight = 25;
     private int leftPaneWidth = 40;
 
     private JComponent leftPane;
@@ -63,11 +63,12 @@ public class UIEastResizableContainer extends JPanel {
     }
 
     public UIEastResizableContainer(JComponent leftPane, JComponent rightPane) {
-        setBackground(UIConstants.NORMAL_BACKGROUND);
+        setBackground(UIConstants.PROPERTY_PANE_BACKGROUND);
         this.leftPane = leftPane;
         this.rightPane = rightPane;
 
         this.topToolPane = new TopToolPane();
+        topToolPane.setBackground(UIConstants.PROPERTY_PANE_BACKGROUND);
 
         setLayout(containerLayout);
         add(topToolPane);
@@ -307,7 +308,7 @@ public class UIEastResizableContainer extends JPanel {
                 }
             }
 //                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
-            g.drawImage(button, 18, 7, 5, 5, null);
+            g.drawImage(button, 18, 9, 5, 5, null);
         }
     }
 
