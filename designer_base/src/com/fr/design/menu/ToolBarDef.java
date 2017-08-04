@@ -20,7 +20,7 @@ public class ToolBarDef  {
     /*
      * 一个static的方法生成一个JToolBar
      */
-    public static UIToolbar createJToolBar(Color background) {
+    public static UIToolbar createJToolBar(final Color background) {
         UIToolbar toolbar = new UIToolbar(FlowLayout.LEFT, new UIToolBarUI(){
             @Override
             public void paint(Graphics g, JComponent c) {
