@@ -1,6 +1,7 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -31,6 +32,7 @@ public class UINameableListCellRenderer extends
     private UILabel editButton;  // "编辑按钮"，实际上是一个 UILabel，由列表项（UIListControlPane）统一处理点击事件
     private UILabel label;
     private UIListControlPane listControlPane;
+    private Color initialLabelForeground;
 
     public UINameableListCellRenderer(UIListControlPane listControlPane) {
         super();
@@ -47,39 +49,19 @@ public class UINameableListCellRenderer extends
                 return new Dimension(BUTTON_WIDTH, BUTTON_WIDTH);
             }
         };
-//        editButton.set4LargeToolbarButton();
-        editButton.setIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+        editButton.setIcon(UIConstants.LIST_EDIT_ICON);
         editButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, BORDER_COLOR));
         editButton.setHorizontalAlignment(SwingConstants.CENTER);
-//        editButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                popupEditDialog();
-//            }
-//        });
         label = new UILabel();
         label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-//        label.setEditable(false);
+        initialLabelForeground = label.getForeground();
         this.setLayout(new BorderLayout());
         this.add(editButton, BorderLayout.WEST);
         this.add(label, BorderLayout.CENTER);
     }
 
     private Border getNoFocusBorder() {
-//        return BorderFactory.createLineBorder(new Color(201, 198, 184));
         return BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_COLOR);
-        //        Border border = DefaultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
-//        if (System.getSecurityManager() != null) {
-//            if (border != null) return border;
-//            return SAFE_NO_FOCUS_BORDER;
-//        } else {
-//            if (border != null &&
-//                    (noFocusBorder == null ||
-//                            noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
-//                return border;
-//            }
-//            return noFocusBorder;
-//        }
     }
 
     private void setText(String t) {
@@ -108,20 +90,17 @@ public class UINameableListCellRenderer extends
         if (isSelected) {
             setBackground(bg == null ? list.getSelectionBackground() : bg);
             setForeground(fg == null ? list.getSelectionForeground() : fg);
+            label.setForeground(Color.white);
+            editButton.setIcon(UIConstants.LIST_EDIT_WHITE_ICON);
         }
         else {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
+            label.setForeground(initialLabelForeground);
+            editButton.setIcon(UIConstants.LIST_EDIT_ICON);
         }
 
-//        if (value instanceof Icon) {
-//            setIcon((Icon)value);
-//            setText("");
-//        }
-//        else {
-//            setIcon(null);
-            setText((value == null) ? "" : value.toString());
-//        }
+        setText((value == null) ? "" : value.toString());
 
         setEnabled(list.isEnabled());
         setFont(list.getFont());

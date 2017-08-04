@@ -31,6 +31,7 @@ import java.util.List;
 public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
     private static final int TITLE_HEIGHT = 19;
+    private static final int RIGHT_GAP = 10;
     private AuthorityEditPane authorityEditPane = null;
     private AuthorityToolBarPane authorityToolBarPane;
     private String[] selectedPathArray;
@@ -51,7 +52,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         northPane.add(authorityTitle, BorderLayout.CENTER);
         northPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.LINE_COLOR));
-        this.add(northPane, BorderLayout.NORTH);
+//        this.add(northPane, BorderLayout.NORTH);
         authorityEditPane = new AuthorityEditPane(buttonlists);
         this.add(authorityEditPane, BorderLayout.CENTER);
     }
@@ -81,13 +82,15 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
     private class AuthorityEditPane extends JPanel {
         private static final int TOP_GAP = 11;
-        private static final int LEFT_GAP = 8;
-        private static final int ALIGNMENT_GAP = -3;
+        private static final int LEFT_GAP = 4;
+        private static final int LEFT_CHECKPANE = 3;
+        private JPanel typePane;
+        private JPanel namePane;
         private UILabel type = null;
         private UILabel name = null;
         private JPanel checkPane = null;
         private List<ToolBarButton> buttonlists;
-        private UICheckBox buttonVisible = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
+        private UICheckBox buttonVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
         private ItemListener itemListener = new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
@@ -143,43 +146,36 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         public AuthorityEditPane(List<ToolBarButton> buttonlists) {
             setLayout(new BorderLayout());
             type = new UILabel();
+            typePane = new JPanel(new BorderLayout());
+            typePane.add(type, BorderLayout.CENTER);
+            type.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            typePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             name = new UILabel();
+            namePane = new JPanel(new BorderLayout());
+            namePane.add(name, BorderLayout.CENTER);
+            name.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,0,0));
+            namePane.setBorder(BorderFactory.createLineBorder(Color.lightGray));
             checkPane = new JPanel();
             checkPane.setLayout(new BorderLayout());
-            this.add(layoutText(), BorderLayout.WEST);
-            this.add(layoutPane(), BorderLayout.CENTER);
-            this.setBorder(BorderFactory.createEmptyBorder(TOP_GAP, LEFT_GAP, 0, 0));
+            this.add(centerPane(), BorderLayout.NORTH);
+            this.setBorder(BorderFactory.createEmptyBorder(TOP_GAP, LEFT_GAP, 0, RIGHT_GAP));
             this.buttonlists = buttonlists;
             buttonVisible.addItemListener(itemListener);
         }
 
-        private JPanel layoutText() {
-            double p = TableLayout.PREFERRED;
-            Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Type") + ":", SwingConstants.RIGHT)},
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_WF_Name") + ":", SwingConstants.RIGHT)},
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Permissions") + ":", SwingConstants
-                            .RIGHT)},
-            };
-            double[] rowSize = {p, p, p};
-            double[] columnSize = {p};
-            int[][] rowCount = {{1}, {1}, {1}};
-            return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-        }
-
-
-        private JPanel layoutPane() {
+        private JPanel centerPane() {
             double f = TableLayout.FILL;
             double p = TableLayout.PREFERRED;
-            Component[][] components = new Component[][]{
-                    new Component[]{type},
-                    new Component[]{name},
-                    new Component[]{checkPane},
-            };
             double[] rowSize = {p, p, p};
-            double[] columnSize = {f};
-            int[][] rowCount = {{1}, {1}, {1}};
-            return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+            double[] columnSize = {p, f};
+            int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+            Component[][] components = new Component[][]{
+                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Type") + "        ", SwingConstants.LEFT), typePane},
+                    new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_WF_Name") + "        ", SwingConstants.LEFT), namePane},
+                    new Component[]{checkPane, null},
+            };
+
+            return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
         }
 
         /**
@@ -237,15 +233,14 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             double f = TableLayout.FILL;
             double p = TableLayout.PREFERRED;
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form_Button"), SwingConstants.LEFT),
-                            buttonVisible},
+                    new Component[]{buttonVisible},
             };
-            double[] rowSize = {p, p};
-            double[] columnSize = {p, p, f};
-            int[][] rowCount = {{1, 1, 1}, {1, 1, 1}};
-            JPanel check = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+            double[] rowSize = {p};
+            double[] columnSize = {p};
+            int[][] rowCount = {{1}};
+            JPanel check = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
             checkPane.add(check, BorderLayout.CENTER);
-            checkPane.setBorder(BorderFactory.createEmptyBorder(ALIGNMENT_GAP, 0, 0, 0));
+            checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         }
     }
 }

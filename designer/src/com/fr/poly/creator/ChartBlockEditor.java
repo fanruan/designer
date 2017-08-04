@@ -274,7 +274,8 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 				//清参数面板
 				jTemplate.removeParameterPaneSelection();
 			}
-			EastRegionContainerPane.getInstance().replaceUpPane(new NoSupportAuthorityEdit());
+			EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
+			EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(new NoSupportAuthorityEdit());
 		}
 		QuickEditorRegion.getInstance().populate(creator.getQuickEditor(designer));
 	}

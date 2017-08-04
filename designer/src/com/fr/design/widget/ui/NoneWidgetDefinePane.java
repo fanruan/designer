@@ -1,10 +1,6 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.frpane.TreeSettingPane;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.NoneWidget;
-import com.fr.design.widget.DataModify;
 
 /**
  * 

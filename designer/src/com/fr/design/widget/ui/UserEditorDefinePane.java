@@ -1,12 +1,8 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
-import com.fr.design.widget.DataModify;
 import com.fr.form.ui.NameWidget;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;

@@ -135,6 +135,7 @@ public class UIButton extends JButton implements UIObserver {
 
 
 	private void init() {
+		setOpaque(false);
 		setBackground(null);
 		setRolloverEnabled(true);
 		initListener();

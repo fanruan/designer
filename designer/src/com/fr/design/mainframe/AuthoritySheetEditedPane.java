@@ -41,7 +41,7 @@ public class AuthoritySheetEditedPane extends AuthorityPropertyPane {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         northPane.add(authorityTitle, BorderLayout.CENTER);
         northPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.LINE_COLOR));
-        this.add(northPane, BorderLayout.NORTH);
+//        this.add(northPane, BorderLayout.NORTH);
         authorityEditPane = new SheetAuthorityEditPane(editingWorkBook, selectedIndex);
         this.add(authorityEditPane, BorderLayout.CENTER);
 

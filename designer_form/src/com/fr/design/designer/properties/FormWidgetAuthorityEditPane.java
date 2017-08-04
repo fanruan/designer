@@ -34,8 +34,8 @@ import com.fr.general.Inter;
 public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     private FormDesigner designer;
     private Widget[] widgets = null;
-    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Visible"));
-    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Enabled"));
+    private UICheckBox widgetVisible = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Visible"));
+    private UICheckBox widgetAvailable = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Enabled"));
     private ItemListener visibleItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
             String selectedRoles = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
@@ -88,23 +88,19 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     }
 
     /**
-	 * 更新类型面板
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:19:43
-	 * 
-	 */
+     * 更新类型面板
+     *
+     * @date 2014-12-21-下午6:19:43
+     */
     public void populateType() {
         type.setText(Inter.getLocText("Widget-Form_Widget_Config"));
     }
 
     /**
-	 * 更新名称面板
-	 * 
-	 *
-	 * @date 2014-12-21-下午7:12:27
-	 * 
-	 */
+     * 更新名称面板
+     *
+     * @date 2014-12-21-下午7:12:27
+     */
     public void populateName() {
         String nameText = "";
         if (widgets == null || widgets.length <= 0) {
@@ -117,29 +113,27 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
     }
 
     /**
-	 * 更新checkbox所在的面板
-	 * 
-	 * @return 面板
-	 * 
-	 *
-	 * @date 2014-12-21-下午6:19:03
-	 * 
-	 */
+     * 更新checkbox所在的面板
+     *
+     * @return 面板
+     * @date 2014-12-21-下午6:19:03
+     */
     public JPanel populateCheckPane() {
-        checkPane.add(populateWidgetCheckPane(), BorderLayout.WEST);
+        checkPane.add(populateWidgetCheckPane(), BorderLayout.CENTER);
+        checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         return checkPane;
     }
 
     private JPanel populateWidgetCheckPane() {
-        double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible, widgetAvailable}
+                new Component[]{widgetVisible},
+                new Component[]{widgetAvailable}
         };
-        double[] rowSize = {p};
-        double[] columnSize = {p, p, f};
-        int[][] rowCount = {{1, 1, 1}};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        double[] rowSize = {p, p};
+        double[] columnSize = {p};
+        int[][] rowCount = {{1},{1}};
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
     }
 
 
@@ -157,7 +151,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
         populateName();
         checkPane.removeAll();
         populateCheckPane();
-        checkPane.setBorder(BorderFactory.createEmptyBorder(ALIGNMENT_GAP, 0, 0, 0));
+        checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         checkCheckBoxes();
     }
 
@@ -169,25 +163,25 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
         widgetVisible.addItemListener(visibleItemListener);
         widgetAvailable.addItemListener(usableItemListener);
     }
-    
-    private void populateWidgetButton(String selected){
+
+    private void populateWidgetButton(String selected) {
         if (widgets == null || widgets.length == 0) {
-        	return;
+            return;
         }
-        
+
         //选中多个, 界面上只取第一个
         Widget widget = widgets[0];
-    	
-        if(widget.isVisible()){
-        	widgetVisible.setSelected(!widget.isDoneVisibleAuthority(selected));
-        }else{
-        	widgetVisible.setSelected(widget.isVisibleAuthority(selected));
+
+        if (widget.isVisible()) {
+            widgetVisible.setSelected(!widget.isDoneVisibleAuthority(selected));
+        } else {
+            widgetVisible.setSelected(widget.isVisibleAuthority(selected));
         }
-        
-        if(widget.isEnabled()){
-	        widgetAvailable.setSelected(!widget.isDoneUsableAuthority(selected));
-        }else{
-        	widgetAvailable.setSelected(widget.isUsableAuthority(selected));
+
+        if (widget.isEnabled()) {
+            widgetAvailable.setSelected(!widget.isDoneUsableAuthority(selected));
+        } else {
+            widgetAvailable.setSelected(widget.isUsableAuthority(selected));
         }
     }
 

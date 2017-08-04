@@ -94,11 +94,11 @@ public class BorderPane extends AbstractBasicStylePane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
-        borderPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Border"), 280, 20, panel);
+        borderPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Border"), 280, 24, panel);
         this.add(borderPanel, BorderLayout.NORTH);
 
         backgroundPane = new BackgroundPane();
-        backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"), 280, 20, backgroundPane);
+        backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"), 280, 24, backgroundPane);
         this.add(backgroundPanel, BorderLayout.CENTER);
 
         outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
