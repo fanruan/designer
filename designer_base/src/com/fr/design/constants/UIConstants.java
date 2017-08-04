@@ -139,7 +139,7 @@ public interface UIConstants {
     public static final Icon SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/search.png");
     public static final Icon CLEAR_ICON = BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png");
     public static final Icon LIST_EDIT_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
-    public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
+    public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit_white.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
