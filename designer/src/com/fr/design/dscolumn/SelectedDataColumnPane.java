@@ -17,6 +17,7 @@ import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.Inter;
 import com.fr.general.data.TableDataColumn;
 import com.fr.report.cell.CellElement;
@@ -39,8 +40,8 @@ import java.util.regex.Pattern;
  * 数据集列动态参数设置组件
  *
  * @author yaoh.wu
- * @version 2017年7月26日
- * 9.0设计器更新，修改动态参数注入按钮部分,使其显示动态参数按钮时能在右侧边栏正常显示
+ * @version 2017年8月3日
+ * 复用对话框代码，保留对话框原始布局
  * @since 8.0
  */
 public class SelectedDataColumnPane extends BasicPane {
@@ -54,11 +55,20 @@ public class SelectedDataColumnPane extends BasicPane {
     private UIButton paramButton;
 
     public SelectedDataColumnPane() {
-        this(true);
+        this(true, false, null);
     }
 
-    SelectedDataColumnPane(boolean showParameterButton) {
-        initComponent(showParameterButton);
+
+    public SelectedDataColumnPane(boolean showParameterButton) {
+        this(showParameterButton, false, null);
+    }
+
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, ElementCasePane casePane) {
+        if (verticalLayout) {
+            initComponentVerticalLayout(casePane);
+        } else {
+            initComponent(showParameterButton);
+        }
     }
 
     /**
@@ -72,6 +82,47 @@ public class SelectedDataColumnPane extends BasicPane {
             initWithParameterButton();
         }
         columnNameComboBox = new LazyComboBox() {
+
+            @Override
+            public Object[] load() {
+                List<String> l = calculateColumnNameList();
+                return l.toArray(new String[l.size()]);
+            }
+
+        };
+        columnNameComboBox.setEditable(true);
+        double p = TableLayout.PREFERRED;
+        UILabel label1 = new UILabel(Inter.getLocText("TableData") + ":");
+        UILabel label2 = new UILabel(Inter.getLocText("DataColumn") + ":");
+        if (showParameterButton) {
+            label1.setPreferredSize(new Dimension(200, 25));
+            label2.setPreferredSize(new Dimension(200, 25));
+        }
+        if (showParameterButton) {
+            Component[][] comps = {{label1, null, label2}, {tableNameComboBox, paramButton, columnNameComboBox}};
+            this.add(TableLayoutHelper.createTableLayoutPane(comps, new double[]{p, p}, new double[]{p, p, p}));
+        } else {
+            double f = TableLayout.FILL;
+            double[] columnSize = {p, f};
+            double[] rowSize = {p, p};
+            Component[][] components = new Component[][]{
+                    new Component[]{label1, tableNameComboBox},
+                    new Component[]{label2, columnNameComboBox}
+            };
+            JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            this.setLayout(new BorderLayout());
+            this.add(jPanel, BorderLayout.CENTER);
+        }
+    }
+
+
+    /**
+     * 初始化竖直布局的组件
+     */
+    public void initComponentVerticalLayout(ElementCasePane casePane) {
+        initTableNameComboBox();
+        initWithParameterButton(casePane);
+        columnNameComboBox = new LazyComboBox() {
             @Override
             public Object[] load() {
                 List<String> l = calculateColumnNameList();
@@ -83,27 +134,17 @@ public class SelectedDataColumnPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         UILabel label1 = new UILabel(Inter.getLocText("TableData"));
         UILabel label3 = new UILabel(Inter.getLocText("DataColumn"));
-        if (showParameterButton) {
-            //todo 国际化
-            UILabel label2 = new UILabel("param");
-            Component[][] components = {
-                    {label1, tableNameComboBox},
-                    {label2, paramButton},
-                    {label3, columnNameComboBox}
-            };
-            this.setLayout(new BorderLayout());
-            this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
-        } else {
-            double[] columnSize = {p, f};
-            double[] rowSize = {p, p};
-            Component[][] components = new Component[][]{
-                    new Component[]{label1, tableNameComboBox},
-                    new Component[]{label3, columnNameComboBox}
-            };
-            JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-            this.setLayout(new BorderLayout());
-            this.add(jPanel, BorderLayout.CENTER);
-        }
+
+        //todo 国际化
+        UILabel label2 = new UILabel("param");
+        Component[][] components = {
+                {label1, tableNameComboBox},
+                {label2, paramButton},
+                {label3, columnNameComboBox}
+        };
+        this.setLayout(new BorderLayout());
+        this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
+
     }
 
 
@@ -231,6 +272,26 @@ public class SelectedDataColumnPane extends BasicPane {
                     }
                 });
 
+                editorPane.populate(ps == null ? new Parameter[0] : ps);
+                paramDialog.setVisible(true);
+            }
+        });
+    }
+
+    private void initWithParameterButton(ElementCasePane casePane) {
+        editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
+        paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
+        paramButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BasicDialog paramDialog = editorPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                    @Override
+                    public void doOk() {
+                        List<ParameterProvider> parameterList = editorPane.update();
+                        ps = parameterList.toArray(new Parameter[parameterList.size()]);
+                        editorPane.update();
+                        casePane.fireTargetModified();
+                    }
+                });
                 editorPane.populate(ps == null ? new Parameter[0] : ps);
                 paramDialog.setVisible(true);
             }

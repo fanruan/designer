@@ -37,17 +37,32 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("Cell")), columnRowTextField = initColumnRowTextField()},
-                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), cellElementEditButton = initCellElementEditButton()},
+                new Component[]{initTopContent(), null},
                 new Component[]{createCenterBody(), null}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel, BorderLayout.CENTER);
     }
+
+
+    private JPanel initTopContent() {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel("  " + Inter.getLocText("Cell")), columnRowTextField = initColumnRowTextField()},
+                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), cellElementEditButton = initCellElementEditButton()},
+        };
+        JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+        return topContent;
+    }
+
 
     /**
      * 初始化添加按钮
