@@ -86,7 +86,7 @@ public class ParameterPropertyPane extends JPanel{
             this.setPreferredSize(null);
         } else {
             addParaPane.setVisible(false);
-            this.setPreferredSize(new Dimension(getWidth(), HIDE_HEIGHT));
+            this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
         }
         repaintContainer();
     }

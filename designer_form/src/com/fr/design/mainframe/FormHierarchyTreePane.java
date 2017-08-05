@@ -1,12 +1,24 @@
 package com.fr.design.mainframe;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
+import javax.swing.*;
+
+import com.fr.design.actions.UndoableAction;
+import com.fr.design.actions.UpdateAction;
+import com.fr.design.designer.beans.actions.ChangeNameAction;
+import com.fr.design.designer.beans.actions.FormUndoableAction;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.gui.controlpane.ShortCut4JControlPane;
+import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.gui.itoolbar.UIToolBarUI;
+import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.mainframe.widget.UITreeComboBox;
 
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
@@ -14,11 +26,6 @@ import com.fr.design.designer.treeview.ComponentTreeModel;
 
 import com.fr.design.gui.ilable.UILabel;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-
-import javax.swing.SwingConstants;
 
 import com.fr.base.BaseUtils;
 import com.fr.general.Inter;
@@ -34,9 +41,12 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	public static final int PARA = 0;
 	public static final int BODY = 1;
 
+	private ShortCut4JControlPane[] shorts;
 	private ComponentTree componentTree;
 	private UITreeComboBox treeComboBox;
-	// richer:搜寻树节点的的文本框
+    private ChangeNameAction changeVarNameAction;
+
+    // richer:搜寻树节点的的文本框
 //	private UITextField searchTextField;
 //	private SearchResultPane searchResult;
 
@@ -108,15 +118,8 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		if(childCount == NODE_LENGTH){
 			adjustPosition(treeModel, formDesigner);
 		}
-		JPanel widgetPane = new JPanel();
-		widgetPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-		add(widgetPane, BorderLayout.NORTH);
-		widgetPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
-				SwingConstants.HORIZONTAL), BorderLayout.WEST);
-		treeComboBox = new UITreeComboBox(componentTree);
-		widgetPane.add(treeComboBox, BorderLayout.CENTER);
-		add(widgetPane, BorderLayout.CENTER);
+
+		add(getWidgetPane(), BorderLayout.CENTER);
 
 
 //		UIScrollPane scrollPane = new UIScrollPane(componentTree);
@@ -153,6 +156,60 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 //				}
 //			}
 //		});
+	}
+
+	private JPanel getWidgetPane() {
+		shorts = createShortcuts();
+
+		JPanel widgetPane = new JPanel();
+		widgetPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
+//		add(widgetPane, BorderLayout.NORTH);
+
+		JPanel headPane = new JPanel(new BorderLayout());
+		headPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
+				SwingConstants.HORIZONTAL), BorderLayout.WEST);
+		headPane.add(getToolBarPane(), BorderLayout.EAST);
+
+		widgetPane.add(headPane, BorderLayout.CENTER);
+		treeComboBox = new UITreeComboBox(componentTree);
+		widgetPane.add(treeComboBox, BorderLayout.SOUTH);
+		return widgetPane;
+	}
+
+	private JPanel getToolBarPane() {
+		ToolBarDef toolbarDef = new ToolBarDef();
+		for (ShortCut4JControlPane sj : shorts) {
+			toolbarDef.addShortCut(sj.getShortCut());
+		}
+		UIToolbar toolBar = ToolBarDef.createJToolBar();
+//		toolBar.setUI(new UIToolBarUI(){
+//			@Override
+//			public void paint(Graphics g, JComponent c) {
+//				Graphics2D g2 = (Graphics2D) g;
+//				g2.setColor(Color.white);
+//				g2.fillRect(0, 0, c.getWidth(), c.getHeight());
+//			}
+//		});
+		toolbarDef.updateToolBar(toolBar);
+		JPanel toolBarPane = new JPanel(new BorderLayout());
+		toolBarPane.add(toolBar, BorderLayout.CENTER);
+//		toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(201, 198, 184)));
+		return toolBarPane;
+	}
+
+	protected ShortCut4JControlPane[] createShortcuts() {
+        ArrayList<ShortCut4JControlPane> shortCutList = new ArrayList<>();
+        FormDesigner designer = getEditingFormDesigner();
+        if (changeVarNameAction == null) {
+            changeVarNameAction = new ChangeNameAction(designer);
+        }
+        shortCutList.add(new WidgetEnableShortCut(changeVarNameAction));
+        for (Action action : designer.getActions()) {
+            shortCutList.add(new WidgetEnableShortCut((UndoableAction)action));
+        }
+
+        return shortCutList.toArray(new ShortCut4JControlPane[shortCutList.size()]);
 	}
 
 	/**
@@ -303,5 +360,37 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	 */
 	public Location preferredLocation() {
 		return Location.WEST_BELOW;
+	}
+
+	private class WidgetEnableShortCut extends ShortCut4JControlPane {
+		public WidgetEnableShortCut(ShortCut shortCut) {
+			this.shortCut = shortCut;
+		}
+
+		/**
+		 * 检查是否可用
+		 */
+		@Override
+		public void checkEnable() {
+			this.shortCut.setEnabled(false);
+		}
+	}
+
+
+	/*
+     * CopyItem
+     */
+	private class CopyItemAction extends UpdateAction {
+		public CopyItemAction() {
+			this.setName(Inter.getLocText("FR-Action_Copy"));
+			this.setMnemonic('C');
+			this.setSmallIcon(BaseUtils
+					.readIcon("/com/fr/base/images/cell/control/copy.png"));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+
+		}
 	}
 }
