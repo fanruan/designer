@@ -162,7 +162,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f, 155};
-        double[] rowSize = {20};
+        double[] rowSize = {p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(getAddItemText()), null, topToolBar},
         };

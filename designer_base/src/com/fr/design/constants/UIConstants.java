@@ -22,6 +22,8 @@ public interface UIConstants {
 
     public static final int SIZE = 17;
 
+    public static final int GAP_NORMAL = 10;  // 10px
+
     /**
      * Cell default cursor.
      */
@@ -93,6 +95,7 @@ public interface UIConstants {
     public static final Color RULER_LINE_COLOR = new Color(0xababab);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
+    public static final Color SPLIT_LINE = new Color(201, 198, 184);
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
