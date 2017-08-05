@@ -33,7 +33,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final int TAB_BUTTON_WIDTH = 32;
     private static final int TAB_BUTTON_HEIGHT = 28;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
-    private static final int POPUP_TOOLPANE_HEIGHT = 28;
+    private static final int POPUP_TOOLPANE_HEIGHT = 25;
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
     // 弹出对话框高度
     private static final int POPUP_MIN_HEIGHT = 145;

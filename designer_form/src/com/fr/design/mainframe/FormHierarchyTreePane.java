@@ -46,10 +46,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	private UITreeComboBox treeComboBox;
     private ChangeNameAction changeVarNameAction;
 
-    // richer:搜寻树节点的的文本框
-//	private UITextField searchTextField;
-//	private SearchResultPane searchResult;
-
 	public static FormHierarchyTreePane getInstance() {
 		return HOLDER.singleton;
 	}
@@ -87,9 +83,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 	 */
 	public void clearDockingView() {
 		this.componentTree = null;
-//		this.searchTextField = null;
-//		this.searchResult = null;
-//		add(new JScrollPane(), BorderLayout.CENTER);
 	}
 
 	@Override
@@ -120,42 +113,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		}
 
 		add(getWidgetPane(), BorderLayout.CENTER);
-
-
-//		UIScrollPane scrollPane = new UIScrollPane(componentTree);
-//		scrollPane.setBorder(null);
-//		add(scrollPane, BorderLayout.CENTER);
-//		JPanel searchPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//		add(searchPane, BorderLayout.NORTH);
-//		searchPane.add(new UILabel(Inter.getLocText("FR-Designer_Search") + ":",
-//				SwingConstants.HORIZONTAL), BorderLayout.WEST);
-//		searchTextField = new UITextField();
-//		searchPane.add(searchTextField, BorderLayout.CENTER);
-//		searchTextField.getDocument().addDocumentListener(new DocumentListener() {
-//			@Override
-//			public void insertUpdate(DocumentEvent e) {
-//				search();
-//			}
-//
-//			@Override
-//			public void removeUpdate(DocumentEvent e) {
-//				search();
-//			}
-//
-//			@Override
-//			public void changedUpdate(DocumentEvent e) {
-//				search();
-//			}
-//
-//			private void search() {
-//				String text = searchTextField.getText();
-//				if (StringUtils.isEmpty(text)) {
-//					removeSearchResult();
-//				} else {
-//					populate(componentTree.search(text));
-//				}
-//			}
-//		});
 	}
 
 	private JPanel getWidgetPane() {
@@ -164,7 +121,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		JPanel widgetPane = new JPanel();
 		widgetPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		widgetPane.setLayout(FRGUIPaneFactory.createBorderLayout());
-//		add(widgetPane, BorderLayout.NORTH);
 
 		JPanel headPane = new JPanel(new BorderLayout());
 		headPane.add(new UILabel(Inter.getLocText("FR-Designer-Selected_Widget") + "  ",
@@ -183,18 +139,9 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			toolbarDef.addShortCut(sj.getShortCut());
 		}
 		UIToolbar toolBar = ToolBarDef.createJToolBar();
-//		toolBar.setUI(new UIToolBarUI(){
-//			@Override
-//			public void paint(Graphics g, JComponent c) {
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setColor(Color.white);
-//				g2.fillRect(0, 0, c.getWidth(), c.getHeight());
-//			}
-//		});
 		toolbarDef.updateToolBar(toolBar);
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		toolBarPane.add(toolBar, BorderLayout.CENTER);
-//		toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(201, 198, 184)));
 		return toolBarPane;
 	}
 
@@ -245,113 +192,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		componentTree.refreshTreeRoot();
 	}
 
-	/**
-	 * 删除搜索结果
-	 */
-//	public void removeSearchResult() {
-//		componentTree.setSelectionPath(null);
-//		if (searchResult != null) {
-//			this.remove(searchResult);
-//		}
-//	}
-//
-//	public void populate(TreePath[] treepath) {
-//		if (this.searchResult == null) {
-//			searchResult = new SearchResultPane();
-//		}
-//		if (((BorderLayout) getLayout()).getLayoutComponent(BorderLayout.SOUTH) == null) {
-//			add(searchResult, BorderLayout.SOUTH);
-//		}
-//		searchResult.populate(treepath);
-//	}
-
-//	private class SearchResultPane extends JPanel {
-//		private UILabel resultLabel = new UILabel();
-//		private BackAction backAction = new BackAction();
-//		private ForWardAction forwardAction = new ForWardAction();
-//		private TreePath[] tree;
-//		private int number = 0;
-//
-//		SearchResultPane() {
-//			this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//			JPanel actionJPanel = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
-//			addButtonToJPanel(actionJPanel, backAction.createToolBarComponent());
-//			addButtonToJPanel(actionJPanel, forwardAction.createToolBarComponent());
-//
-//			this.add(actionJPanel, BorderLayout.EAST);
-//			this.add(resultLabel, BorderLayout.WEST);
-//		}
-//
-//		private void addButtonToJPanel(JPanel actionLabel,
-//									   JComponent toolBarComponent) {
-//			actionLabel.add(toolBarComponent);
-//			if (toolBarComponent instanceof UIButton) {
-//				toolBarComponent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-//			}
-//		}
-//
-//		public void populate(TreePath[] search) {
-//			tree = search;
-//			resultLabel.setText(Inter.getLocText("FR-Designer_Total") + ":" + tree.length);
-//			number = 0;
-//			check();
-//		}
-//
-//		public void next() {
-//			if (number < tree.length - 1) {
-//				componentTree.setAndScrollSelectionPath(tree[++number]);
-//			}
-//			check();
-//		}
-//
-//		public void last() {
-//			if (number > 0) {
-//				componentTree.setAndScrollSelectionPath(tree[--number]);
-//			}
-//			check();
-//		}
-//
-//		public void check() {
-//			if (tree.length < 1) {
-//				backAction.setEnabled(false);
-//				forwardAction.setEnabled(false);
-//			} else {
-//				backAction.setEnabled(number > 0);
-//				forwardAction.setEnabled(number < tree.length - 1);
-//			}
-//
-//		}
-
-	//}
-
-//	private class BackAction extends UpdateAction {
-//
-//		public BackAction() {
-//			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Last"));
-//			this.setSmallIcon(BaseUtils
-//					.readIcon("com/fr/design/images/m_help/back.png"));
-//			this.setEnabled(false);
-//		}
-//
-//		public void actionPerformed(ActionEvent e) {
-//			searchResult.last();
-//		}
-//	}
-//
-//	private class ForWardAction extends UpdateAction {
-//
-//		public ForWardAction() {
-//			this.setName(Inter.getLocText("Form-Hierarchy_Tree_Next"));
-//			this.setSmallIcon(BaseUtils
-//					.readIcon("com/fr/design/images/m_help/forward.png"));
-//			this.setEnabled(false);
-//		}
-//
-//		public void actionPerformed(ActionEvent e) {
-//			searchResult.next();
-//		}
-//	}
-
 	@Override
 	/**
 	 * 位置
@@ -373,24 +213,6 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 		@Override
 		public void checkEnable() {
 			this.shortCut.setEnabled(false);
-		}
-	}
-
-
-	/*
-     * CopyItem
-     */
-	private class CopyItemAction extends UpdateAction {
-		public CopyItemAction() {
-			this.setName(Inter.getLocText("FR-Action_Copy"));
-			this.setMnemonic('C');
-			this.setSmallIcon(BaseUtils
-					.readIcon("/com/fr/base/images/cell/control/copy.png"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-
 		}
 	}
 }
