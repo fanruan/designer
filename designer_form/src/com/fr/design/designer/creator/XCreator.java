@@ -626,4 +626,20 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		return;
 	}
 
+	/**
+	 * 是否支持设置可见和可用
+	 * return boolean
+	 */
+	public boolean supportSetVisibleOrEnable(){
+		return true;
+	}
+
+	/**
+	 * 重新设置data
+	 *
+	 */
+	public void resetData(Widget data){
+		this.data = data;
+	}
+
 }

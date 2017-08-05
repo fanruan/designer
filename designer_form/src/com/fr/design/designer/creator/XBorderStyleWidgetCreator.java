@@ -144,5 +144,9 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
         }
 		return new Insets(padding.getTop(), padding.getLeft(), padding.getBottom(), padding.getRight());
     }
+
+	public boolean supportSetVisibleOrEnable(){
+		return false;
+	}
     
 }
