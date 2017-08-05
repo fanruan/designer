@@ -21,6 +21,7 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WParameterLayout;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,12 +45,12 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         designerWidth = new UISpinner(1, 1000, 1);
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane("高级", 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         JPanel layoutPane = createBoundsPane();
 //        layoutPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 //        layoutPane.add(GUICoreUtils.createFlowPane(new JComponent[]{new UILabel("设计宽度"), designerWidth}, FlowLayout.LEFT, 4));
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane("尺寸", 280, 20, layoutPane);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("Size"), 280, 20, layoutPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 
@@ -60,7 +61,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("设计宽度"), designerWidth},
+                new Component[]{new UILabel(Inter.getLocText("Form-Desin_Width")), designerWidth},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5,5,5));
@@ -68,16 +69,16 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
     }
 
     public JPanel createAdvancePane(){
-        displayReport = new UICheckBox("点击查询前不显示报表内容");
+        displayReport = new UICheckBox(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p,p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("背景"), new UITextField()},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), new UITextField()},
                 new Component[]{displayReport, null },
-                new Component[]{new UILabel("显示位置"),  new UITextField()}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")),  new UITextField()}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5,5,5));
