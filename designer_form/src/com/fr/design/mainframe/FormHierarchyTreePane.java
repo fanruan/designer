@@ -139,6 +139,14 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
 			toolbarDef.addShortCut(sj.getShortCut());
 		}
 		UIToolbar toolBar = ToolBarDef.createJToolBar();
+        toolBar.setUI(new UIToolBarUI(){
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(new Color(245, 245, 247));
+                g2.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+        });
 		toolbarDef.updateToolBar(toolBar);
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		toolBarPane.add(toolBar, BorderLayout.CENTER);
