@@ -1,13 +1,12 @@
 package com.fr.design.menu;
 
+import com.fr.design.gui.itoolbar.UIToolBarUI;
+import com.fr.design.gui.itoolbar.UIToolbar;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.*;
-
-import com.fr.design.gui.itoolbar.UIToolBarUI;
-import com.fr.design.gui.itoolbar.UIToolbar;
 
 /**
  * Define toolbar..
@@ -20,7 +19,7 @@ public class ToolBarDef  {
     /*
      * 一个static的方法生成一个JToolBar
      */
-    public static UIToolbar createJToolBar(Color background) {
+    public static UIToolbar createJToolBar(final Color background) {
         UIToolbar toolbar = new UIToolbar(FlowLayout.LEFT, new UIToolBarUI(){
             @Override
             public void paint(Graphics g, JComponent c) {
