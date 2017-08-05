@@ -61,7 +61,7 @@ public class CellWidgetCardPane extends BasicPane {
 
 
     private void initComponents(ElementCasePane pane) {
-
+        this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         //k
         tabbedPane =  new CardLayout();
