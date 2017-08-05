@@ -28,6 +28,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
     private WAbsoluteLayout wAbsoluteLayout;
     protected UIComboBox comboBox;
     private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
+    private WidgetBoundPane boundPane;
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -40,8 +41,9 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
 
 
     public void initComponent() {
+        boundPane = new WidgetBoundPane(creator);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.add(new WidgetBoundPane(creator), BorderLayout.NORTH);
+        this.add(boundPane, BorderLayout.NORTH);
         initUIComboBox();
         UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20, createThirdPane());
 
@@ -79,19 +81,27 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
 
     @Override
     public void populateBean(WAbsoluteLayout ob) {
-
+        populateSubPane(ob);
+        comboBox.setSelectedIndex(ob.getCompState());
+        boundPane.populate();
     }
 
 
     @Override
     public WAbsoluteLayout updateBean() {
         WAbsoluteLayout wAbsoluteLayout = updateSubPane();
+        wAbsoluteLayout.setCompState(comboBox.getSelectedIndex());
+        boundPane.update();
         return wAbsoluteLayout;
 
     }
 
     public WAbsoluteLayout updateSubPane() {
         return new WAbsoluteLayout();
+    }
+
+    public void populateSubPane(WAbsoluteLayout ob) {
+
     }
 
     @Override

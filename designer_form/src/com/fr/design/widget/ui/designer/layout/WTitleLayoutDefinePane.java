@@ -27,7 +27,7 @@ public class WTitleLayoutDefinePane  extends AbstractDataModify<WTitleLayout> {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
-        paddingBoundPane = new PaddingBoundPane(creator);
+        paddingBoundPane = new PaddingBoundPane();
         displayECToolBar = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Display_Report_Tool"));
         advancePane.add(paddingBoundPane, BorderLayout.NORTH);
         advancePane.add(displayECToolBar, BorderLayout.CENTER);
@@ -41,7 +41,8 @@ public class WTitleLayoutDefinePane  extends AbstractDataModify<WTitleLayout> {
 
     @Override
     public void populateBean(WTitleLayout ob) {
-
+        paddingBoundPane.populate(ob);
+//        displayECToolBar.setSelected(ob.ds);
     }
 
 

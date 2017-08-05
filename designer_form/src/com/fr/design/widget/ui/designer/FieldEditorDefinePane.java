@@ -41,8 +41,8 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
         allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
-        fontSizePane = new UISpinner(0,20,1);
-        errorMsgTextField = new UITextField(10);
+        fontSizePane = new UISpinner(0, 20, 1, 0);
+        errorMsgTextField = new UITextField();
         JPanel contentPane = this.setFirstContentPane();
         if (contentPane != null) {
             UIExpandablePane uiExpandablePane = new UIExpandablePane("高级", 280, 20, contentPane);
@@ -50,10 +50,12 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         }
         this.addValidatePane();
     }
+
     @Override
     public void populateBean(T ob) {
         this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
         this.errorMsgTextField.setText(ob.getErrorMessage());
+        this.fontSizePane.setValue(ob.getFontSize());
         populateSubFieldEditorBean(ob);
     }
 
@@ -65,7 +67,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
         e.setAllowBlank(this.allowBlankCheckBox.isSelected());
         e.setErrorMessage(this.errorMsgTextField.getText());
-
+        e.setFontSize((int)fontSizePane.getValue());
         return e;
     }
 
@@ -83,7 +85,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void addValidatePane() {
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         final UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
-        errorMsgTextField  = new UITextField(10);
         allowBlankCheckBox.addItemListener(new ItemListener() {
 
             @Override
@@ -91,10 +92,10 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
                 boolean isSelected = allowBlankCheckBox.isSelected();
                 uiLabel.setVisible(!isSelected);
                 errorMsgTextField.setVisible(!isSelected);
-                if(isSelected){
+                if (isSelected) {
                     uiLabel.setPreferredSize(new Dimension(0, 0));
                     errorMsgTextField.setPreferredSize(new Dimension(0, 0));
-                }else{
+                } else {
                     uiLabel.setPreferredSize(new Dimension(66, 20));
                     errorMsgTextField.setPreferredSize(new Dimension(150, 20));
                 }
@@ -105,14 +106,14 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{allowBlankCheckBox, null },
+                new Component[]{allowBlankCheckBox, null},
                 new Component[]{uiLabel, errorMsgTextField},
         };
         double[] rowSize = {p, p};
-        double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 7, 2);
-        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}};
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 7, 2);
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         validatePane.add(panel, BorderLayout.NORTH);
         JPanel contentPane = this.setValidatePane();
         if (contentPane != null) {
@@ -124,7 +125,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     }
 
-    public XLayoutContainer getParent (XCreator source){
+    public XLayoutContainer getParent(XCreator source) {
         XLayoutContainer container = XCreatorUtils.getParentXLayoutContainer(source);
         if (source.acceptType(XWFitLayout.class) || source.acceptType(XWParameterLayout.class)) {
             container = null;
@@ -132,7 +133,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         return container;
     }
 
-    public  JPanel setValidatePane(){
+    public JPanel setValidatePane() {
         return null;
     }
 

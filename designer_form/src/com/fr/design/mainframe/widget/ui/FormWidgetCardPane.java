@@ -186,6 +186,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (xCreator instanceof XWScaleLayout) {
             XCreator xCreator1 = xCreator.getEditingChildCreator();
             xCreator1.resetData(widget);
+            xCreator.removeAll();
+            xCreator.add(xCreator1);
         } else {
             xCreator.resetData(widget);
         }

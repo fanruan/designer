@@ -21,13 +21,14 @@ public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox>
 	}
 
 	protected void populateSubCustomWritableRepeatEditorBean(ComboBox e) {
+		removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
 		this.dictPane.populateBean(e.getDictionary());
 	}
 
 	protected ComboBox updateSubCustomWritableRepeatEditorBean() {
 		ComboBox combo = new ComboBox();
 		combo.setDictionary(this.dictPane.updateBean());
-
+		combo.setRemoveRepeat(removeRepeatCheckBox.isSelected());
 		return combo;
 	}
 

@@ -63,13 +63,13 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         });
         //监听填写规则下拉框的值的变化
-        regPane.getRegComboBox().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                RegExp regExp = (RegExp) regPane.getRegComboBox().getSelectedItem();
-//                regErrorMsgTextField.setEnabled(regExp.errorMessageEditable());
-
-            }
-        });
+//        regPane.getRegComboBox().addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                RegExp regExp = (RegExp) regPane.getRegComboBox().getSelectedItem();
+////                regErrorMsgTextField.setEnabled(regExp.errorMessageEditable());
+//
+//            }
+//        });
 
 
         formWidgetValuePane = new FormWidgetValuePane();
@@ -117,7 +117,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         ob.setRegex(this.regPane.update());
         ob.setWaterMark(waterMarkDictPane.getText());
         formWidgetValuePane.update(ob);
-        ob.setFontSize((int)fontSizePane.getValue());
+//        ob.setFontSize((int)fontSizePane.getValue());
         return ob;
     }
 

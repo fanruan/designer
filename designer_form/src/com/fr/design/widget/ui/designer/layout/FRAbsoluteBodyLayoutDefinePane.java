@@ -71,12 +71,13 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
         return "absoluteBodyLayout";
     }
 
-    public void populateBean(WAbsoluteBodyLayout ob) {
-
+    public void populateSubPane(WAbsoluteLayout ob) {
+//        WAbsoluteBodyLayout layout = (WAbsoluteBodyLayout) ob;
+        layoutCombox.setSelectedIndex(1);
     }
 
-    public WAbsoluteLayout updateSubPane() {
-        WAbsoluteLayout layout = (WAbsoluteLayout) creator.toData();
+    public WAbsoluteBodyLayout updateSubPane() {
+        WAbsoluteBodyLayout layout = (WAbsoluteBodyLayout) creator.toData();
         Item item = (Item) layoutCombox.getSelectedItem();
         Object value = item.getValue();
         int state = 0;
@@ -88,7 +89,6 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             if (state == WBodyLayoutType.FIT.getTypeValue()) {
                 switch2FitBodyLayout();
             }
-            layout.setCompState(state);
         }
         return layout;
     }

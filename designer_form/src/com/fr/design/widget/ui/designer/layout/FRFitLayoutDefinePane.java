@@ -12,6 +12,7 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -26,6 +27,7 @@ import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.FRLogger;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +42,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     private UIComboBox adaptComboBox;
     private UISpinner componentIntervel;
     private PaddingBoundPane paddingBound;
+    private UITextField background;
 
     public FRFitLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -52,16 +55,20 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = createAdvancePane();
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane("高级", 280, 20, advancePane);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane("布局", 280, 20, createLayoutPane());
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Layout"), 280, 20, createLayoutPane());
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
 
     public JPanel createAdvancePane() {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        paddingBound = new PaddingBoundPane(creator);
+        background = new UITextField();
+        paddingBound = new PaddingBoundPane();
+        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), background}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        jp2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel.add(paddingBound, BorderLayout.CENTER);
+        jPanel.add(jp2, BorderLayout.NORTH);
         return jPanel;
     }
 
@@ -69,16 +76,16 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         layoutComboBox = initUIComboBox(FRLayoutTypeItems.ITEMS);
         adaptComboBox = initUIComboBox(FRFitConstraintsItems.ITEMS);
-        componentIntervel = new UISpinner(0, 100, 1);
+        componentIntervel = new UISpinner(0, 100, 1, 0);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p,p,p};
+        double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("布局方式"), layoutComboBox},
-                new Component[]{new UILabel("组件缩放"), adaptComboBox},
-                new Component[]{new UILabel("组件间隔"), componentIntervel}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Scale")), adaptComboBox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentIntervel}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -88,7 +95,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     }
 
 
-    public UIComboBox initUIComboBox(Item [] items) {
+    public UIComboBox initUIComboBox(Item[] items) {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         for (Item item : items) {
             model.addElement(item);
@@ -104,13 +111,18 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
     @Override
     public void populateBean(WFitLayout ob) {
-
+        background.setText("test");
+        paddingBound.populate(ob);
+        layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
+        adaptComboBox.setSelectedIndex(ob.getCompState());
+        componentIntervel.setValue(ob.getCompInterval());
     }
 
 
     @Override
     public WFitLayout updateBean() {
-        WFitLayout layout = (WFitLayout)creator.toData();
+        WFitLayout layout = (WFitLayout) creator.toData();
+        paddingBound.update(layout);
         Item item = (Item) layoutComboBox.getSelectedItem();
         Object value = item.getValue();
         int state = 0;
@@ -139,17 +151,15 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                 FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                 formDesigner.getSelectionModel().setSelectedCreators(
                         FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{wAbsoluteBodyLayout}));
-            } else {
-                FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-                formDesigner.getSelectionModel().setSelectedCreators(
-                        FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{xWFitLayout.toData()}));
             }
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
 
         }
+        //todo 验证下
         layout.setLayoutType(WBodyLayoutType.parse(state));
-
+        layout.setCompState(adaptComboBox.getSelectedIndex());
+        layout.setCompInterval((int)componentIntervel.getValue());
         return layout;
     }
 

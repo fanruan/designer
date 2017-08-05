@@ -10,6 +10,7 @@ import com.fr.design.widget.ui.designer.layout.*;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
+import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Inter;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
@@ -63,6 +64,7 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "tab"));
         defineMap.put(WTitleLayout.class, new Appearance(WTitleLayoutDefinePane.class, "tab"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
+        defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "label"));
         defineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());
     }
 

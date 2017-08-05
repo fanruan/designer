@@ -33,6 +33,8 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
     private XWParameterLayout root;
     private UISpinner designerWidth;
     private UICheckBox displayReport;
+    private UITextField background;
+    private UITextField displayPosition;
 
     public RootDesignDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -70,15 +72,17 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
 
     public JPanel createAdvancePane(){
         displayReport = new UICheckBox(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"));
+        background = new UITextField();
+        displayPosition = new UITextField();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p,p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), new UITextField()},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), background},
                 new Component[]{displayReport, null },
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")),  new UITextField()}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")),  displayPosition}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5,5,5));
@@ -87,12 +91,13 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
 
     @Override
     public String title4PopupWindow() {
-        return "wfitlayout";
+        return "parameter";
     }
 
     @Override
     public void populateBean(WParameterLayout ob) {
-
+        displayReport.setSelected(ob.isDelayDisplayContent());
+        designerWidth.setValue(ob.getDesignWidth());
     }
 
 

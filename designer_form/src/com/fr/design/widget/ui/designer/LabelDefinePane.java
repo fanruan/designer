@@ -20,6 +20,9 @@ import java.awt.*;
  * Created by ibm on 2017/8/3.
  */
 public class LabelDefinePane extends AbstractDataModify<Label> {
+    private FormWidgetValuePane formWidgetValuePane;
+    private UICheckBox isPageSetupVertically;
+    private UICheckBox isStyleAlignmentWrapText;
 
     public LabelDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -34,17 +37,20 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     }
 
     public JPanel createAdvancePane() {
+        formWidgetValuePane = new FormWidgetValuePane();
+        isPageSetupVertically = new UICheckBox(Inter.getLocText("FR-Designer_PageSetup-Vertically"));
+        isStyleAlignmentWrapText = new UICheckBox(Inter.getLocText("FR-Designer_StyleAlignment-Wrap_Text"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), new FormWidgetValuePane()},
-                new Component[]{new UICheckBox(Inter.getLocText("FR-Designer_StyleAlignment-Wrap_Text")), null},
-                new Component[]{new UICheckBox(Inter.getLocText("FR-Designer_PageSetup-Vertically")), null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")), new UITextField()},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), new UITextField(16)},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
+                new Component[]{isStyleAlignmentWrapText, null},
+                new Component[]{isPageSetupVertically, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Display_Position")), new UITextField()},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), new UITextField()},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
@@ -58,13 +64,16 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
 
     @Override
     public void populateBean(Label ob) {
-
+        isStyleAlignmentWrapText.setSelected(ob.isAutoLine());
+        isPageSetupVertically.setSelected(ob.isVerticalCenter());
     }
 
 
     @Override
     public Label updateBean() {
         Label layout = (Label) creator.toData();
+        layout.setAutoLine(isStyleAlignmentWrapText.isSelected());
+        layout.setVerticalCenter(isPageSetupVertically.isSelected());
         return layout;
     }
 }

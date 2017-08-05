@@ -19,7 +19,7 @@ import java.awt.*;
 public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> extends FieldEditorDefinePane<T> {
 	public UICheckBox directWriteCheckBox;
 	protected WaterMarkDictPane waterMarkDictPane;
-	private UICheckBox removeRepeatCheckBox;
+	protected UICheckBox removeRepeatCheckBox;
 
 	public DirectWriteEditorDefinePane(XCreator xCreator) {
 		super(xCreator);
@@ -74,7 +74,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	protected void populateSubFieldEditorBean(T e) {
 		this.directWriteCheckBox.setSelected(e.isDirectEdit());
 		this.waterMarkDictPane.populate(e);
-
+		removeRepeatCheckBox.setSelected(e.isChartRelated());
 		populateSubDirectWriteEditorBean(e);
 	}
 

@@ -50,6 +50,7 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 		this.dictPane.populateBean(e.getDictionary());
 		this.checkBoxDictPane.populate(e);
         this.supportTagCheckBox.setSelected(e.isSupportTag());
+        this.removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
 	}
 
 	public JPanel createOtherPane(){
@@ -73,6 +74,7 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
         combo.setSupportTag(this.supportTagCheckBox.isSelected());
 		combo.setDictionary(this.dictPane.updateBean());
 		checkBoxDictPane.update(combo);
+		combo.setRemoveRepeat(removeRepeatCheckBox.isSelected());
 		return combo;
 	}
 
