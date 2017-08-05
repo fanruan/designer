@@ -498,7 +498,7 @@ public class RegPane extends BasicPane {
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 			initRegErrorMsgField();
 //			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-			this.add(new UILabel("错误提示" + ":"));
+			this.add(new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip") + ":"));
 			regErrorMsgField = new UITextField(10);
 			this.add(regErrorMsgField);
 		}
