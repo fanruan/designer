@@ -1,5 +1,6 @@
 package com.fr.design.parameter;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.FormDesigner;
@@ -14,11 +15,14 @@ import java.awt.event.MouseEvent;
 
 public class ParameterPropertyPane extends JPanel{
 	private ParameterToolBarPane toolbarPane;
-	private BasicScrollPane basicScrollPane;
 	private ParaDefinitePane paraPane;
+	private JPanel formHierarchyTreePaneWrapper;  // 封装一层，加边框
+    private JPanel addParaPane;
 
-	public static ParameterPropertyPane THIS;
+
+    private static ParameterPropertyPane THIS;
 	private boolean isEditing = false;
+    private static final int HIDE_HEIGHT = 40;
 
 	public static final ParameterPropertyPane getInstance() {
 		if(THIS == null) {
@@ -43,7 +47,7 @@ public class ParameterPropertyPane extends JPanel{
 
 	public ParameterPropertyPane() {
 		toolbarPane = new ParameterToolBarPane();
-		basicScrollPane = new BasicScrollPane() {
+		BasicScrollPane basicScrollPane = new BasicScrollPane() {
 			@Override
 			protected JPanel createContentPane() {
 				return toolbarPane;
@@ -59,15 +63,42 @@ public class ParameterPropertyPane extends JPanel{
 				return null;
 			}
 		};
-		initParameterListener();
+        JPanel scrollPaneWrapperInner = new JPanel(new BorderLayout());
+        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 5));
+        scrollPaneWrapperInner.add(basicScrollPane, BorderLayout.CENTER);
+        addParaPane = new JPanel(new BorderLayout());
+        addParaPane.add(scrollPaneWrapperInner, BorderLayout.CENTER);
+        addParaPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.SPLIT_LINE));
+
+
+        initParameterListener();
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        this.add(basicScrollPane, BorderLayout.CENTER);
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        this.add(addParaPane, BorderLayout.CENTER);
 	}
+
+    public void setAddParaPaneVisible(boolean isVisible) {
+        if (isVisible == addParaPane.isVisible()) {
+            return;
+        }
+        if (isVisible && toolbarPane.hasSelectedLabelItem()) {
+            addParaPane.setVisible(true);
+            this.setPreferredSize(null);
+        } else {
+            addParaPane.setVisible(false);
+            this.setPreferredSize(new Dimension(getWidth(), formHierarchyTreePaneWrapper.getPreferredSize().height + UIConstants.GAP_NORMAL));
+        }
+        repaintContainer();
+    }
 	
 	private void setEditor(FormDesigner editor) {
-		this.remove(FormHierarchyTreePane.getInstance());
-		this.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.NORTH);
+		if (formHierarchyTreePaneWrapper == null) {
+			formHierarchyTreePaneWrapper = new JPanel(new BorderLayout());
+			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+			this.add(formHierarchyTreePaneWrapper, BorderLayout.SOUTH);
+		}
+		formHierarchyTreePaneWrapper.remove(FormHierarchyTreePane.getInstance());
+		formHierarchyTreePaneWrapper.add(FormHierarchyTreePane.getInstance(editor), BorderLayout.CENTER);
 	}
 
 	private void initParameterListener() {

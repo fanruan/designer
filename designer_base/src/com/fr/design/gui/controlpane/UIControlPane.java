@@ -113,7 +113,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 //        mainSplitPane.setOneTouchExpandable(true);
 
         this.add(getLeftPane(), BorderLayout.CENTER);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 12, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
 //        mainSplitPane.setDividerLocation(getLeftPreferredSize());
         this.checkButtonEnabled();
     }
@@ -161,10 +161,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         topToolBar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f };
-        double[] rowSize = { p};
+        double[] columnSize = { p, f, 155};
+        double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(getAddItemText()), topToolBar},
+                new Component[]{new UILabel(getAddItemText()), null, topToolBar},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
