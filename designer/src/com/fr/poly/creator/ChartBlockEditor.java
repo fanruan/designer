@@ -122,6 +122,12 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 	protected MiddleChartComponent createEffective() {
 		if (editComponent == null) {
 			initEffective(creator.getValue().getChartCollection());
+			editComponent.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					designer.setChooseType(SelectionType.CHART_INNER);
+				}
+			});
 		}
 		return editComponent;
 	}
@@ -266,7 +272,7 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 	 * 刷新选中状态.日EC
 	 */
 	public void resetSelectionAndChooseState() {
-		designer.setChooseType(SelectionType.BLOCK);
+		designer.setChooseType(SelectionType.CHART_INNER);
 //		refreshChartComponent();// 选中之后 刷新下图表编辑层
 		if (BaseUtils.isAuthorityEditing()) {
 			JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();

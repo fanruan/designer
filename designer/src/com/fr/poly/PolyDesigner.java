@@ -72,8 +72,8 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     /**
      * 选中的类型--1.什么都没选中2.选中一个聚合块内部的内容3.选中聚合块本省
      */
-    public static enum SelectionType {
-        NONE, INNER, BLOCK
+    public enum SelectionType {
+        NONE, INNER, BLOCK, CHART_INNER
     }
 
     public JComponent polyArea;
@@ -892,6 +892,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             } else if (isChooseBlock()) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_CHART);
                 EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(PolyBlockProperPane.getInstance(PolyDesigner.this));
+            } else if (type == SelectionType.CHART_INNER) {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_CHART);
+                EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(getEastUpPane());
             } else if (type != SelectionType.NONE) {
                 EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY_REPORT);
                 EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
