@@ -398,27 +398,35 @@ public class CellDSColumnEditor extends CellQuickEditor {
             //结果集排序
             sortPane = new ResultSetSortConfigPane();
             sortPane.addListener(new UIObserverListener() {
-                @Override
-                public void doChange() {
-                    sortPane.update(cellElement);
-                    fireTargetModified();
-                }
-            }, new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    sortPane.update(cellElement);
-                    fireTargetModified();
-                }
-            });
+                                     @Override
+                                     public void doChange() {
+                                         sortPane.update(cellElement);
+                                         fireTargetModified();
+                                     }
+                                 }, new ChangeListener() {
+                                     @Override
+                                     public void stateChanged(ChangeEvent e) {
+                                         sortPane.update(cellElement);
+                                         fireTargetModified();
+                                     }
+                                 }
+            );
             //结果筛选
             filterPane = new ResultSetFilterConfigPane();
-            filterPane.addListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    filterPane.update(cellElement);
-                    fireTargetModified();
-                }
-            });
+            filterPane.addListener(new UIObserverListener() {
+                                       @Override
+                                       public void doChange() {
+                                           filterPane.update(cellElement);
+                                           fireTargetModified();
+                                       }
+                                   }, new ActionListener() {
+                                       @Override
+                                       public void actionPerformed(ActionEvent e) {
+                                           filterPane.update(cellElement);
+                                           fireTargetModified();
+                                       }
+                                   }
+            );
             //自定义值显示
             valuePane = new CustomValuePane();
             //可扩展性
@@ -564,6 +572,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
             }
 
+            /**
+             * 添加事件监听器
+             *
+             * @param formulaChangeListener 公式输入框改动事件监听器
+             * @param changeListener        排序类型下拉框改动事件监听器
+             */
             public void addListener(UIObserverListener formulaChangeListener, ChangeListener changeListener) {
                 tinyFormulaPane.registerChangeListener(formulaChangeListener);
                 sortTypePane.addChangeListener(changeListener);
@@ -729,7 +743,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
             }
 
-            public void addListener(ActionListener actionListener) {
+            /**
+             * 添加事件监听器
+             *
+             * @param formulaListener 公式输入框改动事件监听器
+             * @param actionListener  筛选类型下拉框改动事件监听器
+             */
+            public void addListener(UIObserverListener formulaListener, ActionListener actionListener) {
+                topFormulaPane.addListener(formulaListener);
+                bottomFormulaPane.addListener(formulaListener);
                 rsComboBox.addActionListener(actionListener);
             }
         }
@@ -779,6 +801,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public String getFormulaText() {
                 return this.formulaTextField.getText();
+            }
+
+            /**
+             * 添加事件监听器
+             *
+             * @param listener 公式文本输入框改动事件监听器
+             */
+            public void addListener(UIObserverListener listener) {
+                this.formulaTextField.registerChangeListener(listener);
             }
 
             private ActionListener formulaButtonActionListener = new ActionListener() {
