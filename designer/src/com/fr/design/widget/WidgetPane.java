@@ -9,9 +9,11 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.*;
@@ -49,14 +51,22 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     protected void initComponents(ElementCasePane pane) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        northPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
+
+        editorTypeComboBox = new EditorTypeComboBox(pane != null);
+        editorTypeComboBox.setPreferredSize(new Dimension(155, 30));
+        editorTypeComboBox.setMaximumRowCount(16);
+
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), editorTypeComboBox},
+        };
+        northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        northPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
         this.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(Inter.getLocText("FR-Designer_Type") + ":"));
-        editorTypeComboBox = new EditorTypeComboBox(pane != null);
-        editorTypeComboBox.setPreferredSize(new Dimension(150, 30));
-        editorTypeComboBox.setMaximumRowCount(16);
-        northPane.add(editorTypeComboBox);
         editorTypeComboBox.addItemListener(this);
 
         cellEditorCardPane = new CellWidgetCardPane(pane);
@@ -64,10 +74,9 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         this.addAttributeChangeListener(listener);
     }
 
-    protected  JPanel createContentPane(){
+    protected JPanel createContentPane() {
         return new JPanel();
     }
-
 
 
     AttributeChangeListener listener = new AttributeChangeListener() {
@@ -267,7 +276,8 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
                     && ComparatorUtils.equals(((Item) o).name, name);
         }
     }
-    public  String getIconPath(){
+
+    public String getIconPath() {
         return "";
     }
 

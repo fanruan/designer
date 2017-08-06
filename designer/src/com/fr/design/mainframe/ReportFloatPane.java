@@ -43,17 +43,16 @@ public class ReportFloatPane extends JPanel {
         topToolBar.setLayout(new BorderLayout());
         insertFloatMenu = createInsertToolBar();
         topToolBar.add(createButtonUI());
-        topToolBar.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 0));
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Add_FloatElement")), topToolBar},
+                new Component[]{new UILabel(" " + Inter.getLocText("FR-Designer_Add_FloatElement") + "  "), topToolBar},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 10));
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 4, 0, 15));
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 

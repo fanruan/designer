@@ -2,6 +2,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icombobox.UIComboBox;
 
 import javax.swing.*;
@@ -52,7 +53,6 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		addItemChangeEvent();
 
 		initLayout();
-
 		jcb.setSelectedIndex(0);
 	}
 
@@ -98,6 +98,7 @@ public abstract class UIComboBoxPane<T> extends BasicBeanPane<T> {
 		JPanel northPane = new JPanel(new BorderLayout());
 		northPane.add(jcb, BorderLayout.CENTER);
 		this.add(northPane, BorderLayout.NORTH);
+		northPane.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		this.add(cardPane, BorderLayout.CENTER);
 
 	}

@@ -50,7 +50,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
         content.setLayout(new BorderLayout());
         content.add(new CustomStylePane(), BorderLayout.CENTER);
         GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
+        jf.setSize(250, 400);
         jf.setVisible(true);
     }
 

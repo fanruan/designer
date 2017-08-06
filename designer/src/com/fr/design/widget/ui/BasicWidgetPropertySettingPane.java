@@ -1,9 +1,12 @@
 package com.fr.design.widget.ui;
 
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
@@ -19,25 +22,26 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 	private Widget widget;
 	
 	public BasicWidgetPropertySettingPane() {
-		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-		JPanel pane1 = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		pane1.setBorder(BorderFactory.createEmptyBorder(0, -2, 0, 0));
-		this.add(pane1);
-		
-		JPanel pane2 = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
-		enableCheckBox = new UICheckBox(Inter.getLocText("Enabled"), true);
-		pane2.add(enableCheckBox);
-		visibleCheckBox = new UICheckBox(Inter.getLocText("Widget-Visible"), true);
-		pane2.add(visibleCheckBox);
-		pane1.add(pane2, BorderLayout.NORTH);
-		
-		JPanel pane3 = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		this.setLayout(new BorderLayout());
+		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Visible"), true);
+		visibleCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget-Visible"), true);
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
-		pane3.add(new UILabel(Inter.getLocText("Form-Widget_Name") + ":"));
-		pane3.add(widgetNameComboBox);
-		pane1.add(pane3, BorderLayout.CENTER);
-		
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name") + "    "), widgetNameComboBox},
+				new Component[]{enableCheckBox, null},
+				new Component[]{visibleCheckBox, null},
+		};
+		double[] rowSize = {p, p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1}};
+		JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+		pane.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+
+		this.add(pane, BorderLayout.CENTER);
+
 	}
 	
 	@Override
