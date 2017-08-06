@@ -165,6 +165,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList.add(cellDSColumnAdvancedPane);
     }
 
+
     /**
      * 单元格元素 数据列 高级设置内容面板
      *
@@ -289,9 +290,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
         //自定义值显示
         private CustomValuePane valuePane;
         //横向可扩展性
-        private UICheckBox horizontalExtendableCheckBox;
+        private UICheckBox heCheckBox;
         //纵向可扩展性
-        private UICheckBox verticalExtendableCheckBox;
+        private UICheckBox veCheckBox;
         //补充空白数据
         private UICheckBox useMultiplyNumCheckBox;
         //补充空白数据书目输入框
@@ -322,32 +323,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 sortPane.update(cellElement);
                 valuePane.update(cellElement);
                 filterPane.update(cellElement);
-                CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
-                if (cellExpandAttr == null) {
-                    cellExpandAttr = new CellExpandAttr();
-                    cellElement.setCellExpandAttr(cellExpandAttr);
-                }
-                if (horizontalExtendableCheckBox.isSelected()) {
-                    if (verticalExtendableCheckBox.isSelected()) {
-                        cellExpandAttr.setExtendable(CellExpandAttr.Both_EXTENDABLE);
-                    } else {
-                        cellExpandAttr.setExtendable(CellExpandAttr.Horizontal_EXTENDABLE);
-                    }
-                } else {
-                    if (verticalExtendableCheckBox.isSelected()) {
-                        cellExpandAttr.setExtendable(CellExpandAttr.Vertical_EXTENDABLE);
-                    } else {
-                        cellExpandAttr.setExtendable(CellExpandAttr.None_EXTENDABLE);
-                    }
-                }
-                if (this.useMultiplyNumCheckBox.isSelected()) {
-                    cellExpandAttr.setMultipleNumber((int) multiNumSpinner.getValue());
-                } else {
-                    cellExpandAttr.setMultipleNumber(-1);
-                }
+                //更新单元格扩展属性
+                updateExtendConfig();
+
+                //更新补充空白设置
+                updateMultipleConfig();
             }
         }
 
+        @SuppressWarnings("Duplicates")
         @Override
         public void populate() {
             if (cellElement != null) {
@@ -362,20 +346,20 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 // extendable
                 switch (cellExpandAttr.getExtendable()) {
                     case CellExpandAttr.Both_EXTENDABLE:
-                        horizontalExtendableCheckBox.setSelected(true);
-                        verticalExtendableCheckBox.setSelected(true);
+                        heCheckBox.setSelected(true);
+                        veCheckBox.setSelected(true);
                         break;
                     case CellExpandAttr.Vertical_EXTENDABLE:
-                        horizontalExtendableCheckBox.setSelected(false);
-                        verticalExtendableCheckBox.setSelected(true);
+                        heCheckBox.setSelected(false);
+                        veCheckBox.setSelected(true);
                         break;
                     case CellExpandAttr.Horizontal_EXTENDABLE:
-                        horizontalExtendableCheckBox.setSelected(true);
-                        verticalExtendableCheckBox.setSelected(false);
+                        heCheckBox.setSelected(true);
+                        veCheckBox.setSelected(false);
                         break;
                     default: {
-                        horizontalExtendableCheckBox.setSelected(false);
-                        verticalExtendableCheckBox.setSelected(false);
+                        heCheckBox.setSelected(false);
+                        veCheckBox.setSelected(false);
                     }
                 }
                 if (cellExpandAttr.getMultipleNumber() == -1) {
@@ -386,6 +370,44 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
                 this.checkButtonEnabled();
             }
+        }
+
+        /**
+         * 更新单元格扩展属性
+         */
+        @SuppressWarnings("Duplicates")
+        private void updateExtendConfig() {
+            CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
+            if (cellExpandAttr == null) {
+                cellExpandAttr = new CellExpandAttr();
+                cellElement.setCellExpandAttr(cellExpandAttr);
+            }
+            if (heCheckBox.isSelected()) {
+                if (veCheckBox.isSelected()) {
+                    cellExpandAttr.setExtendable(CellExpandAttr.Both_EXTENDABLE);
+                } else {
+                    cellExpandAttr.setExtendable(CellExpandAttr.Horizontal_EXTENDABLE);
+                }
+            } else {
+                if (veCheckBox.isSelected()) {
+                    cellExpandAttr.setExtendable(CellExpandAttr.Vertical_EXTENDABLE);
+                } else {
+                    cellExpandAttr.setExtendable(CellExpandAttr.None_EXTENDABLE);
+                }
+            }
+        }
+
+        /**
+         * 更新补充空白处的配置
+         */
+        private void updateMultipleConfig() {
+            CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
+            if (this.useMultiplyNumCheckBox.isSelected()) {
+                cellExpandAttr.setMultipleNumber((int) multiNumSpinner.getValue());
+            } else {
+                cellExpandAttr.setMultipleNumber(-1);
+            }
+
         }
 
         /**
@@ -438,23 +460,43 @@ public class CellDSColumnEditor extends CellQuickEditor {
             });
 
             //可扩展性
-            JPanel extendableDirectionPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-            extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
-            extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
+            JPanel extendableDirectionPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+            extendableDirectionPane.add(heCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
+            extendableDirectionPane.add(veCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
+            heCheckBox.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    cellDSColumnAdvancedPane.updateExtendConfig();
+                    fireTargetModified();
+                }
+            });
+            veCheckBox.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    cellDSColumnAdvancedPane.updateExtendConfig();
+                    fireTargetModified();
+                }
+            });
 
             //补充空白数据
-            JPanel multiNumPane = new JPanel();
-
+            JPanel multiNumPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
             useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Column_Multiple"));
             multiNumPane.add(useMultiplyNumCheckBox);
             multiNumPane.add(new UILabel(INSET_TEXT));
-
             multiNumSpinner = new UISpinner(1, 10000, 1, 1);
             multiNumPane.add(multiNumSpinner);
-
             useMultiplyNumCheckBox.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     checkButtonEnabled();
+                    cellDSColumnAdvancedPane.updateMultipleConfig();
+                    fireTargetModified();
+                }
+            });
+            multiNumSpinner.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    cellDSColumnAdvancedPane.updateMultipleConfig();
+                    fireTargetModified();
                 }
             });
 
@@ -487,7 +529,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * @see com.fr.design.expand.SortExpandAttrPane
          * @see DSColumnAdvancedPane.SortPane
          */
-        protected class ResultSetSortConfigPane extends JPanel {
+        public class ResultSetSortConfigPane extends JPanel {
             //面板
             private UIButtonGroup sortTypePane;
             private TinyFormulaPane tinyFormulaPane;
@@ -597,7 +639,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @see DSColumnAdvancedPane.SelectCountPane
          */
-        protected class ResultSetFilterConfigPane extends JPanel {
+        public class ResultSetFilterConfigPane extends JPanel {
 
             private UIComboBox rsComboBox;
             private JPanel setCardPane;
@@ -626,26 +668,26 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         if (selectIndex == 1) {
                             setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
-                            //隐藏tip
+                            //todo 隐藏tip
                         } else if (selectIndex == 2) {
                             setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
-                            //隐藏tip
+                            //todo 隐藏tip
                         } else if (selectIndex == 3) {
                             setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
-                            //隐藏set
+                            //todo 隐藏set
                         } else if (selectIndex == 4) {
                             setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
-                            //隐藏set
+                            //todo 隐藏set
                         } else if (selectIndex == 5) {
                             setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                         } else {
                             setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
-                            //隐藏set和tip
+                            //todo 隐藏set和tip
                         }
 
                     }
@@ -769,7 +811,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @see DSColumnAdvancedPane.JFormulaField
          */
-        private class JFormulaField extends JPanel {
+        public class JFormulaField extends JPanel {
             private CellElement cellElement;
             private UITextField formulaTextField;
             private String defaultValue;
@@ -858,7 +900,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @see DSColumnAdvancedPane.ValuePane
          */
-        private class CustomValuePane extends JPanel {
+        public class CustomValuePane extends JPanel {
             private JFormulaField formulaField;
 
             public CustomValuePane() {
