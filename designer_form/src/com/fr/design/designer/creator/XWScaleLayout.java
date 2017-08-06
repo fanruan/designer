@@ -156,5 +156,9 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 		XCreator child = getXCreator(INDEX);
 		child.setSize(getWidth(), minHeight);
 	}
-	
+
+
+	public boolean supportSetVisibleOrEnable(){
+		return true;
+	}
 }

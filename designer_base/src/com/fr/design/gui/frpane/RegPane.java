@@ -1,20 +1,6 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.EventListener;
-import java.util.EventObject;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
@@ -22,18 +8,23 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.form.ui.reg.CustomReg;
-import com.fr.form.ui.reg.IDCardReg;
-import com.fr.form.ui.reg.LengthReg;
-import com.fr.form.ui.reg.MailReg;
-import com.fr.form.ui.reg.MobileReg;
-import com.fr.form.ui.reg.NoneReg;
-import com.fr.form.ui.reg.PhoneReg;
-import com.fr.form.ui.reg.PostCardReg;
-import com.fr.form.ui.reg.RegExp;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.form.ui.reg.*;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class RegPane extends BasicPane {
 	public static final RegExp[] ALL_REG_TYPE = {
@@ -64,6 +55,7 @@ public class RegPane extends BasicPane {
 	private RegPhonePane regPhonePane;
 	private DefaultRegPane defaultRegPane;
 	private CustomRegRexPane customRegRexPane;
+	protected RegErrorMsgPane regErrorMsgPane;
 
 
 	public UIComboBox getRegComboBox(){
@@ -80,14 +72,20 @@ public class RegPane extends BasicPane {
 	}
 
 	private void initComponents(){
-		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel contentPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-		this.add(contentPane);
-		contentPane.add(new UILabel(Inter.getLocText("FR-Designer_Input_Rule") + ":"));
+		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		this.add(contentPane, BorderLayout.NORTH);
+		contentPane.add(new UILabel(Inter.getLocText("FR-Designer_Input_Rule")));
 		regComboBox = new UIComboBox(regType);
+		regComboBox.setPreferredSize(new Dimension(140, 20));
 		regComboBox.setRenderer(listCellRender);
+		UILabel uiLabel = new UILabel();
+		uiLabel.setPreferredSize(new Dimension(20, 20));
+		contentPane.add(uiLabel);
 		contentPane.add(regComboBox);
 
+		regErrorMsgPane = new RegErrorMsgPane();
 		final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 		detailedCardLayout = new CardLayout();
 		cardPane.setLayout(detailedCardLayout);
@@ -95,27 +93,35 @@ public class RegPane extends BasicPane {
 		cardPane.add((regLengthPane = new RegLengthPane()), "Length");
 		cardPane.add((regPhonePane = new RegPhonePane()), "Phone");
 		cardPane.add((customRegRexPane = new CustomRegRexPane()), "Custom");
-
-		this.add(cardPane);
+		this.add(cardPane, BorderLayout.CENTER);
+		this.add(regErrorMsgPane, BorderLayout.SOUTH);
 		regComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				RegExp regExp = (RegExp)regComboBox.getSelectedItem();
 				if(regExp instanceof PhoneReg) {
+					cardPane.setPreferredSize(new Dimension(220, 30));
 					Object selectItem = regPhonePane.dataTypeComboBox.getSelectedItem();
 					String regString = selectItem == null ? StringUtils.EMPTY : selectItem.toString();
 					firePhoneRegAction(regString);
 					detailedCardLayout.show(cardPane, "Phone");
-				}
-				else {
+				} else {
 					if (regExp instanceof LengthReg){
+						cardPane.setPreferredSize(new Dimension(220, 60));
 						detailedCardLayout.show(cardPane, "Length");
 					} else if (regExp instanceof CustomReg){
+						cardPane.setPreferredSize(new Dimension(220, 30));
 						detailedCardLayout.show(cardPane, "Custom");
 					} else {
+						cardPane.setPreferredSize(new Dimension(0,0 ));
 						detailedCardLayout.show(cardPane, "Default");
 					}
 					fireRegChangeAction();
 				}
+				if(regExp instanceof NoneReg){
+					regErrorMsgPane.setVisible(false);
+					return;
+				}
+				regErrorMsgPane.setVisible(true);
 			}
 		});
 	}
@@ -148,11 +154,12 @@ public class RegPane extends BasicPane {
 		} else {
 			defaultRegPane.populate(regex);
 		}
+		regErrorMsgPane.populate(regex);
 	}
 
 	public RegExp update(){
 		RegExp regExp = (RegExp)regComboBox.getSelectedItem();
-
+		regErrorMsgPane.update();
 		if (regExp instanceof LengthReg){
 			return regLengthPane.update();
 		} else if(regExp instanceof PhoneReg) {
@@ -334,6 +341,7 @@ public class RegPane extends BasicPane {
 		private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, Inter.getLocText("FR-Designer_Custom")};
 		DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
 		public RegPhonePane() {
+			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
 			this.add(new UILabel(Inter.getLocText("FR-Designer_Data_Type") + ":"));
 			dataTypeComboBox = new UIComboBox(DefaultComboBoxModel);
@@ -394,13 +402,30 @@ public class RegPane extends BasicPane {
 		private UISpinner maxLenSpinner;
 
 		public RegLengthPane(){
-			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"));
+			this.setLayout(FRGUIPaneFactory.createBorderLayout());
+			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+			this.setPreferredSize(new Dimension(210, 56));
+//			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"));
 			minLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-			this.add(minLenSpinner);
-			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"));
+//			this.add(minLenSpinner);
+//			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"));
 			maxLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-			this.add(maxLenSpinner);
+//			this.add(maxLenSpinner);
+
+
+			double f = TableLayout.FILL;
+			double p = TableLayout.PREFERRED;
+			Component[][] components = new Component[][]{
+					new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"), minLenSpinner },
+					new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"), maxLenSpinner},
+			};
+			double[] rowSize = {p, p};
+			double[] columnSize = {p,f};
+			int[][] rowCount = {{1, 1},{1, 1}};
+			JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+			this.add(panel);
+
+
 		}
 
 		@Override
@@ -437,8 +462,9 @@ public class RegPane extends BasicPane {
 
 		public CustomRegRexPane(){
 			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions") + ":"));
-			regTextField = new UITextField(20);
+			regTextField = new UITextField(10);
 			this.add(regTextField);
 		}
 
@@ -462,6 +488,58 @@ public class RegPane extends BasicPane {
 
 		public boolean isEmpty() {
 			return StringUtils.isEmpty(regTextField.getText());
+		}
+	}
+
+	private static class RegErrorMsgPane extends DisplayPane{
+		private UITextField regErrorMsgField;
+
+		public RegErrorMsgPane(){
+			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+			initRegErrorMsgField();
+//			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+			this.add(new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip") + ":"));
+			regErrorMsgField = new UITextField(10);
+			this.add(regErrorMsgField);
+		}
+
+		private void initRegErrorMsgField(){
+			regErrorMsgField = new UITextField(13);
+			regErrorMsgField.getDocument().addDocumentListener(new DocumentListener() {
+				public void changedUpdate(DocumentEvent e) {
+					regErrorMsgField.setToolTipText(regErrorMsgField.getText());
+				}
+
+				public void insertUpdate(DocumentEvent e) {
+					regErrorMsgField.setToolTipText(regErrorMsgField.getText());
+				}
+
+				public void removeUpdate(DocumentEvent e) {
+					regErrorMsgField.setToolTipText(regErrorMsgField.getText());
+				}
+			});
+		}
+
+		@Override
+		protected String title4PopupWindow() {
+			return "CUSTOM";
+		}
+
+		@Override
+		public void populate(RegExp regRex) {
+			if (!(regRex instanceof CustomReg)){
+				return;
+			}
+			regErrorMsgField.setText(regRex.toRegText());
+		}
+
+		@Override
+		public RegExp update() {
+			return new CustomReg(regErrorMsgField.getText());
+		}
+
+		public boolean isEmpty() {
+			return StringUtils.isEmpty(regErrorMsgField.getText());
 		}
 	}
 
