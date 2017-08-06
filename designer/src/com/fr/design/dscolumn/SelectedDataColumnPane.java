@@ -55,17 +55,17 @@ public class SelectedDataColumnPane extends BasicPane {
     private UIButton paramButton;
 
     public SelectedDataColumnPane() {
-        this(true, false, null);
+        this(true, false, null, null);
     }
 
 
     public SelectedDataColumnPane(boolean showParameterButton) {
-        this(showParameterButton, false, null);
+        this(showParameterButton, false, null, null);
     }
 
-    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, ElementCasePane casePane) {
+    public SelectedDataColumnPane(boolean showParameterButton, boolean verticalLayout, ElementCasePane casePane, TemplateCellElement cellElement) {
         if (verticalLayout) {
-            initComponentVerticalLayout(casePane);
+            initComponentVerticalLayout(casePane, cellElement);
         } else {
             initComponent(showParameterButton);
         }
@@ -119,9 +119,9 @@ public class SelectedDataColumnPane extends BasicPane {
     /**
      * 初始化竖直布局的组件
      */
-    public void initComponentVerticalLayout(ElementCasePane casePane) {
+    public void initComponentVerticalLayout(ElementCasePane casePane, TemplateCellElement cellElement) {
         initTableNameComboBox();
-        initWithParameterButton(casePane);
+        initWithParameterButton(casePane, cellElement);
         columnNameComboBox = new LazyComboBox() {
             @Override
             public Object[] load() {
@@ -278,7 +278,8 @@ public class SelectedDataColumnPane extends BasicPane {
         });
     }
 
-    private void initWithParameterButton(ElementCasePane casePane) {
+    private void initWithParameterButton(ElementCasePane casePane, TemplateCellElement cellElement) {
+        SelectedDataColumnPane that = this;
         editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
         paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
@@ -288,7 +289,7 @@ public class SelectedDataColumnPane extends BasicPane {
                     public void doOk() {
                         List<ParameterProvider> parameterList = editorPane.update();
                         ps = parameterList.toArray(new Parameter[parameterList.size()]);
-                        editorPane.update();
+                        that.update(cellElement);
                         casePane.fireTargetModified();
                     }
                 });

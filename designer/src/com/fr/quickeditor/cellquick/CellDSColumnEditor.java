@@ -8,6 +8,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dscolumn.DSColumnAdvancedPane;
 import com.fr.design.dscolumn.ResultSetGroupDockingPane;
 import com.fr.design.dscolumn.SelectedDataColumnPane;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.CustomVariableResolver;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.TinyFormulaPane;
@@ -71,7 +72,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private JPanel cardContainer;
     // 卡片布局TAB切换按钮
     private UIHeadGroup tabsHeaderIconPane;
-
+    // 数据列基本设置
+    private DSColumnBasicEditorPane cellDSColumnBasicPane;
+    // 数据列高级设置
+    private DSColumnAdvancedEditorPane cellDSColumnAdvancedPane;
 
     private CellDSColumnEditor() {
         super();
@@ -154,9 +158,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private void createPanes() {
         paneList = new ArrayList<>();
         /*基本设置面板*/
-        paneList.add(new DSColumnBasicEditorPane());
+        cellDSColumnBasicPane = new DSColumnBasicEditorPane();
+        paneList.add(cellDSColumnBasicPane);
         /*高级设置面板*/
-        paneList.add(new DSColumnAdvancedEditorPane());
+        cellDSColumnAdvancedPane = new DSColumnAdvancedEditorPane();
+        paneList.add(cellDSColumnAdvancedPane);
     }
 
     /**
@@ -204,7 +210,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         DSColumnBasicEditorPane() {
             this.setLayout(new BorderLayout());
-            dataPane = new SelectedDataColumnPane(true, true, tc);
+            dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
             groupPane = new ResultSetGroupDockingPane(tc);
             dataPane.addListener(dataListener);
             groupPane.addListener(groupListener);
@@ -390,18 +396,35 @@ public class CellDSColumnEditor extends CellQuickEditor {
             this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             //结果集排序
-
             sortPane = new ResultSetSortConfigPane();
+            sortPane.addListener(new UIObserverListener() {
+                @Override
+                public void doChange() {
+                    sortPane.update(cellElement);
+                    fireTargetModified();
+                }
+            }, new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    sortPane.update(cellElement);
+                    fireTargetModified();
+                }
+            });
             //结果筛选
-
             filterPane = new ResultSetFilterConfigPane();
+            filterPane.addListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    filterPane.update(cellElement);
+                    fireTargetModified();
+                }
+            });
             //自定义值显示
             valuePane = new CustomValuePane();
             //可扩展性
             JPanel extendableDirectionPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
             extendableDirectionPane.add(verticalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
-
 
             //补充空白数据
             JPanel multiNumPane = new JPanel();
@@ -449,10 +472,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * @see DSColumnAdvancedPane.SortPane
          */
         protected class ResultSetSortConfigPane extends JPanel {
-            //单元格
-            private CellElement cellElement;
             //面板
-            private UIButtonGroup sort_type_pane;
+            private UIButtonGroup sortTypePane;
             private TinyFormulaPane tinyFormulaPane;
             private CardLayout cardLayout;
             private JPanel centerPane;
@@ -466,9 +487,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         IOUtils.readIcon("/com/fr/design/images/expand/des.png")
                 };
                 String[] nameArray = {Inter.getLocText("Sort-Original"), Inter.getLocText("Sort-Ascending"), Inter.getLocText("Sort-Descending")};
-                sort_type_pane = new UIButtonGroup(iconArray);
-                sort_type_pane.setAllToolTips(nameArray);
-                sort_type_pane.setGlobalName(Inter.getLocText("ExpandD-Sort_After_Expand"));
+                sortTypePane = new UIButtonGroup(iconArray);
+                sortTypePane.setAllToolTips(nameArray);
+                sortTypePane.setGlobalName(Inter.getLocText("ExpandD-Sort_After_Expand"));
 
                 cardLayout = new CardLayout();
                 centerPane = new JPanel(cardLayout);
@@ -477,10 +498,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 centerPane.add(tinyFormulaPane, "content");
                 //todo 国际化
                 UILabel sortLabel = new UILabel("排列顺序");
-                sort_type_pane.addChangeListener(new ChangeListener() {
+                sortTypePane.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
-                        boolean noContent = sort_type_pane.getSelectedIndex() == 0;
+                        boolean noContent = sortTypePane.getSelectedIndex() == 0;
                         cardLayout.show(centerPane, noContent ? "none" : "content");
                         if (noContent) {
                             centerPane.setPreferredSize(new Dimension(0, 0));
@@ -491,7 +512,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 });
 
                 Component[][] components = new Component[][]{
-                        new Component[]{sortLabel, sort_type_pane},
+                        new Component[]{sortLabel, sortTypePane},
                         new Component[]{null, centerPane}
                 };
 
@@ -507,13 +528,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
              */
             public void populate(TemplateCellElement cellElement) {
                 if (cellElement != null) {
-                    this.cellElement = cellElement;
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) value;
                         int sort = dSColumn.getOrder();
-                        this.sort_type_pane.setSelectedIndex(sort);
-                        boolean noContent = sort_type_pane.getSelectedIndex() == 0;
+                        this.sortTypePane.setSelectedIndex(sort);
+                        boolean noContent = sortTypePane.getSelectedIndex() == 0;
                         cardLayout.show(centerPane, noContent ? "none" : "content");
                         if (noContent) {
                             centerPane.setPreferredSize(new Dimension(0, 0));
@@ -538,10 +558,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
-                        dSColumn.setOrder(this.sort_type_pane.getSelectedIndex());
+                        dSColumn.setOrder(this.sortTypePane.getSelectedIndex());
                         dSColumn.setSortFormula(this.tinyFormulaPane.updateBean());
                     }
                 }
+            }
+
+            public void addListener(UIObserverListener formulaChangeListener, ChangeListener changeListener) {
+                tinyFormulaPane.registerChangeListener(formulaChangeListener);
+                sortTypePane.addChangeListener(changeListener);
             }
         }
 
@@ -552,7 +577,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
          */
         protected class ResultSetFilterConfigPane extends JPanel {
 
-            private CellElement cellElement;
             private UIComboBox rsComboBox;
             private JPanel setCardPane;
             private JPanel tipCardPane;
@@ -561,11 +585,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
             private JFormulaField bottomFormulaPane;
 
             public ResultSetFilterConfigPane() {
-
-
                 this.setLayout(FRGUIPaneFactory.createBorderLayout());
                 UILabel filterLabel = new UILabel("结果集筛选");
-
                 //结果集筛选下拉框
                 rsComboBox = new UIComboBox(new String[]{
                         Inter.getLocText("Undefined"),
@@ -604,6 +625,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
                             //隐藏set和tip
                         }
+
                     }
                 });
                 //配置展示CardLayout
@@ -653,7 +675,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public void populate(CellElement cellElement) {
                 if (cellElement != null) {
-                    this.cellElement = cellElement;
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
@@ -706,6 +727,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         }
                     }
                 }
+            }
+
+            public void addListener(ActionListener actionListener) {
+                rsComboBox.addActionListener(actionListener);
             }
         }
 
