@@ -429,6 +429,14 @@ public class CellDSColumnEditor extends CellQuickEditor {
             );
             //自定义值显示
             valuePane = new CustomValuePane();
+            valuePane.addListener(new UIObserverListener() {
+                @Override
+                public void doChange() {
+                    valuePane.update(cellElement);
+                    fireTargetModified();
+                }
+            });
+
             //可扩展性
             JPanel extendableDirectionPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
             extendableDirectionPane.add(horizontalExtendableCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
@@ -854,7 +862,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
             private JFormulaField formulaField;
 
             public CustomValuePane() {
-
                 this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
                 UILabel customValueLabel = new UILabel("显示值");
                 formulaField = new JFormulaField("$$$");
@@ -889,6 +896,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         dSColumn.setResult(this.formulaField.getFormulaText());
                     }
                 }
+            }
+
+            /**
+             * 添加事件监听器
+             *
+             * @param formulaListener 公式输入框改动事件监听器
+             */
+            public void addListener(UIObserverListener formulaListener) {
+                this.formulaField.addListener(formulaListener);
             }
         }
     }
