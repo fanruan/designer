@@ -31,10 +31,10 @@ public class BasicPropertyPane extends BasicPane {
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Form-Widget_Name") + ":"), widgetName},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Name")), widgetName},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
         this.add(panel, BorderLayout.NORTH);
     }
 

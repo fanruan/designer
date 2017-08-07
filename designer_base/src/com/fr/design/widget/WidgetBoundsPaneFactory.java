@@ -26,9 +26,9 @@ public class WidgetBoundsPaneFactory {
         double[] columnSize = {p, f, f};
         int[][] rowCount = {{1, 1, 1}, {1, 1, 1}};
         final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
 
-        return new UIExpandablePane("尺寸", 280, 20, panel);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 280, 24, panel);
     }
 
     public static UIExpandablePane createAbsoluteBoundsPane(UISpinner x, UISpinner y, UISpinner width, UISpinner height) {
@@ -45,8 +45,8 @@ public class WidgetBoundsPaneFactory {
         double[] columnSize = {p, f, f};
         int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
         final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
 
-        return new UIExpandablePane(Inter.getLocText("Form-Component_Bounds"), 280, 20, panel);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 230, 24, panel);
     }
 }
