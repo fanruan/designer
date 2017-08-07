@@ -101,7 +101,7 @@ public class CellElementPropertyPane extends DockingView {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
         titlePane.add(title, BorderLayout.CENTER);
-        titlePane.setBorder(BorderFactory.createEmptyBorder(0,0,1,0));
+        titlePane.setBorder(BorderFactory.createEmptyBorder(10,0,1,0));
 //        this.add(titlePane, BorderLayout.NORTH);
         this.add(cellElementEditPane, BorderLayout.CENTER);
 
