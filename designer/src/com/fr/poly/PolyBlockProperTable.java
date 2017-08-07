@@ -1,29 +1,17 @@
 package com.fr.poly;
 
-import java.awt.*;
-import java.util.ArrayList;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.TableModel;
-
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.foldablepane.UIExpandablePane;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.itable.AbstractPropertyTable;
-import com.fr.design.gui.itable.PropertyGroup;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.BasicPropertyPane;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.general.Inter;
 import com.fr.poly.group.PolyBoundsGroup;
-import com.fr.poly.group.PolyNameGroup;
 import com.fr.report.poly.TemplateBlock;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class PolyBlockProperTable extends JPanel {
 	private PolyDesigner designer;
