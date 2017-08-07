@@ -56,15 +56,18 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         editorTypeComboBox.setPreferredSize(new Dimension(155, 30));
         editorTypeComboBox.setMaximumRowCount(16);
 
+        UILabel emptyLabel = new UILabel();
+        emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), editorTypeComboBox},
+                new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
         };
         northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        northPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
+        northPane.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 15));
         this.add(northPane, BorderLayout.NORTH);
 
         editorTypeComboBox.addItemListener(this);
