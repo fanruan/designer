@@ -5,6 +5,9 @@ import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.FRLeftFlowLayout;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.TreeEditor;
 import com.fr.general.Inter;
 
@@ -46,13 +49,14 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 
 	@Override
 	protected JPanel setFirstContentPane() {
-		return this.setSecondContentPane();
-	}
+			return this.setSecondContentPane();
+		}
 
 	protected JPanel setSecondContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+
 		contentPane.add(contenter,BorderLayout.NORTH);
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
 		contenter.add(removeRepeatCheckBox);

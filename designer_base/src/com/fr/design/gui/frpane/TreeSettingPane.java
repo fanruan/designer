@@ -52,6 +52,7 @@ public class TreeSettingPane extends BasicPane implements DataCreatorUI {
 	private void initComponents(boolean isEditor) {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel buildWayPanel= FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		buildWayPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		UILabel buildWayLabel = new UILabel(Inter.getLocText("FR-Designer_Build-Way") + " ：");
 		buildWayPanel.add(buildWayLabel);
 		buildBox = new UIComboBox(buildWay);
