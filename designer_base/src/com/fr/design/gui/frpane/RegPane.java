@@ -28,22 +28,22 @@ import java.util.EventObject;
 
 public class RegPane extends BasicPane {
 	public static final RegExp[] ALL_REG_TYPE = {
-			new NoneReg(),
-			//new RequiredReg(),
-			new LengthReg(),
-			//new FloatReg(),
-			new MailReg(),
-			new IDCardReg(),
-			new PostCardReg(),
-			new PhoneReg(),
-			new MobileReg(),
-			new CustomReg()
+		new NoneReg(),
+		//new RequiredReg(),
+		new LengthReg(),
+		//new FloatReg(),
+		new MailReg(),
+		new IDCardReg(),
+		new PostCardReg(),
+		new PhoneReg(),
+		new MobileReg(),
+		new CustomReg()
 	};
 
 	public static final RegExp[] TEXTAREA_REG_TYPE = {
-			new NoneReg(),
-			new LengthReg(),
-			new CustomReg()
+		new NoneReg(),
+		new LengthReg(),
+		new CustomReg()
 	};
 
 	public static final RegExp[] PASSWORD_REG_TYPE = TEXTAREA_REG_TYPE;
