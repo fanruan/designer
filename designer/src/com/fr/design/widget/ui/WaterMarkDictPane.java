@@ -39,7 +39,7 @@ public class WaterMarkDictPane extends JPanel {
         int[][] rowCount = {{1, 1}};
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 //		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel, BorderLayout.CENTER);
     }
 

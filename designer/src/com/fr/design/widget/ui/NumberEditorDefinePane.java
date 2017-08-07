@@ -8,6 +8,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.JPanel;
@@ -166,12 +168,12 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
     public JPanel setValidatePane() {
 
-        this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
+        this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Decimals"));
         this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
-        this.decimalLength.setColumns(4);
+        this.decimalLength.setColumns(10);
         this.allowDecimalsCheckBox.addActionListener(actionListener1);
 
-        this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("Allow_Negative"));
+        this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(actionListener2);
 
         this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("Need_Max_Value"), false);
@@ -191,12 +193,14 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.setMinValueCheckBox.addActionListener(actionListener4);
         this.minValueSpinner.addChangeListener(changeListener2);
 
+        UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
+        numberLabel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{allowDecimalsCheckBox, null },
-                new Component[]{new UILabel(Inter.getLocText(new String[]{"Double", "Numbers"})), decimalLength },
+                new Component[]{numberLabel, decimalLength },
                 new Component[]{allowNegativeCheckBox, null},
                 new Component[]{setMaxValueCheckBox, maxValueSpinner},
                 new Component[]{setMinValueCheckBox, minValueSpinner},
@@ -204,7 +208,8 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 1);
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, 1);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,1,0,0));
         return panel;
 
     }
