@@ -3,6 +3,8 @@ package com.fr.design.widget.ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -27,7 +29,7 @@ import com.fr.form.ui.NumberEditor;
 import com.fr.general.Inter;
 
 public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> {
-    /**
+    /**FieldEditorDefinePane
      *
      */
     private static final long serialVersionUID = 8011242951911686805L;
@@ -39,7 +41,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     private SpinnerNumberModel maxValueModel;
     private UIBasicSpinner minValueSpinner;
     private SpinnerNumberModel minValueModel;
-    private com.fr.design.editor.editor.IntegerEditor decimalLength;
+    private UIBasicSpinner decimalLength;
     private JPanel limitNumberPane;
     private WaterMarkDictPane waterMarkDictPane;
 
@@ -80,7 +82,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     };
 
 
-    private ActionListener actionListener3 = new ActionListener() {
+    public ActionListener actionListener3 = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (setMaxValueCheckBox.isSelected()) {
                 maxValueSpinner.setVisible(true);
@@ -144,7 +146,8 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     };
 
     public NumberEditorDefinePane() {
-        super();
+//        super();
+        this.initComponents();
     }
 
 
@@ -169,25 +172,26 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     public JPanel setValidatePane() {
 
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Decimals"));
-        this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
-        this.decimalLength.setColumns(10);
+        this.decimalLength = new UIBasicSpinner(new SpinnerNumberModel(16, 0, Integer.MAX_VALUE, 1));
+        this.decimalLength.setPreferredSize(new Dimension(155, 20));
+
         this.allowDecimalsCheckBox.addActionListener(actionListener1);
 
         this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(actionListener2);
 
-        this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("Need_Max_Value"), false);
+        this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Max_Value"), false);
 
         this.maxValueSpinner = new UIBasicSpinner(maxValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
-        maxValueSpinner.setPreferredSize(new Dimension(120, 20));
+        maxValueSpinner.setPreferredSize(new Dimension(155, 20));
         setNotAllowsInvalid(this.maxValueSpinner);
         this.maxValueSpinner.setVisible(false);
         this.setMaxValueCheckBox.addActionListener(actionListener3);
         this.maxValueSpinner.addChangeListener(changeListener1);
 
-        this.setMinValueCheckBox = new UICheckBox(Inter.getLocText("Need_Min_Value"), false);
+        this.setMinValueCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Min_Value"), false);
         this.minValueSpinner = new UIBasicSpinner(minValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
-        minValueSpinner.setPreferredSize(new Dimension(120, 20));
+        minValueSpinner.setPreferredSize(new Dimension(155, 20));
         setNotAllowsInvalid(this.minValueSpinner);
         this.minValueSpinner.setVisible(false);
         this.setMinValueCheckBox.addActionListener(actionListener4);
@@ -196,19 +200,29 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
         numberLabel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
+        JPanel pane1 = new JPanel(new BorderLayout());
+        pane1.add(decimalLength, BorderLayout.CENTER);
+        pane1.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        JPanel pane2 = new JPanel(new BorderLayout());
+        pane2.add(maxValueSpinner, BorderLayout.CENTER);
+        pane2.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        JPanel pane3 = new JPanel(new BorderLayout());
+        pane3.add(minValueSpinner, BorderLayout.CENTER);
+        pane3.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{allowDecimalsCheckBox, null },
-                new Component[]{numberLabel, decimalLength },
+                new Component[]{numberLabel, pane1 },
                 new Component[]{allowNegativeCheckBox, null},
-                new Component[]{setMaxValueCheckBox, maxValueSpinner},
-                new Component[]{setMinValueCheckBox, minValueSpinner},
+                new Component[]{setMaxValueCheckBox, pane2},
+                new Component[]{setMinValueCheckBox, pane3},
         };
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, 1);
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
         panel.setBorder(BorderFactory.createEmptyBorder(0,1,0,0));
         return panel;
 
@@ -255,7 +269,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         NumberEditor ob = new NumberEditor();
         ob.setAllowDecimals(allowDecimalsCheckBox.isSelected());
         if (allowDecimalsCheckBox.isSelected()) {
-            ob.setMaxDecimalLength(this.decimalLength.getValue());
+            ob.setMaxDecimalLength((Integer) this.decimalLength.getValue());
         }
 
         ob.setAllowNegative(allowNegativeCheckBox.isSelected());
