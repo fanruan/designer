@@ -8,13 +8,10 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.TextEditor;
-import com.fr.form.ui.reg.RegExp;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -34,7 +31,6 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
     @Override
     protected JPanel setFirstContentPane() {
-//        fontSizePane = new UISpinner(0,20,1);
         regPane = createRegPane();
         final RegPane.RegChangeListener rl = new RegPane.RegChangeListener() {
 
@@ -72,7 +68,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 //        });
 
 
-        formWidgetValuePane = new FormWidgetValuePane();
+        formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -106,18 +102,16 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
     @Override
     protected void populateSubFieldEditorBean(TextEditor e) {
         this.regPane.populate(e.getRegex());
-//        regErrorMsgTextField.setText(e.getRegErrorMessage());
         waterMarkDictPane.setText(e.getWaterMark());
+        formWidgetValuePane.populate(e);
     }
 
     @Override
     protected TextEditor updateSubFieldEditorBean() {
         TextEditor ob = newTextEditorInstance();
-//        ob.setRegErrorMessage(this.regErrorMsgTextField.getText());
         ob.setRegex(this.regPane.update());
         ob.setWaterMark(waterMarkDictPane.getText());
         formWidgetValuePane.update(ob);
-//        ob.setFontSize((int)fontSizePane.getValue());
         return ob;
     }
 

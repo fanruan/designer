@@ -4,7 +4,6 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
@@ -23,7 +22,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     public NumberEditorDefinePane(XCreator xCreator){
         super(xCreator);
     }
-
+    private FormWidgetValuePane formWidgetValuePane;
     /**
      *
      */
@@ -154,13 +153,13 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     protected JPanel setFirstContentPane() {
         // richer:数字的允许直接编辑没有意义
         waterMarkDictPane = new WaterMarkDictPane();
-        FormWidgetValuePane formWidgetValuePane = new FormWidgetValuePane();
+        formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("控件值"),  formWidgetValuePane},
-                new Component[]{new UILabel("水印"), waterMarkDictPane},
-                new Component[]{new UILabel("字体大小"), new UITextField()}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")),  formWidgetValuePane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane}
         };
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
@@ -217,7 +216,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 3);
         return panel;
 
-
     }
 
 
@@ -252,6 +250,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
             minValueSpinner.setEnabled(true);
             minValueSpinner.setValue(new Double(e.getMinValue()));
         }
+        formWidgetValuePane.populate(e);
 //        this.regErrorMsgTextField.setText(e.getRegErrorMessage());
         this.waterMarkDictPane.populate(e);
     }
@@ -260,6 +259,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     protected NumberEditor updateSubFieldEditorBean() {
 
         NumberEditor ob = new NumberEditor();
+        formWidgetValuePane.update(ob);
         ob.setAllowDecimals(allowDecimalsCheckBox.isSelected());
         if (allowDecimalsCheckBox.isSelected()) {
             ob.setMaxDecimalLength(this.decimalLength.getValue());
@@ -280,7 +280,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
         this.waterMarkDictPane.update(ob);
 
-//        ob.setRegErrorMessage(this.regErrorMsgTextField.getText());
 
         return ob;
     }

@@ -2,9 +2,9 @@ package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.present.dict.DictionaryPane;
@@ -17,7 +17,7 @@ import java.awt.*;
 
 public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup> {
 	private DictionaryPane dictPane;
-
+	private UIHeadGroup returnType;
 	private UICheckBox checkbox;
 
 	public CheckBoxGroupDefinePane(XCreator xCreator) {
@@ -40,11 +40,26 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 
 	public JPanel createOtherPane(){
 		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
+		returnType = new UIHeadGroup(tabTitles) {
+			@Override
+			public void tabChanged(int index) {
+				CheckBoxGroup combo = (CheckBoxGroup) creator.toData();
+				//todo
+				if (index == 1) {
+					combo.setReturnString(true);
+				} else {
+					combo.setReturnString(false);
+				}
+			}
+		};
+
+
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{checkbox,  null },
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), new UITextField()},
+				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnType},
 		};
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
@@ -56,6 +71,11 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 
 	@Override
 	protected void populateSubButtonGroupBean(CheckBoxGroup ob) {
+		if (ob.isReturnString()) {
+			returnType.setSelectedIndex(1);
+		} else {
+			returnType.setSelectedIndex(0);
+		}
 		this.dictPane.populateBean(ob.getDictionary());
 		checkbox.setSelected(ob.isChooseAll());
 	}
@@ -65,7 +85,6 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 	@Override
 	protected CheckBoxGroup updateSubButtonGroupBean() {
 		CheckBoxGroup ob = (CheckBoxGroup) creator.toData();
-
 		ob.setDictionary(this.dictPane.updateBean());
 		ob.setChooseAll(checkbox.isSelected());
 		return ob;

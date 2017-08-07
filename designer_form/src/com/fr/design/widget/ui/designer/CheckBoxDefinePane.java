@@ -3,7 +3,9 @@ package com.fr.design.widget.ui.designer;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
@@ -15,7 +17,8 @@ import java.awt.*;
 
 public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	private UITextField text;
-	private UITextField fontSizePane;
+	private UISpinner fontSizePane;
+	private FormWidgetValuePane formWidgetValuePane;
 
 	public CheckBoxDefinePane(XCreator xCreator) {
 		super(xCreator);
@@ -23,9 +26,10 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	}
 	
 	private void iniComoponents() {
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		text = new UITextField();
-		fontSizePane = new UITextField();
-		FormWidgetValuePane formWidgetValuePane = new FormWidgetValuePane();
+		fontSizePane = new UISpinner(0, 20, 1, 0);
+		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
@@ -50,13 +54,17 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	
 	@Override
 	public void populateBean(CheckBox check) {
-//		text.setText(check.getText());
+		text.setText(check.getText());
+		fontSizePane.setValue(check.getFontSize());
+		formWidgetValuePane.populate(check);
 	}
 
 	@Override
 	public CheckBox updateBean() {
-		CheckBox box = new CheckBox();
+		CheckBox box = (CheckBox)creator.toData();
 		box.setText(text.getText());
+		box.setFontSize((int)fontSizePane.getValue());
+		formWidgetValuePane.update(box);
 		return box;
 	}
 }

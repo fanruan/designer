@@ -14,6 +14,7 @@ import com.fr.design.widget.ui.designer.component.WidgetAbsoluteBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
+import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 
 import javax.swing.*;
@@ -129,12 +130,13 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     private void initDefinePane() {
         currentEditorDefinePane = null;
         XCreator creator = xCreator;
-        if (xCreator instanceof XWScaleLayout) {
-            if (xCreator.acceptType(XWScaleLayout.class)) {
-                if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
-                    creator = (XCreator) xCreator.getComponent(0);
-                }
+        if (xCreator.acceptType(XWScaleLayout.class)) {
+            if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
+                creator = (XCreator) xCreator.getComponent(0);
             }
+        }
+        if(xCreator.acceptType(XWTitleLayout.class)){
+            creator = (XCreator) xCreator.getComponent(0);
         }
         FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
             @Override
@@ -166,7 +168,10 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (cellWidget instanceof WScaleLayout) {
             Widget crBoundsWidget = ((WScaleLayout) cellWidget).getBoundsWidget();
             currentEditorDefinePane.populateBean(((CRBoundsWidget) crBoundsWidget).getWidget());
-        } else {
+        } else if(cellWidget instanceof WTitleLayout){
+            CRBoundsWidget crBoundsWidget = ((WTitleLayout) cellWidget).getBodyBoundsWidget();
+            currentEditorDefinePane.populateBean(crBoundsWidget.getWidget());
+        }else{
             currentEditorDefinePane.populateBean(cellWidget);
         }
         widgetPropertyPane.populate(cellWidget);
@@ -185,6 +190,11 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         if (xCreator instanceof XWScaleLayout) {
             XCreator xCreator1 = xCreator.getEditingChildCreator();
+            xCreator1.resetData(widget);
+            xCreator.removeAll();
+            xCreator.add(xCreator1);
+        }else if(xCreator instanceof XWTitleLayout){
+            XCreator xCreator1 = ((XWTitleLayout) xCreator).getXCreator(0);
             xCreator1.resetData(widget);
             xCreator.removeAll();
             xCreator.add(xCreator1);

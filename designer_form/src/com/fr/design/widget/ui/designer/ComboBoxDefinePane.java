@@ -2,35 +2,44 @@ package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.form.ui.ComboBox;
+import com.fr.general.Inter;
 
-import javax.swing.*;
+import java.awt.*;
 
-public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox> {
-	protected DictionaryPane dictPane;
-
+public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
+	private UICheckBox removeRepeatCheckBox;
+	private UITextField waterMarkField;
 
 	public ComboBoxDefinePane(XCreator xCreator) {
 		super(xCreator);
-		dictPane = new DictionaryPane();
 	}
 
-	protected JPanel setForthContentPane () {
-		return null;
+	public UICheckBox createRepeatCheckBox(){
+		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget_No_Repeat"));
+		return removeRepeatCheckBox;
 	}
 
-	protected void populateSubCustomWritableRepeatEditorBean(ComboBox e) {
-		removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
-		this.dictPane.populateBean(e.getDictionary());
+	public Component[] createWaterMarkPane() {
+		waterMarkField = new UITextField();
+		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkField};
 	}
 
-	protected ComboBox updateSubCustomWritableRepeatEditorBean() {
-		ComboBox combo = new ComboBox();
-		combo.setDictionary(this.dictPane.updateBean());
+	protected  void populateSubDictionaryEditorBean(ComboBox ob){
+		removeRepeatCheckBox.setSelected(ob.isRemoveRepeat());
+		formWidgetValuePane.populate(ob);
+	}
+
+	protected  ComboBox updateSubDictionaryEditorBean(){
+		ComboBox combo = (ComboBox) creator.toData();
 		combo.setRemoveRepeat(removeRepeatCheckBox.isSelected());
+		formWidgetValuePane.update(combo);
 		return combo;
 	}
+
 
 	@Override
 	public String title4PopupWindow() {
@@ -39,6 +48,6 @@ public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox>
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }
