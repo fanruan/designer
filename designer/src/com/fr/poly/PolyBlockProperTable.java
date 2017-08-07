@@ -1,17 +1,80 @@
 package com.fr.poly;
 
+import java.awt.*;
 import java.util.ArrayList;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableModel;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
+import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.WidgetBoundsPaneFactory;
+import com.fr.general.Inter;
 import com.fr.poly.group.PolyBoundsGroup;
 import com.fr.poly.group.PolyNameGroup;
 import com.fr.report.poly.TemplateBlock;
 
-public class PolyBlockProperTable extends AbstractPropertyTable {
+public class PolyBlockProperTable extends JPanel {
 	private PolyDesigner designer;
+	private UISpinner x;
+	private UISpinner y;
+	private UISpinner width;
+	private UISpinner height;
+
+	public PolyBlockProperTable() {
+		initPropertyPane();
+		initListener(this);
+	}
+
+	private void initPropertyPane() {
+		x = new UISpinner(0, 1200, 1);
+		y = new UISpinner(0, 1200, 1);
+		width = new UISpinner(0, 1200, 1);
+		height = new UISpinner(0, 1200, 1);
+		UIExpandablePane uiExpandablePane = WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height);
+
+		this.setLayout(new BorderLayout());
+		this.add(uiExpandablePane, BorderLayout.CENTER);
+	}
+
+	private void initListener(Container parentComponent) {
+		for (int i = 0; i < parentComponent.getComponentCount(); i++) {
+			Component tmpComp = parentComponent.getComponent(i);
+
+			if (tmpComp instanceof Container) {
+				initListener((Container) tmpComp);
+			}
+//			if (tmpComp instanceof GlobalNameObserver) {
+//				((GlobalNameObserver) tmpComp).registerNameListener(new GlobalNameListener() {
+//					public void setGlobalName(String name) {
+//						globalName = name;
+//					}
+//
+//					public String getGlobalName() {
+//						return globalName;
+//					}
+//				});
+//			}
+			if (tmpComp instanceof UIObserver) {
+				((UIObserver) tmpComp).registerChangeListener(new UIObserverListener() {
+					@Override
+					public void doChange() {
+						update();
+					}
+				});
+			}
+		}
+	}
 
 	/**
 	 * 初始化属性表
@@ -20,16 +83,21 @@ public class PolyBlockProperTable extends AbstractPropertyTable {
 	 * 
 	 */
 	public void initPropertyGroups(Object source) {
-		groups = new ArrayList<PropertyGroup>();
+//		groups = new ArrayList<PropertyGroup>();
 		if (source instanceof TemplateBlock) {
 			TemplateBlock block = (TemplateBlock) source;
 			PolyNameGroup namegroup = new PolyNameGroup(block);
-			groups.add(new PropertyGroup(namegroup));
-			PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
-			groups.add(new PropertyGroup(boundsgroup));
+//			groups.add(new PropertyGroup(namegroup));
+			final PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
+
+			x.setValue((int)boundsgroup.getValue(0, 1));
+			y.setValue((int)boundsgroup.getValue(1, 1));
+			width.setValue((int)boundsgroup.getValue(2, 1));
+			height.setValue((int)boundsgroup.getValue(3, 1));
+//			groups.add(new PropertyGroup(boundsgroup));
 		}
-		TableModel model = new BeanTableModel();
-		setModel(model);
+//		TableModel model = new BeanTableModel();
+//		setModel(model);
 		this.repaint();
 	}
 
@@ -46,4 +114,16 @@ public class PolyBlockProperTable extends AbstractPropertyTable {
 		initPropertyGroups(this.designer.getEditingTarget());
 	}
 
+	public void update() {
+		TemplateBlock block = this.designer.getEditingTarget();
+		if (block == null) {
+			return;
+		}
+		PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
+		boundsgroup.setValue(x.getValue(), 0, 1);
+		boundsgroup.setValue(y.getValue(), 1, 1);
+		boundsgroup.setValue(width.getValue(), 2, 1);
+		boundsgroup.setValue(height.getValue(), 3, 1);
+		firePropertyEdit();
+	}
 }
