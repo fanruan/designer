@@ -18,12 +18,14 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.RowColumnPane;
 import com.fr.design.selection.QuickEditor;
+import com.fr.form.ui.CellWidget;
 import com.fr.general.Inter;
 import com.fr.grid.GridUtils;
 import com.fr.report.cell.CellElement;
@@ -687,4 +689,9 @@ public class CellSelection extends Selection {
     public void populatePropertyPane(ElementCasePane ePane) {
         CellElementPropertyPane.getInstance().reInit(ePane);
     }
+
+    public void populateWidgetPropertyPane(ElementCasePane ePane){
+        CellWidgetPropertyPane.getInstance().reInit(ePane);
+    }
+
 }
