@@ -8,6 +8,7 @@ import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -18,9 +19,13 @@ public interface UIConstants {
 
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
+    public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
 
 
     public static final int SIZE = 17;
+
+    public static final int GAP_NORMAL = 10;  // 10px
 
     /**
      * Cell default cursor.
@@ -81,7 +86,8 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_DARK = new Color(86, 120, 143);
     public static final Color AUTHORITY_SHEET_LIGHT = new Color(156, 204, 238);
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
-    public static final Color ATTRIBUTE_PRESS = new Color(0xD8F2FD);
+    public static final Color ATTRIBUTE_PRESS = new Color(0x419BF9);
+    public static final Color NORMAL_BLUE = new Color(0x419BF9);
     public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
     public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
@@ -93,6 +99,7 @@ public interface UIConstants {
     public static final Color RULER_LINE_COLOR = new Color(0xababab);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
+    public static final Color SPLIT_LINE = new Color(201, 198, 184);
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
@@ -110,6 +117,8 @@ public interface UIConstants {
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
+    public static final BufferedImage DRAG_DOWN_SELECTED_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/downSelected.png");
+    public static final BufferedImage DRAG_LEFT_NORMAL_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/leftNormal.png");
     public static final int MODEL_NORMAL = 0;
     public static final int MODEL_PRESS = 1;
     public static final Icon ARROW_DOWN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");
@@ -139,10 +148,11 @@ public interface UIConstants {
     public static final Icon SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/search.png");
     public static final Icon CLEAR_ICON = BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png");
     public static final Icon LIST_EDIT_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
-    public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
+    public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit_white.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
+    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
     public static final int ARC = 0;
     public static final int BUTTON_GROUP_ARC = 6;
     public static final int LARGEARC = 6;

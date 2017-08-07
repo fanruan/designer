@@ -7,13 +7,13 @@ import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.gui.columnrow.ColumnRowPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.selection.SelectionEvent;
+import com.fr.design.selection.SelectionListener;
+import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.cellattr.CellExpandAttr;
-import com.fr.design.selection.SelectionEvent;
-import com.fr.design.selection.SelectionListener;
 import com.fr.stable.ColumnRow;
 
 import javax.swing.*;
@@ -22,12 +22,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public abstract class ExpandFatherPane extends JPanel implements GlobalNameObserver {
 
-    private UIComboBox comboBox;
+    public UIComboBox comboBox;
     private ColumnRowPane customParentColumnRowPane;
     private ElementCasePane ePane;
     private SelectionListener gridSelectionChangeListener;
@@ -35,7 +33,8 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
     private String expandFatherName = "";
     private GlobalNameListener globalNameListener = null;
     private boolean isAlreadyAddListener = false;
-    private final JPanel customPane;
+    public JPanel customPane;
+    private CardLayout cardLayout;
 
     public ExpandFatherPane() {
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
@@ -43,7 +42,7 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
                 Inter.getLocText("FR-Designer_None"),
                 Inter.getLocText("FR-Designer_DEFAULT"),
                 Inter.getLocText("FR-Designer_Custom")});
-        final CardLayout cardLayout = new CardLayout();
+        cardLayout = new CardLayout();
         customPane = new JPanel(cardLayout);
         customParentColumnRowPane = new ColumnRowPane() {
 
@@ -66,7 +65,7 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
         cc.add(imageButton, BorderLayout.EAST);
         customPane.add(cc, "content");
         customPane.add(new JPanel(), "none");
-        customPane.setPreferredSize(new Dimension(0, 0) );
+        customPane.setPreferredSize(new Dimension(0, 0));
         this.add(comboBox, BorderLayout.NORTH);
         this.add(customPane, BorderLayout.CENTER);
 
@@ -74,12 +73,12 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(comboBox.getSelectedIndex() == 2){
-                    customPane.setPreferredSize(new Dimension(100, 20) );
-                    cardLayout.show(customPane,"content");
-                }else {
-                    cardLayout.show(customPane,"none");
-                    customPane.setPreferredSize(new Dimension(0, 0) );
+                if (comboBox.getSelectedIndex() == 2) {
+                    customPane.setPreferredSize(new Dimension(100, 20));
+                    cardLayout.show(customPane, "content");
+                } else {
+                    cardLayout.show(customPane, "none");
+                    customPane.setPreferredSize(new Dimension(0, 0));
                 }
 //                cardLayout.show(customPane, comboBox.getSelectedIndex() == 2 ? "content" : "none");
                 if (globalNameListener != null && shouldResponseNameListener()) {
@@ -87,43 +86,61 @@ public abstract class ExpandFatherPane extends JPanel implements GlobalNameObser
                 }
             }
         });
-        imageButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (ePane == null || isAlreadyAddListener) {
-                    return;
-                }
-                oldSelection = (CellSelection) ePane.getSelection();
-                ePane.getGrid().setNotShowingTableSelectPane(false);
-                ePane.setEditable(false);
-                ePane.repaint(10);
-
-                gridSelectionChangeListener = new SelectionListener() {
-
-                    @Override
-                    public void selectionChanged(SelectionEvent e) {
-                        Selection selection = ePane.getSelection();
-                        if (selection instanceof CellSelection) {
-                            CellSelection cellselection = (CellSelection) selection;
-                            ColumnRow cr = ColumnRow.valueOf(cellselection.getColumn(), cellselection.getRow());
-                            ePane.setOldSelecton(oldSelection);
-                            customParentColumnRowPane.setColumnRow(cr);
-                        }
-                        ePane.removeSelectionChangeListener(gridSelectionChangeListener);
-                        isAlreadyAddListener = false;
-                        ePane.getGrid().setNotShowingTableSelectPane(true);
-                        ePane.setEditable(true);
-                        ePane.repaint();
-                    }
-                };
-                ePane.addSelectionChangeListener(gridSelectionChangeListener);
-                isAlreadyAddListener = true;
-            }
-        });
+        imageButton.addActionListener(imageActionListener);
         comboBox.setSelectedIndex(1);
     }
+
+    ItemListener comboBoxItemListener = new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (comboBox.getSelectedIndex() == 2) {
+                customPane.setPreferredSize(new Dimension(100, 20));
+                cardLayout.show(customPane, "content");
+            } else {
+                cardLayout.show(customPane, "none");
+                customPane.setPreferredSize(new Dimension(0, 0));
+            }
+//                cardLayout.show(customPane, comboBox.getSelectedIndex() == 2 ? "content" : "none");
+            if (globalNameListener != null && shouldResponseNameListener()) {
+                globalNameListener.setGlobalName(expandFatherName);
+            }
+        }
+    };
+
+    ActionListener imageActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (ePane == null || isAlreadyAddListener) {
+                return;
+            }
+            oldSelection = (CellSelection) ePane.getSelection();
+            ePane.getGrid().setNotShowingTableSelectPane(false);
+            ePane.setEditable(false);
+            ePane.repaint(10);
+
+            gridSelectionChangeListener = new SelectionListener() {
+
+                @Override
+                public void selectionChanged(SelectionEvent e) {
+                    Selection selection = ePane.getSelection();
+                    if (selection instanceof CellSelection) {
+                        CellSelection cellselection = (CellSelection) selection;
+                        ColumnRow cr = ColumnRow.valueOf(cellselection.getColumn(), cellselection.getRow());
+                        ePane.setOldSelecton(oldSelection);
+                        customParentColumnRowPane.setColumnRow(cr);
+                    }
+                    ePane.removeSelectionChangeListener(gridSelectionChangeListener);
+                    isAlreadyAddListener = false;
+                    ePane.getGrid().setNotShowingTableSelectPane(true);
+                    ePane.setEditable(true);
+                    ePane.repaint();
+                }
+            };
+            ePane.addSelectionChangeListener(gridSelectionChangeListener);
+            isAlreadyAddListener = true;
+        }
+    };
+
 
     /**
      * @param listener 观察者监听事件

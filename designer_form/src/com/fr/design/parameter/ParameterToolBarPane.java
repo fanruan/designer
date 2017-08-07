@@ -57,6 +57,10 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 	}
 
+	public boolean hasSelectedLabelItem() {
+		return !parameterSelectedLabellist.isEmpty();
+	}
+
 	@Override
 	protected String title4PopupWindow() {
 		return null;

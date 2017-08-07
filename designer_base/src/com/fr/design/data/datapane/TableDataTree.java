@@ -74,7 +74,7 @@ public class TableDataTree extends UserObjectRefreshJTree<TableDataSourceOP> {
             dim.height += 2;
             this.setSize(dim);
             this.setPreferredSize(dim);
-            this.setBackgroundNonSelectionColor(UIConstants.NORMAL_BACKGROUND);
+            this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
             this.setForeground(UIConstants.FONT_COLOR);
             this.setBackgroundSelectionColor(UIConstants.FLESH_BLUE);
             return this;
