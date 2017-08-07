@@ -23,6 +23,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -553,6 +554,9 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         for (int i = scrollIndex; i <= lastOneIndex; i++) {
             int textWidth = widthArray[i];
             if (evtX >= textX && evtX < textX + textWidth) {
+                if (getSelectedIndex() != i) {
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
+                }
                 setSelectedIndex(i);
                 isBlank = false;
                 reportComposite.setComposite();

@@ -52,16 +52,10 @@ public class CellWidgetCardPane extends BasicPane {
 
     public CellWidgetCardPane(ElementCasePane pane) {
         this.pane = pane;
-//        this.initComponents(pane);
     }
-
-    public  BasicWidgetPropertySettingPane initBasicWidgetPropertyPane(){
-        return new BasicWidgetPropertySettingPane();
-    }
-
 
     private void initComponents(ElementCasePane pane) {
-
+        this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         //k
         tabbedPane =  new CardLayout();

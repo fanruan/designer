@@ -87,8 +87,8 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     public void populate(ElementCasePane ePane) {
 
-
         cellEditorDefPane = new WidgetPane(ePane);
+        this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
 
         CellSelection cs = (CellSelection) ePane.getSelection();
