@@ -80,6 +80,19 @@ public class UITreeComboBox extends JComboBox{
         setUI(cui);
     }
 
+    private void refreshShortCuts() {
+        TreePath path = this.getTree().getSelectionPath();
+        if (path == null) {
+            return;
+        }
+        Component component = (Component) path.getLastPathComponent();
+        if (!(component instanceof XCreator)) {
+            return;
+        }
+        com.fr.design.designer.beans.ComponentAdapter adapter = AdapterBus.getComponentAdapter(this.getTree().getDesigner(), (XCreator) component);
+        adapter.getContextPopupMenu(null);
+    }
+
     // UI Inner classes -- one for each supported Look and Feel
     class MetalJTreeComboBoxUI extends MetalComboBoxUI{
         protected ComboPopup createPopup() {
@@ -152,7 +165,7 @@ public class UITreeComboBox extends JComboBox{
                 tree.refreshUI();
                 repaint();
             }
-
+            refreshShortCuts();
         }
 
         @Override

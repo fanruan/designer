@@ -5,6 +5,7 @@ import com.fr.base.present.FormulaPresent;
 import com.fr.base.present.Present;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
@@ -68,21 +69,26 @@ public class PresentPane extends UIComboBoxPane<Present> {
 		keys.add("NOPRESENT");
 		displays.add(none.title4PopupWindow());
 
-		paneList.add(dictPresentPane = new DictPresentPane());
+		dictPresentPane = new DictPresentPane();
+		dictPresentPane.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
+		paneList.add(dictPresentPane);
 		keys.add(DictPresent.class.getName());
 		displays.add(dictPresentPane.title4PopupWindow());
 
 		FurtherBasicBeanPane<BarcodePresent> bar = new BarCodePane();
+		bar.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(bar);
 		keys.add(BarcodePresent.class.getName());
 		displays.add(bar.title4PopupWindow());
 
 		FurtherBasicBeanPane<FormulaPresent> formula = new FormulaPresentPane();
+		formula.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(formula);
 		keys.add(FormulaPresent.class.getName());
 		displays.add(formula.title4PopupWindow());
 
 		FurtherBasicBeanPane<CurrencyLinePresent> currency = new CurrencyLinePane();
+		currency.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 		paneList.add(currency);
 		keys.add(CurrencyLinePresent.class.getName());
 		displays.add(currency.title4PopupWindow());

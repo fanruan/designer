@@ -1,5 +1,7 @@
 package com.fr.design.foldablepane;
 
+import com.fr.design.constants.UIConstants;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -35,6 +37,7 @@ public class UIExpandablePane  extends JPanel {
 
         headerPanel = new HeaderPane(color, title,headWidth,headHeight);
         headerPanel.addMouseListener(new PanelAction());
+        contentPanel.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(contentPanel, BorderLayout.CENTER);
         setOpaque(false);
