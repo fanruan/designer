@@ -130,11 +130,9 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     private void initDefinePane() {
         currentEditorDefinePane = null;
         XCreator creator = xCreator;
-        if (xCreator instanceof XWScaleLayout ) {
-            if (xCreator.acceptType(XWScaleLayout.class)) {
-                if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
-                    creator = (XCreator) xCreator.getComponent(0);
-                }
+        if (xCreator.acceptType(XWScaleLayout.class)) {
+            if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
+                creator = (XCreator) xCreator.getComponent(0);
             }
         }
         if(xCreator.acceptType(XWTitleLayout.class)){
