@@ -84,7 +84,6 @@ public class RegPane extends BasicPane {
         uiLabel.setPreferredSize(new Dimension(20, 20));
         contentPane.add(uiLabel);
         contentPane.add(regComboBox);
-
         regErrorMsgPane = new RegErrorMsgPane();
         final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         detailedCardLayout = new CardLayout();

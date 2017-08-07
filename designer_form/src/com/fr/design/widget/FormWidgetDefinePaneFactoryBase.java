@@ -58,10 +58,11 @@ public class FormWidgetDefinePaneFactoryBase {
 //        }
 
         defineMap.put(WAbsoluteLayout.class, new Appearance(FRAbsoluteLayoutDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
+        defineMap.put(ElementCaseEditor.class, new Appearance(ElementEditorDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
         defineMap.put(WAbsoluteBodyLayout.class, new Appearance(FRAbsoluteBodyLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
         defineMap.put(WParameterLayout.class, new Appearance(RootDesignDefinePane.class, Inter.getLocText("FR-Designer_Para-Body")));
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "tab"));
-        defineMap.put(WTitleLayout.class, new Appearance(WTitleLayoutDefinePane.class, "tab"));
+        defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "tablayout"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
         defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "label"));
         defineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());

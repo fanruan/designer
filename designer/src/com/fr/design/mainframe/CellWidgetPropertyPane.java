@@ -86,11 +86,7 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
 
-    public void populate(ElementCasePane ePane) {
-        Selection editingSelection = ePane.getSelection();
-        if(editingSelection instanceof FloatSelection){
-            return;
-        }
+    public void reInit(ElementCasePane ePane){
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
@@ -104,6 +100,11 @@ public class CellWidgetPropertyPane extends BasicPane {
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);
+    }
+
+    public void populate(ElementCasePane ePane) {
+        Selection editingSelection = ePane.getSelection();
+        editingSelection.populateWidgetPropertyPane(ePane);
     }
 
     public void update() {

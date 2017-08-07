@@ -89,6 +89,8 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 	public abstract boolean containsColumnRow(ColumnRow cr);
 
 	public abstract void populatePropertyPane(ElementCasePane ePane);
+
+	public abstract void populateWidgetPropertyPane(ElementCasePane ePane);
 	
 
 	@Override
