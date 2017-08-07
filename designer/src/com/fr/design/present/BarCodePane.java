@@ -85,7 +85,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         RCodesizespinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 6, 1));
         RCodeVersionComboBox = new UIComboBox();
         RCodeErrorCorrectComboBox = new UIComboBox();
-        typeSetLabel = new UILabel(Inter.getLocText("Type_Set") + ":", UILabel.RIGHT);
+        typeSetLabel = new UILabel(Inter.getLocText("Type_Set"), UILabel.RIGHT);
         initVersionComboBox();
         initErrorCorrectComboBox();
 
