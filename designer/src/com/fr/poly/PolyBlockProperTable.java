@@ -18,6 +18,7 @@ import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.BasicPropertyPane;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.general.Inter;
 import com.fr.poly.group.PolyBoundsGroup;
@@ -30,6 +31,9 @@ public class PolyBlockProperTable extends JPanel {
 	private UISpinner y;
 	private UISpinner width;
 	private UISpinner height;
+	private BasicPropertyPane blockPropertyPane;
+
+	private boolean isPopulating = false;
 
 	public PolyBlockProperTable() {
 		initPropertyPane();
@@ -37,14 +41,18 @@ public class PolyBlockProperTable extends JPanel {
 	}
 
 	private void initPropertyPane() {
+		this.setLayout(new BorderLayout());
+
+		blockPropertyPane = new BasicPropertyPane();
+		UIExpandablePane basicPane = new UIExpandablePane("基本", 280, 20, blockPropertyPane);
+		this.add(basicPane, BorderLayout.NORTH);
+
 		x = new UISpinner(0, 1200, 1);
 		y = new UISpinner(0, 1200, 1);
 		width = new UISpinner(0, 1200, 1);
 		height = new UISpinner(0, 1200, 1);
-		UIExpandablePane uiExpandablePane = WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height);
-
-		this.setLayout(new BorderLayout());
-		this.add(uiExpandablePane, BorderLayout.CENTER);
+		UIExpandablePane boundsPane = WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height);
+		this.add(boundsPane, BorderLayout.CENTER);
 	}
 
 	private void initListener(Container parentComponent) {
@@ -86,7 +94,8 @@ public class PolyBlockProperTable extends JPanel {
 //		groups = new ArrayList<PropertyGroup>();
 		if (source instanceof TemplateBlock) {
 			TemplateBlock block = (TemplateBlock) source;
-			PolyNameGroup namegroup = new PolyNameGroup(block);
+//			PolyNameGroup namegroup = new PolyNameGroup(block);
+			blockPropertyPane.getWidgetNameField().setText(block.getBlockName());
 //			groups.add(new PropertyGroup(namegroup));
 			final PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
 
@@ -110,15 +119,18 @@ public class PolyBlockProperTable extends JPanel {
 	}
 
 	public void populate(PolyDesigner designer) {
+		isPopulating = true;
 		this.designer = designer;
 		initPropertyGroups(this.designer.getEditingTarget());
+		isPopulating = false;
 	}
 
 	public void update() {
 		TemplateBlock block = this.designer.getEditingTarget();
-		if (block == null) {
+		if (isPopulating || block == null) {
 			return;
 		}
+		block.setBlockName(blockPropertyPane.getWidgetNameField().getText());
 		PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
 		boundsgroup.setValue(x.getValue(), 0, 1);
 		boundsgroup.setValue(y.getValue(), 1, 1);
