@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.*;
 import javax.swing.plaf.metal.*;
 import javax.swing.tree.*;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
@@ -221,7 +222,7 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         JTree tree = this.comboBox.getTree();
         if(tree != null){
             scrollPane = new UIScrollPane(tree);
-            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
+            scrollPane.setBorder(null);
             add(scrollPane, BorderLayout.CENTER);
         }
     }
@@ -230,6 +231,8 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         updatePopup();
         show(comboBox, 0, comboBox.getHeight());
         comboBox.getTree().requestFocus();
+        comboBox.getTree().setBackground(UIConstants.TREE_BACKGROUND);
+        comboBox.getTree().setOpaque(true);
     }
 
     public void hide(){
