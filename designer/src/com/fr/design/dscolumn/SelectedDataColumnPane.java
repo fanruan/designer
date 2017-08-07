@@ -132,14 +132,16 @@ public class SelectedDataColumnPane extends BasicPane {
         columnNameComboBox.setEditable(true);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel label1 = new UILabel(Inter.getLocText("TableData") + "  ");
-        UILabel label2 = new UILabel(Inter.getLocText("FR-Designer_Dynamic_Parameter"));
-        UILabel label3 = new UILabel(Inter.getLocText("DataColumn") + "  ");
-        tableNameComboBox.setPreferredSize(new Dimension(163, 20));
+        UILabel dsLabel = new UILabel(Inter.getLocText("TableData"));
+        UILabel dpLabel = new UILabel(Inter.getLocText("FR-Designer_Dynamic_Parameter"));
+        UILabel dcLabel = new UILabel(Inter.getLocText("DataColumn"));
+        dsLabel.setPreferredSize(new Dimension(60, 20));
+        dpLabel.setPreferredSize(new Dimension(60, 20));
+        dcLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = {
-                {label1, tableNameComboBox},
-                {label2, paramButton},
-                {label3, columnNameComboBox}
+                {dsLabel, tableNameComboBox},
+                {dpLabel, paramButton},
+                {dcLabel, columnNameComboBox}
         };
         this.setLayout(new BorderLayout());
         this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));

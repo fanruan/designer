@@ -1,6 +1,5 @@
 package com.fr.quickeditor;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -11,6 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.cell.TemplateCellElement;
@@ -24,13 +24,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * @author zhou
- * @since 2012-7-23下午5:16:53
+ * @author zhou, yaoh.wu
+ * @version 2017年8月7日16点54分
+ * @since 1.0
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
     protected UITextField columnRowTextField;
-    private UIButton cellElementEditButton;
     protected TemplateCellElement cellElement;
 
     public CellQuickEditor() {
@@ -54,9 +54,14 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
+        UILabel cellLabel = new UILabel(Inter.getLocText("Cell"));
+        cellLabel.setPreferredSize(new Dimension(60, 20));
+        UILabel insertContentLabel = new UILabel(Inter.getLocText("HF-Insert_Content"));
+        insertContentLabel.setPreferredSize(new Dimension(60, 20));
+        UIButton cellElementEditButton = initCellElementEditButton();
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Cell") + "  "), columnRowTextField = initColumnRowTextField()},
-                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), cellElementEditButton = initCellElementEditButton()},
+                new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
+                new Component[]{insertContentLabel, cellElementEditButton},
         };
         JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
@@ -71,7 +76,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
      * @return UIButton
      */
     private UIButton initCellElementEditButton() {
-        final UIButton cellElementEditButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
+        final UIButton cellElementEditButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         cellElementEditButton.addMouseListener(new MouseAdapter() {
 
             @Override

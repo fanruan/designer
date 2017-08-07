@@ -218,6 +218,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             double[] rowSize = {P}, columnSize = {P, F};
             UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Filter_Conditions"));
+            uiLabel.setPreferredSize(new Dimension(60, 20));
             UIButton uiButton = new UIButton();
             if (tc != null) {
                 //第一次初始化时tc为空，引发NullPointerException
@@ -538,7 +539,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
 
             public ResultSetSortConfigPane() {
-                this.setLayout(new BorderLayout(0, 0));
+                this.setLayout(new BorderLayout());
                 Icon[] iconArray = {
                         IOUtils.readIcon("/com/fr/design/images/expand/none16x16.png"),
                         IOUtils.readIcon("/com/fr/design/images/expand/asc.png"),
@@ -555,6 +556,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 centerPane.add(new JPanel(), "none");
                 centerPane.add(tinyFormulaPane, "content");
                 UILabel sortLabel = new UILabel(Inter.getLocText("Sort-Sort_Order"));
+                sortLabel.setPreferredSize(new Dimension(60, 20));
                 sortTypePane.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
@@ -649,7 +651,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public ResultSetFilterConfigPane() {
                 this.setLayout(FRGUIPaneFactory.createBorderLayout());
-                UILabel filterLabel = new UILabel("结果集筛选");
+                UILabel filterLabel = new UILabel(Inter.getLocText("BindColumn-Results_Filter"));
                 //结果集筛选下拉框
                 rsComboBox = new UIComboBox(new String[]{
                         Inter.getLocText("Undefined"),
@@ -697,12 +699,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 tipCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 
                 //前N个
-                topFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("=");
+                topFormulaPane = new JFormulaField("=");
                 setCardPane.add(topFormulaPane, FilterType.TOP.name());
                 tipCardPane.add(new JPanel(), FilterType.TOP.name());
 
                 //后N个
-                bottomFormulaPane = new DSColumnAdvancedEditorPane.JFormulaField("=");
+                bottomFormulaPane = new JFormulaField("=");
                 setCardPane.add(bottomFormulaPane, FilterType.BOTTOM.name());
                 tipCardPane.add(new JPanel(), FilterType.BOTTOM.name());
 
@@ -829,7 +831,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 Component[] buttonComponent = new Component[]{
                         formulaButton
                 };
-                JPanel pane = new JPanel(new BorderLayout(0, 0));
+                JPanel pane = new JPanel(new BorderLayout());
                 pane.add(formulaTextField, BorderLayout.CENTER);
                 pane.add(GUICoreUtils.createFlowPane(buttonComponent, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
                 Component[][] components = new Component[][]{
@@ -903,12 +905,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
             private JFormulaField formulaField;
 
             public CustomValuePane() {
-                this.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
-                UILabel customValueLabel = new UILabel("显示值");
+                this.setLayout(new BorderLayout());
+                UILabel customValueLabel = new UILabel(Inter.getLocText("FR-Designer_Display_Value"));
+                customValueLabel.setPreferredSize(new Dimension(60, 20));
                 formulaField = new JFormulaField("$$$");
-                formulaField.setPreferredSize(new Dimension(159, 20));
                 this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
-                        {customValueLabel, formulaField},
+                        new Component[]{customValueLabel, formulaField},
                 }, new double[]{P}, new double[]{P, F}), BorderLayout.CENTER);
             }
 

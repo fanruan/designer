@@ -56,10 +56,11 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private JPanel layoutPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-
+        UILabel dataSetLabel = new UILabel(Inter.getLocText("Data_Setting"));
+        dataSetLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = new Component[][]
                 {
-                        new Component[]{new UILabel(Inter.getLocText("Data_Setting")), goBox},
+                        new Component[]{dataSetLabel, goBox},
                         new Component[]{null, cardPane}
                 };
         goBox.addItemListener(new ItemListener() {
