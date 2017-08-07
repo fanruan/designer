@@ -84,6 +84,7 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_LIGHT = new Color(156, 204, 238);
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
     public static final Color ATTRIBUTE_PRESS = new Color(0x419BF9);
+    public static final Color NORMAL_BLUE = new Color(0x419BF9);
     public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
     public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
