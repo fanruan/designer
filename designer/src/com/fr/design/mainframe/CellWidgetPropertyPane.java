@@ -12,6 +12,7 @@ import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -85,8 +86,7 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
 
-    public void populate(ElementCasePane ePane) {
-
+    public void reInit(ElementCasePane ePane){
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
@@ -100,6 +100,11 @@ public class CellWidgetPropertyPane extends BasicPane {
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);
+    }
+
+    public void populate(ElementCasePane ePane) {
+        Selection editingSelection = ePane.getSelection();
+        editingSelection.populateWidgetPropertyPane(ePane);
     }
 
     public void update() {

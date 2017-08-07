@@ -29,6 +29,8 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 	 */
 	private static final long serialVersionUID = 5274572473978467325L;
 
+	private static final int INDEX = 0;
+
 	public XWTitleLayout() {
 		super(new WTitleLayout("titlePane"), new Dimension());
 	}
@@ -57,6 +59,10 @@ public class XWTitleLayout extends DedicateLayoutContainer {
 	@Override
 	public LayoutAdapter getLayoutAdapter() {
 		return new FRTitleLayoutAdapter(this);
+	}
+
+	public XCreator getEditingChildCreator(){
+		return getXCreator(INDEX);
 	}
 
 	/**

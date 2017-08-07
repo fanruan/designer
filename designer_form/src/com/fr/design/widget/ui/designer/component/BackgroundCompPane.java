@@ -7,8 +7,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
-import com.fr.form.ui.*;
-import com.fr.form.ui.Button;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 
@@ -34,7 +32,7 @@ public class BackgroundCompPane extends BasicPane {
         initalBackgroundEditor = new AccessibleBackgroundEditor();
         overBackgroundEditor = new AccessibleBackgroundEditor();
         clickBackgroundEditor = new AccessibleBackgroundEditor();
-        String [] titles = new String[]{"默认", "自定义"};
+        String [] titles = new String[]{Inter.getLocText("FR-Designer_DEFAULT"), Inter.getLocText("FR-Designer_Custom")};
 
         double f = TableLayout.FILL;
         final double p = TableLayout.PREFERRED;
@@ -64,19 +62,18 @@ public class BackgroundCompPane extends BasicPane {
 
     }
 
-    public void update(FreeButton btn) {
-        btn.setInitialBackground((Background) initalBackgroundEditor.getValue());
-        btn.setOverBackground((Background) overBackgroundEditor.getValue());
-        btn.setClickBackground((Background) clickBackgroundEditor.getValue());
+    public MouseActionBackground update() {
+        MouseActionBackground mouseActionBackground = new MouseActionBackground((Background) initalBackgroundEditor.getValue(), (Background) overBackgroundEditor.getValue(), (Background) clickBackgroundEditor.getValue());
+        return mouseActionBackground;
     }
 
     protected String title4PopupWindow() {
         return "";
     }
 
-    public void populate(FreeButton btn) {
-        initalBackgroundEditor.setValue(btn.getInitialBackground());
-        overBackgroundEditor.setValue(btn.getOverBackground());
-        clickBackgroundEditor.setValue(btn.getClickBackground());
+    public void populate(MouseActionBackground background) {
+        initalBackgroundEditor.setValue(background.getInitialBackground());
+        overBackgroundEditor.setValue(background.getOverBackground());
+        clickBackgroundEditor.setValue(background.getClickBackground());
     }
 }
