@@ -217,7 +217,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             groupPane.addListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
-            UILabel uiLabel = new UILabel("filter");
+            UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Filter_Conditions"));
             UIButton uiButton = new UIButton();
             if (tc != null) {
                 //第一次初始化时tc为空，引发NullPointerException
@@ -235,12 +235,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return "Basic";
+            return Inter.getLocText("FR-Designer_Basic");
         }
 
         @Override
         public String title4PopupWindow() {
-            return "Basic";
+            return Inter.getLocText("FR-Designer_Basic");
         }
 
 
@@ -308,12 +308,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         @Override
         public String getIconPath() {
-            return "Advanced";
+            return Inter.getLocText("FR-Designer_Advanced");
         }
 
         @Override
         public String title4PopupWindow() {
-            return "Advanced";
+            return Inter.getLocText("FR-Designer_Advanced");
         }
 
 
@@ -554,8 +554,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 tinyFormulaPane = new TinyFormulaPane();
                 centerPane.add(new JPanel(), "none");
                 centerPane.add(tinyFormulaPane, "content");
-                //todo 国际化
-                UILabel sortLabel = new UILabel("排列顺序");
+                UILabel sortLabel = new UILabel(Inter.getLocText("Sort-Sort_Order"));
                 sortTypePane.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {

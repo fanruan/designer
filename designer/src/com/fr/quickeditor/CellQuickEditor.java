@@ -55,7 +55,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("Cell")), columnRowTextField = initColumnRowTextField()},
+                new Component[]{new UILabel(Inter.getLocText("Cell") + "  "), columnRowTextField = initColumnRowTextField()},
                 new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), cellElementEditButton = initCellElementEditButton()},
         };
         JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
