@@ -143,6 +143,7 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
         }
         QuickEditorRegion.getInstance().populate(editComponent.getCurrentEditor());
         CellElementPropertyPane.getInstance().populate(editComponent);
+        CellWidgetPropertyPane.getInstance().populate(editComponent);
         Selection Selection = ((JWorkBook) (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate())).getEditingElementCasePane().getSelection();
         if (Selection instanceof FloatSelection) {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
@@ -155,6 +156,7 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
             EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
             EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
+            EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
         }
 
         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());

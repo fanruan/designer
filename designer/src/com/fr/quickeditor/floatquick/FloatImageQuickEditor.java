@@ -42,7 +42,7 @@ public class FloatImageQuickEditor extends FloatQuickEditor {
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
 
-        this.setBorder(BorderFactory.createEmptyBorder(10, 74, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 78, 10, 17));
         this.add(pane, BorderLayout.CENTER);
 
 

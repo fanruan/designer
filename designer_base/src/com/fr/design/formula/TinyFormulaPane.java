@@ -76,23 +76,15 @@ public class TinyFormulaPane extends BasicBeanPane<String> implements UIObserver
 	protected void initLayout() {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = {f };
-		double[] rowSize = { p };
-
-        Component[] components1 = new Component[]{
-               formulaTextFieldButton
-        } ;
         JPanel pane = new JPanel(new BorderLayout(0,0));
-        pane.add(formulaTextField,BorderLayout.CENTER);
-        pane.add(GUICoreUtils.createFlowPane(components1,FlowLayout.LEFT, LayoutConstants.HGAP_LARGE),BorderLayout.EAST);
+        JPanel pane1 = new JPanel(new BorderLayout(0,0));
+		pane1.add(formulaTextField, BorderLayout.NORTH);
+		pane1.setBorder(BorderFactory.createEmptyBorder(0,0,0,5));
+        pane.add(pane1,BorderLayout.CENTER);
+        pane.add(formulaTextFieldButton,BorderLayout.EAST);
 
-        Component[][] components2 = new Component[][]{
-               new Component[]{pane}
-        };
-
-        JPanel panel= TableLayoutHelper.createTableLayoutPane(components2,rowSize,columnSize) ;
         this.setLayout(new BorderLayout());
-        this.add(panel,BorderLayout.CENTER) ;
+        this.add(pane,BorderLayout.NORTH) ;
 	}
 	
 	/**

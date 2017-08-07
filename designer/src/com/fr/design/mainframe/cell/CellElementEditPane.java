@@ -10,6 +10,7 @@ import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.mainframe.cell.settingpane.*;
 import com.fr.design.utils.DesignUtils;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
@@ -49,6 +50,17 @@ public class CellElementEditPane extends BasicPane {
     private CellAttributeProvider cellAttributeProvider = null;
 
 
+    public static void main(String[] args){
+        JFrame jf = new JFrame("test");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel content = (JPanel) jf.getContentPane();
+        content.setLayout(new BorderLayout());
+        content.add(new CellElementEditPane(), BorderLayout.CENTER);
+        GUICoreUtils.centerWindow(jf);
+        jf.setSize(290, 400);
+        jf.setVisible(true);
+    }
+
     public CellElementEditPane() {
         setLayout(new BorderLayout());
         initPaneList();
@@ -77,6 +89,7 @@ public class CellElementEditPane extends BasicPane {
         downTitle = new JPanel();
         downTitle.setLayout(new BorderLayout());
         downTitle.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        center.setBorder(BorderFactory.createEmptyBorder(0, -10, 0, -10));
         downTitle.add(center, BorderLayout.CENTER);
 
         this.add(downTitle, BorderLayout.CENTER);
