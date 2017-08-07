@@ -30,38 +30,38 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         initComponents();
     }
 
-	private void initComponents() {
+    private void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
         advancedPane.setPreferredSize(new Dimension(600, 341));
         JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
         this.add(advancedPane);
-		double p = TableLayout.PREFERRED;
+        double p = TableLayout.PREFERRED;
         double rowSize[] = {p, p, p, p};
         double columnSize[] = {p, p};
-		JPanel labelPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		iconPane = new IconDefinePane();
+        JPanel labelPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        iconPane = new IconDefinePane();
         labelPane.add(iconPane);
-    	Component[][] n_components = {
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField(16)},
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), labelPane},
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
-        		{new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField(16)}
+        Component[][] n_components = {
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField(16)},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), labelPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField(16)}
         };
-    	hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
-		advancedPane.add(panel,BorderLayout.NORTH);
-		Component comp = createCenterPane();
-		if(comp != null	) {
-			advancedPane.add(comp,BorderLayout.CENTER);
-		}
-	}
+        hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
+        advancedPane.add(panel,BorderLayout.NORTH);
+        Component comp = createCenterPane();
+        if(comp != null	) {
+            advancedPane.add(comp,BorderLayout.CENTER);
+        }
+    }
 
     protected abstract Component createCenterPane();
 
-	@Override
-	public void populate(Button button) {
+    @Override
+    public void populate(Button button) {
         if (button == null) {
             return;
         }
@@ -71,7 +71,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
     }
 
     @Override
-	public T update() {
+    public T update() {
         T button = createButton();
         button.setIconName(iconPane.update());
         button.setText(buttonNameTextField.getText());

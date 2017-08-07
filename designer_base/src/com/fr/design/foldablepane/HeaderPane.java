@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
  */
 public class HeaderPane extends JPanel {
     private static final long serialVersionUID = 1L;
+    private static final int TITLE_X = 9;
+    private static final int LEFT_X = 221;
+    private static final int LEFT_Y = 6;
     private int headWidth = 280;
     private int headHeight = 25;
     private Color bgColor;
@@ -52,19 +55,19 @@ public class HeaderPane extends JPanel {
     private BufferedImage createPanelImage() {
         BufferedImage panelImage = new BufferedImage(getWidth(), headHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = panelImage.createGraphics();
-
+        g2d.setColor(UIConstants.COMPONENT_BACKGROUND_COLOR);
         g2d.fillRect(0, 0, headWidth, headHeight);
-        g2d.drawImage(UIConstants.DRAG_BAR, 0, 0, headWidth, headHeight, null);
+//        g2d.drawImage(UIConstants.DRAG_BAR, 0, 0, headWidth, headHeight, null);
         g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
 //        g2d.drawString(this.title, fontSize/2, headHeight-fontSize/3);
-        g2d.drawString(this.title, 0, headHeight - fontSize / 2 - 1);
+        g2d.drawString(this.title, TITLE_X, headHeight - fontSize / 2 - 1);
         if (this.isShow) {
-            image = UIConstants.DRAG_DOWN_PRESS;
-            g2d.drawImage(image, title.length() * fontSize, headHeight / 2 - 1, null);
+            image = UIConstants.DRAG_DOWN_SELECTED_SMALL;
+            g2d.drawImage(image, LEFT_X, LEFT_Y, null);
         } else {
-            image = UIConstants.DRAG_RIGHT_PRESS;
-            g2d.drawImage(image, title.length() * fontSize, headHeight / 3, null);
+            image = UIConstants.DRAG_LEFT_NORMAL_SMALL;
+            g2d.drawImage(image, LEFT_X, LEFT_Y , null);
         }
 
 
@@ -95,13 +98,13 @@ public class HeaderPane extends JPanel {
     }
 
     public static void main(String[] args) {
-//        JFrame mainFrame = new JFrame("UI Demo - Gloomyfish");
-//        mainFrame.getContentPane().setLayout(new BorderLayout());
-//        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本", 280, 24), BorderLayout.CENTER);
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.pack();
-//        mainFrame.setSize(280, 400);
-//        mainFrame.setVisible(true);
+        JFrame mainFrame = new JFrame("UI Demo - Gloomyfish");
+        mainFrame.getContentPane().setLayout(new BorderLayout());
+        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本", 280, 24), BorderLayout.CENTER);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setSize(250, 400);
+        mainFrame.setVisible(true);
     }
 
 }

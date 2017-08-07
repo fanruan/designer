@@ -43,6 +43,4 @@ public class UIRadioButton extends JRadioButton {
     public UIRadioButton(String text, Icon icon, boolean selected) {
         super(text, icon, selected);
     }
-
-
 }

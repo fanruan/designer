@@ -11,6 +11,7 @@ import javax.swing.plaf.basic.*;
 import javax.swing.plaf.metal.*;
 import javax.swing.tree.*;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.*;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
@@ -78,6 +79,19 @@ public class UITreeComboBox extends JComboBox{
             cui = new WindowsJTreeComboBoxUI();
         }
         setUI(cui);
+    }
+
+    private void refreshShortCuts() {
+        TreePath path = this.getTree().getSelectionPath();
+        if (path == null) {
+            return;
+        }
+        Component component = (Component) path.getLastPathComponent();
+        if (!(component instanceof XCreator)) {
+            return;
+        }
+        com.fr.design.designer.beans.ComponentAdapter adapter = AdapterBus.getComponentAdapter(this.getTree().getDesigner(), (XCreator) component);
+        adapter.getContextPopupMenu(null);
     }
 
     // UI Inner classes -- one for each supported Look and Feel
@@ -152,7 +166,7 @@ public class UITreeComboBox extends JComboBox{
                 tree.refreshUI();
                 repaint();
             }
-
+            refreshShortCuts();
         }
 
         @Override
@@ -208,7 +222,7 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         JTree tree = this.comboBox.getTree();
         if(tree != null){
             scrollPane = new UIScrollPane(tree);
-            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
+            scrollPane.setBorder(null);
             add(scrollPane, BorderLayout.CENTER);
         }
     }
@@ -217,6 +231,8 @@ class TreePopup extends JPopupMenu implements ComboPopup{
         updatePopup();
         show(comboBox, 0, comboBox.getHeight());
         comboBox.getTree().requestFocus();
+        comboBox.getTree().setBackground(UIConstants.TREE_BACKGROUND);
+        comboBox.getTree().setOpaque(true);
     }
 
     public void hide(){

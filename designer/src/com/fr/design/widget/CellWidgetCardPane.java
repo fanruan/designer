@@ -55,16 +55,17 @@ public class CellWidgetCardPane extends BasicPane {
 //        this.initComponents(pane);
     }
 
-    public  BasicWidgetPropertySettingPane initBasicWidgetPropertyPane(){
+    public BasicWidgetPropertySettingPane initBasicWidgetPropertyPane() {
         return new BasicWidgetPropertySettingPane();
     }
 
 
     private void initComponents(ElementCasePane pane) {
 
+        this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         //k
-        tabbedPane =  new CardLayout();
+        tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
         this.add(center, BorderLayout.CENTER);
 
@@ -76,7 +77,7 @@ public class CellWidgetCardPane extends BasicPane {
         //k
         center.add(attriTabPane, Inter.getLocText("FR-Designer_Attribute"));
         center.add(eventTabPane, Inter.getLocText("FR-Designer_Form_Editing_Listeners"));
-        final String [] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Form_Editing_Listeners")};
+        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Form_Editing_Listeners")};
 
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
@@ -99,8 +100,9 @@ public class CellWidgetCardPane extends BasicPane {
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane("基本", 280, 20, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
 
+        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
 
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -109,7 +111,7 @@ public class CellWidgetCardPane extends BasicPane {
         this.setPreferredSize(new Dimension(600, 450));
     }
 
-    private void initPaneList(){
+    private void initPaneList() {
         paneList = new ArrayList<JPanel>();
         paneList.add(attriTabPane);
         paneList.add(eventPane);
@@ -220,7 +222,7 @@ public class CellWidgetCardPane extends BasicPane {
         center.remove(this.treeTabPane);
     }
 
-    private void reInitHeaderPane(JPanel jPanel){
+    private void reInitHeaderPane(JPanel jPanel) {
         paneList.add(jPanel);
 //        tabsHeaderIconPane = new
     }

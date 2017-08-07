@@ -64,6 +64,7 @@ import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.ReportHelper;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
@@ -109,9 +110,17 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     @Override
     public void refreshEastPropertiesPane() {
-        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
-        EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
-        EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+        if (isEditingPolySheet()) {
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+        } else {
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+            EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
+            EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+        }
+    }
+
+    private boolean isEditingPolySheet() {
+        return template.getReport(getEditingReportIndex()) instanceof PolyWorkSheet;
     }
 
     @Override
