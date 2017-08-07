@@ -20,8 +20,9 @@ public class PolyBlockProperTable extends JPanel {
 	private UISpinner width;
 	private UISpinner height;
 	private BasicPropertyPane blockPropertyPane;
-
 	private boolean isPopulating = false;
+
+	private static final int MAX_SPINNER_VALUE = 10000;
 
 	public PolyBlockProperTable() {
 		initPropertyPane();
@@ -35,10 +36,10 @@ public class PolyBlockProperTable extends JPanel {
 		UIExpandablePane basicPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, blockPropertyPane);
 		this.add(basicPane, BorderLayout.NORTH);
 
-		x = new UISpinner(0, 1200, 1);
-		y = new UISpinner(0, 1200, 1);
-		width = new UISpinner(0, 1200, 1);
-		height = new UISpinner(0, 1200, 1);
+		x = new UISpinner(0, MAX_SPINNER_VALUE, 1);
+		y = new UISpinner(0, MAX_SPINNER_VALUE, 1);
+		width = new UISpinner(0, MAX_SPINNER_VALUE, 1);
+		height = new UISpinner(0, MAX_SPINNER_VALUE, 1);
 		UIExpandablePane boundsPane = WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height);
 		this.add(boundsPane, BorderLayout.CENTER);
 	}
@@ -50,17 +51,6 @@ public class PolyBlockProperTable extends JPanel {
 			if (tmpComp instanceof Container) {
 				initListener((Container) tmpComp);
 			}
-//			if (tmpComp instanceof GlobalNameObserver) {
-//				((GlobalNameObserver) tmpComp).registerNameListener(new GlobalNameListener() {
-//					public void setGlobalName(String name) {
-//						globalName = name;
-//					}
-//
-//					public String getGlobalName() {
-//						return globalName;
-//					}
-//				});
-//			}
 			if (tmpComp instanceof UIObserver) {
 				((UIObserver) tmpComp).registerChangeListener(new UIObserverListener() {
 					@Override
@@ -79,22 +69,16 @@ public class PolyBlockProperTable extends JPanel {
 	 * 
 	 */
 	public void initPropertyGroups(Object source) {
-//		groups = new ArrayList<PropertyGroup>();
 		if (source instanceof TemplateBlock) {
 			TemplateBlock block = (TemplateBlock) source;
-//			PolyNameGroup namegroup = new PolyNameGroup(block);
 			blockPropertyPane.getWidgetNameField().setText(block.getBlockName());
-//			groups.add(new PropertyGroup(namegroup));
 			final PolyBoundsGroup boundsgroup = new PolyBoundsGroup(block, designer.getTarget());
 
 			x.setValue((int)boundsgroup.getValue(0, 1));
 			y.setValue((int)boundsgroup.getValue(1, 1));
 			width.setValue((int)boundsgroup.getValue(2, 1));
 			height.setValue((int)boundsgroup.getValue(3, 1));
-//			groups.add(new PropertyGroup(boundsgroup));
 		}
-//		TableModel model = new BeanTableModel();
-//		setModel(model);
 		this.repaint();
 	}
 
