@@ -12,6 +12,7 @@ import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.FRLeftFlowLayout;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.MultiFileEditor;
@@ -26,7 +27,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		this.initComponents();
 	}
 
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return "file";
@@ -34,42 +35,35 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 
 	@Override
 	protected JPanel setFirstContentPane() {
-		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
-		acceptType.setPreferredSize(new Dimension(200, 18));
+		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+		JPanel centerPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+//		centerPane.add(singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD")));
+
+
+
 		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
+		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
+		acceptType.setPreferredSize(new Dimension(100, 18));
 		fileSizeField = new UINumberField();
 		fileSizeField.setPreferredSize(new Dimension(80, 18));
 
-
-		JPanel singleFilePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		singleFilePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		JPanel singleFilePane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
 		singleFilePane.add(singleFileCheckBox);
+		centerPane.add(singleFilePane);
 
-		JPanel allowTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		allowTypePane.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-		allowTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		allowTypePane.add(new UILabel("   " + Inter.getLocText("File-Allow_Upload_Files") + ":"));
+		JPanel allowTypePane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+		allowTypePane.add(new UILabel(Inter.getLocText("File-Allow_Upload_Files") + ":"));
 		allowTypePane.add(acceptType);
+		centerPane.add(allowTypePane);
 
-		JPanel fileSizePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-		fileSizePane.add(new UILabel(" " + Inter.getLocText("File-File_Size_Limit") + ":"));
+		JPanel fileSizePane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+		fileSizePane.add(new UILabel(Inter.getLocText("File-File_Size_Limit") + ":"));
 		fileSizePane.add(fileSizeField);
 		fileSizePane.add(new UILabel(" KB"));
+		centerPane.add(fileSizePane);
 
-		double f = TableLayout.FILL;
-		double p = TableLayout.PREFERRED;
-		Component[][] components = new Component[][]{
-				new Component[]{singleFileCheckBox, null },
-				new Component[]{new UILabel("   " + Inter.getLocText("File-Allow_Upload_Files") + ":"), acceptType},
-				new Component[]{new UILabel(" " + Inter.getLocText("File-File_Size_Limit") + ":"), fileSizeField},
-		};
-		double[] rowSize = {p, p,p};
-		double[] columnSize = {p,f};
-		int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, 5);
-
-
-		return panel;
+		contenter.add(centerPane);
+		return contenter;
 	}
 
 	@Override

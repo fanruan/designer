@@ -20,9 +20,8 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
-		JPanel contenter=FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		JPanel contentPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+		JPanel contenter=FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
 		contentPane.add(contenter);
 		contenter.add(removeRepeatCheckBox);
