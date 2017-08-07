@@ -5,6 +5,7 @@ import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerBean;
 import com.fr.design.mainframe.DesignerContext;
@@ -64,6 +65,7 @@ public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> impleme
         styleList.setCellRenderer(render);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(styleList, BorderLayout.CENTER);
+        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
 
         styleList.addMouseListener(new MouseAdapter() {
             @Override

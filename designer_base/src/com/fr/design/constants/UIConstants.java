@@ -8,6 +8,7 @@ import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -18,6 +19,8 @@ public interface UIConstants {
 
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
+    public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
 
 
     public static final int SIZE = 17;
@@ -113,6 +116,8 @@ public interface UIConstants {
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
+    public static final BufferedImage DRAG_DOWN_SELECTED_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/downSelected.png");
+    public static final BufferedImage DRAG_LEFT_NORMAL_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/leftNormal.png");
     public static final int MODEL_NORMAL = 0;
     public static final int MODEL_PRESS = 1;
     public static final Icon ARROW_DOWN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");
@@ -146,6 +151,7 @@ public interface UIConstants {
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
+    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
     public static final int ARC = 0;
     public static final int BUTTON_GROUP_ARC = 6;
     public static final int LARGEARC = 6;

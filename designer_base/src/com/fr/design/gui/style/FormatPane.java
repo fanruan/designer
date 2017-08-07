@@ -67,6 +67,7 @@ public class FormatPane extends AbstractBasicStylePane {
      */
     public FormatPane() {
         this.initComponents(TYPES);
+        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
     }
 
     protected void initComponents(Integer[] types) {
@@ -97,13 +98,17 @@ public class FormatPane extends AbstractBasicStylePane {
         textField.setEditable(true);
         txtCenterPane.add(textField, BorderLayout.NORTH);
         frFontPane = new FRFontPane();
+        UILabel font = new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT);
+        JPanel fontPane = new JPanel(new BorderLayout());
+        fontPane.add(font, BorderLayout.NORTH);
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Base_Format") + "   ", SwingConstants.LEFT), typeComboBox},
                 new Component[]{null, centerPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT), frFontPane},
+                new Component[]{fontPane, frFontPane},
                 new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p};
