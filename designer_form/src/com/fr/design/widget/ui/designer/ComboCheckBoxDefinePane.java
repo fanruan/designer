@@ -2,63 +2,61 @@ package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<ComboCheckBox> {
-	private CheckBoxDictPane checkBoxDictPane;
-	private DictionaryPane dictPane;
+public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox> {
     private UICheckBox supportTagCheckBox;
+    private UIHeadGroup returnType;
+    private UITextField waterMarkDictPane;
+    private UICheckBox removeRepeatCheckBox;
 
 	public ComboCheckBoxDefinePane(XCreator xCreator) {
 		super(xCreator);
-		dictPane = new DictionaryPane();
-		checkBoxDictPane = new CheckBoxDictPane();
-		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
-
 	}
 
-	@Override
-	protected JPanel setForthContentPane() {
-		JPanel attrPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel contenter = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        contenter.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		attrPane.add(contenter);
-        //是否以标签形式显示
-        JPanel tagPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
-        tagPane.add(supportTagCheckBox);
-        contenter.add(tagPane, BorderLayout.NORTH);
-
-        contenter.add(checkBoxDictPane, BorderLayout.WEST);
-		return attrPane;
+	public UICheckBox createRepeatCheckBox(){
+		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget_No_Repeat"));
+		return removeRepeatCheckBox;
 	}
 
-	@Override
-	protected void populateSubCustomWritableRepeatEditorBean(ComboCheckBox e) {
-		this.dictPane.populateBean(e.getDictionary());
-		this.checkBoxDictPane.populate(e);
-        this.supportTagCheckBox.setSelected(e.isSupportTag());
-        this.removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
+	public Component[] createWaterMarkPane() {
+		waterMarkDictPane = new UITextField();
+		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane};
 	}
+
 
 	public JPanel createOtherPane(){
+		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
+
+		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
+		returnType = new UIHeadGroup(tabTitles) {
+			@Override
+			public void tabChanged(int index) {
+				ComboCheckBox combo = (ComboCheckBox) creator.toData();
+				//todo
+				if (index == 1) {
+					combo.setReturnString(true);
+				} else {
+					combo.setReturnString(false);
+				}
+			}
+		};
+
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UICheckBox(Inter.getLocText("Form-SupportTag")),  null },
-				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), new UITextField()},
+				new Component[]{supportTagCheckBox,  null },
+				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnType},
 		};
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
@@ -68,19 +66,30 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 		return panel;
 	}
 
-	@Override
-	protected ComboCheckBox updateSubCustomWritableRepeatEditorBean() {
-		ComboCheckBox combo = new ComboCheckBox();
-        combo.setSupportTag(this.supportTagCheckBox.isSelected());
-		combo.setDictionary(this.dictPane.updateBean());
-		checkBoxDictPane.update(combo);
+	protected  void populateSubDictionaryEditorBean(ComboCheckBox ob){
+		if (ob.isReturnString()) {
+			returnType.setSelectedIndex(1);
+		} else {
+			returnType.setSelectedIndex(0);
+		}
+		waterMarkDictPane.setText(ob.getWaterMark());
+		formWidgetValuePane.populate(ob);
+		this.supportTagCheckBox.setSelected(ob.isSupportTag());
+		this.removeRepeatCheckBox.setSelected(ob.isRemoveRepeat());
+	}
+
+	protected  ComboCheckBox updateSubDictionaryEditorBean(){
+		ComboCheckBox combo = (ComboCheckBox) creator.toData();
+		formWidgetValuePane.update(combo);
+		combo.setWaterMark(waterMarkDictPane.getText());
+		combo.setSupportTag(this.supportTagCheckBox.isSelected());
 		combo.setRemoveRepeat(removeRepeatCheckBox.isSelected());
 		return combo;
 	}
 
 	@Override
 	public DataCreatorUI dataUI() {
-		return dictPane;
+		return null;
 	}
 	
 	@Override

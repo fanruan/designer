@@ -5,8 +5,8 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UINumberField;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -20,7 +20,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	private DictionaryComboBox acceptType;
 	private UICheckBox singleFileCheckBox;
 	private UINumberField fileSizeField;
-	private UITextField fontSizeField;
+	private UISpinner fontSizeField;
 
 	public MultiFileEditorPane(XCreator xCreator) {
 		super(xCreator);
@@ -37,7 +37,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
 		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
 		fileSizeField = new UINumberField();
-		fontSizeField = new UITextField();
+		fontSizeField = new UISpinner(0, 20, 1, 0);
 
 		JPanel singleFilePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		singleFilePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -77,6 +77,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		acceptType.setSelectedItem(e.getAccept());
 		singleFileCheckBox.setSelected(e.isSingleFile());
 		fileSizeField.setValue(e.getMaxSize());
+		fontSizeField.setValue(e.getFontSize());
 	}
 
 	@Override
@@ -85,6 +86,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		ob.setAccept((String) acceptType.getSelectedItem());
 		ob.setSingleFile(singleFileCheckBox.isSelected());
 		ob.setMaxSize(fileSizeField.getValue());
+		ob.setFontSize((int)fontSizeField.getValue());
 		return ob;
 	}
 

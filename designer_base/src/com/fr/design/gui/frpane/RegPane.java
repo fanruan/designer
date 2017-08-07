@@ -342,10 +342,11 @@ public class RegPane extends BasicPane {
 		DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
 		public RegPhonePane() {
 			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-			this.add(new UILabel(Inter.getLocText("FR-Designer_Data_Type") + ":"));
+			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			dataTypeComboBox = new UIComboBox(DefaultComboBoxModel);
 			JTextField editFiled = (JTextField)(dataTypeComboBox.getEditor().getEditorComponent());
+			JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Data_Type")), dataTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+			this.add(panel);
 			editFiled.setDocument(new LimitedDocument(LIMIT_LENGTH, REG_PATTERN));
 			dataTypeComboBox.addItemListener(new ItemListener() {
 				@Override
@@ -364,7 +365,6 @@ public class RegPane extends BasicPane {
 			});
 			dataTypeComboBox.setSelectedIndex(0);
 			firePhoneRegAction(dataTypeComboBox.getSelectedItem().toString());
-			this.add(dataTypeComboBox);
 		}
 		@Override
 		protected String title4PopupWindow() {
@@ -405,14 +405,8 @@ public class RegPane extends BasicPane {
 			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 			this.setPreferredSize(new Dimension(210, 56));
-//			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"));
 			minLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-//			this.add(minLenSpinner);
-//			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"));
 			maxLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
-//			this.add(maxLenSpinner);
-
-
 			double f = TableLayout.FILL;
 			double p = TableLayout.PREFERRED;
 			Component[][] components = new Component[][]{
@@ -461,11 +455,11 @@ public class RegPane extends BasicPane {
 		private UITextField regTextField;
 
 		public CustomRegRexPane(){
-			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+			this.setLayout(FRGUIPaneFactory.createBorderLayout());
 			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-			this.add(new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions") + ":"));
-			regTextField = new UITextField(10);
-			this.add(regTextField);
+			regTextField = new UITextField();
+			JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions")), regTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+			this.add(panel);
 		}
 
 		@Override
@@ -495,16 +489,15 @@ public class RegPane extends BasicPane {
 		private UITextField regErrorMsgField;
 
 		public RegErrorMsgPane(){
-			this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+			this.setLayout(FRGUIPaneFactory.createBorderLayout());
+			this.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
 			initRegErrorMsgField();
-//			this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-			this.add(new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip") + ":"));
-			regErrorMsgField = new UITextField(10);
-			this.add(regErrorMsgField);
+			JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+			this.add(panel);
 		}
 
 		private void initRegErrorMsgField(){
-			regErrorMsgField = new UITextField(13);
+			regErrorMsgField = new UITextField();
 			regErrorMsgField.getDocument().addDocumentListener(new DocumentListener() {
 				public void changedUpdate(DocumentEvent e) {
 					regErrorMsgField.setToolTipText(regErrorMsgField.getText());
