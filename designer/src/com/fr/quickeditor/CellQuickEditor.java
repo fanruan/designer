@@ -2,7 +2,6 @@ package com.fr.quickeditor;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -27,13 +26,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * @author zhou
- * @since 2012-7-23下午5:16:53
+ * @author zhou, yaoh.wu
+ * @version 2017年8月7日16点54分
+ * @since 1.0
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
     protected UITextField columnRowTextField;
-    private UIButton cellElementEditButton;
     protected TemplateCellElement cellElement;
     protected UIComboBox comboBox;
     private UpdateAction[] cellInsertActions;
@@ -44,17 +43,37 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("  " + Inter.getLocText("Cell")), columnRowTextField = initColumnRowTextField()},
-                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), initCellElementEditComboBox()},
+                new Component[]{initTopContent(), null},
                 new Component[]{createCenterBody(), null}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel, BorderLayout.CENTER);
     }
+
+
+    private JPanel initTopContent() {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        UILabel cellLabel = new UILabel(Inter.getLocText("Cell"));
+        cellLabel.setPreferredSize(new Dimension(60, 20));
+        UILabel insertContentLabel = new UILabel(Inter.getLocText("HF-Insert_Content"));
+        insertContentLabel.setPreferredSize(new Dimension(60, 20));
+        UIComboBox cellElementEditButton = initCellElementEditComboBox();
+        Component[][] components = new Component[][]{
+                new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
+                new Component[]{insertContentLabel, cellElementEditButton},
+        };
+        JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+        return topContent;
+    }
+
 
     /**
      * 初始化添加按钮

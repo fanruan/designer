@@ -3,8 +3,6 @@ package com.fr.quickeditor.cellquick;
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
-import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.insert.cell.FormulaCellAction;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.CellQuickEditor;
@@ -21,21 +19,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
+ * 公式快速编辑面板，同文本数字编辑拆分
  *
+ * @author yaoh.wu
+ * @version 2017年8月7日10点44分
+ * @since 9.0
  */
-public class CellStringQuickEditor extends CellQuickEditor {
-
-    private Object selectedItem;
-    //instance
-    private static CellStringQuickEditor THIS;
+public class CellFormulaQuickEditor extends CellQuickEditor {
     //文本域
-    //TODO 9.0 文本域要根据具体文本数量自适应大小，比较难搞，先跳过。
     private UITextField stringTextField;
     //编辑状态
     private boolean isEditing = false;
 
-
-    //august：如果是原来编辑的是公式,要保留公式里的这些属性,不然在公式和字符串转化时,就会丢失这些属性设置。
+    //编辑的是公式,要保留公式里的这些属性,不然在公式和字符串转化时,就会丢失这些属性设置。
     private boolean reserveInResult = false;
     private boolean reserveOnWriteOrAnaly = true;
 
@@ -57,13 +53,12 @@ public class CellStringQuickEditor extends CellQuickEditor {
 
     };
 
-    private CellStringQuickEditor() {
+    private CellFormulaQuickEditor() {
         super();
     }
 
     /**
      * 详细信息面板
-     * todo 文本框可自适应大小，公式编辑新写一个
      */
     @Override
     public JComponent createCenterBody() {
@@ -101,7 +96,6 @@ public class CellStringQuickEditor extends CellQuickEditor {
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             cellElement.setValue(textFormula);
-            selectedItem = ActionFactory.createAction(FormulaCellAction.class);
         } else {
             Style style = cellElement.getStyle();
             if (style != null && style.getFormat() != null && style.getFormat() == TextFormat.getInstance()) {
@@ -109,7 +103,6 @@ public class CellStringQuickEditor extends CellQuickEditor {
             } else {
                 cellElement.setValue(ReportHelper.convertGeneralStringAccordingToExcel(tmpText));
             }
-            selectedItem = null;
         }
         fireTargetModified();
         stringTextField.requestFocus();
@@ -154,11 +147,6 @@ public class CellStringQuickEditor extends CellQuickEditor {
         stringTextField.getDocument().removeDocumentListener(documentListener);
         stringTextField.setText(str);
         stringTextField.getDocument().addDocumentListener(documentListener);
-    }
-
-    @Override
-    public Object getComboBoxSelected() {
-        return selectedItem;
     }
 
 }

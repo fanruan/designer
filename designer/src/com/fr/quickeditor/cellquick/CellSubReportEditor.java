@@ -7,33 +7,31 @@ import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 单元格元素子报表编辑器
- * TODO 9.0大体上没有改动
+ *
+ * @author yaoh.wu
+ * @version 2017年8月7日10点53分
  */
 public class CellSubReportEditor extends CellQuickEditor {
     private UIButton subReportButton;
-    private static CellSubReportEditor THIS;
 
-    public static final CellSubReportEditor getInstance() {
-        if (THIS == null) {
-            THIS = new CellSubReportEditor();
-        }
-        return THIS;
-    }
 
     private CellSubReportEditor() {
         super();
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public JComponent createCenterBody() {
+        JPanel content = new JPanel(new BorderLayout());
+        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
         subReportButton = new UIButton();
-        subReportButton.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        subReportButton.setMargin(null);
         subReportButton.setOpaque(false);
-        return subReportButton;
+        content.add(subReportButton, BorderLayout.CENTER);
+        return content;
     }
 
     @Override

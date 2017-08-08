@@ -154,7 +154,7 @@ public interface UIConstants {
     public static final Color BARNOMAL = new Color(232, 232, 233);
     public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
     public static final int ARC = 0;
-    public static final int BUTTON_GROUP_ARC = 6;
+    public static final int BUTTON_GROUP_ARC = 0;
     public static final int LARGEARC = 6;
     public static final Stroke BS = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2f, new float[]{3, 1}, 0);
     public static final Icon PREVIEW_DOWN = BaseUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");
