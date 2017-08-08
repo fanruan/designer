@@ -597,7 +597,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         if (noContent) {
                             centerPane.setPreferredSize(new Dimension(0, 0));
                         } else {
-                            centerPane.setPreferredSize(new Dimension(165, 20));
+                            centerPane.setPreferredSize(new Dimension(155, 20));
                         }
                         String sortFormula = dSColumn.getSortFormula();
                         if (sortFormula != null && sortFormula.length() >= 1) {
@@ -667,28 +667,44 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
                         CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
                         if (selectIndex == 1) {
+                            //前N个
                             setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
-                            //todo 隐藏tip
+                            //隐藏tip 显示set
+                            setCardPane.setPreferredSize(new Dimension(155, 20));
+                            tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 2) {
+                            //后N个
                             setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
-                            //todo 隐藏tip
+                            //隐藏tip 显示set
+                            setCardPane.setPreferredSize(new Dimension(155, 20));
+                            tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 3) {
+                            //奇数
                             setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
-                            //todo 隐藏set
+                            //隐藏set 显示tip
+                            setCardPane.setPreferredSize(new Dimension(0, 0));
+                            tipCardPane.setPreferredSize(new Dimension(221, 15));
                         } else if (selectIndex == 4) {
                             setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
-                            //todo 隐藏set
+                            //隐藏set 显示tip
+                            setCardPane.setPreferredSize(new Dimension(0, 0));
+                            tipCardPane.setPreferredSize(new Dimension(221, 15));
                         } else if (selectIndex == 5) {
                             setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
+                            //显示set和tip
+                            setCardPane.setPreferredSize(new Dimension(155, 20));
+                            tipCardPane.setPreferredSize(new Dimension(221, 15));
                         } else {
                             setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
-                            //todo 隐藏set和tip
+                            //隐藏set和tip
+                            setCardPane.setPreferredSize(new Dimension(0, 0));
+                            tipCardPane.setPreferredSize(new Dimension(0, 0));
                         }
 
                     }
@@ -715,13 +731,13 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 //奇数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), FilterType.ODD.name());
                 tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                        + "," + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), "ODD");
+                        + "," + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FilterType.ODD.name());
 
 
                 //偶数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), FilterType.EVEN.name());
                 tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                        + "," + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), "ODD");
+                        + "," + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FilterType.EVEN.name());
 
                 //输入框占用右半边，提示信息占一行
                 serialTextField = new UITextField(16);
@@ -729,7 +745,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 tipCardPane.add(new UILabel(
                         Inter.getLocText(new String[]{
                                         "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
-                                new String[]{": 1,2-3,5,8  ", ",", "$__count__"})), "SPECIFY");
+                                new String[]{": 1,2-3,5,8  ", ",", "$__count__"})), FilterType.SPECIFY.name());
 
                 this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
                         {filterLabel, rsComboBox},
@@ -752,19 +768,41 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             switch (selectCountType) {
                                 case SelectCount.TOP:
                                     this.topFormulaPane.populate(selectCount.getFormulaCount());
+                                    //隐藏tip 显示set
+                                    setCardPane.setPreferredSize(new Dimension(155, 20));
+                                    tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.BOTTOM:
                                     this.bottomFormulaPane.populate(selectCount.getFormulaCount());
+                                    //隐藏tip 显示set
+                                    setCardPane.setPreferredSize(new Dimension(155, 20));
+                                    tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.SPECIFY:
                                     this.serialTextField.setText(selectCount.getSerial());
+                                    //显示set和tip
+                                    setCardPane.setPreferredSize(new Dimension(155, 20));
+                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
                                     break;
                                 case SelectCount.EVEN:
+                                    //隐藏set 显示tip
+                                    setCardPane.setPreferredSize(new Dimension(0, 0));
+                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
                                     break;
                                 case SelectCount.ODD:
+                                    //隐藏set 显示tip
+                                    setCardPane.setPreferredSize(new Dimension(0, 0));
+                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
                                     break;
                                 default:
+                                    //隐藏set和tip
+                                    setCardPane.setPreferredSize(new Dimension(0, 0));
+                                    tipCardPane.setPreferredSize(new Dimension(0, 0));
                             }
+                        } else {
+                            //隐藏set和tip
+                            setCardPane.setPreferredSize(new Dimension(0, 0));
+                            tipCardPane.setPreferredSize(new Dimension(0, 0));
                         }
                     }
                 }
