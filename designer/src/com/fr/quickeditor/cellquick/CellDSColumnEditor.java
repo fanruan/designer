@@ -410,10 +410,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         /**
          * 创建内容
+         * @return 内容面板
          */
-
         private JPanel createContentPane() {
-            this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             //结果集排序
             sortPane = new ResultSetSortConfigPane();

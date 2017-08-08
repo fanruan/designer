@@ -92,22 +92,22 @@ public class SelectedDataColumnPane extends BasicPane {
         };
         columnNameComboBox.setEditable(true);
         double p = TableLayout.PREFERRED;
-        UILabel label1 = new UILabel(Inter.getLocText("TableData") + ":");
-        UILabel label2 = new UILabel(Inter.getLocText("DataColumn") + ":");
+        UILabel dsLabel = new UILabel(Inter.getLocText("TableData") + ":");
+        UILabel dcLabel = new UILabel(Inter.getLocText("DataColumn") + ":");
         if (showParameterButton) {
-            label1.setPreferredSize(new Dimension(200, 25));
-            label2.setPreferredSize(new Dimension(200, 25));
+            dsLabel.setPreferredSize(new Dimension(200, 25));
+            dcLabel.setPreferredSize(new Dimension(200, 25));
         }
         if (showParameterButton) {
-            Component[][] comps = {{label1, null, label2}, {tableNameComboBox, paramButton, columnNameComboBox}};
+            Component[][] comps = {{dsLabel, null, dcLabel}, {tableNameComboBox, paramButton, columnNameComboBox}};
             this.add(TableLayoutHelper.createTableLayoutPane(comps, new double[]{p, p}, new double[]{p, p, p}));
         } else {
             double f = TableLayout.FILL;
             double[] columnSize = {p, f};
             double[] rowSize = {p, p};
             Component[][] components = new Component[][]{
-                    new Component[]{label1, tableNameComboBox},
-                    new Component[]{label2, columnNameComboBox}
+                    new Component[]{dsLabel, tableNameComboBox},
+                    new Component[]{dcLabel, columnNameComboBox}
             };
             JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
             this.setLayout(new BorderLayout());
