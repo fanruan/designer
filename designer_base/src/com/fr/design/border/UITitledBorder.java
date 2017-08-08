@@ -1,5 +1,7 @@
 package com.fr.design.border;
 
+import com.fr.design.constants.UIConstants;
+
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
@@ -19,7 +21,7 @@ public class UITitledBorder extends TitledBorder {
 	}
 	
 	private void init(String title){
-		UIRoundedBorder roundedborder = new UIRoundedBorder(new Color(204, 204, 204), 1, 10);
+		UIRoundedBorder roundedborder = new UIRoundedBorder(UIConstants.TITLED_BORDER_COLOR, 1, 10);
 		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0), roundedborder));
 		
 		this.setTitle(title);
