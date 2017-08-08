@@ -49,6 +49,7 @@ public class UITableEditorPane<T> extends BasicPane {
 
 		UILabel l = new UILabel(leftLabelName);
 		editTable = tableModel.createTable();
+		editTable.getTableHeader().setBackground(UIConstants.DEFAULT_BG_RULER);
 
 		UIScrollPane scrollPane = new UIScrollPane(editTable);
 		scrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
