@@ -16,10 +16,18 @@ import java.awt.*;
  * Image
  */
 public class ImageCellAction extends AbstractCellAction implements WorkBookSupportable {
-	public ImageCellAction(ElementCasePane t) {
-    	super(t);
+    public ImageCellAction() {
+        initAction();
+    }
+
+    public ImageCellAction(ElementCasePane t) {
+        super(t);
+        initAction();
+    }
+
+    private void initAction() {
         this.setMenuKeySet(INSERT_IMAGE);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/image.png"));
     }
@@ -42,7 +50,7 @@ public class ImageCellAction extends AbstractCellAction implements WorkBookSuppo
     };
 
     @Override
-	public Class getCellValueClass() {
+    public Class getCellValueClass() {
         return Image.class;
     }
 }

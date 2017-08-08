@@ -3,6 +3,8 @@ package com.fr.quickeditor.cellquick;
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.FormulaCellAction;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.CellQuickEditor;
@@ -75,6 +77,11 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         });
         content.add(stringTextField, BorderLayout.CENTER);
         return content;
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(FormulaCellAction.class);
     }
 
 

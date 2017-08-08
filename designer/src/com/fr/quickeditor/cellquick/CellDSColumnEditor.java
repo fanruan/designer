@@ -2,6 +2,8 @@ package com.fr.quickeditor.cellquick;
 
 import com.fr.base.Formula;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.DSColumnCellAction;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dscolumn.DSColumnAdvancedPane;
@@ -980,5 +982,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 this.formulaField.addListener(formulaListener);
             }
         }
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(DSColumnCellAction.class);
     }
 }

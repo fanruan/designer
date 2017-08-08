@@ -22,6 +22,9 @@ import java.awt.event.KeyEvent;
  *
  */
 public class CellStringQuickEditor extends CellQuickEditor {
+
+    //instance
+    private static CellStringQuickEditor THIS;
     //文本域
     //TODO 9.0 文本域要根据具体文本数量自适应大小，比较难搞，先跳过。
     private UITextField stringTextField;
@@ -146,6 +149,11 @@ public class CellStringQuickEditor extends CellQuickEditor {
         stringTextField.getDocument().removeDocumentListener(documentListener);
         stringTextField.setText(str);
         stringTextField.getDocument().addDocumentListener(documentListener);
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return null;
     }
 
 }
