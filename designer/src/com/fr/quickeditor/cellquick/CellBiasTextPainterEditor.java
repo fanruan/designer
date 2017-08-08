@@ -5,9 +5,10 @@ import com.fr.design.actions.insert.cell.BiasCellAction;
 import com.fr.design.cell.editor.BiasTextPainterCellEditor.BiasTextPainterPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.painter.BiasTextPainter;
@@ -25,8 +26,7 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
-        UIButton editButton = new UIButton(Inter.getLocText("Edit"), IOUtils.readIcon("/com/fr/design/images/m_insert/bias.png"));
+        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,7 +34,10 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
             }
         });
         editButton.setOpaque(false);
-        content.add(editButton, BorderLayout.CENTER);
+        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, editButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
         return content;
     }
 

@@ -135,7 +135,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         String[] iconArray = new String[paneList.size()];
         card = new CardLayout();
         cardContainer = new JPanel(card);
-        cardContainer.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         for (int i = 0; i < paneList.size(); i++) {
             CellEditorPane pane = paneList.get(i);
             iconArray[i] = pane.getIconPath();
@@ -227,9 +226,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     new Component[]{uiLabel, uiButton}
             };
             conditionPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-
             this.add(this.createContentPane(), BorderLayout.CENTER);
-            this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+            this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         }
 
 
@@ -302,7 +300,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         public DSColumnAdvancedEditorPane() {
             this.setLayout(new BorderLayout());
             this.add(this.createContentPane(), BorderLayout.CENTER);
-            this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+            this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         }
 
 
@@ -330,7 +328,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
         }
 
-        @SuppressWarnings("Duplicates")
         @Override
         public void populate() {
             if (cellElement != null) {
@@ -374,7 +371,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         /**
          * 更新单元格扩展属性
          */
-        @SuppressWarnings("Duplicates")
         private void updateExtendConfig() {
             CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
             if (cellExpandAttr == null) {

@@ -48,6 +48,12 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     private int selectedIndex;
     private JPanel leftContentPane;
     private UIScrollBar scrollBar;
+    /*占位label*/
+    protected static UILabel emptyLabel = new UILabel();
+
+    static {
+        emptyLabel.setPreferredSize(new Dimension(60, 20));
+    }
 
     public CellQuickEditor() {
 
@@ -89,13 +95,14 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
+        JComponent centerBody = createCenterBody();
+        centerBody.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 0, this.getBackground()));
         Component[][] components = new Component[][]{
                 new Component[]{initTopContent(), null},
-                new Component[]{createCenterBody(), null}
+                new Component[]{centerBody, null}
         };
         leftContentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BarLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(scrollBar);
         this.add(leftContentPane);
     }
@@ -116,7 +123,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 new Component[]{insertContentLabel, cellElementEditButton},
         };
         JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+        topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         return topContent;
     }
 

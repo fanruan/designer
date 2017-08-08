@@ -28,7 +28,6 @@ public class CellStringQuickEditor extends CellQuickEditor {
     //编辑状态
     private boolean isEditing = false;
 
-
     //august：如果是原来编辑的是公式,要保留公式里的这些属性,不然在公式和字符串转化时,就会丢失这些属性设置。
     private boolean reserveInResult = false;
     private boolean reserveOnWriteOrAnaly = true;
@@ -61,7 +60,6 @@ public class CellStringQuickEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
         stringTextArea = new UITextArea();
         stringTextArea.addKeyListener(new KeyAdapter() {
 
@@ -71,7 +69,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
                     return;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    //todo yaoh.wu虽然模仿选中单元格按enter可以做到,但是原理没有弄清楚。
+                    //todo 按enter键换至下一个单元格 yaoh.wu虽然模仿选中单元格按enter这种场景可以做到,但是原理没有弄清楚。
                     GridKeyListener dispatchListener = new GridKeyListener(tc.getGrid());
                     dispatchListener.keyPressed(e);
                     dispatchListener.keyTyped(e);
