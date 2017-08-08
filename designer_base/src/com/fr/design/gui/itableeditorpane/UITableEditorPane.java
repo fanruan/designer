@@ -52,7 +52,7 @@ public class UITableEditorPane<T> extends BasicPane {
 		editTable.getTableHeader().setBackground(UIConstants.DEFAULT_BG_RULER);
 
 		UIScrollPane scrollPane = new UIScrollPane(editTable);
-		scrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
+		scrollPane.setBorder(new UIRoundedBorder(UIConstants.TITLED_BORDER_COLOR, 1, UIConstants.ARC));
 		pane.add(scrollPane, BorderLayout.CENTER);
 		initbuttonPane(action);
 		JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
