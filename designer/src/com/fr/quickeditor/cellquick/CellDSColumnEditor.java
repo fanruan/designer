@@ -2,7 +2,6 @@ package com.fr.quickeditor.cellquick;
 
 import com.fr.base.Formula;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dscolumn.DSColumnAdvancedPane;
@@ -11,7 +10,6 @@ import com.fr.design.dscolumn.SelectedDataColumnPane;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.CustomVariableResolver;
 import com.fr.design.formula.FormulaFactory;
-import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.formula.UIFormula;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -25,7 +23,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.CellEditorPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
@@ -533,7 +530,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         public class ResultSetSortConfigPane extends JPanel {
             //面板
             private UIButtonGroup sortTypePane;
-            private TinyFormulaPane tinyFormulaPane;
+            private JFormulaField formulaField;
             private CardLayout cardLayout;
             private JPanel centerPane;
 
@@ -552,9 +549,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
                 cardLayout = new CardLayout();
                 centerPane = new JPanel(cardLayout);
-                tinyFormulaPane = new TinyFormulaPane();
+                formulaField = new JFormulaField("");
                 centerPane.add(new JPanel(), "none");
-                centerPane.add(tinyFormulaPane, "content");
+                centerPane.add(formulaField, "content");
                 UILabel sortLabel = new UILabel(Inter.getLocText("Sort-Sort_Order"));
                 sortLabel.setPreferredSize(new Dimension(60, 20));
                 sortTypePane.addChangeListener(new ChangeListener() {
@@ -601,7 +598,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         }
                         String sortFormula = dSColumn.getSortFormula();
                         if (sortFormula != null && sortFormula.length() >= 1) {
-                            this.tinyFormulaPane.populateBean(sortFormula);
+                            this.formulaField.populate(sortFormula);
                         }
                     }
                 }
@@ -618,7 +615,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     if (value != null && value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
                         dSColumn.setOrder(this.sortTypePane.getSelectedIndex());
-                        dSColumn.setSortFormula(this.tinyFormulaPane.updateBean());
+                        dSColumn.setSortFormula(this.formulaField.getFormulaText());
                     }
                 }
             }
@@ -630,7 +627,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
              * @param changeListener        排序类型下拉框改动事件监听器
              */
             public void addListener(UIObserverListener formulaChangeListener, ChangeListener changeListener) {
-                tinyFormulaPane.registerChangeListener(formulaChangeListener);
+                formulaField.addListener(formulaChangeListener);
                 sortTypePane.addChangeListener(changeListener);
             }
         }
@@ -857,27 +854,22 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             public JFormulaField(String defaultValue) {
 
-                double[] columnSize = {F};
-                double[] rowSize = {P};
                 this.defaultValue = defaultValue;
                 formulaTextField = new UITextField();
                 formulaTextField.setText(defaultValue);
+                JPanel textFieldPane = new JPanel(new BorderLayout());
+                textFieldPane.add(formulaTextField, BorderLayout.CENTER);
+                textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
                 UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
                 formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
-                formulaButton.setPreferredSize(new Dimension(24, formulaTextField.getPreferredSize().height));
+                formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
                 formulaButton.addActionListener(formulaButtonActionListener);
-                Component[] buttonComponent = new Component[]{
-                        formulaButton
-                };
+
                 JPanel pane = new JPanel(new BorderLayout());
-                pane.add(formulaTextField, BorderLayout.CENTER);
-                pane.add(GUICoreUtils.createFlowPane(buttonComponent, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
-                Component[][] components = new Component[][]{
-                        new Component[]{pane}
-                };
-                JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+                pane.add(textFieldPane, BorderLayout.CENTER);
+                pane.add(formulaButton, BorderLayout.EAST);
                 this.setLayout(new BorderLayout());
-                this.add(panel, BorderLayout.CENTER);
+                this.add(pane, BorderLayout.NORTH);
             }
 
             public void populate(String formulaContent) {
@@ -889,7 +881,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
 
             public String getFormulaText() {
-                return this.formulaTextField.getText();
+                return this.formulaTextField.getText().trim();
             }
 
             /**
