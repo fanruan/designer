@@ -111,7 +111,7 @@ public class DesignerModule extends DesignModule {
     private void registerCellEditor() {
         ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.class);
         ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditor(Formula.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditor(Formula.class, CellFormulaQuickEditor.class);
         ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.class);
         ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.class);
         ActionFactory.registerCellEditor(DSColumn.class, CellDSColumnEditor.class);
@@ -212,7 +212,7 @@ public class DesignerModule extends DesignModule {
             }
         });
     }
-    
+
     private static abstract class AbstractWorkBookApp implements App<WorkBook> {
 
         @Override
@@ -234,10 +234,10 @@ public class DesignerModule extends DesignModule {
         public void process() {
 
         }
-        
+
         @Override
         public void undo() {
-        
+
         }
     }
 
@@ -385,7 +385,7 @@ public class DesignerModule extends DesignModule {
     }
 
     public Class<?>[] actionsForInsertCellElement() {
-        return (Class<?>[])ArrayUtils.addAll(new Class<?>[]{
+        return (Class<?>[]) ArrayUtils.addAll(new Class<?>[]{
                 DSColumnCellAction.class,
                 GeneralCellAction.class,
                 RichTextCellAction.class,
