@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FRGUIPaneFactory {
+
     private FRGUIPaneFactory() {
     }
 
@@ -172,6 +173,18 @@ public class FRGUIPaneFactory {
     }
 
     /**
+     * 创建一个靠左空边框面板，间隔中等，firsthgap 为0
+     *
+     * @return JPanel对象
+     */
+    public static JPanel createMediumHGapFlowInnerContainer_M_Pane_First0() {
+        JPanel jp = new JPanel();
+        jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jp.setLayout(new FRLeftFlowLayout(0, 20, 5));
+        return jp;
+    }
+
+    /**
      * 创建一个靠左空边框面板，间隔中等
      *
      * @return JPanel对象
@@ -226,6 +239,17 @@ public class FRGUIPaneFactory {
     public static JPanel createBoxFlowInnerContainer_S_Pane() {
         JPanel jp = new JPanel();
         jp.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+        return jp;
+    }
+
+    /**
+     * 创建一个靠左流式布局，流式内嵌，首元素距离左边0
+     *
+     * @return JPanel对象
+     */
+    public static JPanel createBoxFlowInnerContainer_S_Pane_First0() {
+        JPanel jp = new JPanel();
+        jp.setLayout(new FRLeftFlowLayout(0, 0, 5));
         return jp;
     }
 
@@ -482,4 +506,5 @@ public class FRGUIPaneFactory {
         h = ((int) x + 1) * HEIGHT_PARA;
         return h;
     }
+
 }
