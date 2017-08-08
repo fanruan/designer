@@ -281,8 +281,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
     class DSColumnAdvancedEditorPane extends CellEditorPane {
 
-        private static final String INSET_TEXT = " ";
-
         //排列顺序
         private ResultSetSortConfigPane sortPane;
         //结果集筛选
@@ -295,8 +293,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
         private UICheckBox veCheckBox;
         //补充空白数据
         private UICheckBox useMultiplyNumCheckBox;
-        //补充空白数据书目输入框
+        //补充空白数据数目输入框
         private UISpinner multiNumSpinner;
+        //补充空白数据数目面板 可隐藏
+        private JPanel multiPane;
 
 
         public DSColumnAdvancedEditorPane() {
@@ -325,7 +325,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 filterPane.update(cellElement);
                 //更新单元格扩展属性
                 updateExtendConfig();
-
                 //更新补充空白设置
                 updateMultipleConfig();
             }
@@ -460,7 +459,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             });
 
             //可扩展性
-            JPanel extendableDirectionPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+            JPanel extendableDirectionPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
             extendableDirectionPane.add(heCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Horizontal_Extendable")));
             extendableDirectionPane.add(veCheckBox = new UICheckBox(Inter.getLocText("ExpandD-Vertical_Extendable")));
             heCheckBox.addChangeListener(new ChangeListener() {
@@ -478,13 +477,23 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
             });
 
+            JPanel multiNumPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
             //补充空白数据
-            JPanel multiNumPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-            useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Column_Multiple"));
-            multiNumPane.add(useMultiplyNumCheckBox);
-            multiNumPane.add(new UILabel(INSET_TEXT));
+            useMultiplyNumCheckBox = new UICheckBox(Inter.getLocText("Fill_blank_Data"));
+            JPanel checkBoxPane = new JPanel(new BorderLayout());
+            checkBoxPane.add(useMultiplyNumCheckBox, BorderLayout.WEST);
+            multiNumPane.add(checkBoxPane);
             multiNumSpinner = new UISpinner(1, 10000, 1, 1);
-            multiNumPane.add(multiNumSpinner);
+            //数据倍数
+            UILabel multipleLabel = new UILabel(Inter.getLocText("Column_Multiple"));
+            multipleLabel.setPreferredSize(new Dimension(60, 20));
+            multiPane = TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                            new Component[]{
+                                    multipleLabel, multiNumSpinner
+                            }
+                    }, new double[]{P}, new double[]{P, F}
+            );
+            multiNumPane.add(multiPane);
             useMultiplyNumCheckBox.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     checkButtonEnabled();
@@ -518,8 +527,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
         private void checkButtonEnabled() {
             if (useMultiplyNumCheckBox.isSelected()) {
                 multiNumSpinner.setEnabled(true);
+                multiPane.setVisible(true);
             } else {
                 multiNumSpinner.setEnabled(false);
+                multiPane.setVisible(false);
             }
         }
 
