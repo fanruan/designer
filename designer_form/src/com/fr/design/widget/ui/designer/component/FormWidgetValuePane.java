@@ -47,8 +47,8 @@ public class FormWidgetValuePane extends JPanel {
     }
 
     public void attributeChange(int index, JPanel customPane, CardLayout cardLayout, String[] tabTitles){
-        if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("FieldBinding"))) {
-            customPane.setPreferredSize(new Dimension(100, 50));
+        if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("FR-Designer_Widget_Field"))) {
+            customPane.setPreferredSize(new Dimension(100, 47));
         } else {
             customPane.setPreferredSize(new Dimension(100, 20));
         }
