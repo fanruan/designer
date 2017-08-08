@@ -4,9 +4,11 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
@@ -21,8 +23,7 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -32,14 +33,58 @@ import java.util.ArrayList;
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
+    /*滚动条相关配置*/
+    private static final int MAXVALUE = 100;
+    private static final int TITLE_HEIGHT = 50;
+    private static final int MOUSE_WHEEL_SPEED = 5;
+    private static final int CONTENT_PANE_WIDTH_GAP = 4;
+    private static final int SCROLLBAR_WIDTH = 8;
+    private int maxHeight = 280;
+    /*面板配置*/
     protected UITextField columnRowTextField;
     protected TemplateCellElement cellElement;
-    protected UIComboBox comboBox;
+    private UIComboBox comboBox;
     private UpdateAction[] cellInsertActions;
-    private MenuKeySet[] cellInsertActionNames;
     private int selectedIndex;
+    private JPanel leftContentPane;
+    private UIScrollBar scrollBar;
 
     public CellQuickEditor() {
+
+        scrollBar = new UIScrollBar(UIScrollBar.VERTICAL) {
+            @Override
+            public int getVisibleAmount() {
+                int preferredHeight = leftContentPane.getPreferredSize().height;
+                int e = MAXVALUE * (maxHeight) / preferredHeight;
+                setVisibleAmount(e);
+                return e;
+            }
+
+            @Override
+            public int getMaximum() {
+                return MAXVALUE;
+            }
+
+        };
+
+        scrollBar.addAdjustmentListener(new AdjustmentListener() {
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                doLayout();
+            }
+        });
+        this.addMouseWheelListener(new MouseWheelListener() {
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int value = scrollBar.getValue();
+                value += MOUSE_WHEEL_SPEED * e.getWheelRotation();
+                scrollBar.setValue(value);
+                doLayout();
+            }
+        });
+
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
@@ -48,10 +93,11 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 new Component[]{initTopContent(), null},
                 new Component[]{createCenterBody(), null}
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        this.setLayout(new BorderLayout());
+        leftContentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        this.setLayout(new BarLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        this.add(panel, BorderLayout.CENTER);
+        this.add(scrollBar);
+        this.add(leftContentPane);
     }
 
 
@@ -100,7 +146,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 for (UpdateAction action : cellInsertActions) {
                     arrayList.add(action.getMenuKeySet().getMenuKeySetName());
                 }
-                comboBox.setModel(new DefaultComboBoxModel(arrayList.toArray(new String[arrayList.size()])));
+                comboBox.setModel(new DefaultComboBoxModel<>(arrayList.toArray(new String[arrayList.size()])));
             }
 
             @Override
@@ -122,7 +168,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     }
 
     private String[] getDefaultComboBoxItems() {
-        cellInsertActionNames = ActionFactory.createCellInsertActionName();
+        MenuKeySet[] cellInsertActionNames = ActionFactory.createCellInsertActionName();
         ArrayList<String> names = new ArrayList<>();
         for (MenuKeySet cellInsertActionName : cellInsertActionNames) {
             names.add(cellInsertActionName.getMenuKeySetName());
@@ -197,4 +243,55 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
      * 刷新详细信息
      */
     protected abstract void refreshDetails();
+
+    /**
+     * 属性面板的滚动条和内容区域的布局管理类
+     * yaoh.wu 由于这边不能继承{@link com.fr.design.mainframe.AbstractAttrPane.BarLayout}，所以冗余了一份滚动条代码进来
+     *
+     * @see com.fr.design.mainframe.AbstractAttrPane.BarLayout
+     */
+    protected class BarLayout implements LayoutManager {
+
+        @Override
+        public void addLayoutComponent(String name, Component comp) {
+
+        }
+
+        @Override
+        public void removeLayoutComponent(Component comp) {
+
+        }
+
+        @Override
+        public Dimension preferredLayoutSize(Container parent) {
+            return leftContentPane.getPreferredSize();
+        }
+
+        @Override
+        public Dimension minimumLayoutSize(Container parent) {
+            return leftContentPane.getMinimumSize();
+        }
+
+        @Override
+        public void layoutContainer(Container parent) {
+            maxHeight = CellElementPropertyPane.getInstance().getHeight() - TITLE_HEIGHT;
+            int beginY;
+            if ((MAXVALUE - scrollBar.getVisibleAmount()) == 0) {
+                beginY = 0;
+            } else {
+                int preferredHeight = leftContentPane.getPreferredSize().height;
+                int value = scrollBar.getValue();
+                beginY = value * (preferredHeight - maxHeight) / (MAXVALUE - scrollBar.getVisibleAmount());
+            }
+            int width = parent.getWidth();
+            int height = parent.getHeight();
+            if (leftContentPane.getPreferredSize().height > maxHeight) {
+                leftContentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - CONTENT_PANE_WIDTH_GAP, height + beginY);
+                scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
+            } else {
+                leftContentPane.setBounds(0, 0, width - SCROLLBAR_WIDTH - CONTENT_PANE_WIDTH_GAP, height);
+            }
+            leftContentPane.validate();
+        }
+    }
 }
