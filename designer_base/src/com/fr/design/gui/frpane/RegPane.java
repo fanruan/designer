@@ -73,17 +73,13 @@ public class RegPane extends BasicPane {
 
     private void initComponents(){
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel contentPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
-        this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        this.add(contentPane, BorderLayout.NORTH);
-        contentPane.add(new UILabel(Inter.getLocText("FR-Designer_Input_Rule")));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         regComboBox = new UIComboBox(regType);
-        regComboBox.setPreferredSize(new Dimension(140, 20));
         regComboBox.setRenderer(listCellRender);
-        UILabel uiLabel = new UILabel();
-        uiLabel.setPreferredSize(new Dimension(20, 20));
-        contentPane.add(uiLabel);
-        contentPane.add(regComboBox);
+
+        JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        this.add(contentPane, BorderLayout.NORTH);
+
         regErrorMsgPane = new RegErrorMsgPane();
         final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         detailedCardLayout = new CardLayout();
@@ -489,7 +485,7 @@ public class RegPane extends BasicPane {
 
         public RegErrorMsgPane(){
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
+            this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
             initRegErrorMsgField();
             JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
             this.add(panel);

@@ -38,8 +38,8 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
                 new Component[]{paddingBoundPane, null},
                 new Component[]{new UILabel("报表块工具栏"), elementCaseToolBarEditor}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         return panel;
     }
 

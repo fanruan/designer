@@ -4,6 +4,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.frpane.RegPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
@@ -24,10 +25,6 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         super(xCreator);
     }
 
-    public TextFieldEditorDefinePane() {
-        super();
-
-    }
 
     @Override
     protected JPanel setFirstContentPane() {
@@ -79,9 +76,11 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 3},{1, 1},{1, 1}};
-        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        return panel;
+        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return boundsPane;
     }
 
     public  JPanel setValidatePane(){

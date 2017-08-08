@@ -1,16 +1,21 @@
 package com.fr.design.mainframe.widget.renderer;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 
 import com.fr.base.FRContext;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.form.ui.WidgetManager;
 
+import javax.swing.*;
+
 public class IconCellRenderer extends GenericCellRenderer {
 	private Image img;
+
+	public IconCellRenderer(){
+//		this.setBorder(BorderFactory.createLineBorder());
+	}
+
 
 	@Override
 	public void setValue(Object v) {
@@ -34,7 +39,7 @@ public class IconCellRenderer extends GenericCellRenderer {
 		int height = getHeight();
 		g.setColor(getBackground());
 		g.fillRect(0, 0, width, height);
-		
+
 		Graphics2D g2d = (Graphics2D) g;
 		if (img != null) {
 			g2d.drawImage(img, 4,

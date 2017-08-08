@@ -7,9 +7,8 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
-import com.fr.design.widget.ui.designer.component.BackgroundCompPane;
-import com.fr.design.widget.ui.designer.component.MouseActionBackground;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
+import com.fr.design.widget.ui.designer.component.TabFitLayoutBackgroundPane;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Inter;
 
@@ -21,7 +20,7 @@ import java.awt.*;
  */
 public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     private PaddingBoundPane paddingBoundPane;
-    private BackgroundCompPane borderStyle;
+    private TabFitLayoutBackgroundPane borderStyle;
     private UISpinner componentInterval;
 
     public WTabFitLayoutDefinePane(XCreator xCreator) {
@@ -32,7 +31,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     public void initComponent() {
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         paddingBoundPane = new PaddingBoundPane();
-        borderStyle = new BackgroundCompPane();
+        borderStyle = new TabFitLayoutBackgroundPane();
         JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style")), borderStyle}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         advancePane.add(jPanel, BorderLayout.NORTH);
         advancePane.add(paddingBoundPane, BorderLayout.CENTER);
@@ -55,8 +54,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
 
     @Override
     public void populateBean(WTabFitLayout ob) {
-        MouseActionBackground mouseActionBackground = new MouseActionBackground(ob.getInitialBackground(), ob.getOverBackground(), ob.getClickBackground());
-        borderStyle.populate(mouseActionBackground);
+        borderStyle.populate(ob);
         paddingBoundPane.populate(ob);
         componentInterval.setValue(ob.getCompInterval());
     }
@@ -65,10 +63,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     @Override
     public WTabFitLayout updateBean() {
         WTabFitLayout layout = (WTabFitLayout) creator.toData();
-        MouseActionBackground mouseActionBackground = borderStyle.update();
-        layout.setInitialBackground(mouseActionBackground.getInitialBackground());
-        layout.setOverBackground(mouseActionBackground.getOverBackground());
-        layout.setClickBackground(mouseActionBackground.getClickBackground());
+        borderStyle.update(layout);
         paddingBoundPane.update(layout);
         layout.setCompInterval((int)componentInterval.getValue());
         return layout;

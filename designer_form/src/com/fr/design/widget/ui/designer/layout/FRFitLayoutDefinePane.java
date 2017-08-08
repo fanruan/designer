@@ -67,7 +67,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         background = new AccessibleWLayoutBorderStyleEditor();
         paddingBound = new PaddingBoundPane();
         JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), background}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-        jp2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);
         jPanel.add(jp2, BorderLayout.NORTH);
         return jPanel;
@@ -88,8 +88,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Scale")), adaptComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentIntervel}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         jPanel.add(panel, BorderLayout.CENTER);
 
         return jPanel;
@@ -124,7 +124,10 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     public WFitLayout updateBean() {
         WFitLayout layout = (WFitLayout) creator.toData();
         paddingBound.update(layout);
-        layout.setBorderStyle((LayoutBorderStyle) background.getValue());
+        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) background.getValue();
+        if(borderStyle != null){
+            layout.setBorderStyle(borderStyle);
+        }
         Item item = (Item) layoutComboBox.getSelectedItem();
         Object value = item.getValue();
         int state = 0;

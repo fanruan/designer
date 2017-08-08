@@ -8,6 +8,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.form.ui.ComboBox;
 import com.fr.general.Inter;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
@@ -20,6 +21,7 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 
 	public UICheckBox createRepeatCheckBox(){
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}
 

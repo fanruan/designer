@@ -1,4 +1,4 @@
-package com.fr.design.widget.ui.designer.component;
+package com.fr.design.widget.component;
 
 import com.fr.general.Background;
 
@@ -16,6 +16,8 @@ public class MouseActionBackground {
         this.overBackground = overBackground;
         this.clickBackground = clickBackground;
     }
+
+
 
     public Background getInitialBackground() {
         return initialBackground;
@@ -40,4 +42,5 @@ public class MouseActionBackground {
     public void setClickBackground(Background clickBackground) {
         this.clickBackground = clickBackground;
     }
+
 }

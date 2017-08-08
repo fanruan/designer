@@ -6,15 +6,17 @@ import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
 public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup> {
-	private DictionaryPane dictPane;
+	private AccessibleDictionaryEditor dictPane;
 
 	CheckBoxDictPane checkBoxDictPane;
 
@@ -29,7 +31,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	protected void initComponents() {
 		super.initComponents();
 
-		dictPane = new DictionaryPane();
+		dictPane = new AccessibleDictionaryEditor();
 	}
 	
 	@Override
@@ -64,7 +66,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	
 	@Override
 	protected void populateSubFieldEditorBean(CheckBoxGroup ob) {
-		this.dictPane.populateBean(ob.getDictionary());
+		this.dictPane.setValue(ob.getDictionary());
 		checkBoxDictPane.populate(ob);
 		checkbox.setSelected(ob.isChooseAll());
 		this.buttonGroupDictPane.populate(ob);
@@ -74,7 +76,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	protected CheckBoxGroup updateSubFieldEditorBean() {
 		CheckBoxGroup ob = new CheckBoxGroup();
 
-		ob.setDictionary(this.dictPane.updateBean());
+		ob.setDictionary((Dictionary) this.dictPane.getValue());
 		checkBoxDictPane.update(ob);
 		ob.setChooseAll(checkbox.isSelected());
 		this.buttonGroupDictPane.update(ob);
@@ -83,6 +85,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }

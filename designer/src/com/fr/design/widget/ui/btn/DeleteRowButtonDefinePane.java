@@ -36,11 +36,10 @@ public class DeleteRowButtonDefinePane<T extends DeleteRowButton> extends Button
     }
 
     @Override
-    public void populate(com.fr.form.ui.Button btn) {
+    public void populate(DeleteRowButton btn) {
         super.populate(btn);
-        if (btn instanceof DeleteRowButton) {
-            ddcp.populate((DeleteRowButton) btn);
-        }
+        ddcp.populate(btn);
+
     }
 
     @Override

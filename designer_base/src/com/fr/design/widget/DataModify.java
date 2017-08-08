@@ -1,9 +1,6 @@
 package com.fr.design.widget;
 
 import com.fr.design.data.DataCreatorUI;
-import com.fr.design.gui.frpane.TreeSettingPane;
-import com.fr.design.present.dict.DictionaryPane;
-import com.fr.form.ui.Widget;
 
 import javax.swing.*;
 
