@@ -28,9 +28,9 @@ public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 	@Override
 	protected JPanel setFirstContentPane() {
 
-		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+		JPanel centerPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 		buttonGroupDictPane = new ButtonGroupDictPane();
-		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		centerPane.add(buttonGroupDictPane);
 		return centerPane;
 	}
