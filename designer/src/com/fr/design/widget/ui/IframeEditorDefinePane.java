@@ -91,7 +91,6 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
             UIDialog dialog = parameterViewPane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
                 @Override
                 public void doOk() {
-//                    list = parameterViewPane.update();
                 }
 
                 @Override
