@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FRGUIPaneFactory {
+
     private FRGUIPaneFactory() {
     }
 
@@ -90,7 +91,6 @@ public class FRGUIPaneFactory {
         return new BorderLayout(4, 4);
     }
 
-    // TODO 删掉
 
     /**
      * 创建一个1列的网格布局
