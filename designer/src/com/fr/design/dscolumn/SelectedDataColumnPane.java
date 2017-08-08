@@ -279,8 +279,8 @@ public class SelectedDataColumnPane extends BasicPane {
         });
     }
 
-    private void initWithParameterButton(ElementCasePane casePane, TemplateCellElement cellElement) {
-        SelectedDataColumnPane that = this;
+    private void initWithParameterButton(final ElementCasePane casePane, final TemplateCellElement cellElement) {
+        final SelectedDataColumnPane that = this;
         editorPane = new UITableEditorPane<ParameterProvider>(new ParameterTableModel());
         paramButton = new UIButton(Inter.getLocText("TableData_Dynamic_Parameter_Setting"));
         paramButton.addActionListener(new ActionListener() {
