@@ -5,7 +5,16 @@ import com.fr.base.Style;
 import com.fr.base.TextFormat;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.FormulaCellAction;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.formula.FormulaFactory;
+import com.fr.design.formula.UIFormula;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.ReportHelper;
@@ -17,6 +26,8 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -29,7 +40,7 @@ import java.awt.event.KeyEvent;
  */
 public class CellFormulaQuickEditor extends CellQuickEditor {
     //文本域
-    private UITextField stringTextField;
+    private UITextField formulaTextField;
     //编辑状态
     private boolean isEditing = false;
 
@@ -37,20 +48,23 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
     private boolean reserveInResult = false;
     private boolean reserveOnWriteOrAnaly = true;
 
+    //默认值
+    private static final String DEFAULT_FORMULA = "=";
+
     private DocumentListener documentListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
+            changeReportPaneCell(formulaTextField.getText().trim());
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
+            changeReportPaneCell(formulaTextField.getText().trim());
         }
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            changeReportPaneCell(stringTextField.getText().trim());
+            changeReportPaneCell(formulaTextField.getText().trim());
         }
 
     };
@@ -65,9 +79,8 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
-        stringTextField = new UITextField();
-        stringTextField.addKeyListener(new KeyAdapter() {
+        formulaTextField = new UITextField();
+        formulaTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (tc != null) {
@@ -75,8 +88,42 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
                 }
             }
         });
-        content.add(stringTextField, BorderLayout.CENTER);
-        return content;
+        JPanel textFieldPane = new JPanel(new BorderLayout());
+        textFieldPane.add(formulaTextField, BorderLayout.CENTER);
+        textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+
+        UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
+        formulaButton.setToolTipText(Inter.getLocText("Formula") + "...");
+        formulaButton.setPreferredSize(new Dimension(20, formulaTextField.getPreferredSize().height));
+        formulaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                String text = formulaTextField.getText();
+                final UIFormula formulaPane = FormulaFactory.createFormulaPane();
+                formulaPane.populate(new Formula(text));
+                formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                    @Override
+                    public void doOk() {
+                        Formula fm = formulaPane.update();
+                        if (fm.getContent().length() <= 1) {
+                            formulaTextField.setText(DEFAULT_FORMULA);
+                        } else {
+                            formulaTextField.setText(fm.getContent());
+                        }
+
+                    }
+                }).setVisible(true);
+            }
+        });
+
+        JPanel pane = new JPanel(new BorderLayout());
+        pane.add(textFieldPane, BorderLayout.CENTER);
+        pane.add(formulaButton, BorderLayout.EAST);
+
+        content.add(pane, BorderLayout.NORTH);
+        return TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, content}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL});
     }
 
     @Override
@@ -112,7 +159,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             }
         }
         fireTargetModified();
-        stringTextField.requestFocus();
+        formulaTextField.requestFocus();
         isEditing = false;
     }
 
@@ -138,7 +185,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
             }
         }
         showText(str);
-        stringTextField.setEditable(tc.isSelectedOneCell());
+        formulaTextField.setEditable(tc.isSelectedOneCell());
     }
 
     /**
@@ -151,9 +198,9 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         if (isEditing) {
             return;
         }
-        stringTextField.getDocument().removeDocumentListener(documentListener);
-        stringTextField.setText(str);
-        stringTextField.getDocument().addDocumentListener(documentListener);
+        formulaTextField.getDocument().removeDocumentListener(documentListener);
+        formulaTextField.setText(str);
+        formulaTextField.getDocument().addDocumentListener(documentListener);
     }
 
 }
