@@ -1,5 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.RichTextCellAction;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Inter;
@@ -30,6 +31,11 @@ public class CellRichTextEditor extends CellQuickEditor {
         richTextButton.setOpaque(false);
         content.add(richTextButton, BorderLayout.CENTER);
         return content;
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(RichTextCellAction.class);
     }
 
     @Override

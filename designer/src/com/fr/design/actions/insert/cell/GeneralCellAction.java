@@ -15,10 +15,18 @@ import javax.swing.*;
  *
  */
 public class GeneralCellAction extends AbstractCellAction implements WorkBookSupportable {
-	public GeneralCellAction(ElementCasePane t) {
-    	super(t);
+    public GeneralCellAction() {
+        initAction();
+    }
+
+    public GeneralCellAction(ElementCasePane t) {
+        super(t);
+        initAction();
+    }
+
+    private void initAction() {
         this.setMenuKeySet(INSERT_TEXT);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/text.png"));
     }
@@ -41,7 +49,7 @@ public class GeneralCellAction extends AbstractCellAction implements WorkBookSup
     };
 
     @Override
-	public Class getCellValueClass() {
+    public Class getCellValueClass() {
         return String.class;
     }
 }
