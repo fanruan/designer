@@ -3,9 +3,6 @@
  */
 package com.fr.design.mainframe.widget.accessibles;
 
-import java.awt.Dimension;
-
-import javax.swing.SwingUtilities;
 
 import com.fr.design.mainframe.widget.editors.ITextComponent;
 import com.fr.design.mainframe.widget.renderer.LayoutBorderStyleRenderer;
@@ -14,6 +11,9 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.xpane.LayoutBorderPane;
 import com.fr.form.ui.LayoutBorderStyle;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class AccessibleWLayoutBorderStyleEditor extends UneditableAccessibleEditor {
     private LayoutBorderPane borderPane;
@@ -26,7 +26,11 @@ public class AccessibleWLayoutBorderStyleEditor extends UneditableAccessibleEdit
     protected ITextComponent createTextField() {
         return new RendererField(new LayoutBorderStyleRenderer());
     }
-    
+
+    protected void setBorderVisible(){
+        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+    }
+
     @Override
     protected void showEditorPane() {
         if (borderPane == null) {

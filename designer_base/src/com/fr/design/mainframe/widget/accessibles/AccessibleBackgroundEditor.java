@@ -3,9 +3,9 @@
  */
 package com.fr.design.mainframe.widget.accessibles;
 
-import java.awt.Dimension;
+import java.awt.*;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.fr.general.Background;
 import com.fr.design.mainframe.widget.wrappers.BackgroundWrapper;
@@ -23,6 +23,10 @@ public class AccessibleBackgroundEditor extends UneditableAccessibleEditor {
 
     public AccessibleBackgroundEditor() {
         super(new BackgroundWrapper());
+    }
+
+    protected void setBorderVisible(){
+        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
     }
 
     @Override

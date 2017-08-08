@@ -38,11 +38,10 @@ public class AppendRowButtonDefinePane<T extends AppendRowButton> extends Button
     }
 
     @Override
-    public void populate(com.fr.form.ui.Button btn) {
+    public void populate(AppendRowButton btn) {
         super.populate(btn);
-        if (btn instanceof AppendRowButton) {
-            defineColumnRowPane.populate((AppendRowButton) btn);
-        }
+        defineColumnRowPane.populate(btn);
+
     }
 
     @Override

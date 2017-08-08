@@ -42,7 +42,7 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style")), borderStyleEditor}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
         JPanel centerPane = createCenterPane();
         if(centerPane!=null){

@@ -58,7 +58,7 @@ public class DataBindingEditor extends Editor<DataBinding> {
 
     public DataBindingEditor() {
         this.initCompontents();
-        this.setName(Inter.getLocText("FieldBinding"));
+        this.setName(Inter.getLocText("FR-Designer_Widget_Field"));
     }
 
 

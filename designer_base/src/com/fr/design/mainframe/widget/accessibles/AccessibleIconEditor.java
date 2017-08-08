@@ -11,6 +11,9 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.form.ui.WidgetManager;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class AccessibleIconEditor extends UneditableAccessibleEditor {
 
     private CustomIconPane customIconPane;
@@ -23,6 +26,11 @@ public class AccessibleIconEditor extends UneditableAccessibleEditor {
 	protected ITextComponent createTextField() {
         return new RendererField(new IconCellRenderer());
     }
+
+    protected void setBorderVisible(){
+		this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+    }
+
 
     @Override
     protected void showEditorPane() {

@@ -120,6 +120,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
     public void populate(Widget widget) {
         if (widget == null) {
+            editorTypeComboBox.setSelectedIndex(-1);
             return;
         }
 

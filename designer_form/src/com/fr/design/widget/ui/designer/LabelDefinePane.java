@@ -68,8 +68,10 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
                 new Component[]{fontLabel, frFontPane},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        return panel;
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return boundsPane;
     }
 
     @Override

@@ -26,6 +26,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 	public UICheckBox createRepeatCheckBox(){
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget_No_Repeat"));
+		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		return removeRepeatCheckBox;
 	}
 
@@ -62,7 +63,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		return panel;
 	}
 

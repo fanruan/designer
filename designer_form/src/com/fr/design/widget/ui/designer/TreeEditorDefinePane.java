@@ -49,7 +49,7 @@ public class TreeEditorDefinePane extends DictEditorDefinePane<TreeEditor> {
         double[] rowSize = {p, p, p, p};
         double[] columnSize = {p};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         return panel;
     }
 

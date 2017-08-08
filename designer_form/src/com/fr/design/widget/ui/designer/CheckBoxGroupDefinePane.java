@@ -40,6 +40,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 
 	public JPanel createOtherPane(){
 		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
 		returnType = new UIHeadGroup(tabTitles) {
 			@Override
@@ -65,7 +66,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 		return panel;
 	}
 

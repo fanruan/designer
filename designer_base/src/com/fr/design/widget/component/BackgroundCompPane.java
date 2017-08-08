@@ -1,4 +1,4 @@
-package com.fr.design.widget.ui.designer.component;
+package com.fr.design.widget.component;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
@@ -7,6 +7,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
+import com.fr.form.ui.Widget;
 import com.fr.general.Background;
 import com.fr.general.Inter;
 
@@ -16,11 +17,11 @@ import java.awt.*;
 /**
  * Created by ibm on 2017/8/6.
  */
-public class BackgroundCompPane extends BasicPane {
-    private UIHeadGroup backgroundHead;
-    private AccessibleBackgroundEditor initalBackgroundEditor;
-    private AccessibleBackgroundEditor overBackgroundEditor;
-    private AccessibleBackgroundEditor clickBackgroundEditor;
+public abstract class BackgroundCompPane<T extends Widget> extends BasicPane {
+    protected UIHeadGroup backgroundHead;
+    protected AccessibleBackgroundEditor initalBackgroundEditor;
+    protected AccessibleBackgroundEditor overBackgroundEditor;
+    protected AccessibleBackgroundEditor clickBackgroundEditor;
 
 
     public BackgroundCompPane() {
@@ -62,18 +63,9 @@ public class BackgroundCompPane extends BasicPane {
 
     }
 
-    public MouseActionBackground update() {
-        MouseActionBackground mouseActionBackground = new MouseActionBackground((Background) initalBackgroundEditor.getValue(), (Background) overBackgroundEditor.getValue(), (Background) clickBackgroundEditor.getValue());
-        return mouseActionBackground;
-    }
 
-    protected String title4PopupWindow() {
-        return "";
-    }
+    public abstract void update(T e);
 
-    public void populate(MouseActionBackground background) {
-        initalBackgroundEditor.setValue(background.getInitialBackground());
-        overBackgroundEditor.setValue(background.getOverBackground());
-        clickBackgroundEditor.setValue(background.getClickBackground());
-    }
+    public abstract void populate(T e);
+
 }
