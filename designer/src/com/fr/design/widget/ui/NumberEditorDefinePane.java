@@ -29,8 +29,8 @@ import com.fr.form.ui.NumberEditor;
 import com.fr.general.Inter;
 
 public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> {
-    /**FieldEditorDefinePane
-     *
+    /**
+     * FieldEditorDefinePane
      */
     private static final long serialVersionUID = 8011242951911686805L;
     private UICheckBox allowDecimalsCheckBox;
@@ -198,33 +198,33 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.minValueSpinner.addChangeListener(changeListener2);
 
         UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
-        numberLabel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        numberLabel.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
 
-        JPanel pane1 = new JPanel(new BorderLayout());
-        pane1.add(decimalLength, BorderLayout.CENTER);
-        pane1.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-        JPanel pane2 = new JPanel(new BorderLayout());
-        pane2.add(maxValueSpinner, BorderLayout.CENTER);
-        pane2.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-        JPanel pane3 = new JPanel(new BorderLayout());
-        pane3.add(minValueSpinner, BorderLayout.CENTER);
-        pane3.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        JPanel decimalPane = new JPanel(new BorderLayout());
+        decimalPane.add(decimalLength, BorderLayout.CENTER);
+        decimalPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
+        JPanel maxValueSpinnerPane = new JPanel(new BorderLayout());
+        maxValueSpinnerPane.add(maxValueSpinner, BorderLayout.CENTER);
+        maxValueSpinnerPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
+        JPanel minValueSpinnerPane = new JPanel(new BorderLayout());
+        minValueSpinnerPane.add(minValueSpinner, BorderLayout.CENTER);
+        minValueSpinnerPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{allowDecimalsCheckBox, null },
-                new Component[]{numberLabel, pane1 },
+                new Component[]{allowDecimalsCheckBox, null},
+                new Component[]{numberLabel, decimalPane},
                 new Component[]{allowNegativeCheckBox, null},
-                new Component[]{setMaxValueCheckBox, pane2},
-                new Component[]{setMinValueCheckBox, pane3},
+                new Component[]{setMaxValueCheckBox, maxValueSpinnerPane},
+                new Component[]{setMinValueCheckBox, minValueSpinnerPane},
         };
         double[] rowSize = {p, p, p, p, p};
-        double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,1,0,0));
-        return panel;
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        pane.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 0));
+        return pane;
 
     }
 
