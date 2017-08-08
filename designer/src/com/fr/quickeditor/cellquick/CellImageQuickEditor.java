@@ -2,6 +2,8 @@ package com.fr.quickeditor.cellquick;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.ImageCellAction;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
@@ -74,4 +76,8 @@ public class CellImageQuickEditor extends CellQuickEditor {
 
     }
 
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(ImageCellAction.class);
+    }
 }

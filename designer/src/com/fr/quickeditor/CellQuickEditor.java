@@ -1,27 +1,30 @@
 package com.fr.quickeditor;
 
-import com.fr.base.BaseUtils;
-import com.fr.design.actions.utils.DeprecatedActionManager;
+import com.fr.design.actions.UpdateAction;
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.menu.MenuKeySet;
+import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.stable.ColumnRow;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * @author zhou
@@ -32,6 +35,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     protected UITextField columnRowTextField;
     private UIButton cellElementEditButton;
     protected TemplateCellElement cellElement;
+    protected UIComboBox comboBox;
+    private UpdateAction[] cellInsertActions;
+    private MenuKeySet[] cellInsertActionNames;
+    private int selectedIndex;
 
     public CellQuickEditor() {
         double p = TableLayout.PREFERRED;
@@ -40,7 +47,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel("  " + Inter.getLocText("Cell")), columnRowTextField = initColumnRowTextField()},
-                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), cellElementEditButton = initCellElementEditButton()},
+                new Component[]{new UILabel(Inter.getLocText("HF-Insert_Content") + " "), initCellElementEditComboBox()},
                 new Component[]{createCenterBody(), null}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -51,20 +58,57 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
     /**
      * 初始化添加按钮
-     * TODO 9.0 换成下拉菜单后原来的快捷键不好处理，先跳过。
      *
      * @return UIButton
      */
-    private UIButton initCellElementEditButton() {
-        final UIButton cellElementEditButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
-        cellElementEditButton.addMouseListener(new MouseAdapter() {
+    private UIComboBox initCellElementEditComboBox() {
+        final String[] items = getDefaultComboBoxItems();
+        comboBox = new UIComboBox(items);
+        final Object comboBoxSelected = getComboBoxSelected();
+        if (comboBoxSelected != null) {
+            comboBox.setSelectedItem(((ShortCut) comboBoxSelected).getMenuKeySet().getMenuKeySetName());
+        } else {
+            comboBox.setSelectedIndex(1);
+        }
+        comboBox.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                if (cellInsertActions == null) {
+                    cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
+                }
+                // 这边重新获取是因为要根据JTemplate做一个过滤
+                ArrayList<String> arrayList = new ArrayList<String>();
+                for (UpdateAction action : cellInsertActions) {
+                    arrayList.add(action.getMenuKeySet().getMenuKeySetName());
+                }
+                comboBox.setModel(new DefaultComboBoxModel(arrayList.toArray(new String[arrayList.size()])));
+            }
 
             @Override
-            public void mousePressed(MouseEvent evt) {
-                GUICoreUtils.showPopMenuWithParentWidth(DeprecatedActionManager.getCellMenu(tc).createJPopupMenu(), cellElementEditButton, 0, cellElementEditButton.getY() - 6);
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
             }
         });
-        return cellElementEditButton;
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedIndex = comboBox.getSelectedIndex();
+                cellInsertActions[selectedIndex].actionPerformed(e);
+            }
+        });
+        return comboBox;
+    }
+
+    private String[] getDefaultComboBoxItems() {
+        cellInsertActionNames = ActionFactory.createCellInsertActionName();
+        ArrayList<String> names = new ArrayList<>();
+        for (MenuKeySet cellInsertActionName : cellInsertActionNames) {
+            names.add(cellInsertActionName.getMenuKeySetName());
+        }
+        return names.toArray(new String[names.size()]);
     }
 
     /**
@@ -109,6 +153,14 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
      * @return JComponent 待显示的详细信息面板
      */
     public abstract JComponent createCenterBody();
+
+
+    /**
+     * 初始化下拉框中的类型
+     *
+     * @return JComponent 待显示的详细信息面板
+     */
+    public abstract Object getComboBoxSelected();
 
     /**
      * 刷新

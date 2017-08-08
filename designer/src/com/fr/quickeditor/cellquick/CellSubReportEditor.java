@@ -1,5 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.SubReportCellAction;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.general.Inter;
@@ -40,6 +41,11 @@ public class CellSubReportEditor extends CellQuickEditor {
         SubReportCellAction subReportCellAction = new SubReportCellAction(tc);
         subReportCellAction.setName(Inter.getLocText(new String[]{"Edit", "Sub_Report"}));
         subReportButton.setAction(subReportCellAction);
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(SubReportCellAction.class);
     }
 
 }

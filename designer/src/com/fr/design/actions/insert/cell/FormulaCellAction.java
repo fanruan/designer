@@ -13,10 +13,18 @@ import com.fr.general.Inter;
 import javax.swing.*;
 
 public class FormulaCellAction extends AbstractCellAction implements WorkBookSupportable {
-	public FormulaCellAction(ElementCasePane t) {
-    	super(t);
+    public FormulaCellAction() {
+        initAction();
+    }
+
+    public FormulaCellAction(ElementCasePane t) {
+        super(t);
+        initAction();
+    }
+
+    private void initAction() {
         this.setMenuKeySet(INSERT_FORMULA);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
     }
@@ -39,7 +47,7 @@ public class FormulaCellAction extends AbstractCellAction implements WorkBookSup
     };
 
     @Override
-	public Class getCellValueClass() {
+    public Class getCellValueClass() {
         return Formula.class;
     }
 }

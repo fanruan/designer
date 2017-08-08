@@ -1,6 +1,8 @@
 package com.fr.quickeditor.cellquick;
 
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.DSColumnCellAction;
 import com.fr.design.dscolumn.DSColumnAdvancedEditorPane;
 import com.fr.design.dscolumn.DSColumnBasicEditorPane;
 import com.fr.design.dscolumn.ResultSetGroupDockingPane;
@@ -197,5 +199,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         /*高级设置面板*/
         paneList.add(new DSColumnAdvancedEditorPane());
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(DSColumnCellAction.class);
     }
 }

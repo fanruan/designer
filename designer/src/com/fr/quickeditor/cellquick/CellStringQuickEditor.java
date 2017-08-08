@@ -3,6 +3,8 @@ package com.fr.quickeditor.cellquick;
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.FormulaCellAction;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.CellQuickEditor;
@@ -21,6 +23,7 @@ import java.awt.event.KeyEvent;
  *
  */
 public class CellStringQuickEditor extends CellQuickEditor {
+    private Object selectedItem;
     //instance
     private static CellStringQuickEditor THIS;
     //文本域
@@ -99,6 +102,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             cellElement.setValue(textFormula);
+            selectedItem = ActionFactory.createAction(FormulaCellAction.class);
         } else {
             Style style = cellElement.getStyle();
             if (style != null && style.getFormat() != null && style.getFormat() == TextFormat.getInstance()) {
@@ -106,6 +110,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
             } else {
                 cellElement.setValue(ReportHelper.convertGeneralStringAccordingToExcel(tmpText));
             }
+            selectedItem = null;
         }
         fireTargetModified();
         stringTextField.requestFocus();
@@ -150,6 +155,11 @@ public class CellStringQuickEditor extends CellQuickEditor {
         stringTextField.getDocument().removeDocumentListener(documentListener);
         stringTextField.setText(str);
         stringTextField.getDocument().addDocumentListener(documentListener);
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return selectedItem;
     }
 
 }

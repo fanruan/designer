@@ -1,6 +1,8 @@
 package com.fr.quickeditor.cellquick;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.BiasCellAction;
 import com.fr.design.cell.editor.BiasTextPainterCellEditor.BiasTextPainterPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
@@ -34,6 +36,11 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
         editbutton.setMargin(null);
         editbutton.setOpaque(false);
         return editbutton;
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(BiasCellAction.class);
     }
 
     private void showEditingDialog() {
