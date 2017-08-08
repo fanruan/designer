@@ -163,9 +163,9 @@ public class DSColumnBasicPane extends BasicPane {
         }
     }
 
-    public void putCellElement(TemplateCellElement tplEC2) {
+    public void putCellElement(TemplateCellElement tplCE) {
         if (conditionParentPane != null) {
-            conditionParentPane.putCellElement(tplEC2);
+            conditionParentPane.putCellElement(tplCE);
         }
     }
 }
