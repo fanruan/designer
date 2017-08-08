@@ -599,6 +599,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
+                        this.formulaField.populateElement(cellElement);
                         DSColumn dSColumn = (DSColumn) value;
                         int sort = dSColumn.getOrder();
                         this.sortTypePane.setSelectedIndex(sort);
