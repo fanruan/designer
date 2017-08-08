@@ -2,15 +2,10 @@ package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.designer.creator.*;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.foldablepane.UIExpandablePane;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+import com.fr.design.widget.WidgetBoundsPaneFactory;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -36,25 +31,10 @@ public class WidgetBoundPane extends BasicPane {
         return container;
     }
 
-
     public void initBoundPane() {
-
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
         width = new UISpinner(0, 1200, 1);
         height = new UISpinner(0, 1200, 1);
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Size")), width, height},
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer-Tree_Height"), SwingConstants.CENTER)},
-        };
-        double[] rowSize = {p, p};
-        double[] columnSize = {p, f, f};
-        int[][] rowCount = {{1, 1, 1}, {1, 1, 1}};
-        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        UIExpandablePane uiExpandablePane = new UIExpandablePane("尺寸", 280, 20, panel);
-        this.add(uiExpandablePane);
+        this.add(WidgetBoundsPaneFactory.createBoundsPane(width, height));
     }
 
 
