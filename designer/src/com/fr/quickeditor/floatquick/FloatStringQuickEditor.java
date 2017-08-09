@@ -37,7 +37,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         JPanel pane = new JPanel(new BorderLayout(5, 0));
         pane.add(stringTextField, BorderLayout.CENTER);
         pane.add(formulaButton, BorderLayout.EAST);
-        pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,7));
+        pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,5));
         formulaButton.setVisible(false);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -73,7 +73,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
             Formula formula = (Formula) value;
             str = formula.getContent();
             stringTextField.setLineWrap(false);
-            this.setBorder(BorderFactory.createEmptyBorder(10, 78, 10, 10));
+            this.setBorder(BorderFactory.createEmptyBorder(10, 75, 10, 10));
             reserveInResult = formula.isReserveInResult();
             reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();
         } else {
