@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
@@ -19,7 +20,7 @@ import com.fr.general.Inter;
 public class CheckBoxDictPane extends JPanel {
 	
 	private DictionaryComboBox delimiterComboBox;
-	private UIComboBox returnTypeComboBox;
+	private UIHeadGroup returnTypeComboBox;
 	private DictionaryComboBox startComboBox;
 	private DictionaryComboBox endComboBox;
 	
@@ -30,10 +31,6 @@ public class CheckBoxDictPane extends JPanel {
 	public CheckBoxDictPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
-		returnTypeComboBox = new UIComboBox(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")});
-		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);			
-
 		delimiterPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
 		UILabel label = new UILabel(Inter.getLocText("Form-Delimiter") + ":");
 		delimiterPane.add(label, BorderLayout.WEST);
@@ -49,19 +46,21 @@ public class CheckBoxDictPane extends JPanel {
 		endPane.add(new UILabel(Inter.getLocText("ComboCheckBox-End_Symbol") + ":"), BorderLayout.WEST);
 		endPane.add(endComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays), BorderLayout.CENTER);
 		endComboBox.setEditable(true);
-		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{returnTypePane, delimiterPane, startPane, endComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		returnTypeComboBox = new UIHeadGroup(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")}){
+			protected void tabChanged(int newSelectedIndex) {
+//				checkVisible(newSelectedIndex);
+				//todo
+			}
+		};
+		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);
+		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypePane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
 		this.add(jPanel);
-		returnTypeComboBox.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				checkVisible();
-			}				
-		});
 	}
 	
-	private void checkVisible(){
-		delimiterPane.setVisible(returnTypeComboBox.getSelectedIndex() == 1);
-		startPane.setVisible(returnTypeComboBox.getSelectedIndex() == 1);
-		endPane.setVisible(returnTypeComboBox.getSelectedIndex() == 1);
+	private void checkVisible(int selectIndex){
+		delimiterPane.setVisible(selectIndex == 1);
+		startPane.setVisible(selectIndex == 1);
+		endPane.setVisible(selectIndex == 1);
 	}
 	
 	public void populate(ComboCheckBox comboCheckBox) {
@@ -69,7 +68,7 @@ public class CheckBoxDictPane extends JPanel {
 		this.returnTypeComboBox.setSelectedIndex(comboCheckBox.isReturnString() ? 1 : 0);
 		this.startComboBox.setSelectedItem(comboCheckBox.getStartSymbol());
 		this.endComboBox.setSelectedItem(comboCheckBox.getEndSymbol());
-		checkVisible();
+		checkVisible(this.returnTypeComboBox.getSelectedIndex());
 	}
 	public void update(ComboCheckBox comboCheckBox) {
 		comboCheckBox.setDelimiter((String)this.delimiterComboBox.getSelectedItem());
@@ -82,7 +81,7 @@ public class CheckBoxDictPane extends JPanel {
 		this.returnTypeComboBox.setSelectedIndex(checkBoxGroup.isReturnString() ? 1 : 0);
 		this.startComboBox.setSelectedItem(checkBoxGroup.getStartSymbol());
 		this.endComboBox.setSelectedItem(checkBoxGroup.getEndSymbol());
-		checkVisible();
+		checkVisible(this.returnTypeComboBox.getSelectedIndex());
 	}
 	public void update(CheckBoxGroup checkBoxGroup) {
 		checkBoxGroup.setDelimiter((String)this.delimiterComboBox.getSelectedItem());
