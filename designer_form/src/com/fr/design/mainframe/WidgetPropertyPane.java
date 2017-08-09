@@ -6,12 +6,14 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.ui.FormWidgetCardPane;
+import com.fr.design.widget.ui.designer.mobile.MobileWidgetDefinePane;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
@@ -35,6 +37,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private FormWidgetCardPane formWidgetCardPane; // 控件的属性表
     private EventPropertyTable eventTable; // 控件的事件表
     private List<AbstractPropertyTable> widgetPropertyTables; // 这个变量应该是保存控件拓展的属性tab
+    private List<MobileWidgetDefinePane> mobileExtraPropertyPanes; // 保存9.0设计器下移动端拓展的属性tab，舍弃JTable
     private FormDesigner designer; // 当前designer
     private UIScrollPane psp; // 用来装载属性表table的容器
     private UIScrollPane esp; //用来装载事件table的容器
@@ -97,6 +100,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
             return;
         }
         widgetPropertyTables = new ArrayList<AbstractPropertyTable>();
+        mobileExtraPropertyPanes = new ArrayList<>();
 
         //依次创建属性表、事件表、移动端表，再将它们整合到TabPane中去
         this.createPropertyTable();
@@ -113,8 +117,13 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private void initTables() {
         formWidgetCardPane.populate();
         eventTable.refresh();
-        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
-            propertyTable.initPropertyGroups(designer);
+//        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
+//            propertyTable.initPropertyGroups(designer);
+//        }
+        if (mobileExtraPropertyPanes != null) {
+            for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
+                extraPane.initPropertyGroups(designer);
+            }
         }
     }
 
@@ -211,12 +220,16 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
             wsp.add(downPanel);
         } else {
             for (WidgetPropertyUIProvider widgetAttrProvider : widgetAttrProviders) {
-                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
-                widgetPropertyTables.add(propertyTable);
-                designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
+                MobileWidgetDefinePane extraPane = (MobileWidgetDefinePane) widgetAttrProvider.createWidgetAttrPane();
+                if (extraPane != null) {
+                    mobileExtraPropertyPanes.add(extraPane);
+//                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
+//                widgetPropertyTables.add(propertyTable);
+                    designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
 
-                UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
-                wsp.add(uiScrollPane);
+//                UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
+                    wsp.add(extraPane);
+                }
             }
         }
     }

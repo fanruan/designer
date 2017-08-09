@@ -2,8 +2,10 @@ package com.fr.design.designer.properties.mobile;
 
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XElementCase;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.impl.AbstractWidgetPropertyUIProvider;
 import com.fr.design.gui.itable.AbstractPropertyTable;
+import com.fr.design.widget.ui.designer.mobile.ElementCaseDefinePane;
 import com.fr.general.Inter;
 
 /**
@@ -20,6 +22,11 @@ public class ElementCasePropertyUI extends AbstractWidgetPropertyUIProvider {
     @Override
     public AbstractPropertyTable createWidgetAttrTable() {
         return new ElementCasePropertyTable(xCreator);
+    }
+
+    @Override
+    public BasicPane createWidgetAttrPane() {
+        return new ElementCaseDefinePane(xCreator);
     }
 
     @Override
