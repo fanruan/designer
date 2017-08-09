@@ -62,7 +62,7 @@ public class ReportFloatPane extends JPanel {
                 new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 4, 0, 13));
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 15));
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 
