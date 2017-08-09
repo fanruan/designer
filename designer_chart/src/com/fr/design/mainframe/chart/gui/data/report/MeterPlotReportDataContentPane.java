@@ -24,7 +24,7 @@ import java.awt.*;
 public class MeterPlotReportDataContentPane extends AbstractReportDataContentPane {
 	
 	private static final String CATENAME = Inter.getLocText(new String[]{"ChartF-Meter", "StyleFormat-Category", "WF-Name"});
-	private static final String NVALUE = Inter.getLocText("Needle Value");
+	private static final String NVALUE = Inter.getLocText("Chart-Pointer_Value");
 	
 	private TinyFormulaPane singCatePane;
 	private TinyFormulaPane singValuePane;
@@ -59,7 +59,7 @@ public class MeterPlotReportDataContentPane extends AbstractReportDataContentPan
 		double[] cs = {p};
 		components = new Component[][]{
 				new Component[]{new JSeparator()},
-				new Component[]{new BoldFontTextLabel(Inter.getLocText("Data_Filter"))},
+				new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Designer_Data_Filter"))},
 				new Component[]{filterPane = new ChartDataFilterPane(new MeterPlot(), parent)},
 		};
 		JPanel pane = TableLayoutHelper.createTableLayoutPane(components, rowSize, cs);
