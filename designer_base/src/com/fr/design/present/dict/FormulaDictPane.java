@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Formula;
 import com.fr.data.impl.FormulaDictionary;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
@@ -40,8 +41,9 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
     private void initComponents() {
         keyFormulaEditor = new FormulaEditor();
         keyFormulaEditor.setColumns(EDITOR_COLUMN);
-        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        keyFormulaEditor.setPreferredSize(new Dimension(148, 20));
+        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+        keyFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        keyFormulaEditor.setPreferredSize(new Dimension(144, 20));
         Icon icon = BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png");
         keyFormulaContainer.add(new JLabel(icon));
         keyFormulaContainer.add(keyFormulaEditor);
@@ -52,30 +54,31 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
+        tag.setPreferredSize(new Dimension(225,20));
         JPanel t = new JPanel(new BorderLayout());
-        t.add(tag, BorderLayout.NORTH);
+        t.add(tag, BorderLayout.CENTER);
 
         Formula vf = new Formula("$$$");
         valueFormulaEditor = new FormulaEditor("", vf);
 
-        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        valueFormulaEditor.setPreferredSize(new Dimension(148, 20));
+        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+        valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        valueFormulaEditor.setPreferredSize(new Dimension(144, 20));
         valueFormulaContainer.add(new JLabel(icon));
         valueFormulaContainer.add(valueFormulaEditor);
 
 
         Component[][] components = new Component[][]{
-                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
-                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value"), UILabel.LEFT), valueFormulaContainer},
-                new Component[]{null, null},
-                new Component[]{t, null}
+                new Component[]{tag, null}
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
 

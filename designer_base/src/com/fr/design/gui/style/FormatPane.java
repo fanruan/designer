@@ -42,6 +42,7 @@ public class FormatPane extends AbstractBasicStylePane {
     private static final int LABLE_DELTA_WIDTH = 8;
     private static final int LABLE_HEIGHT = 15; //标签背景的范围
     private static final int CURRENCY_FLAG_POINT = 6;
+    private static final Border LEFT_BORDER = BorderFactory.createEmptyBorder(0,30,0,0);
 
     private static final Integer[] TYPES = new Integer[]{FormatContents.NULL, FormatContents.NUMBER, FormatContents.CURRENCY, FormatContents.PERCENT, FormatContents.SCIENTIFIC,
             FormatContents.DATE, FormatContents.TIME, FormatContents.TEXT};
@@ -76,7 +77,7 @@ public class FormatPane extends AbstractBasicStylePane {
         contentPane = new JPanel(new BorderLayout(0, 4)) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(super.getPreferredSize().width, 70);
+                return new Dimension(super.getPreferredSize().width, 65);
             }
         };
         typeComboBox = new UIComboBox(types);
@@ -84,37 +85,44 @@ public class FormatPane extends AbstractBasicStylePane {
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
         contentPane.add(sampleLabel, BorderLayout.NORTH);
-        centerPane = new JPanel(new CardLayout());
-        centerPane.add(new JPanel(), "hide");
-        centerPane.setPreferredSize(new Dimension(0, 0));
-        centerPane.add(contentPane, "show");
-        formatFontPane = new JPanel(new BorderLayout());
-        formatFontPane.add(centerPane, BorderLayout.NORTH);
-        formatFontPane.add(new FRFontPane(), BorderLayout.CENTER);
-        txtCenterPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        contentPane.add(txtCenterPane, BorderLayout.CENTER);
+
+        txtCenterPane = new JPanel(new BorderLayout());
         textField = new UIComboBox(FormatField.getInstance().getFormatArray(getFormatContents()));
         textField.addItemListener(textFieldItemListener);
         textField.setEditable(true);
         txtCenterPane.add(textField, BorderLayout.NORTH);
+
+        contentPane.add(txtCenterPane, BorderLayout.CENTER);
+
+        centerPane = new JPanel(new CardLayout());
+        centerPane.add(new JPanel(), "hide");
+        centerPane.setPreferredSize(new Dimension(0, 0));
+        centerPane.add(contentPane, "show");
+
+
         frFontPane = new FRFontPane();
         UILabel font = new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
+        typeComboBox.setPreferredSize(new Dimension(155,20));
+        JPanel typePane = new JPanel(new BorderLayout());
+        typePane.add(typeComboBox, BorderLayout.CENTER);
+        typePane.setBorder(LEFT_BORDER);
+        centerPane.setBorder(LEFT_BORDER);
+        frFontPane.setBorder(LEFT_BORDER);
+
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format") + "   ", SwingConstants.LEFT), typeComboBox},
+                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
                 new Component[]{null, centerPane},
                 new Component[]{fontPane, frFontPane},
-                new Component[]{null, null}
         };
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 3}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         this.add(panel, BorderLayout.CENTER);
     }
 
@@ -310,7 +318,7 @@ public class FormatPane extends AbstractBasicStylePane {
                     for (int i = 0; i < items.length; i++) {
                         textField.addItem(items[i]);
                     }
-                    centerPane.setPreferredSize(new Dimension(270, 70));
+                    centerPane.setPreferredSize(new Dimension(270, 65));
                     cardLayout.show(centerPane, "show");
                 }
                 isFormat = true;

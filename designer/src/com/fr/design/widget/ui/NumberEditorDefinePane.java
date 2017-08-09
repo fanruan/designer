@@ -156,14 +156,12 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
     @Override
     protected JPanel setFirstContentPane() {
-        JPanel content = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        content.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        content.setLayout(FRGUIPaneFactory.createBorderLayout());
-        // richer:数字的允许直接编辑没有意义
+        JPanel content = FRGUIPaneFactory.createBorderLayout_S_Pane();
         waterMarkDictPane = new WaterMarkDictPane();
+        waterMarkDictPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        content.add(waterMarkDictPane, BorderLayout.CENTER);
 
-
-        return waterMarkDictPane;
+        return content;
     }
 
 
