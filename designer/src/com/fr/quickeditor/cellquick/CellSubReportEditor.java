@@ -1,26 +1,25 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.SubReportCellAction;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 单元格元素子报表编辑器
- * TODO 9.0大体上没有改动
+ *
+ * @author yaoh.wu
+ * @version 2017年8月7日10点53分
  */
 public class CellSubReportEditor extends CellQuickEditor {
     private UIButton subReportButton;
-    private static CellSubReportEditor THIS;
 
-    public static final CellSubReportEditor getInstance() {
-        if (THIS == null) {
-            THIS = new CellSubReportEditor();
-        }
-        return THIS;
-    }
 
     private CellSubReportEditor() {
         super();
@@ -28,18 +27,27 @@ public class CellSubReportEditor extends CellQuickEditor {
 
     @Override
     public JComponent createCenterBody() {
+        JPanel content = new JPanel(new BorderLayout());
         subReportButton = new UIButton();
-        subReportButton.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        subReportButton.setMargin(null);
         subReportButton.setOpaque(false);
-        return subReportButton;
+        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, subReportButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
+        return content;
     }
 
     @Override
     protected void refreshDetails() {
         SubReportCellAction subReportCellAction = new SubReportCellAction(tc);
-        subReportCellAction.setName(Inter.getLocText(new String[]{"Edit", "Sub_Report"}));
+        subReportCellAction.setName(Inter.getLocText("Edit"));
+        subReportCellAction.setSmallIcon(null);
         subReportButton.setAction(subReportCellAction);
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(SubReportCellAction.class);
     }
 
 }

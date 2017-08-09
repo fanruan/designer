@@ -69,9 +69,6 @@ public class CellWidgetPropertyPane extends BasicPane {
 
         Widget cellWidget = cellElement.getWidget();
 
-        if(cellWidget == null){
-            return;
-        }
 
         // 这里进行克隆的原因是为了保留原始的Widget以便和新的Widget做比较来判断是否发生了改变
         if (cellWidget != null) {

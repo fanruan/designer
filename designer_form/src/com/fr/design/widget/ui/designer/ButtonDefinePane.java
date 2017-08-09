@@ -45,13 +45,15 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
                 {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField},
                 backgroundCompPane,
                 frFont,
-                {new UILabel(Inter.getLocText("FR-Designer_Icon" + ":")), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), iconPane},
                 {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField}
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 8);
-        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        UIExpandablePane advancedPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, panel);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        boundsPane.add(panel);
+        UIExpandablePane advancedPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, boundsPane);
         this.add(advancedPane);
     }
 

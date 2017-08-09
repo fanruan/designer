@@ -4,6 +4,7 @@ import com.fr.base.Utils;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
@@ -18,6 +19,7 @@ import com.fr.stable.ParameterProvider;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
@@ -57,7 +59,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 		pane.add(new UILabel(Inter.getLocText("M_Insert-Float") + ":"));
 		pane.add(floatNameBox);
 		
-		Border boder = null;
+		Border boder = new LineBorder(UIConstants.TITLED_BORDER_COLOR);
 		Font font = null;	
 		TitledBorder border = new TitledBorder(boder, Inter.getLocText(new String[]{"Related", "M_Insert-Float"}), 4, 2, font, new Color(1, 159, 222));
 		// 圆角不行

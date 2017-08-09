@@ -47,8 +47,8 @@ public class FormWidgetValuePane extends JPanel {
     }
 
     public void attributeChange(int index, JPanel customPane, CardLayout cardLayout, String[] tabTitles){
-        if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("FieldBinding"))) {
-            customPane.setPreferredSize(new Dimension(100, 50));
+        if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("FR-Designer_Widget_Field"))) {
+            customPane.setPreferredSize(new Dimension(100, 47));
         } else {
             customPane.setPreferredSize(new Dimension(100, 20));
         }
@@ -109,9 +109,12 @@ public class FormWidgetValuePane extends JPanel {
 
     public void populate(DataControl ob) {
         WidgetValue widgetValue = ob.getWidgetValue();
+        if(widgetValue == null){
+            return;
+        }
         for (int i = 0; i < editor.length; i++) {
-            if (editor[i].accept(widgetValue)) {
-                setCardValue(i, widgetValue);
+            if (editor[i].accept(widgetValue.getValue())) {
+                setCardValue(i, widgetValue.getValue());
                 break;
             }
         }

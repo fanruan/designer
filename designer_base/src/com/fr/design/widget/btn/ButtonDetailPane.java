@@ -28,7 +28,7 @@ public abstract class ButtonDetailPane<T extends Button> extends BasicPane {
         return Inter.getLocText("Button");
     }
 
-    public void populate(Button button) {
+    public void populate(T button) {
 
     }
 

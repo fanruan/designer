@@ -12,11 +12,14 @@ import com.fr.grid.selection.Selection;
  */
 public abstract class SelectionListenerAction extends TemplateComponentAction<ElementCasePane> {
 
+    protected SelectionListenerAction() {
+    }
+
     protected SelectionListenerAction(ElementCasePane elementCasePane) {
         super(elementCasePane);
     }
 
-    protected SelectionListener createSelectionListener () {
+    protected SelectionListener createSelectionListener() {
         return new SelectionListener() {
 
             @Override

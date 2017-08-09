@@ -72,11 +72,11 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
     protected void initComponents() {
         // 整数位选择
         intPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(9, 1, 20, 1));
-        intPartSpinner.setPreferredSize(new Dimension(135, 20));
+        intPartSpinner.setPreferredSize(new Dimension(158, 20));
 
         // 小数位选择
         deciPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 10, 1));
-        deciPartSpinner.setPreferredSize(new Dimension(135, 20));
+        deciPartSpinner.setPreferredSize(new Dimension(158, 20));
         // 预览区域
         textField = new UITextField(10);
 

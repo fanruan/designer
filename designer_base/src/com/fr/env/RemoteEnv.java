@@ -1381,7 +1381,7 @@ public class RemoteEnv extends AbstractEnv {
                     return;
                 }
                 SignIn.signIn(remoteEnv);
-                LicUtils.resetBytes();
+                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);

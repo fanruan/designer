@@ -16,11 +16,19 @@ import javax.swing.*;
  * .
  */
 public class ChartCellAction extends AbstractCellAction implements WorkBookSupportable {
+	public ChartCellAction(){
+		initAction();
+	}
+
 	public ChartCellAction(ElementCasePane t) {
 		super(t);
-        this.setMenuKeySet(INSERT_CHART);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
-        this.setMnemonic(getMenuKeySet().getMnemonic());
+		initAction();
+	}
+
+	private void initAction() {
+		this.setMenuKeySet(INSERT_CHART);
+		this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+		this.setMnemonic(getMenuKeySet().getMnemonic());
 		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/chart.png"));
 	}
 

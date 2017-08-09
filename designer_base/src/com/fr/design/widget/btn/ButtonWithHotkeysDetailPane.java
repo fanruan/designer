@@ -4,12 +4,13 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.widget.IconDefinePane;
+import com.fr.design.mainframe.widget.accessibles.AccessibleIconEditor;
 import com.fr.form.ui.Button;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
@@ -24,48 +25,49 @@ import com.fr.stable.StableUtils;
 public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends ButtonDetailPane<T> {
     private UITextField hotkeysTextField;
     private UITextField buttonNameTextField;
-    private IconDefinePane iconPane;
+    private AccessibleIconEditor iconPane;
 
     public ButtonWithHotkeysDetailPane() {
         initComponents();
     }
 
     private void initComponents() {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-        advancedPane.setPreferredSize(new Dimension(600, 341));
-        JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-        this.add(advancedPane);
+        this.setLayout(new BorderLayout(7, 7));
+        JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p, p, p, p};
-        double columnSize[] = {p, p};
+        double columnSize[] = {p, f};
         JPanel labelPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        iconPane = new IconDefinePane();
+        iconPane = new AccessibleIconEditor();
         labelPane.add(iconPane);
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField(16)},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), labelPane},
                 {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField(16)}
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField()},
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
-        advancedPane.add(panel,BorderLayout.NORTH);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
+        advancePane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        advancePane.add(panel, BorderLayout.NORTH);
         Component comp = createCenterPane();
         if(comp != null	) {
-            advancedPane.add(comp,BorderLayout.CENTER);
+            advancePane.add(comp,BorderLayout.CENTER);
         }
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
+        this.add(uiExpandablePane);
+
     }
 
     protected abstract Component createCenterPane();
 
     @Override
-    public void populate(Button button) {
+    public void populate(T button) {
         if (button == null) {
             return;
         }
-        iconPane.populate(button.getIconName());
+        iconPane.setValue(button.getIconName());
         buttonNameTextField.setText(button.getText());
         hotkeysTextField.setText(button.getHotkeys());
     }
@@ -73,7 +75,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
     @Override
     public T update() {
         T button = createButton();
-        button.setIconName(iconPane.update());
+        button.setIconName((String)iconPane.getValue());
         button.setText(buttonNameTextField.getText());
         button.setHotkeys(hotkeysTextField.getText());
         return button;

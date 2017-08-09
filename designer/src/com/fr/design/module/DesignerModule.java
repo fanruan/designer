@@ -111,7 +111,7 @@ public class DesignerModule extends DesignModule {
     private void registerCellEditor() {
         ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.class);
         ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditor(Formula.class, CellStringQuickEditor.class);
+        ActionFactory.registerCellEditor(Formula.class, CellFormulaQuickEditor.class);
         ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.class);
         ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.class);
         ActionFactory.registerCellEditor(DSColumn.class, CellDSColumnEditor.class);
@@ -169,7 +169,7 @@ public class DesignerModule extends DesignModule {
     }
 
     @Override
-    /**
+    /*
      * 针对不同的对象，在读取Object对象的xml的时候需要使用不同的对象生成器
      * @return 返回对象生成器
      */
@@ -212,7 +212,7 @@ public class DesignerModule extends DesignModule {
             }
         });
     }
-    
+
     private static abstract class AbstractWorkBookApp implements App<WorkBook> {
 
         @Override
@@ -234,15 +234,15 @@ public class DesignerModule extends DesignModule {
         public void process() {
 
         }
-        
+
         @Override
         public void undo() {
-        
+
         }
     }
 
     @Override
-    /**
+    /*
      * 返回设计器能打开的模板类型的一个数组列表
      * @return 可以打开的模板类型的数组
      */
@@ -385,7 +385,7 @@ public class DesignerModule extends DesignModule {
     }
 
     public Class<?>[] actionsForInsertCellElement() {
-        return (Class<?>[])ArrayUtils.addAll(new Class<?>[]{
+        return (Class<?>[]) ArrayUtils.addAll(new Class<?>[]{
                 DSColumnCellAction.class,
                 GeneralCellAction.class,
                 RichTextCellAction.class,

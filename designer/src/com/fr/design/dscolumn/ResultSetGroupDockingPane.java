@@ -1,35 +1,31 @@
 package com.fr.design.dscolumn;
 
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.FunctionComboBox;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.cell.cellattr.CellExpandAttr;
+import com.fr.report.cell.cellattr.core.group.*;
+import com.fr.stable.Constants;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.FunctionComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.report.cell.TemplateCellElement;
-import com.fr.report.cell.cellattr.CellExpandAttr;
-import com.fr.report.cell.cellattr.core.group.CustomGrouper;
-import com.fr.report.cell.cellattr.core.group.DSColumn;
-import com.fr.report.cell.cellattr.core.group.FunctionGrouper;
-import com.fr.report.cell.cellattr.core.group.RecordGrouper;
-import com.fr.report.cell.cellattr.core.group.SummaryGrouper;
-import com.fr.stable.Constants;
-import com.fr.design.utils.gui.GUICoreUtils;
-
 /**
  * 这个pane是选中数据列后，在上方QuickRegion处显示的pane
  *
- * @author zhou
+ * @author zhou, yaoh.wu
+ * @version 2017年8月2日14点55分
+ * @since 8.0
  */
 public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private static final int BIND_GROUP = 0;
@@ -42,7 +38,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private CardLayout cardLayout;
     private UIComboBox goBox;
 
-    ItemListener l;
+    private ItemListener listener;
 
     public ResultSetGroupDockingPane(ElementCasePane ePane) {
         super();
@@ -58,15 +54,14 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     }
 
     private JPanel layoutPane() {
-        double vs = 4;
-        double vg = 6;
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-
+        UILabel dataSetLabel = new UILabel(Inter.getLocText("Data_Setting"));
+        dataSetLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = new Component[][]
                 {
-                        new Component[]{new UILabel(Inter.getLocText("Data_Setting")), goBox},
-                        new Component[]{cardPane, null}
+                        new Component[]{dataSetLabel, goBox},
+                        new Component[]{null, cardPane}
                 };
         goBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ee) {
@@ -74,10 +69,13 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 int i = goBox.getSelectedIndex();
                 if (i == BIND_GROUP) {
                     cardLayout.show(cardPane, "groupPane");
+                    cardPane.setPreferredSize(new Dimension(155, 20));
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
+                    cardPane.setPreferredSize(new Dimension(0, 0));
                 } else if (i == BIND_SUMMARY) {
                     cardLayout.show(cardPane, "summaryPane");
+                    cardPane.setPreferredSize(new Dimension(155, 20));
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
                 }
@@ -86,7 +84,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     private void initCardPane() {
@@ -190,15 +188,15 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         }
     }
 
-    public void addListener(ItemListener l) {
-        goBox.addItemListener(l);
-        groupComboBox.addItemListener(l);
-        functionComboBox.addItemListener(l);
-        this.l = l;
+    public void addListener(ItemListener listener) {
+        goBox.addItemListener(listener);
+        groupComboBox.addItemListener(listener);
+        functionComboBox.addItemListener(listener);
+        this.listener = listener;
     }
 
     void fireTargetChanged() {
-        l.itemStateChanged(null);
+        listener.itemStateChanged(null);
     }
 
     @Override

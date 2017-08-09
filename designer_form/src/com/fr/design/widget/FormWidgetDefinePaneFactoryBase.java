@@ -7,6 +7,7 @@ import com.fr.design.gui.core.WidgetConstants;
 import com.fr.design.parameter.RootDesignDefinePane;
 import com.fr.design.widget.ui.designer.*;
 import com.fr.design.widget.ui.designer.layout.*;
+import com.fr.form.parameter.FormSubmitButton;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
@@ -51,6 +52,7 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(NoneWidget.class, new Appearance(NoneWidgetDefinePane.class, WidgetConstants.NONE + ""));
         defineMap.put(Button.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(FreeButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
+        defineMap.put(FormSubmitButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(WFitLayout.class, new Appearance(FRFitLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, Inter.getLocText("WLayout-Card-ToolTips")));
 //        if (StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class) != null) {

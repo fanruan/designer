@@ -300,7 +300,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private JPanel createLeftPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {f};
+        double[] columnSize = {p};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{fontSizeStyleComboBox},
@@ -325,8 +325,8 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     private JPanel createPane() {
         JPanel createPane = new JPanel(new BorderLayout(3, 5));
         createPane.add(fontNameComboBox, BorderLayout.NORTH);
-        createPane.add(createLeftPane(), BorderLayout.CENTER);
-        createPane.add(createRightPane(), BorderLayout.EAST);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{createLeftPane(), createRightPane()}}, TableLayoutHelper.FILL_LASTCOLUMN, 5, 7);
+        createPane.add(jPanel, BorderLayout.CENTER);
         return createPane;
     }
 

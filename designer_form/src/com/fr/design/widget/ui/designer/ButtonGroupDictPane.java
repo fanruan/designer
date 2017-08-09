@@ -5,10 +5,12 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.ButtonGroup;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class ButtonGroupDictPane extends JPanel {
@@ -24,14 +26,18 @@ public class ButtonGroupDictPane extends JPanel {
     *
      */
 	public void initComponents() {
-		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
-		adaptiveCheckbox = new UICheckBox(Inter.getLocText("Adaptive"), true);
-		this.add(adaptiveCheckbox);
 
+
+
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+		adaptiveCheckbox = new UICheckBox(Inter.getLocText("Adaptive"), true);
+		adaptiveCheckbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		this.columnLabel = new UILabel(Inter.getLocText("Button-Group-Display-Columns") + ":");
-		this.add(columnLabel);
 		columnSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		this.add(columnSpinner);
+
+		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{adaptiveCheckbox, columnLabel, columnSpinner}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+
+		this.add(jPanel);
 	}
 	
 	public void populate(ButtonGroup buttonGroup) {

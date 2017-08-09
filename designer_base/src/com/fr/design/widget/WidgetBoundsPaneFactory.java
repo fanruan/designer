@@ -3,6 +3,7 @@ package com.fr.design.widget;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
@@ -16,6 +17,7 @@ import java.awt.*;
 public class WidgetBoundsPaneFactory {
 
     public static UIExpandablePane createBoundsPane(UISpinner width, UISpinner height) {
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -25,10 +27,10 @@ public class WidgetBoundsPaneFactory {
         double[] rowSize = {p, p};
         double[] columnSize = {p, f, f};
         int[][] rowCount = {{1, 1, 1}, {1, 1, 1}};
-        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
-
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 280, 24, panel);
+        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 10);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 280, 24, boundsPane);
     }
 
     public static UIExpandablePane createAbsoluteBoundsPane(UISpinner x, UISpinner y, UISpinner width, UISpinner height) {
@@ -44,9 +46,10 @@ public class WidgetBoundsPaneFactory {
         double[] rowSize = {p, p, p, p};
         double[] columnSize = {p, f, f};
         int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
-        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
-
-        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 230, 24, panel);
+        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 8, 10);
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return new UIExpandablePane(Inter.getLocText("FR-Designer_Coords_And_Size"), 230, 24, boundsPane);
     }
 }

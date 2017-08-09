@@ -1,16 +1,10 @@
 package com.fr.design.widget.ui;
 
-import java.awt.FlowLayout;
-
 import javax.swing.JPanel;
-
 import com.fr.design.data.DataCreatorUI;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.RadioGroup;
 
 public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
-	private DictionaryPane dictPane;
 
 	private ButtonGroupDictPane buttonGroupDictPane;
 
@@ -22,24 +16,18 @@ public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 	protected void initComponents() {
 		super.initComponents();
 
-		dictPane = new DictionaryPane();
 	}
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-
-		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		buttonGroupDictPane = new ButtonGroupDictPane();
-		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-		centerPane.add(buttonGroupDictPane);
-		return centerPane;
+		return buttonGroupDictPane;
 	}
 
 	@Override
 	protected RadioGroup updateSubFieldEditorBean() {
 		RadioGroup ob = new RadioGroup();
 
-		ob.setDictionary(this.dictPane.updateBean());
 		this.buttonGroupDictPane.update(ob);
 
 		return ob;
@@ -52,12 +40,11 @@ public class RadioGroupDefinePane extends FieldEditorDefinePane<RadioGroup> {
 
 	@Override
 	protected void populateSubFieldEditorBean(RadioGroup ob) {
-		this.dictPane.populateBean(ob.getDictionary());
 		this.buttonGroupDictPane.populate(ob);
 	}
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }

@@ -153,14 +153,13 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     }
 
     protected void initButton(UIToggleButton labelButton) {
-        labelButton.setRoundBorder(true);
         labelButton.setBorderPainted(false);
         labelButtonList.add(labelButton);
         this.add(labelButton);
     }
 
     protected Border getGroupBorder() {
-        return BorderFactory.createEmptyBorder(1, 1, 1, 1);
+        return BorderFactory.createEmptyBorder(0, 0, 0, 0);
     }
 
     protected LayoutManager getGridLayout(int number) {

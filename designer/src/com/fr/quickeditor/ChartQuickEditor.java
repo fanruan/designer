@@ -1,7 +1,7 @@
 package com.fr.quickeditor;
 
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.chart.chartattr.ChartCollection;
+//import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.mainframe.ElementCasePane;

@@ -3,8 +3,7 @@ package com.fr.design.widget.ui.designer;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FRFontPane;
-import com.fr.design.widget.ui.designer.component.BackgroundCompPane;
-import com.fr.design.widget.ui.designer.component.MouseActionBackground;
+import com.fr.design.widget.component.ButtonBackgroundPane;
 import com.fr.form.ui.FreeButton;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
@@ -16,7 +15,7 @@ import java.awt.*;
  * Created by ibm on 2017/8/6.
  */
 public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
-    private BackgroundCompPane backgroundCompPane;
+    private ButtonBackgroundPane backgroundCompPane;
     private FRFontPane frFontPane;
 
     public FreeButtonDefinePane(XCreator xcreator) {
@@ -24,7 +23,7 @@ public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
     }
 
     public Component[] createBackgroundComp() {
-        backgroundCompPane = new BackgroundCompPane();
+        backgroundCompPane = new ButtonBackgroundPane();
         return new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background") + ":"), backgroundCompPane};
     }
 
@@ -36,8 +35,7 @@ public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
     }
 
     public void populateSubButtonPane(FreeButton e) {
-        MouseActionBackground mouseActionBackground = new MouseActionBackground(e.getInitialBackground(), e.getOverBackground(), e.getClickBackground());
-        backgroundCompPane.populate(mouseActionBackground);
+        backgroundCompPane.populate(e);
         FRFont frFont = e.getFont();
         if (frFont != null) {
             frFontPane.populateBean(e.getFont());
@@ -46,11 +44,11 @@ public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
 
     public FreeButton updateSubButtonPane() {
         FreeButton freeButton = (FreeButton) creator.toData();
-        MouseActionBackground mouseActionBackground = backgroundCompPane.update();
-        freeButton.setInitialBackground(mouseActionBackground.getInitialBackground());
-        freeButton.setOverBackground(mouseActionBackground.getOverBackground());
-        freeButton.setClickBackground(mouseActionBackground.getClickBackground());
-        frFontPane.update(freeButton.getFont());
+        backgroundCompPane.update(freeButton);
+        FRFont frFont = freeButton.getFont();
+        if(frFont != null){
+            frFontPane.update(frFont);
+        }
         return freeButton;
     }
 }
