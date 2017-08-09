@@ -25,6 +25,7 @@ public class ButtonBackgroundPane extends BackgroundCompPane<FreeButton> {
             freeButton.setOverBackground((Background) overBackgroundEditor.getValue());
             freeButton.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
+        switchCard();
     }
 
     public void populate(FreeButton freeButton){
@@ -39,6 +40,7 @@ public class ButtonBackgroundPane extends BackgroundCompPane<FreeButton> {
             overBackgroundEditor.setValue(freeButton.getOverBackground());
             clickBackgroundEditor.setValue(freeButton.getClickBackground());
         }
+        switchCard();
     }
 
     protected  String title4PopupWindow() {

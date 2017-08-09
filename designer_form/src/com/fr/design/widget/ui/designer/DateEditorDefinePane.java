@@ -4,6 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -28,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor> {
-    private UIHeadGroup returnTypeComboBox;
+    private UIButtonGroup returnTypeComboBox;
     private DateValuePane startDv;
     private DateValuePane endDv;
     private WaterMarkDictPane waterMarkDictPane;
@@ -55,11 +56,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         fontSizePane = new UISpinner(0, 20, 1, 0);
         JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
-        returnTypeComboBox = new UIHeadGroup(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")}){
-            protected void tabChanged(int newSelectedIndex) {
-                //todo
-            }
-        };
+        returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
         JPanel formatHead =  createFormatHead();
 
         startDv = new DateValuePane();

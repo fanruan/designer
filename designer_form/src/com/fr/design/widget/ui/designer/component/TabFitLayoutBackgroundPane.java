@@ -26,6 +26,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
             wTabFitLayout.setOverBackground((Background) overBackgroundEditor.getValue());
             wTabFitLayout.setClickBackground((Background)clickBackgroundEditor.getValue());
         }
+        switchCard();
     }
 
     public void populate(WTabFitLayout wTabFitLayout){
@@ -40,6 +41,7 @@ public class TabFitLayoutBackgroundPane extends BackgroundCompPane<WTabFitLayout
             overBackgroundEditor.setValue(wTabFitLayout.getOverBackground());
             clickBackgroundEditor.setValue(wTabFitLayout.getClickBackground());
         }
+        switchCard();
     }
 
     protected  String title4PopupWindow() {

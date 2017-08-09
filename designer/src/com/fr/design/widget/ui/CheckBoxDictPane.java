@@ -1,14 +1,11 @@
 package com.fr.design.widget.ui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
-import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -20,7 +17,7 @@ import com.fr.general.Inter;
 public class CheckBoxDictPane extends JPanel {
 	
 	private DictionaryComboBox delimiterComboBox;
-	private UIHeadGroup returnTypeComboBox;
+	private UIButtonGroup returnTypeComboBox;
 	private DictionaryComboBox startComboBox;
 	private DictionaryComboBox endComboBox;
 	
@@ -46,12 +43,7 @@ public class CheckBoxDictPane extends JPanel {
 		endPane.add(new UILabel(Inter.getLocText("ComboCheckBox-End_Symbol") + ":"), BorderLayout.WEST);
 		endPane.add(endComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays), BorderLayout.CENTER);
 		endComboBox.setEditable(true);
-		returnTypeComboBox = new UIHeadGroup(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")}){
-			protected void tabChanged(int newSelectedIndex) {
-//				checkVisible(newSelectedIndex);
-				//todo
-			}
-		};
+		returnTypeComboBox = new UIButtonGroup(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")});
 		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);
 		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypePane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
 		this.add(jPanel);
