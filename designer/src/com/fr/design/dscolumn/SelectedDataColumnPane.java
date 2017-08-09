@@ -144,7 +144,7 @@ public class SelectedDataColumnPane extends BasicPane {
                 {dcLabel, columnNameComboBox}
         };
         this.setLayout(new BorderLayout());
-        this.add(TableLayoutHelper.createTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}));
+        this.add(TableLayoutHelper.createGapTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}, 8, 10));
 
     }
 

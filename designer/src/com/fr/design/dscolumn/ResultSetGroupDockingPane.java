@@ -84,7 +84,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 8, 10);
     }
 
     private void initCardPane() {

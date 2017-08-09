@@ -55,7 +55,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         emptyLabel.setPreferredSize(new Dimension(60, 20));
     }
 
-    protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 5;
+    protected static final int VGAP = 10, HGAP = 8;
 
     public CellQuickEditor() {
 
