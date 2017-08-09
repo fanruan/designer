@@ -55,7 +55,7 @@ import java.util.ArrayList;
 public class CellDSColumnEditor extends CellQuickEditor {
 
     private static final double P = TableLayout.PREFERRED, F = TableLayout.FILL;
-    private static final Color TIP_FONT_COLOR = new Color(51f, 51f, 52f, 1.0f);
+    private static final Color TIP_FONT_COLOR = new Color(0x7F333334, true);
 
     private enum FilterType {
         //前N个 后N个 奇数 偶数 自定义 未定义
@@ -73,8 +73,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private JPanel cardContainer;
     // 卡片布局TAB切换按钮
     private UIHeadGroup tabsHeaderIconPane;
-    // 数据列基本设置
-    private DSColumnBasicEditorPane cellDSColumnBasicPane;
     // 数据列高级设置
     private DSColumnAdvancedEditorPane cellDSColumnAdvancedPane;
 
@@ -158,7 +156,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private void createPanes() {
         paneList = new ArrayList<>();
         /*基本设置面板*/
-        cellDSColumnBasicPane = new DSColumnBasicEditorPane();
+        DSColumnBasicEditorPane cellDSColumnBasicPane = new DSColumnBasicEditorPane();
         paneList.add(cellDSColumnBasicPane);
         /*高级设置面板*/
         cellDSColumnAdvancedPane = new DSColumnAdvancedEditorPane();
@@ -227,7 +225,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             Component[][] components = new Component[][]{
                     new Component[]{uiLabel, uiButton}
             };
-            conditionPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            conditionPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
             this.add(this.createContentPane(), BorderLayout.CENTER);
             this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         }
@@ -274,7 +272,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     //条件过滤
                     new Component[]{this.conditionPane}
             };
-            return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
         }
     }
 
@@ -485,11 +483,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
             //数据倍数
             UILabel multipleLabel = new UILabel(Inter.getLocText("Column_Multiple"));
             multipleLabel.setPreferredSize(new Dimension(60, 20));
-            multiPane = TableLayoutHelper.createTableLayoutPane(new Component[][]{
+            multiPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                             new Component[]{
                                     multipleLabel, multiNumSpinner
                             }
-                    }, new double[]{P}, new double[]{P, F}
+                    }, new double[]{P}, new double[]{P, F}, HGAP, VGAP
             );
             multiNumPane.add(multiPane);
             useMultiplyNumCheckBox.addActionListener(new ActionListener() {
@@ -518,7 +516,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     {extendableDirectionPane},
                     {multiNumPane}
             };
-            return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
         }
 
 
@@ -584,7 +582,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 };
 
                 double[] rowSize = {P, P}, columnSize = {P, F};
-                this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.CENTER);
+                this.add(TableLayoutHelper.createGapTableLayoutPane(
+                        components, rowSize, columnSize, HGAP, VGAP
+                ), BorderLayout.CENTER);
             }
 
 
@@ -606,7 +606,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         if (noContent) {
                             centerPane.setPreferredSize(new Dimension(0, 0));
                         } else {
-                            centerPane.setPreferredSize(new Dimension(158, 20));
+                            centerPane.setPreferredSize(new Dimension(156, 20));
                         }
                         String sortFormula = dSColumn.getSortFormula();
                         if (sortFormula != null && sortFormula.length() >= 1) {
@@ -680,14 +680,14 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
                             //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(158, 20));
+                            setCardPane.setPreferredSize(new Dimension(156, 20));
                             tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 2) {
                             //后N个
                             setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
                             //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(158, 20));
+                            setCardPane.setPreferredSize(new Dimension(156, 20));
                             tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 3) {
                             //奇数
@@ -706,7 +706,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                             //显示set和tip
-                            setCardPane.setPreferredSize(new Dimension(158, 20));
+                            setCardPane.setPreferredSize(new Dimension(156, 20));
                             tipCardPane.setPreferredSize(new Dimension(224, 40));
                         } else {
                             setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
@@ -760,11 +760,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 specifyTip.setForeground(TIP_FONT_COLOR);
                 tipCardPane.add(specifyTip, FilterType.SPECIFY.name());
 
-                this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         {filterLabel, rsComboBox},
                         {null, setCardPane},
                         {tipCardPane, null}
-                }, new double[]{P, P, P}, new double[]{P, F}), BorderLayout.CENTER);
+                }, new double[]{P, P, P}, new double[]{P, F}, HGAP, VGAP), BorderLayout.CENTER);
             }
 
             public void populate(CellElement cellElement) {
@@ -782,19 +782,19 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                 case SelectCount.TOP:
                                     this.topFormulaPane.populate(selectCount.getFormulaCount());
                                     //隐藏tip 显示set
-                                    setCardPane.setPreferredSize(new Dimension(158, 20));
+                                    setCardPane.setPreferredSize(new Dimension(156, 20));
                                     tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.BOTTOM:
                                     this.bottomFormulaPane.populate(selectCount.getFormulaCount());
                                     //隐藏tip 显示set
-                                    setCardPane.setPreferredSize(new Dimension(158, 20));
+                                    setCardPane.setPreferredSize(new Dimension(156, 20));
                                     tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.SPECIFY:
                                     this.serialTextField.setText(selectCount.getSerial());
                                     //显示set和tip
-                                    setCardPane.setPreferredSize(new Dimension(158, 20));
+                                    setCardPane.setPreferredSize(new Dimension(156, 20));
                                     tipCardPane.setPreferredSize(new Dimension(224, 40));
                                     break;
                                 case SelectCount.EVEN:
@@ -955,9 +955,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 UILabel customValueLabel = new UILabel(Inter.getLocText("FR-Designer_Display_Value"));
                 customValueLabel.setPreferredSize(new Dimension(60, 20));
                 formulaField = new JFormulaField("$$$");
-                this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{customValueLabel, formulaField},
-                }, new double[]{P}, new double[]{P, F}), BorderLayout.CENTER);
+                }, new double[]{P}, new double[]{P, F}, HGAP, VGAP), BorderLayout.CENTER);
             }
 
             public void populate(CellElement cellElement) {
