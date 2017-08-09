@@ -84,7 +84,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void addValidatePane() {
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        validatePane.setLayout(new BorderLayout(0, 5));
 
         final UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
         allowBlankCheckBox.addItemListener(new ItemListener() {
