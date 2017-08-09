@@ -2,7 +2,7 @@ package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.editor.editor.*;
-import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.widget.editors.DataBindingEditor;
 import com.fr.design.mainframe.widget.editors.DataTableEditor;
 import com.fr.design.mainframe.widget.editors.ServerDataBindingEditor;
@@ -19,46 +19,48 @@ import java.awt.*;
  * Created by ibm on 2017/7/27.
  */
 public class FormWidgetValuePane extends JPanel {
-    private UIHeadGroup widgetValueHead;
+    private UIButtonGroup widgetValueHead;
     private Editor[] editor;
+    private JPanel customPane;
+    private CardLayout cardLayout;
 
 
     public FormWidgetValuePane(Object o, boolean onlyServer) {
         DataControl widget = (DataControl) o;
         editor = createWidgetValueEditor(widget, onlyServer);
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
-        final CardLayout cardLayout = new CardLayout();
-        final JPanel customPane = new JPanel(cardLayout);
-        final String [] tabTitles = new String[editor.length];
-        for(int i = 0; i < editor.length; i++){
+        cardLayout = new CardLayout();
+        customPane = new JPanel(cardLayout);
+        final String[] tabTitles = new String[editor.length];
+        for (int i = 0; i < editor.length; i++) {
             customPane.add(editor[i], editor[i].getName());
             tabTitles[i] = editor[i].getName();
         }
-        widgetValueHead = new UIHeadGroup(tabTitles) {
-            @Override
-            public void tabChanged(int index) {
-                //todo
-                attributeChange(index, customPane, cardLayout, tabTitles);
-            }
-        };
+        widgetValueHead = new UIButtonGroup(tabTitles);
         this.add(widgetValueHead, BorderLayout.NORTH);
         this.add(customPane, BorderLayout.CENTER);
 
     }
 
-    public void attributeChange(int index, JPanel customPane, CardLayout cardLayout, String[] tabTitles){
-        if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("FR-Designer_Widget_Field"))) {
+    public void attributeChange() {
+        int index = widgetValueHead.getSelectedIndex();
+        if (index == -1) {
+            index = 0;
+            widgetValueHead.setSelectedIndex(index);
+        }
+        if (ComparatorUtils.equals(editor[index].getName(), Inter.getLocText("FR-Designer_Widget_Field"))) {
             customPane.setPreferredSize(new Dimension(100, 47));
         } else {
             customPane.setPreferredSize(new Dimension(100, 20));
         }
-        cardLayout.show(customPane, tabTitles[index]);
+        cardLayout.show(customPane, editor[index].getName());
     }
 
 
     /**
      * 根据类型创建
-     * @param type  类型
+     *
+     * @param type       类型
      * @param onlyServer 是否是服务器
      * @return 编辑器
      */
@@ -73,7 +75,7 @@ public class FormWidgetValuePane extends JPanel {
             case DataControl.TYPE_STRING:
                 return new com.fr.design.editor.editor.TextEditor();
             case DataControl.TYPE_BOOLEAN:
-                return  new BooleanEditor(false);
+                return new BooleanEditor(false);
             case DataControl.TYPE_DATE:
                 return new DateEditor(true, Inter.getLocText("Date"));
             case DataControl.TYPE_TABLEDATA:
@@ -86,13 +88,14 @@ public class FormWidgetValuePane extends JPanel {
 
     /**
      * 用DataControl构建
-     * @param data 数据
+     *
+     * @param data       数据
      * @param onlyServer 是否是服务器
      * @return 编辑器
      */
     public static Editor[] createWidgetValueEditor(DataControl data, boolean onlyServer) {
         int types[] = data.getValueType();
-        Editor[] editor = new Editor[types.length ];
+        Editor[] editor = new Editor[types.length];
         for (int i = 0; i < types.length; i++) {
             editor[i] = createWidgetValueEditorByType(types[i], onlyServer);
 
@@ -101,6 +104,7 @@ public class FormWidgetValuePane extends JPanel {
     }
 
     public void update(DataControl ob) {
+        attributeChange();
         int index = widgetValueHead.getSelectedIndex();
         Editor e = editor[index];
         Object value = e.getValue();
@@ -109,18 +113,18 @@ public class FormWidgetValuePane extends JPanel {
 
     public void populate(DataControl ob) {
         WidgetValue widgetValue = ob.getWidgetValue();
-        if(widgetValue == null){
-            return;
-        }
-        for (int i = 0; i < editor.length; i++) {
-            if (editor[i].accept(widgetValue.getValue())) {
-                setCardValue(i, widgetValue.getValue());
-                break;
+        if (widgetValue != null) {
+            for (int i = 0; i < editor.length; i++) {
+                if (editor[i].accept(widgetValue.getValue())) {
+                    setCardValue(i, widgetValue.getValue());
+                    break;
+                }
             }
         }
+        attributeChange();
     }
 
-    private void setCardValue(int i, Object object){
+    private void setCardValue(int i, Object object) {
         widgetValueHead.setSelectedIndex(i);
         editor[i].setValue(object);
         // kunsnat: bug7861 所有的Editor值都要跟随改变, 因为populate的editor 从""

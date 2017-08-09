@@ -1,10 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.DirectWriteEditor;
 import com.fr.general.Inter;
@@ -42,8 +39,9 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 
 
 	public  JPanel setValidatePane(){
-		JPanel otherContentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 5));
+		JPanel otherContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		JPanel jPanel = GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 0);
+		otherContentPane.add(jPanel, BorderLayout.NORTH);
 		return otherContentPane;
 	}
 

@@ -3,15 +3,13 @@ package com.fr.design.widget.ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.JPanel;
@@ -172,6 +170,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     public JPanel setValidatePane() {
 
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Decimals"));
+        allowDecimalsCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         this.decimalLength = new UIBasicSpinner(new SpinnerNumberModel(16, 0, Integer.MAX_VALUE, 1));
         this.decimalLength.setPreferredSize(new Dimension(155, 20));
 
@@ -179,8 +178,10 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
         this.allowNegativeCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Negative"));
         this.allowNegativeCheckBox.addActionListener(actionListener2);
+        allowNegativeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         this.setMaxValueCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Max_Value"), false);
+        setMaxValueCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         this.maxValueSpinner = new UIBasicSpinner(maxValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
         maxValueSpinner.setPreferredSize(new Dimension(155, 20));
@@ -190,6 +191,8 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.maxValueSpinner.addChangeListener(changeListener1);
 
         this.setMinValueCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Min_Value"), false);
+        setMinValueCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         this.minValueSpinner = new UIBasicSpinner(minValueModel = new SpinnerNumberModel(0D, -Double.MAX_VALUE, Double.MAX_VALUE, 1D));
         minValueSpinner.setPreferredSize(new Dimension(155, 20));
         setNotAllowsInvalid(this.minValueSpinner);

@@ -25,6 +25,8 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 		this.setLayout(new BorderLayout());
 		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Visible"), true);
 		visibleCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget-Visible"), true);
+		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
 		double f = TableLayout.FILL;

@@ -7,7 +7,6 @@ import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ComboBox;
 import com.fr.general.Inter;
 
