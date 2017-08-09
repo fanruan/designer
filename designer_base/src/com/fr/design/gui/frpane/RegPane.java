@@ -73,13 +73,13 @@ public class RegPane extends BasicPane {
 
     private void initComponents(){
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         regComboBox = new UIComboBox(regType);
         regComboBox.setRenderer(listCellRender);
 
         JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         this.add(contentPane, BorderLayout.NORTH);
-
+        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         regErrorMsgPane = new RegErrorMsgPane();
         final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         detailedCardLayout = new CardLayout();
@@ -88,8 +88,9 @@ public class RegPane extends BasicPane {
         cardPane.add((regLengthPane = new RegLengthPane()), "Length");
         cardPane.add((regPhonePane = new RegPhonePane()), "Phone");
         cardPane.add((customRegRexPane = new CustomRegRexPane()), "Custom");
-        this.add(cardPane, BorderLayout.CENTER);
-        this.add(regErrorMsgPane, BorderLayout.SOUTH);
+        centerPane.add(cardPane, BorderLayout.NORTH);
+        centerPane.add(regErrorMsgPane, BorderLayout.CENTER);
+        this.add(centerPane, BorderLayout.CENTER);
         regComboBox.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 RegExp regExp = (RegExp)regComboBox.getSelectedItem();
