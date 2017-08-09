@@ -31,37 +31,38 @@ public class UITableEditorPane<T> extends BasicPane {
     private String leftLabelName;
     private JPanel buttonPane;
 
-    public UITableEditorPane(UITableModelAdapter<T> model) {
-        this.tableModel = model;
-        this.initComponent(model.createAction());
-    }
+	public UITableEditorPane(UITableModelAdapter<T> model) {
+		this.tableModel = model;
+		this.initComponent(model.createAction());
+	}
 
-    public UITableEditorPane(UITableModelAdapter<T> model, String s) {
-        leftLabelName = s;
-        this.tableModel = model;
-        this.initComponent(model.createAction());
-    }
+	public UITableEditorPane(UITableModelAdapter<T> model, String s) {
+		leftLabelName = s;
+		this.tableModel = model;
+		this.initComponent(model.createAction());
+	}
 
-    private void initComponent(UITableEditAction[] action) {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel pane = new JPanel(new BorderLayout(4, 4));
-        this.add(pane, BorderLayout.CENTER);
+	private void initComponent(UITableEditAction[] action) {
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+		JPanel pane = new JPanel(new BorderLayout(4, 4));
+		this.add(pane, BorderLayout.CENTER);
 
-        UILabel l = new UILabel(leftLabelName);
-        editTable = tableModel.createTable();
+		UILabel l = new UILabel(leftLabelName);
+		editTable = tableModel.createTable();
+		editTable.getTableHeader().setBackground(UIConstants.DEFAULT_BG_RULER);
 
-        UIScrollPane scrollPane = new UIScrollPane(editTable);
-        scrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
-        pane.add(scrollPane, BorderLayout.CENTER);
-        initbuttonPane(action);
-        JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        controlPane.add(buttonPane, BorderLayout.EAST);
-        controlPane.add(l, BorderLayout.WEST);
-        pane.add(controlPane, BorderLayout.NORTH);
+		UIScrollPane scrollPane = new UIScrollPane(editTable);
+		scrollPane.setBorder(new UIRoundedBorder(UIConstants.TITLED_BORDER_COLOR, 1, UIConstants.ARC));
+		pane.add(scrollPane, BorderLayout.CENTER);
+		initbuttonPane(action);
+		JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		controlPane.add(buttonPane, BorderLayout.EAST);
+		controlPane.add(l, BorderLayout.WEST);
+		pane.add(controlPane, BorderLayout.NORTH);
 
-    }
+	}
 
-    public UITableModelAdapter<T> getTableModel() {
+    public  UITableModelAdapter<T> getTableModel(){
         return tableModel;
     }
 

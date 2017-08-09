@@ -100,6 +100,8 @@ public interface UIConstants {
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");

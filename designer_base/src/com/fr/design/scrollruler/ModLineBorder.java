@@ -7,6 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.border.AbstractBorder;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
@@ -31,7 +32,7 @@ public class ModLineBorder extends AbstractBorder {
      * @param modifiers modifiers
      */
     public ModLineBorder(int modifiers) {
-        this(modifiers, GUICoreUtils.getTitleLineBorderColor(), 1);
+        this(modifiers, UIConstants.TITLED_BORDER_COLOR, 1);
     }
 
     /**
