@@ -176,7 +176,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         String formatText = e.getFormatText();
         fomatHeadGroup.setSelectedIndex(getDateType(e));
         currentFormatComboBox.setSelectedItem(formatText);
-
+        waterMarkDictPane.populate(e);
 		returnTypeComboBox.setSelectedIndex(e.isReturnDate() ? 0 : 1);
         formWidgetValuePane.populate(e);
         startDv.populate(e.getStartDate());
@@ -186,7 +186,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     @Override
     protected DateEditor updateSubDirectWriteEditorBean() {
         DateEditor ob = new DateEditor();
-
+        waterMarkDictPane.update(ob);
         ob.setFormatText(this.getSimpleDateFormat().toPattern());
         ob.setReturnDate(returnTypeComboBox.getSelectedIndex() == 0);
         formWidgetValuePane.update(ob);

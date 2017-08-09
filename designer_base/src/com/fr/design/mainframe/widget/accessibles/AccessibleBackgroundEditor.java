@@ -25,10 +25,6 @@ public class AccessibleBackgroundEditor extends UneditableAccessibleEditor {
         super(new BackgroundWrapper());
     }
 
-    protected void setBorderVisible(){
-        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-    }
-
     @Override
     protected void showEditorPane() {
         if (backgroundPane == null) {

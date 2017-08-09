@@ -122,8 +122,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             }
             //这边计算的时候会先把组件间隔去掉
             moveComponents2FitLayout(xfl);
-            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-            formDesigner.getSelectionModel().setSelectedCreator(xfl);
+
 
             for (int i = 0; i < components.length; i++) {
                 Component comp = xfl.getComponent(i);
@@ -139,6 +138,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
                 xfl.addCompInterval(xfl.getAcualInterval());
             }
             xfl.toData().setLayoutType(WBodyLayoutType.FIT);
+            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+            formDesigner.getSelectionModel().setSelectedCreator(xfl);
             return true;
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());

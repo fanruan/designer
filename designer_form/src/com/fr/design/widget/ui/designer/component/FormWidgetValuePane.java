@@ -109,9 +109,12 @@ public class FormWidgetValuePane extends JPanel {
 
     public void populate(DataControl ob) {
         WidgetValue widgetValue = ob.getWidgetValue();
+        if(widgetValue == null){
+            return;
+        }
         for (int i = 0; i < editor.length; i++) {
-            if (editor[i].accept(widgetValue)) {
-                setCardValue(i, widgetValue);
+            if (editor[i].accept(widgetValue.getValue())) {
+                setCardValue(i, widgetValue.getValue());
                 break;
             }
         }

@@ -32,11 +32,13 @@ public class ComboBoxDefinePane extends DictEditorDefinePane<ComboBox> {
 
 	protected  void populateSubDictionaryEditorBean(ComboBox ob){
 		removeRepeatCheckBox.setSelected(ob.isRemoveRepeat());
+		waterMarkField.setText(ob.getWaterMark());
 		formWidgetValuePane.populate(ob);
 	}
 
 	protected  ComboBox updateSubDictionaryEditorBean(){
 		ComboBox combo = (ComboBox) creator.toData();
+		combo.setWaterMark(waterMarkField.getText());
 		combo.setRemoveRepeat(removeRepeatCheckBox.isSelected());
 		formWidgetValuePane.update(combo);
 		return combo;
