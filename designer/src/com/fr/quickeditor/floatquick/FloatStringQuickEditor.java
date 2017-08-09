@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.ElementCasePane;
@@ -50,7 +51,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         stringTextField.setLineWrap(true);
         stringTextField.setWrapStyleWord(true);
         stringTextField.setMargin(new Insets(5, 5, 5, 5));
-        stringTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
+        stringTextField.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER));
         stringTextField.setBackground(Color.WHITE);
     }
 
