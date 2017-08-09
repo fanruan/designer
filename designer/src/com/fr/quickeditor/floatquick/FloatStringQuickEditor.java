@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.ElementCasePane;
@@ -37,7 +38,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         JPanel pane = new JPanel(new BorderLayout(5, 0));
         pane.add(stringTextField, BorderLayout.CENTER);
         pane.add(formulaButton, BorderLayout.EAST);
-        pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,7));
+        pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,5));
         formulaButton.setVisible(false);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -50,7 +51,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
         stringTextField.setLineWrap(true);
         stringTextField.setWrapStyleWord(true);
         stringTextField.setMargin(new Insets(5, 5, 5, 5));
-        stringTextField.setBorder(BorderFactory.createLineBorder(Color.gray));
+        stringTextField.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER));
         stringTextField.setBackground(Color.WHITE);
     }
 
@@ -73,7 +74,7 @@ public class FloatStringQuickEditor extends FloatQuickEditor {
             Formula formula = (Formula) value;
             str = formula.getContent();
             stringTextField.setLineWrap(false);
-            this.setBorder(BorderFactory.createEmptyBorder(10, 78, 10, 10));
+            this.setBorder(BorderFactory.createEmptyBorder(10, 75, 10, 10));
             reserveInResult = formula.isReserveInResult();
             reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();
         } else {

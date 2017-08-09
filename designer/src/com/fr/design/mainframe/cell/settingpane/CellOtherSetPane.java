@@ -63,7 +63,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     // 插入行策略
     private UIButtonGroup insertRowPolicy;
     private ValueEditorPane valueEditor;
-
+    private CardLayout insertRowLayout;
+    private JPanel insertRowPane;
     private JPanel southContentPane;
     private JPanel defaultValuePane;
 
@@ -109,14 +110,41 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         defaultValuePane = new JPanel(new BorderLayout(4, 0));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();
         defaultValuePane.add(valueEditor, BorderLayout.CENTER);
-        defaultValuePane.setVisible(false);
-
+        insertRowLayout = new CardLayout();
+        insertRowPane = new JPanel(insertRowLayout);
+        insertRowPane.add(new JPanel(), "none");
+        insertRowPane.add(defaultValuePane, "content");
+        insertRowPane.setPreferredSize(new Dimension(0, 0));
         insertRowPolicy.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                defaultValuePane.setVisible(insertRowPolicy.getSelectedIndex() == 1);
+                if (insertRowPolicy.getSelectedIndex() == 1) {
+                    insertRowPane.setPreferredSize(new Dimension(100, 20));
+                    insertRowLayout.show(insertRowPane, "content");
+                } else {
+                    insertRowLayout.show(insertRowPane, "none");
+                    insertRowPane.setPreferredSize(new Dimension(0, 0));
+                }
             }
         });
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize1 = {p, p};
+        double[] columnSize1 = {p, f};
+        int[][] rowCount1 = {{1, 1}, {1, 1}};
+        Component[][] components1 = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
+                new Component[]{null, insertRowPane},
+        };
+        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel seniorPane = new JPanel(new BorderLayout());
+        seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
+        seniorPane.add(southContentPane, BorderLayout.CENTER);
+        southContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        return seniorPane;
+    }
+
+    private JPanel seniorUpPane() {
         JPanel fileNamePane = createNormal();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -133,19 +161,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip"), SwingConstants.RIGHT), tooltipTextField},
                 new Component[]{null, null},
         };
-        JPanel seniorCenterPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-        double[] rowSize1 = {p, p};
-        double[] columnSize1 = {p, f};
-        int[][] rowCount1 = {{1, 1}, {1, 1}};
-        Component[][] components1 = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
-                new Component[]{null, defaultValuePane},
-        };
-        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-        JPanel seniorPane = new JPanel(new BorderLayout());
-        seniorPane.add(seniorCenterPane, BorderLayout.NORTH);
-        seniorPane.add(southContentPane, BorderLayout.CENTER);
-        return seniorPane;
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
     private JPanel pagePane() {
@@ -305,7 +321,13 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         } else {
             insertRowPolicy.setSelectedIndex(0);
         }
-        defaultValuePane.setVisible(insertRowPolicy.getSelectedIndex() == 1);
+        if (insertRowPolicy.getSelectedIndex() == 1) {
+            insertRowPane.setPreferredSize(new Dimension(100, 20));
+            insertRowLayout.show(insertRowPane, "content");
+        } else {
+            insertRowLayout.show(insertRowPane, "none");
+            insertRowPane.setPreferredSize(new Dimension(0, 0));
+        }
         southContentPane.setVisible(true);
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (!jTemplate.isJWorkBook()) { //表单中报表块编辑屏蔽掉  插入行策略

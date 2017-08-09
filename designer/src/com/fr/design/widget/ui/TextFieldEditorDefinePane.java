@@ -58,16 +58,16 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
             }
         });
-        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        jPanel.add(waterMarkDictPane, BorderLayout.CENTER);
+        JPanel content = FRGUIPaneFactory.createBorderLayout_S_Pane();
         waterMarkDictPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        return jPanel;
+        content.add(waterMarkDictPane, BorderLayout.CENTER);
+
+        return content;
     }
 
-    public  JPanel setValidatePane(){
+    public JPanel setValidatePane() {
         return regPane;
     }
-
 
 
     protected RegPane createRegPane() {

@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui;
 
+import com.fr.base.FRContext;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -83,7 +84,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
                 try {
                     pr = (ParameterProvider) parameterProvider.clone();
                 } catch (CloneNotSupportedException e1) {
-                    e1.printStackTrace();
+                    FRContext.getLogger().error(e1.getMessage(), e1);
                 }
                 list.add(pr);
             }
