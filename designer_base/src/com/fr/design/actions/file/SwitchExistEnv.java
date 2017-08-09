@@ -3,11 +3,13 @@ package com.fr.design.actions.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.Env;
 import com.fr.base.FRContext;
-import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.base.FRCoreContext;
 import com.fr.dav.LocalEnv;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -15,16 +17,14 @@ import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
-import com.fr.design.dialog.InformationWarnPane;
 import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.stable.LicUtils;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.EnvChangedListener;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -118,7 +118,7 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 SignIn.signIn(selectedEnv);
-                LicUtils.resetBytes();
+                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {
