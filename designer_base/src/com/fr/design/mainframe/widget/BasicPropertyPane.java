@@ -23,6 +23,7 @@ public class BasicPropertyPane extends BasicPane {
 
     protected void initContentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         widgetName = new UITextField();
 
         double f = TableLayout.FILL;
@@ -34,7 +35,7 @@ public class BasicPropertyPane extends BasicPane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Name")), widgetName},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 15));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel, BorderLayout.NORTH);
     }
 

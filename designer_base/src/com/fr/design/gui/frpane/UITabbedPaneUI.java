@@ -30,7 +30,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
     private int addY = -1;
     private int rollover = -1;
     private Color tabBorderColor = new Color(143, 160, 183);
-    private Color[] tabSelectedColor = {new Color(255, 199, 59), new Color(187, 142, 33), new Color(214, 191, 137)};
+    private Color[] tabSelectedColor = {UIConstants.NORMAL_BLUE, new Color(187, 142, 33), new Color(214, 191, 137)};
 
     /**
      * 创建UI对象

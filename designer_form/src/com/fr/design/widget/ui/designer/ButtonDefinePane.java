@@ -1,19 +1,26 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.widget.btn.ButtonDetailPane;
-import com.fr.design.widget.ui.designer.btn.ButtonDetailPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.accessibles.AccessibleIconEditor;
+import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
-import com.fr.form.ui.FreeButton;
+import com.fr.general.Inter;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class ButtonDefinePane extends AbstractDataModify<Button> {
-    private ButtonDetailPane detailPane;
+public abstract class ButtonDefinePane<T extends Button> extends AbstractDataModify<T> {
+    private UITextField hotkeysTextField;
+    private UITextField buttonNameTextField;
+    private AccessibleIconEditor iconPane;
+
 
     public ButtonDefinePane(XCreator creator){
         super(creator);
@@ -21,8 +28,33 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
     }
 
     private void initComponent() {
-        setLayout(FRGUIPaneFactory.createBorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double rowSize[] = {p, p, p, p, p, p, p};
+        double columnSize[] = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        iconPane = new AccessibleIconEditor();
+        hotkeysTextField = new UITextField();
+        buttonNameTextField = new UITextField();
+        Component[] backgroundCompPane = createBackgroundComp();
+        Component[] frFont = createFontPane();
+        UILabel backgroundLabel = new UILabel(Inter.getLocText("FR-Designer_Background"));
+        backgroundLabel.setVerticalAlignment(SwingConstants.TOP);
+        Component[][] n_components = {
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField},
+                backgroundCompPane,
+                frFont,
+                {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField}
+        };
+        hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        boundsPane.add(panel);
+        UIExpandablePane advancedPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, boundsPane);
+        this.add(advancedPane);
     }
 
     @Override
@@ -30,31 +62,33 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
         return "Button";
     }
 
-    private void resetDetailPane(Button btn, Class cls) {
-        if (detailPane != null) {
-            remove(detailPane);
-        }
-        detailPane = ButtonDetailPaneFactory.createButtonDetailPane(cls, btn);
-        add(detailPane, BorderLayout.CENTER);
-        detailPane.addTypeChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                resetDetailPane(null, (Class) e.getSource());
-            }
-        });
-        this.updateUI();
+    public Component[] createBackgroundComp(){
+        return new Component[]{null, null};
+    }
+
+    public Component[] createFontPane(){
+        return new Component[]{null, null};
     }
 
     @Override
-    public void populateBean(Button btn) {
-        resetDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
+    public void populateBean(T btn) {
+        hotkeysTextField.setText(btn.getHotkeys());
+        buttonNameTextField.setText(btn.getLabelName());
+        iconPane.setValue(btn.getIconName());
+        populateSubButtonPane(btn);
     }
 
-    @Override
-    public Button updateBean() {
+    public abstract void populateSubButtonPane(T e);
 
-//        resetDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
-        return new Button();
+    public abstract T updateSubButtonPane();
+
+    @Override
+    public T updateBean() {
+        T btn = updateSubButtonPane();
+        btn.setHotkeys(hotkeysTextField.getText());
+        btn.setLabelName(buttonNameTextField.getText());
+        btn.setIconName((String)iconPane.getValue());
+        return btn;
     }
 
 }

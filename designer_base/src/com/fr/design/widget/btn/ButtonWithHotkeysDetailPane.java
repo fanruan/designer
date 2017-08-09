@@ -1,21 +1,19 @@
 package com.fr.design.widget.btn;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import com.fr.design.foldablepane.UIExpandablePane;
-import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.widget.IconDefinePane;
+import com.fr.design.mainframe.widget.accessibles.AccessibleIconEditor;
 import com.fr.form.ui.Button;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,71 +25,49 @@ import java.awt.event.FocusListener;
 public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends ButtonDetailPane<T> {
     private UITextField hotkeysTextField;
     private UITextField buttonNameTextField;
-    private IconDefinePane iconPane;
-    private AttributeChangeListener listener;
-
+    private AccessibleIconEditor iconPane;
 
     public ButtonWithHotkeysDetailPane() {
         initComponents();
     }
 
     private void initComponents() {
-//        creator.
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//        advancedPane.setPreferredSize(new Dimension(600, 341));
-        JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-        double p = TableLayout.PREFERRED;
+        this.setLayout(new BorderLayout(7, 7));
+        JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         double f = TableLayout.FILL;
-        double rowSize[] = {p, p, p, p, p, p, p};
+        double p = TableLayout.PREFERRED;
+        double rowSize[] = {p, p, p, p};
         double columnSize[] = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 3}, {1, 1}, {1, 1}};
         JPanel labelPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        iconPane = new IconDefinePane();
+        iconPane = new AccessibleIconEditor();
         labelPane.add(iconPane);
         Component[][] n_components = {
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
                 {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField = new UITextField()},
-                {new UILabel("背景" + ":"), new UITextField()},
-                {new UILabel("字体" + ":"), new UITextField()},
-                {new UILabel("图标" + ":"), new UITextField()},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField()}
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Icon") + ":"), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField = new UITextField()},
         };
-        buttonNameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-//                creator.getWidget().set
-
-            }
-        });
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 8);
-        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        jPanel.add(panel, BorderLayout.CENTER);
-        UIExpandablePane advancedPane = new UIExpandablePane("高级", 280, 20, jPanel);
-        this.add(advancedPane);
-    }
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        advancePane.add(panel, BorderLayout.NORTH);
+        Component comp = createCenterPane();
+        if(comp != null	) {
+            advancePane.add(comp,BorderLayout.CENTER);
+        }
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
+        this.add(uiExpandablePane);
 
-    //add By kerry
-    public void addAttributeChangeListener(AttributeChangeListener listener) {
-        this.listener = listener;
     }
-
 
     protected abstract Component createCenterPane();
 
     @Override
-    public void populate(Button button) {
+    public void populate(T button) {
         if (button == null) {
             return;
         }
-        iconPane.populate(button.getIconName());
+        iconPane.setValue(button.getIconName());
         buttonNameTextField.setText(button.getText());
         hotkeysTextField.setText(button.getHotkeys());
     }
@@ -99,16 +75,9 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
     @Override
     public T update() {
         T button = createButton();
-        button.setIconName(iconPane.update());
+        button.setIconName((String)iconPane.getValue());
         button.setText(buttonNameTextField.getText());
         button.setHotkeys(hotkeysTextField.getText());
         return button;
-    }
-
-
-    public void updateBean(Button ob) {
-        ob.setIconName(iconPane.update());
-        ob.setText(buttonNameTextField.getText());
-        ob.setHotkeys(hotkeysTextField.getText());
     }
 }

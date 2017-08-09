@@ -13,6 +13,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * @author Jerry
@@ -59,19 +61,13 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     protected void initListener() {
         if (shouldResponseChangeListener()) {
-            getDocument().addDocumentListener(new DocumentListener() {
+            addFocusListener(new FocusListener() {
                 @Override
-                public void insertUpdate(DocumentEvent e) {
-                    attributeChange();
+                public void focusGained(FocusEvent e) {
                 }
 
                 @Override
-                public void removeUpdate(DocumentEvent e) {
-                    attributeChange();
-                }
-
-                @Override
-                public void changedUpdate(DocumentEvent e) {
+                public void focusLost(FocusEvent e) {
                     attributeChange();
                 }
             });

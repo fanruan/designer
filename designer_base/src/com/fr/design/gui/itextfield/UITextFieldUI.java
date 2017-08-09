@@ -51,9 +51,6 @@ public class UITextFieldUI extends BasicTextFieldUI {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.clip(roundShape);
 		g2d.setColor(backgroundColor);
-		if(!textField.isEnabled()){
-			g2d.setColor(UIConstants.NORMAL_BACKGROUND);
-		}
 		g2d.fillRoundRect(1, 1, width - 2, height - 2, 0, 0);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_OFF);
 	}

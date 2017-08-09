@@ -2,6 +2,7 @@ package com.fr.design.present;
 
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -85,7 +86,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         RCodesizespinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 6, 1));
         RCodeVersionComboBox = new UIComboBox();
         RCodeErrorCorrectComboBox = new UIComboBox();
-        typeSetLabel = new UILabel(Inter.getLocText("Type_Set") + ":", UILabel.RIGHT);
+        typeSetLabel = new UILabel(Inter.getLocText("Type_Set"), UILabel.LEFT);
         initVersionComboBox();
         initErrorCorrectComboBox();
 
@@ -95,7 +96,9 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p};
+        int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
         barCodePreviewPane.setPreferredSize(new Dimension(0, 125));
+        typeComboBox.setPreferredSize(new Dimension(155,20));
         final JPanel centerPane = new JPanel(new CardLayout());
 
         Component[][] components = new Component[][]{
@@ -103,7 +106,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
                 new Component[]{borderPane, null},
                 new Component[]{centerPane, null}
         };
-        JPanel barCode = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel barCode = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
         centerPane.add(getNormalPane(), "normal");
         centerPane.add(getSpecialPane(), "special");
         typeComboBox.addItemListener(new ItemListener() {
@@ -145,21 +148,23 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p, p, p};
-        double[] columnSize1 = {p, f, f};
+        double[] columnSize = {p, f, f};
+        int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
         JPanel barWidthContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         barWidthContainer.add(barWidthSpinner);
         JPanel barHeightContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         barHeightContainer.add(barHeightSpinner);
-        UILabel uiLabel = new UILabel(Inter.getLocText("Tree-Width") + ":", UILabel.RIGHT);
+        UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.RIGHT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
+        drawingTextCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         Component[][] components_normal = new Component[][]{
-                new Component[]{new UILabel("条形码大小", UILabel.LEFT), barWidthContainer, barHeightContainer},
-                new Component[]{null, new UILabel(Inter.getLocText("Tree-Width"), UILabel.CENTER), new UILabel(Inter.getLocText("Height"), UILabel.CENTER)},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
+                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.CENTER), new UILabel(Inter.getLocText("FR-Designer_Height"), UILabel.CENTER)},
                 new Component[]{drawingTextCheckBox, null, null}
         };
 
 
-        JPanel normalPane = TableLayoutHelper.createTableLayoutPane(components_normal, rowSize, columnSize1);
+        JPanel normalPane = TableLayoutHelper.createGapTableLayoutPane(components_normal, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
         return normalPane;
     }
 
@@ -167,17 +172,21 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     private JPanel getSpecialPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize1 = {p, p};
+        double[] columnSize = {p, p};
         double[] rowSize = {p, p, p, p, p, p, p, p};
-        UILabel uiLabel = new UILabel(Inter.getLocText("RCodeVersion") + ":", UILabel.RIGHT);
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        UILabel uiLabel = new UILabel(Inter.getLocText("RCodeVersion"), UILabel.LEFT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
+        RCodeVersionComboBox.setPreferredSize(new Dimension(155,20));
+        RCodeErrorCorrectComboBox.setPreferredSize(new Dimension(155,20));
+        RCodesizespinner.setPreferredSize(new Dimension(155,20));
         Component[][] components_special = new Component[][]{
                 new Component[]{uiLabel, RCodeVersionComboBox},
-                new Component[]{new UILabel(Inter.getLocText("RCodeErrorCorrect") + ":", UILabel.RIGHT), RCodeErrorCorrectComboBox},
-                new Component[]{new UILabel(Inter.getLocText("RCodeDrawPix") + ":", UILabel.RIGHT), RCodesizespinner}
+                new Component[]{new UILabel(Inter.getLocText("RCodeErrorCorrect"), UILabel.LEFT), RCodeErrorCorrectComboBox},
+                new Component[]{new UILabel(Inter.getLocText("RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
         };
 
-        JPanel specialPane = TableLayoutHelper.createTableLayoutPane(components_special, rowSize, columnSize1);
+        JPanel specialPane = TableLayoutHelper.createGapTableLayoutPane(components_special, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
         return specialPane;
     }
 

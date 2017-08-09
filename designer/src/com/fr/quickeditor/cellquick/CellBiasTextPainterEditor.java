@@ -1,9 +1,12 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.base.BaseUtils;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.BiasCellAction;
 import com.fr.design.cell.editor.BiasTextPainterCellEditor.BiasTextPainterPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -11,29 +14,36 @@ import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.painter.BiasTextPainter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * 单元格元素斜线编辑器
- * TODO 9.0 大体没有改动
  */
 public class CellBiasTextPainterEditor extends CellQuickEditor {
 
     @Override
     public JComponent createCenterBody() {
-        UIButton editbutton = new UIButton(Inter.getLocText("Edit"), BaseUtils.readIcon("/com/fr/design/images/m_insert/bias.png"));
-        editbutton.addActionListener(new ActionListener() {
-
+        JPanel content = new JPanel(new BorderLayout());
+        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
+        editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showEditingDialog();
             }
         });
-        editbutton.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        editbutton.setMargin(null);
-        editbutton.setOpaque(false);
-        return editbutton;
+        editButton.setOpaque(false);
+        content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, editButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
+        return content;
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(BiasCellAction.class);
     }
 
     private void showEditingDialog() {
@@ -56,8 +66,6 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
 
     @Override
     protected void refreshDetails() {
-        // TODO Auto-generated method stub
-
     }
 
 }

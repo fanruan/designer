@@ -13,12 +13,15 @@ import com.fr.report.elementcase.TemplateElementCase;
  * Cell.
  */
 public abstract class AbstractCellAction extends CellSelectionAction {
-	protected AbstractCellAction(ElementCasePane t) {
-		super(t);
-	}
-	
+    protected AbstractCellAction() {
+    }
+
+    protected AbstractCellAction(ElementCasePane t) {
+        super(t);
+    }
+
     public abstract Class getCellValueClass();
-    
+
     /*
      * TODO ALEX_SEP 这里的返回boolean量表示模板是否改变,导致很多很多的方法的boolean返回值都是这个意思
      * 
@@ -26,8 +29,8 @@ public abstract class AbstractCellAction extends CellSelectionAction {
      */
     @Override
     protected boolean executeActionReturnUndoRecordNeededWithCellSelection(
-    		CellSelection cs) {
-    	ElementCasePane ePane = this.getEditingComponent();
+            CellSelection cs) {
+        ElementCasePane ePane = this.getEditingComponent();
         //got simple cell element from column and row.
         TemplateElementCase report = ePane.getEditingElementCase();
 
@@ -35,17 +38,18 @@ public abstract class AbstractCellAction extends CellSelectionAction {
         if (report != null && this instanceof DSColumnCellAction) {
             SheetUtils.calculateDefaultParent(report);
         }
-        
+
         return ePane.getGrid().startCellEditingAt_DEC(
-        		cs.getColumn(),
-                cs.getRow(), 
-                this.getCellValueClass(), false		
+                cs.getColumn(),
+                cs.getRow(),
+                this.getCellValueClass(), false
         );
     }
-	@Override
-	public void update() {
-		super.update();
-		ElementCasePane ePane = this.getEditingComponent();
-		this.setEnabled(ePane.isSelectedOneCell());
-	}
+
+    @Override
+    public void update() {
+        super.update();
+        ElementCasePane ePane = this.getEditingComponent();
+        this.setEnabled(ePane.isSelectedOneCell());
+    }
 }

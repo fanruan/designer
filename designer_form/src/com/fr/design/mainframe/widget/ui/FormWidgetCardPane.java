@@ -6,6 +6,7 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.widget.DataModify;
 import com.fr.design.widget.Operator;
@@ -14,6 +15,7 @@ import com.fr.design.widget.ui.designer.component.WidgetAbsoluteBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
+import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 
 import javax.swing.*;
@@ -129,12 +131,13 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     private void initDefinePane() {
         currentEditorDefinePane = null;
         XCreator creator = xCreator;
-        if (xCreator instanceof XWScaleLayout) {
-            if (xCreator.acceptType(XWScaleLayout.class)) {
-                if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
-                    creator = (XCreator) xCreator.getComponent(0);
-                }
+        if (xCreator.acceptType(XWScaleLayout.class)) {
+            if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
+                creator = (XCreator) xCreator.getComponent(0);
             }
+        }
+        if(xCreator.acceptType(XWTitleLayout.class)){
+            creator = (XCreator) xCreator.getComponent(0);
         }
         FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
             @Override
@@ -166,7 +169,10 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (cellWidget instanceof WScaleLayout) {
             Widget crBoundsWidget = ((WScaleLayout) cellWidget).getBoundsWidget();
             currentEditorDefinePane.populateBean(((CRBoundsWidget) crBoundsWidget).getWidget());
-        } else {
+        } else if(cellWidget instanceof WTitleLayout){
+            CRBoundsWidget crBoundsWidget = ((WTitleLayout) cellWidget).getBodyBoundsWidget();
+            currentEditorDefinePane.populateBean(crBoundsWidget.getWidget());
+        }else{
             currentEditorDefinePane.populateBean(cellWidget);
         }
         widgetPropertyPane.populate(cellWidget);
@@ -188,6 +194,11 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             xCreator1.resetData(widget);
             xCreator.removeAll();
             xCreator.add(xCreator1);
+        }else if(xCreator instanceof XWTitleLayout){
+            XCreator xCreator1 = ((XWTitleLayout) xCreator).getXCreator(0);
+            xCreator1.resetData(widget);
+            xCreator.removeAll();
+            xCreator.add(xCreator1);
         } else {
             xCreator.resetData(widget);
         }
@@ -204,6 +215,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     public void fireValueChanged() {
         designer.repaint();
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
     }
 
     public String getIconPath() {

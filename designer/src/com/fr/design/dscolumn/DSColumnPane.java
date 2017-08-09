@@ -148,7 +148,7 @@ public class DSColumnPane extends BasicPane {
     	basicPane.putElementcase(t);
     }
 
-	public void putCellElement(TemplateCellElement tplEC2) {
-		basicPane.putCellElement(tplEC2);
+	public void putCellElement(TemplateCellElement tplCE) {
+		basicPane.putCellElement(tplCE);
 	}
 }

@@ -21,6 +21,7 @@ public class FormBasicWidgetPropertyPane extends FormBasicPropertyPane {
 
     protected void initOtherPane() {
         JPanel pane2 = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
+        pane2.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
         enableCheckBox = new UICheckBox(Inter.getLocText("Enabled"), true);
         pane2.add(enableCheckBox);
         visibleCheckBox = new UICheckBox(Inter.getLocText("Widget-Visible"), true);

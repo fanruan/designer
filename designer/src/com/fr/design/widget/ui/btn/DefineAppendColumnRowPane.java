@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -20,7 +21,7 @@ import com.fr.report.web.button.write.AppendRowButton;
  */
 public class DefineAppendColumnRowPane extends BasicPane {
 	private ColumnRowEditor crEditor;
-	private com.fr.design.editor.editor.IntegerEditor jNumberEditor;
+	private UISpinner jNumberEditor;
 	private UILabel rowCountLable;
 
 	public DefineAppendColumnRowPane() {
@@ -35,7 +36,7 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		double columnSize[] = { p, f};
 
 		crEditor = new ColumnRowEditor();
-		jNumberEditor = new com.fr.design.editor.editor.IntegerEditor();
+		jNumberEditor = new UISpinner(0, 100 , 1, 0);
 
 		rowCountLable = new UILabel(Inter.getLocText("Edit-Row_Count") + ":");
 		JPanel lpane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -56,11 +57,11 @@ public class DefineAppendColumnRowPane extends BasicPane {
 
 	public void populate(AppendRowButton btn) {
 		crEditor.setValue(btn.getFixCell());
-		jNumberEditor.setValue(new Integer(btn.getCount()));
+		jNumberEditor.setValue(btn.getCount());
 	}
 
 	public void update(AppendRowButton btn) {
 		btn.setFixCell(crEditor.getValue());
-		btn.setCount(jNumberEditor.getValue().intValue());
+		btn.setCount((int)jNumberEditor.getValue());
 	}
 }

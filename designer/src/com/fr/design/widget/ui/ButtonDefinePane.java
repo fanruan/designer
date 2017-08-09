@@ -20,7 +20,6 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
 
     private void initComponent() {
         setLayout(FRGUIPaneFactory.createBorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
     }
 
     @Override

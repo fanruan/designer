@@ -1,12 +1,14 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WriteUnableRepeatEditor;
 import com.fr.general.Inter;
 
@@ -20,17 +22,35 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
-		JPanel contenter=FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		JPanel contentPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
-		contentPane.add(contenter);
-		contenter.add(removeRepeatCheckBox);
+		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		Component[] dicPane = createDicPane();
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				dicPane,
+				new Component[]{removeRepeatCheckBox, null},
+		};
+		double[] rowSize = {p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1,1},{1,1}};
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		contentPane.add(panel);
 		JPanel otherContentPane = this.setThirdContentPane();
 		if (otherContentPane != null)
 			contentPane.add(otherContentPane,BorderLayout.CENTER);
+
 		return contentPane;
 	}
+
+	protected Component[] createDicPane(){
+		return new Component[]{null, null};
+	}
+
+
 	protected abstract JPanel setThirdContentPane();
 	@Override
 	protected void populateSubFieldEditorBean(WriteUnableRepeatEditor e) {

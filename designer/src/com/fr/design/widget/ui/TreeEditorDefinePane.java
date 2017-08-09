@@ -46,13 +46,14 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 
 	@Override
 	protected JPanel setFirstContentPane() {
-		return this.setSecondContentPane();
-	}
+			return this.setSecondContentPane();
+		}
 
 	protected JPanel setSecondContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
+		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+
 		contentPane.add(contenter,BorderLayout.NORTH);
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
 		contenter.add(removeRepeatCheckBox);

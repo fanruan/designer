@@ -32,7 +32,6 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
-
         this.xwAbsoluteLayout = (XWAbsoluteLayout) xCreator;
         wAbsoluteLayout = xwAbsoluteLayout.toData();
         initComponent();
@@ -45,7 +44,10 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(boundPane, BorderLayout.NORTH);
         initUIComboBox();
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20, createThirdPane());
+        JPanel thirdPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        thirdPane.add(createThirdPane(), BorderLayout.CENTER);
+        thirdPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20,thirdPane );
 
         this.add(layoutExpandablePane, BorderLayout.CENTER);
     }
@@ -60,7 +62,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         return panel;
     }
 

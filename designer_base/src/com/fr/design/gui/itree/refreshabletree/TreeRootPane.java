@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import com.fr.data.impl.TreeAttr;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Inter;
@@ -18,10 +17,10 @@ public class TreeRootPane extends BasicPane {
 	
 	// 是否支持多选(checkBoxTree)
 	//private JCheckBox multipleSelection;
-	private UIComboBox checkTypeComboBox;
+	private UICheckBox checkTypeCheckBox;
 	
 	// richer:加载的方式，支持异步加载和完全加载
-	private UIComboBox loadTypeComboBox;
+	private UICheckBox loadTypeCheckBox;
 	
 	private UICheckBox layerTypeCheckBox;
 
@@ -30,32 +29,35 @@ public class TreeRootPane extends BasicPane {
 	public TreeRootPane() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		JPanel checkTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		checkTypePane.add(new UILabel(Inter.getLocText("Tree-Mutiple_Selection_Or_Not") + ":"));
-		checkTypeComboBox = new UIComboBox(new String[] {Inter.getLocText("Yes"), Inter.getLocText("No")});
-		checkTypePane.add(checkTypeComboBox);
+		JPanel checkTypePane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
+		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		checkTypeCheckBox = new UICheckBox(Inter.getLocText("Tree-Mutiple_Selection_Or_Not"));
+		checkTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		checkTypePane.add(checkTypeCheckBox);
 		this.add(checkTypePane);
 
-		JPanel loadTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		loadTypePane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		loadTypePane.add(new UILabel(Inter.getLocText("Widget-Load_Type") + ":"));
-		loadTypeComboBox = new UIComboBox(new String[]{Inter.getLocText("Widget-Load_By_Async"), Inter.getLocText("Widget-Load_By_Complete")});
-		loadTypePane.add(loadTypeComboBox);
+		JPanel loadTypePane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
+		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		loadTypeCheckBox = new UICheckBox(Inter.getLocText("Widget-Load_By_Async"));
+		loadTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		loadTypePane.add(loadTypeCheckBox);
 		this.add(loadTypePane);
 
-		JPanel leafSelectPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		leafSelectPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		JPanel leafSelectPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
+		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		leafSelectPane.add(layerTypeCheckBox = new UICheckBox(Inter.getLocText("Tree-Select_Leaf_Only")));
-		UILabel tips = new UILabel(Inter.getLocText("Tree-Select_Leaf_Only_Tips"));
-		tips.setForeground(new Color(147, 178, 233));
-		leafSelectPane.add(tips);
+		layerTypeCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
 		this.add(leafSelectPane);
 
-        JPanel returnFullPathPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        returnFullPathPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        returnFullPathPane.add(returnFullPathCheckBox = new UICheckBox(Inter.getLocText("Tree-Return_Full_Path")));
-        this.add(returnFullPathPane);
+        JPanel returnFullPathPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane_First0();
+		checkTypePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		returnFullPathPane.add(returnFullPathCheckBox = new UICheckBox(Inter.getLocText("Tree-Return_Full_Path")));
+		returnFullPathCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		this.add(returnFullPathPane);
 
 	}
 	
@@ -65,16 +67,16 @@ public class TreeRootPane extends BasicPane {
 	}
 	
 	public void populate(TreeAttr treeAttr) {
-		checkTypeComboBox.setSelectedIndex(treeAttr.isMultipleSelection() ? 0 : 1);
-		loadTypeComboBox.setSelectedIndex(treeAttr.isAjax() ? 0 : 1);
+		checkTypeCheckBox.setSelected(treeAttr.isMultipleSelection());
+		loadTypeCheckBox.setSelected(treeAttr.isAjax());
 		layerTypeCheckBox.setSelected(treeAttr.isSelectLeafOnly());
         returnFullPathCheckBox.setSelected(treeAttr.isReturnFullPath());
 	}
 
 	public TreeAttr update() {
 		TreeAttr treeAttr = new TreeAttr();
-		treeAttr.setMultipleSelection(checkTypeComboBox.getSelectedIndex() == 0);
-		treeAttr.setAjax(loadTypeComboBox.getSelectedIndex() == 0);
+		treeAttr.setMultipleSelection(checkTypeCheckBox.isSelected());
+		treeAttr.setAjax(loadTypeCheckBox.isSelected());
 		treeAttr.setSelectLeafOnly(layerTypeCheckBox.isSelected());
         treeAttr.setReturnFullPath(returnFullPathCheckBox.isSelected());
 

@@ -1,7 +1,9 @@
 package com.fr.design.mainframe.errorinfo;
 
+import com.fr.base.FRContext;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
+import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
@@ -10,6 +12,8 @@ import com.fr.stable.StableUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -45,7 +49,63 @@ public class ErrorInfoUploader {
         return collector;
     }
 
+    // 从云中心更新最新的解决方案文件
+    private void checkUpdateSolution(){
+        Thread updateThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String localCacheFilePath = StableUtils.pathJoin(ProductConstants.getEnvHome(), "solution", "solution.zip");
+                File localCacheZip = new File(localCacheFilePath);
+                if (needUpdate(localCacheZip)) {
+                    downloadSolution(localCacheZip);
+                }
+            }
+        });
+        updateThread.start();
+    }
+
+    private void downloadSolution(File localCacheZip) {
+        try {
+            String downloadURL = SiteCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
+            HttpClient hc = new HttpClient(downloadURL);
+            hc.asGet();
+            InputStream in = hc.getResponseStream();
+            StableUtils.makesureFileExist(localCacheZip);
+            FileOutputStream out = new FileOutputStream(localCacheZip);
+            IOUtils.copyBinaryTo(in, out);
+            out.close();
+            in.close();
+
+            IOUtils.unzip(localCacheZip, localCacheZip.getParent());
+        } catch (Exception e) {
+            FRContext.getLogger().debug(e.getMessage());
+        }
+
+    }
+
+    private boolean needUpdate(File localCacheZip){
+        if (localCacheZip.exists()) {
+            // 判断本地文件大小.
+            String checkURL = SiteCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/checkUpdate");
+            HttpClient client = new HttpClient(checkURL);
+            client.asGet();
+            if (client.isServerAlive()){
+                try {
+                    JSONObject res = new JSONObject(client.getResponseText());
+                    // 简单粗暴, 直接判断文件大小.
+                    return res.optLong("version") != localCacheZip.length();
+                } catch (JSONException ignore) {
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
     public void sendErrorInfo(){
+        // 判断更新解决方案缓存.
+        checkUpdateSolution();
+
         //读取文件夹里的json, 加入上传队列中.
         File folder = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FOLDER_NAME));
         if (!folder.exists()) {

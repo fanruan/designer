@@ -68,7 +68,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     @Override
     public void populateBean(T ob) {
         this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
-//        errorMsgTextField.setEnabled(!allowBlankCheckBox.isSelected());
         this.errorMsgTextField.setText(ob.getErrorMessage());
 
         populateSubFieldEditorBean(ob);
@@ -101,7 +100,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         final UILabel uiLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Error", "FR-Designer_Tooltips"}));
         errorMsgTextField = new UITextField(10);
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
-        allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+        allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
         allowBlankCheckBox.addItemListener(new ItemListener() {
 
@@ -141,15 +140,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Validate"), 280, 24, validatePane);
         this.add(uiExpandablePane, BorderLayout.CENTER);
-
-//        JPanel firstPane = GUICoreUtils.createFlowPane(new JComponent[]{allowBlankCheckBox}, FlowLayout.LEFT, 5);
-//        validatePane.add(firstPane);
-//        JPanel secondPane = new JPanel(FRGUIPaneFactory.createLabelFlowLayout());
-//        secondPane.add(new UILabel("错误提示" + ":"));
-//        secondPane.add(errorMsgTextField);
-//        JPanel secondPane = GUICoreUtils.createFlowPane(new JComponent[]{new UILabel(Inter.getLocText(new String[]{"Error", "Tooltips"}) + ":"), errorMsgTextField}, FlowLayout.LEFT, 24);
-//        secondPane.setPreferredSize(new Dimension(400, 23));
-//        validatePane.add(secondPane);
     }
 
     public JPanel setValidatePane() {

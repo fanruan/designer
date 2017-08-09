@@ -5,6 +5,7 @@ import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
 
 import javax.swing.*;
@@ -132,6 +133,17 @@ public class ActionFactory {
         return createEditor(clazz, cellEditor);
     }
 
+    public static UpdateAction createAction(Class clazz) {
+        try {
+            Constructor<? extends UpdateAction> c = clazz.getDeclaredConstructor();
+            c.setAccessible(true);
+            return c.newInstance();
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
+        return null;
+    }
+
     /**
      * peter:从Action来产生ToolTipText.
      *
@@ -190,7 +202,7 @@ public class ActionFactory {
             }
             if (jTemplate.acceptToolbarItem(clazz)) {
                 try {
-                    Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>)clazz.getConstructor(cls);
+                    Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor(cls);
                     actions.add(c.newInstance(obj));
                 } catch (Exception e) {
                     FRContext.getLogger().error(e.getMessage(), e);
@@ -198,6 +210,24 @@ public class ActionFactory {
             }
         }
         return actions.toArray(new UpdateAction[actions.size()]);
+    }
+
+
+    public static MenuKeySet[] createCellInsertActionName() {
+        List<MenuKeySet> actionNames = new ArrayList<>();
+        for (Class<?> clazz : actionClasses) {
+            if (clazz == null) {
+                continue;
+            }
+            try {
+                Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor();
+                actionNames.add(c.newInstance().getMenuKeySet());
+
+            } catch (Exception e) {
+                FRContext.getLogger().error(e.getMessage(), e);
+            }
+        }
+        return actionNames.toArray(new MenuKeySet[actionNames.size()]);
     }
 
     /**
@@ -225,7 +255,7 @@ public class ActionFactory {
                 continue;
             }
             try {
-                Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>)clazz.getConstructor(cls);
+                Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor(cls);
                 actions.add(c.newInstance(obj));
             } catch (Exception e) {
                 FRContext.getLogger().error(e.getMessage(), e);

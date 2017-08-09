@@ -12,6 +12,7 @@ import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
 import com.fr.report.cell.DefaultTemplateCellElement;
@@ -68,9 +69,6 @@ public class CellWidgetPropertyPane extends BasicPane {
 
         Widget cellWidget = cellElement.getWidget();
 
-        if(cellWidget == null){
-            return;
-        }
 
         // 这里进行克隆的原因是为了保留原始的Widget以便和新的Widget做比较来判断是否发生了改变
         if (cellWidget != null) {
@@ -85,8 +83,7 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
 
-    public void populate(ElementCasePane ePane) {
-
+    public void reInit(ElementCasePane ePane){
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
@@ -100,6 +97,11 @@ public class CellWidgetPropertyPane extends BasicPane {
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);
+    }
+
+    public void populate(ElementCasePane ePane) {
+        Selection editingSelection = ePane.getSelection();
+        editingSelection.populateWidgetPropertyPane(ePane);
     }
 
     public void update() {

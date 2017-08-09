@@ -234,4 +234,9 @@ public class FloatSelection extends Selection {
     public void populatePropertyPane(ElementCasePane ePane) {
         CellElementPropertyPane.getInstance().removeAll();
     }
+
+    public void populateWidgetPropertyPane(ElementCasePane ePane){
+        return;
+    }
+
 }

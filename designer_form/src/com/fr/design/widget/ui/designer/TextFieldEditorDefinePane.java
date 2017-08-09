@@ -4,17 +4,15 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.frpane.RegPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.TextEditor;
-import com.fr.form.ui.reg.RegExp;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -27,14 +25,9 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         super(xCreator);
     }
 
-    public TextFieldEditorDefinePane() {
-        super();
-
-    }
 
     @Override
     protected JPanel setFirstContentPane() {
-//        fontSizePane = new UISpinner(0,20,1);
         regPane = createRegPane();
         final RegPane.RegChangeListener rl = new RegPane.RegChangeListener() {
 
@@ -72,7 +65,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 //        });
 
 
-        formWidgetValuePane = new FormWidgetValuePane();
+        formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -83,9 +76,11 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 3},{1, 1},{1, 1}};
-        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        return panel;
+        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        boundsPane.add(panel);
+        return boundsPane;
     }
 
     public  JPanel setValidatePane(){
@@ -106,18 +101,16 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
     @Override
     protected void populateSubFieldEditorBean(TextEditor e) {
         this.regPane.populate(e.getRegex());
-//        regErrorMsgTextField.setText(e.getRegErrorMessage());
         waterMarkDictPane.setText(e.getWaterMark());
+        formWidgetValuePane.populate(e);
     }
 
     @Override
     protected TextEditor updateSubFieldEditorBean() {
         TextEditor ob = newTextEditorInstance();
-//        ob.setRegErrorMessage(this.regErrorMsgTextField.getText());
         ob.setRegex(this.regPane.update());
         ob.setWaterMark(waterMarkDictPane.getText());
         formWidgetValuePane.update(ob);
-//        ob.setFontSize((int)fontSizePane.getValue());
         return ob;
     }
 

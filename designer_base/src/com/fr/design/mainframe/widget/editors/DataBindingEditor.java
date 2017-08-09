@@ -27,6 +27,8 @@ import com.fr.general.Inter;
  * @since 2012-3-29下午5:26:28
  */
 public class DataBindingEditor extends Editor<DataBinding> {
+    private final static int HORI_GAP = 1;
+    private final static int VER_GAP = 7;
 
     private TableDataComboBox tableDataComboBox;
     private LazyComboBox columnNameComboBox;
@@ -56,12 +58,12 @@ public class DataBindingEditor extends Editor<DataBinding> {
 
     public DataBindingEditor() {
         this.initCompontents();
-        this.setName(Inter.getLocText("FieldBinding"));
+        this.setName(Inter.getLocText("FR-Designer_Widget_Field"));
     }
 
 
     private void initCompontents() {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setLayout(new BorderLayout(HORI_GAP, VER_GAP));
         tableDataComboBox = new TableDataComboBox(getTableDataSource());
         tableDataComboBox.setPreferredSize(new Dimension(55, 20));
         tableDataComboBox.addItemListener(tableDataComboBoxListener);
@@ -86,7 +88,7 @@ public class DataBindingEditor extends Editor<DataBinding> {
             }
         });
         columnNameComboBox.setEditable(true);
-        this.add(tableDataComboBox, BorderLayout.WEST);
+        this.add(tableDataComboBox, BorderLayout.NORTH);
         this.add(columnNameComboBox, BorderLayout.CENTER);
         columnNameComboBox.addItemListener(columnNameComboboxListener);
     }

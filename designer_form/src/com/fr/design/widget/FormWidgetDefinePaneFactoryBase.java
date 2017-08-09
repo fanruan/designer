@@ -7,6 +7,7 @@ import com.fr.design.gui.core.WidgetConstants;
 import com.fr.design.parameter.RootDesignDefinePane;
 import com.fr.design.widget.ui.designer.*;
 import com.fr.design.widget.ui.designer.layout.*;
+import com.fr.form.parameter.FormSubmitButton;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
@@ -44,25 +45,26 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(TextEditor.class, new Appearance(TextFieldEditorDefinePane.class, WidgetConstants.TEXT + ""));
         defineMap.put(NameWidget.class, new Appearance(UserEditorDefinePane.class, "UserDefine"));
         defineMap.put(ComboCheckBox.class, new Appearance(ComboCheckBoxDefinePane.class, WidgetConstants.COMBOCHECKBOX + ""));
-        defineMap.put(ListEditor.class, new Appearance(ListEditorDefinePane.class, WidgetConstants.LIST + ""));
         defineMap.put(ComboBox.class, new Appearance(ComboBoxDefinePane.class, WidgetConstants.COMBOBOX + ""));
         defineMap.put(RadioGroup.class, new Appearance(RadioGroupDefinePane.class, WidgetConstants.RADIOGROUP + ""));
         defineMap.put(CheckBoxGroup.class, new Appearance(CheckBoxGroupDefinePane.class, WidgetConstants.CHECKBOXGROUP + ""));
 
         defineMap.put(NoneWidget.class, new Appearance(NoneWidgetDefinePane.class, WidgetConstants.NONE + ""));
-        defineMap.put(Button.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
-        defineMap.put(FreeButton.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
+        defineMap.put(Button.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
+        defineMap.put(FreeButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
+        defineMap.put(FormSubmitButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(WFitLayout.class, new Appearance(FRFitLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, Inter.getLocText("WLayout-Card-ToolTips")));
-        if (StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class) != null) {
-            defineMap.put(StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class), new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
-        }
+//        if (StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class) != null) {
+//            defineMap.put(StableFactory.getMarkedClass(BridgeMark.SUBMIT_BUTTON, Widget.class), new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
+//        }
 
         defineMap.put(WAbsoluteLayout.class, new Appearance(FRAbsoluteLayoutDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
+        defineMap.put(ElementCaseEditor.class, new Appearance(ElementEditorDefinePane.class, Inter.getLocText("FR-Designer_AbsoluteLayout")));
         defineMap.put(WAbsoluteBodyLayout.class, new Appearance(FRAbsoluteBodyLayoutDefinePane.class, Inter.getLocText("FR-Designer-Layout_Adaptive_Layout")));
         defineMap.put(WParameterLayout.class, new Appearance(RootDesignDefinePane.class, Inter.getLocText("FR-Designer_Para-Body")));
         defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "tab"));
-        defineMap.put(WTitleLayout.class, new Appearance(WTitleLayoutDefinePane.class, "tab"));
+        defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "tablayout"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
         defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "label"));
         defineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());

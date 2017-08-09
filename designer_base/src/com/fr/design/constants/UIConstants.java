@@ -19,6 +19,7 @@ public interface UIConstants {
 
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0 ,0, 0, 0);
     public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
     public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
 
@@ -86,9 +87,10 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_DARK = new Color(86, 120, 143);
     public static final Color AUTHORITY_SHEET_LIGHT = new Color(156, 204, 238);
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
-    public static final Color ATTRIBUTE_PRESS = new Color(0xD8F2FD);
-    public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
-    public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
+    public static final Color ATTRIBUTE_PRESS = new Color(0x419BF9);
+    public static final Color NORMAL_BLUE = new Color(0x419BF9);
+    public static final Color ATTRIBUTE_NORMAL = Color.WHITE;
+    public static final Color ATTRIBUTE_HOVER = new Color(0xF5F5F7);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);
@@ -99,6 +101,8 @@ public interface UIConstants {
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
@@ -153,7 +157,7 @@ public interface UIConstants {
     public static final Color BARNOMAL = new Color(232, 232, 233);
     public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
     public static final int ARC = 0;
-    public static final int BUTTON_GROUP_ARC = 6;
+    public static final int BUTTON_GROUP_ARC = 0;
     public static final int LARGEARC = 6;
     public static final Stroke BS = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2f, new float[]{3, 1}, 0);
     public static final Icon PREVIEW_DOWN = BaseUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");

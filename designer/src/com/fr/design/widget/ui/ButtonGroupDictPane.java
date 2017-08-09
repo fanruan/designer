@@ -1,16 +1,22 @@
 package com.fr.design.widget.ui;
 
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
+
+import com.fr.data.Dictionary;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import java.awt.event.ActionListener;
 
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.SpinnerNumberModel;
+
+import javax.swing.*;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.form.ui.ButtonGroup;
 import com.fr.general.Inter;
 
@@ -19,7 +25,9 @@ public class ButtonGroupDictPane extends JPanel {
 	private UIBasicSpinner columnSpinner;
 	private UICheckBox adaptiveCheckbox;
 	private UILabel columnLabel;
-	
+	private AccessibleDictionaryEditor dictPane;
+
+
 	public ButtonGroupDictPane() {
 		this.initComponents();
 	}
@@ -28,23 +36,36 @@ public class ButtonGroupDictPane extends JPanel {
     *
      */
 	public void initComponents() {
-		this.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
+		dictPane = new AccessibleDictionaryEditor();
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		adaptiveCheckbox = new UICheckBox(Inter.getLocText("Adaptive"), true);
+		adaptiveCheckbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		adaptiveCheckbox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				columnSpinner.setVisible(!adaptiveCheckbox.isSelected());
 				columnLabel.setVisible(!adaptiveCheckbox.isSelected());
 			}
 		});
-		this.add(adaptiveCheckbox);
-
 		this.columnLabel = new UILabel(Inter.getLocText("Button-Group-Display-Columns") + ":");
-		this.add(columnLabel);
 		columnSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-		this.add(columnSpinner);
+
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		double rowSize[] = {p, p};
+		double columnSize[] = {p, p, f};
+		Component[][] n_components = {
+				{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictPane, null},
+				{adaptiveCheckbox, columnLabel, columnSpinner}
+		};
+		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		this.add(panel);
+
+
 	}
 	
 	public void populate(ButtonGroup buttonGroup) {
+		dictPane.setValue(buttonGroup.getDictionary());
 		adaptiveCheckbox.setSelected(buttonGroup.isAdaptive());
 		columnSpinner.setVisible(!adaptiveCheckbox.isSelected());
 		columnLabel.setVisible(!adaptiveCheckbox.isSelected());
@@ -52,6 +73,7 @@ public class ButtonGroupDictPane extends JPanel {
 	}
 	
 	public void update(ButtonGroup buttonGroup) {
+		buttonGroup.setDictionary((Dictionary) this.dictPane.getValue());
 		buttonGroup.setAdaptive(adaptiveCheckbox.isSelected());
 		buttonGroup.setColumnsInRow((Integer)(columnSpinner.getValue()));
 	}

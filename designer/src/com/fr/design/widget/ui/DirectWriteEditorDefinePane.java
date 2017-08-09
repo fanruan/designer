@@ -12,7 +12,7 @@ import java.awt.*;
 //richer:需要提供能否直接编辑的控件设置面板——下拉框、复选框、时间、日期、下拉树
 public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> extends FieldEditorDefinePane<T> {
 	public UICheckBox directWriteCheckBox;
-	private WaterMarkDictPane waterMarkDictPane;
+	protected WaterMarkDictPane waterMarkDictPane;
 
 	public DirectWriteEditorDefinePane() {
 		this.initComponents();
@@ -21,16 +21,16 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		directWriteCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_Edit"), false);
 		directWriteCheckBox.setPreferredSize(new Dimension(100, 30));
 
 		waterMarkDictPane = new WaterMarkDictPane();
-		contentPane.add(waterMarkDictPane);
+		contentPane.add(waterMarkDictPane, BorderLayout.NORTH);
 		JPanel otherContentPane = this.setSecondContentPane();
 		if (otherContentPane != null) {
-			contentPane.add(otherContentPane);
+			contentPane.add(otherContentPane, BorderLayout.CENTER);
 		}
 		return contentPane;
 	}
@@ -38,8 +38,9 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 
 
 	public  JPanel setValidatePane(){
-		JPanel otherContentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 5));
+		JPanel otherContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		JPanel jPanel = GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 0);
+		otherContentPane.add(jPanel, BorderLayout.NORTH);
 		return otherContentPane;
 	}
 

@@ -1,9 +1,13 @@
 package com.fr.design.widget.ui;
 
+import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
 
@@ -12,36 +16,40 @@ import java.awt.*;
 
 public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<ComboCheckBox> {
 	private CheckBoxDictPane checkBoxDictPane;
-	private DictionaryPane dictPane;
+	private AccessibleDictionaryEditor dictPane;
     private UICheckBox supportTagCheckBox;
 
 	public ComboCheckBoxDefinePane() {
 		super.initComponents();
-		dictPane = new DictionaryPane();
 	}
 
 	@Override
 	protected JPanel setForthContentPane() {
-		JPanel attrPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel contenter = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        contenter.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		dictPane = new AccessibleDictionaryEditor();
+		checkBoxDictPane = new CheckBoxDictPane();
+		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
+		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{supportTagCheckBox,  null },
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")),  dictPane },
+				new Component[]{checkBoxDictPane,  null },
 
-        checkBoxDictPane = new CheckBoxDictPane();
-		attrPane.add(contenter);
-        //是否以标签形式显示
-        JPanel tagPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane();
-        supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
-        tagPane.add(supportTagCheckBox);
-        contenter.add(tagPane, BorderLayout.NORTH);
-
-        contenter.add(checkBoxDictPane, BorderLayout.WEST);
-		return attrPane;
+		};
+		double[] rowSize = {p, p, p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1, 1},{1, 1},{1,1},{1,1}};
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		advancePane.add(panel);
+		return advancePane;
 	}
 
 	@Override
 	protected void populateSubCustomWritableRepeatEditorBean(ComboCheckBox e) {
-		this.dictPane.populateBean(e.getDictionary());
+		this.dictPane.setValue(e.getDictionary());
 		this.checkBoxDictPane.populate(e);
         this.supportTagCheckBox.setSelected(e.isSupportTag());
 	}
@@ -50,14 +58,14 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 	protected ComboCheckBox updateSubCustomWritableRepeatEditorBean() {
 		ComboCheckBox combo = new ComboCheckBox();
         combo.setSupportTag(this.supportTagCheckBox.isSelected());
-		combo.setDictionary(this.dictPane.updateBean());
+		combo.setDictionary((Dictionary) this.dictPane.getValue());
 		checkBoxDictPane.update(combo);
 		return combo;
 	}
 
 	@Override
 	public DataCreatorUI dataUI() {
-		return dictPane;
+		return null;
 	}
 	
 	@Override
