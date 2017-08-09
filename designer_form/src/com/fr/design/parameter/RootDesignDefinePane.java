@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WParameterLayout;
+import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
@@ -112,7 +113,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         WParameterLayout wParameterLayout = (WParameterLayout) creator.toData();
         wParameterLayout.setDesignWidth((int) designerWidth.getValue());
         wParameterLayout.setDelayDisplayContent(displayReport.isSelected());
-        wParameterLayout.setBackground(wParameterLayout.getBackground());
+        wParameterLayout.setBackground((Background) background.getValue());
         wParameterLayout.setPosition(hAlignmentPane.getSelectedIndex());
         return wParameterLayout;
     }

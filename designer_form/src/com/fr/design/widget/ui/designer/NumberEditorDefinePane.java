@@ -41,105 +41,19 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     private JPanel limitNumberPane;
     private WaterMarkDictPane waterMarkDictPane;
 
-    private ActionListener actionListener1 = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            if (allowDecimalsCheckBox.isSelected()) {
-                limitNumberPane.setVisible(true);
-            } else {
-                limitNumberPane.setVisible(false);
-            }
-        }
-    };
+    private ActionListener actionListener1;
 
-    private ActionListener actionListener2 = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (allowNegativeCheckBox.isSelected()) {
-                minValueModel.setMinimum(-Double.MAX_VALUE);
-                if (!setMinValueCheckBox.isSelected()) {
-                    maxValueModel.setMinimum(-Double.MAX_VALUE);
-                }
-            } else {
-                minValueModel.setMinimum(0.0);
-                if (!setMinValueCheckBox.isSelected()) {
-                    maxValueModel.setMinimum(0.0);
-                }
-                Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
-                Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
-                if (minValue < 0.0) {
-                    minValueSpinner.setValue(0.0);
-                }
-                if (maxValue < 0.0) {
-                    maxValueSpinner.setValue(0.0);
-                }
-            }
-        }
-    };
+    private ActionListener actionListener2;
 
 
-    private ActionListener actionListener3 = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            if (setMaxValueCheckBox.isSelected()) {
-                maxValueSpinner.setEnabled(true);
-                Double value = new Double(0);
-                if (setMinValueCheckBox.isSelected()) {
-                    Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
-                    if (minValue > value) {
-                        value = minValue;
-                    }
-                }
-                maxValueSpinner.setValue(value);
-            } else {
-                maxValueSpinner.setEnabled(false);
-                minValueModel.setMaximum(Double.MAX_VALUE);
-            }
-        }
-    };
+    private ActionListener actionListener3;
 
 
-    private ActionListener actionListener4 = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            if (setMinValueCheckBox.isSelected()) {
-                minValueSpinner.setEnabled(true);
-                Double value = new Double(0);
-                if (setMaxValueCheckBox.isSelected()) {
-                    Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
-                    if (maxValue < value) {
-                        value = maxValue;
-                    }
-                }
-                minValueSpinner.setValue(value);
-            } else {
-                minValueSpinner.setEnabled(false);
-                maxValueModel.setMinimum(allowNegativeCheckBox.isSelected() ? (-Double.MAX_VALUE) : new Double(0));
-            }
-        }
-    };
+    private ActionListener actionListener4 ;
 
-    private ChangeListener changeListener1 = new ChangeListener() {
+    private ChangeListener changeListener1;
 
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            if (setMaxValueCheckBox.isSelected()) {
-                if (setMinValueCheckBox.isSelected()) {
-                    minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
-                }
-            }
-        }
-    };
-
-    private ChangeListener changeListener2 = new ChangeListener() {
-
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            if (setMinValueCheckBox.isSelected()) {
-                if (setMaxValueCheckBox.isSelected()) {
-                    maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
-                }
-            }
-        }
-    };
+    private ChangeListener changeListener2 ;
 
     public NumberEditorDefinePane() {
         super();
@@ -173,8 +87,110 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         return boundsPane;
     }
 
+    private void initListeners(){
+        actionListener1 = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (allowDecimalsCheckBox.isSelected()) {
+                    limitNumberPane.setVisible(true);
+                } else {
+                    limitNumberPane.setVisible(false);
+                }
+            }
+        };
+
+        actionListener2 = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (allowNegativeCheckBox.isSelected()) {
+                    minValueModel.setMinimum(-Double.MAX_VALUE);
+                    if (!setMinValueCheckBox.isSelected()) {
+                        maxValueModel.setMinimum(-Double.MAX_VALUE);
+                    }
+                } else {
+                    minValueModel.setMinimum(0.0);
+                    if (!setMinValueCheckBox.isSelected()) {
+                        maxValueModel.setMinimum(0.0);
+                    }
+                    Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
+                    Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
+                    if (minValue < 0.0) {
+                        minValueSpinner.setValue(0.0);
+                    }
+                    if (maxValue < 0.0) {
+                        maxValueSpinner.setValue(0.0);
+                    }
+                }
+            }
+        };
+
+
+        actionListener3 = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (setMaxValueCheckBox.isSelected()) {
+                    maxValueSpinner.setEnabled(true);
+                    Double value = new Double(0);
+                    if (setMinValueCheckBox.isSelected()) {
+                        Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
+                        if (minValue > value) {
+                            value = minValue;
+                        }
+                    }
+                    maxValueSpinner.setValue(value);
+                } else {
+                    maxValueSpinner.setEnabled(false);
+                    minValueModel.setMaximum(Double.MAX_VALUE);
+                }
+            }
+        };
+
+
+        actionListener4 = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (setMinValueCheckBox.isSelected()) {
+                    minValueSpinner.setEnabled(true);
+                    Double value = new Double(0);
+                    if (setMaxValueCheckBox.isSelected()) {
+                        Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
+                        if (maxValue < value) {
+                            value = maxValue;
+                        }
+                    }
+                    minValueSpinner.setValue(value);
+                } else {
+                    minValueSpinner.setEnabled(false);
+                    maxValueModel.setMinimum(allowNegativeCheckBox.isSelected() ? (-Double.MAX_VALUE) : new Double(0));
+                }
+            }
+        };
+
+        changeListener1 = new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (setMaxValueCheckBox.isSelected()) {
+                    if (setMinValueCheckBox.isSelected()) {
+                        minValueModel.setMaximum(Double.parseDouble("" + maxValueSpinner.getValue()));
+                    }
+                }
+            }
+        };
+
+        changeListener2 = new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (setMinValueCheckBox.isSelected()) {
+                    if (setMaxValueCheckBox.isSelected()) {
+                        maxValueModel.setMinimum(Double.parseDouble("" + minValueSpinner.getValue()));
+                    }
+                }
+            }
+        };
+    }
 
     public JPanel setValidatePane() {
+        initListeners();
 //        super.addValidatePane();
         this.allowDecimalsCheckBox = new UICheckBox(Inter.getLocText("Allow_Decimals"));
         this.decimalLength = new com.fr.design.editor.editor.IntegerEditor();
@@ -218,7 +234,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 3);
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         return panel;
 
