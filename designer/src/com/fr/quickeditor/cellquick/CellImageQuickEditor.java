@@ -1,12 +1,15 @@
 package com.fr.quickeditor.cellquick;
 
 import com.fr.base.Style;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.insert.cell.ImageCellAction;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.report.SelectImagePane;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.cellattr.CellImage;
@@ -31,8 +34,7 @@ public class CellImageQuickEditor extends CellQuickEditor {
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
-        UIButton editButton = new UIButton(Inter.getLocText("Edit"), IOUtils.readIcon("/com/fr/design/images/m_insert/image.png"));
+        UIButton editButton = new UIButton(Inter.getLocText("Edit"));
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,11 +42,13 @@ public class CellImageQuickEditor extends CellQuickEditor {
             }
         });
         editButton.setOpaque(false);
-        content.add(editButton, BorderLayout.CENTER);
+        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, editButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
         return content;
     }
 
-    @SuppressWarnings("Duplicates")
     private void showEditingDialog() {
         final SelectImagePane imageEditorPane = new SelectImagePane();
         imageEditorPane.populate(cellElement);
@@ -68,4 +72,8 @@ public class CellImageQuickEditor extends CellQuickEditor {
 
     }
 
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(ImageCellAction.class);
+    }
 }

@@ -88,8 +88,8 @@ public interface UIConstants {
     public static final Color AUTHORITY_SHEET_UNSELECTED = new Color(146, 192, 225);
     public static final Color ATTRIBUTE_PRESS = new Color(0x419BF9);
     public static final Color NORMAL_BLUE = new Color(0x419BF9);
-    public static final Color ATTRIBUTE_NORMAL = new Color(0xDADADD);
-    public static final Color ATTRIBUTE_HOVER = new Color(0xC9C9CD);
+    public static final Color ATTRIBUTE_NORMAL = Color.WHITE;
+    public static final Color ATTRIBUTE_HOVER = new Color(0xF5F5F7);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);
@@ -100,6 +100,8 @@ public interface UIConstants {
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");

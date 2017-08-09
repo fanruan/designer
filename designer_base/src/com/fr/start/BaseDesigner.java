@@ -12,7 +12,6 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
-import com.fr.design.fun.GlobalListenerProvider;
 import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
@@ -36,7 +35,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 /**
  * The main class of Report Designer.
@@ -84,6 +82,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignUtils.initLookAndFeel();
 
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
+        //初始化插件引擎
+        PluginManager.init();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();
@@ -93,7 +93,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
         initDefaultFont();
         //PluginManager要在环境切换和模块启动之前初始化
-        PluginManager.init();
+        PluginManager.registerEnvListener();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
 

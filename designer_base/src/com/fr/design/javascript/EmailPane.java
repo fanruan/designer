@@ -2,6 +2,7 @@ package com.fr.design.javascript;
 
 import com.fr.base.ConfigManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -83,8 +84,8 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		tipsPane1.setText(valid ? StringUtils.BLANK : Inter.getLocText("FR-Designer_EmailPane-warnings"));
 		centerPane.setEnabled(valid);
 		mainTextEditor.setEnabled(valid);
-		mainTextEditor.setBackground(valid ? Color.WHITE : new Color(244, 243, 233));
-		mainTextEditor.setBorder(BorderFactory.createLineBorder(valid ? new Color(128, 152, 186) : new Color(201, 198,184)));
+		mainTextEditor.setBackground(valid ? Color.WHITE : UIConstants.DEFAULT_BG_RULER);
+		mainTextEditor.setBorder(BorderFactory.createLineBorder(valid ? new Color(128, 152, 186) : UIConstants.TITLED_BORDER_COLOR));
 		maitoEditor.setEnabled(valid);
 		ccEditor.setEnabled(valid);
 		bccEditor.setEnabled(valid);

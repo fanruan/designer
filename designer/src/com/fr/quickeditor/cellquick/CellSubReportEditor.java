@@ -1,7 +1,10 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.SubReportCellAction;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 
@@ -22,22 +25,29 @@ public class CellSubReportEditor extends CellQuickEditor {
         super();
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
         subReportButton = new UIButton();
         subReportButton.setOpaque(false);
-        content.add(subReportButton, BorderLayout.CENTER);
+        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, subReportButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
         return content;
     }
 
     @Override
     protected void refreshDetails() {
         SubReportCellAction subReportCellAction = new SubReportCellAction(tc);
-        subReportCellAction.setName(Inter.getLocText(new String[]{"Edit", "Sub_Report"}));
+        subReportCellAction.setName(Inter.getLocText("Edit"));
+        subReportCellAction.setSmallIcon(null);
         subReportButton.setAction(subReportCellAction);
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(SubReportCellAction.class);
     }
 
 }

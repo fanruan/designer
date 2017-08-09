@@ -1,5 +1,6 @@
 package com.fr.design.gui.controlpane;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
@@ -276,7 +277,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             setUndecorated(true);
             pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
             this.editPane = pane;
-            this.getContentPane().add(editPane, BorderLayout.CENTER);
+            JPanel editPaneWrapper = new JPanel(new BorderLayout());
+            editPaneWrapper.add(editPane, BorderLayout.CENTER);
+            editPaneWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER, 1));
+            this.getContentPane().add(editPaneWrapper, BorderLayout.CENTER);
             setSize(WIDTH, HEIGHT);
 //            pack();
             this.setVisible(false);

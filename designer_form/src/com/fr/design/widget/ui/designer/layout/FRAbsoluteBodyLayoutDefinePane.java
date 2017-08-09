@@ -50,8 +50,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutCombox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         return panel;
 
     }
@@ -122,8 +122,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             }
             //这边计算的时候会先把组件间隔去掉
             moveComponents2FitLayout(xfl);
-            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-            formDesigner.getSelectionModel().setSelectedCreator(xfl);
+
 
             for (int i = 0; i < components.length; i++) {
                 Component comp = xfl.getComponent(i);
@@ -139,6 +138,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
                 xfl.addCompInterval(xfl.getAcualInterval());
             }
             xfl.toData().setLayoutType(WBodyLayoutType.FIT);
+            FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+            formDesigner.getSelectionModel().setSelectedCreator(xfl);
             return true;
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());

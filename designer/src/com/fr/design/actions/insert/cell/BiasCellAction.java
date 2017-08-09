@@ -3,8 +3,6 @@
  */
 package com.fr.design.actions.insert.cell;
 
-import javax.swing.KeyStroke;
-
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.mainframe.ElementCasePane;
@@ -12,12 +10,23 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.general.Inter;
 import com.fr.report.cell.painter.BiasTextPainter;
 
+import javax.swing.KeyStroke;
+
 /**
  * Bias
  */
 public class BiasCellAction extends AbstractCellAction implements WorkBookSupportable {
-	public BiasCellAction(ElementCasePane t) {
-    	super(t);
+
+    public BiasCellAction() {
+        initAction();
+    }
+
+    public BiasCellAction(ElementCasePane t) {
+        super(t);
+        initAction();
+    }
+
+    private void initAction() {
         this.setMenuKeySet(INSERT_SLOPE_LINE);
         this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());

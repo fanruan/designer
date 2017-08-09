@@ -36,6 +36,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	protected JPanel setFirstContentPane() {
 		acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
 		singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
+		singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		fileSizeField = new UINumberField();
 		fontSizeField = new UISpinner(0, 20, 1, 0);
 
@@ -66,9 +67,11 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		double[] columnSize = {p,f};
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		boundsPane.add(panel);
 
-		return panel;
+		return boundsPane;
 	}
 
 	@Override

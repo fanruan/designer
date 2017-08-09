@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WParameterLayout;
+import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
@@ -59,12 +60,15 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Form-Desin_Width")), designerWidth},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        return panel;
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel.add(panel);
+        return jPanel;
     }
 
     public JPanel createAdvancePane() {
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         displayReport = new UICheckBox(Inter.getLocText("FR-Designer_DisplayNothingBeforeQuery"));
         background = new AccessibleBackgroundEditor();
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
@@ -84,9 +88,10 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
                 new Component[]{displayReport, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")), hAlignmentPane}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        return panel;
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel.add(panel);
+        return jPanel;
     }
 
     @Override
@@ -108,7 +113,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         WParameterLayout wParameterLayout = (WParameterLayout) creator.toData();
         wParameterLayout.setDesignWidth((int) designerWidth.getValue());
         wParameterLayout.setDelayDisplayContent(displayReport.isSelected());
-        wParameterLayout.setBackground(wParameterLayout.getBackground());
+        wParameterLayout.setBackground((Background) background.getValue());
         wParameterLayout.setPosition(hAlignmentPane.getSelectedIndex());
         return wParameterLayout;
     }

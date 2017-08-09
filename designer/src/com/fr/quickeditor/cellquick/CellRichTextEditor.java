@@ -1,7 +1,10 @@
 package com.fr.quickeditor.cellquick;
 
+import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.RichTextCellAction;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 
@@ -21,21 +24,28 @@ public class CellRichTextEditor extends CellQuickEditor {
         super();
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
     public JComponent createCenterBody() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
         richTextButton = new UIButton();
         richTextButton.setOpaque(false);
-        content.add(richTextButton, BorderLayout.CENTER);
+        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+                        new Component[]{emptyLabel, richTextButton}},
+                new double[]{TableLayout.PREFERRED},
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
         return content;
+    }
+
+    @Override
+    public Object getComboBoxSelected() {
+        return ActionFactory.createAction(RichTextCellAction.class);
     }
 
     @Override
     protected void refreshDetails() {
         RichTextCellAction subReportCellAction = new RichTextCellAction(tc);
-        subReportCellAction.setName(Inter.getLocText("FR-Designer_RichTextEditor"));
+        subReportCellAction.setName(Inter.getLocText("Edit"));
+        subReportCellAction.setSmallIcon(null);
         richTextButton.setAction(subReportCellAction);
     }
 

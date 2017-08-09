@@ -47,7 +47,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3},{1, 1},{1, 1},{1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
         JPanel otherPane = createOtherPane();
         if (otherPane != null) {
