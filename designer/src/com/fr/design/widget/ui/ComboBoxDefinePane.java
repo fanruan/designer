@@ -1,13 +1,20 @@
 package com.fr.design.widget.ui;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ComboBox;
+import com.fr.general.Inter;
+
+import java.awt.*;
 
 public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox> {
-	protected DictionaryPane dictPane;
+	protected AccessibleDictionaryEditor dictPane;
 
 	public ComboBoxDefinePane() {
 		this.initComponents();
@@ -16,20 +23,22 @@ public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox>
 	@Override
 	protected void initComponents() {
 		super.initComponents();
-		dictPane = new DictionaryPane();
 	}
 
 	protected JPanel setForthContentPane () {
-		return null;
+		dictPane = new AccessibleDictionaryEditor();
+		JPanel jPanel =  TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictPane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		return jPanel;
 	}
 
 	protected void populateSubCustomWritableRepeatEditorBean(ComboBox e) {
-		this.dictPane.populateBean(e.getDictionary());
+		this.dictPane.setValue(e.getDictionary());
 	}
 
 	protected ComboBox updateSubCustomWritableRepeatEditorBean() {
 		ComboBox combo = new ComboBox();
-		combo.setDictionary(this.dictPane.updateBean());
+		combo.setDictionary((Dictionary) this.dictPane.getValue());
 
 		return combo;
 	}
@@ -41,6 +50,6 @@ public class ComboBoxDefinePane extends CustomWritableRepeatEditorPane<ComboBox>
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }

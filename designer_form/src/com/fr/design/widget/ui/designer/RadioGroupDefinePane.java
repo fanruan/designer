@@ -7,7 +7,6 @@ import com.fr.design.widget.ui.designer.btn.ButtonGroupDefinePane;
 import com.fr.form.ui.RadioGroup;
 
 public class RadioGroupDefinePane extends ButtonGroupDefinePane<RadioGroup> {
-	private DictionaryPane dictPane;
 
 
 	public RadioGroupDefinePane(XCreator xCreator) {
@@ -18,15 +17,11 @@ public class RadioGroupDefinePane extends ButtonGroupDefinePane<RadioGroup> {
 	@Override
 	protected void initComponents() {
 		super.initComponents();
-
-		dictPane = new DictionaryPane();
 	}
 
 	@Override
 	protected RadioGroup updateSubButtonGroupBean() {
 		RadioGroup ob = (RadioGroup)creator.toData();
-
-		ob.setDictionary(this.dictPane.updateBean());
 
 		return ob;
 	}
@@ -38,11 +33,10 @@ public class RadioGroupDefinePane extends ButtonGroupDefinePane<RadioGroup> {
 
 	@Override
 	protected void populateSubButtonGroupBean(RadioGroup ob) {
-		this.dictPane.populateBean(ob.getDictionary());
 	}
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }

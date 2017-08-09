@@ -2,16 +2,21 @@ package com.fr.design.widget.ui;
 
 import javax.swing.JPanel;
 
+import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ListEditor;
 import com.fr.general.Inter;
 
+import java.awt.*;
+
 public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor> {
 	private UICheckBox needHeadCheckBox;
-	private DictionaryPane dictPane;
+	private AccessibleDictionaryEditor dictPane;
 
 	public ListEditorDefinePane() {
 		this.initComponents();
@@ -20,8 +25,13 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 	@Override
 	protected void initComponents() {
 		super.initComponents();
-		dictPane = new DictionaryPane();
 	}
+
+	protected Component[] createDicPane(){
+		dictPane = new AccessibleDictionaryEditor();
+		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictPane};
+	}
+
 
 	@Override
 	protected JPanel setThirdContentPane() {
@@ -40,7 +50,7 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 	@Override
 	protected void populateSubWriteUnableRepeatBean(ListEditor e) {
 		needHeadCheckBox.setSelected(e.isNeedHead());
-		this.dictPane.populateBean(e.getDictionary());
+		this.dictPane.setValue(e.getDictionary());
 	}
 
 	@Override
@@ -48,13 +58,13 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 		ListEditor ob = new ListEditor();
 
 		ob.setNeedHead(needHeadCheckBox.isSelected());
-		ob.setDictionary(this.dictPane.updateBean());
+		ob.setDictionary((Dictionary) this.dictPane.getValue());
 
 		return ob;
 	}
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }
