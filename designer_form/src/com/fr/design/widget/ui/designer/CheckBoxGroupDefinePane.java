@@ -56,7 +56,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		return panel;
 	}
 
