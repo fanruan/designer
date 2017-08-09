@@ -18,6 +18,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
@@ -54,6 +55,7 @@ import java.util.ArrayList;
 public class CellDSColumnEditor extends CellQuickEditor {
 
     private static final double P = TableLayout.PREFERRED, F = TableLayout.FILL;
+    private static final Color TIP_FONT_COLOR = new Color(51f, 51f, 52f, 1.0f);
 
     private enum FilterType {
         //前N个 后N个 奇数 偶数 自定义 未定义
@@ -604,7 +606,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         if (noContent) {
                             centerPane.setPreferredSize(new Dimension(0, 0));
                         } else {
-                            centerPane.setPreferredSize(new Dimension(155, 20));
+                            centerPane.setPreferredSize(new Dimension(158, 20));
                         }
                         String sortFormula = dSColumn.getSortFormula();
                         if (sortFormula != null && sortFormula.length() >= 1) {
@@ -678,14 +680,14 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
                             //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(155, 20));
+                            setCardPane.setPreferredSize(new Dimension(158, 20));
                             tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 2) {
                             //后N个
                             setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
                             //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(155, 20));
+                            setCardPane.setPreferredSize(new Dimension(158, 20));
                             tipCardPane.setPreferredSize(new Dimension(0, 0));
                         } else if (selectIndex == 3) {
                             //奇数
@@ -693,19 +695,19 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
                             //隐藏set 显示tip
                             setCardPane.setPreferredSize(new Dimension(0, 0));
-                            tipCardPane.setPreferredSize(new Dimension(221, 15));
+                            tipCardPane.setPreferredSize(new Dimension(224, 40));
                         } else if (selectIndex == 4) {
                             setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
                             //隐藏set 显示tip
                             setCardPane.setPreferredSize(new Dimension(0, 0));
-                            tipCardPane.setPreferredSize(new Dimension(221, 15));
+                            tipCardPane.setPreferredSize(new Dimension(224, 40));
                         } else if (selectIndex == 5) {
                             setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                             //显示set和tip
-                            setCardPane.setPreferredSize(new Dimension(155, 20));
-                            tipCardPane.setPreferredSize(new Dimension(221, 15));
+                            setCardPane.setPreferredSize(new Dimension(158, 20));
+                            tipCardPane.setPreferredSize(new Dimension(224, 40));
                         } else {
                             setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
                             tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
@@ -713,7 +715,10 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             setCardPane.setPreferredSize(new Dimension(0, 0));
                             tipCardPane.setPreferredSize(new Dimension(0, 0));
                         }
-
+                        setCardPane.revalidate();
+                        tipCardPane.revalidate();
+                        setCardPane.repaint();
+                        tipCardPane.repaint();
                     }
                 });
                 //配置展示CardLayout
@@ -737,22 +742,23 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
                 //奇数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), FilterType.ODD.name());
-                tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                        + "," + Inter.getLocText("BindColumn-Odd_Selected_(1,3,5...)")), FilterType.ODD.name());
+                MultilineLabel oddTip = new MultilineLabel(Inter.getLocText("FS-Designer_DS_Filter_Odd_Tip"));
+                oddTip.setForeground(TIP_FONT_COLOR);
+                tipCardPane.add(oddTip, FilterType.ODD.name());
 
 
                 //偶数 UILabel 占一行作为提示信息
                 setCardPane.add(new JPanel(), FilterType.EVEN.name());
-                tipCardPane.add(new UILabel(Inter.getLocText("BindColumn-Result_Serial_Number_Start_From_1")
-                        + "," + Inter.getLocText("BindColumn-Even_Selected_(2,4,6...)")), FilterType.EVEN.name());
+                MultilineLabel evenTip = new MultilineLabel(Inter.getLocText("FS-Designer_DS_Filter_Even_Tip"));
+                evenTip.setForeground(TIP_FONT_COLOR);
+                tipCardPane.add(evenTip, FilterType.EVEN.name());
 
                 //输入框占用右半边，提示信息占一行
                 serialTextField = new UITextField(16);
                 setCardPane.add(serialTextField, FilterType.SPECIFY.name());
-                tipCardPane.add(new UILabel(
-                        Inter.getLocText(new String[]{
-                                        "Format", "BindColumn-Result_Serial_Number_Start_From_1", "Inner_Parameter", "Group_Count"},
-                                new String[]{": 1,2-3,5,8  ", ",", "$__count__"})), FilterType.SPECIFY.name());
+                MultilineLabel specifyTip = new MultilineLabel(Inter.getLocText("FS-Designer_DS_Filter_Specify_Tip"));
+                specifyTip.setForeground(TIP_FONT_COLOR);
+                tipCardPane.add(specifyTip, FilterType.SPECIFY.name());
 
                 this.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
                         {filterLabel, rsComboBox},
@@ -776,30 +782,30 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                 case SelectCount.TOP:
                                     this.topFormulaPane.populate(selectCount.getFormulaCount());
                                     //隐藏tip 显示set
-                                    setCardPane.setPreferredSize(new Dimension(155, 20));
+                                    setCardPane.setPreferredSize(new Dimension(158, 20));
                                     tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.BOTTOM:
                                     this.bottomFormulaPane.populate(selectCount.getFormulaCount());
                                     //隐藏tip 显示set
-                                    setCardPane.setPreferredSize(new Dimension(155, 20));
+                                    setCardPane.setPreferredSize(new Dimension(158, 20));
                                     tipCardPane.setPreferredSize(new Dimension(0, 0));
                                     break;
                                 case SelectCount.SPECIFY:
                                     this.serialTextField.setText(selectCount.getSerial());
                                     //显示set和tip
-                                    setCardPane.setPreferredSize(new Dimension(155, 20));
-                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
+                                    setCardPane.setPreferredSize(new Dimension(158, 20));
+                                    tipCardPane.setPreferredSize(new Dimension(224, 40));
                                     break;
                                 case SelectCount.EVEN:
                                     //隐藏set 显示tip
                                     setCardPane.setPreferredSize(new Dimension(0, 0));
-                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
+                                    tipCardPane.setPreferredSize(new Dimension(224, 40));
                                     break;
                                 case SelectCount.ODD:
                                     //隐藏set 显示tip
                                     setCardPane.setPreferredSize(new Dimension(0, 0));
-                                    tipCardPane.setPreferredSize(new Dimension(221, 15));
+                                    tipCardPane.setPreferredSize(new Dimension(224, 40));
                                     break;
                                 default:
                                     //隐藏set和tip
