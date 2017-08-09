@@ -35,9 +35,9 @@ public class WCardLayoutDefinePane extends AbstractDataModify<WCardLayout> {
     public void initComponent() {
         carouselInterval = new UISpinner(0, 20, 1, 0);
         accessibleCardTagWLayoutBorderStyleEditor = new AccessibleCardTagWLayoutBorderStyleEditor();
-        accessibleCardTagWLayoutBorderStyleEditor.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        accessibleCardTagWLayoutBorderStyleEditor.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         JPanel accessibleCardlayout = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        accessibleCardlayout.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        accessibleCardlayout.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         accessibleCardlayout.add(accessibleCardTagWLayoutBorderStyleEditor, BorderLayout.CENTER);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, accessibleCardlayout);
