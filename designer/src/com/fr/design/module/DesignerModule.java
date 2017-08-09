@@ -169,7 +169,7 @@ public class DesignerModule extends DesignModule {
     }
 
     @Override
-    /**
+    /*
      * 针对不同的对象，在读取Object对象的xml的时候需要使用不同的对象生成器
      * @return 返回对象生成器
      */
@@ -242,7 +242,7 @@ public class DesignerModule extends DesignModule {
     }
 
     @Override
-    /**
+    /*
      * 返回设计器能打开的模板类型的一个数组列表
      * @return 可以打开的模板类型的数组
      */
