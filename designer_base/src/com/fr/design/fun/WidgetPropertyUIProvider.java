@@ -1,5 +1,6 @@
 package com.fr.design.fun;
 
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.stable.fun.mark.Mutable;
 
@@ -12,7 +13,11 @@ public interface WidgetPropertyUIProvider extends Mutable {
 
     int CURRENT_LEVEL = 1;
 
+    @Deprecated
     AbstractPropertyTable createWidgetAttrTable();
+
+    //fanglei: 9.0新界面采用pane，不再用JTable
+    BasicPane createWidgetAttrPane();
 
     String tableTitle();
 }
