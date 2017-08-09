@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -9,9 +8,13 @@ import javax.swing.JPanel;
 import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
 import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
@@ -31,7 +34,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	protected void initComponents() {
 		super.initComponents();
 
-		dictPane = new AccessibleDictionaryEditor();
 	}
 	
 	@Override
@@ -41,27 +43,28 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		checkBoxDictPane = new CheckBoxDictPane();
-		checkBoxDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-		northPane.add(checkBoxDictPane, BorderLayout.NORTH);
-		JPanel chooseAllPane = new JPanel();
+		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		dictPane = new AccessibleDictionaryEditor();
 		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
-		chooseAllPane.add(checkbox);
-		chooseAllPane.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
-		northPane.add(chooseAllPane, BorderLayout.CENTER);
-		attrPane.add(northPane, BorderLayout.NORTH);
-
-		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 		buttonGroupDictPane = new ButtonGroupDictPane();
-		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 0));
-		centerPane.add(buttonGroupDictPane);
-		attrPane.add(centerPane, BorderLayout.CENTER);
+		checkBoxDictPane = new CheckBoxDictPane();
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{buttonGroupDictPane,  null },
+				new Component[]{checkbox,  null },
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")),  dictPane },
+				new Component[]{checkBoxDictPane,  null },
 
-		return attrPane;
+		};
+		double[] rowSize = {p, p, p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1, 1},{1, 1},{1,1},{1,1}};
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		advancePane.add(panel);
+		return advancePane;
+
 	}
 	
 	@Override

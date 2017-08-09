@@ -1,6 +1,6 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +11,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
@@ -27,31 +28,29 @@ public class CheckBoxDictPane extends JPanel {
 	private JPanel endPane;
 	
 	public CheckBoxDictPane() {
-		JPanel returnTypePane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+		JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
 		returnTypeComboBox = new UIComboBox(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")});
 		returnTypePane.add(returnTypeComboBox, BorderLayout.CENTER);			
-		this.add(returnTypePane);
-	
+
 		delimiterPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
 		UILabel label = new UILabel(Inter.getLocText("Form-Delimiter") + ":");
 		delimiterPane.add(label, BorderLayout.WEST);
 		delimiterPane.add(delimiterComboBox = new DictionaryComboBox(DictionaryConstants.delimiters, DictionaryConstants.delimiterDisplays), BorderLayout.CENTER);
 		delimiterComboBox.setEditable(true);
-        this.add(delimiterPane);
-		
+
 		startPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		startPane.add(new UILabel(Inter.getLocText("ComboCheckBox-Start_Symbol") + ":"), BorderLayout.WEST);
 		startPane.add(startComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays), BorderLayout.CENTER);
 		startComboBox.setEditable(true);
-        this.add(startPane);
-		
+
 		endPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		endPane.add(new UILabel(Inter.getLocText("ComboCheckBox-End_Symbol") + ":"), BorderLayout.WEST);
 		endPane.add(endComboBox = new DictionaryComboBox(DictionaryConstants.symbols, DictionaryConstants.symbolDisplays), BorderLayout.CENTER);
 		endComboBox.setEditable(true);
-        this.add(endPane);
-		
+		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{returnTypePane, delimiterPane, startPane, endComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		this.add(jPanel);
 		returnTypeComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				checkVisible();
