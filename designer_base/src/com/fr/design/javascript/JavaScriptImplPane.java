@@ -73,16 +73,17 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		};
 		importedJsPane = new UITableEditorPane<String>(model);
 		importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("ReportServerP-Import_JavaScript")));
-		importedJsPane.setPreferredSize(new Dimension(400, 150));
+		importedJsPane.setPreferredSize(new Dimension(265, 150));
 		jsPane = new JSContentPane(args);
 		jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_JavaScript")));
 
-		parameterPane.setPreferredSize(new Dimension(200, 150));
+		parameterPane.setPreferredSize(new Dimension(265, 150));
 		JPanel topPane = GUICoreUtils.createBorderLayoutPane(
 				importedJsPane, BorderLayout.CENTER,
 				parameterPane, BorderLayout.EAST
 		);
 		topPane.setPreferredSize(new Dimension(300, 150));
+		topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
 
         this.setLayout(new BorderLayout());
         this.add(topPane,BorderLayout.NORTH) ;
