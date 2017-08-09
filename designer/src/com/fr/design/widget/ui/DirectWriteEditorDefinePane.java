@@ -1,10 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.DirectWriteEditor;
 import com.fr.general.Inter;

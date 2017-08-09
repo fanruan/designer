@@ -3,7 +3,6 @@ package com.fr.design.widget.ui.designer.component;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.editor.editor.*;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.mainframe.widget.editors.DataBindingEditor;
 import com.fr.design.mainframe.widget.editors.DataTableEditor;
 import com.fr.design.mainframe.widget.editors.ServerDataBindingEditor;

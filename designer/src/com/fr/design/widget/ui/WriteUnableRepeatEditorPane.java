@@ -6,7 +6,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;

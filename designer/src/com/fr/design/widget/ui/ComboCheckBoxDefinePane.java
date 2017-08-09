@@ -8,10 +8,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
-import com.fr.third.fr.pdf.layout.border.Border;
 
 import javax.swing.*;
 import java.awt.*;

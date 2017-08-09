@@ -8,7 +8,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ListEditor;
 import com.fr.general.Inter;
 

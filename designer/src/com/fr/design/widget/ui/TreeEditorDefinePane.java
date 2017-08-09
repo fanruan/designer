@@ -5,9 +5,6 @@ import com.fr.design.gui.frpane.TreeSettingPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.FRLeftFlowLayout;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.TreeEditor;
 import com.fr.general.Inter;
 

@@ -4,17 +4,11 @@ import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
-import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
-import com.fr.design.present.dict.DictionaryPane;
-import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
