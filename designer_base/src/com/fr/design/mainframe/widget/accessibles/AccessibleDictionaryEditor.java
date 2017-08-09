@@ -18,9 +18,6 @@ public class AccessibleDictionaryEditor extends UneditableAccessibleEditor {
         super(new DictionaryWrapper());
     }
 
-    protected void setBorderVisible(){
-        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-    }
 
     @Override
     protected void showEditorPane() {
