@@ -49,7 +49,7 @@ public abstract class ButtonWithHotkeysDetailPane<T extends Button> extends Butt
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
-        advancePane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
         Component comp = createCenterPane();
         if(comp != null	) {

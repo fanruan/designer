@@ -1,12 +1,14 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.frpane.RegPane;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.reg.RegExp;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -56,8 +58,10 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
             }
         });
-
-        return waterMarkDictPane;
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        jPanel.add(waterMarkDictPane, BorderLayout.CENTER);
+        waterMarkDictPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        return jPanel;
     }
 
     public  JPanel setValidatePane(){

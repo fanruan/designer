@@ -42,8 +42,9 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 
 
 	public  JPanel setValidatePane(){
-		JPanel otherContentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		otherContentPane.add(GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 5));
+		JPanel otherContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		JPanel jPanel = GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 0);
+		otherContentPane.add(jPanel, BorderLayout.NORTH);
 		return otherContentPane;
 	}
 

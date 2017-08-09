@@ -39,6 +39,7 @@ public class ButtonGroupDictPane extends JPanel {
 		dictPane = new AccessibleDictionaryEditor();
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		adaptiveCheckbox = new UICheckBox(Inter.getLocText("Adaptive"), true);
+		adaptiveCheckbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		adaptiveCheckbox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				columnSpinner.setVisible(!adaptiveCheckbox.isSelected());
@@ -57,7 +58,7 @@ public class ButtonGroupDictPane extends JPanel {
 				{adaptiveCheckbox, columnLabel, columnSpinner}
 		};
 		JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 16, 8);
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		this.add(panel);
 
 

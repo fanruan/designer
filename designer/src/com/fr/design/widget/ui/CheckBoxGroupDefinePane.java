@@ -19,8 +19,6 @@ import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
 public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup> {
-	private AccessibleDictionaryEditor dictPane;
-
 	CheckBoxDictPane checkBoxDictPane;
 
 	private UICheckBox checkbox;
@@ -44,8 +42,8 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		dictPane = new AccessibleDictionaryEditor();
 		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		buttonGroupDictPane = new ButtonGroupDictPane();
 		checkBoxDictPane = new CheckBoxDictPane();
 		double f = TableLayout.FILL;
@@ -53,7 +51,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 		Component[][] components = new Component[][]{
 				new Component[]{buttonGroupDictPane,  null },
 				new Component[]{checkbox,  null },
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")),  dictPane },
 				new Component[]{checkBoxDictPane,  null },
 
 		};
@@ -61,7 +58,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1},{1,1},{1,1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+//		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		advancePane.add(panel);
 		return advancePane;
 
@@ -69,7 +66,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	
 	@Override
 	protected void populateSubFieldEditorBean(CheckBoxGroup ob) {
-		this.dictPane.setValue(ob.getDictionary());
 		checkBoxDictPane.populate(ob);
 		checkbox.setSelected(ob.isChooseAll());
 		this.buttonGroupDictPane.populate(ob);
@@ -78,8 +74,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	@Override
 	protected CheckBoxGroup updateSubFieldEditorBean() {
 		CheckBoxGroup ob = new CheckBoxGroup();
-
-		ob.setDictionary((Dictionary) this.dictPane.getValue());
 		checkBoxDictPane.update(ob);
 		ob.setChooseAll(checkbox.isSelected());
 		this.buttonGroupDictPane.update(ob);

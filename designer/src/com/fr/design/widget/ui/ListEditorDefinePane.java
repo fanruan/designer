@@ -1,6 +1,6 @@
 package com.fr.design.widget.ui;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
@@ -38,6 +38,7 @@ public class ListEditorDefinePane extends WriteUnableRepeatEditorPane<ListEditor
 		JPanel contenter = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
 		JPanel centerPane = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
 		centerPane.add(needHeadCheckBox = new UICheckBox(Inter.getLocText("List-Need_Head")));
+		needHeadCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		contenter.add(centerPane);
 		return contenter;
 	}
