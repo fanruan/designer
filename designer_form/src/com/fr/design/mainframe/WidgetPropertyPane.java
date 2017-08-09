@@ -117,9 +117,6 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private void initTables() {
         formWidgetCardPane.populate();
         eventTable.refresh();
-//        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
-//            propertyTable.initPropertyGroups(designer);
-//        }
         if (mobileExtraPropertyPanes != null) {
             for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
                 extraPane.initPropertyGroups(designer);
@@ -223,11 +220,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 MobileWidgetDefinePane extraPane = (MobileWidgetDefinePane) widgetAttrProvider.createWidgetAttrPane();
                 if (extraPane != null) {
                     mobileExtraPropertyPanes.add(extraPane);
-//                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
-//                widgetPropertyTables.add(propertyTable);
                     designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
-
-//                UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
                     wsp.add(extraPane);
                 }
             }
