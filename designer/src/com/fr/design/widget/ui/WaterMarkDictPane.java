@@ -3,13 +3,11 @@ package com.fr.design.widget.ui;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ilable.UILabel;
 
 import javax.swing.*;
 
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WaterMark;

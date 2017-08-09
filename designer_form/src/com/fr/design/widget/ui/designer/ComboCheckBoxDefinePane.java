@@ -2,6 +2,7 @@ package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -16,7 +17,7 @@ import java.awt.*;
 
 public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox> {
     private UICheckBox supportTagCheckBox;
-    private UIHeadGroup returnType;
+    private UIButtonGroup returnType;
     private UITextField waterMarkDictPane;
     private UICheckBox removeRepeatCheckBox;
 
@@ -40,18 +41,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
 
 		final String[] tabTitles = new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")};
-		returnType = new UIHeadGroup(tabTitles) {
-			@Override
-			public void tabChanged(int index) {
-				ComboCheckBox combo = (ComboCheckBox) creator.toData();
-				//todo
-				if (index == 1) {
-					combo.setReturnString(true);
-				} else {
-					combo.setReturnString(false);
-				}
-			}
-		};
+		returnType = new UIButtonGroup(tabTitles) ;
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
@@ -68,11 +58,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 	}
 
 	protected  void populateSubDictionaryEditorBean(ComboCheckBox ob){
-		if (ob.isReturnString()) {
-			returnType.setSelectedIndex(1);
-		} else {
-			returnType.setSelectedIndex(0);
-		}
+		returnType.setSelectedIndex(ob.isReturnString() ? 1 : 0);
 		waterMarkDictPane.setText(ob.getWaterMark());
 		formWidgetValuePane.populate(ob);
 		this.supportTagCheckBox.setSelected(ob.isSupportTag());
@@ -81,6 +67,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 
 	protected  ComboCheckBox updateSubDictionaryEditorBean(){
 		ComboCheckBox combo = (ComboCheckBox) creator.toData();
+		combo.setReturnString(returnType.getSelectedIndex() == 1);
 		formWidgetValuePane.update(combo);
 		combo.setWaterMark(waterMarkDictPane.getText());
 		combo.setSupportTag(this.supportTagCheckBox.isSelected());

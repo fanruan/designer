@@ -33,6 +33,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
         JPanel contenter = new JPanel(new BorderLayout());
 
         singleFileCheckBox = new UICheckBox(Inter.getLocText("SINGLE_FILE_UPLOAD"));
+        singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
 //		acceptType.setPreferredSize(new Dimension(100, 20));
         fileSizeField = new UISpinner(0, Integer.MAX_VALUE, 1, -1);

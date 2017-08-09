@@ -6,7 +6,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -25,6 +24,7 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 	protected JPanel setFirstContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createYBoxEmptyBorderPane();
 		removeRepeatCheckBox = new UICheckBox(Inter.getLocText("Form-Remove_Repeat_Data"), false);
+		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		Component[] dicPane = createDicPane();
 		double f = TableLayout.FILL;

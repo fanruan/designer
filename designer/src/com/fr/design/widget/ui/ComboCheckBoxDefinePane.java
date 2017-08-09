@@ -8,10 +8,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleDictionaryEditor;
-import com.fr.design.present.dict.DictionaryPane;
 import com.fr.form.ui.ComboCheckBox;
 import com.fr.general.Inter;
-import com.fr.third.fr.pdf.layout.border.Border;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +28,7 @@ public class ComboCheckBoxDefinePane extends CustomWritableRepeatEditorPane<Comb
 		dictPane = new AccessibleDictionaryEditor();
 		checkBoxDictPane = new CheckBoxDictPane();
 		supportTagCheckBox = new UICheckBox(Inter.getLocText("Form-SupportTag"), true);
+		supportTagCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;

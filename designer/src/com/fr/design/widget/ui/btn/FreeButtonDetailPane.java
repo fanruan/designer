@@ -9,13 +9,17 @@ import com.fr.form.ui.FreeButton;
 import com.fr.design.widget.btn.ButtonWithHotkeysDetailPane;
 import com.fr.general.Inter;
 
+import javax.swing.*;
+
 public class FreeButtonDetailPane extends ButtonWithHotkeysDetailPane<FreeButton> {
 	private ButtonBackgroundPane backgroundCompPane;
 
 	@Override
 	protected Component createCenterPane() {
 		backgroundCompPane = new ButtonBackgroundPane();
-		return TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background") + ":"), backgroundCompPane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background") + ":"), backgroundCompPane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		return jPanel;
 	}
 	
 	@Override
