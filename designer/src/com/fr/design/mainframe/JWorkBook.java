@@ -87,6 +87,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private static final String SHARE_SUFFIX = "_share";
     private static final String SHARE_FOLDER = "share";
     private static final int TOOLBARPANEDIMHEIGHT = 26;
+    private static final double MIN_TIME = 0.4;
 
     private UIModeControlContainer centerPane;
     public ReportComponentComposite reportComposite;
@@ -363,7 +364,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         this.resolution = resolution;
         ElementCasePane elementCasePane = reportComposite.centerCardPane.editingComponet.elementCasePane;
         PolyDesigner polyDezi = reportComposite.centerCardPane.getPolyDezi();
-        if (elementCasePane != null){
+        if (elementCasePane != null) {
+            //分页线
+            if (resolution < ScreenResolution.getScreenResolution() * MIN_TIME) {
+                elementCasePane.getGrid().setShowGridLine(false);
+            } else {
+                elementCasePane.getGrid().setShowGridLine(true);
+            }
             elementCasePane.setResolution(resolution);
             elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
             elementCasePane.getGrid().setResolution(resolution);
@@ -375,29 +382,30 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             grid.setHorizontalExtent(GridUtils.getExtentValue(0, columnWidthList, grid.getWidth(), resolution));
             elementCasePane.getGrid().updateUI();
             //更新Column和Row
-            ((DynamicScrollBar)elementCasePane.getVerticalScrollBar()).setDpi(resolution);
-            ((DynamicScrollBar)elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
+            ((DynamicScrollBar) elementCasePane.getVerticalScrollBar()).setDpi(resolution);
+            ((DynamicScrollBar) elementCasePane.getHorizontalScrollBar()).setDpi(resolution);
             elementCasePane.getGridColumn().setResolution(resolution);
             elementCasePane.getGridColumn().updateUI();
             elementCasePane.getGridRow().setResolution(resolution);
             elementCasePane.getGridRow().updateUI();
         }
-        if (polyDezi != null){
+        if (polyDezi != null) {
             polyDezi.setResolution(resolution);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
             polyDezi.updateUI();
         }
         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
+
     @Override
-    public int selfAdaptUpdate(){
+    public int selfAdaptUpdate() {
         PolyDesigner polyDezi = reportComposite.centerCardPane.getPolyDezi();
         ElementCasePane elementCasePane = reportComposite.centerCardPane.editingComponet.elementCasePane;
-        if (resolution == 0){
+        if (resolution == 0) {
             resolution = ScreenResolution.getScreenResolution();
         }
-        if (polyDezi != null && polyDezi.getSelection() != null){
-            BlockCreator blockCreator =polyDezi.getSelection();
+        if (polyDezi != null && polyDezi.getSelection() != null) {
+            BlockCreator blockCreator = polyDezi.getSelection();
             double x = blockCreator.getEditorBounds().getX();
             double y = blockCreator.getEditorBounds().getY();
             polyDezi.setHorizontalValue((int) x);
@@ -406,30 +414,33 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             double creatorWidth = blockCreator.getEditorBounds().width;
             double areaHeight = polyDezi.polyArea.getHeight();
             double areaWidth = polyDezi.polyArea.getWidth();
-            if (creatorWidth == 0||creatorHeight == 0){
+            if (creatorWidth == 0 || creatorHeight == 0) {
                 return resolution;
             }
-            double time =(areaHeight/creatorHeight)<(areaWidth/creatorWidth) ? (areaHeight/creatorHeight) : (areaWidth/creatorWidth);
+            double time = (areaHeight / creatorHeight) < (areaWidth / creatorWidth) ? (areaHeight / creatorHeight) : (areaWidth / creatorWidth);
             return (int) (time * ScreenResolution.getScreenResolution());
 
-        }else if (elementCasePane != null) {
+        } else if (elementCasePane != null) {
             ElementCasePane reportPane = elementCasePane.getGrid().getElementCasePane();
+            if (reportPane.getSelection().getSelectedColumns().length == 0) {
+                return resolution;
+            }
             int column = reportPane.getSelection().getSelectedColumns()[0];
             double columnLength = reportPane.getSelection().getSelectedColumns().length;
             double columnExtent = reportPane.getGrid().getHorizontalExtent();
             int row = reportPane.getSelection().getSelectedRows()[0];
             double rowLength = reportPane.getSelection().getSelectedRows().length;
             double rowExtent = reportPane.getGrid().getVerticalExtent();
-            if (columnLength == 0||rowLength == 0){
+            if (columnLength == 0 || rowLength == 0) {
                 return resolution;
             }
-            double time = (columnExtent/columnLength) < (rowExtent/rowLength) ? (columnExtent/columnLength) : (rowExtent/rowLength);
+            double time = (columnExtent / columnLength) < (rowExtent / rowLength) ? (columnExtent / columnLength) : (rowExtent / rowLength);
             if (reportPane.isHorizontalScrollBarVisible()) {
                 reportPane.getVerticalScrollBar().setValue(row);
                 reportPane.getHorizontalScrollBar().setValue(column);
             }
             return (int) (time * elementCasePane.getGrid().getResolution());
-        }else {
+        } else {
             return resolution;
         }
     }
@@ -790,7 +801,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      * 是否支持预览
      *
      * @return 预览接口
-     *
      */
     public PreviewProvider[] supportPreview() {
         Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);

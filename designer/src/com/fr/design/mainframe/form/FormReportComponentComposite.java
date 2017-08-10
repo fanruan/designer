@@ -33,6 +33,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     private static final int MAX = 400;
     private static final int HUND = 100;
     private static final int MIN = 10;
+    private static final double MIN_TIME = 0.4;
     public FormElementCaseDesigner elementCaseDesigner;
     private BaseJForm jForm;
 
@@ -112,6 +113,12 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
 
     private void setScale(int resolution) {
         ElementCasePane elementCasePane = elementCaseDesigner.getEditingElementCasePane();
+        //分页线
+        if (resolution < ScreenResolution.getScreenResolution() * MIN_TIME) {
+            elementCasePane.getGrid().setShowGridLine(false);
+        } else {
+            elementCasePane.getGrid().setShowGridLine(true);
+        }
         elementCasePane.setResolution(resolution);
         elementCasePane.getGrid().getGridMouseAdapter().setResolution(resolution);
         elementCasePane.getGrid().setResolution(resolution);
