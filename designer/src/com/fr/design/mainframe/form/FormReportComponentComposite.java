@@ -113,7 +113,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
 
     private void setScale(int resolution) {
         ElementCasePane elementCasePane = elementCaseDesigner.getEditingElementCasePane();
-        //分页线
+        //网格线
         if (resolution < ScreenResolution.getScreenResolution() * MIN_TIME) {
             elementCasePane.getGrid().setShowGridLine(false);
         } else {

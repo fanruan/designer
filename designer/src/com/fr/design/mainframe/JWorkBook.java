@@ -365,7 +365,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         ElementCasePane elementCasePane = reportComposite.centerCardPane.editingComponet.elementCasePane;
         PolyDesigner polyDezi = reportComposite.centerCardPane.getPolyDezi();
         if (elementCasePane != null) {
-            //分页线
+            //网格线
             if (resolution < ScreenResolution.getScreenResolution() * MIN_TIME) {
                 elementCasePane.getGrid().setShowGridLine(false);
             } else {
