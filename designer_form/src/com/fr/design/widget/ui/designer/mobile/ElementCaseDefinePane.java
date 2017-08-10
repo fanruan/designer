@@ -72,8 +72,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         this.hComboBox = new UIComboBox(ITEMS);
         this.vComboBox = new UIComboBox(ITEMS);
-        this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("Form-EC_heightrestrict"));
-        this.maxHeightLabel = new UILabel(Inter.getLocText("Form-EC_heightpercent"), SwingConstants.LEFT);
+        this.heightRestrictCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Mobile-Height-Limit"));
+        this.maxHeightLabel = new UILabel(Inter.getLocText("FR-Designer_Mobile-Height-Percent"), SwingConstants.LEFT);
         this.maxHeightSpinner = new UISpinner(0, 1, 0.01, 0.75);
         maxHeightSpinner.setVisible(false);
         maxHeightLabel.setVisible(false);
