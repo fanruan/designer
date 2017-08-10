@@ -155,7 +155,14 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         leftContentPane.add(toolBarPane, BorderLayout.NORTH);
 
         //  顶部标签及add按钮
-        topToolBar = new UIToolbar();
+        topToolBar = new UIToolbar(FlowLayout.LEFT, new UIToolBarUI(){
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(UIConstants.SELECT_TAB);
+                g2.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+        });
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
