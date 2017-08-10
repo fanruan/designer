@@ -69,13 +69,13 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 int i = goBox.getSelectedIndex();
                 if (i == BIND_GROUP) {
                     cardLayout.show(cardPane, "groupPane");
-                    cardPane.setPreferredSize(new Dimension(155, 20));
+                    cardPane.setPreferredSize(new Dimension(156, 20));
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
                     cardPane.setPreferredSize(new Dimension(0, 0));
                 } else if (i == BIND_SUMMARY) {
                     cardLayout.show(cardPane, "summaryPane");
-                    cardPane.setPreferredSize(new Dimension(155, 20));
+                    cardPane.setPreferredSize(new Dimension(156, 20));
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
                 }
@@ -84,7 +84,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 8, 10);
     }
 
     private void initCardPane() {

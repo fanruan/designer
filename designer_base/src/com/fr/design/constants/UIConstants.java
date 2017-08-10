@@ -19,6 +19,7 @@ public interface UIConstants {
 
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0 ,0, 0, 0);
     public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
     public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
 

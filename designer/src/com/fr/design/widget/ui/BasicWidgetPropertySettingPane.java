@@ -24,15 +24,18 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 	public BasicWidgetPropertySettingPane() {
 		this.setLayout(new BorderLayout());
 		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Visible"), true);
+		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		visibleCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget-Visible"), true);
-		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
+		JPanel widgetNamePane = new JPanel(new BorderLayout());
+		widgetNamePane.add(widgetNameComboBox, BorderLayout.CENTER);
+		widgetNamePane.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name") + "    "), widgetNameComboBox},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name")), widgetNamePane},
 				new Component[]{enableCheckBox, null},
 				new Component[]{visibleCheckBox, null},
 		};

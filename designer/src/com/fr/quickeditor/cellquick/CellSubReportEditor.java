@@ -30,10 +30,10 @@ public class CellSubReportEditor extends CellQuickEditor {
         JPanel content = new JPanel(new BorderLayout());
         subReportButton = new UIButton();
         subReportButton.setOpaque(false);
-        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+        content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{emptyLabel, subReportButton}},
                 new double[]{TableLayout.PREFERRED},
-                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;
     }
 

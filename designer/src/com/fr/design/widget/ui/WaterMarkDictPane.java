@@ -1,17 +1,15 @@
 package com.fr.design.widget.ui;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
-
 import com.fr.design.gui.ilable.UILabel;
-
-import javax.swing.*;
-
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WaterMark;
 import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyListener;
 
 public class WaterMarkDictPane extends JPanel {
 
@@ -25,7 +23,7 @@ public class WaterMarkDictPane extends JPanel {
         waterMarkTextField = new UITextField(13);
 
         UILabel emptyLabel = new UILabel();
-        emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 33, 0, 0));
+        emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
@@ -36,7 +34,6 @@ public class WaterMarkDictPane extends JPanel {
         double[] columnSize = {p, p, f};
         int[][] rowCount = {{1, 1}};
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-//		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         this.add(panel, BorderLayout.CENTER);
     }

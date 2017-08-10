@@ -120,10 +120,10 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         pane.add(formulaButton, BorderLayout.EAST);
 
         content.add(pane, BorderLayout.NORTH);
-        return TableLayoutHelper.createTableLayoutPane(new Component[][]{
+        return TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{emptyLabel, content}},
                 new double[]{TableLayout.PREFERRED},
-                new double[]{TableLayout.PREFERRED, TableLayout.FILL});
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP);
     }
 
     @Override

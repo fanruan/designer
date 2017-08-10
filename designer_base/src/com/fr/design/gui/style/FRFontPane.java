@@ -302,12 +302,13 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         double f = TableLayout.FILL;
         double[] columnSize = {p};
         double[] rowSize = {p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
                 new Component[]{fontSizeStyleComboBox},
                 new Component[]{buttonPane},
                 new Component[]{createLinePane()}
         };
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
     private JPanel createRightPane() {
@@ -315,17 +316,19 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
                 new Component[]{fontSizeComboBox},
                 new Component[]{isSuperOrSubPane}
         };
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
     private JPanel createPane() {
-        JPanel createPane = new JPanel(new BorderLayout(3, 5));
+        JPanel createPane = new JPanel(new BorderLayout());
         createPane.add(fontNameComboBox, BorderLayout.NORTH);
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{createLeftPane(), createRightPane()}}, TableLayoutHelper.FILL_LASTCOLUMN, 5, 7);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{createLeftPane(), createRightPane()}}, TableLayoutHelper.FILL_LASTCOLUMN, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         createPane.add(jPanel, BorderLayout.CENTER);
         return createPane;
     }

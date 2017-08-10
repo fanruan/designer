@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -42,7 +43,14 @@ public class ReportFloatPane extends JPanel {
         UIToolbar topToolBar = new UIToolbar();
         topToolBar.setLayout(new BorderLayout());
         insertFloatMenu = createInsertToolBar();
-        topToolBar.add(createButtonUI());
+        topToolBar.setPreferredSize(new Dimension(155,20));
+        topToolBar.add(createButtonUI(), BorderLayout.CENTER);
+        topToolBar.setBorder(BorderFactory.createEmptyBorder(-1, -1, -1, -1));
+
+        JPanel toolBarPane = new JPanel(new BorderLayout());
+        toolBarPane.add(topToolBar, BorderLayout.CENTER);
+        toolBarPane.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER));
+        toolBarPane.setPreferredSize(new Dimension(155,20));
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
 
@@ -51,10 +59,10 @@ public class ReportFloatPane extends JPanel {
         double[] columnSize = {p, p, p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, topToolBar},
+                new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 4, 0, 13));
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 15));
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 

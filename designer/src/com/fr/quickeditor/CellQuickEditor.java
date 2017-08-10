@@ -55,6 +55,8 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         emptyLabel.setPreferredSize(new Dimension(60, 20));
     }
 
+    protected static final int VGAP = 10, HGAP = 8;
+
     public CellQuickEditor() {
 
         scrollBar = new UIScrollBar(UIScrollBar.VERTICAL) {
@@ -101,7 +103,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 new Component[]{initTopContent(), null},
                 new Component[]{centerBody, null}
         };
-        leftContentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        leftContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
         this.setLayout(new BarLayout());
         this.add(scrollBar);
         this.add(leftContentPane);
@@ -122,8 +124,8 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
                 new Component[]{insertContentLabel, cellElementEditButton},
         };
-        JPanel topContent = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        topContent.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        JPanel topContent = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
+        topContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
         return topContent;
     }
 

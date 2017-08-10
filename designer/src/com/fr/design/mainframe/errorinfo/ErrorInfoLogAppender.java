@@ -6,6 +6,7 @@ import com.fr.base.io.XMLReadHelper;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.FRLogLevel;
 import com.fr.general.FRLogManager;
+import com.fr.general.Inter;
 import com.fr.general.LogDuration;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -75,16 +76,17 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     }
 
     private String readLogID(String log) {
-        int dotIndex = log.lastIndexOf(":");
-        if (dotIndex != -1) {
-            int end = Math.min(dotIndex + ERROR_LEN, log.length());
-            String logid = log.substring(dotIndex + 1, end).trim();
-            try {
-                Long.parseLong(logid);
-                return logid;
-            } catch (Exception ignore) {
+        String errorCode = Inter.getLocText("FR-Engine_ErrorCode-Prefix");
+        String[] matchs = log.split(errorCode + ".*?:");
+        if (matchs.length <= 1) {
+            return StringUtils.EMPTY;
+        }
 
-            }
+        String includeIDStr = matchs[1].trim();
+        try {
+            return Long.parseLong(includeIDStr.substring(0, ERROR_LEN)) + StringUtils.EMPTY;
+        } catch (Exception ignore) {
+
         }
 
         return StringUtils.EMPTY;

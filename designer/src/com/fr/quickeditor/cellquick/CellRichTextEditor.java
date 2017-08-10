@@ -29,10 +29,10 @@ public class CellRichTextEditor extends CellQuickEditor {
         JPanel content = new JPanel(new BorderLayout());
         richTextButton = new UIButton();
         richTextButton.setOpaque(false);
-        content.add(TableLayoutHelper.createTableLayoutPane(new Component[][]{
+        content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{emptyLabel, richTextButton}},
                 new double[]{TableLayout.PREFERRED},
-                new double[]{TableLayout.PREFERRED, TableLayout.FILL}), BorderLayout.CENTER);
+                new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;
     }
 
