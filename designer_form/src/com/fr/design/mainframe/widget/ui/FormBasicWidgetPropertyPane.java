@@ -43,7 +43,7 @@ public class FormBasicWidgetPropertyPane extends FormBasicPropertyPane {
     public void update(Widget widget) {
         super.update(widget);
         widget.setEnabled(enableCheckBox.isSelected());
-        widget.setEnabled(visibleCheckBox.isSelected());
+        widget.setVisible(visibleCheckBox.isSelected());
     }
 
 }
