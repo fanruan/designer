@@ -7,10 +7,10 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
-import com.fr.plugin.chart.type.LegendType;
 import com.fr.plugin.chart.range.VanChartRangeLegend;
 import com.fr.plugin.chart.range.component.GradualLegendPane;
 import com.fr.plugin.chart.range.component.SectionLegendPane;
+import com.fr.plugin.chart.type.LegendType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,7 +80,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     }
 
     private JPanel createTableLayoutPaneWithTitle(String title, Component component) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(title, component);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(title, component);
     }
 
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
@@ -114,7 +114,6 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
         double[] row = {p, p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{legendTypeButtonWithTilePane},
-                new Component[]{new JSeparator()},
                 new Component[]{rangeLegendPane},
                 new Component[]{commonLegendPane}
         };

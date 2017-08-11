@@ -1,22 +1,14 @@
 package com.fr.design.dialog;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.iscrollbar.UIScrollBar;
 
 public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	private static final long serialVersionUID = -4293765343535336275L;
@@ -112,14 +104,14 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 
 	protected void layoutContentPane() {
 		leftcontentPane = createContentPane();
-		leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 5, original));
+		leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, original));
 		this.add(leftcontentPane);
 	}
 
 	/**
 	 * august:不容易啊 还要用笔画图立个方程才计算出来
 	 * 
-	 * @param e
+	 * @param
 	 */
 	protected void ajustValues() {
 		doLayout();
@@ -173,10 +165,10 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 			int width = parent.getWidth();
 			int height = parent.getHeight();
 			if (leftcontentPane.getPreferredSize().height > maxheight) {
-				leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
+				leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth(), height + beginY);
 				scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
 			} else {
-				leftcontentPane.setBounds(0, 0, width - DET_WIDTH, height);
+				leftcontentPane.setBounds(0, 0, width, height);
 			}
 			leftcontentPane.validate();
 		}

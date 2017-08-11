@@ -1,9 +1,11 @@
 package com.fr.plugin.chart.designer;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +15,52 @@ import java.awt.*;
  */
 public class TableLayout4VanChartHelper {
 
+    private static final int DEFAULT_GAP = 0;
     private static final int SMALL_GAP = 20;
+
+
+    public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
+        return new UIExpandablePane(title, TableLayoutHelper.EXPANDABLE_PANE_WIDTH, TableLayoutHelper.EXPANDABLE_PANE_HIGHT, panel);
+    }
+    public static JPanel createExpandablePaneWithTitle(String title,  Component component) {
+        JPanel panel = (JPanel) component;
+        return new UIExpandablePane(title, TableLayoutHelper.EXPANDABLE_PANE_WIDTH, TableLayoutHelper.EXPANDABLE_PANE_HIGHT, panel);
+    }
+
+    public static JPanel createGapTableLayoutPane(Component[][] components) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p};
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
+    }
+
+
+    public static JPanel createGapTableLayoutPane(String title, Component component) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        Component[][] components = new Component[][]{
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText(title)), component},
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
+    }
+
+    public static JPanel createGapTableLayoutPane(Component[][] components,
+                                                  double[] rowSize, double[] columnSize) {
+
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
+    }
+
+    public static JPanel createGapTableLayoutPane(Component[][] components,
+                                                  double[] rowSize, double[] columnSize, int[][] rowCount) {
+
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,
+                SMALL_GAP, LayoutConstants.VGAP_LARGE);
+    }
+
     /**
      * 标题布局(二级菜单距左边框46)
      * @param title  标题

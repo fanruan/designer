@@ -1,12 +1,14 @@
 package com.fr.plugin.chart.range.component;
 
+import com.fr.chart.base.LegendLabelFormat;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FormatPane;
+import com.fr.design.layout.TableLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartHtmlLabelPaneWithOutWidthAndHeight;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
-import com.fr.chart.base.LegendLabelFormat;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,10 +46,17 @@ public class LegendLabelFormatPane extends JPanel{
         centerPane.add(labelFormat,Inter.getLocText("Plugin-ChartF_Common"));
         centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
 
-        JPanel contentPane = new JPanel(new BorderLayout(0, 4));
-        contentPane.add(labelFormatStyle, BorderLayout.NORTH);
-        contentPane.add(centerPane, BorderLayout.CENTER);
 
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p,f};
+        double[] rowSize = {p,p,p};
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Label_Format"), SwingConstants.LEFT), labelFormatStyle},
+                new Component[]{centerPane,null},
+        };
+        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
         labelFormatStyle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,7 +65,7 @@ public class LegendLabelFormatPane extends JPanel{
         });
         labelFormatStyle.setSelectedIndex(0);
 
-        JPanel panel =  TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Label_Format"), contentPane);
+        JPanel panel =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Format"), contentPane);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }

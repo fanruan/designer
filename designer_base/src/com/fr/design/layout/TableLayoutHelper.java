@@ -2,13 +2,13 @@ package com.fr.design.layout;
 
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 
@@ -19,6 +19,8 @@ public class TableLayoutHelper {
     public static final int FILL_LASTCOL_AND_ROW = 3;
     private static final int FIVE = 5;
     private static final int TEN = 10;
+	public static final int EXPANDABLE_PANE_WIDTH =290;
+	public static final int EXPANDABLE_PANE_HIGHT =24;
 	private TableLayoutHelper() {
 	}
 
@@ -249,7 +251,7 @@ public class TableLayoutHelper {
 	 * @param columnSize 二级菜单的列数
 	 * @return
 	 */
-	public static JPanel createTableLayoutPane4Chart(String[] title, Component[][] components, double[] rowSize, double[] columnSize){
+	public static JPanel  createTableLayoutPane4Chart(String[] title, Component[][] components, double[] rowSize, double[] columnSize){
 		JPanel secondMenu = createTableLayoutPane(components, rowSize, columnSize);
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
@@ -261,6 +263,28 @@ public class TableLayoutHelper {
 		};
 		return createTableLayoutPane(comp, row, column);
 	}
+
+	public static JPanel  createTableLayoutPane4ChartWithoutTitle(Component[][] components, double[] rowSize, double[] columnSize){
+		JPanel secondMenu = createTableLayoutPane(components, rowSize, columnSize);
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] column = {LayoutConstants.CHART_ATTR_TOMARGIN, f};
+		double[] row = { p,p};
+		Component[][] comp = new Component[][]{
+				new Component[]{null, secondMenu},
+		};
+		return createTableLayoutPane(comp, row, column);
+	}
+
+	public static JPanel createExpandablePaneWithTitle(String title, Component[][] components, double[] rowSize, double[] columnSize){
+		JPanel jPanel = new JPanel();
+		JPanel contentPane = createTableLayoutPane4ChartWithoutTitle(components, rowSize, columnSize);
+		contentPane.setBorder(BorderFactory.createEmptyBorder(10 ,0, 0, 0));
+		jPanel.add(contentPane);
+		return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, jPanel);
+	}
+
+
 
     public static void main (String[] args) {
         JFrame jf = new JFrame("test");
