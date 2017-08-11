@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.designer;
 
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
-import com.fr.design.mainframe.chart.gui.style.AbstractChartTabPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/8/11.
  */
-public abstract class AbstractVanChartTabPane<T> extends AbstractChartTabPane<T> {
+public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
 
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();

@@ -18,7 +18,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.VanChartTitle;
-import com.fr.plugin.chart.designer.AbstractVanChartTabPane;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartFloatPositionPane;
 import com.fr.plugin.chart.designer.component.background.VanChartBackgroundWithOutShadowWithRadiusPane;
@@ -37,7 +37,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // 属性表-样式 标题界面
-public class VanChartTitlePane extends AbstractVanChartTabPane<VanChart> {
+public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     private static final long serialVersionUID = -2438898431228882682L;
 
     private static final int WIDTH = 165;
@@ -146,12 +146,13 @@ public class VanChartTitlePane extends AbstractVanChartTabPane<VanChart> {
                 new Component[]{new UILabel(Inter.getLocText("BorderLayout-Constraints"), SwingConstants.LEFT),alignmentPane},
                 new Component[]{null,customFloatPositionButton}
         };
+        int[][] rowCount = {{1, 8}, {1, 8}, {1, 8}};
 
         customFloatPositionPane =  new VanChartFloatPositionPane();
 
         initPositionListener();
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col,rowCount);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
     }
 
