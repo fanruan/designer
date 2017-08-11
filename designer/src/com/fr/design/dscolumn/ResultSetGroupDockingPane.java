@@ -34,6 +34,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
     private UIButton advancedButton;
     private FunctionComboBox functionComboBox;
+    private JPanel contentPane;
     private JPanel cardPane;
     private CardLayout cardLayout;
     private UIComboBox goBox;
@@ -48,9 +49,9 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     public void initComponents(ElementCasePane ePane) {
         goBox = new UIComboBox(new String[]{Inter.getLocText("BindColumn-Group"), Inter.getLocText("BindColumn-Select"), Inter.getLocText("BindColumn-Summary")});
         initCardPane();
-        JPanel pane = layoutPane();
+        contentPane = layoutPane();
         this.setLayout(new BorderLayout());
-        this.add(pane, BorderLayout.CENTER);
+        this.add(contentPane, BorderLayout.CENTER);
     }
 
     private JPanel layoutPane() {
@@ -70,12 +71,15 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 if (i == BIND_GROUP) {
                     cardLayout.show(cardPane, "groupPane");
                     cardPane.setPreferredSize(new Dimension(156, 20));
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,10);
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
                     cardPane.setPreferredSize(new Dimension(0, 0));
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,0);
                 } else if (i == BIND_SUMMARY) {
                     cardLayout.show(cardPane, "summaryPane");
                     cardPane.setPreferredSize(new Dimension(156, 20));
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,10);
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
                 }
