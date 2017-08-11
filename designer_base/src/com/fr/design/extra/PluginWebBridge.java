@@ -281,7 +281,7 @@ public class PluginWebBridge {
         List<PluginContext> plugins = PluginManager.getContexts();
         return plugins.toArray(new PluginContext[plugins.size()]);
     }
-    
+
     private String[] jsObjectToStringArray(JSObject obj) {
         if (obj == null) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
@@ -318,7 +318,7 @@ public class PluginWebBridge {
     }
 
 
-    public void getPluginPrefix(final JSObject callback){
+    public void getPluginPrefix(final JSObject callback) {
         JSCallback jsCallback = new JSCallback(webEngine, callback);
         PluginOperateUtils.getPluginPrefix(jsCallback);
     }
@@ -383,7 +383,7 @@ public class PluginWebBridge {
     public String getLoginInfo(final JSObject callback) {
         registerLoginInfo(callback);
         BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-        return bbsUserInfo == null ? "": bbsUserInfo.getUserName();
+        return bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
     }
 
     /**
@@ -510,8 +510,8 @@ public class PluginWebBridge {
     }
 
     //通过QQ登录后通知登录
-    public void ucsynLogin(long uid, String username){
-        BBSUserInfo bbsUserInfo = new BBSUserInfo(username, "");
+    public void ucsynLogin(long uid, String username, String password, final JSONObject callback) {
+        BBSUserInfo bbsUserInfo = new BBSUserInfo(username, password);
         BBSPluginLogin.getInstance().login(bbsUserInfo);
         uiLabel.setText(username);
     }
@@ -529,21 +529,21 @@ public class PluginWebBridge {
     /**
      * 初始化设计器部分
      */
-    public void initExtraDiff(final JSObject callback){
+    public void initExtraDiff(final JSObject callback) {
 
     }
 
     /**
      * 国际化
      */
-    public String parseI18(final String key){
+    public String parseI18(final String key) {
         return Inter.getLocText(key);
     }
 
     /**
      * 是否是在设计器中操作
      */
-    public boolean isDesigner(){
+    public boolean isDesigner() {
         return true;
     }
 
