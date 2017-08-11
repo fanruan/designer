@@ -146,13 +146,12 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
                 new Component[]{new UILabel(Inter.getLocText("BorderLayout-Constraints"), SwingConstants.LEFT),alignmentPane},
                 new Component[]{null,customFloatPositionButton}
         };
-        int[][] rowCount = {{1, 8}, {1, 8}, {1, 8}};
 
         customFloatPositionPane =  new VanChartFloatPositionPane();
 
         initPositionListener();
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col,rowCount);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
     }
 
