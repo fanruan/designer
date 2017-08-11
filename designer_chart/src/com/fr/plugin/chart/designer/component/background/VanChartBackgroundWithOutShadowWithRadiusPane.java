@@ -22,8 +22,9 @@ public class VanChartBackgroundWithOutShadowWithRadiusPane extends VanChartBackg
     protected Component[][] getPaneComponents() {
         radius = new UISpinner(0,1000,1,0);
         return  new Component[][]{
-                new Component[]{typeComboBox, null},
-                new Component[]{centerPane, null},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{null, centerPane},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Alpha")), transparent},
                 new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_Radius")+":"),radius}
         };

@@ -4,17 +4,17 @@ import com.fr.base.background.ImageBackground;
 import com.fr.chart.chartglyph.GeneralInfo;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
-import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.NullBackgroundQuickPane;
 import com.fr.general.Background;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -37,7 +37,7 @@ public class VanChartBackgroundPane extends BasicPane {
 
     protected UIComboBox typeComboBox;
     protected UINumberDragPane transparent;
-    protected UIToggleButton shadow;
+    protected UIButtonGroup<Boolean> shadow;
 
     protected JPanel centerPane;
 
@@ -48,12 +48,10 @@ public class VanChartBackgroundPane extends BasicPane {
         double f = TableLayout.FILL;
 
         double[] columnSize = {p, f};
-        double[] rowSize = { p,p,p,p,p};
-
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Background"}, getPaneComponents(), rowSize, columnSize);
+        double[] rowSize = { p,p,p,p,p,p};
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getPaneComponents(), rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
-        this.add(new JSeparator(), BorderLayout.SOUTH);
     }
 
     protected void initComponents() {
@@ -90,12 +88,14 @@ public class VanChartBackgroundPane extends BasicPane {
     }
 
     protected Component[][] getPaneComponents() {
-        shadow = new UIToggleButton(Inter.getLocText("plugin-ChartF_OpenShadow"));
+        shadow = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+
         return  new Component[][]{
-                new Component[]{typeComboBox, null},
-                new Component[]{centerPane, null},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{null, centerPane},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Alpha")), transparent},
-                new Component[]{shadow, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shadow")), shadow},
         };
     }
 
@@ -137,7 +137,7 @@ public class VanChartBackgroundPane extends BasicPane {
         double alpha = attr.getAlpha() * ALPHA_V;
         transparent.populateBean(alpha);
         if(shadow != null){
-            shadow.setSelected(attr.isShadow());
+            shadow.setSelectedIndex(attr.isShadow() == true ? 0 : 1);
         }
         for (int i = 0; i < paneList.size(); i++) {
             BackgroundQuickPane pane = paneList.get(i);
@@ -159,7 +159,7 @@ public class VanChartBackgroundPane extends BasicPane {
         }
         attr.setAlpha((float) (transparent.updateBean() / ALPHA_V));
         if(shadow != null){
-            attr.setShadow(shadow.isSelected());
+            attr.setShadow(shadow.getSelectedIndex() == 0);
         }
     }
 }

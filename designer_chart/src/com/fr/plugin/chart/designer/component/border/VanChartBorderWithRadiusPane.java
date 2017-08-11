@@ -26,9 +26,10 @@ public class VanChartBorderWithRadiusPane extends VanChartBorderPane {
     @Override
     protected Component[][] getUseComponent() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")+":"),currentLineCombo},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")+":"),currentLineColorPane},
-                new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_Radius")+":"),radius}
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),currentLineCombo},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),currentLineColorPane},
+                new Component[]{new UILabel(Inter.getLocText("plugin-ChartF_Radius")),radius}
         } ;
     }
 
