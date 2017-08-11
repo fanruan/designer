@@ -262,19 +262,6 @@ public class TableLayoutHelper {
 		return createTableLayoutPane(comp, row, column);
 	}
 
-	public static JPanel  createTableLayoutPane4ChartWithoutTitle(Component[][] components, double[] rowSize, double[] columnSize){
-		JPanel secondMenu = createTableLayoutPane(components, rowSize, columnSize);
-		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-		double[] column = {LayoutConstants.CHART_ATTR_TOMARGIN, f};
-		double[] row = { p,p};
-		Component[][] comp = new Component[][]{
-				new Component[]{null, secondMenu},
-		};
-		return createTableLayoutPane(comp, row, column);
-	}
-
-
     public static void main (String[] args) {
         JFrame jf = new JFrame("test");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

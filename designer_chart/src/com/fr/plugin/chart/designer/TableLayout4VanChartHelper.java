@@ -23,10 +23,6 @@ public class TableLayout4VanChartHelper {
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
         return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel);
     }
-    public static JPanel createExpandablePaneWithTitle(String title,  Component component) {
-        JPanel panel = (JPanel) component;
-        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel);
-    }
 
     public static JPanel createGapTableLayoutPane(String title, Component component) {
         double p = TableLayout.PREFERRED;
