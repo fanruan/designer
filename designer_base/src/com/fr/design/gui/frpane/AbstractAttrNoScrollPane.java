@@ -45,7 +45,7 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 
 	protected void initContentPane() {
 		leftContentPane = createContentPane();
-		leftContentPane.setBorder(BorderFactory.createMatteBorder(10, 0, 0, 0, original));
+		leftContentPane.setBorder(BorderFactory.createMatteBorder(10, 10, 0, 0, original));
 		this.add(leftContentPane, BorderLayout.CENTER);
 	}
 

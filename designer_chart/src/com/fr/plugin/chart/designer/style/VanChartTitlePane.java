@@ -5,7 +5,6 @@ import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -19,6 +18,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.VanChartTitle;
+import com.fr.plugin.chart.designer.AbstractVanChartTabPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartFloatPositionPane;
 import com.fr.plugin.chart.designer.component.background.VanChartBackgroundWithOutShadowWithRadiusPane;
@@ -37,7 +37,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // 属性表-样式 标题界面
-public class VanChartTitlePane extends BasicScrollPane<VanChart> {
+public class VanChartTitlePane extends AbstractVanChartTabPane<VanChart> {
     private static final long serialVersionUID = -2438898431228882682L;
 
     private static final int WIDTH = 165;

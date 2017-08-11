@@ -3,8 +3,8 @@ package com.fr.plugin.chart.designer.style;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.plugin.chart.attr.VanChartLegend;
+import com.fr.plugin.chart.designer.AbstractVanChartTabPane;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.vanchart.VanChart;
 
@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * 属性表, 图表样式-图例 界面.
  */
-public class VanChartLegendPane extends BasicScrollPane<VanChart> {
+public class VanChartLegendPane extends AbstractVanChartTabPane<VanChart> {
     private static final long serialVersionUID = 7553135492053931171L;
 
     private VanChartPlotLegendPane legendContent;

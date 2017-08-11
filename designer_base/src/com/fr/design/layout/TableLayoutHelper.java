@@ -2,7 +2,6 @@ package com.fr.design.layout;
 
 
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -19,8 +18,7 @@ public class TableLayoutHelper {
     public static final int FILL_LASTCOL_AND_ROW = 3;
     private static final int FIVE = 5;
     private static final int TEN = 10;
-	public static final int EXPANDABLE_PANE_WIDTH =290;
-	public static final int EXPANDABLE_PANE_HIGHT =24;
+
 	private TableLayoutHelper() {
 	}
 
@@ -275,15 +273,6 @@ public class TableLayoutHelper {
 		};
 		return createTableLayoutPane(comp, row, column);
 	}
-
-	public static JPanel createExpandablePaneWithTitle(String title, Component[][] components, double[] rowSize, double[] columnSize){
-		JPanel jPanel = new JPanel();
-		JPanel contentPane = createTableLayoutPane4ChartWithoutTitle(components, rowSize, columnSize);
-		contentPane.setBorder(BorderFactory.createEmptyBorder(10 ,0, 0, 0));
-		jPanel.add(contentPane);
-		return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, jPanel);
-	}
-
 
 
     public static void main (String[] args) {

@@ -104,7 +104,7 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 
 	protected void layoutContentPane() {
 		leftcontentPane = createContentPane();
-		leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, original));
+		leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 5, original));
 		this.add(leftcontentPane);
 	}
 
@@ -155,25 +155,29 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 			} else {
 				int preferheight = leftcontentPane.getPreferredSize().height;
 				int value = scrollBar.getValue();
-				
+
 				int baseValue = MAXVALUE - scrollBar.getVisibleAmount();
 				beginY = baseValue == 0 ? 0 : value * (preferheight - maxheight) / baseValue;
 				if(MAXVALUE - scrollBar.getVisibleAmount() != 0) {
 					beginY = value * (preferheight - maxheight) / (MAXVALUE - scrollBar.getVisibleAmount());
 				}
 			}
-			int width = parent.getWidth();
-			int height = parent.getHeight();
-			if (leftcontentPane.getPreferredSize().height > maxheight) {
-				leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth(), height + beginY);
-				scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
-			} else {
-				leftcontentPane.setBounds(0, 0, width, height);
-			}
+            setLeftContentPaneBouns(parent, scrollBar, beginY, maxheight);
 			leftcontentPane.validate();
 		}
 
 	}
+
+	protected void setLeftContentPaneBouns (Container parent, UIScrollBar scrollBar, int beginY, int maxheight) {
+        int width = parent.getWidth();
+        int height = parent.getHeight();
+        if (leftcontentPane.getPreferredSize().height > maxheight) {
+            leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
+            scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
+        } else {
+            leftcontentPane.setBounds(0, 0, width - DET_WIDTH, height);
+        }
+    }
 
     protected boolean isShowScrollBar() {
         return true;
@@ -183,7 +187,7 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	public T updateBean() {
 		return null;
 	}
-	
+
 	/**
 	 * 用于在调用removeAll以后恢复原来pane的结构，放在这边是因为BarLayout是内部类
 	 * @param pane

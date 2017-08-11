@@ -15,26 +15,18 @@ import java.awt.*;
  */
 public class TableLayout4VanChartHelper {
 
-    private static final int DEFAULT_GAP = 0;
     private static final int SMALL_GAP = 20;
+    public static final int EXPANDABLE_PANE_WIDTH =290;
+    public static final int EXPANDABLE_PANE_HIGHT =24;
 
 
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
-        return new UIExpandablePane(title, TableLayoutHelper.EXPANDABLE_PANE_WIDTH, TableLayoutHelper.EXPANDABLE_PANE_HIGHT, panel);
+        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel);
     }
     public static JPanel createExpandablePaneWithTitle(String title,  Component component) {
         JPanel panel = (JPanel) component;
-        return new UIExpandablePane(title, TableLayoutHelper.EXPANDABLE_PANE_WIDTH, TableLayoutHelper.EXPANDABLE_PANE_HIGHT, panel);
+        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel);
     }
-
-    public static JPanel createGapTableLayoutPane(Component[][] components) {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p};
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
-    }
-
 
     public static JPanel createGapTableLayoutPane(String title, Component component) {
         double p = TableLayout.PREFERRED;
