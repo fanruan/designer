@@ -17,7 +17,7 @@ public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
         this.add(leftcontentPane);
     }
 
-    protected void setLeftContentPaneBouns (Container parent, UIScrollBar scrollBar, int beginY, int maxheight) {
+    protected void setLeftContentPaneBounds(Container parent, UIScrollBar scrollBar, int beginY, int maxheight) {
         int width = parent.getWidth();
         int height = parent.getHeight();
         if (leftcontentPane.getPreferredSize().height > maxheight) {
