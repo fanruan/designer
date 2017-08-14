@@ -7,13 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * 只有分类（仪表盘的分类标签）
+ * 只有百分比（仪表盘的百分比标签）
  */
-public class LabelContentPaneWithCateLabelContentPane extends GaugeLabelContentPane {
+public class LabelContentPaneWithPercent extends GaugeLabelContentPane {
+    private static final long serialVersionUID = -3739217668948747606L;
 
-    private static final long serialVersionUID = 1238530475858471304L;
-
-    public LabelContentPaneWithCateLabelContentPane(VanChartStylePane parent, JPanel showOnPane){
+    public LabelContentPaneWithPercent(VanChartStylePane parent, JPanel showOnPane){
         super(parent, showOnPane);
     }
 
@@ -27,7 +26,7 @@ public class LabelContentPaneWithCateLabelContentPane extends GaugeLabelContentP
 
     protected Component[][] getPaneComponents(){
         return new Component[][]{
-                new Component[]{categoryNameFormatPane,null},
+                new Component[]{percentFormatPane, null},
         };
     }
 }

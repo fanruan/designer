@@ -9,11 +9,11 @@ import java.awt.*;
 /**
  * 系列、值、值所占比例。（仪表盘的值标签）
  */
-public class LabelContentPaneWithOutCateLabelContentPane extends GaugeLabelContentPane {
+public class LabelContentPaneWithOutCate extends GaugeLabelContentPane {
 
     private static final long serialVersionUID = 1198062632979554467L;
 
-    public LabelContentPaneWithOutCateLabelContentPane(VanChartStylePane parent, JPanel showOnPane){
+    public LabelContentPaneWithOutCate(VanChartStylePane parent, JPanel showOnPane){
         super(parent, showOnPane);
     }
 
