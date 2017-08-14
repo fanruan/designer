@@ -57,11 +57,12 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         super.paint(g, c);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Color linecolor = UIConstants.LINE_COLOR;
+        Color linecolor = UIConstants.TITLED_BORDER_COLOR;
+
         if (comboBox.isPopupVisible()) {
             arrowButton.setSelected(true);
         } else {
-            linecolor = UIConstants.LINE_COLOR;
+            linecolor = UIConstants.TITLED_BORDER_COLOR;
             arrowButton.setSelected(false);
         }
         g2d.setColor(linecolor);
@@ -192,7 +193,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         @Override
         public void paintBorder(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(UIConstants.LINE_COLOR);
+            g2.setColor(UIConstants.TITLED_BORDER_COLOR);
             g2.drawRoundRect(0, -arrowButton.getHeight(), getWidth() - 1, getHeight() + arrowButton.getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
         }
 

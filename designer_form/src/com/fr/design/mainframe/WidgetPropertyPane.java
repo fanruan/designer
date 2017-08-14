@@ -122,6 +122,9 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 extraPane.initPropertyGroups(designer);
             }
         }
+//        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
+//            propertyTable.initPropertyGroups(designer);
+//        }
     }
 
     /**
@@ -220,9 +223,14 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 MobileWidgetDefinePane extraPane = (MobileWidgetDefinePane) widgetAttrProvider.createWidgetAttrPane();
                 if (extraPane != null) {
                     mobileExtraPropertyPanes.add(extraPane);
-                    designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
                     wsp.add(extraPane);
                 }
+//                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
+//                widgetPropertyTables.add(propertyTable);
+//                designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
+//
+//                UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
+//                wsp.add(uiScrollPane);
             }
         }
     }
@@ -379,19 +387,25 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_ADDED) {
-                int value = downPanel.getVerticalScrollBar().getValue();
-                if (hasSelectParaPane(getEditingFormDesigner())) {
-                    cardLayout.show(centerPane, PARA);
-                    mobileParaWidgetTable.refreshData();
-                } else {
-                    cardLayout.show(centerPane, BODY);
-                    mobileWidgetTable.refreshData();
+                //fanglei：下面的注释不要删，只是暂时屏蔽
+//                int value = downPanel.getVerticalScrollBar().getValue();
+//                if (hasSelectParaPane(getEditingFormDesigner())) {
+//                    cardLayout.show(centerPane, PARA);
+//                    mobileParaWidgetTable.refreshData();
+//                } else {
+//                    cardLayout.show(centerPane, BODY);
+//                    mobileWidgetTable.refreshData();
+//                }
+//                //出现滚动条
+//                downPanel.doLayout();
+//                //控件列表选中某组件，触发表单中选中控件，选中事件又触发列表刷新，滚动条回到0
+//                //此处设置滚动条值为刷新前
+//                downPanel.getVerticalScrollBar().setValue(value);
+                if (mobileExtraPropertyPanes != null) {
+                    for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
+                        extraPane.populate(designer);
+                    }
                 }
-                //出现滚动条
-                downPanel.doLayout();
-                //控件列表选中某组件，触发表单中选中控件，选中事件又触发列表刷新，滚动条回到0
-                //此处设置滚动条值为刷新前
-                downPanel.getVerticalScrollBar().setValue(value);
             }
         }
     }

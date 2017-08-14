@@ -91,7 +91,6 @@ public class JSliderPane extends JPanel {
     }
 
 
-
     public static final JSliderPane getInstance() {
 //        if (THIS == null) {
 //            THIS = new JSliderPane();
@@ -101,8 +100,8 @@ public class JSliderPane extends JPanel {
     }
 
     private void initSlider() {
-        slider = new UISlider(0, HUNDRED, HALF_HUNDRED){
-            public Point getToolTipLocation(MouseEvent event){
+        slider = new UISlider(0, HUNDRED, HALF_HUNDRED) {
+            public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
@@ -115,8 +114,8 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)){
-            public Point getToolTipLocation(MouseEvent event){
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)) {
+            public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
@@ -126,16 +125,16 @@ public class JSliderPane extends JPanel {
     }
 
     private void initDownUpButton() {
-        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png")){
-            public Point getToolTipLocation(MouseEvent event){
+        downButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverDown20.png")) {
+            public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
         downButton.setOpaque(false);
         downButton.setBorderPainted(false);
         downButton.setToolTipText(Inter.getLocText("FR-Designer_Scale_Down"));
-        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png")){
-            public Point getToolTipLocation(MouseEvent event){
+        upButton = new UIButton(BaseUtils.readIcon("com/fr/design/images/data/source/normalUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png"), BaseUtils.readIcon("com/fr/design/images/data/source/hoverUp20.png")) {
+            public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
@@ -149,8 +148,8 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValButton() {
-        showValButton = new JButton(showValSpinner.getValue() + "%"){
-            public Point getToolTipLocation(MouseEvent event){
+        showValButton = new JButton(showValSpinner.getValue() + "%") {
+            public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
@@ -278,6 +277,7 @@ public class JSliderPane extends JPanel {
                         getTimes(sliderValue);
                         showValue = times;
                         showValSpinner.setValue(times);
+                        customButton.setSelected(true);
                     }
                 });
             } else {
