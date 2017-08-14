@@ -100,6 +100,9 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             }
 
         }
+        if (result.size() == 0) {
+            return lessModelList;
+        }
         if (result.size() > 0 && result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             lessModelList.addAll(result);
