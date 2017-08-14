@@ -13,13 +13,13 @@ public class UIPopupMenu extends JPopupMenu{
 		super();
 		setBackground(UIConstants.NORMAL_BACKGROUND);
 	}
-	
+
 	@Override
 	protected void paintBorder(Graphics g) {
 		g.setColor(UIConstants.LINE_COLOR);
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 	}
-	
+
 	@Override
 	public Insets getInsets() {
 		if(onlyText) {

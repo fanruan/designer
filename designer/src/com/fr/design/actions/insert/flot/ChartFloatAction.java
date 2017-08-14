@@ -36,7 +36,7 @@ public class ChartFloatAction extends ElementCaseAction {
     public ChartFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_CHART);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/chart.png"));
     }
