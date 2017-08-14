@@ -53,6 +53,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     protected UIButtonGroup<Integer> limitSize;
     protected UISpinner maxProportion;
     private UILabel limitSizeTitle;
+    private JPanel maxProportionPane;
 
 
     //高亮显示的按钮
@@ -228,17 +229,12 @@ public class VanChartPlotLegendPane extends BasicPane {
         limitSizeTitle = new UILabel(Inter.getLocText("Plugin-ChartF_MaxProportion"));
 
 
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p,f};
-        double[] rowSize = {p,p,p};
-        Component[][] components = new Component[][]{
-                new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AreaSize"), SwingConstants.LEFT), limitSize},
-                new Component[]{limitSizeTitle,maxProportion},
-
-        };
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),limitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(limitSizePane, BorderLayout.NORTH);
+        panel.add(maxProportionPane, BorderLayout.CENTER);
 
         limitSize.addActionListener(new ActionListener() {
             @Override
@@ -278,7 +274,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     //检查最大显示占比是否可用
     private void checkMaxProPortionUse() {
         maxProportion.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
-        limitSizeTitle.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
+        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
 
     }
 

@@ -56,7 +56,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     private VanChartFloatPositionPane customFloatPositionPane;
     private UIButtonGroup<Integer> limitSize;
     private UISpinner maxProportion;
-    private UILabel limitSizeTitle;
+    private JPanel maxProportionPane;
 
     protected VanChartStylePane parent;
 
@@ -163,17 +163,13 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     private JPanel createDisplayStrategy(){
         maxProportion = new UISpinner(0,100,1,30);
         limitSize = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Limit"),Inter.getLocText("Plugin-ChartF_NotLimit")});
-        limitSizeTitle = new UILabel(Inter.getLocText("Plugin-ChartF_MaxProportion"));
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p,f};
-        double[] rowSize = {p,p,p};
-        Component[][] components = new Component[][]{
-                new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AreaSize"), SwingConstants.LEFT), limitSize},
-                new Component[]{limitSizeTitle,maxProportion},
-        };
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),limitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(limitSizePane, BorderLayout.NORTH);
+        panel.add(maxProportionPane, BorderLayout.CENTER);
 
         limitSize.addActionListener(new ActionListener() {
             @Override
@@ -251,7 +247,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     //检查最大显示占比是否可用
     private void checkMaxProPortionUse() {
         maxProportion.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
-        limitSizeTitle.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
+        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
     }
 
     /**
