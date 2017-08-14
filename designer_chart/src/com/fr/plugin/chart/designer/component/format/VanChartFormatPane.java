@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/8/14.
  */
-public class FormatPane4VanChart extends FormatPane {
+public class VanChartFormatPane extends FormatPane {
     protected Component[][] getComponent(JPanel fontPane, JPanel centerPane, FRFontPane frFontPane) {
         return new Component[][]{
                 new Component[]{null, centerPane},

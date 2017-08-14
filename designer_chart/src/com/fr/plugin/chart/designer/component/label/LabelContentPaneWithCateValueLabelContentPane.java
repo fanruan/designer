@@ -7,13 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * 系列、值、值所占比例。（仪表盘的值标签）
+ * 分类和值（仪表盘的值标签）
  */
-public class LabelContentPaneWithOutCate extends LabelContentPane4Gauge {
+public class LabelContentPaneWithCateValueLabelContentPane extends GaugeLabelContentPane {
 
-    private static final long serialVersionUID = 1198062632979554467L;
+    private static final long serialVersionUID = -8286902939543416431L;
 
-    public LabelContentPaneWithOutCate(VanChartStylePane parent, JPanel showOnPane){
+    public LabelContentPaneWithCateValueLabelContentPane(VanChartStylePane parent, JPanel showOnPane){
         super(parent, showOnPane);
     }
 
@@ -22,14 +22,13 @@ public class LabelContentPaneWithOutCate extends LabelContentPane4Gauge {
     }
 
     protected double[] getRowSize(double p){
-        return new double[]{p,p,p};
+        return new double[]{p,p};
     }
 
     protected Component[][] getPaneComponents(){
         return new Component[][]{
-                new Component[]{seriesNameFormatPane, null},
-                new Component[]{valueFormatPane, null},
-                new Component[]{percentFormatPane, null},
+                new Component[]{categoryNameFormatPane,null},
+                new Component[]{valueFormatPane,null},
         };
     }
 }

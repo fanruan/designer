@@ -9,10 +9,10 @@ import java.awt.*;
 /**
  * 只有百分比（仪表盘的百分比标签）
  */
-public class LabelContentPaneWithPercent extends LabelContentPane4Gauge {
+public class LabelContentPaneWithPercentLabelContentPane extends GaugeLabelContentPane {
     private static final long serialVersionUID = -3739217668948747606L;
 
-    public LabelContentPaneWithPercent(VanChartStylePane parent, JPanel showOnPane){
+    public LabelContentPaneWithPercentLabelContentPane(VanChartStylePane parent, JPanel showOnPane){
         super(parent, showOnPane);
     }
 
