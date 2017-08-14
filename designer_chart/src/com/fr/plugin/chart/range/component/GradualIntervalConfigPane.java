@@ -69,7 +69,7 @@ public class GradualIntervalConfigPane extends JPanel{
                 new Component[]{minMaxValuePane, null},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), colorSelectBox},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), numberDragPane},
-                new Component[]{legendGradientBar, null},
+                new Component[]{null, legendGradientBar},
         };
     }
 

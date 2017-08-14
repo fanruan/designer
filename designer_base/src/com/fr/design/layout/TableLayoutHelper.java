@@ -4,11 +4,10 @@ package com.fr.design.layout;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 
 import javax.swing.*;
-
 import java.awt.*;
 
 
@@ -19,6 +18,7 @@ public class TableLayoutHelper {
     public static final int FILL_LASTCOL_AND_ROW = 3;
     private static final int FIVE = 5;
     private static final int TEN = 10;
+
 	private TableLayoutHelper() {
 	}
 
@@ -249,7 +249,7 @@ public class TableLayoutHelper {
 	 * @param columnSize 二级菜单的列数
 	 * @return
 	 */
-	public static JPanel createTableLayoutPane4Chart(String[] title, Component[][] components, double[] rowSize, double[] columnSize){
+	public static JPanel  createTableLayoutPane4Chart(String[] title, Component[][] components, double[] rowSize, double[] columnSize){
 		JPanel secondMenu = createTableLayoutPane(components, rowSize, columnSize);
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;

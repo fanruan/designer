@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.range.component;
 
 import com.fr.design.gui.ilable.BoldFontTextLabel;
+import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.general.Inter;
 
@@ -13,12 +14,19 @@ import java.awt.*;
  */
 public class SectionIntervalConfigPane extends MapColorPickerPaneWithFormula {
 
+    protected double[] getRowSIze () {
+        double p = TableLayout.PREFERRED;
+        return new double[]{p, p, p, p};
+    }
+
     @Override
     protected Component[][] createComponents(){
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(""),getDesignTypeButtonGroup()},
+                new Component[]{null,null},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"FR-Chart-Color_Subject", "FR-Chart-Color_Color"})), getFillStyleCombox()},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), getRegionNumPane()},
+                new Component[]{new BoldFontTextLabel("Plugin-ChartF_RangeNum"),getDesignTypeButtonGroup()},
+
         };
     }
 }

@@ -4,9 +4,9 @@ package com.fr.design.mainframe.chart.gui;
  * Created by hufan on 2016/10/20.
  */
 
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.base.AttrChangeType;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,11 +56,9 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Change_Style") + ":"),configStyleButton},
-                new Component[]{null, null},
-                new Component[]{new JSeparator(), null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Change_Style")),configStyleButton},
                 new Component[]{configPane, null},
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -84,6 +83,8 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         panel.add(buttonConfigPane, "button");
         panel.add(carouselConfigPane, "carousel");
 
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+
         return panel;
     }
 
@@ -92,35 +93,33 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p,p,p};
+        timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
+        colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
         Component[][] components = new Component[][]{
-                new Component[]{createTimeIntervalPane(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createCarouseBackgroundColorPane(),null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), timeInterval},
+                new Component[]{new UILabel(Inter.getLocText("Background")),colorSelectBox4carousel},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-    }
-
-    private Component createTimeIntervalPane() {
-        timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Time_Interval") + ":", timeInterval);
-    }
-
-    private JPanel createCarouseBackgroundColorPane() {
-        colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Background") + ":", colorSelectBox4carousel);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
     }
 
     private JPanel createTitleStylePane(){
-        styleAttrPane = new ChartTextAttrPane();
+        styleAttrPane = new ChartTextAttrPane(){
+            protected Component[][] getComponents(JPanel buttonPane) {
+                return new Component[][]{
+                        new Component[]{fontNameComboBox, null},
+                        new Component[]{buttonPane, null}
+                };
+            }
+        };
         styleAttrPane.setPreferredSize(new Dimension(WIDTH, (int) styleAttrPane.getPreferredSize().getHeight()));
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style")+":", styleAttrPane);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character")+":", styleAttrPane);
     }
 
 
     private JPanel createButtonBackgroundColorPane(){
         colorSelectBox4button = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Background") + ":", colorSelectBox4button);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background") + ":", colorSelectBox4button);
     }
 
     private JPanel createButtonConfigPane() {
@@ -130,7 +129,6 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitleStylePane(),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createButtonBackgroundColorPane(),null},
         };
 

@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.designer.component.background;
 
 import com.fr.base.background.ColorBackground;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
@@ -33,8 +34,9 @@ public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
 
     protected Component[][] getPaneComponents() {
         return  new Component[][]{
-                new Component[]{typeComboBox, null},
-                new Component[]{centerPane, null}
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{null, centerPane},
         };
     }
 

@@ -7,9 +7,9 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.CoreConstants;
 
 import javax.swing.*;
@@ -31,17 +31,18 @@ public class VanChartBorderPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p,f };
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         Component[][] components = getUseComponent();
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Border"}, components, rowSize, columnSize);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }
 
     protected Component[][] getUseComponent() {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")+":"),currentLineCombo},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")+":"),currentLineColorPane},
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),currentLineCombo},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),currentLineColorPane},
         };
     }
 
