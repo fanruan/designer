@@ -488,6 +488,7 @@ public abstract class UIListControlPane extends UIControlPane {
      */
     protected class AddItemMenuDef extends MenuDef {
         public AddItemMenuDef(NameableCreator[] creators) {
+            super(true);
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
             this.setIconPath("/com/fr/design/images/control/addPopup.png");
