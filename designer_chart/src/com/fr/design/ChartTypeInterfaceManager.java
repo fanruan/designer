@@ -70,6 +70,7 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
@@ -100,20 +101,12 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     }
     
     static {
-    
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-        
+
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
-            public void on(PluginEvent event) {
+            public void envChanged() {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-            }
-        }, new PluginFilter() {
-        
-            @Override
-            public boolean accept(PluginContext context) {
-            
-                return context.contain(PluginModule.ExtraChartType);
             }
         });
     }
