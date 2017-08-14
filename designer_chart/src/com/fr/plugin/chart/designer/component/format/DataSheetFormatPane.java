@@ -26,12 +26,15 @@ public class DataSheetFormatPane extends FormatPane {
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
-        Component[][] components = new Component[][]{
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getTypeComboBoxComponent(typeComboBox), rowSize, columnSize);
+        this.add(panel, BorderLayout.NORTH);
+    }
+
+    protected Component[][] getTypeComboBoxComponent (UIComboBox typeComboBox) {
+        return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_DataType") + "   ", SwingConstants.LEFT), typeComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_DataType"), SwingConstants.LEFT), typeComboBox},
 
         };
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
-        this.add(panel, BorderLayout.NORTH);
     }
 }
