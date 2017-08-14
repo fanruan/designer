@@ -67,7 +67,7 @@ public class ReportFloatPane extends JPanel {
     }
 
     private MenuDef createInsertToolBar() {
-        MenuDef insertFloatMenu = new MenuDef();
+        MenuDef insertFloatMenu = new MenuDef(true);
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
         insertFloatMenu.setTooltip(Inter.getLocText("FR-Designer_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");

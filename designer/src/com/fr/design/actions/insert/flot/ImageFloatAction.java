@@ -34,7 +34,7 @@ public class ImageFloatAction extends ElementCaseAction {
     public ImageFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_IMAGE);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/image.png"));
     }

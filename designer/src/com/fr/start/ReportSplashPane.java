@@ -8,9 +8,11 @@ import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.GeneralContext;
-import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
-import com.fr.stable.*;
+import com.fr.stable.Constants;
+import com.fr.stable.CoreGraphHelper;
+import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.module.ModuleAdapter;
 import com.fr.stable.module.ModuleListener;
 
@@ -117,13 +119,6 @@ public class ReportSplashPane extends SplashPane{
         //加载模块信息
         double y = MODULE_INFO_Y + height + leading + ascent;
         GraphHelper.drawString(splashG2d, showText, MODULE_INFO_X, y);
-        
-        //每次随机感谢一位论坛用户
-        if (shouldShowThanks()) {
-            splashG2d.setPaint(THANK_COLOR);
-            String content = Inter.getLocText("FR-Designer_Thanks-To") + GUEST;
-            GraphHelper.drawString(splashG2d, content, THANK_INFO_X, y);
-        }
     }
 
     // 是否显示鸣谢文字

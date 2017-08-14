@@ -27,7 +27,7 @@ public class FormulaFloatAction extends AbstractShapeAction {
     public FormulaFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_FORMULA);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
     }
