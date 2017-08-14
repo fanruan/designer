@@ -44,10 +44,6 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     private VanChartStylePane parent;
     private JPanel showOnPane;
 
-    public JPanel getCenterPane() {
-        return centerPane;
-    }
-
     public VanChartTooltipContentPane(VanChartStylePane parent, JPanel showOnPane){
         this.parent = parent;
         this.showOnPane = showOnPane;
