@@ -5,8 +5,8 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.GaugeStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,10 +40,9 @@ public class VanChartGaugePlotLabelPane extends VanChartPlotLabelPane {
                 cateTitle = Inter.getLocText("Plugin-ChartF_PercentLabel");
                 break;
         }
-        JPanel cateOrPercentPane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(cateTitle, labelDetailPane);
-        JPanel valuePane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(valueTitle, gaugeValueLabelPane);
+        JPanel cateOrPercentPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(cateTitle, labelDetailPane);
+        JPanel valuePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(valueTitle, gaugeValueLabelPane);
         labelPane.add(cateOrPercentPane, BorderLayout.NORTH);
-        labelPane.add(new JSeparator(), BorderLayout.CENTER);
         labelPane.add(valuePane, BorderLayout.SOUTH);
     }
 

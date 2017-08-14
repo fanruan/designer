@@ -2,12 +2,18 @@ package com.fr.plugin.chart.designer.component;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrTooltipContent;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
-import com.fr.plugin.chart.designer.component.format.*;
+import com.fr.plugin.chart.designer.component.format.CategoryNameFormatPaneWithCheckBox;
+import com.fr.plugin.chart.designer.component.format.ChangedPercentFormatPaneWithCheckBox;
+import com.fr.plugin.chart.designer.component.format.ChangedValueFormatPaneWithCheckBox;
+import com.fr.plugin.chart.designer.component.format.PercentFormatPaneWithCheckBox;
+import com.fr.plugin.chart.designer.component.format.SeriesNameFormatPaneWithCheckBox;
+import com.fr.plugin.chart.designer.component.format.ValueFormatPaneWithCheckBox;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
@@ -75,12 +81,23 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
         centerPane.add(commonPanel,Inter.getLocText("Plugin-ChartF_Common"));
 
+        double[] column = {p, f};
+        double[] row = {p,p,p};
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{new UILabel(getLabelContentTitle()),content},
+                new Component[]{null,centerPane},
+        };
         initContentListener();
+        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, column);
+        return getLabelContentPane(contentPane);
+    }
 
-        JPanel contentPane = new JPanel(new BorderLayout(0, 4));
-        contentPane.add(content, BorderLayout.NORTH);
-        contentPane.add(centerPane, BorderLayout.CENTER);
+    protected String getLabelContentTitle () {
+        return Inter.getLocText("FR-Designer_Text");
+    }
 
+    protected JPanel getLabelContentPane(JPanel contentPane) {
         return createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), contentPane);
     }
 
@@ -95,8 +112,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         percentFormatPane = new PercentFormatPaneWithCheckBox(parent, showOnPane);
     }
 
-    protected JPanel createTableLayoutPaneWithTitle(String title, Component component) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(title, component);
+    protected JPanel createTableLayoutPaneWithTitle(String title, JPanel panel) {
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
     }
 
     protected double[] getRowSize(double p){

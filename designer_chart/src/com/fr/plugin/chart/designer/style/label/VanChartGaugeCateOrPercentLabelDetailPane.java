@@ -5,8 +5,8 @@ import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.label.LabelContentPaneWithCate;
 import com.fr.plugin.chart.designer.component.label.LabelContentPaneWithPercent;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.GaugeStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * 仪表盘的分类（多指针时）或者百分比标签
  */
-public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartPlotLabelDetailPane {
+public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabelDetailPane {
 
     private static final long serialVersionUID = 5176535960949074945L;
 

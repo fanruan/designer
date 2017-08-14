@@ -4,17 +4,17 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrTooltip;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class VanChartTooltipPane extends BasicScrollPane<Chart> {
+public class VanChartTooltipPane extends AbstractVanChartScrollPane<Chart> {
     private static final long serialVersionUID = -2974722365840564105L;
     private VanChartPlotTooltipPane tooltipPane;
     private Chart chart;
@@ -70,7 +70,7 @@ public class VanChartTooltipPane extends BasicScrollPane<Chart> {
     }
 
     @Override
-    protected String title4PopupWindow() {
+    public String title4PopupWindow() {
         return Inter.getLocText("Plugin-Chart_Tooltip");
     }
 

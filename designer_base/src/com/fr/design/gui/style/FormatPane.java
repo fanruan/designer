@@ -104,18 +104,21 @@ public class FormatPane extends AbstractBasicStylePane {
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        Component[][] components = new Component[][]{
+        double[] rowSize = {p, p, p, p, p};
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 3}, {1, 1}};
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(getComponent(fontPane, centerPane, frFontPane), rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        this.add(panel, BorderLayout.CENTER);
+    }
+
+    protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, FRFontPane frFontPane) {
+        return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Base_Format") + "   ", SwingConstants.LEFT), typeComboBox},
                 new Component[]{null, centerPane},
                 new Component[]{fontPane, frFontPane},
                 new Component[]{null, null}
         };
-        double[] rowSize = {p, p, p, p, p};
-        double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 3}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
-        this.add(panel, BorderLayout.CENTER);
     }
 
     protected UIComboBoxRenderer createComBoxRender() {
@@ -375,6 +378,10 @@ public class FormatPane extends AbstractBasicStylePane {
         };
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
+        setTypeComboBoxPane(typeComboBox);
+    }
+
+    protected void setTypeComboBoxPane (UIComboBox typeComboBox) {
         this.add(typeComboBox, BorderLayout.NORTH);
     }
 
