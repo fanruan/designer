@@ -28,7 +28,7 @@ public class MenuDef extends ShortCut {
     private static final int MENU_DEFAULTWDITH = 156;
     protected String name;
     //右侧属性表弹出框重绘
-    protected Boolean rePaint = false;
+    protected Boolean isEastAttr = false;
     protected char mnemonic;
     protected String iconPath;
     protected String tooltip;
@@ -68,11 +68,11 @@ public class MenuDef extends ShortCut {
     }
 
     public boolean getRePaint() {
-        return rePaint;
+        return isEastAttr;
     }
 
     public void setRePaint(boolean rePaint) {
-        this.rePaint = rePaint;
+        this.isEastAttr = rePaint;
     }
 
     public char getMnemonic() {
@@ -401,8 +401,8 @@ public class MenuDef extends ShortCut {
             if (!button.isEnabled()) {
                 return;
             }
-            if (rePaint) {
-                popupMenu = new UIPopupMenu(rePaint);
+            if (isEastAttr) {
+                popupMenu = new UIPopupMenu(isEastAttr);
                 popupMenu.setInvoker(button);
                 MenuDef.this.updateEastPopupMenu(popupMenu);
                 popupMenu.setPopupSize(new Dimension(MENU_DEFAULTWDITH, popupMenu.getPreferredSize().height));

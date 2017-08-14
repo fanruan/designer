@@ -9,26 +9,26 @@ import com.fr.design.constants.UIConstants;
 
 public class UIPopupMenu extends JPopupMenu {
     private boolean onlyText = false;
-    private boolean rePaint = false;
+    private boolean isEastAttr = false;
 
     public UIPopupMenu() {
         super();
         setBackground(UIConstants.NORMAL_BACKGROUND);
     }
 
-    public UIPopupMenu(boolean rePaint) {
+    public UIPopupMenu(boolean isEastAttr) {
         super();
-        this.rePaint = rePaint;
+        this.isEastAttr = isEastAttr;
         setBackground(UIConstants.TOOLBARUI_BACKGROUND);
     }
 
     public boolean getRePaint() {
-        return this.rePaint;
+        return this.isEastAttr;
     }
 
     @Override
     protected void paintBorder(Graphics g) {
-        if (rePaint) {
+        if (isEastAttr) {
             g.setColor(UIConstants.POP_DIALOG_BORDER);
             g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
         } else {
@@ -42,7 +42,7 @@ public class UIPopupMenu extends JPopupMenu {
         if (onlyText) {
             return super.getInsets();
         }
-        if (rePaint) {
+        if (isEastAttr) {
             return new Insets(0, 1, 1, 1);
         } else {
             return new Insets(10, 2, 10, 10);

@@ -11,6 +11,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UICheckBoxMenuItem;
 import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIMenuItemEastAttr;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
@@ -48,11 +49,6 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	 * Specifies whether action is enabled; the default is true.
 	 */
 	private boolean enabled = true;
-
-	/**
-	 * Specifies whether action is rePaint; the default is false.
-	 */
-	private boolean rePaint = false;
 
 	/**
 	 * Contains the array of key bindings.
@@ -255,8 +251,16 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 			this.putValue(UIMenuItem.class.getName(), object);
 		}
-		((UIMenuItem) object).setRePaint(this.rePaint);
 		return (UIMenuItem) object;
+	}
+
+	public UIMenuItemEastAttr createMenuItemEastAttr() {
+		UIMenuItem menuItem = new UIMenuItemEastAttr(this);
+		// 设置名字用作单元测
+		menuItem.setName(getName());
+		Object object = menuItem;
+		this.putValue(UIMenuItem.class.getName(), object);
+		return (UIMenuItemEastAttr) object;
 	}
 
 	/**
@@ -324,7 +328,10 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	public void intoJPopupMenu(JPopupMenu menu) {
 		update();
 		if (menu instanceof UIPopupMenu){
-			this.rePaint = ((UIPopupMenu) menu).getRePaint();
+			if (((UIPopupMenu) menu).getRePaint()){
+				menu.add(this.createMenuItemEastAttr());
+				return;
+			}
 		}
 		menu.add(this.createMenuItem());
 	}

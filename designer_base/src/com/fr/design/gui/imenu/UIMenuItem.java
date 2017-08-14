@@ -1,22 +1,20 @@
 package com.fr.design.gui.imenu;
 
-import com.fr.design.constants.UIConstants;
-import com.fr.design.utils.gui.GUIPaintUtils;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
-import sun.swing.SwingUtilities2;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.*;
 
-public class UIMenuItem extends JMenuItem {
+import com.fr.design.constants.UIConstants;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
+import com.fr.design.utils.gui.GUIPaintUtils;
+import sun.swing.SwingUtilities2;
 
-    private boolean rePaint = false;
-
-    public UIMenuItem() {
-        this(StringUtils.BLANK);
-    }
+public class UIMenuItem extends JMenuItem{
+	public UIMenuItem() {
+		this(StringUtils.BLANK);
+	}
 
 	public UIMenuItem(String string) {
 		this(string, null);
@@ -40,10 +38,6 @@ public class UIMenuItem extends JMenuItem {
 		setAction(action);
 	}
 
-	public void setRePaint(boolean rePaint){
-        this.rePaint = rePaint;
-    }
-
 	@Override
 	public String getText() {
 		return StringUtils.BLANK + super.getText();
@@ -53,34 +47,21 @@ public class UIMenuItem extends JMenuItem {
         @Override
         protected void paintBackground(Graphics g, JMenuItem menuItem,Color bgColor) {
             if(menuItem.getIcon() == null) {
-                if (!rePaint){
-                    super.paintBackground(g, menuItem, bgColor);
-                    return;
-                }
-            }
-            if (rePaint){
-                menuItem.setIcon(null);
+                super.paintBackground(g, menuItem, bgColor);
+                return;
             }
             ButtonModel model = menuItem.getModel();
             Color oldColor = g.getColor();
             int menuWidth = menuItem.getWidth();
             int menuHeight = menuItem.getHeight();
+
             g.setColor(UIConstants.NORMAL_BACKGROUND);
             g.fillRect(0, 0, menuWidth, menuHeight);
-
-            if (menuItem.isOpaque()) {
-                if (!rePaint) {
-                    if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
-                        GUIPaintUtils.fillPaint((Graphics2D) g, 30, 0, menuWidth - 30, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 7);
-                    } else {
-                        GUIPaintUtils.fillPaint((Graphics2D) g, 30, 0, menuWidth - 30, menuHeight, true, Constants.NULL, menuItem.getBackground(), 7);
-                    }
+            if(menuItem.isOpaque()) {
+                if (model.isArmed()|| (menuItem instanceof JMenu && model.isSelected())) {
+                    GUIPaintUtils.fillPaint((Graphics2D)g, 30, 0, menuWidth - 30, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 7);
                 } else {
-                    if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
-                        GUIPaintUtils.fillPaint((Graphics2D) g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 0);
-                    } else {
-                        GUIPaintUtils.fillPaint((Graphics2D) g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.TOOLBARUI_BACKGROUND, 0);
-                    }
+                    GUIPaintUtils.fillPaint((Graphics2D)g, 30, 0, menuWidth - 30, menuHeight, true, Constants.NULL, menuItem.getBackground(), 7);
                 }
                 g.setColor(oldColor);
             }
@@ -111,9 +92,6 @@ public class UIMenuItem extends JMenuItem {
                             -1,  textRect.x - 1, textRect.y +
                             fm.getAscent() - 1);
                 }
-            } else if (rePaint) {
-                SwingUtilities2.drawStringUnderlineCharAt(menuItem, g, text,
-                        -1, 0, textRect.y + fm.getAscent());
             } else {
                 // *** paint the text normally
                 if (model.isArmed()|| (menuItem instanceof JMenu && model.isSelected())) {
@@ -124,6 +102,6 @@ public class UIMenuItem extends JMenuItem {
             }
         }
 
-
     }
+
 }
