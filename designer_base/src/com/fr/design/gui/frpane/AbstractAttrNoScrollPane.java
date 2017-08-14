@@ -1,10 +1,10 @@
 package com.fr.design.gui.frpane;
 
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.dialog.BasicPane;
 
 import javax.swing.*;
 import java.awt.*;

@@ -10,6 +10,7 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.Marker;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.plugin.chart.ConfigHelper;
 
 /**
  * 散点图 属性表 系列界面.
@@ -57,7 +58,7 @@ public class XYScatterSeriesPane extends LineSeriesPane {
 			attrList.remove(attr);
 		}
 		
-		if(!ComparatorUtils.equals(markerPane.getSelectedMarkder().getMarkerType(), Marker.NULL_M)){
+		if(!ComparatorUtils.equals(markerPane.getSelectedMarkder().getMarkerType(), ConfigHelper.NULL_M)){
 			attrList.addDataSeriesCondition(new AttrMarkerType(markerPane.getSelectedMarkder().getMarkerType()));
 		}
 	}

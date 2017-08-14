@@ -113,17 +113,22 @@ public class FormatPane extends AbstractBasicStylePane {
         centerPane.setBorder(LEFT_BORDER);
         frFontPane.setBorder(LEFT_BORDER);
 
-        Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
-                new Component[]{null, centerPane},
-                new Component[]{fontPane, frFontPane},
-        };
+        Component[][] components = getComponent(fontPane, centerPane, typePane);
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         this.add(panel, BorderLayout.CENTER);
+    }
+
+
+    protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+        return new Component[][]{
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{null, centerPane},
+                new Component[]{fontPane, frFontPane},
+        };
     }
 
     protected UIComboBoxRenderer createComBoxRender() {
@@ -383,6 +388,10 @@ public class FormatPane extends AbstractBasicStylePane {
         };
         typeComboBox.setRenderer(render);
         typeComboBox.addItemListener(itemListener);
+        setTypeComboBoxPane(typeComboBox);
+    }
+
+    protected void setTypeComboBoxPane (UIComboBox typeComboBox) {
         this.add(typeComboBox, BorderLayout.NORTH);
     }
 
