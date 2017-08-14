@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.designer.style.datasheet;
 
 import com.fr.chart.chartglyph.DataSheet;
-import com.fr.plugin.chart.attr.AttrDataSheet;
+import com.fr.plugin.chart.base.AttrDataSheet;
 
 import javax.swing.*;
 import java.awt.*;

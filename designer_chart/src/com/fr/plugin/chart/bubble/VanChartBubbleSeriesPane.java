@@ -7,7 +7,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.base.VanChartAttrBubble;
+import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.plugin.chart.bubble.component.VanChartBubblePane;
 import com.fr.plugin.chart.custom.component.VanChartCustomAxisConditionPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;

@@ -8,7 +8,7 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.designer.style.tooltip.VanChartPlotTooltipPane;
 import com.fr.plugin.chart.map.VanChartMapPlot;
-import com.fr.plugin.chart.base.AttrMapTooltip;
+import com.fr.plugin.chart.map.attr.AttrMapTooltip;
 import com.fr.plugin.chart.map.designer.VanMapAreaAndPointGroupPane;
 import com.fr.plugin.chart.map.designer.VanMapAreaPointAndLineGroupPane;
 import com.fr.plugin.chart.map.line.VanChartLineMapPlotTooltipPane;

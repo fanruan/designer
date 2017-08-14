@@ -3,7 +3,7 @@ package com.fr.plugin.chart.map.designer.other.condition.pane;
 import com.fr.chart.chartattr.Plot;
 import com.fr.plugin.chart.attr.EffectHelper;
 import com.fr.plugin.chart.base.AttrEffect;
-import com.fr.plugin.chart.base.VanChartAttrBubble;
+import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.plugin.chart.designer.other.condition.item.VanChartEffectConditionPane;
 import com.fr.plugin.chart.map.designer.other.condition.item.VanChartBubbleMarkerConditionPane;
 

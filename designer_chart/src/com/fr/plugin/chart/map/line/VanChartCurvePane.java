@@ -7,7 +7,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.base.AttrCurve;
+import com.fr.plugin.chart.map.line.condition.AttrCurve;
 
 import javax.swing.*;
 import java.awt.*;

@@ -8,7 +8,7 @@ import com.fr.plugin.chart.designer.component.format.PercentFormatPaneWithCheckB
 import com.fr.plugin.chart.designer.component.format.SeriesNameFormatPaneWithCheckBox;
 import com.fr.plugin.chart.designer.component.format.ValueFormatPaneWithCheckBox;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
-import com.fr.plugin.chart.base.format.AttrTooltipMultiLevelNameFormat;
+import com.fr.plugin.chart.multilayer.style.AttrTooltipMultiLevelNameFormat;
 
 import javax.swing.*;
 import java.awt.*;

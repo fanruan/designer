@@ -7,7 +7,7 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.designer.component.marker.VanChartImageMarkerPane;
 import com.fr.plugin.chart.designer.style.series.VanChartEffectPane;
-import com.fr.plugin.chart.base.AttrLineEffect;
+import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.plugin.chart.type.LineMapAnimationType;
 
 import javax.swing.*;

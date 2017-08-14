@@ -4,7 +4,7 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.attr.AttrDataSheet;
+import com.fr.plugin.chart.base.AttrDataSheet;
 import com.fr.plugin.chart.designer.style.datasheet.VanchartDataSheetNoCheckPane;
 
 import javax.swing.*;

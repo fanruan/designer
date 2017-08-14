@@ -1,7 +1,6 @@
 package com.fr.plugin.chart.multilayer.style;
 
 import com.fr.plugin.chart.base.AttrTooltipContent;
-import com.fr.plugin.chart.base.format.AttrTooltipMultiLevelNameFormat;
 import com.fr.plugin.chart.designer.component.VanChartLabelContentPane;
 import com.fr.plugin.chart.designer.component.format.PercentFormatPaneWithCheckBox;
 import com.fr.plugin.chart.designer.component.format.ValueFormatPaneWithCheckBox;

@@ -4,7 +4,7 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.map.line.VanChartCurvePane;
-import com.fr.plugin.chart.base.AttrCurve;
+import com.fr.plugin.chart.map.line.condition.AttrCurve;
 
 import javax.swing.*;
 
