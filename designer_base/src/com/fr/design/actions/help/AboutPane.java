@@ -82,9 +82,6 @@ public class AboutPane extends JPanel {
         
         contentPane.add(actionLabel);
         contentPane.add(emailLabel);
-        if (shouldShowThanks()) {
-            addThankPane(contentPane);
-        }
     }
 
     // 是否显示服务电话和 qq
