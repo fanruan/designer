@@ -57,13 +57,10 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
     protected Component[][] createComponents(Plot plot) {
         Component[][] components = new Component[][]{
                 new Component[]{refreshTooltipContentPane,null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{initDurationPane(),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{borderPane,null},
-                new Component[]{backgroundPane,null}
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
 
         };
         return components;

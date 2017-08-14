@@ -5,8 +5,8 @@ import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.label.LabelContentPaneWithCateValue;
 import com.fr.plugin.chart.designer.component.label.LabelContentPaneWithOutCate;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.GaugeStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * 仪表盘的值标签
  */
-public class VanChartGaugeValueLabelDetailPane extends VanChartPlotLabelDetailPane {
+public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailPane {
     private static final long serialVersionUID = 2601073419430634281L;
 
     private GaugeStyle gaugeStyle;
@@ -59,9 +59,7 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartPlotLabelDetailPa
     private Component[][] getLabelPaneComponentsWithBackground(Plot plot, double p, double[] columnSize) {
         return  new Component[][]{
                 new Component[]{dataLabelContentPane,null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLabelStylePane(new double[]{p,p}, columnSize, plot),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
                 new Component[]{createBackgroundColorPane(),null},
         };
     }

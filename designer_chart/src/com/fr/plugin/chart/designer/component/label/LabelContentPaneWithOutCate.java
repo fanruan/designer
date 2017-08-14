@@ -1,7 +1,6 @@
 package com.fr.plugin.chart.designer.component.label;
 
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
-import com.fr.plugin.chart.designer.component.VanChartLabelContentPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
@@ -10,7 +9,7 @@ import java.awt.*;
 /**
  * 系列、值、值所占比例。（仪表盘的值标签）
  */
-public class LabelContentPaneWithOutCate extends VanChartLabelContentPane {
+public class LabelContentPaneWithOutCate extends LabelContentPane4Gauge {
 
     private static final long serialVersionUID = 1198062632979554467L;
 
@@ -18,8 +17,8 @@ public class LabelContentPaneWithOutCate extends VanChartLabelContentPane {
         super(parent, showOnPane);
     }
 
-    protected JPanel createTableLayoutPaneWithTitle(String title, Component component) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(title, component);
+    protected JPanel createTableLayoutPaneWithTitle(String title, JPanel panel) {
+        return TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(title, panel);
     }
 
     protected double[] getRowSize(double p){

@@ -4,17 +4,17 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class VanChartLabelPane extends BasicScrollPane<Chart> {
+public class VanChartLabelPane extends AbstractVanChartScrollPane<Chart> {
     private VanChartPlotLabelPane labelPane;
     private Chart chart;
     protected VanChartStylePane parent;

@@ -6,7 +6,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.designer.PlotFactory;
@@ -46,10 +45,9 @@ public class VanChartPlotLabelPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{isLabelShow},
-                new Component[]{new JSeparator()},
                 new Component[]{labelPane}
         };
 

@@ -3,8 +3,8 @@ package com.fr.plugin.chart.designer.style.tooltip;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
@@ -36,7 +36,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
     protected VanChartBackgroundWithOutImagePane backgroundPane;
 
-    protected UIToggleButton showAllSeries;
+    protected UICheckBox showAllSeries;
     protected UIButtonGroup followMouse;
 
     protected VanChartStylePane parent;
@@ -55,10 +55,9 @@ public class VanChartPlotTooltipPane extends BasicPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{isTooltipShow},
-                new Component[]{new JSeparator()},
                 new Component[]{tooltipPane}
         };
 
@@ -92,11 +91,9 @@ public class VanChartPlotTooltipPane extends BasicPane {
     protected Component[][] createComponents(Plot plot) {
         Component[][] components = new Component[][]{
                 new Component[]{tooltipContentPane,null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{borderPane,null},
-                new Component[]{backgroundPane,null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(plot),null},
         };
         return components;
@@ -109,21 +106,30 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
     protected JPanel createLabelStylePane() {
         style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),Inter.getLocText("Plugin-ChartF_Custom")});
-        textFontPane = new ChartTextAttrPane();
-
+        textFontPane = new ChartTextAttrPane() {
+            protected Component[][] getComponents(JPanel buttonPane) {
+                return new Component[][]{
+                        new Component[]{null, null},
+                        new Component[]{null, fontNameComboBox},
+                        new Component[]{null, buttonPane}
+                };
+            }
+        };
+        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p};
+        double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{style,null},
-                new Component[]{textFontPane,null},
+                new Component[]{null, null},
+                new Component[]{text, style},
+                new Component[]{null, textFontPane},
         };
 
         initStyleListener();
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
 
 
@@ -137,15 +143,22 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected JPanel createDisplayStrategy(Plot plot) {
-        showAllSeries = new UIToggleButton(getShowAllSeriesLabelText());
+        showAllSeries = new UICheckBox(getShowAllSeriesLabelText());
         followMouse = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_FollowMouse"),
                 Inter.getLocText("Plugin-ChartF_NotFollowMouse")});
-        JPanel panel = new JPanel(new BorderLayout(0,4));
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = { p,f };
+        double[] rowSize = { p,p,p};
+        Component[][] components = new Component[3][2];
+        components[0] = new Component[]{null,null};
+        components[1] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Prompt_Box")),followMouse};
+
         if(plot.isSupportTooltipSeriesType() && hasTooltipSeriesType()){
-            panel.add(showAllSeries, BorderLayout.NORTH);
+            components[2] = new Component[]{showAllSeries,null};
         }
-        panel.add(followMouse,BorderLayout.SOUTH);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
     }
 
     protected String getShowAllSeriesLabelText() {

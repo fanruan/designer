@@ -1,6 +1,5 @@
 package com.fr.plugin.chart.designer.component.tooltip;
 
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartTooltipContentPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
@@ -16,11 +15,6 @@ public class TooltipContentPaneWithOutSeries extends VanChartTooltipContentPane{
 
     public TooltipContentPaneWithOutSeries(VanChartStylePane parent, JPanel showOnPane){
         super(parent, showOnPane);
-    }
-
-    @Override
-    protected JPanel createTableLayoutPaneWithTitle(String title, Component component) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(title, component);
     }
 
     protected double[] getRowSize(double p){

@@ -5,6 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
@@ -34,7 +35,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     protected BasicBeanPane<AttrTooltipContent> dataLabelContentPane;
 
     protected UIButtonGroup<Integer> position;
-    protected UIToggleButton autoAdjust;
+    protected UIButtonGroup<Boolean> autoAdjust;
     protected UIToggleButton tractionLine;
 
     protected UIButtonGroup<Integer> style;
@@ -71,16 +72,13 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         if(hasLabelPosition(plot)){
             return new Component[][]{
                     new Component[]{dataLabelContentPane,null},
-                    new Component[]{new JSeparator(),null},
-                    new Component[]{createLabelPositionPane(new double[]{p,p}, columnSize, plot),null},
-                    new Component[]{new JSeparator(),null},
-                    new Component[]{createLabelStylePane(new double[]{p,p}, columnSize, plot),null},
+                    new Component[]{createLabelPositionPane(new double[]{p,p,p}, columnSize, plot),null},
+                    new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
             };
         } else {
             return  new Component[][]{
                     new Component[]{dataLabelContentPane,null},
-                    new Component[]{new JSeparator(),null},
-                    new Component[]{createLabelStylePane(new double[]{p,p}, columnSize, plot),null},
+                    new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
             };
         }
     }
@@ -93,8 +91,8 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         return plot instanceof VanChartLabelPositionPlot;
     }
 
-    protected JPanel createTableLayoutPaneWithTitle(String title, Component component) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(title, component);
+    protected JPanel createTableLayoutPaneWithTitle(String title, JPanel panel) {
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
     }
 
     protected JPanel createLabelPositionPane(double[] row, double[] col, Plot plot) {
@@ -110,32 +108,32 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             }
 
             position = new UIButtonGroup<Integer>(names, values);
-            autoAdjust = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Auto_Adjust"));
+            autoAdjust = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
 
-            Component[] comps;
+
+            Component[][] comps = new Component[3][2];
+
+            comps[0] = new Component[]{null,null};
+            comps[1] = new Component[]{new UILabel(Inter.getLocText("Chart-Layout_Position"), SwingConstants.LEFT), position};
+
 
             if(plot.isSupportLeadLine()){
                 tractionLine = new UIToggleButton(Inter.getLocText("ChartF-Show_GuidLine"));
-                comps = new Component[]{position, tractionLine};
+                comps[2] = new Component[]{null,tractionLine};
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                comps = new Component[]{position, autoAdjust};
-            } else {
-                comps = new Component[]{position};
+                comps[2]= new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Auto_Adjust"), SwingConstants.LEFT),autoAdjust};
             }
-
-            int len = comps.length;
-            Component[][] components = new Component[len][2];
-
-            for(int i = 0; i < len; i++){
-                components[i] = new Component[]{comps[i], null};
-            }
-
-            JPanel panel = TableLayoutHelper.createTableLayoutPane(components,row,col);
-            return createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Layout_Position"), panel);
+            return getLabelPositionPane(comps,row,col);
         }
         return new JPanel();
     }
+
+    protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
+        return createTableLayoutPaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
+    }
+
 
     protected void initPositionListener() {
         position.addChangeListener(new ChangeListener() {
@@ -149,7 +147,15 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
         style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
                 Inter.getLocText("Plugin-ChartF_Custom")});
-        textFontPane = new ChartTextAttrPane();
+        textFontPane = new ChartTextAttrPane(){
+            protected Component[][] getComponents(JPanel buttonPane) {
+                return new Component[][]{
+                        new Component[]{null, null},
+                        new Component[]{null, fontNameComboBox},
+                        new Component[]{null, buttonPane}
+                };
+            }
+        };
 
         initStyleListener();
 
@@ -158,13 +164,15 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {
+        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
-                new Component[]{style,null},
+                new Component[]{null,null},
+                new Component[]{text,style},
                 new Component[]{textFontPane,null},
         };
     }
 
-    private void initStyleListener() {
+    protected void initStyleListener() {
         style.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -191,7 +199,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     private void checkStyleUse() {
-        textFontPane.setEnabled(style.getSelectedIndex() == 1);
+        textFontPane.setVisible(style.getSelectedIndex() == 1);
     }
 
     private void checkPosition() {
@@ -211,7 +219,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             tractionLine.setSelected(detail.isShowGuidLine());
         }
         if(autoAdjust != null){
-            autoAdjust.setSelected(detail.isAutoAdjust());
+            autoAdjust.setSelectedIndex(detail.isAutoAdjust() == true ? 0 : 1);
         }
         style.setSelectedIndex(detail.isCustom() ? 1 : 0);
         textFontPane.populate(detail.getTextAttr());
@@ -234,7 +242,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             position.setSelectedItem(detail.getPosition());
         }
 
-        detail.setAutoAdjust(autoAdjust != null && autoAdjust.isSelected());
+        detail.setAutoAdjust(autoAdjust != null && autoAdjust.getSelectedItem());
 
         if(tractionLine != null){
             detail.setShowGuidLine(tractionLine.isSelected() && detail.getPosition() == Constants.OUTSIDE);

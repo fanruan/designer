@@ -5,9 +5,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.DataSheet;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -17,10 +15,13 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
-import com.fr.plugin.chart.type.AxisType;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.VanChartConstants;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.border.VanChartBorderPane;
+import com.fr.plugin.chart.designer.component.format.DataSheetFormatPane;
+import com.fr.plugin.chart.type.AxisType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ import java.awt.event.ActionListener;
 /**
  * 样式-数据表
  */
-public class VanChartDataSheetPane extends BasicScrollPane<Chart> {
+public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
     private static final long serialVersionUID = 5547658195141361981L;
 
     private UICheckBox isShowDataSheet;
@@ -73,7 +74,6 @@ public class VanChartDataSheetPane extends BasicScrollPane<Chart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{isShowDataSheet},
-                new Component[]{new JSeparator()},
                 new Component[]{dataSheetPane}
         };
         return components;
@@ -85,23 +85,18 @@ public class VanChartDataSheetPane extends BasicScrollPane<Chart> {
 
     private JPanel createDataSheetPane(){
         textAttrPane = new ChartTextAttrPane();
-        formatPane = new FormatPane();
+        formatPane = new DataSheetFormatPane();
         formatPane.setForDataSheet();
         borderPane = new VanChartBorderPane();
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {LayoutConstants.CHART_ATTR_TOMARGIN, f};
-        double[] rowSize = {p,p,p,p,p,p,p,p};
+        double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")),null},
-                new Component[]{null,textAttrPane},
-                new Component[]{new JSeparator(),null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_DataType")),null},
-                new Component[]{null,formatPane},
-                new Component[]{new JSeparator(),null},
-                new Component[]{borderPane,null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Base_Format"),formatPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"),textAttrPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
