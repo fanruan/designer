@@ -6,7 +6,7 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.designer.style.series.VanChartEffectPane;
 import com.fr.plugin.chart.map.line.VanChartLineMapEffectPane;
-import com.fr.plugin.chart.base.AttrLineEffect;
+import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 
 /**
  * Created by hufan on 2016/12/23.

@@ -7,7 +7,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.base.VanChartAttrBubble;
+import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 
 import javax.swing.*;
 import java.awt.*;

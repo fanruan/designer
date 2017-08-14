@@ -8,7 +8,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.designer.style.label.VanChartPlotLabelPane;
 import com.fr.plugin.chart.map.VanChartMapPlot;
-import com.fr.plugin.chart.base.AttrMapLabel;
+import com.fr.plugin.chart.map.attr.AttrMapLabel;
 import com.fr.plugin.chart.map.designer.VanMapAreaAndPointGroupPane;
 
 import javax.swing.*;

@@ -3,7 +3,7 @@ package com.fr.plugin.chart.designer.other.condition.item;
 import com.fr.chart.base.DataSeriesCondition;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.base.VanChartAttrBubble;
+import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.plugin.chart.bubble.component.VanChartBubblePane;
 
 import javax.swing.*;
