@@ -9,10 +9,7 @@ import com.fr.base.Style;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UICheckBoxMenuItem;
-import com.fr.design.gui.imenu.UIMenuItem;
-import com.fr.design.gui.imenu.UIMenuItemEastAttr;
-import com.fr.design.gui.imenu.UIPopupMenu;
+import com.fr.design.gui.imenu.*;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
@@ -254,13 +251,12 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		return (UIMenuItem) object;
 	}
 
-	public UIMenuItemEastAttr createMenuItemEastAttr() {
-		UIMenuItem menuItem = new UIMenuItemEastAttr(this);
+	public UIMenuEastAttrItem createMenuItemEastAttr() {
+		UIMenuEastAttrItem menuItem = new UIMenuEastAttrItem(this);
 		// 设置名字用作单元测
 		menuItem.setName(getName());
-		Object object = menuItem;
-		this.putValue(UIMenuItem.class.getName(), object);
-		return (UIMenuItemEastAttr) object;
+		this.putValue(UIMenuItem.class.getName(), menuItem);
+		return menuItem;
 	}
 
 	/**
@@ -327,11 +323,9 @@ public abstract class UpdateAction extends ShortCut implements Action {
 	@Override
 	public void intoJPopupMenu(JPopupMenu menu) {
 		update();
-		if (menu instanceof UIPopupMenu){
-			if (((UIPopupMenu) menu).getRePaint()){
-				menu.add(this.createMenuItemEastAttr());
-				return;
-			}
+		if (menu instanceof UIPopupEastAttrMenu){
+			menu.add(this.createMenuItemEastAttr());
+			return;
 		}
 		menu.add(this.createMenuItem());
 	}

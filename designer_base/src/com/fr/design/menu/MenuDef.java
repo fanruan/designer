@@ -3,6 +3,7 @@ package com.fr.design.menu;
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenu;
+import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.imenu.UIScrollMenu;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
@@ -402,7 +403,7 @@ public class MenuDef extends ShortCut {
                 return;
             }
             if (isEastAttr) {
-                popupMenu = new UIPopupMenu(isEastAttr);
+                popupMenu = new UIPopupEastAttrMenu();
                 popupMenu.setInvoker(button);
                 MenuDef.this.updateEastPopupMenu(popupMenu);
                 popupMenu.setPopupSize(new Dimension(MENU_DEFAULTWDITH, popupMenu.getPreferredSize().height));

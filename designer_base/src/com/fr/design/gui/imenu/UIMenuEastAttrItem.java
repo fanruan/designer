@@ -13,30 +13,30 @@ import java.awt.*;
 /**
  * 右侧属性面板悬浮元素、超级链接弹窗重绘
  */
-public class UIMenuItemEastAttr extends UIMenuItem {
+public class UIMenuEastAttrItem extends JMenuItem {
 
-    public UIMenuItemEastAttr() {
+    public UIMenuEastAttrItem() {
         this(StringUtils.BLANK);
     }
 
-    public UIMenuItemEastAttr(String string) {
+    public UIMenuEastAttrItem(String string) {
         this(string, null);
 
     }
 
-    public UIMenuItemEastAttr(String string, Icon pageSmallIcon) {
+    public UIMenuEastAttrItem(String string, Icon pageSmallIcon) {
         super(string, pageSmallIcon);
         setBackground(UIConstants.NORMAL_BACKGROUND);
         setUI(new UIMenuItemEastAttrUI());
     }
 
-    public UIMenuItemEastAttr(String string, int key) {
+    public UIMenuEastAttrItem(String string, int key) {
         super(string, key);
         setBackground(UIConstants.NORMAL_BACKGROUND);
         setUI(new UIMenuItemEastAttrUI());
     }
 
-    public UIMenuItemEastAttr(Action action) {
+    public UIMenuEastAttrItem(Action action) {
         this();
         setAction(action);
     }
@@ -96,7 +96,7 @@ public class UIMenuItemEastAttr extends UIMenuItem {
                 }
             } else {
                 SwingUtilities2.drawStringUnderlineCharAt(menuItem, g, text,
-                        -1, -4, textRect.y + fm.getAscent());
+                        -1, 0, textRect.y + fm.getAscent());
             }
         }
     }
