@@ -26,7 +26,7 @@ public class TextBoxFloatAction extends AbstractShapeAction {
     public TextBoxFloatAction(ElementCasePane t) {
         super(t);
         this.setMenuKeySet(FLOAT_INSERT_TEXT);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/text.png"));
     }
