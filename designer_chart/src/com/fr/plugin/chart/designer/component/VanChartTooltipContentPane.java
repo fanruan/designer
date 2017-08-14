@@ -85,23 +85,23 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
         centerPane.add(commonPanel,Inter.getLocText("Plugin-ChartF_Common"));
 
-        UILabel text = new UILabel();
-
         double[] column = {p, f};
         double[] row = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{text,content},
+                new Component[]{new UILabel(getLabelContentTitle()),content},
                 new Component[]{null,centerPane},
         };
         initContentListener();
-        return getContentPane(components, column, row, text);
+        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, column);
+        return getLabelContentPane(contentPane);
     }
 
-    protected JPanel getContentPane(Component[][] components, double[] column, double[] row, UILabel text) {
-        text.setText(Inter.getLocText("FR-Designer_Text"));
+    protected String getLabelContentTitle () {
+        return Inter.getLocText("FR-Designer_Text");
+    }
 
-        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, column);
+    protected JPanel getLabelContentPane(JPanel contentPane) {
         return createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), contentPane);
     }
 
