@@ -19,12 +19,21 @@ import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.attr.radius.VanChartRadiusPlot;
-import com.fr.plugin.chart.base.*;
+import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
+import com.fr.plugin.chart.base.AttrEffect;
+import com.fr.plugin.chart.base.AttrLabel;
+import com.fr.plugin.chart.base.AttrLineEffect;
+import com.fr.plugin.chart.base.VanChartAttrLine;
+import com.fr.plugin.chart.base.VanChartAttrMarker;
+import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.plugin.chart.custom.style.VanChartCustomStylePane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
-import com.fr.plugin.chart.designer.component.*;
+import com.fr.plugin.chart.designer.component.VanChartAreaSeriesFillColorPane;
+import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
+import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
+import com.fr.plugin.chart.designer.component.VanChartMarkerPane;
+import com.fr.plugin.chart.designer.component.VanChartTrendLinePane;
 import com.fr.plugin.chart.designer.component.border.VanChartBorderPane;
-import com.fr.plugin.chart.base.AttrLineEffect;
 import com.fr.plugin.chart.pie.RadiusCardLayoutPane;
 import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
 
@@ -76,26 +85,26 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     //风格
-    protected VanChartBeautyPane createStylePane() {
+    protected JPanel createStylePane() {
         //如果是自定義組合圖，則不創建填充界面
         if (parentPane instanceof VanChartCustomStylePane){
             stylePane = null;
         }else {
             stylePane = new VanChartBeautyPane();
         }
-        return stylePane;
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"), stylePane);
     }
 
     //趋势线
     protected JPanel createTrendLinePane() {
         trendLinePane = new VanChartTrendLinePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Trend_Line"), trendLinePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Trend_Line"), trendLinePane);
     }
 
     //线
     protected JPanel createLineTypePane() {
         lineTypePane = getLineTypePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Line"), lineTypePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Line"), lineTypePane);
     }
 
     protected VanChartLineTypePane getLineTypePane() {
@@ -105,19 +114,19 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //标记点类型
     protected JPanel createMarkerPane() {
         markerPane = new VanChartMarkerPane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker"), markerPane);
     }
 
     //填充颜色
     protected JPanel createAreaFillColorPane() {
         areaSeriesFillColorPane = new VanChartAreaSeriesFillColorPane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_FillColor"), areaSeriesFillColorPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_FillColor"), areaSeriesFillColorPane);
     }
 
     //边框（默认没有圆角）
-    protected VanChartBorderPane createBorderPane() {
+    protected JPanel createBorderPane() {
         borderPane = createDiffBorderPane();
-        return borderPane;
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"), borderPane);
     }
 
     //半径界面
@@ -187,7 +196,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     protected JPanel createLargeDataModelPane(UIButtonGroup<DataProcessor> modelGroup) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Model"), modelGroup);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Model"), modelGroup);
     }
 
     protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
@@ -208,7 +217,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //不透明度
     protected JPanel createAlphaPane() {
         transparent = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
     }
 
     //堆积和坐标轴设置(自定义柱形图等用到)

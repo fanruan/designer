@@ -2,7 +2,7 @@ package com.fr.plugin.chart.pie;
 
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
@@ -28,7 +28,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected UISpinner startAngle;
     protected UISpinner endAngle;
     protected UISpinner innerRadius;
-    private UIToggleButton supportRotation;
+    private UIButtonGroup<Boolean> supportRotation;
 
     public VanChartPieSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
@@ -41,9 +41,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] rowSize = {p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createStylePane()},
-                new Component[]{stylePane == null ? null : new JSeparator()},
                 new Component[]{createSeriesStylePane(rowSize, new double[]{p,f})},
-                new Component[]{new JSeparator()},
                 new Component[]{createBorderPane()},
         };
 
@@ -55,19 +53,21 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
         startAngle = new UISpinner(MIN_ANGLE, MAX_ANGLE, 1, 0);
         endAngle = new UISpinner(MIN_ANGLE, MAX_ANGLE, 1, 0);
         innerRadius = new UISpinner(0, 100, 1, 0);
-        supportRotation = new UIToggleButton(Inter.getLocText("Plugin-ChartF_Rotation"));
+        supportRotation = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
+
 
         Component[][] components = new Component[][]{
+                new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_StartAngle")),startAngle},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_EndAngle")),endAngle},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_InnerRadius")),innerRadius},
-                new Component[]{createRadiusPane(), null},
-                new Component[]{supportRotation,null}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")), createRadiusPane()},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation")),supportRotation}
         };
 
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
 
     //半径界面
@@ -93,7 +93,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
             startAngle.setValue(piePlot4VanChart.getStartAngle());
             endAngle.setValue(piePlot4VanChart.getEndAngle());
             innerRadius.setValue(piePlot4VanChart.getInnerRadiusPercent());
-            supportRotation.setSelected(piePlot4VanChart.isSupportRotation());
+            supportRotation.setSelectedIndex(piePlot4VanChart.isSupportRotation() == true ?0:1);
         }
     }
 
@@ -114,7 +114,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
             piePlot4VanChart.setStartAngle(startAngle.getValue());
             piePlot4VanChart.setEndAngle(endAngle.getValue());
             piePlot4VanChart.setInnerRadiusPercent(innerRadius.getValue());
-            piePlot4VanChart.setSupportRotation(supportRotation.isSelected());
+            piePlot4VanChart.setSupportRotation(supportRotation.getSelectedItem());
         }
     }
 }

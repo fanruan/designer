@@ -43,19 +43,12 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(),null},
-                new Component[]{createTitlePane(new double[]{p, p, p, p,p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createTitlePane(new double[]{p, p, p, p,p,p}, columnSize, isXAxis),null},
                 new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createMinMaxValuePane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLineStylePane(new double[]{p, p,p,p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createMinMaxValuePane(new double[]{p, p, p,p}, columnSize),null},
+                new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
+                new Component[]{createAxisPositionPane(new double[]{p, p,p}, columnSize, isXAxis),null},
+                new Component[]{createDisplayStrategy(new double[]{p, p,p}, columnSize),null},
                 new Component[]{createValueStylePane(),null},
         };
 
@@ -64,7 +57,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
         JPanel panel = createCommenValuePane(row,col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), panel);
     }
     protected JPanel createCommenValuePane(double[] row, double[] col){
         initMinMaxValuePane();

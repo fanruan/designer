@@ -44,8 +44,7 @@ public class VanChartGradientPane extends GradientBackgroundQuickPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gradientBar, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Gradient_Direction") + ":")},
-                new Component[]{directionPane}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Gradient_Direction")),directionPane},
         };
         JPanel Gradient = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());

@@ -7,6 +7,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.AbstractChartTabPane;
+import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartBackgroundPane;
 import com.fr.plugin.chart.designer.component.border.VanChartBorderWithRadiusPane;
 import com.fr.plugin.chart.designer.style.background.radar.VanChartRadarAxisAreaPane;
@@ -45,8 +47,8 @@ public class VanChartAreaBackgroundPane extends AbstractChartTabPane<Chart> {
         double[] columnSize = { f };
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{chartBorderPane},
-                new Component[]{chartBackgroundPane}
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),chartBorderPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), chartBackgroundPane)},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         contentPane.add(panel, BorderLayout.CENTER);
@@ -88,8 +90,8 @@ public class VanChartAreaBackgroundPane extends AbstractChartTabPane<Chart> {
 
     protected Component[][] initComponents() {
         return new Component[][]{
-                new Component[]{chartBorderPane},
-                new Component[]{chartBackgroundPane},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),chartBorderPane)},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), chartBackgroundPane)},
                 new Component[]{chartAxisAreaPane}
         };
     }

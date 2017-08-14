@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicScrollPane;
+import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -80,7 +81,8 @@ public class NormalChartDataPane extends DataContentsPane {
 				};
 				contentPane.add(dataPane, BorderLayout.CENTER);
 				dataPane.setBorder(BorderFactory.createEmptyBorder(10 ,0, 0, 0));
-				return contentPane;
+				UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, contentPane);
+				return advanceExpandablePane;
 			}
 
 			@Override

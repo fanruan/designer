@@ -50,9 +50,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createStylePane()},
-                new Component[]{stylePane == null ? null : new JSeparator()},
                 new Component[]{createSeriesStylePane(new double[]{p,p}, new double[]{p,f})},
-                new Component[]{new JSeparator()},
                 new Component[]{createBorderPane()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{createTrendLinePane()},
@@ -113,7 +111,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
                 checkImagePane();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), borderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), borderPane);
     }
 
     private void checkAll() {

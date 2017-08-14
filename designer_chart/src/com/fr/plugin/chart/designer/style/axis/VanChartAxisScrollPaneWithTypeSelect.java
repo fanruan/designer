@@ -2,17 +2,17 @@ package com.fr.plugin.chart.designer.style.axis;
 
 import com.fr.chart.chartattr.Axis;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.AxisType;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.attr.axis.VanChartValueAxis;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
+import com.fr.plugin.chart.type.AxisType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 带有坐标轴类型选择控件。可选类型：分类、时间、数值
  */
-public class VanChartAxisScrollPaneWithTypeSelect extends BasicScrollPane<VanChartAxis> implements VanChartXYAxisPaneInterface{
+public class VanChartAxisScrollPaneWithTypeSelect extends AbstractVanChartScrollPane<VanChartAxis> implements VanChartXYAxisPaneInterface{
     private static final long serialVersionUID = -8462279689749700666L;
     private UIComboBoxPane axisTypePane;
     private VanChartTimeAxisPane timeAxisPane;
@@ -56,7 +56,8 @@ public class VanChartAxisScrollPaneWithTypeSelect extends BasicScrollPane<VanCha
 
             protected void initLayout() {
                 this.setLayout(new BorderLayout(0,6));
-                JPanel northPane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_type"),jcb);
+                JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_type"),jcb);
+                northPane.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
                 this.add(northPane, BorderLayout.NORTH);
                 this.add(cardPane, BorderLayout.CENTER);
 

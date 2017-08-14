@@ -21,12 +21,12 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.AxisTickLineType;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartHtmlLabelPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
+import com.fr.plugin.chart.type.AxisTickLineType;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -54,6 +54,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected UINumberDragPane labelTextRotation;
     protected UIButtonGroup<Integer> labelGapStyle;
     protected UITextField labelGapValue;
+    protected JPanel labelPanel;
+
 
     protected LineComboBox axisLineStyle;
     protected ColorSelectBox axisLineColor;
@@ -61,10 +63,11 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected UIButtonGroup<AxisTickLineType> secondTick;
 
     protected UIButtonGroup<Integer> position;
-    protected UIToggleButton reversed;
+    protected UIButtonGroup<Boolean> reversed;
 
     protected UIButtonGroup<Integer> axisLimitSize;
     protected UISpinner maxProportion;
+    protected JPanel maxProportionPane;
 
     protected UIButtonGroup valueFormatStyle;
     protected FormatPane valueFormat;
@@ -93,20 +96,14 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
+        double[] rowSize = {p, p, p, p, p, p, p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(),null},
-                new Component[]{createTitlePane(new double[]{p, p, p, p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLineStylePane(new double[]{p, p,p,p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createValueStylePane(),null},
+                new Component[]{createTitlePane(new double[]{p, p, p, p, p, p}, columnSize, isXAxis), null},
+                new Component[]{createLabelPane(new double[]{p, p}, columnSize), null},
+                new Component[]{createLineStylePane(new double[]{p, p, p, p, p}, columnSize), null},
+                new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis), null},
+                new Component[]{createDisplayStrategy(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createValueStylePane(), null},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
@@ -125,15 +122,16 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             titleTextRotation.populateBean(-ROTATION_MAX);
         }
         Component[][] components = new Component[][]{
-                new Component[]{titleContent,null},
-                new Component[]{titleAlignPane,null},
-                new Component[]{titleUseHtml,null},
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),titleContent},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
+                new Component[]{null,titleUseHtml},
                 new Component[]{titleTextAttrPane,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")),titleTextRotation},
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(PaneTitleConstants.CHART_STYLE_TITLE_TITLE, panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_TITLE_TITLE, panel);
     }
 
     private UIButtonGroup<Integer> getXAxisTitleAlignPane(){
@@ -168,11 +166,13 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         JPanel gapPanel = TableLayoutHelper.createTableLayoutPane(gapComponents, row, col);
 
         Component[][] components = new Component[][]{
-                new Component[]{showLabel,null},
                 new Component[]{labelTextAttrPane, null},
                 new Component[]{gapPanel,null},
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+
+        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AxisLabel"),showLabel);
+        labelPanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         showLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,7 +185,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 checkLabelGapValuePane();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, panel);
+        JPanel jPanel = new JPanel(new BorderLayout());
+        jPanel.add(showLabelPane, BorderLayout.NORTH);
+        jPanel.add(labelPanel, BorderLayout.CENTER);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, jPanel);
     }
 
     protected JPanel createLineStylePane(double[] row, double[] col){
@@ -197,11 +200,12 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         secondTick = new UIButtonGroup<AxisTickLineType>(strings, values);
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(getLineStylePaneComponents(), row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_AxisLineStyle"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AxisLineStyle"), panel);
     }
 
     protected Component[][] getLineStylePaneComponents() {
         return new Component[][]{
+                new Component[]{null,null} ,
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")),axisLineStyle} ,
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),axisLineColor},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MainGraduationLine")),mainTick},
@@ -211,14 +215,15 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     protected JPanel createAxisPositionPane(double[] row, double[] col, boolean isXAxis){
         position = new UIButtonGroup<Integer>(getAxisPositionNameArray(isXAxis), getAxisPositionValueArray(isXAxis));
-        reversed = new UIToggleButton(Inter.getLocText("Plugin-ChartF_OpenAxisReversed"));
+        reversed = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
         Component[][] components = new Component[][]{
-                new Component[]{position, null},
-                new Component[]{reversed,null},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AxisLabel_Position")),position},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_AxisReversed")),reversed},
         } ;
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Layout_Position"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Layout_Position"), panel);
     }
 
     private String[] getAxisPositionNameArray(boolean isXAxis){
@@ -240,11 +245,13 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected JPanel createDisplayStrategy(double[] row, double[] col){
         maxProportion = new UISpinner(0,100,1,30);
         axisLimitSize = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_LimitAreaSize"),Inter.getLocText("Plugin-ChartF_NotLimitAreaSize")});
-        Component[][] components = new Component[][]{
-                new Component[]{axisLimitSize,null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AxisProportion")+":"),maxProportion},
-        };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,row,col);
+
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),axisLimitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(limitSizePane, BorderLayout.NORTH);
+        panel.add(maxProportionPane, BorderLayout.CENTER);
 
         axisLimitSize.addActionListener(new ActionListener() {
             @Override
@@ -253,7 +260,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), panel);
     }
 
     protected JPanel createValueStylePane(){
@@ -269,9 +276,17 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         centerPane.add(valueFormat,Inter.getLocText("Plugin-ChartF_Common"));
         centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
 
-        JPanel contentPane = new JPanel(new BorderLayout(0, 4));
-        contentPane.add(valueFormatStyle, BorderLayout.NORTH);
-        contentPane.add(centerPane, BorderLayout.CENTER);
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p,f};
+        double[] rowSize = {p,p,p};
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_AxisLabel_Format"), SwingConstants.LEFT), valueFormatStyle},
+                new Component[]{null, centerPane},
+        };
+        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+
 
         valueFormatStyle.addActionListener(new ActionListener() {
             @Override
@@ -280,7 +295,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Use_Format"), contentPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Format"), contentPane);
     }
 
     protected FormatPane createFormatPane(){
@@ -311,17 +326,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkLabelPane() {
         if(showLabel != null){
             boolean enabled = showLabel.getSelectedIndex() == 0;
-            if(labelTextAttrPane != null){
-                labelTextAttrPane.setEnabled(enabled);
-            }
-            if(labelTextRotation != null){
-                labelTextRotation.setEnabled(enabled);
-            }
-            if(labelGapValue != null){
-                labelGapValue.setEnabled(enabled);
-            }
-            if(labelGapStyle != null){
-                labelGapStyle.setEnabled(enabled);
+            if(labelPanel != null){
+                labelPanel.setVisible(enabled);
             }
             if(enabled){
                 checkLabelGapValuePane();
@@ -329,7 +335,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         }
     }
 
-    private void checkLabelGapValuePane() {
+    protected void checkLabelGapValuePane() {
         if(labelGapValue != null && labelGapStyle != null){
             labelGapValue.setEnabled(labelGapStyle.getSelectedIndex() == 1);
         }
@@ -337,8 +343,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //检查最大显示占比是否可用
     private void checkMaxProPortionUse() {
-        if(maxProportion != null && axisLimitSize != null){
-            maxProportion.setEnabled(axisLimitSize.getSelectedIndex() == 0 && axisLimitSize.isEnabled());
+        if(maxProportionPane != null && axisLimitSize != null){
+            maxProportionPane.setVisible(axisLimitSize.getSelectedIndex() == 0 && axisLimitSize.isEnabled());
         }
     }
 
@@ -453,7 +459,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             }
         }
         if(reversed != null){
-            reversed.setSelected(axis.hasAxisReversed());
+            reversed.setSelectedIndex(axis.hasAxisReversed() == true ? 0 : 1);
         }
     }
 
@@ -574,7 +580,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             axis.setPosition(position.getSelectedItem());
         }
         if(reversed != null){
-            axis.setAxisReversed(reversed.isSelected());
+            axis.setAxisReversed(reversed.getSelectedItem());
         }
     }
 

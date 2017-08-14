@@ -33,13 +33,9 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(), null},
                 new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createMinMaxValuePane(new double[]{p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createValueStylePane(), null},
         };
 
@@ -71,7 +67,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), contentPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), contentPane);
     }
 
     protected Component[][] getLineStylePaneComponents() {

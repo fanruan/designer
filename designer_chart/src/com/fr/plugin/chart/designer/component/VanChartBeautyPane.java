@@ -4,8 +4,8 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
         Component[][] components = new Component[][]{
                 new Component[]{styleBox},
         } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Plugin-Chart_Style"}, components, rowSize, columnSize);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }

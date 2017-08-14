@@ -10,6 +10,7 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -18,12 +19,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.DateUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.TimeType;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+import com.fr.plugin.chart.type.TimeType;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -57,19 +58,12 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(),null},
-                new Component[]{createTitlePane(new double[]{p, p, p, p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createTitlePane(new double[]{p, p, p, p, p,p}, columnSize, isXAxis),null},
                 new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createValueDefinition(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLineStylePane(new double[]{p, p,p,p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
                 new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createDisplayStrategy(new double[]{p, p,p}, columnSize),null},
                 new Component[]{createValueStylePane(),null},
         };
 
@@ -78,7 +72,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
     private JPanel createValueDefinition(){
         timeMinMaxValuePane = new TimeMinMaxValuePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
     }
 
     @Override
@@ -145,38 +139,36 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
-            double[] rowSize = {p, p, p};
-            double[] columnSize = {p, f};
-            Component[][] maxMin = {
-                    {minCheckBox, minValueField},
-                    {maxCheckBox, maxValueField},
-            };
-            JPanel maxMinPane = TableLayoutHelper.createTableLayoutPane(maxMin, rowSize, columnSize);
+            double[] rowSize = {p, p, p, p, p, p, p, p};
+            double[] columnSize = {f, p, p};
 
 
             JPanel mainTickPane = new JPanel();
             mainTickPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            mainTickPane.add(mainTickBox);
             mainTickPane.add(mainUnitField);
             mainTickPane.add(mainType);
 
             JPanel secTickPane = new JPanel();
             secTickPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            secTickPane.add(secondTickBox);
             secTickPane.add(secondUnitField);
             secTickPane.add(secondType);
 
             Component[][] components = {
-                    {maxMinPane, null},
-                    {mainTickPane, null},
-                    {secTickPane, null},
+                    {minCheckBox, null, null},
+                    {null, new UILabel(Inter.getLocText("FR-Chart-Data_Min")), minValueField},
+                    {maxCheckBox, null, null},
+                    {null, new UILabel(Inter.getLocText("FR-Chart-Data_Max")), maxValueField},
+                    {mainTickBox, null, null},
+                    {null, new UILabel(Inter.getLocText("Plugin-ChartF_MainType")), mainTickPane},
+                    {secondTickBox, null, null},
+                    {null, new UILabel(Inter.getLocText("Plugin-ChartF_SecType")), secTickPane},
             };
-            this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize));
+            this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize));
         }
 
         private void initMin() {
             // 最小值.
-            minCheckBox = new UICheckBox(Inter.getLocText("FR-Chart-Data_Min"));
+            minCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Min_Value"}));
             Date tmp = null;
             DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(Inter.getLocText("Plugin-ChartF_Formula"));
@@ -192,7 +184,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMax() {
             // 最大值
-            maxCheckBox = new UICheckBox(Inter.getLocText("FR-Chart-Data_Max"));
+            maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
             Date tmp = null;
             DateEditor dateEditor = new DateEditor(tmp, true, Inter.getLocText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(Inter.getLocText("Plugin-ChartF_Formula"));
@@ -208,7 +200,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMain() {
             // 主要刻度单位
-            mainTickBox = new UICheckBox(Inter.getLocText("Plugin-ChartF_MainType"));
+            mainTickBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_MainType"}));
             mainUnitField = new UITextField();
             mainUnitField.setPreferredSize(new Dimension(20, 20));
             mainUnitField.setEditable(false);
@@ -226,7 +218,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initSecond() {
             // 次要刻度单位
-            secondTickBox = new UICheckBox(Inter.getLocText("Plugin-ChartF_SecType"));
+            secondTickBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_SecType"}));
             secondUnitField = new UITextField();
             secondUnitField.setPreferredSize(new Dimension(20, 20));
             secondUnitField.setEditable(false);
