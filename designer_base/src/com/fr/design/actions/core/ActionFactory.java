@@ -32,6 +32,8 @@ public class ActionFactory {
 
     private static UpdateAction chartPreStyleAction = null;
 
+    private static UpdateAction chartMapEditorAction = null;
+
     /**
      * 待说明
      *
@@ -67,6 +69,18 @@ public class ActionFactory {
      */
     public static UpdateAction getChartPreStyleAction() {
         return chartPreStyleAction;
+    }
+
+    /**
+     * 注册图表的 地图资源
+     * @param action 地图资源action
+     */
+    public static void registerChartMapEditorAction(UpdateAction action) {
+        chartMapEditorAction = action;
+    }
+
+    public static UpdateAction getChartMapEditorAction() {
+        return chartMapEditorAction;
     }
 
     /**
