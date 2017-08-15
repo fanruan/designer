@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -11,6 +12,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
+import com.fr.poly.PolyDesigner;
 import com.fr.report.report.TemplateReport;
 
 import javax.swing.*;
@@ -45,9 +47,6 @@ public class ReportComponentComposite extends JComponent {
 
     private JSliderPane jSliderContainer;
 
-    private boolean isCtrl = false;
-
-
     /**
      * Constructor with workbook..
      */
@@ -66,29 +65,10 @@ public class ReportComponentComposite extends JComponent {
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
     }
 
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
-
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl) {
+            if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
                 jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
@@ -149,12 +129,12 @@ public class ReportComponentComposite extends JComponent {
         }
 
         if (centerCardPane.editingComponet.elementCasePane == null) {
+            ((PolyDesigner)centerCardPane.editingComponet).polyArea.addMouseWheelListener(showValSpinnerMouseWheelListener);
             return;
         }
         Grid grid = centerCardPane.editingComponet.elementCasePane.getGrid();
 
         this.centerCardPane.editingComponet.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.centerCardPane.editingComponet.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
 
         if (!grid.hasFocus() && grid.isRequestFocusEnabled()) {
             grid.requestFocus();

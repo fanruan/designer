@@ -2,6 +2,7 @@ package com.fr.design.mainframe.form;
 
 import com.fr.base.DynamicUnitList;
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -40,7 +41,6 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     private FormTabPane sheetNameTab;
     private JPanel hbarContainer;
     private JSliderPane jSliderContainer;
-    private boolean isCtrl = false;
 
     public FormReportComponentComposite(BaseJForm jform, FormElementCaseDesigner elementCaseDesign, FormElementCaseContainerProvider ecContainer) {
         this.jForm = jform;
@@ -52,33 +52,13 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         jSliderContainer.getShowVal().addChangeListener(showValSpinnerChangeListener);
         jSliderContainer.getSelfAdaptButton().addItemListener(selfAdaptButtonItemListener);
         this.elementCaseDesigner.elementCasePane.getGrid().addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.elementCaseDesigner.elementCasePane.getGrid().addKeyListener(showValSpinnerKeyListener);
         elementCaseDesigner.addTargetModifiedListener(this);
     }
-
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
 
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl) {
+            if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
                 jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));

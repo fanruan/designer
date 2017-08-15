@@ -128,6 +128,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
     }
 
     public void setCurrentEditor(int i) {
+        upButton.setSelectedIndex(i);
         currentEditor = this.cards[i];
         centerPane.removeAll();
         centerPane.add(currentEditor);
@@ -221,6 +222,10 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
 //        }
 
         return columnIndex;
+    }
+
+    public void updateUpButton(){
+        upButton.setSelectedIndex(this.getCurrentEditorIndex());
     }
 
     public Object update(String makeAdiff) {
