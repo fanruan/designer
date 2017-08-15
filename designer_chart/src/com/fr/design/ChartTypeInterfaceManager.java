@@ -27,6 +27,7 @@ import com.fr.design.chartinterface.RangeIndependentChartInterface;
 import com.fr.design.chartinterface.StockIndependentChartInterface;
 import com.fr.design.chartinterface.XYScatterIndependentChartInterface;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -76,6 +77,7 @@ import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.plugin.chart.structure.desinger.StructureIndependentVanChartInterface;
 import com.fr.plugin.chart.treemap.TreeMapIndependentVanChartInterface;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
+import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
 import com.fr.plugin.injectable.PluginSingleInjection;
@@ -122,6 +124,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             public void envChanged() {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
+                DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
             }
         });
     }
