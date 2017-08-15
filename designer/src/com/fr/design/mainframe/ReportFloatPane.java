@@ -49,7 +49,7 @@ public class ReportFloatPane extends JPanel {
 
         JPanel toolBarPane = new JPanel(new BorderLayout());
         toolBarPane.add(topToolBar, BorderLayout.CENTER);
-        toolBarPane.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER));
+        toolBarPane.setBorder(BorderFactory.createLineBorder(UIConstants.TITLED_BORDER_COLOR));
         toolBarPane.setPreferredSize(new Dimension(155,20));
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
@@ -62,7 +62,7 @@ public class ReportFloatPane extends JPanel {
                 new Component[]{new UILabel(), new UILabel(Inter.getLocText("FR-Designer_Add_FloatElement")), emptyLabel, toolBarPane},
         };
         JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 15));
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(12, 5, 0, 15));
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 
