@@ -140,13 +140,10 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         @Override
         public void mouseWheelMoved(MouseWheelEvent evt) {
             int id = evt.getID();
-            switch (id) {
-                case MouseEvent.MOUSE_WHEEL: {
-                    if (!InputEventBaseOnOS.isControlDown(evt)) {
-                        int rotations = evt.getWheelRotation();
-                        verScrollBar.setValue(verScrollBar.getValue() + rotations * ROTATIONS);
-                    }
-                    break;
+            if (id == MouseEvent.MOUSE_WHEEL){
+                if (!InputEventBaseOnOS.isControlDown(evt)) {
+                    int rotations = evt.getWheelRotation();
+                    verScrollBar.setValue(verScrollBar.getValue() + rotations * ROTATIONS);
                 }
             }
         }

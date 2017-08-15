@@ -270,9 +270,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
      */
     public void reset() {
         keyColumnPane.clearComponentsData();
-        keyColumnPane.setCurrentEditor(0);
         valueDictPane.clearComponentsData();
-        valueDictPane.setCurrentEditor(0);
         chooseTable.resetComponets();
     }
 

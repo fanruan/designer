@@ -129,7 +129,7 @@ public class ReportComponentComposite extends JComponent {
         }
 
         if (centerCardPane.editingComponet.elementCasePane == null) {
-            ((PolyDesigner)centerCardPane.editingComponet).polyArea.addMouseWheelListener(showValSpinnerMouseWheelListener);
+            centerCardPane.getPolyDezi().polyArea.addMouseWheelListener(showValSpinnerMouseWheelListener);
             return;
         }
         Grid grid = centerCardPane.editingComponet.elementCasePane.getGrid();

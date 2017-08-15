@@ -340,6 +340,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
      * 清除组件数据
      */
     public void clearComponentsData() {
+        setCurrentEditor(0);
         for (Editor card : cards) {
             card.clearData();
         }
