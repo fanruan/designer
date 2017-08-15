@@ -9,7 +9,23 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.chart.gui.ChartWidgetOption;
-import com.fr.design.chartinterface.*;
+import com.fr.design.chartinterface.AreaIndependentChartInterface;
+import com.fr.design.chartinterface.BarIndependentChartInterface;
+import com.fr.design.chartinterface.BubbleIndependentChartInterface;
+import com.fr.design.chartinterface.ColumnIndependentChartInterface;
+import com.fr.design.chartinterface.CustomIndependentChartInterface;
+import com.fr.design.chartinterface.DonutIndependentChartInterface;
+import com.fr.design.chartinterface.FunnelIndependentChartInterface;
+import com.fr.design.chartinterface.GanttIndependentChartInterface;
+import com.fr.design.chartinterface.GisMapIndependentChartInterface;
+import com.fr.design.chartinterface.LineIndependentChartInterface;
+import com.fr.design.chartinterface.MapIndependentChartInterface;
+import com.fr.design.chartinterface.MeterIndependentChartInterface;
+import com.fr.design.chartinterface.PieIndependentChartInterface;
+import com.fr.design.chartinterface.RadarIndependentChartInterface;
+import com.fr.design.chartinterface.RangeIndependentChartInterface;
+import com.fr.design.chartinterface.StockIndependentChartInterface;
+import com.fr.design.chartinterface.XYScatterIndependentChartInterface;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -62,20 +78,20 @@ import com.fr.plugin.chart.treemap.TreeMapIndependentVanChartInterface;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
-import com.fr.plugin.context.PluginContext;
-import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
-import com.fr.plugin.manage.PluginFilter;
-import com.fr.plugin.observer.PluginEvent;
-import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eason on 14/12/29.
@@ -100,20 +116,12 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     }
     
     static {
-    
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-        
+
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
-            public void on(PluginEvent event) {
+            public void envChanged() {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-            }
-        }, new PluginFilter() {
-        
-            @Override
-            public boolean accept(PluginContext context) {
-            
-                return context.contain(PluginModule.ExtraChartType);
             }
         });
     }
