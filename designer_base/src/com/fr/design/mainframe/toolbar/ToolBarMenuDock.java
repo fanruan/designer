@@ -379,10 +379,9 @@ public abstract class ToolBarMenuDock {
             //  shortCuts.add(new ForumAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(new AboutAction());
-        shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AlphaFineAction());
-
+        shortCuts.add(SeparatorDef.DEFAULT);
+        shortCuts.add(new AboutAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 
