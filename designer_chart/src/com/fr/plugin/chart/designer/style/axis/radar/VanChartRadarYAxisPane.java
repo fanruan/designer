@@ -33,13 +33,9 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(), null},
                 new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createMinMaxValuePane(new double[]{p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p}, columnSize), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createValueStylePane(), null},
         };
 
@@ -61,7 +57,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         centerPane.add(commenPane, Inter.getLocText("Plugin-ChartF_UnifiedComputing"));
         centerPane.add(tableDataPane, Inter.getLocText("Plugin-ChartF_RespectivelySpecified"));
 
-        JPanel contentPane = new JPanel(new BorderLayout(0, 4));
+        JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(valueStyle, BorderLayout.NORTH);
         contentPane.add(centerPane, BorderLayout.CENTER);
         valueStyle.addActionListener(new ActionListener() {
@@ -71,11 +67,14 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), contentPane);
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), contentPane);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return panel;
     }
 
     protected Component[][] getLineStylePaneComponents() {
         return new Component[][]{
+                new Component[]{null,null} ,
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")), axisLineStyle},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), axisLineColor},
         };

@@ -2,10 +2,11 @@ package com.fr.plugin.chart.designer.component;
 
 import com.fr.chart.base.ChartConstants;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,19 +16,19 @@ import java.awt.*;
  */
 //系列-风格
 public class VanChartBeautyPane extends BasicBeanPane<Integer> {
-    private UIComboBox styleBox;
+    private UIButtonGroup styleBox;
 
     public VanChartBeautyPane() {
-        styleBox = new UIComboBox(getNameArray());
+        styleBox = new UIButtonGroup(getNameArray());
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { f };
-        double[] rowSize = { p};
+        double[] columnSize = {p, f};
+        double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{styleBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Style")), styleBox},
         } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Plugin-Chart_Style"}, components, rowSize, columnSize);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }

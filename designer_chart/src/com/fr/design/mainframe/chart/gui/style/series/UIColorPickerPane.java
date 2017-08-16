@@ -1,27 +1,11 @@
 package com.fr.design.mainframe.chart.gui.style.series;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.Formula;
 import com.fr.chart.base.AreaColor;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.chartglyph.MapHotAreaColor;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.frpane.UINumberDragPane;
@@ -31,12 +15,20 @@ import com.fr.design.gui.ipoppane.PopupHider;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private static final int MARGIN_TOP = 10;
@@ -105,11 +97,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = {p, f};
-		double[] rowSize = {p, p, p};
 
 		Component[][] components = createComponents();
 
-		upControlPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+		upControlPane = TableLayoutHelper.createTableLayoutPane(components, getRowSIze (), columnSize);
 
 		this.textFieldList = this.getTextFieldList();
 		this.textGroup = new TextFieldGroupPane();
@@ -120,6 +111,11 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		Color[] colors = getColorArray(fillStyleCombox.getSelectObject(), number);
 
 		refreshGroupPane(colors, getValueArray(number));
+	}
+
+	protected double[] getRowSIze () {
+		double p = TableLayout.PREFERRED;
+		return new double[]{p, p, p};
 	}
 
     protected UIButtonGroup<Integer> getDesignTypeButtonGroup(){

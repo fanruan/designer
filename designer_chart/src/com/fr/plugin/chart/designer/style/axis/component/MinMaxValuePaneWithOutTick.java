@@ -3,6 +3,7 @@ package com.fr.plugin.chart.designer.style.axis.component;
 import com.fr.base.Formula;
 import com.fr.plugin.chart.range.MinAndMaxValue;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -11,13 +12,14 @@ import java.awt.*;
 public class MinMaxValuePaneWithOutTick extends VanChartMinMaxValuePane {
     private static final long serialVersionUID = -957414093602086034L;
 
-    @Override
-    protected Component[][] getPanelComponents() {
-        return 	new Component[][]{
-                new Component[]{minCheckBox},
-                new Component[]{minValueField},
-                new Component[]{maxCheckBox},
-                new Component[]{maxValueField},
+    protected double[] getRowSize(double p) {
+        return new double[]{p, p};
+    }
+
+    protected Component[][] getShowComponents(JPanel minPaneWithCheckBox, JPanel maxPaneWithCheckBox, JPanel mainPaneWithCheckBox, JPanel secPaneWithCheckBox) {
+        return new Component[][] {
+                {minPaneWithCheckBox},
+                {maxPaneWithCheckBox},
         };
     }
 
@@ -37,11 +39,6 @@ public class MinMaxValuePaneWithOutTick extends VanChartMinMaxValuePane {
         minAndMaxValue.setMaxValue(new Formula(maxValueField.getText()));
         minAndMaxValue.setCustomMin(minCheckBox.isSelected());
         minAndMaxValue.setCustomMax(maxCheckBox.isSelected());
-    }
-
-    private void checkBoxUse() {
-        minValueField.setEnabled(minCheckBox.isSelected());
-        maxValueField.setEnabled(maxCheckBox.isSelected());
     }
 
 }

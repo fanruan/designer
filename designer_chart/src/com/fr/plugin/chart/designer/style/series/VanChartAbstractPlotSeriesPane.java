@@ -11,6 +11,8 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
@@ -40,6 +42,7 @@ import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * 图表样式-系列抽象界面
@@ -75,13 +78,38 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         super(parent, plot);
     }
 
+    protected JPanel getContentPane(boolean custom) {
+        return getContentInPlotType();
+    }
+
     @Override
     /**
      * 返回 填充界面.
      */
     protected ChartFillStylePane getFillStylePane() {
         //如果是自定義組合圖，則不創建填充界面
-        return parentPane instanceof VanChartCustomStylePane ? null : new ChartFillStylePane();
+        return parentPane instanceof VanChartCustomStylePane ? null : new ChartFillStylePane(){
+            protected JPanel getContentPane () {
+                double p = TableLayout.PREFERRED;
+                double f = TableLayout.FILL;
+                double[] columnSize = {p, f};
+                double[] rowSize = {p, p};
+                Component[][] components = new Component[][]{
+                        new Component[]{new UILabel(Inter.getLocText("ColorMatch")),styleSelectBox},
+                        new Component[]{null,customPane},
+
+                };
+                return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                if(styleSelectBox.getSelectedIndex() != styleSelectBox.getItemCount() - 1) {
+                    return new Dimension(styleSelectBox.getPreferredSize().width, 30);
+                }
+                return super.getPreferredSize();
+            }
+        };
     }
 
     //风格
@@ -98,13 +126,13 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //趋势线
     protected JPanel createTrendLinePane() {
         trendLinePane = new VanChartTrendLinePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Trend_Line"), trendLinePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Trend_Line"), trendLinePane);
     }
 
     //线
     protected JPanel createLineTypePane() {
         lineTypePane = getLineTypePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Line"), lineTypePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Line"), lineTypePane);
     }
 
     protected VanChartLineTypePane getLineTypePane() {
@@ -114,19 +142,20 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //标记点类型
     protected JPanel createMarkerPane() {
         markerPane = new VanChartMarkerPane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Marker"), markerPane);
     }
 
     //填充颜色
     protected JPanel createAreaFillColorPane() {
         areaSeriesFillColorPane = new VanChartAreaSeriesFillColorPane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_FillColor"), areaSeriesFillColorPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_FillColor"), areaSeriesFillColorPane);
     }
 
     //边框（默认没有圆角）
-    protected VanChartBorderPane createBorderPane() {
+    protected JPanel createBorderPane() {
         borderPane = createDiffBorderPane();
-        return borderPane;
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"), borderPane);
+
     }
 
     //半径界面
@@ -196,7 +225,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     protected JPanel createLargeDataModelPane(UIButtonGroup<DataProcessor> modelGroup) {
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Model"), modelGroup);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Model"), modelGroup);
     }
 
     protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
@@ -217,7 +246,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //不透明度
     protected JPanel createAlphaPane() {
         transparent = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
     }
 
     //堆积和坐标轴设置(自定义柱形图等用到)

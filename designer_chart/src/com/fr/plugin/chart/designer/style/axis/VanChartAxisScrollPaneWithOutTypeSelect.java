@@ -1,8 +1,8 @@
 package com.fr.plugin.chart.designer.style.axis;
 
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * 无类型选择。y轴数值轴。
  */
-public class VanChartAxisScrollPaneWithOutTypeSelect extends BasicScrollPane<VanChartAxis> implements VanChartXYAxisPaneInterface{
+public class VanChartAxisScrollPaneWithOutTypeSelect extends AbstractVanChartScrollPane<VanChartAxis> implements VanChartXYAxisPaneInterface{
     private static final long serialVersionUID = 7700110757493668325L;
     protected VanChartBaseAxisPane axisPane;
 

@@ -15,8 +15,8 @@ import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.designer.style.axis.VanChartValueAxisPane;
 import com.fr.plugin.chart.designer.style.axis.component.MinMaxValuePaneWithOutTick;
 import com.fr.plugin.chart.designer.style.axis.component.VanChartMinMaxValuePane;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.GaugeStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,11 +54,8 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
             case THERMOMETER:
                 return new Component[][]{
                         new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
-                        new Component[]{new JSeparator(), null},
                         new Component[]{createValueDefinition(), null},
-                        new Component[]{new JSeparator(), null},
                         new Component[]{createTickColorPane(new double[]{p, p, p}, new double[]{p, f}), null},
-                        new Component[]{new JSeparator(), null},
                         new Component[]{createValueStylePane()},
                 };
             case RING:
@@ -72,9 +69,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
             default:
                 return new Component[][]{
                         new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
-                        new Component[]{new JSeparator(), null},
                         new Component[]{createValueDefinition(), null},
-                        new Component[]{new JSeparator(), null},
                         new Component[]{createValueStylePane()},
                 };
         }
@@ -83,16 +78,21 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
     protected JPanel createLabelPane(double[] row, double[] col){
         showLabel = new UIButtonGroup(new String[]{Inter.getLocText("Chart-Use_Show"), Inter.getLocText("Plugin-ChartF_Hidden")});
         labelTextAttrPane = new ChartTextAttrPane();
+        labelPanel = new JPanel(new BorderLayout());
+        labelPanel.add(labelTextAttrPane);
+        labelPanel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         JPanel panel = new JPanel(new BorderLayout(0, 6));
-        panel.add(showLabel, BorderLayout.NORTH);
-        panel.add(labelTextAttrPane, BorderLayout.CENTER);
+        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AxisLabel"), showLabel), BorderLayout.NORTH);
+        panel.add(labelPanel, BorderLayout.CENTER);
         showLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkLabelPane();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return jPanel;
     }
 
     private JPanel createValueDefinition(){
@@ -107,7 +107,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
                 minMaxValuePane = new VanChartMinMaxValuePane();
                 break;
         }
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), minMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), minMaxValuePane);
     }
 
     private JPanel createTickColorPane(double[] row, double[] col){
@@ -118,7 +118,9 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_SecondGraduationLine")), secTickColor},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_TickColor"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_TickColor"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return jPanel;
     }
 
     private boolean isMulti(GaugeStyle style){
