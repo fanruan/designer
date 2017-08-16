@@ -358,13 +358,12 @@ public class AlphaFineDialog extends UIDialog {
             defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
             searchResultPane.remove(leftSearchResultPane);
             searchResultPane.add(defaultPane, BorderLayout.WEST);
-            refreshContainer();
         } else if (searchListModel.getSize() > 0 && defaultPane != null) {
             searchResultPane.remove(defaultPane);
             defaultPane = null;
             searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-            refreshContainer();
         }
+        refreshContainer();
     }
 
     /**
@@ -932,6 +931,8 @@ public class AlphaFineDialog extends UIDialog {
                         if (getSelectedIndex() == 1) {
                             searchTextField.requestFocus();
                         }
+                    } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        searchTextField.requestFocus();
                     }
                 }
             });
