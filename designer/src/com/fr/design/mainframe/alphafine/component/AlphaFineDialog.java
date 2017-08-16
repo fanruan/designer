@@ -16,10 +16,7 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
-import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
-import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
-import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.*;
 import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
@@ -75,6 +72,7 @@ public class AlphaFineDialog extends UIDialog {
     private JPanel searchResultPane;
     private Point pressedPoint;
     private UIScrollPane leftSearchResultPane;
+    private JPanel defaultPane;
     private JPanel rightSearchResultPane;
     private AlphaFineList searchResultList;
     private SearchListModel searchListModel;
@@ -344,6 +342,31 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void fireStopLoading() {
         searchListModel.resetState();
+        replaceLeftPane();
+    }
+
+    private void refreshContainer() {
+        validate();
+        repaint();
+        revalidate();
+    }
+
+    /**
+     * 重置结果面板
+     */
+    private void replaceLeftPane() {
+        if (searchListModel.getSize() > 0 && defaultPane != null) {
+            searchResultPane.remove(defaultPane);
+            defaultPane = null;
+            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+            refreshContainer();
+        } else if (searchListModel.getSize() == 0 && defaultPane == null){
+            defaultPane = new DefaulPane();
+            searchResultPane.remove(leftSearchResultPane);
+            searchResultPane.add(defaultPane, BorderLayout.WEST);
+            refreshContainer();
+        }
+
     }
 
     /**
@@ -625,7 +648,6 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initGlobalListener() {
         initAWTEventListener();
-        initMouseListener();
     }
 
     /**
