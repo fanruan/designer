@@ -22,6 +22,7 @@ import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -297,15 +298,10 @@ public class AlphaFineDialog extends UIDialog {
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
         rightSearchResultPane.setBackground(Color.WHITE);
-        UILabel splitLine = new UILabel();
-        splitLine.setBackground(AlphaFineConstants.GRAY);
-        splitLine.setPreferredSize(new Dimension(1, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH - 1, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-        searchResultPane.add(splitLine, BorderLayout.CENTER);
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
         UILabel splitLabel = new UILabel();
-        splitLabel.setBackground(AlphaFineConstants.GRAY);
         splitLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
         searchResultPane.add(splitLabel, BorderLayout.NORTH);
         add(searchResultPane, BorderLayout.SOUTH);
@@ -345,6 +341,9 @@ public class AlphaFineDialog extends UIDialog {
         replaceLeftPane();
     }
 
+    /**
+     * 刷新容器
+     */
     private void refreshContainer() {
         validate();
         repaint();
@@ -355,18 +354,17 @@ public class AlphaFineDialog extends UIDialog {
      * 重置结果面板
      */
     private void replaceLeftPane() {
-        if (searchListModel.getSize() > 0 && defaultPane != null) {
+        if (searchListModel.getSize() == 0 && defaultPane == null) {
+            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+            searchResultPane.remove(leftSearchResultPane);
+            searchResultPane.add(defaultPane, BorderLayout.WEST);
+            refreshContainer();
+        } else if (searchListModel.getSize() > 0 && defaultPane != null) {
             searchResultPane.remove(defaultPane);
             defaultPane = null;
             searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
             refreshContainer();
-        } else if (searchListModel.getSize() == 0 && defaultPane == null){
-            defaultPane = new DefaulPane();
-            searchResultPane.remove(leftSearchResultPane);
-            searchResultPane.add(defaultPane, BorderLayout.WEST);
-            refreshContainer();
         }
-
     }
 
     /**
@@ -557,7 +555,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ACTION:
                 rightSearchResultPane.removeAll();
-                rightSearchResultPane.add(new ActionPreviewPane());
+                rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/noresult.png")));
                 validate();
                 repaint();
                 break;
