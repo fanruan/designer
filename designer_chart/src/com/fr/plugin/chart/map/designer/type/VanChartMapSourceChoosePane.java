@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.map.designer.type;
 
 import com.fr.base.Parameter;
+import com.fr.base.ParameterHolder;
 import com.fr.base.Utils;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -40,7 +41,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
@@ -511,16 +517,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             return new String[0];
         }
         String[] params = new String[0];
-        //区分是表单还是cpt
-        //todo@shine9.0
-//        if (jTemplate instanceof JWorkBook) {
-//            ReportParameterAttr rpa = ((JWorkBook)jTemplate).getTarget().getReportParameterAttr();
-//            if (rpa != null) {
-//                params = getParamsName(rpa.getParameters());
-//            }
-//        }else if (jTemplate instanceof JForm){
-//            params = getParamsName(((JForm)jTemplate).getTarget().getParameters());
-//        }
+        if(jTemplate.getTarget() instanceof ParameterHolder){
+            params = getParamsName(((ParameterHolder)jTemplate.getTarget()).getParameters());
+        }
 
         return params;
     }
