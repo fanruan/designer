@@ -1,23 +1,17 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.util.List;
 
 
 public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
@@ -114,8 +108,8 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 	
 	protected static class NamePane {
 		private String name;
-		private AbstractChartTabPane pane;
-		public NamePane(String name, AbstractChartTabPane pane) {
+		private BasicScrollPane pane;
+		public NamePane(String name, BasicScrollPane pane) {
 			this.name = name;
 			this.pane = pane;
 		}
@@ -125,10 +119,10 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 		public void setName(String name) {
 			this.name = name;
 		}
-		public AbstractChartTabPane getPane() {
+		public BasicScrollPane getPane() {
 			return pane;
 		}
-		public void setPane(AbstractChartTabPane pane) {
+		public void setPane(BasicScrollPane pane) {
 			this.pane = pane;
 		}
 		

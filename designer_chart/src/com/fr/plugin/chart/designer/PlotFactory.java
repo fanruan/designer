@@ -15,7 +15,11 @@ import com.fr.plugin.chart.column.VanChartColumnPlot;
 import com.fr.plugin.chart.designer.component.VanChartLabelContentPane;
 import com.fr.plugin.chart.designer.component.VanChartRefreshTooltipContentPane;
 import com.fr.plugin.chart.designer.component.VanChartTooltipContentPane;
-import com.fr.plugin.chart.designer.style.*;
+import com.fr.plugin.chart.designer.style.HeatMapRangeLegendPane;
+import com.fr.plugin.chart.designer.style.VanChartPlotLegendPane;
+import com.fr.plugin.chart.designer.style.VanChartRangeLegendPane;
+import com.fr.plugin.chart.designer.style.VanChartStylePane;
+import com.fr.plugin.chart.designer.style.VanLegendPaneWidthOutHighlight;
 import com.fr.plugin.chart.designer.style.label.VanChartGaugePlotLabelPane;
 import com.fr.plugin.chart.designer.style.label.VanChartPlotLabelPane;
 import com.fr.plugin.chart.designer.style.tooltip.VanChartPlotRefreshTooltipPane;
@@ -322,7 +326,12 @@ public class PlotFactory {
 
     public static FormatPane createAutoFormatPane(){
         FormatPane formatPane = new FormatPane(){
-
+            protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+                return new Component[][]{
+                        new Component[]{typePane,null},
+                        new Component[]{centerPane, null},
+                };
+            }
             protected UIComboBoxRenderer createComBoxRender(){
                 return new UIComboBoxRenderer() {
                     @Override

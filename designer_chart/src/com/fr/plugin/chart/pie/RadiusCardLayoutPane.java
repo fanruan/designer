@@ -3,15 +3,14 @@ package com.fr.plugin.chart.pie;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.RadiusType;
-import com.fr.plugin.chart.base.VanChartRadius;
 import com.fr.plugin.chart.attr.radius.VanChartRadiusPlot;
+import com.fr.plugin.chart.base.VanChartRadius;
 import com.fr.plugin.chart.layout.VanChartCardLayoutPane;
+import com.fr.plugin.chart.type.RadiusType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +70,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),radiusType},
+                new Component[]{radiusType,null},
                 new Component[]{cardPane, null},
         };
 

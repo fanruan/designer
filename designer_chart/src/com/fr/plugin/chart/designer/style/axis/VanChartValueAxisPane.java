@@ -27,6 +27,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
     protected VanChartMinMaxValuePane minMaxValuePane;
     private UICheckBox logBox;
     private UITextField logBaseField;
+    private JPanel logPane;
 
     public VanChartValueAxisPane(){
         this(false);
@@ -43,20 +44,13 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{new JSeparator(),null},
-                new Component[]{createTitlePane(new double[]{p, p, p, p,p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createMinMaxValuePane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createLineStylePane(new double[]{p, p,p,p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createValueStylePane(),null},
+                new Component[]{createTitlePane(new double[]{p, p, p, p, p, p}, columnSize, isXAxis), null},
+                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createMinMaxValuePane(new double[]{p, p}, columnSize), null},
+                new Component[]{createLineStylePane(new double[]{p, p, p, p, p}, columnSize), null},
+                new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis), null},
+                new Component[]{createDisplayStrategy(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createValueStylePane(), null},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -64,12 +58,12 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
         JPanel panel = createCommenValuePane(row,col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), panel);
     }
     protected JPanel createCommenValuePane(double[] row, double[] col){
         initMinMaxValuePane();
 
-        logBox = new UICheckBox(Inter.getLocText("Plugin-ChartF_LogBaseValue") + " ");
+        logBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
         logBaseField = new UITextField();
         logBaseField.setPreferredSize(new Dimension(55, 20));
         logBox.addActionListener(new ActionListener() {
@@ -77,16 +71,26 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
                 logBaseField.setEnabled(logBox.isSelected());
             }
         });
+
         ChartSwingUtils.addListener(logBox, logBaseField);
 //        JPanel logPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
 //        logPane.add(logBox);
 //        logPane.add(logBaseField);
 
+
+        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField);
+
+        logPane.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 15));
+
+        JPanel logPaneWithCheckBox = new JPanel(new BorderLayout());
+
+        logPaneWithCheckBox.add(logBox, BorderLayout.NORTH);
+        logPaneWithCheckBox.add(logPane, BorderLayout.CENTER);
+
         Component[][] components = new Component[][]{
                 new Component[]{minMaxValuePane, null},
-                new Component[]{logBox},
-                new Component[]{logBaseField},
-        } ;
+                new Component[]{logPaneWithCheckBox, null},
+        };
 
         logBox.addActionListener(new ActionListener() {
             @Override
@@ -103,7 +107,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
     }
 
     private void checkBox() {
-        logBaseField.setEnabled(logBox.isSelected());
+        logPane.setVisible(logBox.isSelected());
     }
 
     /**

@@ -12,9 +12,9 @@ import com.fr.design.mainframe.chart.gui.style.series.UIColorPickerPane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
-import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 import com.fr.plugin.chart.pie.RadiusCardLayoutPane;
@@ -57,9 +57,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createGaugeLayoutPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createGaugeStylePane(rowSize, new double[]{p,f})},
-                new Component[]{new JSeparator()},
                 new Component[]{createGaugeBandsPane()}
         };
 
@@ -74,7 +72,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                 changeLabelPosition();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Chart_Layout"), gaugeLayout);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), gaugeLayout);
     }
 
     private void changeLabelPosition() {
@@ -106,7 +104,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         if(rotate != null){
             panel.add(rotate, BorderLayout.NORTH);
         }
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
 
     private Component[][] getDiffComponentsWithGaugeStyle() {
@@ -183,7 +181,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeBandsPane() {
         colorPickerPane = new ColorPickerPaneWithFormula("meterString");
-        return TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("Plugin-ChartF_Range"), colorPickerPane, 16);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), colorPickerPane);
     }
 
 
