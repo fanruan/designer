@@ -67,7 +67,8 @@ public class UITextFieldUI extends BasicTextFieldUI {
             g2d.setColor(UIConstants.TEXT_FILED_BORDER_SELECTED);
             g2d.drawRect(0, 0, width - 1, height - 1);
 		} else {
-			GUIPaintUtils.drawBorder(g2d, 0, 0, width, height, isRound, rectDirection);
+			g2d.setColor(UIConstants.POP_DIALOG_BORDER);
+			g2d.drawRect(0, 0, width - 1, height - 1);
 		}
 	}
 
