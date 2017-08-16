@@ -2,6 +2,7 @@ package com.fr.design.mainframe.alphafine.preview;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.general.FRFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,6 @@ import java.awt.*;
  * Created by XiaXiang on 2017/8/14.
  */
 public class NoResultPane extends JPanel {
-    private static final Font MEDIUM_FONT = new Font("Song_TypeFace", 0, 14);
     public NoResultPane(String title, Icon icon) {
         setLayout(new BorderLayout());
         setBackground(Color.white);
@@ -22,7 +22,7 @@ public class NoResultPane extends JPanel {
         image.setBorder(BorderFactory.createEmptyBorder(100,0,0,0));
         UILabel description = new UILabel(title);
         description.setForeground(AlphaFineConstants.MEDIUM_GRAY);
-        description.setFont(MEDIUM_FONT);
+        description.setFont(FRFont.getInstance("SimSun", Font.PLAIN, 14));
         description.setBorder(BorderFactory.createEmptyBorder(0, 0, 135, 0));
         description.setHorizontalAlignment(SwingConstants.CENTER);
         add(image, BorderLayout.CENTER);
