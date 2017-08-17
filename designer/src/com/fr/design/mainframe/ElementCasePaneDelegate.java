@@ -169,7 +169,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         MenuDef menuDef = new MenuDef(KeySetUtils.CELL.getMenuKeySetName(), KeySetUtils.CELL.getMnemonic());
 
         menuDef.addShortCut(new CellExpandAttrAction());
-        menuDef.addShortCut(new CellWidgetAttrAction(this));
+        menuDef.addShortCut(new CellWidgetAttrAction());
         menuDef.addShortCut(new GlobalStyleMenuDef(this));
 
         // 单元格形态

@@ -456,7 +456,7 @@ public class CellSelection extends Selection {
         }
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  控件设置
-            popup.add(new CellWidgetAttrAction(ePane).createMenuItem());
+            popup.add(new CellWidgetAttrAction().createMenuItem());
         }
         popup.add(new CellExpandAttrAction().createMenuItem());
         popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
