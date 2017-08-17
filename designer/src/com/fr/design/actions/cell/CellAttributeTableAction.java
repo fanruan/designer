@@ -1,10 +1,9 @@
 package com.fr.design.actions.cell;
 
-import java.awt.event.ActionEvent;
-
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.EastRegionContainerPane;
+
+import java.awt.event.ActionEvent;
 
 /**
  * 所有的CellAttributeTableAction都是指向单元格属性表的,点了就自动跳转到单元格属性表
@@ -18,7 +17,6 @@ public abstract class CellAttributeTableAction extends UpdateAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CELL_ATTR);
 		CellElementPropertyPane.getInstance().GoToPane(getID());
 	}
 

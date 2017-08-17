@@ -3,7 +3,6 @@ package com.fr.design.actions.cell;
 import com.fr.base.present.Present;
 import com.fr.design.actions.PresentCheckBoxAction;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
@@ -26,7 +25,6 @@ public class NewPresentAction extends PresentCheckBoxAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CELL_ATTR);
         if (!ComparatorUtils.equals(this.itemName, "NOPRESENT")) {
             CellElementPropertyPane.getInstance().GoToPane(Inter.getLocText("FR-Designer_Present"), this.itemName);
         } else {
