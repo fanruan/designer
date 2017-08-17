@@ -1,25 +1,23 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Font;
-
-import javax.swing.JPanel;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.FRFont;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
+import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
@@ -147,17 +145,23 @@ public class ChartTextAttrPane extends BasicPane {
         buttonPane.add(GUICoreUtils.createFlowPane(components1, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
 
 
-        double[] columnSize = {f};
-        double[] rowSize = {p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{fontNameComboBox},
-                new Component[]{buttonPane}
-        };
+        double[] columnSize = {p,f};
+        double[] rowSize = {p, p, p};
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
 
         populate(FRFont.getInstance());
+    }
+
+    protected Component[][] getComponents(JPanel buttonPane) {
+        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        return new Component[][]{
+                new Component[]{null, null},
+                new Component[]{text, fontNameComboBox},
+                new Component[]{null, buttonPane}
+        };
     }
 }
