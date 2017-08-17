@@ -46,6 +46,9 @@ public class GridRowUI extends ComponentUI {
         ElementCasePane reportPane = gridRow.getElementCasePane();
         // size
         Dimension size = gridRow.getSize();
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
+        g2d.setFont(gridRow.getFont().deriveFont(gridRow.getFont().getSize2D() * time));
+
         ElementCase elementCase = reportPane.getEditingElementCase();
         DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(elementCase);
         int verticalValue = reportPane.getGrid().getVerticalValue();
@@ -152,10 +155,10 @@ public class GridRowUI extends ComponentUI {
             , ElementCase elementCase, Dimension size, double tmpHeight1) {
         // FontMetrics
         FontRenderContext fontRenderContext = g2d.getFontRenderContext();
-
-        float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent();
-        double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth();
-        double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight();
+        float time = (float)resolution/ScreenResolution.getScreenResolution();
+        float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent() * time;
+        double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth() * time;
+        double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight() * time;
         if (isSelectedBounds) {
             g2d.setColor(gridRow.getSelectedForeground());
         } else {
