@@ -14,13 +14,14 @@ public class HeaderPane extends JPanel {
     private static final int TITLE_X = 5;
     private static final int LEFT_X = 16;
     private static final int LEFT_Y = 6;
+    private static final int NORMAL_FONTSIZE = 12;
     private int headWidth;
     private int headHeight;
     private Color bgColor;
     private boolean isShow;
     private String title;
     private Image image;
-    private int fontSize = 12;
+    private int fontSize;
 
     public void setShow(boolean isShow) {
         this.isShow = isShow;
@@ -58,10 +59,8 @@ public class HeaderPane extends JPanel {
         g2d.setColor(UIConstants.COMPONENT_BACKGROUND_COLOR);
         headWidth = this.getWidth();
         g2d.fillRect(0, 0, headWidth, headHeight);
-//        g2d.drawImage(UIConstants.DRAG_BAR, 0, 0, headWidth, headHeight, null);
         g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
-//        g2d.drawString(this.title, fontSize/2, headHeight-fontSize/3);
         g2d.drawString(this.title, TITLE_X, headHeight - fontSize / 2 - 1);
         int leftWdith = headWidth - LEFT_X;
         if (this.isShow) {
@@ -71,8 +70,6 @@ public class HeaderPane extends JPanel {
             image = UIConstants.DRAG_LEFT_NORMAL_SMALL;
             g2d.drawImage(image, leftWdith, LEFT_Y, null);
         }
-
-
         return panelImage;
     }
 
@@ -96,6 +93,7 @@ public class HeaderPane extends JPanel {
         this(bgColor);
         this.title = title;
         this.headHeight = headHeight;
+        this.fontSize = NORMAL_FONTSIZE;
     }
 
     public static void main(String[] args) {

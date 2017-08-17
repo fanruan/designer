@@ -62,18 +62,6 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         return layoutPane();
     }
 
-
-    public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new CellExpandAttrPane().layoutPane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
-        jf.setVisible(true);
-    }
-
     private void initAllNames() {
         expandDirectionButton.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"));
         leftFatherPane.setGlobalName(Inter.getLocText("FR-Designer_LeftParent"));
@@ -166,6 +154,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
             default: {
                 horizontalExpandableCheckBox.setSelected(false);
                 verticalExpandableCheckBox.setSelected(false);
+                break;
             }
         }
 

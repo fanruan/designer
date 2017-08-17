@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
  * Created by MoMeak on 2017/7/5.
  */
 public class UIExpandablePane extends JPanel {
+
+    private static final int LEFT_BORDER = 5;
     private static final long serialVersionUID = 1L;
     private HeaderPane headerPanel;
     private JPanel contentPanel;
@@ -41,7 +43,7 @@ public class UIExpandablePane extends JPanel {
 
         headerPanel = new HeaderPane(color, title, headHeight);
         headerPanel.addMouseListener(new PanelAction());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(0 ,5, 0, 0));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(0 ,LEFT_BORDER, 0, 0));
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(contentPanel, BorderLayout.CENTER);
         setOpaque(false);
