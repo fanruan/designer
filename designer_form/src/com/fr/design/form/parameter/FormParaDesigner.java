@@ -114,7 +114,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
                 FormWidgetDetailPane.getInstance(this));
         if (!BaseUtils.isAuthorityEditing()) {
             ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(this);
-            parameterPropertyPane.setAddParaPaneVisible(true);
+            parameterPropertyPane.refreshState();
             EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
             EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(
