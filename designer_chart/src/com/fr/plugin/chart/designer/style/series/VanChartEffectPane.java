@@ -6,6 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrEffect;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,9 +38,11 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         period = new UISpinner(0, Double.MAX_VALUE, 0.1, 0);
         content = createContentPane();
 
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Flash_Animation"),enabledButton);
         this.setLayout(new BorderLayout(0, 5));
         if(hasEnabledChoose) {
-            this.add(enabledButton, BorderLayout.NORTH);
+            this.add(panel, BorderLayout.NORTH);
+            content.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
         }
         this.add(content, BorderLayout.CENTER);
     }
@@ -52,7 +55,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     protected JPanel createPeriodPane(){
         JPanel periodPane = new JPanel();
         periodPane.setLayout(new BorderLayout(5, 0));
-        periodPane.add(new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period") + ":"), BorderLayout.WEST);
+        periodPane.add(new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period")), BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
         periodPane.add(new UILabel("s"), BorderLayout.EAST);
         return periodPane;

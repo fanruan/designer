@@ -41,29 +41,35 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
     private Component[][] getPaneComponents() {
         if(plot instanceof VanChartRadarPlot && ((VanChartRadarPlot)plot).isStackChart()) {
             return new Component[][]{
+                    new Component[]{getColorPane()},
                     new Component[]{createRadarTypePane()},
-                    new Component[]{new JSeparator()},
                     new Component[]{createBorderPane()},
-                    new Component[]{new JSeparator()},
                     new Component[]{createAlphaPane()}
             };
         }
 
         return new Component[][] {
+                new Component[]{getColorPane()},
                 new Component[]{createRadarTypePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createLineTypePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createMarkerPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createAreaFillColorPane()}
         };
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
+        if(((VanChartRadarPlot)plot).isStackChart()) {
+            panel.add(createAlphaPane(), BorderLayout.CENTER);
+        }
     }
 
     private JPanel createRadarTypePane() {
         radarType = new UIButtonGroup<String>(new String[]{Inter.getLocText("Plugin-ChartF_Circle"), Inter.getLocText("Plugin-ChartF_Polygonal")},
                 new String[]{RadarType.CIRCLE.getType(), RadarType.POLYGON.getType()});
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Chart-Style_Present"), radarType);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Shape"), radarType);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Style_Present"), panel);
     }
 
     protected VanChartLineTypePane getLineTypePane() {

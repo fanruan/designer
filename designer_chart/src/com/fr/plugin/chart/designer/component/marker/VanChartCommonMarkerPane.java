@@ -8,11 +8,11 @@ import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.glyph.marker.*;
-import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
+import com.fr.plugin.chart.marker.type.MarkerType;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -96,16 +96,27 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
 
     public VanChartCommonMarkerPane() {
         markerPane = new MarkerComboBox(getMarkers());
-        markerFillColor = new VanChartMarkerBackgroundPane();
+        markerFillColor = new VanChartMarkerBackgroundPane(){
+            protected Component[][] getPaneComponents() {
+                return  new Component[][]{
+                        new Component[]{typeComboBox, null},
+                        new Component[]{centerPane, null},
+                };
+            }
+        };
         radius = new UISpinner(0, 100, 0.5, 0);
 
         double p = TableLayout.PREFERRED;
-        double[] row = {p, p,p};
-        double[] col = {p, 100};
+        double f = TableLayout.FILL;
+        double[] row = {p, p, p};
+        double[] col = {p, f};
 
         Component[][] components = getUseComponent();
 
-        this.add(TableLayoutHelper.createTableLayoutPane(components, row, col));
+        JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
+
+        this.add(jPanel);
     }
 
     protected Marker[] getMarkers() {

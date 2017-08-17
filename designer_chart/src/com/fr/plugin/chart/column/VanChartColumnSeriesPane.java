@@ -11,7 +11,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrSeriesImageBackground;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
@@ -49,10 +48,8 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{createStylePane()},
-                new Component[]{stylePane == null ? null : new JSeparator()},
+                new Component[]{getColorPane()},
                 new Component[]{createSeriesStylePane(new double[]{p,p}, new double[]{p,f})},
-                new Component[]{new JSeparator()},
                 new Component[]{createBorderPane()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{createTrendLinePane()},
@@ -76,11 +73,9 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         isFillWithImage = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"), Inter.getLocText("Plugin-ChartF_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
 
-        Component[][] components1 = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Fixed_Column_Width")),isFixedWidth},
-                new Component[]{null,columnWidth},
-        };
-        JPanel panel1 = TableLayoutHelper.createTableLayoutPane(components1, row, col);
+        JPanel panel1 = new JPanel(new BorderLayout());
+        panel1.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Fixed_Column_Width"),isFixedWidth), BorderLayout.NORTH);
+        panel1.add(columnWidth, BorderLayout.CENTER);
 
         Component[][] components2 = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Gap_Series")),seriesGap},
@@ -113,7 +108,7 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
                 checkImagePane();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), borderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), borderPane);
     }
 
     private void checkAll() {
@@ -122,11 +117,11 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private void checkColumnWidth() {
-        columnWidth.setEnabled(isFixedWidth.getSelectedIndex() == 0);
+        columnWidth.setVisible(isFixedWidth.getSelectedIndex() == 0);
     }
 
     private void checkImagePane() {
-        GUICoreUtils.setEnabled(imagePane, isFillWithImage.getSelectedIndex() == 0);
+        imagePane.setVisible(isFillWithImage.getSelectedIndex() == 0);
     }
 
     public void populateBean(Plot plot) {

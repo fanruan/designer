@@ -3,8 +3,8 @@ package com.fr.plugin.chart.map.designer.style.tooltip;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.designer.style.tooltip.VanChartPlotTooltipPane;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -19,7 +19,7 @@ import java.awt.*;
 /**
  * Created by Mitisky on 16/5/20.
  */
-public class VanChartMapTooltipPane extends BasicScrollPane<Chart> {
+public class VanChartMapTooltipPane extends AbstractVanChartScrollPane<Chart> {
     private VanChartPlotTooltipPane areaTooltipPane;
     private VanChartPlotTooltipPane pointTooltipPane;
     private VanChartPlotTooltipPane lineTooltipPane;

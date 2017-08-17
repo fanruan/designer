@@ -1,13 +1,14 @@
 package com.fr.plugin.chart.gantt.designer.style.axis;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.plugin.chart.gantt.attr.GanttProcessAxis;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -20,7 +21,7 @@ import java.awt.*;
 /**
  * Created by hufan on 2017/1/12.
  */
-public class GanttProcessAxisPane extends BasicScrollPane<VanChart> {
+public class GanttProcessAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private UIButtonGroup typeButton;
     private UISpinner horizontalProportion;
 
@@ -38,11 +39,8 @@ public class GanttProcessAxisPane extends BasicScrollPane<VanChart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{createHorizontalProportionPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createHorizontalHeaderPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createVerticalHeaderPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createBodyPane()}
         };
 
@@ -51,26 +49,25 @@ public class GanttProcessAxisPane extends BasicScrollPane<VanChart> {
 
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createMatteBorder(10, 10, 20, 10, original));
         this.add(leftcontentPane);
     }
 
     private Component createBodyPane() {
         bodyPane = new GanttAxisStylePane();
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), bodyPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Content"), bodyPane);
     }
 
     private Component createHorizontalHeaderPane() {
         horizontalHeaderPane = new GanttAxisStylePane();
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Horizontal_Table"), horizontalHeaderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Horizontal_Table"), horizontalHeaderPane);
     }
 
     private Component createVerticalHeaderPane() {
         verticalHeaderPane = new GanttAxisStylePane();
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Vertical_Table"), verticalHeaderPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Vertical_Table"), verticalHeaderPane);
     }
 
     private Component createHorizontalProportionPane() {
@@ -93,7 +90,9 @@ public class GanttProcessAxisPane extends BasicScrollPane<VanChart> {
             }
         });
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Horizontal_Proportion"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Horizontal_Proportion"), panel);
+
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-DataFunction_Percent"), jPanel);
     }
 
     private void checkoutPaneVisible() {

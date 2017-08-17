@@ -43,6 +43,7 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
 
     private Component[][] getUseComponent() {
         return new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Line_Width")+":"), lineWidth},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Bedding")+":"),bending},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha") + ":"), lineAlphaPane}

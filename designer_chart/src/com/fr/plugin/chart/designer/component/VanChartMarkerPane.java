@@ -5,6 +5,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.plugin.chart.designer.component.marker.VanChartImageMarkerPane;
 
@@ -42,6 +43,8 @@ public class VanChartMarkerPane extends BasicPane {
         commonMarkerPane = createCommonMarkerPane();
         imageMarkerPane = createImageMarkerPane();
 
+        commonMarkerPane.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
+
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout) {
 
@@ -77,7 +80,7 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected void layoutComponents() {
-        this.add(commonORCustom, BorderLayout.NORTH);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Point_Style"), commonORCustom), BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
     }
 

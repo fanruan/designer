@@ -6,14 +6,13 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by Fangjie on 2016/4/26.
  */
 public class VanChartCustomPlotSeriesPane extends BasicBeanPane<Plot> {
-    private static final int WIDTH = 210;
+    private static final int WIDTH = 236;
     private static final int DELTA_HEIGHT = 300;
     private BasicBeanPane<Plot> axisPane;
     private AbstractPlotSeriesPane seriesPane;
@@ -39,7 +38,6 @@ public class VanChartCustomPlotSeriesPane extends BasicBeanPane<Plot> {
         }else {
             Component[][] components = new Component[][]{
                     new Component[]{axisPane},
-                    new Component[]{new JSeparator()},
                     new Component[]{seriesPane}
             };
             this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize));

@@ -23,21 +23,16 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p,p,p,p,p,p,p,p,p};
+        double[] row = {p,p,p,p,p,p,p};
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{createStylePane()},
-                new Component[]{stylePane == null ? null : new JSeparator()},
+                new Component[]{getColorPane()},
                 new Component[]{createLineTypePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createMarkerPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createAreaFillColorPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{createLargeDataModelPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createTrendLinePane()},
         };
 

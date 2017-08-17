@@ -9,9 +9,9 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrNode;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
 
 import javax.swing.*;
@@ -31,6 +31,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
     private UISpinner nodeBorderWidth;
     private VanChartMarkerBackgroundPane nodeBorderColor;
     private UINumberDragPane nodeOpacity;
+    private JPanel nodeRadiusPane;
 
     public StructureNodeStylePane() {
         double p = TableLayout.PREFERRED;
@@ -45,15 +46,20 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         nodeBorderColor = new VanChartMarkerBackgroundPane();
         nodeOpacity = new UINumberDragPane(0,100);
 
+        JPanel jPanel = new JPanel(new BorderLayout());
+        jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Node_Radius"), nodeRadiusType), BorderLayout.NORTH);
+        nodeRadiusPane = TableLayout4VanChartHelper.createGapTableLayoutPane("            ", nodeRadius);
+        jPanel.add(nodeRadiusPane, BorderLayout.CENTER);
+
         Component[][] components1 = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Radius")), nodeRadiusType},
-                new Component[]{null, nodeRadius},
+                new Component[]{null, null},
+                new Component[]{jPanel, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Border_Width")), nodeBorderWidth},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget-Style_Border_Color")), nodeBorderColor},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), nodeOpacity}
 
         };
-        JPanel panel1 = TableLayoutHelper.createTableLayoutPane(components1, rowSize, columnSize);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components1, rowSize, columnSize);
 
         useImage = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"),
                 Inter.getLocText("Plugin-ChartF_NO")});
@@ -91,7 +97,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
     }
 
     private void checkImagePane() {
-        GUICoreUtils.setEnabled(imagePane, useImage.getSelectedIndex() == 0);
+        imagePane.setVisible(useImage.getSelectedIndex() == 0);
     }
 
     @Override

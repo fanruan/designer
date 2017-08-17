@@ -33,7 +33,7 @@ public class GanttAxisStylePane extends BasicBeanPane<GanttAxisStyleAttr> {
 
         Component[][] components = new Component[][]{
                 new Component[]{textAttrPane, null},
-                new Component[]{colorSelectBox4button, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), colorSelectBox4button},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha"), SwingConstants.RIGHT), transparent}
         };
 

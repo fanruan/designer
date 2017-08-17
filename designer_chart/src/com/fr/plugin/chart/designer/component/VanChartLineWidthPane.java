@@ -18,6 +18,7 @@ public class VanChartLineWidthPane extends VanChartLineTypePane {
         double[] col = {p,f};
 
         Component[][] components = new Component[][]{
+                new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), lineWidth},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Null_Value_Break")), nullValueBreak},
         };

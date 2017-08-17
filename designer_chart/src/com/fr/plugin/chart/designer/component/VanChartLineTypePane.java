@@ -5,10 +5,10 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.LineStyle;
 import com.fr.plugin.chart.base.VanChartAttrLine;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+import com.fr.plugin.chart.type.LineStyle;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 
@@ -45,19 +45,17 @@ public class VanChartLineTypePane extends BasicPane {
     }
 
     protected JPanel createContentPane(double p, double f) {
-        double[] row = {p, p, p, p, p, p};
+        double[] row = {p, p, p, p};
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle"))},
-                new Component[]{lineWidth, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Style_Present"))},
-                new Component[]{lineStyle, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Null_Value_Break"))},
-                new Component[]{nullValueBreak, null},
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")),lineWidth},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Style_Present")),lineStyle},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Null_Value_Break")),nullValueBreak},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components, row, col);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
     }
 
     public void checkLarge(boolean large){

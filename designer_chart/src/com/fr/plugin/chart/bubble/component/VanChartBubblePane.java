@@ -32,10 +32,11 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p, p, p, p};
+        double[] row = {p, p, p, p, p};
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MinDiameter")), minDiameter},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MaxDiameter")), maxDiameter},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shadow")), shadow},

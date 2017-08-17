@@ -56,6 +56,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createGaugeLayoutPane()},
                 new Component[]{createGaugeStylePane(rowSize, new double[]{p,f})},
                 new Component[]{createGaugeBandsPane()}
@@ -64,15 +65,21 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
+    }
+
     private JPanel createGaugeLayoutPane() {
         gaugeLayout = new UIButtonGroup(new String[]{Inter.getLocText("FR-Chart-Direction_Horizontal"), Inter.getLocText("FR-Chart-Direction_Vertical")});
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("PageSetup-Orientation"),gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 changeLabelPosition();
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), gaugeLayout);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart_Layout"), panel);
     }
 
     private void changeLabelPosition() {
@@ -113,29 +120,33 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             case RING:
                 initRotate();
                 return new Component[][]{
+                        new Component[]{null, null},
                         getPaneBackgroundColor(),
                         getInnerPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
                 };
             case SLOT:
                 return new Component[][]{
+                        new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
                 };
             case THERMOMETER:
                 return new Component[][]{
+                        new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
                 };
             default:
                 return new Component[][]{
+                        new Component[]{null, null},
                         getHingeColor(),
                         getHingeBackgroundColor(),
                         getNeedleColor(),
                         getPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
                 };
         }
     }
@@ -181,7 +192,8 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeBandsPane() {
         colorPickerPane = new ColorPickerPaneWithFormula("meterString");
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), colorPickerPane);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane("",colorPickerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), panel);
     }
 
 

@@ -6,9 +6,12 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.ChartSeriesPane;
+import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
+import com.fr.plugin.chart.designer.component.VanChartFillStylePane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +40,8 @@ public class VanChartCustomSeriesPane extends ChartSeriesPane {
         }
         initSeriesPane((VanChartCustomPlot) chart.getPlot());
 
+        plotSeriesPane.setBorder(BorderFactory.createEmptyBorder());
+
         //公共使用的部分
         seriesPane.add(plotSeriesPane, BorderLayout.CENTER);
 
@@ -63,22 +68,22 @@ public class VanChartCustomSeriesPane extends ChartSeriesPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p};
+        double[] row = {p,p};
         double[] col = {f};
 
-        fillStylePane = new ChartFillStylePane();
+        fillStylePane = new VanChartFillStylePane();
 
         stylePane = new VanChartBeautyPane();
 
         Component[][] components = new Component[][]{
                 new Component[]{fillStylePane}, //配色
-                new Component[]{new JSeparator()},
                 new Component[]{stylePane},//风格
-                new Component[]{new JSeparator()}
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components, row, col);
-
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel colorPane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"),panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return colorPane;
     }
 
     /**
