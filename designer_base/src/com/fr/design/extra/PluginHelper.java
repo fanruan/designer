@@ -6,10 +6,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginConfigManager;
-import com.fr.plugin.PluginLoader;
-import com.fr.plugin.PluginManagerHelper;
+import com.fr.plugin.*;
 import com.fr.plugin.dependence.PluginDependence;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
@@ -268,6 +265,12 @@ public class PluginHelper {
             FRLogger.getLogger().error(jarExpiredInfo);
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);
         }
+        if (isHigherEnvVersion(plugin.getEnvVersion())) {
+            String envVersionNotSupport = Inter.getLocText(new String[]{"FR-Designer-Plugin_Jar_Expired", ",", "FR-Designer-Plugin_Install_Failed"});
+            FRLogger.getLogger().error(envVersionNotSupport);
+            throw new com.fr.plugin.PluginVerifyException(envVersionNotSupport);
+        }
+        
         File fileToCheck = getTempPluginFileDirectory();
         File oldfile = new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), ProjectConstants.PLUGINS_NAME, "plugin-" + plugin.getId()));
         if (!PluginManagerHelper.checkLic(plugin, fileToCheck)) {
@@ -278,7 +281,12 @@ public class PluginHelper {
             }
         }
     }
-
+    
+    private static boolean isHigherEnvVersion(String envVersion) {
+        //高于8.0
+        return PluginUtils.compareVersion(envVersion, "8.0") > 0;
+    }
+    
     /**
      * 获取插件解压的临时文件夹
      *
