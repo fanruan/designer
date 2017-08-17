@@ -4,9 +4,17 @@ import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.extra.plugindependence.DownLoadDependenceUI;
-import com.fr.general.*;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralUtils;
+import com.fr.general.IOUtils;
+import com.fr.general.Inter;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.plugin.*;
+import com.fr.plugin.Plugin;
+import com.fr.plugin.PluginConfigManager;
+import com.fr.plugin.PluginLoader;
+import com.fr.plugin.PluginManagerHelper;
+import com.fr.plugin.PluginUtils;
 import com.fr.plugin.dependence.PluginDependence;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
@@ -112,8 +120,8 @@ public class PluginHelper {
      */
     public static Plugin readPlugin(File chosenFile) throws Exception {
         // 需要先删除临时目录保证加压出来的文件不会和安装失败的文件混合到一起
-        StableUtils.deleteFile(new File(TEMP_PATH));
-
+        StableUtils.deleteFile(new File(TEMP_PATH))
+    
         IOUtils.unzip(chosenFile, TEMP_PATH);
         File pluginFileDir = getTempPluginFileDirectory();
         if (pluginFileDir == null) {
