@@ -68,11 +68,11 @@ public class GridColumn extends GridHeader<String> {
 	@Override
 	public Dimension getPreferredSize() {
 		ElementCasePane reportPane = this.getElementCasePane();
-
+		float time = (float)reportPane.getResolution()/ ScreenResolution.getScreenResolution();
 		if (!reportPane.isColumnHeaderVisible()) {
 			return new Dimension(0, 0);
 		}
 
-		return new Dimension(super.getPreferredSize().width, GraphHelper.getFontMetrics(this.getFont()).getHeight() + SIZE_ADJUST);
+		return new Dimension(super.getPreferredSize().width, (int) (GraphHelper.getFontMetrics(this.getFont()).getHeight() * time + SIZE_ADJUST));
 	}
 }

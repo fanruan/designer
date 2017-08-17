@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -50,7 +51,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private double START_VALUE = DEFAULT_SLIDER;
     private int resolution = ScreenResolution.getScreenResolution();
     private double screenValue;
-    private boolean isCtrl = false;
 
     public FormScrollBar getHorScrollBar() {
         return horScrollBar;
@@ -86,35 +86,14 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         }
         this.setFocusTraversalKeysEnabled(false);
         this.designer.addMouseWheelListener(showValSpinnerMouseWheelListener);
-        this.designer.addKeyListener(showValSpinnerKeyListener);
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
     }
 
-
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
-
     MouseWheelListener showValSpinnerMouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (isCtrl) {
+            if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) slidePane.getShowVal().getValue();
                 slidePane.getShowVal().setValue(old_resolution - (dir * SHOWVALMIN));

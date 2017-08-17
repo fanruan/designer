@@ -65,13 +65,13 @@ public class GridRow extends GridHeader<Integer> {
 	@Override
 	public Dimension getPreferredSize() {
 		ElementCasePane reportPane = this.getElementCasePane();
-
+		float time = (float)reportPane.getResolution()/ ScreenResolution.getScreenResolution();
 		if (!(reportPane.isRowHeaderVisible())) {
 			return new Dimension(0, 0);
 		}
 
 		int maxCharNumber = this.caculateMaxCharNumber(reportPane);
-		return new Dimension(maxCharNumber * GraphHelper.getFontMetrics(this.getFont()).charWidth('M'), super.getPreferredSize().height);
+		return new Dimension((int) (maxCharNumber * GraphHelper.getFontMetrics(this.getFont()).charWidth('M') * time), super.getPreferredSize().height);
 	}
 
 	/**
