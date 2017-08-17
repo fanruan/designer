@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart;
 
 
-import com.fr.base.BaseUtils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
@@ -74,12 +73,12 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     //构建主面板
     protected void createTabsPane() {
-        Icon[] iconArray = new Icon[paneList.size()];
+        String[] iconArray = new String[paneList.size()];
         card = new CardLayout();
         center = new JPanel(card);
         for (int i = 0; i < paneList.size(); i++) {
             AbstractChartAttrPane pane = paneList.get(i);
-            iconArray[i] = BaseUtils.readIcon(pane.getIconPath());
+            iconArray[i] = pane.title4PopupWindow();
             center.add(pane, pane.title4PopupWindow());
         }
 
