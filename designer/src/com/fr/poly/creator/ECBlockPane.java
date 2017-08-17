@@ -145,6 +145,7 @@ public class ECBlockPane extends PolyElementCasePane {
         menuDef.addShortCut(new CellExpandAttrAction());
         menuDef.addShortCut(new CellWidgetAttrAction());
         menuDef.addShortCut(new GlobalStyleMenuDef(this));
+        menuDef.addShortCut(new ConditionAttributesAction());
 
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
