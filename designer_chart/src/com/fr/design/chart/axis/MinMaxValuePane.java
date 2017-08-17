@@ -81,7 +81,7 @@ public class MinMaxValuePane extends JPanel {
 		};
 	}
 
-	private void checkBoxUse() {
+	protected void checkBoxUse() {
 		minValueField.setEnabled(minCheckBox.isSelected());
 		maxValueField.setEnabled(maxCheckBox.isSelected());
 

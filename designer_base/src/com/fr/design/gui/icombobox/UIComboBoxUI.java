@@ -57,12 +57,12 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         super.paint(g, c);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Color linecolor = UIConstants.TITLED_BORDER_COLOR;
+        Color linecolor = UIConstants.POP_DIALOG_BORDER;
 
         if (comboBox.isPopupVisible()) {
             arrowButton.setSelected(true);
         } else {
-            linecolor = UIConstants.TITLED_BORDER_COLOR;
+            linecolor = UIConstants.POP_DIALOG_BORDER;
             arrowButton.setSelected(false);
         }
         g2d.setColor(linecolor);

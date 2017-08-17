@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
+import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.edit.CopyAction;
@@ -51,10 +52,7 @@ import com.fr.stable.unit.UnitRectangle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +96,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private JSliderPane jSliderContainer;
     private int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
     private float time;
-    private boolean isCtrl = false;
 
     public PolyDesigner(PolyWorkSheet report) {
         super(report);
@@ -123,6 +120,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         this.setFocusTraversalKeysEnabled(false);
         new PolyDesignerDropTarget(this);
         toolBarComponent = new JComponent[]{new CutAction(this).createToolBarComponent(), new CopyAction(this).createToolBarComponent(), new PasteAction(this).createToolBarComponent(), new DeleteBlockAction(this).createToolBarComponent()};
+        polyArea.addMouseWheelListener(mouseWheelListener);
         this.addSelectionChangeListener(new SelectionListener() {
 
             @Override
@@ -138,8 +136,21 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         });
     }
 
+    MouseWheelListener mouseWheelListener = new MouseWheelListener() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent evt) {
+            int id = evt.getID();
+            if (id == MouseEvent.MOUSE_WHEEL){
+                if (!InputEventBaseOnOS.isControlDown(evt)) {
+                    int rotations = evt.getWheelRotation();
+                    verScrollBar.setValue(verScrollBar.getValue() + rotations * ROTATIONS);
+                }
+            }
+        }
+    };
+
     private void initComponents() {
-        jSliderContainer = JSliderPane.getInstance();
+//        jSliderContainer = JSliderPane.getInstance();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         ployareaPane = new JPanel(new PolyDesignerLayout());
         polyArea = new PolyArea(this, resolution);
@@ -155,27 +166,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         ployareaPane.setBackground(Color.WHITE);
         this.add(ployareaPane, BorderLayout.CENTER);
         this.add(polyComponetsBar, BorderLayout.WEST);
-        this.addKeyListener(showValSpinnerKeyListener);
     }
-
-    KeyListener showValSpinnerKeyListener = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown()) {
-                isCtrl = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCtrl = false;
-        }
-    };
 
     private void initPolyBlocks() {
         for (int i = 0, count = this.getTarget().getBlockCount(); i < count; i++) {
@@ -671,23 +662,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         return this.getWidth();
     }
 
-    @Override
-    protected void processMouseWheelEvent(java.awt.event.MouseWheelEvent evt) {
-        int id = evt.getID();
-        switch (id) {
-            case MouseEvent.MOUSE_WHEEL: {
-                if (isCtrl) {
-                    int dir = evt.getWheelRotation();
-                    int old_resolution = (int) jSliderContainer.getShowVal().getValue();
-                    jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
-                } else {
-                    int rotations = evt.getWheelRotation();
-                    this.getVerticalScrollBar().setValue(this.getVerticalScrollBar().getValue() + rotations * ROTATIONS);
-                }
-                break;
-            }
-        }
-    }
 
     /**
      * 开始编辑

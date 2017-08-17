@@ -137,6 +137,8 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         this.chooseTable.populateBean(new DataBaseItems(dbName, dbDict.getSchema(), dbDict.getTableName()));
 
         if (this.database == null) {
+            this.keyColumnPane.updateUpButton();
+            this.valueDictPane.updateUpButton();
             return;
         }
 
@@ -187,6 +189,9 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
             }
             dbDict.setKeyColumnIndex(keyColumnIndex);
             dbDict.setKeyColumnName(keyColumnName);
+        }else {
+            this.keyColumnPane.updateUpButton();
+            this.valueDictPane.updateUpButton();
         }
         Object value = this.valueDictPane.update();
         if (value instanceof Integer) {

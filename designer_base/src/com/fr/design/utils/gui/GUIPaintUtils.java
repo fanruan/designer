@@ -19,7 +19,7 @@ public class GUIPaintUtils {
         if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
             g2d.setColor(UIConstants.AUTHORITY_LINE_COLOR);
         } else {
-            g2d.setColor(UIConstants.TITLED_BORDER_COLOR);
+            g2d.setColor(UIConstants.POP_DIALOG_BORDER);
         }
         if (isRound) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

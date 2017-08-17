@@ -116,6 +116,9 @@ public class Designer extends BaseDesigner {
                 if (ActionFactory.getChartPreStyleAction() != null) {
                     menuDef.addShortCut(ActionFactory.getChartPreStyleAction());
                 }
+                if (ActionFactory.getChartMapEditorAction() != null) {
+                    menuDef.addShortCut(ActionFactory.getChartMapEditorAction());
+                }
             }
 
             insertMenu(menuDef, MenuHandler.SERVER);

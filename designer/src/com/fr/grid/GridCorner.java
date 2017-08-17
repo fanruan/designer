@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.MouseInputListener;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
 import com.fr.design.mainframe.ElementCasePane;
 
 /**
@@ -37,7 +38,7 @@ public class GridCorner extends BaseGridComponent {
         Graphics2D g2d = (Graphics2D) g;
 
         ElementCasePane reportPane = this.getElementCasePane();
-
+        float time = (float)reportPane.getResolution()/ ScreenResolution.getScreenResolution();
         //size
         Dimension size = this.getSize();
         Rectangle2D rect2D = new Rectangle2D.Double(0, 0, size.getWidth(), size.getHeight());
@@ -50,7 +51,7 @@ public class GridCorner extends BaseGridComponent {
             GraphHelper.fill(g2d, rect2D);
         }
         
-        paintArc(g2d, size);
+        paintArc(g2d, size, time);
            
         //画左边的边框线.
         g2d.setColor(reportPane.getGridColumn().getSeparatorLineColor());
@@ -85,15 +86,15 @@ public class GridCorner extends BaseGridComponent {
     }
 
     
-    private void paintArc(Graphics2D g2d, Dimension size) {
+    private void paintArc(Graphics2D g2d, Dimension size, float time) {
     	g2d.setColor(Color.gray);
-    	int width = size.width - 16;
+    	int width = (int) (size.width - (16 * time));
     	int avgWidth = width / 3;
-    	int height = size.height - 8;
+    	int height = (int) (size.height - (8 * time));
     	int avgHeight = height / 3;
     	for (int i = 0; i < 3; i ++) {
     		for (int j = 0; j < 3; j ++) {
-    			 GraphHelper.fillArc(g2d, 8 + i * avgWidth, 4 + j * avgHeight, 3, 3, 0, 360);
+    			 GraphHelper.fillArc(g2d, (8  * time) + (i * avgWidth), (4 * time) + (j * avgHeight), 3, 3, 0, 360);
     		}
     	}
     }

@@ -9,8 +9,25 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.chart.gui.ChartWidgetOption;
-import com.fr.design.chartinterface.*;
+import com.fr.design.chartinterface.AreaIndependentChartInterface;
+import com.fr.design.chartinterface.BarIndependentChartInterface;
+import com.fr.design.chartinterface.BubbleIndependentChartInterface;
+import com.fr.design.chartinterface.ColumnIndependentChartInterface;
+import com.fr.design.chartinterface.CustomIndependentChartInterface;
+import com.fr.design.chartinterface.DonutIndependentChartInterface;
+import com.fr.design.chartinterface.FunnelIndependentChartInterface;
+import com.fr.design.chartinterface.GanttIndependentChartInterface;
+import com.fr.design.chartinterface.GisMapIndependentChartInterface;
+import com.fr.design.chartinterface.LineIndependentChartInterface;
+import com.fr.design.chartinterface.MapIndependentChartInterface;
+import com.fr.design.chartinterface.MeterIndependentChartInterface;
+import com.fr.design.chartinterface.PieIndependentChartInterface;
+import com.fr.design.chartinterface.RadarIndependentChartInterface;
+import com.fr.design.chartinterface.RangeIndependentChartInterface;
+import com.fr.design.chartinterface.StockIndependentChartInterface;
+import com.fr.design.chartinterface.XYScatterIndependentChartInterface;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -25,20 +42,58 @@ import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
-import com.fr.plugin.context.PluginContext;
-import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.chart.PiePlot4VanChart;
+import com.fr.plugin.chart.area.AreaIndependentVanChartInterface;
+import com.fr.plugin.chart.area.VanChartAreaPlot;
+import com.fr.plugin.chart.bar.BarIndependentVanChartInterface;
+import com.fr.plugin.chart.bubble.BubbleIndependentVanChartInterface;
+import com.fr.plugin.chart.bubble.VanChartBubblePlot;
+import com.fr.plugin.chart.column.ColumnIndependentVanChartInterface;
+import com.fr.plugin.chart.column.VanChartColumnPlot;
+import com.fr.plugin.chart.custom.CustomIndependentVanChartInterface;
+import com.fr.plugin.chart.custom.VanChartCustomPlot;
+import com.fr.plugin.chart.drillmap.DrillMapIndependentVanChartInterface;
+import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.funnel.VanChartFunnelPlot;
+import com.fr.plugin.chart.funnel.designer.FunnelIndependentVanChartInterface;
+import com.fr.plugin.chart.gantt.VanChartGanttPlot;
+import com.fr.plugin.chart.gantt.designer.GanttIndependentVanChartInterface;
+import com.fr.plugin.chart.gauge.GaugeIndependentVanChartInterface;
+import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
+import com.fr.plugin.chart.heatmap.designer.HeatMapIndependentVanChartInterface;
+import com.fr.plugin.chart.line.LineIndependentVanChartInterface;
+import com.fr.plugin.chart.line.VanChartLinePlot;
+import com.fr.plugin.chart.map.MapIndependentVanChartInterface;
+import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.multilayer.MultiPieIndependentVanChartInterface;
+import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
+import com.fr.plugin.chart.pie.PieIndependentVanChartInterface;
+import com.fr.plugin.chart.radar.RadarIndependentVanChartInterface;
+import com.fr.plugin.chart.radar.VanChartRadarPlot;
+import com.fr.plugin.chart.scatter.ScatterIndependentVanChartInterface;
+import com.fr.plugin.chart.scatter.VanChartScatterPlot;
+import com.fr.plugin.chart.structure.VanChartStructurePlot;
+import com.fr.plugin.chart.structure.desinger.StructureIndependentVanChartInterface;
+import com.fr.plugin.chart.treemap.TreeMapIndependentVanChartInterface;
+import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
+import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
+import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
+import com.fr.plugin.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
 import com.fr.plugin.injectable.PluginSingleInjection;
-import com.fr.plugin.manage.PluginFilter;
-import com.fr.plugin.observer.PluginEvent;
-import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eason on 14/12/29.
@@ -58,24 +113,18 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     
     static {
         readDefault();
+        readVanChart();
         StableFactory.registerMarkedObject(XML_TAG, classManager);
     }
     
     static {
-    
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
-        
+
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
-            public void on(PluginEvent event) {
+            public void envChanged() {
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
-            }
-        }, new PluginFilter() {
-        
-            @Override
-            public boolean accept(PluginContext context) {
-            
-                return context.contain(PluginModule.ExtraChartType);
+                DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
             }
         });
     }
@@ -129,6 +178,36 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             //此时，为图片生成模型数据
             aRowChart.createSlotImage();
         }
+    }
+
+    private static void readVanChart() {
+
+        if (chartTypeInterfaces.containsKey(ChartTypeManager.VAN_CHART_PRIORITY)) {
+            return;
+        }
+        CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap> chartUIList =
+                new CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap>(LinkedHashMap.class);
+        chartUIList.put(PiePlot4VanChart.VAN_CHART_PIE_PLOT, new PieIndependentVanChartInterface());
+        chartUIList.put(VanChartColumnPlot.VAN_CHART_COLUMN_PLOT_ID, new ColumnIndependentVanChartInterface());
+        chartUIList.put(VanChartColumnPlot.VAN_CHART_BAR_PLOT_ID, new BarIndependentVanChartInterface());
+        chartUIList.put(VanChartLinePlot.VAN_CHART_LINE_PLOT, new LineIndependentVanChartInterface());
+        chartUIList.put(VanChartAreaPlot.VAN_CHART_AREA_PLOT_ID, new AreaIndependentVanChartInterface());
+        chartUIList.put(VanChartGaugePlot.VAN_CHART_GAUGE_PLOT, new GaugeIndependentVanChartInterface());
+        chartUIList.put(VanChartRadarPlot.VAN_CHART_RADAR_PLOT, new RadarIndependentVanChartInterface());
+        chartUIList.put(VanChartScatterPlot.VAN_CHART_SCATTER_PLOT_ID, new ScatterIndependentVanChartInterface());
+        chartUIList.put(VanChartBubblePlot.VAN_CHART_BUBBLE_PLOT_ID, new BubbleIndependentVanChartInterface());
+        chartUIList.put(VanChartCustomPlot.VAN_CHART_CUSTOM_PLOT_ID, new CustomIndependentVanChartInterface());
+        chartUIList.put(VanChartMultiPiePlot.VAN_CHART_MULTILAYER_PLOT_ID, new MultiPieIndependentVanChartInterface());
+        chartUIList.put(VanChartMapPlot.VAN_CHART_MAP_ID, new MapIndependentVanChartInterface());
+        chartUIList.put(VanChartDrillMapPlot.VAN_CHART_DRILL_MAP_ID, new DrillMapIndependentVanChartInterface());
+        chartUIList.put(VanChartTreeMapPlot.VAN_CHART_TREE_MAP_PLOT_ID, new TreeMapIndependentVanChartInterface());
+        chartUIList.put(VanChartFunnelPlot.VAN_CHART_FUNNEL_PLOT_ID, new FunnelIndependentVanChartInterface());
+        chartUIList.put(VanChartHeatMapPlot.VAN_CHART_HEAT_MAP_ID, new HeatMapIndependentVanChartInterface());
+        chartUIList.put(VanChartWordCloudPlot.WORD_CLOUD_PLOT_ID, new WordCloudIndependentVanChartInterface());
+        chartUIList.put(VanChartGanttPlot.VAN_CHART_GANTT_PLOT_ID, new GanttIndependentVanChartInterface());
+        chartUIList.put(VanChartStructurePlot.STRUCTURE_PLOT_ID, new StructureIndependentVanChartInterface());
+
+        chartTypeInterfaces.put(ChartTypeManager.VAN_CHART_PRIORITY, chartUIList);
     }
     
     

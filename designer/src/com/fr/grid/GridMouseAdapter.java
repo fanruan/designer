@@ -807,9 +807,11 @@ public class GridMouseAdapter implements MouseListener, MouseWheelListener, Mous
      * @param e
      */
     public void mouseWheelMoved(MouseWheelEvent e) {
-        ElementCasePane reportPane = grid.getElementCasePane();
-        if (reportPane.isHorizontalScrollBarVisible()) {
-            reportPane.getVerticalScrollBar().setValue(reportPane.getVerticalScrollBar().getValue() + e.getWheelRotation() * 3);
+        if (!InputEventBaseOnOS.isControlDown(e)) {
+            ElementCasePane reportPane = grid.getElementCasePane();
+            if (reportPane.isHorizontalScrollBarVisible()) {
+                reportPane.getVerticalScrollBar().setValue(reportPane.getVerticalScrollBar().getValue() + e.getWheelRotation() * 3);
+            }
         }
     }
 

@@ -16,15 +16,13 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.preview.ActionPreviewPane;
-import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
-import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
-import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.*;
 import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -75,6 +73,7 @@ public class AlphaFineDialog extends UIDialog {
     private JPanel searchResultPane;
     private Point pressedPoint;
     private UIScrollPane leftSearchResultPane;
+    private JPanel defaultPane;
     private JPanel rightSearchResultPane;
     private AlphaFineList searchResultList;
     private SearchListModel searchListModel;
@@ -299,15 +298,10 @@ public class AlphaFineDialog extends UIDialog {
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
         rightSearchResultPane.setBackground(Color.WHITE);
-        UILabel splitLine = new UILabel();
-        splitLine.setBackground(AlphaFineConstants.GRAY);
-        splitLine.setPreferredSize(new Dimension(1, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH - 1, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-        searchResultPane.add(splitLine, BorderLayout.CENTER);
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
         UILabel splitLabel = new UILabel();
-        splitLabel.setBackground(AlphaFineConstants.GRAY);
         splitLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
         searchResultPane.add(splitLabel, BorderLayout.NORTH);
         add(searchResultPane, BorderLayout.SOUTH);
@@ -344,6 +338,32 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void fireStopLoading() {
         searchListModel.resetState();
+        replaceLeftPane();
+    }
+
+    /**
+     * 刷新容器
+     */
+    private void refreshContainer() {
+        validate();
+        repaint();
+        revalidate();
+    }
+
+    /**
+     * 重置结果面板
+     */
+    private void replaceLeftPane() {
+        if (searchListModel.getSize() == 0 && defaultPane == null) {
+            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+            searchResultPane.remove(leftSearchResultPane);
+            searchResultPane.add(defaultPane, BorderLayout.WEST);
+        } else if (searchListModel.getSize() > 0 && defaultPane != null) {
+            searchResultPane.remove(defaultPane);
+            defaultPane = null;
+            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+        }
+        refreshContainer();
     }
 
     /**
@@ -534,7 +554,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ACTION:
                 rightSearchResultPane.removeAll();
-                rightSearchResultPane.add(new ActionPreviewPane());
+                rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/noresult.png")));
                 validate();
                 repaint();
                 break;
@@ -625,7 +645,6 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initGlobalListener() {
         initAWTEventListener();
-        initMouseListener();
     }
 
     /**
@@ -912,6 +931,8 @@ public class AlphaFineDialog extends UIDialog {
                         if (getSelectedIndex() == 1) {
                             searchTextField.requestFocus();
                         }
+                    } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        searchTextField.requestFocus();
                     }
                 }
             });
