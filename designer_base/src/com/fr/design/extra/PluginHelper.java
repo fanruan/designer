@@ -266,7 +266,7 @@ public class PluginHelper {
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);
         }
         if (isHigherEnvVersion(plugin.getEnvVersion())) {
-            String envVersionNotSupport = Inter.getLocText(new String[]{"FR-Designer-Plugin_Jar_Expired", ",", "FR-Designer-Plugin_Install_Failed"});
+            String envVersionNotSupport = Inter.getLocText(new String[]{"FR-Designer-Plugin_Env_Expired", ",", "FR-Designer-Plugin_Install_Failed"});
             FRLogger.getLogger().error(envVersionNotSupport);
             throw new com.fr.plugin.PluginVerifyException(envVersionNotSupport);
         }
