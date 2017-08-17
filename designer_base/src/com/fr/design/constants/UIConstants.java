@@ -19,9 +19,10 @@ public interface UIConstants {
 
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
-    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0 ,0, 0, 0);
-    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0 ,10, 0, 0);
-    public static final Border CELL_ATTR_NORMALBORDER =  BorderFactory.createEmptyBorder(0 ,10, 0, 15);
+    public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+    public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 0);
+    public static final Border CELL_ATTR_PRESENTBORDER = BorderFactory.createEmptyBorder(0, 5, 0, 0);
+    public static final Border CELL_ATTR_NORMALBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 15);
 
 
     public static final int SIZE = 17;
@@ -155,7 +156,7 @@ public interface UIConstants {
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
-    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237,237,238);
+    public static final Color COMPONENT_BACKGROUND_COLOR = new Color(237, 237, 238);
     public static final int ARC = 0;
     public static final int BUTTON_GROUP_ARC = 0;
     public static final int LARGEARC = 6;

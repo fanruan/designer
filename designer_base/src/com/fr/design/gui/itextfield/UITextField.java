@@ -61,13 +61,19 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
 
     protected void initListener() {
         if (shouldResponseChangeListener()) {
-            addFocusListener(new FocusListener() {
+            getDocument().addDocumentListener(new DocumentListener() {
                 @Override
-                public void focusGained(FocusEvent e) {
+                public void insertUpdate(DocumentEvent e) {
+                    attributeChange();
                 }
 
                 @Override
-                public void focusLost(FocusEvent e) {
+                public void removeUpdate(DocumentEvent e) {
+                    attributeChange();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
                     attributeChange();
                 }
             });

@@ -65,7 +65,7 @@ public class PredefinedStylePane extends FurtherBasicBeanPane<NameStyle> impleme
         styleList.setCellRenderer(render);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.add(styleList, BorderLayout.CENTER);
-        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
+        this.setBorder(BorderFactory.createEmptyBorder(0 ,10, 0, 10));
 
         styleList.addMouseListener(new MouseAdapter() {
             @Override

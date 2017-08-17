@@ -10,6 +10,7 @@ import com.fr.design.constants.UIConstants;
 
 public class UITabGroup extends UIButtonGroup<Integer> {
     private boolean isOneLineTab = false;
+    private boolean isDrawLine = true;
     private static final int BUTTON_NUMBER = 5;
     private static final int SEVEN_NUMBER = 7;
     private static final int ORIGINAL_WIDTH = 10;
@@ -50,7 +51,7 @@ public class UITabGroup extends UIButtonGroup<Integer> {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(UIConstants.LINE_COLOR);
         if (!isTwoLine()) {
-            int width = isDrawLine() ? ORIGINAL_WIDTH : 0;
+            int width = isDrawLine ? ORIGINAL_WIDTH : 0;
             for (int i = 0; i < labelButtonList.size() - 1; i++) {
                 width += labelButtonList.get(i).getWidth() + 1;
                 int height = labelButtonList.get(i).getHeight();
@@ -58,7 +59,7 @@ public class UITabGroup extends UIButtonGroup<Integer> {
             }
 
             width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
-            if (isDrawLine()) {
+            if (isDrawLine) {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.drawRoundRect(ORIGINAL_WIDTH, 0, width - ORIGINAL_WIDTH, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -82,7 +83,7 @@ public class UITabGroup extends UIButtonGroup<Integer> {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
         }
-        if (isDrawLine()) {
+        if (isDrawLine) {
             g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
         }
     }
@@ -127,12 +128,16 @@ public class UITabGroup extends UIButtonGroup<Integer> {
     }
 
     protected boolean isDrawLine() {
-        return true;
+        return isDrawLine;
+    }
+
+    public void setDrawLine(boolean isDrawLine) {
+        this.isDrawLine = isDrawLine;
     }
 
     @Override
     protected Border getGroupBorder() {
-        if (!isDrawLine()) {
+        if (!isDrawLine) {
             return BorderFactory.createEmptyBorder(1, 1, 1, 1);
         }
         return BorderFactory.createEmptyBorder(1, GAP, 1, GAP);
