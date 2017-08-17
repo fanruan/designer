@@ -34,7 +34,7 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f };
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         Component[][] components = getUseComponent();
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
