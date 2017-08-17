@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.menu.KeySetUtils;
@@ -174,7 +175,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
-
+        menuDef.addShortCut(new HyperlinkAction());
         menuDef.addShortCut(SeparatorDef.DEFAULT);
         menuDef.addShortCut(new MergeCellAction(this));
         menuDef.addShortCut(new UnmergeCellAction(this));

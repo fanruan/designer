@@ -4,6 +4,7 @@
 package com.fr.poly.creator;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.general.Inter;
 import com.fr.page.ReportSettingsProvider;
@@ -148,6 +149,7 @@ public class ECBlockPane extends PolyElementCasePane {
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
 
+        menuDef.addShortCut(new HyperlinkAction());
         menuDef.addShortCut(SeparatorDef.DEFAULT);
         menuDef.addShortCut(new MergeCellAction(this));
         menuDef.addShortCut(new UnmergeCellAction(this));

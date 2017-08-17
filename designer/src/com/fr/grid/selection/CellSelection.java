@@ -8,6 +8,7 @@ import com.fr.design.actions.cell.GlobalStyleMenuDef.GlobalStyleSelection;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
+import com.fr.design.actions.edit.HyperlinkAction;
 import com.fr.design.actions.edit.PasteAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
@@ -461,6 +462,7 @@ public class CellSelection extends Selection {
         popup.add(new CellExpandAttrAction().createMenuItem());
         popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
         popup.add(new CellAttributeAction().createMenuItem());
+        popup.add(new HyperlinkAction().createMenuItem());
         // cut, copy and paste
         popup.addSeparator();
         popup.add(new CutAction(ePane).createMenuItem());
