@@ -77,7 +77,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     public static final EastRegionContainerPane getInstance() {
         if (THIS == null) {
             THIS = new EastRegionContainerPane();
-//            THIS.setLastToolPaneY(DesignerEnvManager.getEnvManager().getLastEastRegionToolPaneY());
             THIS.setLastContainerWidth(DesignerEnvManager.getEnvManager().getLastEastRegionContainerWidth());
         }
         return THIS;
@@ -85,13 +84,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public EastRegionContainerPane() {
         super();
-//        setVerticalDragEnabled(false);
         initPropertyItemList();
         defaultPane = getDefaultPane(Inter.getLocText("FR-Designer_No_Settings_Available"));
         defaultAuthorityPane = getDefaultPane(Inter.getLocText("FR-Designer_Not_Support_Authority_Edit"));
         switchMode(PropertyMode.REPORT);
-//        initContentPane();
-//        super(leftPane, rightPane);
         setContainerWidth(CONTAINER_WIDTH);
     }
 
@@ -230,8 +226,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public EastRegionContainerPane(JPanel leftPane, JPanel rightPane) {
         super(leftPane, rightPane);
-//        setVerticalDragEnabled(false);
-//        setContainerWidth(260);
     }
 
     public void replaceUpPane(JComponent pane) {
@@ -377,29 +371,23 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 hasEnabledTab = true;
                 if (!propertyItem.isPoppedOut()) {
                     propertyCard.show(rightPane, name);  // 显示第一个可用tab
+                    propertyItem.setTabButtonSelected();
                     hasAvailableTab = true;
                     break;
                 }
             }
         }
         if (!hasAvailableTab) {
+            resetPropertyIcons();
             if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
                 propertyCard.show(rightPane, DEFAULT_AUTHORITY_PANE);
             } else {
                 propertyCard.show(rightPane, DEFAULT_PANE);
             }
         }
-
-//        if (this.getRightPane() instanceof DockingView) {
-//            ((DockingView) this.getRightPane()).refreshDockingView();
-//        }
     }
 
     public void refreshDownPane() {
-//        JComponent pane = propertyItemList.get(1).getContentPane();
-//        if (pane instanceof DockingView) {
-//            ((DockingView) pane).refreshDockingView();
-//        }
     }
 
     private void refreshContainer() {
@@ -460,7 +448,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             this.btnIconName = btnIconName;
             initButton();
             initPropertyPanel();
-//            this.visibleModes = new ArrayList<PropertyMode>(visibleModes);
             initModes(visibleModes, enableModes);
         }
 
@@ -576,11 +563,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             }
         }
 
-//        private void refreshContainer() {
-//            propertyPanel.validate();
-//            propertyPanel.repaint();
-//            propertyPanel.revalidate();
-//        }
         private String getBtnIconUrl() {
             return ICON_BASE_DIR + btnIconName + iconSuffix;
         }
@@ -592,6 +574,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 button.setBackground(originBtnBackground);
                 button.setOpaque(false);
             }
+        }
+
+        public void setTabButtonSelected() {
+            resetPropertyIcons();
+            iconSuffix = ICON_SUFFIX_SELECTED;
+            button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
+            button.setBackground(selectedBtnBackground);
+            button.setOpaque(true);
         }
 
         private void initButton() {
@@ -614,11 +604,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     } else {
                         popupFixedPane();
                     }
-                    resetPropertyIcons();
-                    iconSuffix = ICON_SUFFIX_SELECTED;
-                    button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
-                    button.setBackground(selectedBtnBackground);
-                    button.setOpaque(true);
+                    setTabButtonSelected();
                 }
             });
         }
@@ -655,7 +641,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         // 弹出对话框
         public void popupDialog() {
-//            setIsPoppedOut(true);
             if (isPoppedOut) {
                 return;
             }
@@ -667,15 +652,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 popupDialog.adjustLocation();
                 popupDialog.setVisible(true);
             }
-//            initContentPane();
-//            refreshContainer();
             removeItem(this);
         }
 
         public void popToFrame() {
             if (isPoppedOut) {
                 isPoppedOut = false;
-//                popupDialog.dispose();
                 popupDialog.setVisible(false);
                 initContentPane();
                 onResize();
@@ -892,7 +874,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             container.add(popupToolPane, BorderLayout.NORTH);
             container.add(contentPane, BorderLayout.CENTER);
             setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT);
-//            validate();
             adjustLocation();
 
             initListener();
