@@ -15,6 +15,8 @@ import com.fr.plugin.PluginConfigManager;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
 import com.fr.plugin.PluginUtils;
+import com.fr.plugin.basic.Version;
+import com.fr.plugin.basic.VersionIntervalFactory;
 import com.fr.plugin.dependence.PluginDependence;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
@@ -274,7 +276,7 @@ public class PluginHelper {
             FRLogger.getLogger().error(jarExpiredInfo);
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);
         }
-        if (isHigherEnvVersion(plugin.getEnvVersion())) {
+        if (!isSupportCurrentEnv(plugin.getEnvVersion())) {
             String envVersionNotSupport = Inter.getLocText(new String[]{"FR-Designer-Plugin_Env_Expired", ",", "FR-Designer-Plugin_Install_Failed"});
             FRLogger.getLogger().error(envVersionNotSupport);
             throw new com.fr.plugin.PluginVerifyException(envVersionNotSupport);
@@ -291,9 +293,9 @@ public class PluginHelper {
         }
     }
     
-    private static boolean isHigherEnvVersion(String envVersion) {
-        //高于8.0
-        return PluginUtils.compareVersion(envVersion, ProductConstants.MAIN_VERSION) > 0;
+    private static boolean isSupportCurrentEnv(String envVersion) {
+        //包含8.0
+        return !VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
     
     /**
