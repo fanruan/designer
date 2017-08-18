@@ -24,7 +24,7 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
-import com.fr.plugin.manager.PluginManager;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.*;
 
 import javax.swing.*;
