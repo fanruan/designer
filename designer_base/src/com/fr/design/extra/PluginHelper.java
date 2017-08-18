@@ -86,7 +86,7 @@ public class PluginHelper {
         }
     }
 
-    private static boolean invalidUser(String id, String username, String password) {
+    private static boolean isInvalidUser(String id, String username, String password) {
         if (StringUtils.isEmpty(id)) {
             return false;
         } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
