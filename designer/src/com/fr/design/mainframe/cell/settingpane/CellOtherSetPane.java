@@ -248,8 +248,6 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 }
             }
         });
-        tooltipTextField = new UITextField();
-        tooltipTextField.getUI();
         return fileNamePane;
     }
 
