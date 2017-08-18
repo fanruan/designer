@@ -2,6 +2,7 @@ package com.fr.design.widget;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -48,10 +49,30 @@ public class CellWidgetCardPane extends BasicPane {
 
         this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+        BasicScrollPane basicScrollPane = new BasicScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return jPanel;
+            }
+
+            @Override
+            public void populateBean(Object ob) {
+
+            }
+
+            @Override
+            protected String title4PopupWindow() {
+                return null;
+            }
+        };
+        this.add(basicScrollPane, BorderLayout.CENTER);
+
         //k
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
-        this.add(center, BorderLayout.CENTER);
+        jPanel.add(center, BorderLayout.CENTER);
 
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -70,7 +91,7 @@ public class CellWidgetCardPane extends BasicPane {
             }
         };
         tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-        this.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        jPanel.add(tabsHeaderIconPane, BorderLayout.NORTH);
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
 
@@ -82,7 +103,6 @@ public class CellWidgetCardPane extends BasicPane {
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         attriTabPane.add(attriCardPane, BorderLayout.CENTER);
         attriCardLayout = (CardLayout) attriCardPane.getLayout();
-        this.setPreferredSize(new Dimension(600, 450));
     }
 
     private void initPaneList() {
