@@ -20,6 +20,7 @@ import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.plugin.PluginConstants;
@@ -120,7 +121,7 @@ public class PluginHelper {
      */
     public static Plugin readPlugin(File chosenFile) throws Exception {
         // 需要先删除临时目录保证加压出来的文件不会和安装失败的文件混合到一起
-        StableUtils.deleteFile(new File(TEMP_PATH))
+        StableUtils.deleteFile(new File(TEMP_PATH));
     
         IOUtils.unzip(chosenFile, TEMP_PATH);
         File pluginFileDir = getTempPluginFileDirectory();
@@ -292,7 +293,7 @@ public class PluginHelper {
     
     private static boolean isHigherEnvVersion(String envVersion) {
         //高于8.0
-        return PluginUtils.compareVersion(envVersion, "8.0") > 0;
+        return PluginUtils.compareVersion(envVersion, ProductConstants.MAIN_VERSION) > 0;
     }
     
     /**
