@@ -57,14 +57,19 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         double[] columnSize = {f};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createWordCloudStylePane()},
-                new Component[]{new JSeparator()},
-                new Component[]{createCloudShapePane()}
         };
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         return contentPane;
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
+        panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 
     private JPanel createWordCloudStylePane(){
@@ -102,10 +107,15 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         };
         fontPanel = TableLayoutHelper.createTableLayoutPane(fontComps,centerR,centerC);
 
-        JPanel panel = new JPanel(new BorderLayout(0,4));
-        panel.add(centerPanel, BorderLayout.NORTH);
-        panel.add(northPanel, BorderLayout.CENTER);
-        panel.add(fontPanel, BorderLayout.SOUTH);
+        double[] columnSize = {f};
+        double[] rowSize = {p, p, p, p};
+        Component[][] components = new Component[][]{
+                new Component[]{createCloudShapePane()},
+                new Component[]{centerPanel},
+                new Component[]{northPanel},
+                new Component[]{fontPanel},
+
+        };
 
         defineFontSize.addItemListener(new ItemListener() {
             @Override
@@ -114,7 +124,9 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
     }
 
     private JPanel createCloudShapePane() {
@@ -149,7 +161,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Shape"), panel);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Shape"), panel);
     }
 
     private void checkImagePane() {

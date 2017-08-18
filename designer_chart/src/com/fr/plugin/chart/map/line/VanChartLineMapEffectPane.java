@@ -5,6 +5,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.AttrEffect;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.marker.VanChartImageMarkerPane;
 import com.fr.plugin.chart.designer.style.series.VanChartEffectPane;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
@@ -27,6 +28,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane{
 
     public VanChartLineMapEffectPane() {
         super(true);
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Line_Map_Animation"), enabledButton), BorderLayout.NORTH);
     }
 
     protected JPanel createContentPane() {
@@ -49,7 +51,7 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane{
 
     private Component createAnimationSelectPane() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        panel.add(new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type")+":"), BorderLayout.WEST);
+        panel.add(new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type")), BorderLayout.WEST);
         panel.add(animationType, BorderLayout.CENTER);
         return panel;
     }

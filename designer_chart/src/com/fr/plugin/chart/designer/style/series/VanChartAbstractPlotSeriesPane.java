@@ -11,8 +11,6 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
@@ -31,6 +29,7 @@ import com.fr.plugin.chart.custom.style.VanChartCustomStylePane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartAreaSeriesFillColorPane;
 import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
+import com.fr.plugin.chart.designer.component.VanChartFillStylePane;
 import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
 import com.fr.plugin.chart.designer.component.VanChartMarkerPane;
 import com.fr.plugin.chart.designer.component.VanChartTrendLinePane;
@@ -79,6 +78,11 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     protected JPanel getContentPane(boolean custom) {
+        if (custom) {
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(getContentInPlotType());
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        }
         return getContentInPlotType();
     }
 
@@ -87,40 +91,32 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * 返回 填充界面.
      */
     protected ChartFillStylePane getFillStylePane() {
-        //如果是自定義組合圖，則不創建填充界面
-        return parentPane instanceof VanChartCustomStylePane ? null : new ChartFillStylePane(){
-            protected JPanel getContentPane () {
-                double p = TableLayout.PREFERRED;
-                double f = TableLayout.FILL;
-                double[] columnSize = {p, f};
-                double[] rowSize = {p, p};
-                Component[][] components = new Component[][]{
-                        new Component[]{new UILabel(Inter.getLocText("ColorMatch")),styleSelectBox},
-                        new Component[]{null,customPane},
-
-                };
-                return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-
-            }
-            @Override
-            public Dimension getPreferredSize() {
-                if(styleSelectBox.getSelectedIndex() != styleSelectBox.getItemCount() - 1) {
-                    return new Dimension(styleSelectBox.getPreferredSize().width, 30);
-                }
-                return super.getPreferredSize();
-            }
-        };
+        return new VanChartFillStylePane();
     }
 
     //风格
     protected VanChartBeautyPane createStylePane() {
-        //如果是自定義組合圖，則不創建填充界面
-        if (parentPane instanceof VanChartCustomStylePane){
-            stylePane = null;
-        }else {
-            stylePane = new VanChartBeautyPane();
-        }
+        stylePane = new VanChartBeautyPane();
         return stylePane;
+    }
+
+    //获取色彩面板
+    protected JPanel getColorPane () {
+        //如果是自定義組合圖，則不創建色彩界面
+        if (parentPane instanceof VanChartCustomStylePane) {
+        return null;
+        }
+        JPanel panel = new JPanel(new BorderLayout());
+        setColorPaneContent(panel);
+        JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return colorPane;
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
+        panel.add(createStylePane(), BorderLayout.CENTER);
     }
 
     //趋势线
@@ -172,7 +168,8 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
                 checkLarge();
             }
         });
-        return createLargeDataModelPane(largeDataModelGroup);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Large_Model"), largeDataModelGroup);
+        return createLargeDataModelPane(panel);
     }
 
     protected void checkLarge() {
@@ -224,8 +221,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         }
     }
 
-    protected JPanel createLargeDataModelPane(UIButtonGroup<DataProcessor> modelGroup) {
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Model"), modelGroup);
+    protected JPanel createLargeDataModelPane(JPanel jPanel) {
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Large_Data"), jPanel);
+        return panel;
     }
 
     protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
@@ -246,7 +244,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //不透明度
     protected JPanel createAlphaPane() {
         transparent = new UINumberDragPane(0, 100);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Alpha"), transparent);
     }
 
     //堆积和坐标轴设置(自定义柱形图等用到)

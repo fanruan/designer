@@ -85,7 +85,6 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
 
         Component[][] components = new Component[][]{
                 new Component[]{createHeatPointStylePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createOpacityPane()}
         };
 
@@ -106,9 +105,9 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Heat_Map_Blur")), blur, new UILabel("%")}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Style_Name"), panel);
 
     }
 
@@ -126,9 +125,9 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Max")), maxOpacity}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Alpha"), panel);
     }
 
 

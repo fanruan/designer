@@ -41,15 +41,19 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createGanntStylePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createLinkLinePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createMarkerPane()}
         };
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
     private JPanel createGanntStylePane(){
@@ -58,7 +62,9 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
         panel.add(new UILabel(Inter.getLocText("Plugin-ChartF_Series_New_Line")), BorderLayout.WEST);
         panel.add(seriesNewLine, BorderLayout.CENTER);
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Style"), panel);
+        JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Style"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return ganntStylePane;
     }
 
     private JPanel createLinkLinePane(){
@@ -76,7 +82,9 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Link_Line"), panel);
+        JPanel linkLinePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Link_Line"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        return linkLinePane;
     }
 
     //标记点类型
@@ -92,7 +100,7 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
                 return new VanChartImageMarkerWithoutWidthAndHeightPane();
             }
         };
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Gannt_Marker"), markerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Gannt_Marker"), markerPane);
     }
 
     @Override

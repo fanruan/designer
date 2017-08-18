@@ -1,12 +1,13 @@
 package com.fr.plugin.chart.gantt.designer.style.axis;
 
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.plugin.chart.gantt.attr.GanttTimeAxis;
 import com.fr.plugin.chart.type.ZoomLevel;
@@ -18,7 +19,7 @@ import java.awt.*;
 /**
  * Created by hufan on 2017/1/12.
  */
-public class GanttTimeAxisPane extends BasicScrollPane<VanChart> {
+public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
     private static final ZoomLevel[] ZOOM_LEVELS = new ZoomLevel[]{ZoomLevel.AUTO, ZoomLevel.ZERO, ZoomLevel.ONE,
             ZoomLevel.TWO, ZoomLevel.THREE, ZoomLevel.FOUR, ZoomLevel.FIVE, ZoomLevel.SIX, ZoomLevel.SEVEN,
             ZoomLevel.EIGHT, ZoomLevel.NINE, ZoomLevel.TEN, ZoomLevel.ELEVEN, ZoomLevel.TWELVE};
@@ -39,9 +40,7 @@ public class GanttTimeAxisPane extends BasicScrollPane<VanChart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{createConditionConfigPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createUpHeadPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createDownHeadPane()},
         };
 
@@ -50,20 +49,19 @@ public class GanttTimeAxisPane extends BasicScrollPane<VanChart> {
 
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createMatteBorder(10, 10, 20, 10, original));
         this.add(leftcontentPane);
     }
 
     private Component createDownHeadPane() {
         downHeadPane = new GanttAxisStylePane();
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Down_Head_Table"),downHeadPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Down_Head_Table"),downHeadPane);
     }
 
     private Component createUpHeadPane() {
         upHeadPane = new GanttAxisStylePane();
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Up_Head_Table"),upHeadPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Up_Head_Table"),upHeadPane);
     }
 
     private Component createConditionConfigPane() {
@@ -77,6 +75,7 @@ public class GanttTimeAxisPane extends BasicScrollPane<VanChart> {
         double[] col = {p, f};
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Zoom"), SwingConstants.RIGHT), timeZoom},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Initial_Level"), SwingConstants.RIGHT), initialLevel},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Weekend_Tooltip"), SwingConstants.RIGHT), weekendTooltip}
@@ -84,7 +83,7 @@ public class GanttTimeAxisPane extends BasicScrollPane<VanChart> {
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
 
-        return TableLayoutHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Condition_Config"),panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Condition_Config"),panel);
     }
 
     @Override

@@ -36,17 +36,22 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createBubblePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createStackedAndAxisPane()},
-                new Component[]{createAlphaPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createLargeDataModelPane()}
 
         };
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
+    }
+
+    //设置色彩面板内容
+    @Override
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
+        panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createBubblePane() {
         bubblePane = new VanChartBubblePane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Bubble"), bubblePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Bubble"), bubblePane);
     }
 
     protected void populateCondition(ConditionAttr defaultAttr){

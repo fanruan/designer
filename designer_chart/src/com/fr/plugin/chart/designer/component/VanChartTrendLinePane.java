@@ -16,6 +16,7 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.base.TrendLineType;
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.plugin.chart.base.VanChartConstants;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class VanChartTrendLinePane extends BasicPane{
         this.setLayout(new BorderLayout());
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p,p};
+        double[] row = {p,p,p,p,p,p};
         double[] col = {p,f};
         trendLineName = new UITextField();
         trendLineColor = new ColorSelectBox(100);
@@ -57,6 +58,7 @@ public class VanChartTrendLinePane extends BasicPane{
 
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Name")), trendLineName},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), trendLineStyle},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), trendLineColor},
@@ -64,7 +66,7 @@ public class VanChartTrendLinePane extends BasicPane{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Period")), periodPane}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         this.add(panel, BorderLayout.CENTER);
     }
     protected String title4PopupWindow(){

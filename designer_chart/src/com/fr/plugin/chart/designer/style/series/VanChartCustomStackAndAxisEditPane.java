@@ -6,7 +6,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -26,13 +25,10 @@ public class VanChartCustomStackAndAxisEditPane extends BasicBeanPane<VanChartRe
     //堆积和坐标轴
     protected UICorrelationComboBoxPane stackAndAxisPane;
     protected JPanel stackAndAxisWholePane;
-    protected JSeparator jSeparator;
 
     public VanChartCustomStackAndAxisEditPane() {
 
         initStackedAndAxisPane();
-
-        jSeparator = new JSeparator();
 
         initContentPane();
     }
@@ -40,13 +36,12 @@ public class VanChartCustomStackAndAxisEditPane extends BasicBeanPane<VanChartRe
     private void initContentPane() {
         this.setLayout(new BorderLayout(0, 5));
         this.add(stackAndAxisWholePane, BorderLayout.CENTER);
-        this.add(jSeparator, BorderLayout.SOUTH);
     }
 
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel initStackedAndAxisPane() {
         stackAndAxisPane = new UICorrelationComboBoxPane();
-        stackAndAxisWholePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(getPaneTitle(), stackAndAxisPane);
+        stackAndAxisWholePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(getPaneTitle(), stackAndAxisPane);
         return stackAndAxisWholePane;
     }
     @Override

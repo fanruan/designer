@@ -34,7 +34,7 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f };
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         Component[][] components = getUseComponent();
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -43,6 +43,7 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
 
     private Component[][] getUseComponent() {
         return new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Line_Width")+":"), lineWidth},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Bedding")+":"),bending},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha") + ":"), lineAlphaPane}

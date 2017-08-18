@@ -3,10 +3,10 @@ package com.fr.plugin.chart.designer.component;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
 
 import java.awt.*;
@@ -32,7 +32,7 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
                 new Component[]{transparent},
         };
 
-        this.add(TableLayoutHelper.createTableLayoutPane(components, row, col));
+        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col));
     }
 
     protected String title4PopupWindow(){

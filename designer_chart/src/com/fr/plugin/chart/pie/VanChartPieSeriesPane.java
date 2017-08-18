@@ -39,13 +39,8 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p};
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
-        panel.add(createStylePane(), BorderLayout.CENTER);
-        JPanel ColorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         Component[][] components = new Component[][]{
-                new Component[]{ColorPane},
+                new Component[]{getColorPane()},
                 new Component[]{createSeriesStylePane(rowSize, new double[]{p,f})},
                 new Component[]{createBorderPane()},
         };

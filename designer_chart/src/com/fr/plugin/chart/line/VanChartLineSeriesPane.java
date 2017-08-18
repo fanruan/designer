@@ -26,18 +26,21 @@ public class VanChartLineSeriesPane extends VanChartAbstractPlotSeriesPane{
         double[] col = {f};
 
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createLineTypePane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createMarkerPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{createLargeDataModelPane()},
-                new Component[]{new JSeparator()},
                 new Component[]{createTrendLinePane()},
         };
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
 }

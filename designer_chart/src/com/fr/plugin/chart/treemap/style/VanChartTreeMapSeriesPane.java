@@ -28,11 +28,13 @@ public class VanChartTreeMapSeriesPane extends VanChartMultiPieSeriesPane {
                 Inter.getLocText("Plugin-ChartF_Close")});
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Drill") + ":", SwingConstants.RIGHT),supportDrill},
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Drill")),supportDrill},
 
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, new double[]{TableLayout.PREFERRED}, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        double p = TableLayout.PREFERRED;
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, new double[]{p,p}, col);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
 
     protected void populatePieAttr() {

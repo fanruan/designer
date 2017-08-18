@@ -7,7 +7,6 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
@@ -35,8 +34,8 @@ public class VanChartMultiPieSeriesPane extends VanChartPieSeriesPane {
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane()},
                 new Component[]{createSeriesStylePane(rowSize, new double[]{p,f})},
-                new Component[]{new JSeparator()},
                 new Component[]{createBorderPane()},
         };
 
@@ -55,16 +54,22 @@ public class VanChartMultiPieSeriesPane extends VanChartPieSeriesPane {
                 Inter.getLocText("Plugin-ChartF_Close")});
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Gradual_Level") + ":"),gradualLevel},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_StartAngle") + ":"),startAngle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_EndAngle") + ":"),endAngle},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_InnerRadius") + ":"),innerRadius},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Drill") + ":", SwingConstants.RIGHT),supportDrill},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation") + ":", SwingConstants.RIGHT),supportRotation}
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Gradual_Level") ),gradualLevel},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_StartAngle") ),startAngle},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_EndAngle")),endAngle},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_InnerRadius")),innerRadius},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Drill")),supportDrill},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation")),supportRotation}
 
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+    }
+
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
     protected void populatePieAttr() {
