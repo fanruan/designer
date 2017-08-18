@@ -1,7 +1,6 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
@@ -171,10 +170,8 @@ public class WebViewDlgHelper {
         new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                String username = DesignerEnvManager.getEnvManager().getBBSName();
-                String password = DesignerEnvManager.getEnvManager().getBBSPassword();
                 try {
-                    PluginUtils.downloadShopScripts(scriptsId, username, password, new Process<Double>() {
+                    PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
                         }
@@ -198,19 +195,7 @@ public class WebViewDlgHelper {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
                         copyMainFile(StableUtils.pathJoin(installHome, "index.html"),  StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
-                        int rv = JOptionPane.showOptionDialog(
-                                null,
-                                Inter.getLocText("FR-Designer-Plugin_Shop_Installed"),
-                                Inter.getLocText("FR-Designer-Plugin_Warning"),
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.INFORMATION_MESSAGE,
-                                null,
-                                new String[]{Inter.getLocText("FR-Designer-Basic_Restart_Designer"), Inter.getLocText("FR-Designer-Basic_Restart_Designer_Later")},
-                                null
-                        );
-                        if (rv == JOptionPane.OK_OPTION) {
-                            RestartHelper.restart();
-                        }
+                        JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FRContext.getLogger().error(e.getMessage(), e);

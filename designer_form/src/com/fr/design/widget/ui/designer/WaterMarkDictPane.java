@@ -1,6 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.WaterMark;
 
@@ -8,12 +8,12 @@ import javax.swing.*;
 
 public class WaterMarkDictPane extends JPanel{
 	
-	private UITextField waterMarkTextField;
+	private UIPropertyTextField waterMarkTextField;
 	
 	public WaterMarkDictPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		waterMarkTextField = new UITextField();
+		waterMarkTextField = new UIPropertyTextField();
 		this.add(waterMarkTextField);
 	}
 	

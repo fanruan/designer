@@ -4,7 +4,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
-	private UITextField text;
+	private UIPropertyTextField text;
 	private UISpinner fontSizePane;
 	private FormWidgetValuePane formWidgetValuePane;
 
@@ -27,7 +27,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 	
 	private void iniComoponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
-		text = new UITextField();
+		text = new UIPropertyTextField();
 		fontSizePane = new UISpinner(0, 20, 1, 0);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;

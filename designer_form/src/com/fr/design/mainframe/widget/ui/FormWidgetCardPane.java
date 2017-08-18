@@ -2,6 +2,7 @@ package com.fr.design.mainframe.widget.ui;
 
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.*;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -46,7 +47,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (widgetBoundPane != null) {
             attriCardPane.add(widgetBoundPane, BorderLayout.CENTER);
         }
-
     }
 
     public XLayoutContainer getParent(XCreator source) {
@@ -102,9 +102,27 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     private void initComponents() {
-
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        BasicScrollPane basicScrollPane = new BasicScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return jPanel;
+            }
+
+            @Override
+            public void populateBean(Object ob) {
+
+            }
+
+            @Override
+            protected String title4PopupWindow() {
+                return null;
+            }
+        };
+        this.add(basicScrollPane, BorderLayout.CENTER);
+
         if (xCreator.supportSetVisibleOrEnable()) {
             widgetPropertyPane = new FormBasicWidgetPropertyPane();
         } else {
@@ -113,11 +131,11 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane("基本", 280, 20, widgetPropertyPane);
 
-        this.add(uiExpandablePane, BorderLayout.NORTH);
+        jPanel.add(uiExpandablePane, BorderLayout.NORTH);
 
         attriCardPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        this.add(attriCardPane, BorderLayout.CENTER);
+        jPanel.add(attriCardPane, BorderLayout.CENTER);
 
         this.listener2 = new AttributeChangeListener() {
             @Override
