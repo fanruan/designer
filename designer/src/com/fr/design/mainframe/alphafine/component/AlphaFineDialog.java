@@ -354,11 +354,11 @@ public class AlphaFineDialog extends UIDialog {
      * 重置结果面板
      */
     private void replaceLeftPane() {
-        if (searchListModel.getSize() == 0 && defaultPane == null) {
+        if (searchListModel.getSize() == 0 && searchResultPane != null) {
             defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
             searchResultPane.remove(leftSearchResultPane);
             searchResultPane.add(defaultPane, BorderLayout.WEST);
-        } else if (searchListModel.getSize() > 0 && defaultPane != null) {
+        } else if (searchResultPane != null && searchListModel.getSize() > 0 && defaultPane != null) {
             searchResultPane.remove(defaultPane);
             defaultPane = null;
             searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
