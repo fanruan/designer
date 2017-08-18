@@ -6,7 +6,6 @@ import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.CustomPlotDesignerPaneFactory;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
-import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotAxisPane;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotTabPane;
@@ -73,7 +72,7 @@ public class VanChartCustomAxisTabPane extends VanChartCustomPlotTabPane<VanChar
             VanChartPlot vanChartPlot = customPlotList.get(plotOrder.get(i));
             CustomPlotType plotType = CustomPlotFactory.getCustomType(vanChartPlot);
 
-            NameArray[i] = CustomPlotGlyphFactory.getTitle(plotType);
+            NameArray[i] = CustomPlotFactory.getTitle(plotType);
             centerPane.add(pane, NameArray[i]);
         }
 

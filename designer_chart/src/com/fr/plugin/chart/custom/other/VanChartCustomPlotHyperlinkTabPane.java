@@ -3,7 +3,6 @@ package com.fr.plugin.chart.custom.other;
 import com.fr.design.dialog.BasicPane;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
-import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotTabPane;
 import com.fr.plugin.chart.custom.component.VanChartHyperLinkPane;
@@ -30,7 +29,7 @@ public class VanChartCustomPlotHyperlinkTabPane extends VanChartCustomPlotTabPan
             //获取点的tooltip作为标题
             VanChartPlot vanChartPlot = customPlotList.get(i);
             CustomPlotType plotType = CustomPlotFactory.getCustomType(vanChartPlot);
-            String name = CustomPlotGlyphFactory.getTitle(plotType);
+            String name = CustomPlotFactory.getTitle(plotType);
             NameArray[i] = name.length() > 3 ? name.substring(0, 3) : name;
             centerPane.add(pane, NameArray[i]);
         }

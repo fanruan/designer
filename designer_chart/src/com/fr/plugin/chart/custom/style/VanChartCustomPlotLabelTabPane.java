@@ -6,7 +6,6 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
-import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotTabPane;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
@@ -36,7 +35,7 @@ public class VanChartCustomPlotLabelTabPane extends VanChartCustomPlotTabPane<Va
             VanChartPlot vanChartPlot = customPlotList.get(i);
             CustomPlotType plotType = CustomPlotFactory.getCustomType(vanChartPlot);
 
-            NameArray[i] = CustomPlotGlyphFactory.getTitle(plotType);
+            NameArray[i] = CustomPlotFactory.getTitle(plotType);
             centerPane.add(pane, NameArray[i]);
         }
     }

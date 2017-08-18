@@ -4,7 +4,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
+import com.fr.plugin.chart.custom.CustomPlotFactory;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class ChartImageCheckOutPane extends BasicPane  implements UIObserver {
         this.checkBox = new JCheckBox();
         this.checkBox.setSelected(isSelected);
         //设置提示
-        this.checkBox.setToolTipText(CustomPlotGlyphFactory.getTooltipText(this.customPlotType));
+        this.checkBox.setToolTipText(CustomPlotFactory.getTooltipText(this.customPlotType));
         //背景
         checkBox.setIcon(new ImageIcon(getClass().getResource(getIconPath(customPlotType,isSelected))));
 
@@ -50,7 +50,7 @@ public class ChartImageCheckOutPane extends BasicPane  implements UIObserver {
     }
 
     private String getIconPath(CustomPlotType customPlotType, boolean isSelected) {
-        return isSelected ? CustomPlotGlyphFactory.getTypeIconPath(customPlotType)[0] : CustomPlotGlyphFactory.getTypeIconPath(customPlotType)[1];
+        return isSelected ? CustomPlotFactory.getTypeIconPath(customPlotType)[0] : CustomPlotFactory.getTypeIconPath(customPlotType)[1];
     }
 
 
