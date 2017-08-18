@@ -307,7 +307,7 @@ public class PluginHelper {
             File[] files = file.listFiles();
             if (ArrayUtils.isNotEmpty(files)) {
                 for (File f : files) {
-                    if (foundConfigFile(f)) {
+                    if (hasFoundConfigFile(f)) {
                         return f;
                     }
                 }
@@ -316,7 +316,7 @@ public class PluginHelper {
         return null;
     }
 
-    private static boolean foundConfigFile(File dir) {
+    private static boolean hasFoundConfigFile(File dir) {
         if (!dir.isDirectory()) {
             return false;
         }
