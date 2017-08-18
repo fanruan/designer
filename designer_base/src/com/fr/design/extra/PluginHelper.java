@@ -14,11 +14,13 @@ import com.fr.plugin.Plugin;
 import com.fr.plugin.PluginConfigManager;
 import com.fr.plugin.PluginLoader;
 import com.fr.plugin.PluginManagerHelper;
-import com.fr.plugin.PluginUtils;
+import com.fr.plugin.basic.version.Version;
+import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.dependence.PluginDependence;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -84,7 +86,7 @@ public class PluginHelper {
         }
     }
 
-    private static boolean invalidUser(String id, String username, String password) {
+    private static boolean isInvalidUser(String id, String username, String password) {
         if (StringUtils.isEmpty(id)) {
             return false;
         } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
@@ -120,7 +122,7 @@ public class PluginHelper {
      */
     public static Plugin readPlugin(File chosenFile) throws Exception {
         // 需要先删除临时目录保证加压出来的文件不会和安装失败的文件混合到一起
-        StableUtils.deleteFile(new File(TEMP_PATH))
+        StableUtils.deleteFile(new File(TEMP_PATH));
     
         IOUtils.unzip(chosenFile, TEMP_PATH);
         File pluginFileDir = getTempPluginFileDirectory();
@@ -132,7 +134,7 @@ public class PluginHelper {
             File[] pluginFiles = pluginFileDir.listFiles();
             if (ArrayUtils.isNotEmpty(pluginFiles)) {
                 for (File f : pluginFiles) {
-                    if (f.getName().equals("plugin.xml")) {
+                    if (AssistUtils.equals(f.getName(), "plugin.xml")) {
                         plugin = new Plugin();
                         InputStream inputStream = plugin.readEncryptXml(new FileInputStream(f));
                         XMLTools.readInputStreamXML(plugin, inputStream);
@@ -273,7 +275,7 @@ public class PluginHelper {
             FRLogger.getLogger().error(jarExpiredInfo);
             throw new com.fr.plugin.PluginVerifyException(jarExpiredInfo);
         }
-        if (isHigherEnvVersion(plugin.getEnvVersion())) {
+        if (!isSupportCurrentEnv(plugin.getEnvVersion())) {
             String envVersionNotSupport = Inter.getLocText(new String[]{"FR-Designer-Plugin_Env_Expired", ",", "FR-Designer-Plugin_Install_Failed"});
             FRLogger.getLogger().error(envVersionNotSupport);
             throw new com.fr.plugin.PluginVerifyException(envVersionNotSupport);
@@ -281,18 +283,17 @@ public class PluginHelper {
         
         File fileToCheck = getTempPluginFileDirectory();
         File oldfile = new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), ProjectConstants.PLUGINS_NAME, "plugin-" + plugin.getId()));
-        if (!PluginManagerHelper.checkLic(plugin, fileToCheck)) {
-            if (!PluginManagerHelper.checkLic(plugin, oldfile)) {//安装时,在安装目录下和压缩包里都没有才弹框
+        if (!PluginManagerHelper.checkLic(plugin, fileToCheck) && !PluginManagerHelper.checkLic(plugin, oldfile)) {
+            //安装时,在安装目录下和压缩包里都没有才弹框
                 String checkLicFail = Inter.getLocText("FR-Designer-PluginLicense_Check_Failed");
                 FRLogger.getLogger().error(checkLicFail);
                 throw new com.fr.plugin.PluginVerifyException(checkLicFail);
-            }
         }
     }
     
-    private static boolean isHigherEnvVersion(String envVersion) {
-        //高于8.0
-        return PluginUtils.compareVersion(envVersion, "8.0") > 0;
+    private static boolean isSupportCurrentEnv(String envVersion) {
+        //包含8.0
+        return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
     
     /**
@@ -306,7 +307,7 @@ public class PluginHelper {
             File[] files = file.listFiles();
             if (ArrayUtils.isNotEmpty(files)) {
                 for (File f : files) {
-                    if (foundConfigFile(f)) {
+                    if (hasFoundConfigFile(f)) {
                         return f;
                     }
                 }
@@ -315,14 +316,14 @@ public class PluginHelper {
         return null;
     }
 
-    private static boolean foundConfigFile(File dir) {
+    private static boolean hasFoundConfigFile(File dir) {
         if (!dir.isDirectory()) {
             return false;
         }
         File[] files = dir.listFiles();
         if (ArrayUtils.isNotEmpty(files)) {
             for (File f : files) {
-                if ("plugin.xml".equals(f.getName())) {
+                if (AssistUtils.equals("plugin.xml",f.getName())) {
                     return true;
                 }
             }
