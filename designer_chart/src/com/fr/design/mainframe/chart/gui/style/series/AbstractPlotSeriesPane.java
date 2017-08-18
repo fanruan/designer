@@ -26,62 +26,67 @@ public abstract class AbstractPlotSeriesPane extends BasicBeanPane<Plot>{
     public AbstractPlotSeriesPane(ChartStylePane parent, Plot plot) {
         this(parent, plot, false);
     }
-	
-	public AbstractPlotSeriesPane(ChartStylePane parent, Plot plot, boolean custom) {
-        this.plot = plot;
-		this.parentPane = parent;
-		fillStylePane = getFillStylePane();
 
-		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-		double[] columnSize = { f };
-		double[] rowSize = { p,p,p};
+    public AbstractPlotSeriesPane(ChartStylePane parent, Plot plot, boolean custom) {
+        this.plot = plot;
+        this.parentPane = parent;
+        fillStylePane = getFillStylePane();
+
+        this.setLayout(new BorderLayout());
+        this.add(getContentPane(custom), BorderLayout.CENTER);
+    }
+
+    protected JPanel getContentPane(boolean custom) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {f};
+        double[] rowSize = {p, p, p};
         Component[][] components = new Component[3][1];
 
-        if(custom) {
-        	if(!(plot instanceof Bar2DPlot)) {
-        		components[0] = new Component[]{getContentInPlotType()};
-        		components[1] = new Component[]{new JSeparator()};
-        	}
+        JPanel panel;
 
-        	JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        if (custom) {
+            if (!(plot instanceof Bar2DPlot)) {
+                components[0] = new Component[]{getContentInPlotType()};
+                components[1] = new Component[]{new JSeparator()};
+            }
 
-        	JScrollPane scrollPane = new JScrollPane();
-        	scrollPane.setViewportView(panel);
-        	scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        	this.setLayout(new BorderLayout());
-        	this.add(scrollPane, BorderLayout.CENTER);
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(panel);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         } else {
-        	if(fillStylePane != null) {
-        		components[0] = new Component[]{fillStylePane};
-        		components[1] = new Component[]{new JSeparator()};
-        	}
+            if (fillStylePane != null) {
+                components[0] = new Component[]{fillStylePane};
+                components[1] = new Component[]{new JSeparator()};
+            }
 
-        	JPanel contentPane = getContentInPlotType();
-        	if(contentPane != null) {
-        		components[2] = new Component[]{contentPane};
-        	}
+            JPanel contentPane = getContentInPlotType();
+            if (contentPane != null) {
+                components[2] = new Component[]{contentPane};
+            }
 
-        	JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        	this.setLayout(new BorderLayout());
-        	this.add(panel,BorderLayout.CENTER);
+            panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         }
-	}
-	
-	/**
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+        return panel;
+
+    }
+
+    /**
 	 * 在每个不同类型Plot, 得到不同类型的属性. 比如: 柱形的风格, 折线的线型曲线.
 	 */
 	protected abstract JPanel getContentInPlotType();
-	
+
 	/**
 	 * 返回 填充界面.
 	 */
 	protected ChartFillStylePane getFillStylePane() {
 		return new ChartFillStylePane();
 	}
-	
+
 	/**
 	 * 界面标题.
 	 */
@@ -95,8 +100,8 @@ public abstract class AbstractPlotSeriesPane extends BasicBeanPane<Plot>{
 	public Plot updateBean() {
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * 更新Plot的属性到系列界面
 	 */

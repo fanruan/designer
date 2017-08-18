@@ -29,21 +29,19 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
     private void initComponents(String title) {
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
-        double[] columnSize = {p, p, p, p, p, p};
+        double[] columnSize = {p, p, p, p, p};
 
-        IndexRadioButton defaultRadio = new IndexRadioButton(MobileFitAttrState.DEFAULT.description(), MobileFitAttrState.DEFAULT);
-        defaultRadio.setSelected(true);
         IndexRadioButton horizonRadio = new IndexRadioButton(MobileFitAttrState.HORIZONTAL.description(), MobileFitAttrState.HORIZONTAL);
+        horizonRadio.setSelected(true);
         IndexRadioButton verticalRadio = new IndexRadioButton(MobileFitAttrState.VERTICAL.description(), MobileFitAttrState.VERTICAL);
         IndexRadioButton bidirectionalRadio = new IndexRadioButton(MobileFitAttrState.BIDIRECTIONAL.description(), MobileFitAttrState.BIDIRECTIONAL);
         IndexRadioButton notFitRadio = new IndexRadioButton(MobileFitAttrState.NONE.description(), MobileFitAttrState.NONE);
 
-        addToButtonGroup(defaultRadio, horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
+        addToButtonGroup(horizonRadio, verticalRadio, notFitRadio, bidirectionalRadio);
 
         Component[][] components = new Component[][]{
                 new Component[] {
                         new UILabel(title),
-                        defaultRadio,
                         horizonRadio,
                         verticalRadio,
                         bidirectionalRadio,

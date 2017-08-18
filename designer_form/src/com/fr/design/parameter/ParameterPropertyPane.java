@@ -45,7 +45,7 @@ public class ParameterPropertyPane extends JPanel{
 		revalidate();
 	}
 
-	public ParameterPropertyPane() {
+	private ParameterPropertyPane() {
 		toolbarPane = new ParameterToolBarPane();
 		BasicScrollPane basicScrollPane = new BasicScrollPane() {
 			@Override
@@ -75,6 +75,11 @@ public class ParameterPropertyPane extends JPanel{
         this.setLayout(new BorderLayout(0, 6));
         this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(addParaPane, BorderLayout.CENTER);
+	}
+
+	// 显示或隐藏添加参数面板
+	public void refreshState() {
+		setAddParaPaneVisible(toolbarPane.hasSelectedLabelItem());
 	}
 
     public void setAddParaPaneVisible(boolean isVisible) {

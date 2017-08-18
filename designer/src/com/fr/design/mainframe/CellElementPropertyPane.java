@@ -176,6 +176,7 @@ public class CellElementPropertyPane extends DockingView {
      */
     public void GoToPane(String... id) {
         cellElementEditPane.setSelectedIndex(id);
+        EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CELL_ATTR);
         EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }
 

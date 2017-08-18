@@ -301,6 +301,12 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                     return;
                 }
             }
+            // 如果有可见模态对话框，则不隐藏
+            for (Window window : DesignerContext.getDesignerFrame().getOwnedWindows()) {
+                if (window instanceof JDialog && window.isVisible() && ((JDialog)window).isModal()) {
+                    return;
+                }
+            }
             saveSettings();
             setVisible(false);
         }
