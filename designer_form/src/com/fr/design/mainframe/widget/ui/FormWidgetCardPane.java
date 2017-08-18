@@ -18,6 +18,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
+import com.fr.general.Inter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -129,7 +130,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             widgetPropertyPane = new FormBasicPropertyPane();
         }
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane("基本", 280, 20, widgetPropertyPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
 
         jPanel.add(uiExpandablePane, BorderLayout.NORTH);
 
