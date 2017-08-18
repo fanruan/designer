@@ -283,12 +283,11 @@ public class PluginHelper {
         
         File fileToCheck = getTempPluginFileDirectory();
         File oldfile = new File(StableUtils.pathJoin(FRContext.getCurrentEnv().getPath(), ProjectConstants.PLUGINS_NAME, "plugin-" + plugin.getId()));
-        if (!PluginManagerHelper.checkLic(plugin, fileToCheck)) {
-            if (!PluginManagerHelper.checkLic(plugin, oldfile)) {//安装时,在安装目录下和压缩包里都没有才弹框
+        if (!PluginManagerHelper.checkLic(plugin, fileToCheck) && !PluginManagerHelper.checkLic(plugin, oldfile)) {
+            //安装时,在安装目录下和压缩包里都没有才弹框
                 String checkLicFail = Inter.getLocText("FR-Designer-PluginLicense_Check_Failed");
                 FRLogger.getLogger().error(checkLicFail);
                 throw new com.fr.plugin.PluginVerifyException(checkLicFail);
-            }
         }
     }
     
