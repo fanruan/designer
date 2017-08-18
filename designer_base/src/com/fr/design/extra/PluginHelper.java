@@ -295,7 +295,7 @@ public class PluginHelper {
     
     private static boolean isSupportCurrentEnv(String envVersion) {
         //包含8.0
-        return !VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
+        return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
     
     /**
