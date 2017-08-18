@@ -11,12 +11,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartAttrLine;
+import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotSelectPane;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
 import com.fr.plugin.chart.custom.type.CustomStyle;
-import com.fr.plugin.chart.custom.CustomPlotFactory;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
 import com.fr.plugin.chart.vanchart.VanChart;
 

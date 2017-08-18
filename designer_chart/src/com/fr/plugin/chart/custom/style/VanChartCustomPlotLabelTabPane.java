@@ -5,10 +5,11 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.dialog.BasicPane;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
+import com.fr.plugin.chart.custom.CustomPlotFactory;
+import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotTabPane;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
-import com.fr.plugin.chart.custom.CustomPlotFactory;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.designer.style.label.VanChartPlotLabelPane;
@@ -35,7 +36,7 @@ public class VanChartCustomPlotLabelTabPane extends VanChartCustomPlotTabPane<Va
             VanChartPlot vanChartPlot = customPlotList.get(i);
             CustomPlotType plotType = CustomPlotFactory.getCustomType(vanChartPlot);
 
-            NameArray[i] = CustomPlotFactory.getTitle(plotType);
+            NameArray[i] = CustomPlotGlyphFactory.getTitle(plotType);
             centerPane.add(pane, NameArray[i]);
         }
     }

@@ -3,6 +3,7 @@ package com.fr.plugin.chart.custom.other;
 import com.fr.design.dialog.BasicPane;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
+import com.fr.plugin.chart.custom.CustomPlotGlyphFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.component.VanChartCustomPlotTabPane;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
@@ -31,7 +32,7 @@ public class VanChartCustomPlotConditionAttrTabPane extends VanChartCustomPlotTa
                 VanChartPlot vanChartPlot = customPlotList.get(j);
 
                 CustomPlotType plotType = CustomPlotFactory.getCustomType(vanChartPlot);
-                NameArray[i] = CustomPlotFactory.getTitle(plotType);
+                NameArray[i] = CustomPlotGlyphFactory.getTitle(plotType);
                 centerPane.add(pane, NameArray[i]);
             }else {
                 //如果不支持，则i不动
