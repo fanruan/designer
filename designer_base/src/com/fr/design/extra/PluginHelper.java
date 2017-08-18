@@ -20,6 +20,7 @@ import com.fr.plugin.dependence.PluginDependence;
 import com.fr.plugin.dependence.PluginDependenceException;
 import com.fr.plugin.dependence.PluginDependenceUnit;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -133,7 +134,7 @@ public class PluginHelper {
             File[] pluginFiles = pluginFileDir.listFiles();
             if (ArrayUtils.isNotEmpty(pluginFiles)) {
                 for (File f : pluginFiles) {
-                    if (f.getName().equals("plugin.xml")) {
+                    if (AssistUtils.equals(f.getName(), "plugin.xml")) {
                         plugin = new Plugin();
                         InputStream inputStream = plugin.readEncryptXml(new FileInputStream(f));
                         XMLTools.readInputStreamXML(plugin, inputStream);
@@ -323,7 +324,7 @@ public class PluginHelper {
         File[] files = dir.listFiles();
         if (ArrayUtils.isNotEmpty(files)) {
             for (File f : files) {
-                if ("plugin.xml".equals(f.getName())) {
+                if (AssistUtils.equals("plugin.xml",f.getName())) {
                     return true;
                 }
             }
