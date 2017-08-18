@@ -2,6 +2,7 @@ package com.fr.design.mainframe.cell.settingpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.expand.ExpandLeftFatherPane;
 import com.fr.design.expand.ExpandUpFatherPane;
 import com.fr.design.expand.SortExpandAttrPane;
@@ -61,18 +62,6 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         return layoutPane();
     }
 
-
-    public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new CellExpandAttrPane().layoutPane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
-        jf.setVisible(true);
-    }
-
     private void initAllNames() {
         expandDirectionButton.setGlobalName(Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"));
         leftFatherPane.setGlobalName(Inter.getLocText("FR-Designer_LeftParent"));
@@ -85,8 +74,8 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         layoutPane = new JPanel(new BorderLayout());
         basicPane = new JPanel();
         seniorPane = new JPanel();
-        basicPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 290, 24, basicPane());
-        seniorPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 290, 24, seniorPane());
+        basicPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 223, 24, basicPane());
+        seniorPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 223, 24, seniorPane());
         layoutPane.add(basicPane, BorderLayout.NORTH);
         layoutPane.add(seniorPane, BorderLayout.CENTER);
         return layoutPane;
@@ -122,6 +111,8 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         UILabel expendSort = new UILabel(Inter.getLocText("FR-Designer_ExpendSort"), SwingConstants.LEFT);
         JPanel expendSortPane = new JPanel(new BorderLayout());
         expendSortPane.add(expendSort, BorderLayout.NORTH);
+        horizontalExpandableCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
+        verticalExpandableCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{horizontalExpandableCheckBox, null},
@@ -163,6 +154,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
             default: {
                 horizontalExpandableCheckBox.setSelected(false);
                 verticalExpandableCheckBox.setSelected(false);
+                break;
             }
         }
 
