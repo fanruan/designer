@@ -40,6 +40,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
     public CustomStylePane() {
         super();
         tabPane.setOneLineTab(true);
+        tabPane.setDrawLine(false);
         tabPane.setLayout(new FiveButtonLayout(1));
     }
 

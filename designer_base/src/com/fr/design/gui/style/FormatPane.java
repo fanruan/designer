@@ -68,7 +68,6 @@ public class FormatPane extends AbstractBasicStylePane {
      */
     public FormatPane() {
         this.initComponents(TYPES);
-        this.setBorder(UIConstants.CELL_ATTR_NORMALBORDER);
     }
 
     protected void initComponents(Integer[] types) {

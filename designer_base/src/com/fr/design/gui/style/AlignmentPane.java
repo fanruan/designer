@@ -39,7 +39,7 @@ import java.util.Arrays;
  */
 public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameObserver {
     private static final int ANGEL = 90;
-    private static final Dimension SPINNER_DIMENSION = new Dimension(60, 20);
+    private static final Dimension SPINNER_DIMENSION = new Dimension(70, 20);
     private static final String[] TEXT = {Inter.getLocText("FR-Designer_StyleAlignment_Wrap_Text"), Inter.getLocText("FR-Designer_StyleAlignment_Single_Line"),
             Inter.getLocText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), Inter.getLocText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
 

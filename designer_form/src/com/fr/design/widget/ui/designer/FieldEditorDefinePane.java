@@ -1,12 +1,11 @@
 package com.fr.design.widget.ui.designer;
 
-import com.fr.base.GraphHelper;
 import com.fr.design.designer.creator.*;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -14,16 +13,16 @@ import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
-    private static final int ALLOW_BLANK_CHECK_BOX_WIDTH = GraphHelper.getLocTextWidth("FR-Designer_Allow_Null") + 30;
-    private static final int ALLOW_BLANK_CHECK_BOX_HEIGHT = 30;
     protected UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
-    protected UITextField errorMsgTextField;
+    protected UIPropertyTextField errorMsgTextField;
     protected JPanel validatePane;
     protected UISpinner fontSizePane;
 
@@ -40,9 +39,8 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-//        allowBlankCheckBox.setPreferredSize(new Dimension(ALLOW_BLANK_CHECK_BOX_WIDTH, ALLOW_BLANK_CHECK_BOX_HEIGHT));
         fontSizePane = new UISpinner(0, 20, 1, 0);
-        errorMsgTextField = new UITextField();
+        errorMsgTextField = new UIPropertyTextField();
         JPanel contentPane = this.setFirstContentPane();
         if (contentPane != null) {
             UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, contentPane);
@@ -71,6 +69,27 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         return e;
     }
 
+    protected void initErrorMsgPane() {
+        // 错误信息
+        errorMsgTextField = new UIPropertyTextField();
+//        // richer:主要为了方便查看比较长的错误信息
+        errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void changedUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                errorMsgTextField.setToolTipText(errorMsgTextField.getText());
+            }
+        });
+
+    }
+
 
     protected abstract T updateSubFieldEditorBean();
 
@@ -83,6 +102,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     }
 
     protected void addValidatePane() {
+        initErrorMsgPane();
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         final UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));

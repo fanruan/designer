@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WaterMark;
@@ -13,14 +13,12 @@ import java.awt.event.KeyListener;
 
 public class WaterMarkDictPane extends JPanel {
 
-    private UITextField waterMarkTextField;
+    private UIPropertyTextField waterMarkTextField;
 
     public WaterMarkDictPane() {
         this.setLayout(new BorderLayout());
 
-//		this.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-//		this.add(new UILabel(Inter.getLocText("WaterMark") + ":"));
-        waterMarkTextField = new UITextField(13);
+        waterMarkTextField = new UIPropertyTextField();
 
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));

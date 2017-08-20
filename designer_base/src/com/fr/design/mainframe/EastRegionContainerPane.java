@@ -39,17 +39,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final int POPUP_MIN_HEIGHT = 145;
     private static final int POPUP_MAX_HEIGHT = 480;
     private static final int POPUP_DEFAULT_HEIGHT = 360;
-    private static final String KEY_CELL_ELEMENT = "cellElement";
-    private static final String KEY_CELL_ATTR = "cellAttr";
-    private static final String KEY_FLOAT_ELEMENT = "floatElement";
-    private static final String KEY_WIDGET_SETTINGS = "widgetSettings";
-    private static final String KEY_CONDITION_ATTR = "conditionAttr";
-    private static final String KEY_HYPERLINK = "hyperlink";
-    private static final String KEY_WIDGET_LIB = "widgetLib";
-    private static final String KEY_AUTHORITY_EDITION = "authorityEdition";
-    private static final String KEY_CONFIGURED_ROLES = "editedRoles";
-    private static final String DEFAULT_PANE = "defaultPane";
-    private static final String DEFAULT_AUTHORITY_PANE = "defaultAuthorityPane";
+    public static final String KEY_CELL_ELEMENT = "cellElement";
+    public static final String KEY_CELL_ATTR = "cellAttr";
+    public static final String KEY_FLOAT_ELEMENT = "floatElement";
+    public static final String KEY_WIDGET_SETTINGS = "widgetSettings";
+    public static final String KEY_CONDITION_ATTR = "conditionAttr";
+    public static final String KEY_HYPERLINK = "hyperlink";
+    public static final String KEY_WIDGET_LIB = "widgetLib";
+    public static final String KEY_AUTHORITY_EDITION = "authorityEdition";
+    public static final String KEY_CONFIGURED_ROLES = "editedRoles";
+    public static final String DEFAULT_PANE = "defaultPane";
+    public static final String DEFAULT_AUTHORITY_PANE = "defaultAuthorityPane";
 
     private JPanel defaultPane;  // "无可用配置项"面板
     private JPanel defaultAuthorityPane;  // "该元素不支持权限编辑"
@@ -357,6 +357,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     public void removeParameterPane() {
         propertyItemMap.get(KEY_WIDGET_SETTINGS).removeHeaderPane();
+    }
+
+    public void switchTabTo(String tabName) {
+        PropertyItem propertyItem = propertyItemMap.get(tabName);
+        if (propertyItem == null) {
+            return;
+        }
+        if (propertyItem.isVisible() && propertyItem.isEnabled() && !propertyItem.isPoppedOut()) {
+            propertyCard.show(rightPane, tabName);
+            propertyItem.setTabButtonSelected();
+        }
     }
 
     /**
