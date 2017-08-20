@@ -33,29 +33,27 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
     public GanttTableDataContentPane() {
         this.setLayout(new BorderLayout());
         initAllComponent();
-        this.add(getContentPane(), BorderLayout.CENTER);
+        JPanel panel = getContentPane();
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        this.add(panel, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(246,(int)this.getPreferredSize().getHeight()));
+
     }
 
     private void initAllComponent() {
         seriesComboBox = new UIComboBox();
-        seriesComboBox.setPreferredSize(new Dimension(100,20));
 
         startTimeComboBox = new UIComboBox();
-        startTimeComboBox.setPreferredSize(new Dimension(100,20));
 
         endTimeComboBox = new UIComboBox();
-        endTimeComboBox.setPreferredSize(new Dimension(100,20));
 
         markerTimeComboBox = new UIComboBox();
-        markerTimeComboBox.setPreferredSize(new Dimension(100,20));
         markerTimeComboBox.addItem(NONE);
 
         processComboBox = new UIComboBox();
-        processComboBox.setPreferredSize(new Dimension(100,20));
         processComboBox.addItem(NONE);
 
         taskIDComboBox = new UIComboBox();
-        taskIDComboBox.setPreferredSize(new Dimension(100,20));
         taskIDComboBox.addItem(NONE);
         taskIDComboBox.setToolTipText(Inter.getLocText("Plugin-ChartF_Task_ID_Tooltip"));
     }
@@ -67,15 +65,15 @@ public class GanttTableDataContentPane extends AbstractTableDataContentPane{
         double[] col = {p,f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")+":", SwingConstants.RIGHT), seriesComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Start_Time")+":", SwingConstants.RIGHT), startTimeComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_End_Time")+":", SwingConstants.RIGHT), endTimeComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Marker_Time")+":", SwingConstants.RIGHT), markerTimeComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Process")+":", SwingConstants.RIGHT), processComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Task_ID")+":", SwingConstants.RIGHT), taskIDComboBox}
+                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Name")), seriesComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Start_Time")), startTimeComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_End_Time")), endTimeComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Marker_Time")), markerTimeComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Process")), processComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Task_ID")), taskIDComboBox}
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components, row, col);
+        return TableLayoutHelper.createGapTableLayoutPane(components, row, col,24,6);
     }
 
     @Override

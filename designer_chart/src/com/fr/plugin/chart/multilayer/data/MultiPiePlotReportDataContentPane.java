@@ -62,7 +62,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize_north = {p, f};
-        double[] rowSize_north = {p, p};
+        double[] rowSize_north = {p, p, p};
 
         levelNumEdit = new UISpinner(1, 15, 1, levelNum){
             @Override
@@ -87,8 +87,9 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         nameField.setPreferredSize(new Dimension(WD, HT));
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")+":", SwingConstants.RIGHT), levelNumEdit},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")+":", SwingConstants.RIGHT), nameField},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
+                new Component[]{new JSeparator(), null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")), levelNumEdit},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components_north, rowSize_north, columnSize_north);
@@ -115,22 +116,23 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize_center = {p, f};
-        double[] rowSize_center = new double[levelNum + 1];
+        double[] rowSize_center = new double[levelNum + 2];
 
         initLevelNameList();
 
-        for (int i = 0; i < levelNum + 1; i++){
+        for (int i = 0; i < levelNum + 2; i++){
             rowSize_center[i] = p;
         }
-        Component[][] components_center = new Component[levelNum + 1][];
+        Component[][] components_center = new Component[levelNum + 2][];
 
         for (int i = 0; i < levelNum; i++){
-            components_center[i] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level") + String.valueOf(i+1) +":", SwingConstants.RIGHT), levelNameList.get(i)};
+            components_center[i] = new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level") + String.valueOf(i+1)), levelNameList.get(i)};
         }
 
         value = new TinyFormulaPane();
 
-        components_center[levelNum] = new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")+":", SwingConstants.RIGHT), value};
+        components_center[levelNum] = new Component[]{new JSeparator(), null};
+        components_center[levelNum+1] = new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), value};
 
         registerListener4Center();
 
