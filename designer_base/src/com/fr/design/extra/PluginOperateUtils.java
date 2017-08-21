@@ -292,7 +292,7 @@ public class PluginOperateUtils {
                 pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
                 continue;
             }
-            PluginMarker pluginMarker = pluginTask.getMarker();
+            PluginMarker pluginMarker = pluginTask.getToMarker();
             PluginContext pluginContext = PluginManager.getContext(pluginMarker);
             if (pluginContext != null) {
                 pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));

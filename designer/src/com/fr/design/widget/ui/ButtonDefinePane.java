@@ -5,8 +5,6 @@ import com.fr.design.widget.ui.btn.ButtonDetailPaneFactory;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.design.widget.btn.ButtonDetailPane;
-
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
