@@ -112,7 +112,8 @@ public class ColorSelectDialog extends MiddleChartDialog{
 				doCancel();
 			}
 		});
-    	
+
+		this.setTitle(pane.title4PopupWindow());
     	GUICoreUtils.setWindowCenter(getOwner(), this);
     }
 
