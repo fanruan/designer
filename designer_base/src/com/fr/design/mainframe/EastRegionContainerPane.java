@@ -53,6 +53,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private JPanel defaultPane;  // "无可用配置项"面板
     private JPanel defaultAuthorityPane;  // "该元素不支持权限编辑"
+    private PropertyItem selectedItem;  // 当前被选中的属性配置项
 
     public enum PropertyMode {
         REPORT,  // 报表
@@ -374,6 +375,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      * 刷新右面板
      */
     public void refreshRightPane() {
+        // 可继承，就继承
+        if (selectedItem != null && selectedItem.isVisible() && selectedItem.isEnabled() && !selectedItem.isPoppedOut()) {
+            propertyCard.show(rightPane, selectedItem.getName());
+            return;
+        }
+
+        // 不可继承时，选中第一个可用 tab
         boolean hasAvailableTab = false;
         boolean hasEnabledTab = false;
         for (String name : propertyItemMap.keySet()) {
@@ -388,6 +396,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 }
             }
         }
+        // 无可用 tab 时，显示提示文字
         if (!hasAvailableTab) {
             resetPropertyIcons();
             if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
@@ -593,6 +602,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
             button.setBackground(selectedBtnBackground);
             button.setOpaque(true);
+            selectedItem = this;
         }
 
         private void initButton() {
