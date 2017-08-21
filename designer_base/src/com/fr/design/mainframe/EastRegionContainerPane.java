@@ -220,6 +220,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     @Override
     public void onResize() {
+        if (!isRightPaneVisible()) {
+            resetPropertyIcons();
+        } else {
+            refreshRightPane();
+        }
         for (PropertyItem item : propertyItemMap.values()) {
             item.onResize();
         }
@@ -377,6 +382,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     public void refreshRightPane() {
         // 可继承，就继承
         if (selectedItem != null && selectedItem.isVisible() && selectedItem.isEnabled() && !selectedItem.isPoppedOut()) {
+            selectedItem.setTabButtonSelected();
             propertyCard.show(rightPane, selectedItem.getName());
             return;
         }
@@ -425,6 +431,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             currentPopupPane.setVisible(false);
         }
     }
+
 
     private void resetPropertyIcons() {
         for (PropertyItem item : propertyItemMap.values()) {
