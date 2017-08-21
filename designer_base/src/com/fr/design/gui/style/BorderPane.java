@@ -184,7 +184,7 @@ public class BorderPane extends AbstractBasicStylePane {
     }
 
     public Style update(Style style) {
-        style = style.deriveBackground(backgroundPane.update());
+
         if (style == null) {
             style = Style.DEFAULT_STYLE;
         }
@@ -193,6 +193,7 @@ public class BorderPane extends AbstractBasicStylePane {
 
         style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                 cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
+        style = style.deriveBackground(backgroundPane.update());
         return style;
     }
 

@@ -111,7 +111,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
 
 
     public boolean isBorderPaneSelected() {
-        return tabPane.getSelectedIndex() == TWO_INDEX;
+        return tabPane.getSelectedIndex() == ONE_INDEX;
     }
 
     /**
@@ -137,7 +137,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
      *
      */
     public void updateBorder() {
-        BorderUtils.update(reportPane, ((BorderPane) paneList.get(TWO_INDEX)).update());
+        BorderUtils.update(reportPane, ((BorderPane) paneList.get(ONE_INDEX)).update());
     }
 
     /**
