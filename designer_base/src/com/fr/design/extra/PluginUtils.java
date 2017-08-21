@@ -78,8 +78,8 @@ public class PluginUtils {
         return jsonArray.toString();
     }
 
-    public static void downloadShopScripts(String id, String username, String password, Process<Double> p) throws Exception {
-        HttpClient httpClient = new HttpClient(getDownloadPath(id, username, password));
+    public static void downloadShopScripts(String id, Process<Double> p) throws Exception {
+        HttpClient httpClient = new HttpClient(getDownloadPath(id));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
             int totalSize = httpClient.getContentLength();
             InputStream reader = httpClient.getResponseStream();
@@ -104,11 +104,9 @@ public class PluginUtils {
         }
     }
 
-    private static String getDownloadPath(String id, String username, String password) throws Exception {
+    private static String getDownloadPath(String id) throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("id", id);
-        map.put("username", username);
-        map.put("password", password);
         HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.scripts"));
         httpClient.asGet();
         String resText = httpClient.getResponseText();

@@ -3,7 +3,7 @@ package com.fr.design.widget.ui.designer;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -17,8 +17,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class ButtonDefinePane<T extends Button> extends AbstractDataModify<T> {
-    private UITextField hotkeysTextField;
-    private UITextField buttonNameTextField;
+    private UIPropertyTextField hotkeysTextField;
+    private UIPropertyTextField buttonNameTextField;
     private AccessibleIconEditor iconPane;
 
 
@@ -35,8 +35,8 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
         double columnSize[] = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         iconPane = new AccessibleIconEditor();
-        hotkeysTextField = new UITextField();
-        buttonNameTextField = new UITextField();
+        hotkeysTextField = new UIPropertyTextField();
+        buttonNameTextField = new UIPropertyTextField();
         Component[] backgroundCompPane = createBackgroundComp();
         Component[] frFont = createFontPane();
         UILabel backgroundLabel = new UILabel(Inter.getLocText("FR-Designer_Background"));
