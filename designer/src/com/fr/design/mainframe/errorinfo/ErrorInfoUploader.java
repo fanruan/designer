@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
+import com.fr.base.FRCoreContext;
 import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
@@ -27,6 +28,7 @@ public class ErrorInfoUploader {
     public static final String FOLDER_NAME = "errorInfo";
 
     private static ErrorInfoUploader collector;
+    private static boolean licSupport = true;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -35,6 +37,9 @@ public class ErrorInfoUploader {
                 FRLogger.getLogger().addLogAppender(new ErrorInfoLogAppender());
             }
         });
+
+        // 这个控制没啥意义, 主要在于宣传功能.
+        licSupport = VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support();
     }
 
     private ErrorInfoUploader() {
@@ -51,6 +56,11 @@ public class ErrorInfoUploader {
 
     // 从云中心更新最新的解决方案文件
     private void checkUpdateSolution(){
+        if (!licSupport) {
+            return;
+        }
+
+
         Thread updateThread = new Thread(new Runnable() {
             @Override
             public void run() {
