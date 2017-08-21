@@ -96,7 +96,6 @@ public class ChartFloatAction extends ElementCaseAction {
                     }
                     reportPane.getEditingElementCase().addFloatElement(newFloatElement);
                     reportPane.setSelection(new FloatSelection(newFloatElement.getName()));
-                    reportPane.fireTargetModified();
                     reportPane.fireSelectionChangeListener();
                 } catch (CloneNotSupportedException e) {
                     FRLogger.getLogger().error("Error in Float");
