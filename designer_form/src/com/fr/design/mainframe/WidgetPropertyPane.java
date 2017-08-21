@@ -326,8 +326,10 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         public void fireCreatorModified(DesignerEvent evt) {
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
-                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
+                formWidgetCardPane.populate();
+            }else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
+                formWidgetCardPane = new FormWidgetCardPane(designer);
                 formWidgetCardPane.populate();
             }
         }

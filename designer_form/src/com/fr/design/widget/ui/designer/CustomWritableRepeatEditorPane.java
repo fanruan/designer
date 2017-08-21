@@ -3,7 +3,6 @@ package com.fr.design.widget.ui.designer;
 import com.fr.base.GraphHelper;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.CustomWriteAbleRepeatEditor;
 import com.fr.general.Inter;
