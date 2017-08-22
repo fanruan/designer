@@ -45,14 +45,14 @@ public class CustomStylePane extends MultiTabPane<Style> {
     }
 
     public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new CustomStylePane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(250, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        content.add(new CustomStylePane(), BorderLayout.CENTER);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(250, 400);
+//        jf.setVisible(true);
     }
 
     /**
@@ -111,7 +111,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
 
 
     public boolean isBorderPaneSelected() {
-        return tabPane.getSelectedIndex() == TWO_INDEX;
+        return tabPane.getSelectedIndex() == ONE_INDEX;
     }
 
     /**
@@ -137,7 +137,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
      *
      */
     public void updateBorder() {
-        BorderUtils.update(reportPane, ((BorderPane) paneList.get(TWO_INDEX)).update());
+        BorderUtils.update(reportPane, ((BorderPane) paneList.get(ONE_INDEX)).update());
     }
 
     /**

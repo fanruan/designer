@@ -1,10 +1,6 @@
 package com.fr.file;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -510,7 +506,7 @@ public class FILEChooserPane extends BasicPane {
         this.suffix = suffix;
 
 
-        dialog = showWindow(SwingUtilities.getWindowAncestor(parent), false);
+        dialog = showWindow((Window)parent, false);
         JPanel contentPane = (JPanel) dialog.getContentPane();
         contentPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         contentPane.add(this, BorderLayout.CENTER);

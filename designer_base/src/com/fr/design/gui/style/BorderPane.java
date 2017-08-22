@@ -53,17 +53,6 @@ public class BorderPane extends AbstractBasicStylePane {
         this.initComponents();
     }
 
-    public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new BorderPane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(290, 400);
-        jf.setVisible(true);
-    }
-
     protected void initComponents() {
         initButtonsWithIcon();
         this.setLayout(new BorderLayout(0, 6));
@@ -184,7 +173,7 @@ public class BorderPane extends AbstractBasicStylePane {
     }
 
     public Style update(Style style) {
-        style = style.deriveBackground(backgroundPane.update());
+
         if (style == null) {
             style = Style.DEFAULT_STYLE;
         }
@@ -193,6 +182,7 @@ public class BorderPane extends AbstractBasicStylePane {
 
         style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                 cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
+        style = style.deriveBackground(backgroundPane.update());
         return style;
     }
 

@@ -1,14 +1,5 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.util.List;
-
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.MeterPlot;
@@ -21,14 +12,18 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 /**
  * 仪表盘, 属性表, 数据集数据界面.
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-21 下午04:51:50
  */
 public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane {
-	private static final String METER_NAME = Inter.getLocText("Chart-Category_Use_Name") + ":";
-	private static final String METER_VALUE = Inter.getLocText("Chart-Pointer_Value") + ":";
+	private static final String METER_NAME = Inter.getLocText("Chart-Category_Use_Name");
+	private static final String METER_VALUE = Inter.getLocText("Chart-Pointer_Value");
 	
 	private UIComboBox nameBox;
 	private UIComboBox valueBox;

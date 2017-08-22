@@ -69,7 +69,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
                     return;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    //todo 按enter键换至下一个单元格 yaoh.wu虽然模仿选中单元格按enter这种场景可以做到,但是原理没有弄清楚。
+                    //todo yaoh.wu:按enter键换至下一个单元格 虽然模仿选中单元格按enter这种场景可以做到,但是原理没有弄清楚。
                     GridKeyListener dispatchListener = new GridKeyListener(tc.getGrid());
                     dispatchListener.keyPressed(e);
                     dispatchListener.keyTyped(e);

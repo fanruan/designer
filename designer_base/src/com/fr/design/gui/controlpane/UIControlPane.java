@@ -1,5 +1,6 @@
 package com.fr.design.gui.controlpane;
 
+import com.fr.base.chart.BasePlot;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -16,7 +17,8 @@ import com.fr.stable.Nameable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by plough on 2017/7/21.
@@ -37,7 +39,15 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 
     protected JPanel cardPane;
 
+    protected BasePlot plot;
+
+
     public UIControlPane() {
+        this.initComponentPane();
+    }
+
+    public UIControlPane(BasePlot plot) {
+        this.plot =plot;
         this.initComponentPane();
     }
 

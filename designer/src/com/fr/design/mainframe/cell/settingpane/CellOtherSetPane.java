@@ -22,6 +22,7 @@ import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.cell.cellattr.CellInsertPolicyAttr;
 import com.fr.report.cell.cellattr.CellPageAttr;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -342,6 +343,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             this.valueEditor.populate(defaultValue);
         } else {
             insertRowPolicy.setSelectedIndex(0);
+            this.valueEditor.populate(StringUtils.EMPTY);
         }
         if (insertRowPolicy.getSelectedIndex() == 1) {
             insertRowPane.setPreferredSize(new Dimension(100, 20));
