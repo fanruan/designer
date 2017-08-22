@@ -49,6 +49,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private CardLayout cardLayout; // 卡片布局，选中参数面板时显示mobileWidgetTable，选中body时显示mobileBodyWidgetTable
     private JTableHeader header;//把表头单独get出来作为一个组件
     private UIHeadGroup tabsHeaderIconPane;
+    private XComponent lastAffectedCreator;
 
 
     public static WidgetPropertyPane getInstance() {
@@ -132,9 +133,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
      */
     private void createPropertyTable() {
         formWidgetCardPane = new FormWidgetCardPane(designer);
-
         designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
-
         psp = new UIScrollPane(formWidgetCardPane); // 用来装载属性表table
         psp.setBorder(null);
     }
@@ -318,6 +317,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     private class WidgetPropertyDesignerAdapter implements DesignerEditListener {
         FormWidgetCardPane formWidgetCardPane;
 
+
         WidgetPropertyDesignerAdapter(FormWidgetCardPane formWidgetCardPane) {
             this.formWidgetCardPane = formWidgetCardPane;
         }
@@ -329,14 +329,20 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
                 formWidgetCardPane.populate();
             }else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
-                formWidgetCardPane = new FormWidgetCardPane(designer);
+                // 防止多次触发
+                if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
+                    formWidgetCardPane.populate();
+                    return;
+                }
+                lastAffectedCreator = evt.getAffectedCreator();
+                refreshDockingView();
                 formWidgetCardPane.populate();
             }
         }
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof WidgetPropertyDesignerAdapter && ((WidgetPropertyDesignerAdapter) o).formWidgetCardPane == this.formWidgetCardPane;
+            return o instanceof WidgetPropertyDesignerAdapter;
         }
     }
 
@@ -345,7 +351,6 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
      */
     private class EventPropertyDesignerAdapter implements DesignerEditListener {
         EventPropertyTable propertyTable;
-        private XComponent lastAffectedCreator;
 
         EventPropertyDesignerAdapter(EventPropertyTable eventTable) {
             this.propertyTable = eventTable;
