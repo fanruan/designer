@@ -1,8 +1,9 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
@@ -12,8 +13,6 @@ import com.fr.general.SiteCenter;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -382,8 +381,7 @@ public class PluginWebBridge {
      */
     public String getLoginInfo(final JSObject callback) {
         registerLoginInfo(callback);
-        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-        return bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
+        return ConfigManager.getProviderInstance().getBbsUsername();
     }
 
     /**
@@ -511,8 +509,11 @@ public class PluginWebBridge {
 
     //通过QQ登录后通知登录
     public void ucsynLogin(long uid, String username, String password, final JSONObject callback) {
-        BBSUserInfo bbsUserInfo = new BBSUserInfo(username, password);
-        BBSPluginLogin.getInstance().login(bbsUserInfo);
+        try{
+            FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
+        }catch (Exception e){
+            FRContext.getLogger().error(e.getMessage());
+        }
         uiLabel.setText(username);
     }
 
@@ -520,9 +521,8 @@ public class PluginWebBridge {
      * 清除用户信息
      */
     public void clearUserInfo() {
-        DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
+        ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
+        BBSLoginUtils.bbsLogout();
         uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
     }
 

@@ -21,7 +21,11 @@ public class TableLayout4VanChartHelper {
 
 
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
-        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel);
+        return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel){
+            protected void setcontentPanelontentPanelBorder (){
+                getContentPanel().setBorder(BorderFactory.createEmptyBorder(0 ,10, 0, 15));
+            }
+        };
     }
 
     public static JPanel createGapTableLayoutPane(String title, Component component) {

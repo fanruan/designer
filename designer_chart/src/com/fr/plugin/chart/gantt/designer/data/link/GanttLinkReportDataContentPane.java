@@ -25,8 +25,9 @@ public class GanttLinkReportDataContentPane extends AbstractReportDataContentPan
     public GanttLinkReportDataContentPane() {
         this.setLayout(new BorderLayout());
         initAllComponent();
-        this.add(getContentPane(), BorderLayout.CENTER);
-    }
+        JPanel panel = getContentPane();
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        this.add(panel, BorderLayout.CENTER);    }
 
     private void initAllComponent() {
         startTaskID = createTinyFormulaPaneWithTitle(Inter.getLocText("Plugin-ChartF_Start_Task_ID"));
@@ -42,7 +43,7 @@ public class GanttLinkReportDataContentPane extends AbstractReportDataContentPan
             protected void initLayout() {
                 this.setLayout(new BorderLayout(4, 0));
 
-                UILabel label = new UILabel(title + ":", SwingConstants.RIGHT);
+                UILabel label = new UILabel(title );
                 label.setPreferredSize(new Dimension(75, 20));
                 this.add(label, BorderLayout.WEST);
 

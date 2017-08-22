@@ -33,7 +33,11 @@ public class UIMenuNameableCreator implements Nameable{
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}
-	
+
+	public Class<? extends BasicBeanPane> getPaneClazz() {
+		return paneClazz;
+	}
+
 	/**
 	 * 覆盖的clone方法
 	 */

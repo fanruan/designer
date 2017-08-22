@@ -3,6 +3,7 @@
  */
 package com.fr.design.mainframe;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.core.db.dialect.DialectFactory;
@@ -134,7 +135,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		content.put(XML_UUID, envManager.getUUID());
 		content.put(XML_JAR, GeneralUtils.readBuildNO());
 		content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-		content.put(XML_USERNAME, envManager.getBBSName());
+		content.put(XML_USERNAME, ConfigManager.getProviderInstance().getBbsUsername());
 		content.put(XML_KEY, envManager.getActivationKey());
 		content.put(XML_OS, System.getProperty("os.name"));
 		
@@ -254,7 +255,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
 
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        content.put("username", envManager.getBBSName());
+        content.put("username", ConfigManager.getProviderInstance().getBbsUsername());
         content.put("uuid", envManager.getUUID());
         content.put("functions", functionArray);
 
