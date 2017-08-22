@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.component;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.UIDialog;
@@ -776,7 +777,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void sendToServer(String searchKey, AlphaCellModel cellModel) {
         if (cellModel.isNeedToSendToServer()) {
-            String username = DesignerEnvManager.getEnvManager().getBBSName();
+            String username = ConfigManager.getProviderInstance().getBbsUsername();
             String uuid = DesignerEnvManager.getEnvManager().getUUID();
             String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
             String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());

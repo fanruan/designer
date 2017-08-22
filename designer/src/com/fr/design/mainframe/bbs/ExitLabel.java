@@ -9,14 +9,13 @@ import java.awt.event.MouseEvent;
 
 
 import com.fr.base.BaseUtils;
-import com.fr.design.DesignerEnvManager;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 
 /**
  * @author neil
@@ -61,8 +60,7 @@ public class ExitLabel extends UILabel{
 		}
 		
 		private void clearLoingInformation(){
-			DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
-			DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
+			BBSLoginUtils.bbsLogout();
 		}
 		
 		private void updateInfoPane(){
