@@ -689,8 +689,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 popupDialog.setVisible(false);
                 initContentPane();
                 onResize();
-                propertyCard.show(rightPane, getName());
-                setTabButtonSelected();
+                if (isEnabled()) {
+                    propertyCard.show(rightPane, getName());
+                    setTabButtonSelected();
+                }
                 refreshContainer();
             }
         }
@@ -889,6 +891,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private Cursor originCursor;
         private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         private Point mouseDownCompCoords;
+        private JPanel contentWrapper;
 
         private JComponent contentPane;
         private PropertyItem propertyItem;
@@ -901,7 +904,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             popupToolPane.setParentDialog(this);
             contentPane = propertyItem.getContentPane();
 
-            JPanel contentWrapper = new JPanel(new BorderLayout());
+            contentWrapper = new JPanel(new BorderLayout());
             contentWrapper.add(popupToolPane, BorderLayout.NORTH);
             contentWrapper.add(contentPane, BorderLayout.CENTER);
             contentWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.PROPERTY_DIALOG_BORDER));
@@ -933,12 +936,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public void replaceContentPane(PropertyItem propertyItem) {
             this.propertyItem = propertyItem;
             JComponent contentPane = propertyItem.getContentPane();
-            container.remove(this.contentPane);
-            container.add(this.contentPane = contentPane);
-//            pack();
-            if (getSize().height < container.getPreferredSize().height) {
-                setSize(CONTENT_WIDTH, container.getPreferredSize().height);
-            }
+            contentWrapper.remove(this.contentPane);
+            contentWrapper.add(this.contentPane = contentPane, BorderLayout.CENTER);
             refreshContainer();
         }
 
