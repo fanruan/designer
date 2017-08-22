@@ -34,11 +34,11 @@ public class LongLatAreaPane extends AreaPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Longitude") + ":", SwingConstants.RIGHT), longitude},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Latitude") + ":", SwingConstants.RIGHT), latitude},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name") + ":", SwingConstants.RIGHT), areaName}
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Longitude")), longitude},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Latitude")), latitude},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaName}
         };
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
     }
 
     @Override

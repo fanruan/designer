@@ -48,25 +48,29 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	
 	public CategoryPlotMoreCateTableDataContentPane(ChartDataPane parent) {
 		categoryCombox = new UIComboBox();
-		categoryCombox.setPreferredSize(new Dimension(100,20));
+		categoryCombox.setPreferredSize(new Dimension(120,20));
 		
 		JPanel categoryPane = new JPanel(new BorderLayout(4,0));
 		categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel categoryLabel = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name") + ":", SwingConstants.RIGHT) ;
-        categoryLabel.setPreferredSize(new Dimension(75,20));
+        UILabel categoryLabel = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Category_Name")) ;
+        categoryLabel.setPreferredSize(new Dimension(85,20));
         
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         addButton.setPreferredSize(new Dimension(20, 20));
         
         categoryPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{categoryCombox, addButton,null,categoryLabel,null}));
-        
-        boxPane = new JPanel();
+		categoryPane.setPreferredSize(new Dimension(246,30));
+		categoryPane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
+
+
+		boxPane = new JPanel();
         boxPane.setLayout(new BoxLayout(boxPane, BoxLayout.Y_AXIS));
         
         categoryPane.add(boxPane, BorderLayout.SOUTH);
         
 		this.setLayout(new BorderLayout());
 		this.add(categoryPane, BorderLayout.NORTH);
+		this.add(new JSeparator());
 		seriesTypeComboxPane = new SeriesTypeUseComboxPane(parent, new Bar2DPlot());
 		this.add(seriesTypeComboxPane, BorderLayout.SOUTH);
 		

@@ -89,14 +89,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int westRegionContainerWidth = 240;
     private String encryptionKey;
     private String jdkHome;
-    //当前设计器用户的论坛昵称
-    private String bbsName;
-    //当前设计器用户的论坛密码
-    private String bbsPassword;
-    //当前设计器用户的论坛ID
-    private int bbsUid;
-    //当前设计器用户的昵称显示（带消息）
-    private String inShowBBsName;
+
     //上一次登录弹窗的时间, 为了控制一天只弹一次窗口
     private String lastShowBBSTime;
     //上一次资讯弹窗时间， 为了控制一天只弹一次
@@ -1145,37 +1138,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.jdkHome = home;
     }
 
-    public String getBBSName() {
-        return bbsName;
-    }
-
-    public void setBBSName(String bbsName) {
-        this.bbsName = bbsName;
-    }
-
-    public String getBBSPassword() {
-        return bbsPassword;
-    }
-
-    public void setBBSPassword(String bbsPassword) {
-        this.bbsPassword = bbsPassword;
-    }
-
-    public int getBbsUid() {
-        return bbsUid;
-    }
-
-    public void setBbsUid(int bbsUid) {
-        this.bbsUid = bbsUid;
-    }
-
-    public void setInShowBBsName(String inShowBBsName) {
-        this.inShowBBsName = inShowBBsName;
-    }
-
-    public String getInShowBBsName() {
-        return inShowBBsName;
-    }
 
     public String getLastShowBBSTime() {
         return lastShowBBSTime;
@@ -1256,19 +1218,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
-    private void readBBSName(XMLableReader reader){
-        String tmpVal;
-        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-            this.bbsName = tmpVal;
-        }
-    }
 
-    private void readBBSPassword(XMLableReader reader){
-        String tmpVal;
-        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
-            this.bbsPassword = CodeUtils.passwordDecode(tmpVal);
-        }
-    }
 
     private void readLastBBSTime(XMLableReader reader){
         String tmpVal;
@@ -1325,11 +1275,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readEncrytionKey(reader);
             } else if ("jdkHome".equals(name)) {
                 this.jdkHome = reader.getElementValue();
-            } else if ("bbsName".equals(name)){
-                readBBSName(reader);
-            } else if ("bbsPassword".equals(name)){
-                readBBSPassword(reader);
-            } else if ("lastBBSTime".equals(name)){
+            }else if ("lastBBSTime".equals(name)){
                 readLastBBSTime(reader);
             } else if ("lastBBSNewsTime".equals(name)){
                 readLastBBSNewsTime(reader);
@@ -1736,18 +1682,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     //写论坛相关的两个属性
     private void writeBBSRelated(XMLPrintWriter writer){
-        if (StringUtils.isNotBlank(bbsName)) {
-            writer.startTAG("bbsName");
-            writer.textNode(bbsName);
-            writer.end();
-        }
-
-        if (StringUtils.isNotBlank(bbsPassword)){
-            writer.startTAG("bbsPassword");
-            writer.textNode(CodeUtils.passwordEncode(bbsPassword));
-            writer.end();
-        }
-
         if (StringUtils.isNotEmpty(this.lastShowBBSTime)){
             writer.startTAG("lastBBSTime");
             writer.textNode(lastShowBBSTime);
