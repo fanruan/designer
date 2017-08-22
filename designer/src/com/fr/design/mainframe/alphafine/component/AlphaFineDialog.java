@@ -73,6 +73,7 @@ public class AlphaFineDialog extends UIDialog {
     private UIButton closeButton;
     private JPanel searchResultPane;
     private UIScrollPane leftSearchResultPane;
+
     private JPanel defaultPane;
     //分割线
     private UILabel splitLabel;
@@ -342,8 +343,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void fireStopLoading() {
         searchListModel.resetState();
-        refreshContainer();
-        //replaceLeftPane();
+        replaceLeftPane();
     }
 
     /**
@@ -359,16 +359,14 @@ public class AlphaFineDialog extends UIDialog {
      * 重置结果面板
      */
     private void replaceLeftPane() {
-        if (searchListModel.getSize() == 0 && searchResultPane != null) {
-            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
-            searchResultPane.remove(leftSearchResultPane);
-            searchResultPane.add(defaultPane, BorderLayout.WEST);
-        } else if (searchResultPane != null && searchListModel.getSize() > 0 && defaultPane != null) {
-            searchResultPane.remove(defaultPane);
-            defaultPane = null;
-            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+        if (searchResultPane != null) {
+            if (searchListModel.isEmpty() && defaultPane == null) {
+                defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+                searchResultPane.remove(leftSearchResultPane);
+                searchResultPane.add(defaultPane, BorderLayout.WEST);
+                refreshContainer();
+            }
         }
-        refreshContainer();
     }
 
     /**
@@ -971,6 +969,12 @@ public class AlphaFineDialog extends UIDialog {
          */
         private void fireSelectedStateChanged(AlphaCellModel element, int index) {
             if (element.hasAction() && !isValidSelected()) {
+                if (defaultPane != null) {
+                    searchResultPane.remove(defaultPane);
+                    defaultPane = null;
+                    searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+                    refreshContainer();
+                }
                 searchResultList.setSelectedIndex(index);
                 setValidSelected(true);
             }
@@ -1018,6 +1022,11 @@ public class AlphaFineDialog extends UIDialog {
 
         private void setValidSelected(boolean selected) {
             isValidSelected = selected;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return myDelegate.isEmpty();
         }
 
         public void resetState() {
