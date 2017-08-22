@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.mark.API;
+import com.fr.plugin.injectable.SpecialLevel;
 import com.fr.stable.fun.mark.Mutable;
 
 import javax.swing.*;
@@ -8,10 +8,9 @@ import javax.swing.*;
 /**
  * 导出菜单设计器端拓展，用于控制该菜单是否在web端显示
  */
-@API(level = ExportToolBarProvider.CURRENT_LEVEL)
 public interface ExportToolBarProvider extends Mutable{
 	
-	String XML_TAG = "ExportToolBarProvider";
+	String XML_TAG = SpecialLevel.ExportToolBarProvider.getTagName();
 
 	int CURRENT_LEVEL = 1;
 
