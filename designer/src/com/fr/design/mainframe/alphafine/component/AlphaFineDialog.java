@@ -411,8 +411,7 @@ public class AlphaFineDialog extends UIDialog {
         searchListModel.removeAllElements();
         searchListModel.resetSelectedState();
         rightSearchResultPane.removeAll();
-        validate();
-        repaint();
+        refreshContainer();
     }
 
     /**
@@ -607,7 +606,7 @@ public class AlphaFineDialog extends UIDialog {
                 this.showWorker.execute();
                 break;
             default:
-                return;
+                rightSearchResultPane.removeAll();
 
         }
 
