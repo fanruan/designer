@@ -89,10 +89,7 @@ public class ChartFloatAction extends ElementCaseAction {
 
                     Style style = newFloatElement.getStyle();
                     if (style != null) {
-                        newFloatElement.setStyle(style.deriveBorder(Constants.LINE_NONE, Color.black,
-                                Constants.LINE_NONE, Color.black,
-                                Constants.LINE_NONE, Color.black,
-                                Constants.LINE_NONE, Color.black));
+                        newFloatElement.setStyle(style.deriveBorder(Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black));
                     }
                     reportPane.getEditingElementCase().addFloatElement(newFloatElement);
                     reportPane.setSelection(new FloatSelection(newFloatElement.getName()));
