@@ -914,8 +914,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         public void adjustLocation() {
-            Point btnCoords = propertyItem.getButton().getLocationOnScreen();
-            this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
+            this.setLocation(
+                    getLeftPane().getLocationOnScreen().x - CONTENT_WIDTH,
+                    DesignerContext.getDesignerFrame().getLocationOnScreen().y + 228
+            );
         }
 
         public void replaceContentPane(PropertyItem propertyItem) {
