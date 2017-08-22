@@ -30,7 +30,8 @@ public class StructurePlotTableDataContentPane extends AbstractTableDataContentP
 
     public StructurePlotTableDataContentPane() {
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p, p};
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p};
 
         nodeName = new UIComboBox();
@@ -40,26 +41,20 @@ public class StructurePlotTableDataContentPane extends AbstractTableDataContentP
         nodeValue = new UIComboBox();
         calculateCombox = new CalculateComboBox();
 
-        nodeName.setPreferredSize(new Dimension(100, 20));
-        nodeId.setPreferredSize(new Dimension(100, 20));
-        parenrId.setPreferredSize(new Dimension(100, 20));
-        seriesName.setPreferredSize(new Dimension(100, 20));
-        nodeValue.setPreferredSize(new Dimension(100, 20));
-        calculateCombox.setPreferredSize(new Dimension(100, 20));
-
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name"), SwingConstants.RIGHT), nodeName},
-                new Component[]{new UILabel("id", SwingConstants.RIGHT), nodeId},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID"), SwingConstants.RIGHT), parenrId},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name"), SwingConstants.RIGHT), seriesName},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value"), SwingConstants.RIGHT), nodeValue},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method"), SwingConstants.RIGHT), calculateCombox}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name")), nodeName},
+                new Component[]{new UILabel("id"), nodeId},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID")), parenrId},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
+                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value")), nodeValue},
+                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(246,(int)this.getPreferredSize().getHeight()));
     }
 
 

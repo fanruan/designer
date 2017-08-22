@@ -7,29 +7,117 @@ import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
+import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
+import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
-import com.fr.js.*;
+import com.fr.general.NameObject;
+import com.fr.js.EmailJavaScript;
+import com.fr.js.FormHyperlinkProvider;
+import com.fr.js.JavaScript;
+import com.fr.js.JavaScriptImpl;
+import com.fr.js.NameJavaScript;
+import com.fr.js.NameJavaScriptGroup;
+import com.fr.js.ParameterJavaScript;
+import com.fr.js.ReportletHyperlink;
+import com.fr.js.WebHyperlink;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
+import com.fr.plugin.chart.designer.other.ChartHyperlinkNameObjectCreartor;
 import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
+import com.fr.stable.ListMap;
+import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by Fangjie on 2016/4/28.
  */
-public class VanChartHyperLinkPane extends UICorrelationComboBoxPane {
+public class VanChartHyperLinkPane extends UIListControlPane {
 
     public VanChartHyperLinkPane() {
         super();
     }
 
+    @Override
+    public NameableCreator[] createNameableCreators() {
+
+        //面板初始化，需要在populate的时候更新
+        Map<String, NameableCreator> nameCreators = new ListMap<>();
+        NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
+        for (NameableCreator creator : creators) {
+            nameCreators.put(creator.menuName(), creator);
+        }
+        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
+        for (HyperlinkProvider provider : providers) {
+            NameableCreator nc = provider.createHyperlinkCreator();
+            nameCreators.put(nc.menuName(), nc);
+        }
+        return nameCreators.values().toArray(new NameableCreator[nameCreators.size()]);
+    }
+
+
+    /**
+     * 弹出列表的标题.
+     *
+     * @return 返回标题字符串.
+     */
+    public String title4PopupWindow() {
+        return Inter.getLocText("FR-Designer_Hyperlink");
+    }
+
+    @Override
+    protected String getAddItemText() {
+        return Inter.getLocText("FR-Designer_Add_Hyperlink");
+    }
+
+    public void populate(NameJavaScriptGroup nameHyperlink_array) {
+        java.util.List<NameObject> list = new ArrayList<NameObject>();
+        if (nameHyperlink_array != null) {
+            for (int i = 0; i < nameHyperlink_array.size(); i++) {
+                list.add(new NameObject(nameHyperlink_array.getNameHyperlink(i).getName(), nameHyperlink_array.getNameHyperlink(i).getJavaScript()));
+            }
+        }
+
+        this.populate(list.toArray(new NameObject[list.size()]));
+    }
+
+    public void populate(TargetComponent elementCasePane) {
+//        hyperlinkGroupPaneActionProvider.populate(this, elementCasePane);
+    }
+
+    /**
+     * updateJs的Group
+     *
+     * @return 返回NameJavaScriptGroup
+     */
+    public NameJavaScriptGroup updateJSGroup() {
+        Nameable[] res = this.update();
+        NameJavaScript[] res_array = new NameJavaScript[res.length];
+        for (int i = 0; i < res.length; i++) {
+            NameObject no = (NameObject) res[i];
+            res_array[i] = new NameJavaScript(no.getName(), (JavaScript) no.getObject());
+        }
+
+        return new NameJavaScriptGroup(res_array);
+    }
+
+    @Override
+    public void saveSettings() {
+        if (isPopulating) {
+            return;
+        }
+        update((VanChartPlot)plot);
+    }
+
     public void populate(Plot plot) {
+        this.plot = plot;
         HashMap paneMap = getHyperlinkMap(plot);
 
         //安装平台内打开插件时,添加相应按钮
@@ -40,20 +128,31 @@ public class VanChartHyperLinkPane extends UICorrelationComboBoxPane {
            // paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
         }
 
+        //todo@mengao  去掉UIMenuNameableCreator
         java.util.List<UIMenuNameableCreator> list = refreshList(paneMap);
-        refreshMenuAndAddMenuAction(list);
+        ChartHyperlinkNameObjectCreartor[] creators= new ChartHyperlinkNameObjectCreartor[list.size()];
+        for(int i = 0; list != null &&  i < list.size(); i++) {
+            UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
+            creators[i] = new ChartHyperlinkNameObjectCreartor(uiMenuNameableCreator.getObj(),uiMenuNameableCreator.getName(), uiMenuNameableCreator.getClass(), uiMenuNameableCreator.getPaneClazz());
 
-        java.util.List<UIMenuNameableCreator> hyperList = new ArrayList<UIMenuNameableCreator>();
+        }
+
+        refreshNameableCreator(creators);
+
+        java.util.List<NameObject> nameObjects = new ArrayList<NameObject>();
+
         NameJavaScriptGroup nameGroup = populateHotHyperLink(plot);
         for(int i = 0; nameGroup != null &&  i < nameGroup.size(); i++) {
             NameJavaScript javaScript = nameGroup.getNameHyperlink(i);
             if(javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
-                hyperList.add(new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass())));
+                UIMenuNameableCreator uiMenuNameableCreator= new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass()));
+                nameObjects.add(new NameObject(uiMenuNameableCreator.getName(), uiMenuNameableCreator));
+
             }
         }
 
-        populateBean(hyperList);
+        this.populate(nameObjects.toArray(new NameObject[nameObjects.size()]));
         doLayout();
     }
 
@@ -77,14 +176,15 @@ public class VanChartHyperLinkPane extends UICorrelationComboBoxPane {
     }
 
     private NameJavaScriptGroup updateNameGroup() {
+        Nameable[] nameables = update();
+
         NameJavaScriptGroup nameGroup = new NameJavaScriptGroup();
         nameGroup.clear();
 
-        resetItemName();
-        java.util.List list = updateBean();
-        for(int i = 0; i < list.size(); i++) {
-            UIMenuNameableCreator menu = (UIMenuNameableCreator)list.get(i);
+        for(int i = 0; i < nameables.length; i++) {
+            UIMenuNameableCreator menu = (UIMenuNameableCreator)((NameObject)nameables[i]).getObject();
             NameJavaScript nameJava = new NameJavaScript(menu.getName(), (JavaScript)menu.getObj());
+            nameJava.setName(nameables[i].getName());
             nameGroup.addNameHyperlink(nameJava);
         }
 
@@ -129,5 +229,13 @@ public class VanChartHyperLinkPane extends UICorrelationComboBoxPane {
             }
         }
         return null;
+    }
+
+    protected Object getob2Populate (Object ob2Populate) {
+        if (ob2Populate == null) {
+            return ob2Populate;
+        }
+        return ((UIMenuNameableCreator)ob2Populate).getObj();
+
     }
 }

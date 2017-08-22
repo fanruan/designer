@@ -50,13 +50,13 @@ public class GanttPlotTableDataContentPane extends AbstractTableDataContentPane{
 		double[] rowSize = { p,p,p,p,p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Step_Name") + ":", SwingConstants.RIGHT),step},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Plan_Start") + ":", SwingConstants.RIGHT),planStart},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Plan_End") + ":", SwingConstants.RIGHT),planEnd},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Actual_Start") + ":", SwingConstants.RIGHT),finalStart},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Actual_End") + ":", SwingConstants.RIGHT),finalEnd},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Use_Percent") + ":", SwingConstants.RIGHT),percent},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Use_Items") + ":", SwingConstants.RIGHT),project},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Step_Name")),step},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Plan_Start")),planStart},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Plan_End")),planEnd},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Actual_Start")),finalStart},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Actual_End")),finalEnd},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Use_Percent")),percent},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Use_Items")),project},
         }  ;
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
