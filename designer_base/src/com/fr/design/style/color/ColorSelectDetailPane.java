@@ -56,7 +56,7 @@ public class ColorSelectDetailPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return null;
+        return Inter.getLocText("FR-Designer_Select_Color");
     }
 
     protected void initComponents() {

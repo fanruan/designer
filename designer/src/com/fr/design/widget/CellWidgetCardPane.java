@@ -81,8 +81,8 @@ public class CellWidgetCardPane extends BasicPane {
         eventTabPane.add(eventPane, BorderLayout.CENTER);
         //k
         center.add(attriTabPane, Inter.getLocText("FR-Designer_Attribute"));
-        center.add(eventTabPane, Inter.getLocText("FR-Designer_Form_Editing_Listeners"));
-        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Form_Editing_Listeners")};
+        center.add(eventTabPane, Inter.getLocText("FR-Designer_Event"));
+        final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event")};
 
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
