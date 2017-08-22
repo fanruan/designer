@@ -13,6 +13,7 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.fr.pdf.kernel.utils.CompareTool;
+import com.sap.conn.jco.JCo;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -493,6 +494,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public void updateStatus() {
             setEnabled(enableModes.contains(currentMode));
             setVisible(visibleModes.contains(currentMode));
+            if (!isEnabled() && isPoppedOut()) {
+                popupDialog.showDefaultPane();
+            }
         }
 
         public boolean isVisible() {
@@ -894,6 +898,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private JPanel contentWrapper;
 
         private JComponent contentPane;
+        private JPanel defaultPane;  // 无可用配置项
         private PropertyItem propertyItem;
         public PopupDialog(PropertyItem propertyItem) {
             super(DesignerContext.getDesignerFrame());
@@ -924,6 +929,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
             initListener();
             this.setVisible(true);
+
+            defaultPane = getDefaultPane(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        }
+
+        public void showDefaultPane() {
+            replaceContentPane(defaultPane);
         }
 
         public void adjustLocation() {
@@ -935,7 +946,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
         public void replaceContentPane(PropertyItem propertyItem) {
             this.propertyItem = propertyItem;
-            JComponent contentPane = propertyItem.getContentPane();
+            replaceContentPane(propertyItem.getContentPane());
+        }
+
+        public void replaceContentPane(JComponent contentPane) {
             contentWrapper.remove(this.contentPane);
             contentWrapper.add(this.contentPane = contentPane, BorderLayout.CENTER);
             refreshContainer();
