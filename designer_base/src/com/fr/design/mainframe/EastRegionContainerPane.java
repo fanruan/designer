@@ -689,6 +689,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 popupDialog.setVisible(false);
                 initContentPane();
                 onResize();
+                propertyCard.show(rightPane, getName());
+                setTabButtonSelected();
                 refreshContainer();
             }
         }
