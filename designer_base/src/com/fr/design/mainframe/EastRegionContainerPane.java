@@ -899,8 +899,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.UP_BUTTON);
             popupToolPane.setParentDialog(this);
             contentPane = propertyItem.getContentPane();
-            container.add(popupToolPane, BorderLayout.NORTH);
-            container.add(contentPane, BorderLayout.CENTER);
+
+            JPanel contentWrapper = new JPanel(new BorderLayout());
+            contentWrapper.add(popupToolPane, BorderLayout.NORTH);
+            contentWrapper.add(contentPane, BorderLayout.CENTER);
+            contentWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.PROPERTY_DIALOG_BORDER));
+
+            container.add(contentWrapper, BorderLayout.CENTER);
             setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT);
             adjustLocation();
 
