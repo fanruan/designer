@@ -38,14 +38,15 @@ public class StructurePlotReportDataContentPane extends AbstractReportDataConten
         nodeValue = new TinyFormulaPane();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name"), SwingConstants.RIGHT), nodeName},
-                new Component[]{new UILabel("id", SwingConstants.RIGHT), nodeID},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID"), SwingConstants.RIGHT), parentID},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name"), SwingConstants.RIGHT), seriesName},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value"), SwingConstants.RIGHT), nodeValue},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Node_Name")), nodeName},
+                new Component[]{new UILabel("id"), nodeID},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Parent_ID")), parentID},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), seriesName},
+                new Component[]{new UILabel(Inter.getLocText("Chart-Series_Value")), nodeValue},
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);

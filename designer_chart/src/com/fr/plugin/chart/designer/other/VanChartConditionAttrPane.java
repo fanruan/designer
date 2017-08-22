@@ -4,15 +4,15 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.*;
 
 //条件属性
-public class VanChartConditionAttrPane extends BasicScrollPane<Chart> {
+public class VanChartConditionAttrPane extends AbstractVanChartScrollPane<Chart> {
     private static final long serialVersionUID = 5725969986029470291L;
-    private AbstractConditionAttrContentPane conditionAttrContentPane;
+    private VanChartConditionAttrContentPane conditionAttrContentPane;
 
     public VanChartConditionAttrPane() {
         super();
@@ -27,7 +27,7 @@ public class VanChartConditionAttrPane extends BasicScrollPane<Chart> {
         return conditionAttrContentPane;
     }
 
-    protected AbstractConditionAttrContentPane createConditionAttrContentPane() {
+    protected VanChartConditionAttrContentPane createConditionAttrContentPane() {
         return new VanChartConditionAttrContentPane();
     }
 

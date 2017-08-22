@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
-import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.StableUtils;
@@ -102,7 +101,7 @@ public class ActiveKeyGenerator {
 		HashMap<String, String> para = new HashMap<String, String>();
 		para.put("uuid", envManager.getUUID());
 		para.put("key", key);
-		para.put("username", envManager.getBBSName());
+		para.put("username", ConfigManager.getProviderInstance().getBbsUsername());
 		HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("verify.code"), para);
 		if (timeout != -1) {
 			hc.setTimeout(timeout);

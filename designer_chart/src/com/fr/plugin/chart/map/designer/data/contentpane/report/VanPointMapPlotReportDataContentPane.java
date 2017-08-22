@@ -2,6 +2,9 @@ package com.fr.plugin.chart.map.designer.data.contentpane.report;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.map.data.VanMapReportDefinition;
@@ -48,6 +51,10 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
     //================================public class===================================
 
     public class LongLatReportFormulaPane extends BasicBeanPane<VanMapReportDefinition> {
+
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+
         private UIButtonGroup<Integer> locationType;
 
         private JPanel centerPane;
@@ -85,7 +92,17 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
 
             locationType.setSelectedIndex(0);
 
-            this.add(locationType, BorderLayout.NORTH);
+            double[] columnSize = {p, f};
+            double[] rowSize = {p};
+
+            Component[][] components = new Component[][]{
+                    new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Geographical_Position")),locationType},
+            };
+
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,30,6);
+
+
+            this.add(panel, BorderLayout.NORTH);
             this.add(centerPane, BorderLayout.CENTER);
 
         }

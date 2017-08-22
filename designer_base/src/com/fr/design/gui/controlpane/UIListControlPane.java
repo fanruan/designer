@@ -2,6 +2,7 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.beans.BasicBeanPane;
@@ -12,9 +13,9 @@ import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.gui.ilist.ModNameActionListener;
+import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -40,8 +41,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -61,8 +60,13 @@ public abstract class UIListControlPane extends UIControlPane {
     private boolean isNameRepeated = false;
     protected boolean isPopulating = false;
 
+
     public UIListControlPane() {
         this.initComponentPane();
+    }
+
+    public UIListControlPane(BasePlot plot) {
+        super(plot);
     }
 
     @Override
@@ -890,6 +894,11 @@ public abstract class UIListControlPane extends UIControlPane {
 
     }
 
+
+    protected Object getob2Populate (Object ob2Populate) {
+        return  ob2Populate;
+    }
+
     private class JControlUpdatePane extends JPanel {
         private CardLayout card;
         private JPanel cardPane;
@@ -926,6 +935,7 @@ public abstract class UIListControlPane extends UIControlPane {
 
             for (int i = 0, len = updatePanes.length; i < len; i++) {
                 Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
+                ob2Populate = getob2Populate(ob2Populate);
                 if (ob2Populate != null) {
                     if (updatePanes[i] == null) {
                         if (isMulti(creators[i].getUpdatePane()) || isTree(creators[i].getUpdatePane())) {
@@ -943,6 +953,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 }
             }
         }
+
 
         public boolean isMulti(Class _class) {
             return ComparatorUtils.equals(_class, GlobalMultiTDTableDataPane.class) || ComparatorUtils.equals(_class, MultiTDTableDataPane.class);

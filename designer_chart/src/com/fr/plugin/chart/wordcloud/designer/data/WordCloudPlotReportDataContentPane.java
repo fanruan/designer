@@ -34,12 +34,14 @@ public class WordCloudPlotReportDataContentPane extends AbstractReportDataConten
         wordValue = new TinyFormulaPane();
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name"), SwingConstants.RIGHT), name},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name"), SwingConstants.RIGHT), wordName},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value"), SwingConstants.RIGHT), wordValue}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), name},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name")), wordName},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value")), wordValue}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);

@@ -20,6 +20,9 @@ public class UIExpandablePane extends JPanel {
     private int headWidth;
     private int headHeight;
 
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
 
     public UIExpandablePane(String title, int headWidth, int headHeight, JPanel contentPanel) {
         super();
@@ -43,10 +46,15 @@ public class UIExpandablePane extends JPanel {
 
         headerPanel = new HeaderPane(color, title, headHeight);
         headerPanel.addMouseListener(new PanelAction());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(0 ,LEFT_BORDER, 0, 0));
+        setcontentPanelontentPanelBorder ();
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(contentPanel, BorderLayout.CENTER);
         setOpaque(false);
+    }
+
+    protected void setcontentPanelontentPanelBorder (){
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(0 ,LEFT_BORDER, 0, 0));
+
     }
 
     class PanelAction extends MouseAdapter {

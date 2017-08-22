@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.templateinfo;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
@@ -236,7 +237,7 @@ public class TemplateInfoCollector<T extends IOFile> implements Serializable, XM
     private HashMap<String, Object> getNewConsumingMap(String templateID, long openTime, long timeConsume) {
         HashMap<String, Object> consumingMap = new HashMap<>();
 
-        String username = DesignerEnvManager.getEnvManager().getBBSName();
+        String username = ConfigManager.getProviderInstance().getBbsUsername();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
         String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
         String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());

@@ -1,16 +1,15 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.json.JSONObject;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -20,7 +19,6 @@ import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class LoginWebBridge {
@@ -59,7 +57,7 @@ public class LoginWebBridge {
     private String userName;
 
     public LoginWebBridge() {
-        String username = DesignerEnvManager.getEnvManager().getBBSName();
+        String username = ConfigManager.getProviderInstance().getBbsUsername();
         setUserName(username, uiLabel);
     }
 
@@ -130,16 +128,16 @@ public class LoginWebBridge {
      */
     public void setMessageCount(int count) {
         if (count == MIN_MESSAGE_COUNT) {
-            uiLabel.setText(DesignerEnvManager.getEnvManager().getBBSName());
-            DesignerEnvManager.getEnvManager().setInShowBBsName(DesignerEnvManager.getEnvManager().getBBSName());
+            uiLabel.setText(ConfigManager.getProviderInstance().getBbsUsername());
+            ConfigManager.getProviderInstance().setInShowBBsName(ConfigManager.getProviderInstance().getBbsUsername());
             return;
         }
         this.messageCount = count;
         StringBuilder sb = new StringBuilder();
-        sb.append(StringUtils.BLANK).append(DesignerEnvManager.getEnvManager().getBBSName())
+        sb.append(StringUtils.BLANK).append(ConfigManager.getProviderInstance().getBbsUsername())
                 .append("(").append(this.messageCount)
                 .append(")").append(StringUtils.BLANK);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(sb.toString());
+        ConfigManager.getProviderInstance().setInShowBBsName(sb.toString());
         uiLabel.setText(sb.toString());
     }
 
@@ -278,11 +276,9 @@ public class LoginWebBridge {
             if (list.size() > 0) {
                 int $uid = Integer.parseInt(list.get(0));
                 if ($uid > 0) {
-                    DesignerEnvManager.getEnvManager().setBbsUid($uid);
-                    DesignerEnvManager.getEnvManager().setBBSName(username);
-                    DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-                    DesignerEnvManager.getEnvManager().setBBSPassword(password);
-                    BBSPluginLogin.getInstance().login(new BBSUserInfo(username, password));
+                    ConfigManager.getProviderInstance().setBbsUid($uid);
+                    ConfigManager.getProviderInstance().setInShowBBsName(username);
+                    BBSLoginUtils.bbsLogin(username, password);
                     return LOGININ;//登录成功，0
                 } else if ($uid == -1) {
                     return USERNAME_NOT_EXSIT;//用户名不存在，-1
@@ -318,24 +314,28 @@ public class LoginWebBridge {
     public void getLoginInfo(String userInfo) {
         org.json.JSONObject jo = new org.json.JSONObject(userInfo);
         String status = jo.get("status").toString();
-        if (status.equals(LOGIN_SUCCESS)) {
-            String username = jo.get("username").toString();
-            int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
-            closeWindow();
-            closeQQWindow();
-            pluginuiLabel.setText(username);
-            DesignerEnvManager.getEnvManager().setBBSName(username);
-            DesignerEnvManager.getEnvManager().setBbsUid(uid);
-            DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-            BBSPluginLogin.getInstance().login(new BBSUserInfo(username, ""));
-        } else if (status.equals(LOGIN_FAILED)) {
-            //账号没有QQ授权
-            closeQQWindow();
-            try {
-                Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-            } catch (Exception exp) {
+        try{
+            if (status.equals(LOGIN_SUCCESS)) {
+                String username = jo.get("username").toString();
+                int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
+                closeWindow();
+                closeQQWindow();
+                pluginuiLabel.setText(username);
+                ConfigManager.getProviderInstance().setBbsUid(uid);
+                ConfigManager.getProviderInstance().setInShowBBsName(username);
+                BBSLoginUtils.bbsLogin(username, "");
+            } else if (status.equals(LOGIN_FAILED)) {
+                //账号没有QQ授权
+                closeQQWindow();
+                try {
+                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
+                } catch (Exception exp) {
+                }
             }
+        }catch (Exception e){
+            FRContext.getLogger().error(e.getMessage());
         }
+
     }
 
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {

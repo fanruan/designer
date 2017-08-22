@@ -5,9 +5,10 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
@@ -33,11 +34,16 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
         initAreaNameCom();
 
         JPanel areaNamePane = createAreaNamePane();
+        JSeparator jSeparator = new JSeparator();
+        areaNamePane.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        jSeparator.setPreferredSize(new Dimension(246,2));
 
-        this.add(areaNamePane, BorderLayout.CENTER);
+        this.add(areaNamePane, BorderLayout.NORTH);
+        this.add(jSeparator, BorderLayout.CENTER);
 
         seriesTypeUseComboxPane = new SeriesTypeUseComboxPaneWithOutFilter(parent, new VanChartMapPlot());
         this.add(seriesTypeUseComboxPane, BorderLayout.SOUTH);
+
     }
 
     protected void initAreaNameCom() {
@@ -53,14 +59,21 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
     }
 
     protected JPanel createAreaNamePane() {
-        JPanel areaNamePane =  new JPanel(new BorderLayout(4, 0));
-        areaNamePane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel label = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name") + ":", SwingConstants.RIGHT);
-        label.setPreferredSize(new Dimension(75, 20));
+        UILabel label = new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name"));
+        label.setPreferredSize(new Dimension(80, 20));
         areaNameCom.setPreferredSize(new Dimension(100, 20));
 
-        areaNamePane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{areaNameCom, null, null, label, null}));
-        return areaNamePane;
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p};
+
+        Component[][] components = new Component[][]{
+                new Component[]{label, areaNameCom},
+        };
+
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+
     }
 
     protected void makeToolTipUse(UIComboBox comBox) {

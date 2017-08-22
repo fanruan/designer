@@ -170,8 +170,8 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("Tree.textForeground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("Tree.selectionBackground", ThemeUtils.TEXT_SELECTED_BG_COLOR);
         table.put("Tree.selectionForeground", ThemeUtils.TEXT_SELECTED_TEXT_COLOR);
-        table.put("Tree.hash", new ColorUIResource(208, 205, 190));
-        table.put("Tree.line", new ColorUIResource(208, 205, 190));
+        table.put("Tree.hash", new ColorUIResource(240, 240,243));
+        table.put("Tree.line", new ColorUIResource(240, 240,243));
     }
 
 
