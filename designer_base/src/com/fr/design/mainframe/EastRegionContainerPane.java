@@ -38,7 +38,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     // 弹出对话框高度
     private static final int POPUP_MIN_HEIGHT = 145;
     private static final int POPUP_MAX_HEIGHT = 480;
-    private static final int POPUP_DEFAULT_HEIGHT = 360;
+    private static final int POPUP_DEFAULT_HEIGHT = 356;
     public static final String KEY_CELL_ELEMENT = "cellElement";
     public static final String KEY_CELL_ATTR = "cellAttr";
     public static final String KEY_FLOAT_ELEMENT = "floatElement";
@@ -883,7 +883,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private class PopupDialog extends JDialog {
         private Container container;
-        private static final int RESIZE_RANGE = 4;
+        private static final int RESIZE_RANGE = 8;
         private Cursor originCursor;
         private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         private Point mouseDownCompCoords;
@@ -904,8 +904,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             contentWrapper.add(contentPane, BorderLayout.CENTER);
             contentWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.PROPERTY_DIALOG_BORDER));
 
+            JPanel horizontalToolPane = new JPanel() {
+                @Override
+                public void paint(Graphics g) {
+                    g.drawImage(UIConstants.DRAG_BAR, 0, 0, getWidth(), getHeight(), null);
+                    g.drawImage(UIConstants.DRAG_DOT, (getWidth() - RESIZE_RANGE) / 2, 3, RESIZE_RANGE, 5, null);
+                }
+            };
+            contentWrapper.add(horizontalToolPane, BorderLayout.SOUTH);
+
             container.add(contentWrapper, BorderLayout.CENTER);
-            setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT);
+            setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT + RESIZE_RANGE);
             adjustLocation();
 
             initListener();
