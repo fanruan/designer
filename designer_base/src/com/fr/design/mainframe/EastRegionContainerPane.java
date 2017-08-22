@@ -494,8 +494,12 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public void updateStatus() {
             setEnabled(enableModes.contains(currentMode));
             setVisible(visibleModes.contains(currentMode));
-            if (!isEnabled() && isPoppedOut()) {
-                popupDialog.showDefaultPane();
+            if (isPoppedOut()) {
+                if (!isVisible()) {
+                    popToFrame();
+                } else if (!isEnabled()) {
+                    popupDialog.showDefaultPane();
+                }
             }
         }
 
