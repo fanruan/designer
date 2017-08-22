@@ -342,6 +342,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             this.valueEditor.populate(defaultValue);
         } else {
             insertRowPolicy.setSelectedIndex(0);
+            this.valueEditor.populate("");
         }
         if (insertRowPolicy.getSelectedIndex() == 1) {
             insertRowPane.setPreferredSize(new Dimension(100, 20));
