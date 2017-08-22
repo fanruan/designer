@@ -10,7 +10,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itextfield.UIPropertyTextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
@@ -22,6 +22,7 @@ import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.cell.cellattr.CellInsertPolicyAttr;
 import com.fr.report.cell.cellattr.CellPageAttr;
 import com.fr.report.elementcase.TemplateElementCase;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -47,9 +48,9 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private UIComboBox showContent;
 
-    private UITextField tooltipTextField;
+    private UIPropertyTextField tooltipTextField;
 
-    private UITextField fileNameTextField;
+    private UIPropertyTextField fileNameTextField;
 
     // 分页
     private UICheckBox pageBeforeRowCheckBox;
@@ -228,8 +229,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         final JPanel fileNamePane = new JPanel(fileNameLayout);
         JPanel fileNameCCPane = new JPanel(new BorderLayout(4, 0));
         fileNameCCPane.add(new UILabel(Inter.getLocText("FR-Designer_File_Name_For_Download")), BorderLayout.WEST);
-        fileNameTextField = new UITextField();
-        tooltipTextField = new UITextField();
+        fileNameTextField = new UIPropertyTextField();
+        tooltipTextField = new UIPropertyTextField();
         tooltipTextField.getUI();
         fileNamePane.add(new JPanel(), "none");
         fileNamePane.add(fileNameCCPane, "content");
@@ -248,8 +249,6 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 }
             }
         });
-        tooltipTextField = new UITextField();
-        tooltipTextField.getUI();
         return fileNamePane;
     }
 
@@ -344,6 +343,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             this.valueEditor.populate(defaultValue);
         } else {
             insertRowPolicy.setSelectedIndex(0);
+            this.valueEditor.populate(StringUtils.EMPTY);
         }
         if (insertRowPolicy.getSelectedIndex() == 1) {
             insertRowPane.setPreferredSize(new Dimension(100, 20));

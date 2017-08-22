@@ -27,7 +27,7 @@ public abstract class TinyFormulaWithButtonPane extends JPanel implements UIObse
     }
 
     public TinyFormulaWithButtonPane(String text, String iconUrl) {
-        editLabel = new UIEditLabel(text,SwingConstants.RIGHT){
+        editLabel = new UIEditLabel(text,SwingConstants.LEFT){
             protected void doAfterMousePress(){
                 clearAllBackground();
             }

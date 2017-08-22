@@ -13,6 +13,7 @@ import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 import com.fr.third.fr.pdf.kernel.utils.CompareTool;
+import com.sap.conn.jco.JCo;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -38,7 +39,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     // 弹出对话框高度
     private static final int POPUP_MIN_HEIGHT = 145;
     private static final int POPUP_MAX_HEIGHT = 480;
-    private static final int POPUP_DEFAULT_HEIGHT = 360;
+    private static final int POPUP_DEFAULT_HEIGHT = 356;
     public static final String KEY_CELL_ELEMENT = "cellElement";
     public static final String KEY_CELL_ATTR = "cellAttr";
     public static final String KEY_FLOAT_ELEMENT = "floatElement";
@@ -53,6 +54,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private JPanel defaultPane;  // "无可用配置项"面板
     private JPanel defaultAuthorityPane;  // "该元素不支持权限编辑"
+    private PropertyItem selectedItem;  // 当前被选中的属性配置项
 
     public enum PropertyMode {
         REPORT,  // 报表
@@ -219,6 +221,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     @Override
     public void onResize() {
+        if (!isRightPaneVisible()) {
+            resetPropertyIcons();
+        } else {
+            refreshRightPane();
+        }
         for (PropertyItem item : propertyItemMap.values()) {
             item.onResize();
         }
@@ -374,6 +381,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
      * 刷新右面板
      */
     public void refreshRightPane() {
+        // 可继承，就继承
+        if (selectedItem != null && selectedItem.isVisible() && selectedItem.isEnabled() && !selectedItem.isPoppedOut()) {
+            selectedItem.setTabButtonSelected();
+            propertyCard.show(rightPane, selectedItem.getName());
+            return;
+        }
+
+        // 不可继承时，选中第一个可用 tab
         boolean hasAvailableTab = false;
         boolean hasEnabledTab = false;
         for (String name : propertyItemMap.keySet()) {
@@ -388,6 +403,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 }
             }
         }
+        // 无可用 tab 时，显示提示文字
         if (!hasAvailableTab) {
             resetPropertyIcons();
             if (!hasEnabledTab && BaseUtils.isAuthorityEditing()) {
@@ -416,6 +432,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             currentPopupPane.setVisible(false);
         }
     }
+
 
     private void resetPropertyIcons() {
         for (PropertyItem item : propertyItemMap.values()) {
@@ -477,6 +494,13 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         public void updateStatus() {
             setEnabled(enableModes.contains(currentMode));
             setVisible(visibleModes.contains(currentMode));
+            if (isPoppedOut()) {
+                if (!isVisible()) {
+                    popToFrame();
+                } else if (!isEnabled()) {
+                    popupDialog.showDefaultPane();
+                }
+            }
         }
 
         public boolean isVisible() {
@@ -593,6 +617,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             button.setIcon(BaseUtils.readIcon(getBtnIconUrl()));
             button.setBackground(selectedBtnBackground);
             button.setOpaque(true);
+            selectedItem = this;
         }
 
         private void initButton() {
@@ -672,6 +697,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 popupDialog.setVisible(false);
                 initContentPane();
                 onResize();
+                if (isEnabled()) {
+                    propertyCard.show(rightPane, getName());
+                    setTabButtonSelected();
+                }
                 refreshContainer();
             }
         }
@@ -763,7 +792,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 } else if (isMovable) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                    setBackground(Color.pink);
                 } else {
                     setCursor(Cursor.getDefaultCursor());
                 }
@@ -867,12 +895,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
 
     private class PopupDialog extends JDialog {
         private Container container;
-        private static final int RESIZE_RANGE = 4;
+        private static final int RESIZE_RANGE = 8;
         private Cursor originCursor;
         private Cursor southResizeCursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         private Point mouseDownCompCoords;
+        private JPanel contentWrapper;
 
         private JComponent contentPane;
+        private JPanel defaultPane;  // 无可用配置项
         private PropertyItem propertyItem;
         public PopupDialog(PropertyItem propertyItem) {
             super(DesignerContext.getDesignerFrame());
@@ -882,29 +912,50 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             PopupToolPane popupToolPane = new PopupToolPane(propertyItem, PopupToolPane.UP_BUTTON);
             popupToolPane.setParentDialog(this);
             contentPane = propertyItem.getContentPane();
-            container.add(popupToolPane, BorderLayout.NORTH);
-            container.add(contentPane, BorderLayout.CENTER);
-            setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT);
+
+            contentWrapper = new JPanel(new BorderLayout());
+            contentWrapper.add(popupToolPane, BorderLayout.NORTH);
+            contentWrapper.add(contentPane, BorderLayout.CENTER);
+            contentWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.PROPERTY_DIALOG_BORDER));
+
+            JPanel horizontalToolPane = new JPanel() {
+                @Override
+                public void paint(Graphics g) {
+                    g.drawImage(UIConstants.DRAG_BAR, 0, 0, getWidth(), getHeight(), null);
+                    g.drawImage(UIConstants.DRAG_DOT, (getWidth() - RESIZE_RANGE) / 2, 3, RESIZE_RANGE, 5, null);
+                }
+            };
+            contentWrapper.add(horizontalToolPane, BorderLayout.SOUTH);
+
+            container.add(contentWrapper, BorderLayout.CENTER);
+            setSize(CONTENT_WIDTH, POPUP_DEFAULT_HEIGHT + RESIZE_RANGE);
             adjustLocation();
 
             initListener();
             this.setVisible(true);
+
+            defaultPane = getDefaultPane(Inter.getLocText("FR-Designer_No_Settings_Available"));
+        }
+
+        public void showDefaultPane() {
+            replaceContentPane(defaultPane);
         }
 
         public void adjustLocation() {
-            Point btnCoords = propertyItem.getButton().getLocationOnScreen();
-            this.setLocation(btnCoords.x - CONTENT_WIDTH, btnCoords.y);
+            this.setLocation(
+                    getLeftPane().getLocationOnScreen().x - CONTENT_WIDTH,
+                    DesignerContext.getDesignerFrame().getLocationOnScreen().y + 228
+            );
         }
 
         public void replaceContentPane(PropertyItem propertyItem) {
             this.propertyItem = propertyItem;
-            JComponent contentPane = propertyItem.getContentPane();
-            container.remove(this.contentPane);
-            container.add(this.contentPane = contentPane);
-//            pack();
-            if (getSize().height < container.getPreferredSize().height) {
-                setSize(CONTENT_WIDTH, container.getPreferredSize().height);
-            }
+            replaceContentPane(propertyItem.getContentPane());
+        }
+
+        public void replaceContentPane(JComponent contentPane) {
+            contentWrapper.remove(this.contentPane);
+            contentWrapper.add(this.contentPane = contentPane, BorderLayout.CENTER);
             refreshContainer();
         }
 

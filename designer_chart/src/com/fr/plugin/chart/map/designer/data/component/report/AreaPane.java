@@ -31,7 +31,7 @@ public class AreaPane extends AbstractReportDataContentPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name") + ":", SwingConstants.RIGHT), areaName}
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaName}
         };
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }

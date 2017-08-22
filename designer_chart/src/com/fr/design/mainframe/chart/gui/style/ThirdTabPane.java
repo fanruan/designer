@@ -39,6 +39,11 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 			nameArray[i] = np.name;
 			centerPane.add(np.pane, nameArray[i]);
 		}
+		initTabPane();
+		initLayout();
+    }
+
+    protected void initTabPane() {
 		if (!paneList.isEmpty()) {
 			tabPane = new UIHeadGroup(nameArray) {
 				@Override
@@ -48,8 +53,7 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 			};
 			centerPane.setBorder(myBorder);
 		}
-		initLayout();
-    }
+	}
 	
 	@Override
 	public void paint(Graphics g) {

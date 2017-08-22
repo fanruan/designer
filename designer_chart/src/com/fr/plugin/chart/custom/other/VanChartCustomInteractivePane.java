@@ -32,7 +32,7 @@ public class VanChartCustomInteractivePane extends VanChartInteractivePane {
 
     protected JPanel createHyperlinkPane() {
         hyperlinkPane = new VanChartCustomPlotHyperlinkPane();
-        return TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane, 0);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane);
     }
 
     @Override

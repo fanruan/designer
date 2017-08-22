@@ -4,7 +4,6 @@ import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
@@ -12,7 +11,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
@@ -23,6 +21,7 @@ import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
 import com.fr.plugin.chart.custom.component.VanChartHyperLinkPane;
+import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -33,7 +32,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VanChartInteractivePane extends BasicScrollPane<Chart> {
+public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     private static final long serialVersionUID = 8135452818502145597L;
     private static final int AUTO_REFRESH_LEFT_GAP = 18;
@@ -43,7 +42,7 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
     protected UICheckBox fullScreenDisplay;
     protected UIToggleButton collapse;
 
-    protected UIToggleButton isChartAnimation;
+    protected UIButtonGroup isChartAnimation;
 
     //坐标轴翻转属性
     private UIButtonGroup<Integer> axisRotation;
@@ -56,6 +55,8 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
     private TinyFormulaPane from;
     private TinyFormulaPane to;
     private UIButtonGroup<String> zoomType;
+    private JPanel changeEnablePane;
+    private JPanel zoomTypePane;
 
     protected VanChartHyperLinkPane superLink;
 
@@ -89,22 +90,15 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p};
+        double[] rowSize = {p,p,p,p,p,p};
 
-        JSeparator jSeparator4Zoom = plot.isSupportZoomDirection() ? new JSeparator() : null;
-        JSeparator jSeparator4AxisRotation = plot.getAxisPlotType() == AxisPlotType.RECTANGLE ? new JSeparator() : null;
 
         Component[][] components = new Component[][]{
                 new Component[]{createToolBarPane(new double[]{p,p,p,p,p}, columnSize),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createAnimationPane(),null},
-                new Component[]{new JSeparator(),null},
-                new Component[]{createAxisRotationPane(new double[]{p}, columnSize, plot),null},
-                new Component[]{jSeparator4AxisRotation,null},
+                new Component[]{createAxisRotationPane(new double[]{p,p}, columnSize, plot),null},
                 new Component[]{createZoomPane(new double[]{p,p,p}, columnSize, plot),null},
-                new Component[]{jSeparator4Zoom,null},
                 new Component[]{createAutoRefreshPane(plot),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createHyperlinkPane(),null}
         };
 
@@ -122,18 +116,18 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
         zoomType = new UIButtonGroup(getNameArray(), getValueArray());
         zoomGesture = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
 
-        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(Inter.getLocText("Plugin-ChartF_ZoomWidget"), zoomWidget);
-        JPanel zoomGesturePane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(Inter.getLocText("Plugin-ChartF_ZoomGesture"), zoomGesture);
+        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomWidget"), zoomWidget);
+        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomGesture"), zoomGesture);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Change")), zoomResize},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_WidgetBoundary")), zoomResize},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_From")), from},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_To")), to},
         };
-        JPanel temp = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        JPanel changeEnablePane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(Inter.getLocText("Plugin-ChartF_WidgetBoundary"), temp);
-
-        JPanel zoomTypePane = TableLayout4VanChartHelper.createTableLayoutPaneWithSmallTitle(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
+        changeEnablePane = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        changeEnablePane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
+        zoomTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
+        zoomTypePane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         JPanel panel = createZoomPaneContent(zoomWidgetPane, zoomGesturePane, changeEnablePane, zoomTypePane, plot);
         zoomWidget.addActionListener(new ActionListener() {
             @Override
@@ -141,7 +135,7 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
                 checkZoomPane();
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Chart-Use_Zoom"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Zoom"), panel);
     }
 
     protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {
@@ -161,10 +155,11 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
         axisRotation = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
                 Inter.getLocText("Plugin-ChartF_Close")});
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("", SwingConstants.RIGHT),axisRotation}
+                new Component[]{null,null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Reversal")),axisRotation}
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Axis_Rotation") + ":", panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Axis"), panel);
     }
 
     protected String[] getNameArray() {
@@ -186,16 +181,16 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
 
         Component[][] components = createToolBarComponents();
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_ToolBar"), panel);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ToolBar"), panel);
     }
 
     protected Component[][] createToolBarComponents() {
         return new Component[][]{
-                new Component[]{isSort, null},
-                new Component[]{exportImages, null},
-                new Component[]{fullScreenDisplay, null},
-                new Component[]{collapse, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),isSort},
+                new Component[]{null, exportImages},
+                new Component[]{null, fullScreenDisplay},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_layout")),collapse},
         };
     }
 
@@ -209,15 +204,16 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
 
 
     protected JPanel createAnimationPane(){
-        isChartAnimation = new UIToggleButton(Inter.getLocText("Plugin-ChartF_OpenAnimation"));
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Animation"), isChartAnimation);
+        isChartAnimation = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Animation_Effects"), isChartAnimation);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Animation"), panel);
     }
 
     protected JPanel createAutoRefreshPane(VanChartPlot plot){
 
         autoRefreshPane = getMoreLabelPane(plot);
 
-        return TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("Plugin-ChartF_Moniter_refresh"), autoRefreshPane, AUTO_REFRESH_LEFT_GAP);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Moniter_refresh"), autoRefreshPane);
     }
 
     protected AutoRefreshPane getMoreLabelPane(VanChartPlot plot) {
@@ -227,16 +223,14 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
 
     protected JPanel createHyperlinkPane() {
         superLink = new VanChartHyperLinkPane();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), superLink);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), superLink);
     }
 
 
     private void checkZoomPane() {
         boolean zoomWidgetEnabled = zoomWidget.getSelectedIndex() == 0;
-        zoomResize.setEnabled(zoomWidgetEnabled);
-        GUICoreUtils.setEnabled(from, zoomWidgetEnabled);
-        GUICoreUtils.setEnabled(to, zoomWidgetEnabled);
-        zoomType.setEnabled(!zoomWidgetEnabled);
+        changeEnablePane.setVisible(zoomWidgetEnabled);
+        zoomTypePane.setVisible(!zoomWidgetEnabled);
     }
 
     @Override
@@ -307,7 +301,7 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
 
     private void populateChartAnimate(Chart chart, Plot plot) {
         if(plot.isSupportAnimate()) {
-            isChartAnimation.setSelected(chart.isJSDraw());
+            isChartAnimation.setSelectedIndex(chart.isJSDraw() ? 0 : 1);
             isChartAnimation.setEnabled(!largeModel(plot));
         }
     }
@@ -410,7 +404,7 @@ public class VanChartInteractivePane extends BasicScrollPane<Chart> {
 
     private void updateChartAnimate(Chart chart, Plot plot) {
         if(plot.isSupportAnimate()) {
-            chart.setJSDraw(isChartAnimation.isSelected());
+            chart.setJSDraw(isChartAnimation.getSelectedIndex()==0);
         }
     }
 

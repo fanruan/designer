@@ -188,7 +188,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
 
 
         // extendable
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_ExpandD-Expandable"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_ExpandD_Expandable"))) {
             if (horizontalExpandableCheckBox.isSelected()) {
                 if (verticalExpandableCheckBox.isSelected()) {
                     cellExpandAttr.setExtendable(CellExpandAttr.Both_EXTENDABLE);

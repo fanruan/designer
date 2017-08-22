@@ -39,7 +39,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), new UITextField()},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictionaryEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont")), fontSizePane},
                 new Component[]{buttonGroupDictPane, null}
         };

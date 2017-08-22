@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.extra.exe.callback.*;
 import com.fr.design.gui.ilable.UILabel;
@@ -12,8 +13,6 @@ import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
 import com.fr.plugin.manage.control.PluginControllerHelper;
 import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskCallback;
@@ -260,9 +259,7 @@ public class PluginOperateUtils {
     }
 
     public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {
-        BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-        String username = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
-
+        String username = ConfigManager.getProviderInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
             jsCallback.execute("");
             uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
@@ -292,7 +289,7 @@ public class PluginOperateUtils {
                 pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
                 continue;
             }
-            PluginMarker pluginMarker = pluginTask.getMarker();
+            PluginMarker pluginMarker = pluginTask.getToMarker();
             PluginContext pluginContext = PluginManager.getContext(pluginMarker);
             if (pluginContext != null) {
                 pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));

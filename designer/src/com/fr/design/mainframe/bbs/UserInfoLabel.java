@@ -3,8 +3,10 @@
  */
 package com.fr.design.mainframe.bbs;
 
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.extra.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
@@ -16,12 +18,7 @@ import com.fr.general.DateUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.plugin.manage.bbs.BBSPluginLogin;
-import com.fr.plugin.manage.bbs.BBSUserInfo;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.OperatingSystem;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,7 +74,7 @@ public class UserInfoLabel extends UILabel {
     public UserInfoLabel(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
-        String userName = DesignerEnvManager.getEnvManager().getBBSName();
+        String userName = ConfigManager.getProviderInstance().getBbsUsername();
         this.addMouseListener(userInfoAdapter);
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setText(userName);
@@ -117,10 +114,9 @@ public class UserInfoLabel extends UILabel {
     }
 
     private void clearLoginInformation() {
-        DesignerEnvManager.getEnvManager().setBBSName(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setBBSPassword(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setInShowBBsName(StringUtils.EMPTY);
-        DesignerEnvManager.getEnvManager().setBbsUid(DEFAULT_BBS_UID);
+        ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
+        ConfigManager.getProviderInstance().setBbsUid(DEFAULT_BBS_UID);
+        BBSLoginUtils.bbsLogout();
     }
 
     private void updateInfoPane() {
@@ -192,8 +188,6 @@ public class UserInfoLabel extends UILabel {
             return;
         }
 
-        //往designerenvmanger里写一下
-        DesignerEnvManager.getEnvManager().setBBSName(userName);
         this.userName = userName;
     }
 
@@ -238,8 +232,7 @@ public class UserInfoLabel extends UILabel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            BBSUserInfo bbsUserInfo = BBSPluginLogin.getInstance().getUserInfo();
-            userName = bbsUserInfo == null ? "" : bbsUserInfo.getUserName();
+            userName = ConfigManager.getProviderInstance().getBbsUsername();
             if (StringUtils.isNotEmpty(userName)) {
                 UIPopupMenu menu = new UIPopupMenu();
                 menu.setOnlyText(true);
@@ -265,10 +258,9 @@ public class UserInfoLabel extends UILabel {
                 UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
                     public void mousePressed(MouseEvent e) {
-                        BBSPluginLogin.getInstance().logOut();
+                        BBSLoginUtils.bbsLogout();
                         UserLoginContext.fireLoginContextListener();
                     }
-
                 });
                 menu.add(priviteMessage);
                 menu.add(closeOther);
