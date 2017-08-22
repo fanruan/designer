@@ -1,5 +1,6 @@
 package com.fr.plugin.chart.drillmap.designer.other;
 
+import com.fr.chart.base.DrillMapTools;
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
@@ -11,7 +12,6 @@ import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartBackgroundPaneWithOutImageAndShadow;
 import com.fr.plugin.chart.designer.other.VanChartInteractivePaneWithMapZoom;
-import com.fr.chart.base.DrillMapTools;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 
 import javax.swing.*;
@@ -36,16 +36,11 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{createToolBarPane(rowSize, columnSize),null},
-                new Component[]{new JSeparator(),null},
+                new Component[]{createToolBarPane(new double[]{p, p, p}, columnSize),null},
                 new Component[]{createAnimationPane(),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createZoomPane(new double[]{p,p,p}, columnSize, plot),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createDrillToolsPane(), null},
-                new Component[]{new JSeparator(), null},
                 new Component[]{createAutoRefreshPane(plot),null},
-                new Component[]{new JSeparator(),null},
                 new Component[]{createHyperlinkPane(),null}
         };
 
@@ -54,18 +49,27 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
 
     private JPanel createDrillToolsPane() {
         openOrClose = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        textAttrPane = new ChartTextAttrPane();
-        backgroundPane = new VanChartBackgroundPaneWithOutImageAndShadow();
-        selectBackgroundPane = new VanChartBackgroundPaneWithOutImageAndShadow();
+        textAttrPane = new ChartTextAttrPane(){
+            protected Component[][] getComponents(JPanel buttonPane) {
+                return new Component[][]{
+                        new Component[]{null},
+                        new Component[]{fontNameComboBox},
+                        new Component[]{buttonPane}
+                };
+            }
+        };
+        backgroundPane = new VanChartBackgroundPane4DrillMap();
+        selectBackgroundPane = new VanChartBackgroundPane4DrillMap();
         catalogSuperLink = new VanChartCatalogHyperLinkPane();
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p,p,p};
+        double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
+                new Component[]{null,null},
                 new Component[]{openOrClose},
-                new Component[]{createTitlePane(Inter.getLocText("FR-Designer-Widget_Style"), textAttrPane)},
+                new Component[]{createTitlePane(Inter.getLocText("Plugin-Chart_Character"), textAttrPane)},
                 new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane)},
                 new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Select_Color"), selectBackgroundPane)},
                 new Component[]{createTitlePane(Inter.getLocText("M_Insert-Hyperlink"), catalogSuperLink)}
@@ -79,11 +83,11 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             }
         });
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill_Dir"), drillPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill_Dir"), drillPane);
     }
 
     private JPanel createTitlePane(String title, Component component) {
-        return TableLayout4VanChartHelper.createTitlePane(title, component, 20);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(title, component);
     }
 
     private void checkEnable() {
@@ -131,6 +135,18 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             backgroundPane.update(drillMapTools.getBackgroundInfo());
             selectBackgroundPane.update(drillMapTools.getSelectBackgroundInfo());
             catalogSuperLink.update(plot);
+        }
+    }
+
+    public class VanChartBackgroundPane4DrillMap extends VanChartBackgroundPaneWithOutImageAndShadow{
+        @Override
+        protected Component[][] getPaneComponents() {
+            return  new Component[][]{
+                    new Component[]{null},
+                    new Component[]{typeComboBox},
+                    new Component[]{centerPane},
+                    new Component[]{transparent},
+            };
         }
     }
 }

@@ -2,15 +2,14 @@ package com.fr.plugin.chart.map.designer.other;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.designer.PlotFactory;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.other.AutoRefreshPane;
 import com.fr.plugin.chart.designer.other.AutoRefreshPaneWithoutTooltip;
 import com.fr.plugin.chart.designer.other.VanChartInteractivePaneWithMapZoom;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.*;
@@ -24,7 +23,7 @@ public class VanChartMapInteractivePane extends VanChartInteractivePaneWithMapZo
     @Override
     protected JPanel createHyperlinkPane() {
         hyperlinkPane = new VanChartMapHyperLinkPane();
-        return TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane, HYPERLINK_LEFT_GAP);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("M_Insert-Hyperlink"), hyperlinkPane);
     }
     @Override
     protected void populateHyperlink(Plot plot) {

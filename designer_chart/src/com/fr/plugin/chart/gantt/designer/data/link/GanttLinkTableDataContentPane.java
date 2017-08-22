@@ -8,7 +8,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.gantt.data.VanGanttDefinitionHelper;
 import com.fr.plugin.chart.gantt.data.VanGanttLinkTableDefinition;
 import com.fr.plugin.chart.gantt.designer.data.data.GanttDataPaneHelper;
 import com.fr.stable.StringUtils;
@@ -28,18 +27,19 @@ public class GanttLinkTableDataContentPane extends AbstractTableDataContentPane 
     public GanttLinkTableDataContentPane() {
         this.setLayout(new BorderLayout());
         initAllComponent();
-        this.add(getContentPane(), BorderLayout.CENTER);
+        JPanel panel = getContentPane();
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        this.add(panel, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(246,(int)this.getPreferredSize().getHeight()));
+
     }
 
     private void initAllComponent() {
         startTaskIDComboBox = new UIComboBox();
-        startTaskIDComboBox.setPreferredSize(new Dimension(100,20));
 
         endTaskIDComboBox = new UIComboBox();
-        endTaskIDComboBox.setPreferredSize(new Dimension(100,20));
 
         linkTypeComboBox = new UIComboBox();
-        linkTypeComboBox.setPreferredSize(new Dimension(100,20));
 
     }
 
@@ -50,12 +50,12 @@ public class GanttLinkTableDataContentPane extends AbstractTableDataContentPane 
         double[] col = {p,f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Start_Task_ID")+":", SwingConstants.RIGHT), startTaskIDComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_End_Task_ID")+":", SwingConstants.RIGHT), endTaskIDComboBox},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Link_Type")+":", SwingConstants.RIGHT), linkTypeComboBox}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Start_Task_ID")), startTaskIDComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_End_Task_ID")), endTaskIDComboBox},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Link_Type")), linkTypeComboBox}
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components, row, col);
+        return TableLayoutHelper.createGapTableLayoutPane(components, row, col,24,6);
     }
 
     @Override

@@ -33,7 +33,7 @@ public abstract class ComboBoxWithButtonPane extends JPanel {
         button.setPreferredSize(new Dimension(20, 20));
         button.addActionListener(getButtonListener());
 
-        UILabel title = new UILabel(getTitleText(), SwingConstants.RIGHT);
+        UILabel title = new UILabel(getTitleText());
         title.setPreferredSize(new Dimension(60, 20));
 
         this.setLayout(new BorderLayout(H_GAP, 0));

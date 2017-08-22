@@ -5,6 +5,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.plugin.chart.gantt.designer.data.data.component.GanttTableDataContentPane;
 import com.fr.plugin.chart.gantt.designer.data.data.component.GanttTableDataProjectPane;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -19,8 +20,10 @@ public class GanttPlotTableDataContentPane extends AbstractTableDataContentPane 
     public GanttPlotTableDataContentPane() {
         initComponent();
         this.setLayout(new BorderLayout(0, V_GAP));
+        projectPane.setBorder(BorderFactory.createEmptyBorder(0,17,0,15));
         this.add(projectPane, BorderLayout.NORTH);
-        this.add(contentPane, BorderLayout.CENTER);
+        this.add(new JSeparator(), BorderLayout.CENTER);
+        this.add(contentPane, BorderLayout.SOUTH);
     }
 
     private void initComponent() {

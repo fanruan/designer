@@ -28,7 +28,8 @@ public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentP
 
     public WordCloudPlotTableDataContentPane() {
         double p = TableLayout.PREFERRED;
-        double[] columnSize = { p, p };
+        double f = TableLayout.FILL;
+        double[] columnSize = { p, f};
         double[] rowSize = { p, p, p, p};
 
         name = new UITextField();
@@ -37,22 +38,20 @@ public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentP
         calculateCombox = new CalculateComboBox();
 
 
-        name.setPreferredSize(new Dimension(100, 20));
-        wordName.setPreferredSize(new Dimension(100, 20));
-        wordValue.setPreferredSize(new Dimension(100, 20));
-        calculateCombox.setPreferredSize(new Dimension(100, 20));
-
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name"), SwingConstants.RIGHT), name},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name"), SwingConstants.RIGHT), wordName},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value"), SwingConstants.RIGHT), wordValue},
-                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method"), SwingConstants.RIGHT), calculateCombox}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), name},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Name")), wordName},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Word_Value")), wordValue},
+                new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
 
         this.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
         this.add(panel, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(246,(int)this.getPreferredSize().getHeight()));
+
     }
 
     @Override

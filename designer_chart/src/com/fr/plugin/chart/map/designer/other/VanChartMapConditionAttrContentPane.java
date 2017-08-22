@@ -3,14 +3,18 @@ package com.fr.plugin.chart.map.designer.other;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.plugin.chart.designer.other.AbstractConditionAttrContentPane;
 import com.fr.plugin.chart.designer.other.VanChartConditionAttrContentPane;
-import com.fr.plugin.chart.map.designer.other.condition.pane.*;
-import com.fr.plugin.chart.type.MapMarkerType;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.designer.VanMapAreaAndPointGroupPane;
 import com.fr.plugin.chart.map.designer.VanMapAreaPointAndLineGroupPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartBubblePointMapConditionPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartCommonPointMapConditionPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartDefaultPointMapConditionPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartImagePointMapConditionPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartLineMapConditionPane;
+import com.fr.plugin.chart.map.designer.other.condition.pane.VanChartMapConditionPane;
+import com.fr.plugin.chart.type.MapMarkerType;
+import com.fr.plugin.chart.type.MapType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +23,7 @@ import java.awt.*;
  * Created by Mitisky on 16/5/23.
  * 组合地图时有两个
  */
-public class VanChartMapConditionAttrContentPane extends AbstractConditionAttrContentPane {
+public class VanChartMapConditionAttrContentPane extends VanChartConditionAttrContentPane {
     private VanChartConditionAttrContentPane pointConditionPane;
     private VanChartConditionAttrContentPane areaConditionPane;
     private VanChartConditionAttrContentPane lineConditionPane;
