@@ -20,6 +20,7 @@ import java.awt.*;
 public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     private static final int EDITOR_COLUMN = 15;
+    private static final int LEFT_BORDER = 5;
     private FormulaEditor keyFormulaEditor;
     private FormulaEditor valueFormulaEditor;
 
@@ -41,8 +42,8 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
     private void initComponents() {
         keyFormulaEditor = new FormulaEditor();
         keyFormulaEditor.setColumns(EDITOR_COLUMN);
-        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        keyFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        JPanel keyFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
+        keyFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0, -LEFT_BORDER, 0, -LEFT_BORDER));
         keyFormulaEditor.setPreferredSize(new Dimension(144, 20));
         Icon icon = BaseUtils.readIcon("/com/fr/design/images/m_insert/formula.png");
         keyFormulaContainer.add(new JLabel(icon));
@@ -58,15 +59,15 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
-        tag.setPreferredSize(new Dimension(225,40));
+        tag.setPreferredSize(new Dimension(225, 40));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
 
         Formula vf = new Formula("$$$");
         valueFormulaEditor = new FormulaEditor("", vf);
 
-        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0,-5,0,-5));
+        JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
+        valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0, -LEFT_BORDER, 0, -LEFT_BORDER));
         valueFormulaEditor.setPreferredSize(new Dimension(144, 20));
         valueFormulaContainer.add(new JLabel(icon));
         valueFormulaContainer.add(valueFormulaEditor);
