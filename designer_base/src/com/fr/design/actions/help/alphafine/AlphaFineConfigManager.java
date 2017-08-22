@@ -1,5 +1,7 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.base.FRCoreContext;
+import com.fr.general.VT4FR;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -199,7 +201,10 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isEnabled() {
-        return isEnabled;
+        if (VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support()) {
+            return isEnabled;
+        }
+        return false;
     }
 
     public void setEnabled(boolean isEnabled) {
