@@ -25,6 +25,7 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
         initAreaName();
 
         this.add(getContent(), "0,0,2,0");
+        this.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
     }
 
     protected void initAreaName() {
@@ -33,7 +34,7 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
             protected void initLayout() {
                 this.setLayout(new BorderLayout(4, 0));
 
-                UILabel label = new UILabel(Inter.getLocText("FR-Chart-Area_Name") + ":", SwingConstants.RIGHT);
+                UILabel label = new UILabel(Inter.getLocText("FR-Chart-Area_Name"));
                 label.setPreferredSize(new Dimension(75, 20));
                 this.add(label, BorderLayout.WEST);
 

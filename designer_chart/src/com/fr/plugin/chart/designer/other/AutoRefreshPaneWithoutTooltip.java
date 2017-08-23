@@ -19,7 +19,6 @@ public class AutoRefreshPaneWithoutTooltip extends AutoRefreshPane {
 
     protected Component[][] initComponent(JPanel autoTooltipPane){
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_More_Label")), getMoreLabel()},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), getAutoRefreshTime()}
         };
     }

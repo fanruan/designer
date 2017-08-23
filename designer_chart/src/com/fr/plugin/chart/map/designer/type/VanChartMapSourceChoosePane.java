@@ -7,6 +7,7 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -81,7 +82,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     private UITextArea attribution;
 
     private UIComboBox zoomLevel;
-    private UIComboBox viewCenterCom;
+    private UIButtonGroup viewCenterCom;
     private JPanel longAndLatPane;
     private UISpinner longitude;
     private UISpinner latitude;
@@ -112,18 +113,20 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
     public VanChartMapSourceChoosePane() {
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
+        this.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {226};
+        double[] columnSize = {246};
         double[] rowSize = {p,p,p,p,p,p,p,p};
 
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(createMapSourcesPane(), BorderLayout.NORTH);
+        panel.add(createGISLayerPane(), BorderLayout.CENTER);
+
+        JPanel BasePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer_Basic"), panel);
+
         Component[][] comps = new Component[][]{
-                new Component[]{new JSeparator()},
-                new Component[]{createMapSourcesPane()},
-                new Component[]{new JSeparator()},
-                new Component[]{createGISLayerPane()},
-                new Component[]{new JSeparator()},
+                new Component[]{BasePane},
                 new Component[]{createMapInitStatusPane()}
         };
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(comps,rowSize,columnSize);
@@ -190,7 +193,17 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         sourceComboBox.addPopupMenuListener(popupMenuListener);
 
         sourceTitleLabel = createSourceTitleLabel();
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithUILabel(sourceTitleLabel, sourceComboBox);
+
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p,p};
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{sourceTitleLabel,sourceComboBox},
+
+        };
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize, columnSize);
     }
 
     private JPanel createGISLayerPane() {
@@ -259,7 +272,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         panel.add(gisLayer, BorderLayout.CENTER);
         panel.add(layerCardPane, BorderLayout.SOUTH);
 
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Gis_Layer"), panel);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Gis_Layer"), panel);
     }
 
     private JPanel createCustomTileLayer() {
@@ -391,24 +404,26 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
     private JPanel createMapInitStatusPane() {
         zoomLevel = new UIComboBox(ZOOM_LEVELS);
-        viewCenterCom = new UIComboBox(new String[]{AUTO_CENTER_STRING, CUSTOM_CENTER_STRING});
+        viewCenterCom = new UIButtonGroup(new String[]{AUTO_CENTER_STRING, CUSTOM_CENTER_STRING});
         longitude = new UISpinner(-Double.MAX_VALUE,Double.MAX_VALUE,1,0.0);
         latitude = new UISpinner(-Double.MAX_VALUE,Double.MAX_VALUE,1,0.0);
 
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p,p};
+        double[] rowSize = {p,p,p};
 
         Component[][] comps = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Zoom_Layer"), SwingConstants.RIGHT), zoomLevel},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_View_Center"), SwingConstants.RIGHT), viewCenterCom},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Zoom_Layer")), zoomLevel},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_View_Center")), viewCenterCom},
         };
-        final JPanel northPane = TableLayoutHelper.createTableLayoutPane(comps,rowSize,COLUMN_SIZE);
+        final JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps,rowSize,COLUMN_SIZE);
 
         Component[][] longAndLatComps = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Longitude"), SwingConstants.RIGHT), longitude},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Latitude"), SwingConstants.RIGHT), latitude}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Longitude")), longitude},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Latitude")), latitude}
         };
-        longAndLatPane = TableLayoutHelper.createTableLayoutPane(longAndLatComps,rowSize,COLUMN_SIZE);
+        longAndLatPane =TableLayout4VanChartHelper.createGapTableLayoutPane(longAndLatComps,rowSize,COLUMN_SIZE);
+        longAndLatPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         longAndLatPane.setVisible(false);
 
         JPanel contentPane = new JPanel(new BorderLayout(0, 6)){
@@ -425,17 +440,17 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         contentPane.add(northPane, BorderLayout.NORTH);
         contentPane.add(longAndLatPane, BorderLayout.CENTER);
 
-        viewCenterCom.addItemListener(new ItemListener() {
+        viewCenterCom.addActionListener(new ActionListener() {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 longAndLatPane.setVisible(!isAutoViewCenter());
             }
         });
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Map_Init_Status"), contentPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Map_Init_Status"), contentPane);
     }
 
     private boolean isAutoViewCenter() {
-        return ComparatorUtils.equals(viewCenterCom.getSelectedItem(), AUTO_CENTER_STRING);
+        return viewCenterCom.getSelectedIndex()==0;
     }
 
     private PopupMenuListener popupMenuListener = new PopupMenuListener() {
@@ -534,7 +549,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
     private void resetViewCenter(VanChartMapPlot mapPlot) {
         mapPlot.getViewCenter().setAuto(true);
-        viewCenterCom.setSelectedItem(AUTO_CENTER_STRING);
+        viewCenterCom.setSelectedIndex(0);
     }
 
     private void resetZoomLevel(VanChartMapPlot mapPlot) {
@@ -575,14 +590,16 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         ViewCenter viewCenter = mapPlot.getViewCenter();
         if(viewCenter.isAuto()){
-            viewCenterCom.setSelectedItem(AUTO_CENTER_STRING);
+            viewCenterCom.setSelectedIndex(0);
             longitude.setValue(0);
             latitude.setValue(0);
         } else {
-            viewCenterCom.setSelectedItem(CUSTOM_CENTER_STRING);
+            viewCenterCom.setSelectedIndex(1);
             longitude.setValue(viewCenter.getLongitude());
             latitude.setValue(viewCenter.getLatitude());
         }
+
+        longAndLatPane.setVisible(!isAutoViewCenter());
 
         checkLayerCardPane();
     }

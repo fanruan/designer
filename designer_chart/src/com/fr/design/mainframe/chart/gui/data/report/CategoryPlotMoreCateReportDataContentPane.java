@@ -10,10 +10,10 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -43,7 +43,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 	
 	public CategoryPlotMoreCateReportDataContentPane(ChartDataPane parent) {
         initEveryPane();
-        categoryName = initCategoryBox(Inter.getLocText("FR-Chart-Category_Name") + ":");
+        categoryName = initCategoryBox(Inter.getLocText("FR-Chart-Category_Name"));
         
         JPanel catePane = new JPanel();
         catePane.setLayout(new BorderLayout(2, 2));
@@ -61,9 +61,13 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
         
         catePane.add(boxPane, BorderLayout.SOUTH);
 
+		catePane.setPreferredSize(new Dimension(246,30));
+		catePane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
+
         this.add(catePane, "0,0,2,0");
-        this.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Data_Filter")), "0,4,2,4");
-        this.add(filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent), "0,6,2,4");
+		filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
+		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+        this.add(panel, "0,6,2,4");
         
         addButton.addActionListener(new ActionListener() {
 			@Override

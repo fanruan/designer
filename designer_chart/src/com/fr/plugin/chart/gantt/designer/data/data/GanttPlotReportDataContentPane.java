@@ -5,6 +5,7 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.plugin.chart.gantt.designer.data.data.component.GanttReportDataContentPane;
 import com.fr.plugin.chart.gantt.designer.data.data.component.GanttReportDataProjectPane;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -18,6 +19,7 @@ public class GanttPlotReportDataContentPane extends AbstractReportDataContentPan
     public GanttPlotReportDataContentPane() {
         initComponent();
         this.setLayout(new BorderLayout(0, V_GAP));
+        projectPane.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
         this.add(projectPane, BorderLayout.NORTH);
         this.add(contentPane, BorderLayout.CENTER);
     }

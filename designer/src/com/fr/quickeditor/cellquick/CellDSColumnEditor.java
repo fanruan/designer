@@ -1,6 +1,7 @@
 package com.fr.quickeditor.cellquick;
 
 import com.fr.base.Formula;
+import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.DSColumnCellAction;
@@ -219,8 +220,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
             uiLabel.setPreferredSize(new Dimension(60, 20));
             UIButton uiButton = new UIButton();
             if (tc != null) {
-                //第一次初始化时tc为空，引发NullPointerException
-                uiButton = new UIButton(new DSColumnConditionAction(tc));
+                //第一次初始化时tc为空，会引发NullPointerException
+                UpdateAction condition = new DSColumnConditionAction(tc);
+                //丢掉icon,修改按钮名称为编辑
+                condition.setSmallIcon(null);
+                condition.setName(Inter.getLocText("FR-Designer_Edit"));
+                uiButton = new UIButton(condition);
             }
             Component[][] components = new Component[][]{
                     new Component[]{uiLabel, uiButton}
@@ -531,6 +536,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * @see DSColumnAdvancedPane.SortPane
          */
         public class ResultSetSortConfigPane extends JPanel {
+            private static final String DEFAULT_VALUE = "=";
             private JPanel contentPane;
             //面板
             private UIButtonGroup sortTypePane;
@@ -553,7 +559,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
                 cardLayout = new CardLayout();
                 centerPane = new JPanel(cardLayout);
-                formulaField = new JFormulaField("");
+                formulaField = new JFormulaField(DEFAULT_VALUE);
                 centerPane.add(new JPanel(), "none");
                 centerPane.add(formulaField, "content");
                 UILabel sortLabel = new UILabel(Inter.getLocText("Sort-Sort_Order"));
@@ -648,6 +654,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * @see DSColumnAdvancedPane.SelectCountPane
          */
         public class ResultSetFilterConfigPane extends JPanel {
+            private static final String DEFAULT_VALUE = "=";
+
             private JPanel contentPane;
             private UIComboBox rsComboBox;
             private JPanel setCardPane;
@@ -733,12 +741,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 tipCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 
                 //前N个
-                topFormulaPane = new JFormulaField("=");
+                topFormulaPane = new JFormulaField(DEFAULT_VALUE);
                 setCardPane.add(topFormulaPane, FilterType.TOP.name());
                 tipCardPane.add(new JPanel(), FilterType.TOP.name());
 
                 //后N个
-                bottomFormulaPane = new JFormulaField("=");
+                bottomFormulaPane = new JFormulaField(DEFAULT_VALUE);
                 setCardPane.add(bottomFormulaPane, FilterType.BOTTOM.name());
                 tipCardPane.add(new JPanel(), FilterType.BOTTOM.name());
 
@@ -967,13 +975,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * @see DSColumnAdvancedPane.ValuePane
          */
         public class CustomValuePane extends JPanel {
+            private static final String DEFAULT_VALUE = "=$$$";
+
             private JFormulaField formulaField;
 
             public CustomValuePane() {
                 this.setLayout(new BorderLayout());
                 UILabel customValueLabel = new UILabel(Inter.getLocText("FR-Designer_Display_Value"));
                 customValueLabel.setPreferredSize(new Dimension(60, 20));
-                formulaField = new JFormulaField("$$$");
+                formulaField = new JFormulaField(DEFAULT_VALUE);
                 this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{customValueLabel, formulaField},
                 }, new double[]{P}, new double[]{P, F}, HGAP, VGAP), BorderLayout.CENTER);
@@ -988,7 +998,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         //formula
                         String valueFormula = dSColumn.getResult();
                         if (valueFormula == null) {
-                            valueFormula = "$$$";
+                            valueFormula = DEFAULT_VALUE;
                         }
                         formulaField.populateElement(cellElement);
                         formulaField.populate(valueFormula);

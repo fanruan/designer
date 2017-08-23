@@ -45,6 +45,7 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
         initSeriesPane();
 
 		this.add(seriesPane, "0,2,2,2");
+		seriesPane.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
 	}
 
     //kunsnat: 用于重载, 甘特图, 股价图 第一列 默认应该不可编辑.
