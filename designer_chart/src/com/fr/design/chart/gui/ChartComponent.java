@@ -333,8 +333,8 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     }
 
     @Override
-    public void downLoadSources() {
-        HistoryTemplateListPane.getInstance().downLoadSources();
+    public void downloadSources() {
+        HistoryTemplateListPane.getInstance().downloadSources();
     }
 
 }

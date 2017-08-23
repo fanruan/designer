@@ -8,7 +8,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
-import com.fr.design.gui.chart.DownLoadOnLineSourcesHelper;
+import com.fr.design.gui.chart.DownloadOnlineSourcesHelper;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ilist.UIList;
@@ -234,8 +234,8 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     }
 
     @Override
-    public void downLoadSources() {
-        DownLoadOnLineSourcesHelper pane = new DownLoadOnLineSourcesHelper();
+    public void downloadSources() {
+        DownloadOnlineSourcesHelper pane = new DownloadOnlineSourcesHelper();
         pane.addMapJSONSiteInfo();
         pane.addPhantomSiteInfo();
         pane.installOnline();
