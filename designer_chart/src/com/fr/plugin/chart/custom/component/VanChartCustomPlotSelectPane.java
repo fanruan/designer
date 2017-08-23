@@ -8,11 +8,11 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
+import com.fr.plugin.chart.custom.CustomPlotDesignerPaneFactory;
+import com.fr.plugin.chart.custom.CustomPlotFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.type.CustomPlotType;
 import com.fr.plugin.chart.custom.type.CustomStyle;
-import com.fr.plugin.chart.custom.CustomPlotDesignerPaneFactory;
-import com.fr.plugin.chart.custom.CustomPlotFactory;
 
 import javax.swing.*;
 import java.awt.*;
