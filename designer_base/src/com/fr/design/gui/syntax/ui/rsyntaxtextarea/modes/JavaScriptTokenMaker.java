@@ -78,10 +78,10 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
   public static final int YYINITIAL = 0;
   public static final int E4X_CDATA = 13;
 
-  /**
+  /** 
    * Translates characters to character classes
    */
-  private static final String ZZ_CMAP_PACKED =
+  private static final String ZZ_CMAP_PACKED = 
     "\11\0\1\73\1\2\1\0\1\1\1\11\22\0\1\73\1\36\1\75"+
     "\1\12\1\15\1\35\1\40\1\105\2\104\1\17\1\30\1\27\1\24"+
     "\1\25\1\16\1\5\7\7\2\4\1\41\1\74\1\31\1\32\1\34"+
@@ -92,12 +92,12 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
     "\1\65\1\72\1\51\1\47\1\50\1\10\1\70\1\62\1\71\1\66"+
     "\1\106\1\111\1\33\1\26\1\42\uff81\0";
 
-  /**
+  /** 
    * Translates characters to character classes
    */
   private static final char [] ZZ_CMAP = zzUnpackCMap(ZZ_CMAP_PACKED);
 
-  /**
+  /** 
    * Translates DFA states to action switch labels.
    */
   private static final int [] ZZ_ACTION = zzUnpackAction();
@@ -145,7 +145,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
   }
 
 
-  /**
+  /** 
    * Translates a state to a row index in the transition table
    */
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
@@ -246,7 +246,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
     return j;
   }
 
-  /**
+  /** 
    * The transition table of the DFA
    */
   private static final int [] ZZ_TRANS = zzUnpackTrans();
@@ -1095,7 +1095,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	 * Token type specifying we're in a JavaScript documentation comment.
 	 */
 	private static final int INTERNAL_IN_JS_COMMENT_DOCUMENTATION = -9;
-
+	
 	/**
 	 * Token type specifying we're in an invalid multi-line JS string.
 	 */
@@ -1179,7 +1179,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
 
 
 	static {
-		jsVersion = "7.0";
+		jsVersion = "1.0";
 		e4xSupported = true;
 	}
 
@@ -1248,7 +1248,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	/**
 	 * Returns the closest {@link TokenTypes "standard" token type} for a given
 	 * "internal" token type (e.g. one whose value is <code>&lt; 0</code>).
-	 *
+	 * 
 	 */
 	@Override
 	public int getClosestStandardTokenTypeForInternalType(int type) {
@@ -1411,10 +1411,10 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	/**
 	 * Returns whether features for a specific JS version should be honored
 	 * while highlighting.
-	 *
-	 * @param version JavaScript version required
+	 * 
+	 * @param version JavaScript version required 
 	 * @return Whether the JavaScript version is the same or greater than
-	 *         version required.
+	 *         version required. 
 	 */
 	public static boolean isJavaScriptCompatible(String version) {
 		return jsVersion.compareTo(version) >= 0;
@@ -1463,11 +1463,11 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
 	 * Resets the scanner to read from a new input stream.
 	 * Does not close the old reader.
 	 *
-	 * All internal variables are reset, the old input stream
+	 * All internal variables are reset, the old input stream 
 	 * <b>cannot</b> be reused (internal buffer is discarded and lost).
 	 * Lexical state is set to <tt>YY_INITIAL</tt>.
 	 *
-	 * @param reader   the new input stream
+	 * @param reader   the new input stream 
 	 */
 	public final void yyreset(java.io.Reader reader) {
 		// 's' has been updated.
@@ -1510,7 +1510,7 @@ public class JavaScriptTokenMaker extends AbstractJFlexCTokenMaker {
     this(new java.io.InputStreamReader(in));
   }
 
-  /**
+  /** 
    * Unpacks the compressed character translation table.
    *
    * @param packed   the packed character translation table
@@ -1571,7 +1571,7 @@ public final void yybegin(int newState) {
   /**
    * Returns the character at position <tt>pos</tt> from the 
    * matched text. 
-   *
+   * 
    * It is equivalent to yytext().charAt(pos), but faster
    *
    * @param pos the position of the character to fetch. 
@@ -1616,7 +1616,7 @@ public final void yybegin(int newState) {
     }
 
     throw new Error(message);
-  }
+  } 
 
 
   /**
@@ -1663,13 +1663,13 @@ public final void yybegin(int newState) {
       zzAction = -1;
 
       zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
-
+  
       zzState = zzLexicalState;
 
 
       zzForAction: {
         while (true) {
-
+    
           if (zzCurrentPosL < zzEndReadL)
             zzInput = zzBufferL[zzCurrentPosL++];
           else if (zzAtEOF) {
@@ -1712,27 +1712,27 @@ public final void yybegin(int newState) {
       zzMarkedPos = zzMarkedPosL;
 
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
-        case 34:
+        case 34: 
           { start = zzMarkedPos-1; yybegin(E4X_INATTR_SINGLE);
           }
         case 73: break;
-        case 33:
+        case 33: 
           { start = zzMarkedPos-1; yybegin(E4X_INATTR_DOUBLE);
           }
         case 74: break;
-        case 36:
+        case 36: 
           { addToken(Token.ERROR_NUMBER_FORMAT);
           }
         case 75: break;
-        case 71:
+        case 71: 
           { addToken(Token.RESERVED_WORD_2);
           }
         case 76: break;
-        case 26:
+        case 26: 
           { addToken(start,zzStartRead-1, Token.MARKUP_DTD); addEndToken(e4x_inInternalDtd ? INTERNAL_E4X_DTD_INTERNAL : INTERNAL_E4X_DTD); return firstToken;
           }
         case 77: break;
-        case 15:
+        case 15: 
           { /* Line ending in '\' => continue to next line. */
 								if (validJSString) {
 									addToken(start,zzStartRead, Token.LITERAL_CHAR);
@@ -1745,15 +1745,15 @@ public final void yybegin(int newState) {
 								return firstToken;
           }
         case 78: break;
-        case 3:
+        case 3: 
           { addToken(Token.WHITESPACE);
           }
         case 79: break;
-        case 17:
+        case 17: 
           { addToken(start,zzStartRead-1, Token.COMMENT_MULTILINE); addEndToken(INTERNAL_IN_JS_MLC); return firstToken;
           }
         case 80: break;
-        case 41:
+        case 41: 
           { int start = zzStartRead;
 										int operatorLen = yycharat(0)=='+' ? 2 : 1;
 										int yylen = yylength(); // Cache before first addToken() invalidates it
@@ -1772,226 +1772,226 @@ public final void yybegin(int newState) {
 										// Scanning will continue at "<" as operator
           }
         case 81: break;
-        case 64:
+        case 64: 
           { addToken(Token.FUNCTION);
           }
         case 82: break;
-        case 49:
+        case 49: 
           { int temp=zzStartRead; addToken(start,zzStartRead-1, Token.COMMENT_DOCUMENTATION); addToken(temp,zzMarkedPos-1, Token.COMMENT_MARKUP); start = zzMarkedPos;
           }
         case 83: break;
-        case 44:
+        case 44: 
           { /* Skip all escaped chars. */
           }
         case 84: break;
-        case 11:
+        case 11: 
           { addToken(start,zzStartRead-1, Token.ERROR_STRING_DOUBLE); addNullToken(); return firstToken;
           }
         case 85: break;
-        case 68:
+        case 68: 
           { start = zzStartRead; e4x_prevState = zzLexicalState; yybegin(E4X_COMMENT);
           }
         case 86: break;
-        case 60:
+        case 60: 
           { int temp=zzStartRead; yybegin(E4X); addToken(start,zzStartRead-1, Token.MARKUP_CDATA); addToken(temp,zzMarkedPos-1, Token.MARKUP_CDATA_DELIMITER);
           }
         case 87: break;
-        case 58:
+        case 58: 
           { int count = yylength();
 									addToken(zzStartRead,zzStartRead+1, Token.MARKUP_TAG_DELIMITER);
 									addToken(zzMarkedPos-(count-2), zzMarkedPos-1, Token.MARKUP_TAG_NAME);
 									yybegin(E4X_INTAG);
           }
         case 88: break;
-        case 46:
+        case 46: 
           { /* Invalid latin-1 character \xXX */ validJSString = false;
           }
         case 89: break;
-        case 61:
+        case 61: 
           { addToken(Token.COMMENT_MULTILINE);
           }
         case 90: break;
-        case 52:
+        case 52: 
           { start = zzMarkedPos-2; yybegin(E4X_PI);
           }
         case 91: break;
-        case 35:
+        case 35: 
           { yybegin(E4X_INTAG); addToken(start,zzStartRead, Token.MARKUP_TAG_ATTRIBUTE_VALUE);
           }
         case 92: break;
-        case 13:
+        case 13: 
           { int type = validJSString ? Token.LITERAL_STRING_DOUBLE_QUOTE : Token.ERROR_STRING_DOUBLE; addToken(start,zzStartRead, type); yybegin(YYINITIAL);
           }
         case 93: break;
-        case 19:
+        case 19: 
           { addToken(start,zzStartRead-1, Token.COMMENT_EOL); addNullToken(); return firstToken;
           }
         case 94: break;
-        case 23:
+        case 23: 
           { yybegin(YYINITIAL, LANG_INDEX_DEFAULT); addToken(Token.IDENTIFIER);
           }
         case 95: break;
-        case 45:
+        case 45: 
           { /* Invalid Unicode character \\uXXXX */ validJSString = false;
           }
         case 96: break;
-        case 70:
+        case 70: 
           { int temp = zzStartRead; addToken(start,zzStartRead-1, Token.MARKUP_DTD); start = temp; e4x_prevState = zzLexicalState; yybegin(E4X_COMMENT);
           }
         case 97: break;
-        case 63:
+        case 63: 
           { if(e4xSupported){ addToken(Token.RESERVED_WORD);} else {addToken(Token.IDENTIFIER);}
           }
         case 98: break;
-        case 59:
+        case 59: 
           { int temp = zzMarkedPos; addToken(start,zzStartRead+2, Token.MARKUP_COMMENT); start = temp; yybegin(e4x_prevState);
           }
         case 99: break;
-        case 7:
+        case 7: 
           { addToken(Token.OPERATOR);
           }
         case 100: break;
-        case 53:
+        case 53: 
           { yybegin(E4X); addToken(start,zzStartRead+1, Token.MARKUP_PROCESSING_INSTRUCTION);
           }
         case 101: break;
-        case 48:
+        case 48: 
           { yybegin(YYINITIAL); addToken(start,zzStartRead+1, Token.COMMENT_DOCUMENTATION);
           }
         case 102: break;
-        case 18:
+        case 18: 
           { addToken(start,zzStartRead-1, Token.COMMENT_DOCUMENTATION); addEndToken(INTERNAL_IN_JS_COMMENT_DOCUMENTATION); return firstToken;
           }
         case 103: break;
-        case 25:
+        case 25: 
           { addToken(start,zzStartRead-1, Token.MARKUP_PROCESSING_INSTRUCTION); addEndToken(INTERNAL_E4X_MARKUP_PROCESSING_INSTRUCTION); return firstToken;
           }
         case 104: break;
-        case 5:
+        case 5: 
           { addToken(Token.IDENTIFIER);
           }
         case 105: break;
-        case 42:
+        case 42: 
           { addToken(isE4xSupported() ? Token.MARKUP_TAG_ATTRIBUTE : Token.ERROR_IDENTIFIER);
           }
         case 106: break;
-        case 65:
+        case 65: 
           { int temp=zzStartRead; addToken(start,zzStartRead-1, Token.COMMENT_EOL); addHyperlinkToken(temp,zzMarkedPos-1, Token.COMMENT_EOL); start = zzMarkedPos;
           }
         case 107: break;
-        case 55:
+        case 55: 
           { start = zzMarkedPos-3; yybegin(JS_DOCCOMMENT);
           }
         case 108: break;
-        case 9:
+        case 9: 
           { start = zzMarkedPos-1; validJSString = true; yybegin(JS_STRING);
           }
         case 109: break;
-        case 51:
+        case 51: 
           { start = zzMarkedPos-2; e4x_inInternalDtd = false; yybegin(E4X_DTD);
           }
         case 110: break;
-        case 24:
+        case 24: 
           { addToken(start,zzStartRead-1, Token.MARKUP_COMMENT); addEndToken(INTERNAL_IN_E4X_COMMENT - e4x_prevState); return firstToken;
           }
         case 111: break;
-        case 10:
+        case 10: 
           { start = zzMarkedPos-1; validJSString = true; yybegin(JS_CHAR);
           }
         case 112: break;
-        case 28:
+        case 28: 
           { e4x_inInternalDtd = true;
           }
         case 113: break;
-        case 67:
+        case 67: 
           { int temp=zzStartRead; addToken(start,zzStartRead-1, Token.COMMENT_DOCUMENTATION); addHyperlinkToken(temp,zzMarkedPos-1, Token.COMMENT_DOCUMENTATION); start = zzMarkedPos;
           }
         case 114: break;
-        case 40:
+        case 40: 
           { start = zzMarkedPos-2; yybegin(JS_MLC);
           }
         case 115: break;
-        case 38:
+        case 38: 
           { addToken(Token.LITERAL_NUMBER_HEXADECIMAL);
           }
         case 116: break;
-        case 72:
+        case 72: 
           { addToken(Token.MARKUP_CDATA_DELIMITER); start = zzMarkedPos; yybegin(E4X_CDATA);
           }
         case 117: break;
-        case 31:
+        case 31: 
           { addToken(Token.MARKUP_TAG_DELIMITER); /* Not valid but we'll still accept it */
           }
         case 118: break;
-        case 2:
+        case 2: 
           { addToken(Token.ERROR_IDENTIFIER);
           }
         case 119: break;
-        case 69:
+        case 69: 
           { int temp=zzStartRead; addToken(start,zzStartRead-1, Token.MARKUP_COMMENT); addHyperlinkToken(temp,zzMarkedPos-1, Token.MARKUP_COMMENT); start = zzMarkedPos;
           }
         case 120: break;
-        case 32:
+        case 32: 
           { yybegin(E4X); addToken(Token.MARKUP_TAG_DELIMITER);
           }
         case 121: break;
-        case 22:
+        case 22: 
           { addToken(Token.MARKUP_ENTITY_REFERENCE);
           }
         case 122: break;
-        case 56:
+        case 56: 
           { if(isJavaScriptCompatible("1.7")){ addToken(Token.RESERVED_WORD);} else {addToken(Token.IDENTIFIER);}
           }
         case 123: break;
-        case 62:
+        case 62: 
           { addToken(Token.LITERAL_BOOLEAN);
           }
         case 124: break;
-        case 4:
+        case 4: 
           { addNullToken(); return firstToken;
           }
         case 125: break;
-        case 43:
+        case 43: 
           { addToken(Token.RESERVED_WORD);
           }
         case 126: break;
-        case 47:
+        case 47: 
           { yybegin(YYINITIAL); addToken(start,zzStartRead+1, Token.COMMENT_MULTILINE);
           }
         case 127: break;
-        case 57:
+        case 57: 
           { addToken(Token.DATA_TYPE);
           }
         case 128: break;
-        case 21:
+        case 21: 
           { addToken(Token.MARKUP_TAG_DELIMITER); yybegin(E4X_INTAG);
           }
         case 129: break;
-        case 8:
+        case 8: 
           { addToken(Token.SEPARATOR);
           }
         case 130: break;
-        case 30:
+        case 30: 
           { addToken(Token.MARKUP_TAG_ATTRIBUTE);
           }
         case 131: break;
-        case 66:
+        case 66: 
           { int temp=zzStartRead; addToken(start,zzStartRead-1, Token.COMMENT_DOCUMENTATION); addToken(temp,zzMarkedPos-1, Token.COMMENT_KEYWORD); start = zzMarkedPos;
           }
         case 132: break;
-        case 16:
+        case 16: 
           { int type = validJSString ? Token.LITERAL_CHAR : Token.ERROR_CHAR; addToken(start,zzStartRead, type); yybegin(YYINITIAL);
           }
         case 133: break;
-        case 39:
+        case 39: 
           { start = zzMarkedPos-2; yybegin(JS_EOL_COMMENT);
           }
         case 134: break;
-        case 20:
+        case 20: 
           { addEndToken(INTERNAL_E4X); return firstToken;
           }
         case 135: break;
-        case 12:
+        case 12: 
           { /* Line ending in '\' => continue to next line. */
 								if (validJSString) {
 									addToken(start,zzStartRead, Token.LITERAL_STRING_DOUBLE_QUOTE);
@@ -2004,18 +2004,18 @@ public final void yybegin(int newState) {
 								return firstToken;
           }
         case 136: break;
-        case 37:
+        case 37: 
           { addToken(Token.LITERAL_NUMBER_FLOAT);
           }
         case 137: break;
-        case 50:
+        case 50: 
           { int count = yylength();
 									addToken(zzStartRead,zzStartRead, Token.MARKUP_TAG_DELIMITER);
 									addToken(zzMarkedPos-(count-1), zzMarkedPos-1, Token.MARKUP_TAG_NAME);
 									yybegin(E4X_INTAG);
           }
         case 138: break;
-        case 54:
+        case 54: 
           { boolean highlightedAsRegex = false;
 										if (firstToken==null) {
 											addToken(Token.REGEX);
@@ -2039,27 +2039,27 @@ public final void yybegin(int newState) {
 										}
           }
         case 139: break;
-        case 27:
+        case 27: 
           { if (!e4x_inInternalDtd) { yybegin(E4X); addToken(start,zzStartRead, Token.MARKUP_DTD); }
           }
         case 140: break;
-        case 6:
+        case 6: 
           { addToken(Token.LITERAL_NUMBER_DECIMAL_INT);
           }
         case 141: break;
-        case 29:
+        case 29: 
           { e4x_inInternalDtd = false;
           }
         case 142: break;
-        case 14:
+        case 14: 
           { addToken(start,zzStartRead-1, Token.ERROR_CHAR); addNullToken(); return firstToken;
           }
         case 143: break;
-        case 1:
-          {
+        case 1: 
+          { 
           }
         case 144: break;
-        default:
+        default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
             switch (zzLexicalState) {
@@ -2122,7 +2122,7 @@ public final void yybegin(int newState) {
             default:
             return null;
             }
-          }
+          } 
           else {
             zzScanError(ZZ_NO_MATCH);
           }
