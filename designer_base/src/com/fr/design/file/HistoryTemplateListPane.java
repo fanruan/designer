@@ -233,7 +233,6 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
         getCurrentEditingTemplate().repaint();
     }
 
-    @Override
     public void downLoadSources() {
         DownLoadOnLineSourcesHelper pane = new DownLoadOnLineSourcesHelper();
         pane.addMapJSONSiteInfo();
