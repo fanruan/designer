@@ -31,6 +31,7 @@ public class DownLoadOnLineSourcesHelper {
     private static final int LOAD_WIDTH = 455;
     private static final int INCIDENT_HEIGHT = 15;
     private static final int LOAD_HEIGHT = 295;
+    private static final int PERCENT = 100;
 
     //进度显示界面
     private JDialog dialog;
@@ -46,6 +47,19 @@ public class DownLoadOnLineSourcesHelper {
     //总共字节数
     private double totalBytes = 0;
 
+
+    private static final double PHANTOM_MB = 96.1 * 1024 * 1024;
+
+    public void addPhantomSiteInfo() {
+        this.addSiteInfo("plugin.phantomjs", "/assist/phantomjs", PHANTOM_MB);
+    }
+
+    private static final double MAP_JSON_MB = 3.8 * 1024 * 1024;
+
+    public void addMapJSONSiteInfo() {
+        this.addSiteInfo("map.json", "/assets/map", MAP_JSON_MB);
+    }
+
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {
         if (new File(FRContext.getCurrentEnv().getPath() + localDir).exists()) {
             //本地有这个资源，不下载
@@ -56,7 +70,7 @@ public class DownLoadOnLineSourcesHelper {
             //服务器连不上，不下载
             return;
         }
-        totalBytes += megaBits * 1024 * 1024;
+        totalBytes += megaBits;
         list.add(new SiteInfo(siteKind, localDir));
     }
 
@@ -176,7 +190,7 @@ public class DownLoadOnLineSourcesHelper {
 
     private void setProgress(double current) {
         progressbar.setValue((int) current);
-        progressbar.setString(current/totalBytes * 100 + "%");
+        progressbar.setString(current / totalBytes * PERCENT + "%");
         progressbar.paintImmediately(new Rectangle(0, 0, LOAD_WIDTH, INCIDENT_HEIGHT * 2));
     }
 

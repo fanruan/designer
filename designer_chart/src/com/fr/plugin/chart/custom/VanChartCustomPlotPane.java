@@ -44,7 +44,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     //自定义和自动版面的容器，cardLayOut布局
     private JPanel contentPane;
 
-    protected Component[][] getPaneComponents(JPanel typePane){
+    protected Component[][] getPaneComponents(JPanel typePane) {
 
         initContent();
 
@@ -71,14 +71,14 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        customPane = TableLayoutHelper.createTableLayoutPane(components, rowSize , columnSize);
+        customPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        contentPane = new JPanel(new CardLayout()){
+        contentPane = new JPanel(new CardLayout()) {
             @Override
             public Dimension getPreferredSize() {
-                if(isCustom){
+                if (isCustom) {
                     return customPane.getPreferredSize();
-                } else{
+                } else {
                     return new Dimension(autoPane.getWidth(), 0);
                 }
             }
@@ -95,7 +95,6 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
             cardLayout.show(contentPane, "auto");
         }
     }
-
 
 
     @Override
@@ -142,22 +141,22 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         }
 
         Chart[] customChart = CustomIndependentVanChart.CustomVanChartTypes;
-        for(int i = 0, len = customChart.length; i < len; i++){
-            if(typeDemo.get(i).isPressing){
-                if (i == customChart.length-1){
+        for (int i = 0, len = customChart.length; i < len; i++) {
+            if (typeDemo.get(i).isPressing) {
+                if (i == customChart.length - 1) {
                     isCustom = true;
 
                     //先重置自定义组合面板，如果不重置，无法获取选择顺序
-                    if (lastState == customChart.length-1 && samePlot) {
+                    if (lastState == customChart.length - 1 && samePlot) {
                         //更新数据配置，刪除已经不在的图表数据
                         dealCustomDefinition(chart);
 
                         customSelectPane.updateBean(chart);
-                    }else if (samePlot){//如果是同一个图表切换过来，则重置面板
+                    } else if (samePlot) {//如果是同一个图表切换过来，则重置面板
                         customSelectPane.populateBean(chart);
                     }
                 }
-            }else {
+            } else {
                 isCustom = false;
             }
         }
@@ -169,20 +168,20 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     private void dealCustomDefinition(Chart chart) {
         CustomDefinition definition = (CustomDefinition) chart.getFilterDefinition();
 
-        if (definition == null){
+        if (definition == null) {
             return;
         }
 
         Map<CustomPlotType, TopDefinitionProvider> definitionMap = definition.getDefinitionProviderMap();
 
-        if (definitionMap == null){
+        if (definitionMap == null) {
             return;
         }
 
         Map<CustomPlotType, TopDefinitionProvider> newDefinitionMap = new HashMap<CustomPlotType, TopDefinitionProvider>();
 
         VanChartCustomPlot customPlot = (VanChartCustomPlot) chart.getPlot();
-        for (int i = 0; i < customPlot.getCustomPlotList().size(); i++){
+        for (int i = 0; i < customPlot.getCustomPlotList().size(); i++) {
             CustomPlotType plotType = CustomPlotFactory.getCustomType(customPlot.getCustomPlotList().get(i));
             TopDefinitionProvider definitionProvider = definitionMap.get(plotType);
 
@@ -194,16 +193,17 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
     /**
      * 不同图表切換，重置chart屬性
+     *
      * @param chart
      * @param newPlot
      */
     @Override
-    protected void resetChartAttr(Chart chart, Plot newPlot){
+    protected void resetChartAttr(Chart chart, Plot newPlot) {
         super.resetChartAttr(chart, newPlot);
         //切换图表清空数据配置
         chart.setFilterDefinition(null);
         //设置默认不排序
-        VanChartTools tools = ((VanChart)chart).getVanChartTools();
+        VanChartTools tools = ((VanChart) chart).getVanChartTools();
         if (tools != null) {
             tools.setSort(false);
         }
@@ -213,19 +213,19 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
      * 更新界面内容
      */
     public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
+        for (ChartImagePane imagePane : typeDemo) {
             imagePane.isPressing = false;
         }
 
         //获取上次选中的图标
-        VanChartCustomPlot customPlot = (VanChartCustomPlot)chart.getPlot();
+        VanChartCustomPlot customPlot = (VanChartCustomPlot) chart.getPlot();
         lastTypeIndex = customPlot.getCustomStyle().ordinal();
         typeDemo.get(lastTypeIndex).isPressing = true;
 
         isCustom = customPlot.getCustomStyle() == CustomStyle.CUSTOM;
 
         //自定义选择时，更新自定义面板
-        if (isCustom){
+        if (isCustom) {
             customSelectPane.populateBean(chart);
         }
 
@@ -245,17 +245,17 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         return VanChartCustomPlot.VAN_CHART_CUSTOM_PLOT_ID;
     }
 
-    protected Plot getSelectedClonedPlot(){
+    protected Plot getSelectedClonedPlot() {
         VanChartCustomPlot newPlot = null;
         Chart[] customChart = CustomIndependentVanChart.CustomVanChartTypes;
-        for(int i = 0, len = customChart.length; i < len; i++){
-            if(typeDemo.get(i).isPressing){
-                newPlot = (VanChartCustomPlot)customChart[i].getPlot();
+        for (int i = 0, len = customChart.length; i < len; i++) {
+            if (typeDemo.get(i).isPressing) {
+                newPlot = (VanChartCustomPlot) customChart[i].getPlot();
             }
         }
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+            cloned = (Plot) newPlot.clone();
         } catch (CloneNotSupportedException e) {
             FRLogger.getLogger().error("Error In ScatterChart");
         }
@@ -270,7 +270,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     /**
      *删除配置的条件属性
      */
-    protected void cloneOldConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
+    protected void cloneOldConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
         cloneOldDefaultAttrConditionCollection(oldPlot, newPlot);
     }
 
@@ -278,7 +278,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     /**
      * 删除线型配置
      */
-    protected void cloneOldDefaultAttrConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
+    protected void cloneOldDefaultAttrConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
         if (oldPlot.getConditionCollection() != null) {
             ConditionCollection newCondition = new ConditionCollection();
             newCondition.setDefaultAttr((ConditionAttr) oldPlot.getConditionCollection().getDefaultAttr().clone());
@@ -287,7 +287,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
             //删除线型设置
             ConditionAttr attrList = newCondition.getDefaultAttr();
             DataSeriesCondition attr = attrList.getExisted(VanChartAttrLine.class);
-            if (attr != null){
+            if (attr != null) {
                 attrList.remove(VanChartAttrLine.class);
             }
         }

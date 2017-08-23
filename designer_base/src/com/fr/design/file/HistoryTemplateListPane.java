@@ -236,8 +236,8 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
     @Override
     public void downLoadSources() {
         DownLoadOnLineSourcesHelper pane = new DownLoadOnLineSourcesHelper();
-        pane.addSiteInfo("map.json", "/assets/map", 3.8);
-        pane.addSiteInfo("plugin.phantomjs", "/assist/phantomjs", 96.1);
+        pane.addMapJSONSiteInfo();
+        pane.addPhantomSiteInfo();
         pane.installOnline();
     }
 
