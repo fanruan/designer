@@ -17,6 +17,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -77,6 +79,15 @@ public class JSliderPane extends JPanel {
         this.setLayout(new BorderLayout());
         initSlider();
         initShowValSpinner();
+        //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
+        showValSpinner.setEditor(editor);
+        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+        textField.setEditable(true);
+        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
+        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
+        formatter.setAllowsInvalid(false);
+
         initDownUpButton();
         initShowValButton();
         initUIRadioButton();
@@ -114,7 +125,7 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)) {
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 10, FOUR_HUNDRED, 1)) {
             public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
@@ -221,7 +232,7 @@ public class JSliderPane extends JPanel {
                 new Component[]{fiveTenButton, null},
                 new Component[]{twoFiveButton, null},
                 new Component[]{selfAdaptButton, null},
-                new Component[]{customButton, createSpinnerPanel()}
+                new Component[]{createSpinnerPanel(), customButton}
         };
         dialogContentPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_MEDIUM, 0);
         dialogContentPanel.setBackground(BACK_COLOR);
@@ -464,7 +475,7 @@ class JSliderPaneUI extends BasicSliderUI {
 
 class PopupPane extends JPopupMenu {
     private static final int DIALOG_WIDTH = 157;
-    private static final int DIALOG_HEIGHT = 192;
+    private static final int DIALOG_HEIGHT = 292;
 
     PopupPane(JButton b, JPanel dialogContentPanel) {
         this.add(dialogContentPanel, BorderLayout.CENTER);
