@@ -10,7 +10,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
@@ -48,9 +48,9 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private UIComboBox showContent;
 
-    private UIPropertyTextField tooltipTextField;
+    private UITextField tooltipTextField;
 
-    private UIPropertyTextField fileNameTextField;
+    private UITextField fileNameTextField;
 
     // 分页
     private UICheckBox pageBeforeRowCheckBox;
@@ -229,8 +229,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         final JPanel fileNamePane = new JPanel(fileNameLayout);
         JPanel fileNameCCPane = new JPanel(new BorderLayout(4, 0));
         fileNameCCPane.add(new UILabel(Inter.getLocText("FR-Designer_File_Name_For_Download")), BorderLayout.WEST);
-        fileNameTextField = new UIPropertyTextField();
-        tooltipTextField = new UIPropertyTextField();
+        fileNameTextField = new UITextField();
+        tooltipTextField = new UITextField();
         tooltipTextField.getUI();
         fileNamePane.add(new JPanel(), "none");
         fileNamePane.add(fileNameCCPane, "content");
@@ -452,10 +452,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Page_After_Column"))) {
             cellPageAttr.setPageAfterColumn(this.pageAfterColumnCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Can_Break_On_Paginate"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellPage_Can_Break_On_Paginate"))) {
             cellPageAttr.setCanBreakOnPaginate(canBreakOnPaginateCheckBox.isSelected());
         }
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellWrite_Repeat_Content_When_Paging"))) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_CellPage_Repeat_Content_When_Paging"))) {
             cellPageAttr.setRepeat(this.repeatCheckBox.isSelected());
         }
 
