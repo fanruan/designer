@@ -358,7 +358,7 @@ public class AlphaFineDialog extends UIDialog {
     /**
      * 移除左侧列表面板
      */
-    private void replaceLeftPane() {
+    private void removeLeftPane() {
         if (searchListModel.isEmpty() && defaultPane == null) {
             defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
             searchResultPane.remove(leftSearchResultPane);
@@ -373,7 +373,7 @@ public class AlphaFineDialog extends UIDialog {
     private void fireStopLoading() {
         searchListModel.resetState();
         if (searchResultPane != null) {
-            replaceLeftPane();
+            removeLeftPane();
         }
     }
 
@@ -771,7 +771,7 @@ public class AlphaFineDialog extends UIDialog {
             }
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+            para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));
             para.put("content", object.toString());
             HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
             httpClient.asGet();
