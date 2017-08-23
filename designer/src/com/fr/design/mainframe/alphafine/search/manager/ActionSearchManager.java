@@ -91,7 +91,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult(String searchText) {
+    public SearchResult getMoreSearchResult() {
         return moreModelList;
     }
 }

@@ -99,7 +99,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult(String searchText) {
+    public SearchResult getMoreSearchResult() {
         return new SearchResult();
     }
 

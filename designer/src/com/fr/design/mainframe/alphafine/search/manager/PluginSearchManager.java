@@ -137,7 +137,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult(String searchText) {
+    public SearchResult getMoreSearchResult() {
         return this.moreModelList;
     }
 }
