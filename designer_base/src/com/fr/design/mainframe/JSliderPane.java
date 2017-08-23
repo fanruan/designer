@@ -79,7 +79,7 @@ public class JSliderPane extends JPanel {
         this.setLayout(new BorderLayout());
         initSlider();
         initShowValSpinner();
-        //MoMeak：控制只能输入10-400，但是用起来感觉不舒服，先注释掉吧
+        //MoMeak：控制只能输入10-400
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
         showValSpinner.setEditor(editor);
         JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
@@ -125,7 +125,7 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 10, FOUR_HUNDRED, 1)) {
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 0, FOUR_HUNDRED, 1)) {
             public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
@@ -232,7 +232,7 @@ public class JSliderPane extends JPanel {
                 new Component[]{fiveTenButton, null},
                 new Component[]{twoFiveButton, null},
                 new Component[]{selfAdaptButton, null},
-                new Component[]{createSpinnerPanel(), customButton}
+                new Component[]{customButton, createSpinnerPanel()}
         };
         dialogContentPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_MEDIUM, 0);
         dialogContentPanel.setBackground(BACK_COLOR);
@@ -475,7 +475,7 @@ class JSliderPaneUI extends BasicSliderUI {
 
 class PopupPane extends JPopupMenu {
     private static final int DIALOG_WIDTH = 157;
-    private static final int DIALOG_HEIGHT = 292;
+    private static final int DIALOG_HEIGHT = 192;
 
     PopupPane(JButton b, JPanel dialogContentPanel) {
         this.add(dialogContentPanel, BorderLayout.CENTER);
