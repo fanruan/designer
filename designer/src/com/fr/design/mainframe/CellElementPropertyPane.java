@@ -79,7 +79,7 @@ public class CellElementPropertyPane extends DockingView {
 
         @Override
         public void fireTitleChange(String addName) {
-            title.setText(Inter.getLocText("CellElement-Property_Table") + '-' + addName);
+            title.setText(Inter.getLocText("FR-Designer_CellElement_Property_Table") + '-' + addName);
         }
     };
 
@@ -150,7 +150,7 @@ public class CellElementPropertyPane extends DockingView {
 
     @Override
     public String getViewTitle() {
-        return Inter.getLocText("CellElement-Property_Table");
+        return Inter.getLocText("FR-Designer_CellElement_Property_Table");
     }
 
     @Override

@@ -336,7 +336,7 @@ public class JFormSliderPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             showValue = (int) showValSpinner.getValue();
             isButtonOrIsTxt = true;
-            if (e.getActionCommand().equals("less")) {
+            if ("less".equals(e.getActionCommand())) {
                 int newDownVal = showValue - TEN;
                 if (newDownVal >= TEN) {
                     showValue = newDownVal;
@@ -346,7 +346,7 @@ public class JFormSliderPane extends JPanel {
                     showValSpinner.setValue(TEN);
                 }
             }
-            if (e.getActionCommand().equals("more")) {
+            if ("more".equals(e.getActionCommand())) {
                 int newUpVal = showValue + TEN;
                 if (newUpVal <= FOUR_HUNDRED) {
                     showValue = newUpVal;
