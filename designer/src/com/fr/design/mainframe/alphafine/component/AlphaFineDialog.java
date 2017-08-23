@@ -322,6 +322,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
+                resumeLeftPane();
                 splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
@@ -339,6 +340,33 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
+     * 恢复左侧列表面板
+     */
+    private void resumeLeftPane() {
+        if (searchResultPane != null && defaultPane != null) {
+            searchResultPane.remove(defaultPane);
+            defaultPane = null;
+            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+            rightSearchResultPane.removeAll();
+            refreshContainer();
+        }
+    }
+
+    /**
+     * 移除左侧列表面板
+     */
+    private void replaceLeftPane() {
+        if (searchResultPane != null) {
+            if (searchListModel.isEmpty() && defaultPane == null) {
+                defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+                searchResultPane.remove(leftSearchResultPane);
+                searchResultPane.add(defaultPane, BorderLayout.WEST);
+                refreshContainer();
+            }
+        }
+    }
+
+    /**
      * 停止加载状态
      */
     private void fireStopLoading() {
@@ -353,20 +381,6 @@ public class AlphaFineDialog extends UIDialog {
         validate();
         repaint();
         revalidate();
-    }
-
-    /**
-     * 重置结果面板
-     */
-    private void replaceLeftPane() {
-        if (searchResultPane != null) {
-            if (searchListModel.isEmpty() && defaultPane == null) {
-                defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
-                searchResultPane.remove(leftSearchResultPane);
-                searchResultPane.add(defaultPane, BorderLayout.WEST);
-                refreshContainer();
-            }
-        }
     }
 
     /**
@@ -968,12 +982,6 @@ public class AlphaFineDialog extends UIDialog {
          */
         private void fireSelectedStateChanged(AlphaCellModel element, int index) {
             if (element.hasAction() && !isValidSelected()) {
-                if (defaultPane != null) {
-                    searchResultPane.remove(defaultPane);
-                    defaultPane = null;
-                    searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-                    refreshContainer();
-                }
                 searchResultList.setSelectedIndex(index);
                 setValidSelected(true);
             }
