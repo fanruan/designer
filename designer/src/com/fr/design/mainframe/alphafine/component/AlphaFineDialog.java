@@ -344,10 +344,10 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void resumeLeftPane() {
         if (searchResultPane != null && defaultPane != null) {
+            rightSearchResultPane.removeAll();
             searchResultPane.remove(defaultPane);
             defaultPane = null;
             searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-            rightSearchResultPane.removeAll();
             refreshContainer();
         }
     }
