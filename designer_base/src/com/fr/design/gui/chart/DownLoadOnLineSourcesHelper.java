@@ -97,9 +97,9 @@ public class DownLoadOnLineSourcesHelper {
             double currentBytesRead = 0;
 
             for (int i = 0; i < list.size(); i++) {
-                SiteInfo dependenceUnit = list.get(i);
+                SiteInfo siteInfo = list.get(i);
 
-                httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(dependenceUnit.siteKind));
+                httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind(siteInfo.siteKind));
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream reader = httpClient.getResponseStream();
                     String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
@@ -122,7 +122,7 @@ public class DownLoadOnLineSourcesHelper {
 
                     if (result) {
                         //安装文件
-                        IOUtils.unZipFilesGBK(temp, FRContext.getCurrentEnv().getPath() + dependenceUnit.localDir);
+                        IOUtils.unZipFilesGBK(temp, FRContext.getCurrentEnv().getPath() + siteInfo.localDir);
                     }
                 } else {
                     result = false;
