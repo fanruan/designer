@@ -331,7 +331,6 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
             }else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
                 // 防止多次触发
                 if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
-                    formWidgetCardPane.populate();
                     return;
                 }
                 lastAffectedCreator = evt.getAffectedCreator();
