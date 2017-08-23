@@ -57,10 +57,28 @@ import java.util.ArrayList;
 public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     private static final double[] COLUMN_SIZE = {48, TableLayout.FILL, TableLayout.PREFERRED};
 
-    public static final ZoomLevel[] ZOOM_LEVELS = new ZoomLevel[]{ZoomLevel.AUTO, ZoomLevel.ZERO, ZoomLevel.ONE,
-            ZoomLevel.TWO, ZoomLevel.THREE, ZoomLevel.FOUR, ZoomLevel.FIVE, ZoomLevel.SIX, ZoomLevel.SEVEN,
-            ZoomLevel.EIGHT, ZoomLevel.NINE, ZoomLevel.TEN, ZoomLevel.ELEVEN, ZoomLevel.TWELVE, ZoomLevel.THIRTEEN,
-            ZoomLevel.FOURTEEN, ZoomLevel.FIFTEEN, ZoomLevel.SIXTEEN, ZoomLevel.SEVENTEEN, ZoomLevel.EIGHTEEN};
+    public static final ZoomLevel[] ZOOM_LEVELS = new ZoomLevel[]{
+            ZoomLevel.AUTO,
+            ZoomLevel.ZERO, ZoomLevel.ZEROPOINTFIVE,
+            ZoomLevel.ONE, ZoomLevel.ONEPOINTFIVE,
+            ZoomLevel.TWO, ZoomLevel.TWOPOINTFIVE,
+            ZoomLevel.THREE, ZoomLevel.THREEPOINTFIVE,
+            ZoomLevel.FOUR, ZoomLevel.FOURPOINTFIVE,
+            ZoomLevel.FIVE, ZoomLevel.FIVEPOINTFIVE,
+            ZoomLevel.SIX, ZoomLevel.SIXPOINTFIVE,
+            ZoomLevel.SEVEN, ZoomLevel.SEVENPOINTFIVE,
+            ZoomLevel.EIGHT, ZoomLevel.EIGHTPOINTFIVE,
+            ZoomLevel.NINE, ZoomLevel.NINEPOINTFIVE,
+            ZoomLevel.TEN, ZoomLevel.TENPOINTFIVE,
+            ZoomLevel.ELEVEN, ZoomLevel.ELEVENTPOINTFIVE,
+            ZoomLevel.TWELVE, ZoomLevel.TWELVEPOINTFIVE,
+            ZoomLevel.THIRTEEN, ZoomLevel.THIRTEENPOINTFIVE,
+            ZoomLevel.FOURTEEN, ZoomLevel.FOURTEENPOINTFIVE,
+            ZoomLevel.FIFTEEN, ZoomLevel.FIFTEENPOINTFIVE,
+            ZoomLevel.SIXTEEN, ZoomLevel.SIXTEENPOINTFIVE,
+            ZoomLevel.SEVENTEEN, ZoomLevel.SEVENTEENPOINTFIVE,
+            ZoomLevel.EIGHTEEN
+    };
     private static final String AUTO_CENTER_STRING = Inter.getLocText("Plugin-ChartF_Automatic");
     private static final String CUSTOM_CENTER_STRING = Inter.getLocText("Plugin-ChartF_Custom");
 
