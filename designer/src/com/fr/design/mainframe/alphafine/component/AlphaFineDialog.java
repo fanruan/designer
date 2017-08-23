@@ -325,8 +325,6 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
-                resumeLeftPane();
-                splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
@@ -347,11 +345,9 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void resumeLeftPane() {
         if (searchResultPane != null && defaultPane != null) {
-            rightSearchResultPane.removeAll();
             searchResultPane.remove(defaultPane);
             defaultPane = null;
             searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-            refreshContainer();
         }
     }
 
@@ -425,9 +421,11 @@ public class AlphaFineDialog extends UIDialog {
      * 重置面板
      */
     private void resetContainer() {
+        rightSearchResultPane.removeAll();
+        splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
+        resumeLeftPane();
         searchListModel.removeAllElements();
         searchListModel.resetSelectedState();
-        rightSearchResultPane.removeAll();
         refreshContainer();
     }
 
@@ -639,11 +637,10 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void HandleMoreOrLessResult(int index, MoreModel selectedValue) {
+    private void dealWithMoreOrLessResult(int index, MoreModel selectedValue) {
         if (selectedValue.getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"))) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
             rebuildShowMoreList(index, selectedValue);
-
         } else {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"));
             rebuildShowMoreList(index, selectedValue);
@@ -935,7 +932,7 @@ public class AlphaFineDialog extends UIDialog {
                         saveHistory(selectedValue);
                     } else if (e.getClickCount() == 1) {
                         if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
-                            HandleMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                            dealWithMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
                         }
                     }
                 }
