@@ -1,4 +1,4 @@
-package com.fr.design.gui.chart;
+package com.fr.plugin.chart;
 
 import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by shine on 2017/8/21.
  */
-public class DownloadOnlineSourcesHelper {
+public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent{
     // 定义加载窗口大小
     private static final int LOAD_WIDTH = 455;
     private static final int INCIDENT_HEIGHT = 15;
@@ -151,7 +151,7 @@ public class DownloadOnlineSourcesHelper {
     private void initDialog() {
 
         // 创建标签,并在标签上放置一张图片
-        BufferedImage image = IOUtils.readImage("/com/fr/design/gui/chart/background.png");
+        BufferedImage image = IOUtils.readImage("/com/fr/plugin/chart/background.png");
         ImageIcon imageIcon = new ImageIcon(image);
         UILabel label = new UILabel(imageIcon);
         label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT);
@@ -207,6 +207,13 @@ public class DownloadOnlineSourcesHelper {
         } else {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Dependence_Install_Failed"));
         }
+    }
+
+    @Override
+    public void downloadSources() {
+        this.addMapJSONSiteInfo();
+        this.addPhantomSiteInfo();
+        this.installOnline();
     }
 
     private class SiteInfo {
