@@ -30,6 +30,7 @@ public class AlphaFinePane extends BasicPane {
         refreshButton.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
+        refreshButton.setRolloverEnabled(false);
         this.add(refreshButton);
         this.setBackground(ThemeUtils.WHITE_BORDER_COLOR);
         refreshButton.addActionListener(new ActionListener() {

@@ -33,14 +33,6 @@ public class TitleCellRender implements ListCellRenderer<Object> {
             showMoreLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
             panel.add(showMoreLabel, BorderLayout.EAST);
         }
-        if (moreModel.isLoading()) {
-            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/loading.gif"));
-            //设置cell的加载动画
-            imageIcon.setImageObserver(list);
-            UILabel loadingLabel = new UILabel(imageIcon);
-            loadingLabel.setBorder(BorderFactory.createEmptyBorder(LOAD_OFFSET,0,0,0));
-            panel.add(loadingLabel, 0);
-        }
         panel.setPreferredSize(new Dimension(list.getFixedCellWidth(), AlphaFineConstants.CELL_TITLE_HEIGHT));
         return panel;
     }
