@@ -32,6 +32,8 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     private ColorSelectBox color;
     private UINumberDragPane transparent;
 
+    private VanChartCustomIntervalBackground customIntervalBackground;
+
     public VanChartCustomIntervalBackgroundPane(){
     }
 
@@ -90,6 +92,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     }
 
     public void populateBean(VanChartCustomIntervalBackground customIntervalBackground){
+        this.customIntervalBackground = customIntervalBackground;
         backgroundAxis = new UIButtonGroup(customIntervalBackground.getAxisNamesArray(), customIntervalBackground.getAxisNamesArray());
         backgroundAxis.setSelectedItem(customIntervalBackground.getAxisName());
 
@@ -99,20 +102,18 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         topValue.populateBean(Utils.objectToString(customIntervalBackground.getToFormula()));
         color.setSelectObject(customIntervalBackground.getBackgroundColor());
         transparent.populateBean(customIntervalBackground.getAlpha() * VanChartAttrHelper.PERCENT);
-
-
     }
 
-    public void updateBean(VanChartCustomIntervalBackground customIntervalBackground){
+    public void updateBean(VanChartCustomIntervalBackground customIntervalBackground){}
+
+    public VanChartCustomIntervalBackground updateBean(){
+
         customIntervalBackground.setAxisName(backgroundAxis.getSelectedItem().toString());
 
         customIntervalBackground.setFromFormula(new Formula(bottomValue.updateBean()));
         customIntervalBackground.setToFormula(new Formula(topValue.updateBean()));
         customIntervalBackground.setBackgroundColor(color.getSelectObject());
         customIntervalBackground.setAlpha(transparent.updateBean() / VanChartAttrHelper.PERCENT);
-    }
-
-    public VanChartCustomIntervalBackground updateBean(){
-        return null;
+        return customIntervalBackground;
     }
 }

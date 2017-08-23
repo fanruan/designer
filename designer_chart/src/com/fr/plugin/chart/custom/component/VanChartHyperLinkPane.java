@@ -9,6 +9,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
+import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
@@ -25,7 +26,6 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
-import com.fr.plugin.chart.designer.other.ChartHyperlinkNameObjectCreartor;
 import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
 import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
@@ -89,7 +89,6 @@ public class VanChartHyperLinkPane extends UIListControlPane {
     }
 
     public void populate(TargetComponent elementCasePane) {
-//        hyperlinkGroupPaneActionProvider.populate(this, elementCasePane);
     }
 
     /**
@@ -128,12 +127,11 @@ public class VanChartHyperLinkPane extends UIListControlPane {
            // paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
         }
 
-        //todo@mengao  去掉UIMenuNameableCreator
         java.util.List<UIMenuNameableCreator> list = refreshList(paneMap);
-        ChartHyperlinkNameObjectCreartor[] creators= new ChartHyperlinkNameObjectCreartor[list.size()];
+        NameObjectCreator[] creators= new NameObjectCreator[list.size()];
         for(int i = 0; list != null &&  i < list.size(); i++) {
             UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
-            creators[i] = new ChartHyperlinkNameObjectCreartor(uiMenuNameableCreator.getObj(),uiMenuNameableCreator.getName(), uiMenuNameableCreator.getClass(), uiMenuNameableCreator.getPaneClazz());
+            creators[i] = new NameObjectCreator(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj().getClass(), uiMenuNameableCreator.getPaneClazz());
 
         }
 
@@ -147,7 +145,7 @@ public class VanChartHyperLinkPane extends UIListControlPane {
             if(javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
                 UIMenuNameableCreator uiMenuNameableCreator= new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass()));
-                nameObjects.add(new NameObject(uiMenuNameableCreator.getName(), uiMenuNameableCreator));
+                nameObjects.add(new NameObject(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj()));
 
             }
         }
@@ -182,9 +180,9 @@ public class VanChartHyperLinkPane extends UIListControlPane {
         nameGroup.clear();
 
         for(int i = 0; i < nameables.length; i++) {
-            UIMenuNameableCreator menu = (UIMenuNameableCreator)((NameObject)nameables[i]).getObject();
-            NameJavaScript nameJava = new NameJavaScript(menu.getName(), (JavaScript)menu.getObj());
-            nameJava.setName(nameables[i].getName());
+            JavaScript javaScript = (JavaScript)((NameObject)nameables[i]).getObject();
+            String name = nameables[i].getName();
+            NameJavaScript nameJava = new NameJavaScript(name,javaScript);
             nameGroup.addNameHyperlink(nameJava);
         }
 
@@ -231,11 +229,4 @@ public class VanChartHyperLinkPane extends UIListControlPane {
         return null;
     }
 
-    protected Object getob2Populate (Object ob2Populate) {
-        if (ob2Populate == null) {
-            return ob2Populate;
-        }
-        return ((UIMenuNameableCreator)ob2Populate).getObj();
-
-    }
 }
