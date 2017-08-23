@@ -638,7 +638,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void dealWithMoreOrLessResult(int index, MoreModel selectedValue) {
-        if (selectedValue.getContent().equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"))) {
+        if (ComparatorUtils.equals(Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), selectedValue.getContent())) {
             selectedValue.setContent(Inter.getLocText("FR-Designer_AlphaFine_ShowLess"));
             rebuildShowMoreList(index, selectedValue);
         } else {
