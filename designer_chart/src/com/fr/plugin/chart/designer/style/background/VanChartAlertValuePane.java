@@ -168,9 +168,6 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         fontColor.setSelectObject(chartAlertValue.getAlertFont().getForeground());
     }
 
-    @Override
-    public void updateBean(VanChartAlertValue chartAlertValue) {}
-
     public VanChartAlertValue updateBean(){
         chartAlertValue.setAxisName(alertAxis.getSelectedItem().toString());
 

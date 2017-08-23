@@ -3,6 +3,7 @@ package com.fr.plugin.chart.designer.style.background;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
+import com.fr.general.FRLogger;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
 import com.fr.stable.Nameable;
@@ -39,13 +40,13 @@ public class ChartNameObjectCreator extends NameObjectCreator {
             return new NameObject(helper.createUnrepeatedName(this.menuName()), vanChartAlertValue);
 
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

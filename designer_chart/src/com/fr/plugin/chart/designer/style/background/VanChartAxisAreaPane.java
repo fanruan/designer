@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 /**
  * 样式-背景-绘图区背景-坐标轴图表特有（间隔背景、网格线、警戒线）
  */
-public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
+public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     private static final long serialVersionUID = -1880497996650835504L;
 
     protected ColorSelectBox horizontalGridLine;
@@ -36,50 +36,50 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
     private ColorSelectBox verticalColorBackground;
     protected BackgroundListControlPane customIntervalBackground;
 
-    public VanChartAxisAreaPane(){
+    public VanChartAxisAreaPane() {
         initComponents();
     }
 
-    protected void initComponents(){
+    protected void initComponents() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { f };
-        double[] rowSize = {p,p,p};
+        double[] columnSize = {f};
+        double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{createGridLinePane(new double[]{p,p,p}, new double[]{p,f})},
+                new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{p, f})},
                 new Component[]{createAlertLinePane()},
-                new Component[]{createIntervalPane(new double[]{p,p,p,p}, new double[]{p,f})},
+                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{p, f})},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
-        this.add(panel,BorderLayout.CENTER);
+        this.add(panel, BorderLayout.CENTER);
     }
 
-    private JPanel createGridLinePane(double[] row, double[] col){
+    private JPanel createGridLinePane(double[] row, double[] col) {
         horizontalGridLine = new ColorSelectBox(100);
         verticalGridLine = new ColorSelectBox(100);
         Component[][] components = getGridLinePaneComponents();
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("ChartF-Grid_Line"),panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("ChartF-Grid_Line"), panel);
     }
 
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
-                new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")),horizontalGridLine},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")),verticalGridLine},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")), horizontalGridLine},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")), verticalGridLine},
         };
     }
 
-    protected JPanel createAlertLinePane(){
+    protected JPanel createAlertLinePane() {
         alertLine = new AlertLineListControlPane();
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"),alertLine);
-        alertLine.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"), alertLine);
+        alertLine.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
         return panel;
     }
 
-    protected JPanel createIntervalPane(double[] row, double[] col){
+    protected JPanel createIntervalPane(double[] row, double[] col) {
         isDefaultIntervalBackground = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_IntervalBackground"), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground")});
         horizontalColorBackground = new ColorSelectBox(100);
         verticalColorBackground = new ColorSelectBox(100);
@@ -100,33 +100,33 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
         JPanel intervalPane = new JPanel(new BorderLayout(0, 6));
         intervalPane.add(isDefaultIntervalBackground, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"),intervalPane);
-        intervalPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"), intervalPane);
+        intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
         return panel;
     }
 
     protected Component[][] getIntervalPaneComponents() {
         return new Component[][]{
-                new Component[]{null,null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")),horizontalColorBackground},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")),verticalColorBackground},
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Horizontal")), horizontalColorBackground},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Direction_Vertical")), verticalColorBackground},
         };
     }
 
-    private void checkCardPane(){
-        if(isDefaultIntervalBackground.getSelectedIndex() == 0){
+    private void checkCardPane() {
+        if (isDefaultIntervalBackground.getSelectedIndex() == 0) {
             cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_IntervalBackground"));
         } else {
             cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"));
         }
     }
 
-    protected String title4PopupWindow(){
+    protected String title4PopupWindow() {
         return "";
     }
 
-    public void populateBean(Plot plot){
-        VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
+    public void populateBean(Plot plot) {
+        VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
 
 
         populateGridLine(rectanglePlot);
@@ -146,22 +146,22 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
     }
 
 
-    public void updateBean(Plot plot){
-        VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
+    public void updateBean(Plot plot) {
+        VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
 
         updateGirdLine(rectanglePlot);
 
         alertLine.update(plot);
 
         rectanglePlot.setIsDefaultIntervalBackground(isDefaultIntervalBackground.getSelectedIndex() == 0);
-        if(rectanglePlot.isDefaultIntervalBackground()){
+        if (rectanglePlot.isDefaultIntervalBackground()) {
             rectanglePlot.getDefaultYAxis().setDefaultIntervalBackgroundColor(horizontalColorBackground.getSelectObject());
             rectanglePlot.getDefaultXAxis().setDefaultIntervalBackgroundColor(verticalColorBackground.getSelectObject());
         } else {
             rectanglePlot.getDefaultYAxis().setDefaultIntervalBackgroundColor(null);
             rectanglePlot.getDefaultXAxis().setDefaultIntervalBackgroundColor(null);
         }
-        customIntervalBackground.update(plot,isDefaultIntervalBackground.getSelectedIndex() == 0);
+        customIntervalBackground.update(plot, isDefaultIntervalBackground.getSelectedIndex() == 0);
     }
 
     protected void updateGirdLine(VanChartRectanglePlot rectanglePlot) {
@@ -171,6 +171,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
 
     /**
      * Y軸和雷達圖的極軸也是相等的
+     *
      * @param axisName
      * @param valueAxisName
      * @return
@@ -180,7 +181,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot>{
                 ComparatorUtils.equals(VanChartAttrHelper.RADAR_Y_AXIS_PREFIX, axisName);
     }
 
-    public Plot updateBean(){
+    public Plot updateBean() {
         return null;
     }
 }

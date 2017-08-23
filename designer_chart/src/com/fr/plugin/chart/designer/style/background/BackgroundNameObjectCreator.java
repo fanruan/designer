@@ -2,6 +2,7 @@ package com.fr.plugin.chart.designer.style.background;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
+import com.fr.general.FRLogger;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
 import com.fr.stable.Nameable;
@@ -33,13 +34,13 @@ public class BackgroundNameObjectCreator extends ChartNameObjectCreator {
             return new NameObject(helper.createUnrepeatedName(this.menuName()), vanChartCustomIntervalBackground);
 
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

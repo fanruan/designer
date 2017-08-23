@@ -65,6 +65,7 @@ public class VanChartBubblePlotTableDataContentPane extends AbstractTableDataCon
         JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
         north.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
         JPanel filterPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),dataScreeningPane);
+        dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
 
         Component[][] components = new Component[][]{
                      new Component[]{north},

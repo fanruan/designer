@@ -34,9 +34,6 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
 
     private VanChartCustomIntervalBackground customIntervalBackground;
 
-    public VanChartCustomIntervalBackgroundPane(){
-    }
-
     private void doLayoutPane(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //
@@ -46,8 +43,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         top.add(createContentPane());
     }
 
-    private JPanel createContentPane()
-    {
+    private JPanel createContentPane() {
         bottomValue = new TinyFormulaPane();
         topValue = new TinyFormulaPane();
         bottomValue.setPreferredSize(new Dimension(124,20));
@@ -103,8 +99,6 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         color.setSelectObject(customIntervalBackground.getBackgroundColor());
         transparent.populateBean(customIntervalBackground.getAlpha() * VanChartAttrHelper.PERCENT);
     }
-
-    public void updateBean(VanChartCustomIntervalBackground customIntervalBackground){}
 
     public VanChartCustomIntervalBackground updateBean(){
 
