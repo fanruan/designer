@@ -17,7 +17,10 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.preview.*;
+import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
+import com.fr.design.mainframe.alphafine.preview.NoResultPane;
+import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
@@ -356,13 +359,11 @@ public class AlphaFineDialog extends UIDialog {
      * 移除左侧列表面板
      */
     private void replaceLeftPane() {
-        if (searchResultPane != null) {
-            if (searchListModel.isEmpty() && defaultPane == null) {
-                defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
-                searchResultPane.remove(leftSearchResultPane);
-                searchResultPane.add(defaultPane, BorderLayout.WEST);
-                refreshContainer();
-            }
+        if (searchListModel.isEmpty() && defaultPane == null) {
+            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+            searchResultPane.remove(leftSearchResultPane);
+            searchResultPane.add(defaultPane, BorderLayout.WEST);
+            refreshContainer();
         }
     }
 
@@ -371,7 +372,9 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void fireStopLoading() {
         searchListModel.resetState();
-        replaceLeftPane();
+        if (searchResultPane != null) {
+            replaceLeftPane();
+        }
     }
 
     /**
@@ -1037,7 +1040,7 @@ public class AlphaFineDialog extends UIDialog {
         }
 
         public void resetState() {
-            for (int i = 0; i< getSize(); i++) {
+            for (int i = 0; i < getSize(); i++) {
                 getElementAt(i).resetState();
             }
         }
