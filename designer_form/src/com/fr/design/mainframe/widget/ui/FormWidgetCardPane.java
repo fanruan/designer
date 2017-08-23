@@ -27,7 +27,7 @@ import java.awt.*;
  * Created by ibm on 2017/7/25.
  */
 public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
-    private AttributeChangeListener listener2;
+    private AttributeChangeListener listener;
     private FormDesigner designer;
     //当前的编辑器属性定义面板
     private DataModify<Widget> currentEditorDefinePane;
@@ -81,7 +81,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         } else {
             return null;
         }
-
     }
 
     /**
@@ -138,7 +137,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         jPanel.add(attriCardPane, BorderLayout.CENTER);
 
-        this.listener2 = new AttributeChangeListener() {
+        this.listener = new AttributeChangeListener() {
             @Override
             public void attributeChange() {
                 updateCreator();
@@ -196,7 +195,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         }
         widgetPropertyPane.populate(cellWidget);
         reinitAllListeners();
-        this.addAttributeChangeListener(listener2);
+        this.addAttributeChangeListener(listener);
     }
 
 
