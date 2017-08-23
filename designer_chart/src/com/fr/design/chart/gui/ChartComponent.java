@@ -331,10 +331,4 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     public void callback() {
         this.repaint();
     }
-
-    @Override
-    public void downLoadSources() {
-        HistoryTemplateListPane.getInstance().downLoadSources();
-    }
-
 }
