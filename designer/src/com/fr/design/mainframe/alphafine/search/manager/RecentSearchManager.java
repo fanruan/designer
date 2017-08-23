@@ -283,7 +283,7 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return new SearchResult();
     }
 

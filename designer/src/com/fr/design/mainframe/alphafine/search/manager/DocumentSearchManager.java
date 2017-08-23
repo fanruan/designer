@@ -78,8 +78,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                     }
                     if (searchResult.size() == 0) {
                         return lessModelList;
-                    }
-                    if (searchResult.size() > 0 && searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
                         lessModelList.addAll(searchResult);
                     } else {
@@ -109,7 +108,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return moreModelList;
     }
 

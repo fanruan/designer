@@ -19,5 +19,5 @@ public interface AlphaFineSearchProcessor {
      *
      * @return
      */
-    SearchResult getMoreSearchResult();
+    SearchResult getMoreSearchResult(String searchText);
 }

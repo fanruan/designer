@@ -100,10 +100,9 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
             }
 
         }
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             return lessModelList;
-        }
-        if (result.size() > 0 && result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+        } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
             lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
             lessModelList.addAll(result);
         } else {
@@ -173,7 +172,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
     }
 
     @Override
-    public SearchResult getMoreSearchResult() {
+    public SearchResult getMoreSearchResult(String searchText) {
         return moreModelList;
     }
 
