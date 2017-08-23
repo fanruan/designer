@@ -113,7 +113,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                         return this.lessModelList;
                     }
                     if (searchResult.size() > 0 && searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon")));
                         lessModelList.addAll(searchResult);
                     } else {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.PLUGIN));
