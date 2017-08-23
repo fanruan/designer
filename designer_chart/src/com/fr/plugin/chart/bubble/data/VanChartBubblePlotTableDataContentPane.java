@@ -8,7 +8,6 @@ import com.fr.chart.chartdata.BubbleTableDefinition;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
@@ -50,7 +49,7 @@ public class VanChartBubblePlotTableDataContentPane extends AbstractTableDataCon
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = { p, p,p,p};
+        double[] rowSize = {p, p};
 
         double[] columnSize_north = {p, f};
         double[] rowSize_north = {p, p, p, p};
@@ -62,21 +61,17 @@ public class VanChartBubblePlotTableDataContentPane extends AbstractTableDataCon
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), bubbleSize},
         };
 
-        JPanel north = TableLayoutHelper.createTableLayoutPane(components_north,rowSize_north,columnSize_north);
-        north.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
+        JPanel north = TableLayout4VanChartHelper.createGapTableLayoutPane(components_north,rowSize_north,columnSize_north);
+        north.setBorder(BorderFactory.createEmptyBorder(10, 24, 10, 15));
         JPanel filterPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),dataScreeningPane);
         dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
 
-        Component[][] components = new Component[][]{
-                     new Component[]{north},
-                     new Component[]{filterPane}
-             };
 
-
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
-        
+        this.add(getJSeparator(), BorderLayout.NORTH);
+        this.add(north, BorderLayout.CENTER);
+        this.add(filterPane, BorderLayout.SOUTH);
+
         seriesName.addItemListener(tooltipListener);
         xCombox.addItemListener(tooltipListener);
         yCombox.addItemListener(tooltipListener);
