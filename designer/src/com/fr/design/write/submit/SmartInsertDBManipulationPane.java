@@ -34,10 +34,7 @@ import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.JWorkBook;
+import com.fr.design.mainframe.*;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.Inter;
@@ -196,11 +193,11 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 			/*
 			 * 当前的ReportPane不可编辑,不可切换Sheet,加GridSelectionChangeListener
 			 */
-			ePane.setSelection(NO_SELECTION);
 			ePane.setEditable(false);
+			ePane.setSelection(NO_SELECTION);
 			ePane.getGrid().setNotShowingTableSelectPane(false);
 
-			BasicDialog dlg = bPane.showWindow(SwingUtilities.getWindowAncestor(SmartInsertDBManipulationPane.this));
+			BasicDialog dlg = bPane.showWindow(DesignerContext.getDesignerFrame());
 
 			dlg.setModal(false);
 			dlg.setVisible(true);

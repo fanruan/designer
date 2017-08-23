@@ -52,6 +52,9 @@ public class ECBlockPane extends PolyElementCasePane {
 
             @Override
             public void selectionChanged(SelectionEvent e) {
+                if (!isEditable()) {
+                    return;
+                }
                 if (BaseUtils.isAuthorityEditing()) {
                     if (designer.getSelection().getEditingElementCasePane() == null) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);

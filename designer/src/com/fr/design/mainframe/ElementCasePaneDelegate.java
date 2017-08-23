@@ -48,6 +48,9 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
 
             @Override
             public void selectionChanged(SelectionEvent e) {
+                if (!isEditable()) {
+                    return;
+                }
                 //在编辑权限，所以要更新权限编辑面板
                 if (BaseUtils.isAuthorityEditing()) {
                     AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
