@@ -90,7 +90,8 @@ public class AlphaFineConfigManager implements XMLable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+        AlphaFineConfigManager manager = (AlphaFineConfigManager) super.clone();
+        return manager;
     }
 
     @Override
