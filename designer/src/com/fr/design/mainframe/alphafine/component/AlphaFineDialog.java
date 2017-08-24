@@ -723,7 +723,7 @@ public class AlphaFineDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
-
+        //不处理
     }
 
     private void doNavigate() {

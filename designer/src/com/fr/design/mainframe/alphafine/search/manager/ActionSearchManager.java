@@ -75,7 +75,7 @@ public class ActionSearchManager implements AlphaFineSearchProcessor {
                     result.add(object);
                 }
             }
-            if (result.size() == 0) {
+            if (result.isEmpty()) {
                 return lessModelList;
             } else if (result.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                 lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Set")));

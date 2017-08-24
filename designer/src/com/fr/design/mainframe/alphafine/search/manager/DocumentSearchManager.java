@@ -76,7 +76,7 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                             searchResult.add(cellModel);
                         }
                     }
-                    if (searchResult.size() == 0) {
+                    if (searchResult.isEmpty()) {
                         return lessModelList;
                     } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_COMMUNITY_HELP")));
