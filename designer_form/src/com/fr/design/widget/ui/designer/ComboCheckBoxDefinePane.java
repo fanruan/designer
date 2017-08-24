@@ -5,7 +5,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.ComboCheckBox;
@@ -17,7 +17,7 @@ import java.awt.*;
 public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox> {
     private UICheckBox supportTagCheckBox;
     private UIButtonGroup returnType;
-    private UIPropertyTextField waterMarkDictPane;
+    private UITextField waterMarkDictPane;
     private UICheckBox removeRepeatCheckBox;
 
 	public ComboCheckBoxDefinePane(XCreator xCreator) {
@@ -31,7 +31,7 @@ public class ComboCheckBoxDefinePane extends DictEditorDefinePane<ComboCheckBox>
 	}
 
 	public Component[] createWaterMarkPane() {
-		waterMarkDictPane = new UIPropertyTextField();
+		waterMarkDictPane = new UITextField();
 		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane};
 	}
 

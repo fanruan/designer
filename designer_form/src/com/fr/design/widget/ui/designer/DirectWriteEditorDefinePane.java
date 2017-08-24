@@ -34,15 +34,16 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")),  formWidgetValuePane },
 				dicPane,
 				removeRepeatPane,
 				waterMarkComponent,
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane}
 		};
-		double[] rowSize = {p, p, p, p, p, p,p};
+		double[] rowSize = {p, p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
-		int[][] rowCount = {{1, 3},{1, 1},{1, 1},{1,1},{1,1}};
+		int[][] rowCount = {{1, 1},{1, 3},{1, 1},{1, 1},{1,1},{1,1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		advancePane.add(panel, BorderLayout.NORTH);
