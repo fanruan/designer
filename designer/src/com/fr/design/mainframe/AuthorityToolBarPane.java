@@ -215,27 +215,23 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         ReportWebAttr rw = wbTpl.getReportWebAttr();
         ConfigManagerProvider cm = ConfigManager.getProviderInstance();
         ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+        if (webAttr == null || rw == null || rw.getWebPage() == null) {
+            return;
+        }
 
         //wbTpl.clear先清空
         //再将所有的保存进去
         //看是存在服务器还存在模板里面
         if (choseComboBox.getSelectedIndex() == 0) {
             //分页
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
         } else if (choseComboBox.getSelectedIndex() == 1) {
             //填报
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
         } else {
             //view
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
         }
-
     }
 
     private void dealWithWebContent(WebContent wc, Widget widget, boolean isSelected, String selectedRole) {
@@ -246,14 +242,11 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         for (int i = 0; i < managers.length; i++) {
             ToolBar tb = managers[i].getToolBar();
             for (int j = 0; j < tb.getWidgetSize(); j++) {
-                if (widget instanceof Button && tb.getWidget(j) instanceof Button) {
-                    if (ComparatorUtils.equals(((Button) widget).getIconName(),
-                            ((Button) tb.getWidget(j)).getIconName())) {
-                        if (!isSelected) {
-                            tb.getWidget(j).getWidgetPrivilegeControl().addInvisibleRole(selectedRole);
-                        } else {
-                            tb.getWidget(j).getWidgetPrivilegeControl().removeInvisibleRole(selectedRole);
-                        }
+                if (widget instanceof Button && tb.getWidget(j) instanceof Button && ComparatorUtils.equals(((Button) widget).getIconName(), ((Button) tb.getWidget(j)).getIconName())) {
+                    if (!isSelected) {
+                        tb.getWidget(j).getWidgetPrivilegeControl().addInvisibleRole(selectedRole);
+                    } else {
+                        tb.getWidget(j).getWidgetPrivilegeControl().removeInvisibleRole(selectedRole);
                     }
                 }
             }
