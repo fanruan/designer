@@ -38,7 +38,7 @@ class MobileParaWidgetTable extends JTable {
 
     private FormDesigner designer;
     private String[][] cellData;
-    private String[] headers = {Inter.getLocText("FR-Utils_Label"), Inter.getLocText("Form-Widget_Name")};
+    private String[] headers = {Inter.getLocText("FR-Designer_Label"), Inter.getLocText("FR-Designer_Widgetname")};
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
     private static final int UITEXTFIELD_WIDTH = 0;
     private static final int GAP = 11;
