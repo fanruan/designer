@@ -29,7 +29,8 @@ public class GanttReportDataContentPane extends AbstractReportDataContentPane{
         this.setLayout(new BorderLayout());
         initAllComponent();
         JPanel panel = getContentPane();
-        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        panel.setBorder(BorderFactory.createEmptyBorder(10,24,0,15));
+        this.add(getJSeparator(), BorderLayout.NORTH);
         this.add(panel, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(246,(int)this.getPreferredSize().getHeight()));
 

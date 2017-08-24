@@ -67,7 +67,8 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
         this.add(catePane, "0,0,2,0");
 		filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
 		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
-        this.add(panel, "0,6,2,4");
+		filterPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+		this.add(panel, "0,6,2,4");
         
         addButton.addActionListener(new ActionListener() {
 			@Override

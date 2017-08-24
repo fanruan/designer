@@ -11,12 +11,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPane implements UIObserver {
     private static final int HT = 20;
-    private static final int WD = 120;
+    private static final int WD = 100;
     private UISpinner levelNumEdit;
     private UITextField nameField;
     protected UIComboBox value;
@@ -103,7 +103,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         calculateCombox.reset();
         calculateCombox.setPreferredSize(new Dimension(WD, HT));
 
-        components_center[levelNum] = new Component[]{new JSeparator(), null};
+        components_center[levelNum] = new Component[]{getJSeparator(), null};
         components_center[levelNum+1] = new Component[]{new UILabel(Inter.getLocText("FR-Chart_Bubble_Size")), value};
         components_center[levelNum+2] = new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox};
 
@@ -112,7 +112,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         registerListener4Center();
 
 
-        return TableLayoutHelper.createTableLayoutPane(components_center,rowSize_center,columnSize_center);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components_center,rowSize_center,columnSize_center);
 
 
     }
@@ -175,11 +175,11 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
 
         Component[][] components_north = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
-                new Component[]{new JSeparator(),null },
+                new Component[]{getJSeparator(),null },
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")), levelNumEdit},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components_north, rowSize_north, columnSize_north);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components_north, rowSize_north, columnSize_north);
     }
 
     private void refreshCenterPane(){
@@ -356,5 +356,11 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
             }
         }
         return false;
+    }
+
+    protected JSeparator getJSeparator() {
+        JSeparator jSeparator = new JSeparator();
+        jSeparator.setPreferredSize(new Dimension(220, 2));
+        return jSeparator;
     }
 }
