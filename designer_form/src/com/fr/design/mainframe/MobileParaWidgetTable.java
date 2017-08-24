@@ -384,10 +384,7 @@ class MobileParaWidgetTable extends JTable {
          * @return 是否可编辑
          */
         public boolean isCellEditable(int row, int column) {
-            if (column == 1) {
-                return false;
-            }
-            return true;
+            return column != 1;
         }
 
     }
