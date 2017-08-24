@@ -41,15 +41,19 @@ class MobileParaWidgetTable extends JTable {
     private String[] headers = {Inter.getLocText("FR-Utils_Label"), Inter.getLocText("Form-Widget_Name")};
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
     private static final int UITEXTFIELD_WIDTH = 0;
+    private static final int GAP = 11;
     private UILabel moveComponent = new UILabel(); // 作为拖动时候随鼠标移动的那个半透明控件
     private int selectedRow = -1;
     private int selectedColumn = -1;
-    private int GAP = 11;
     private boolean draging = false;
 
-    MobileParaWidgetTable(FormDesigner designer) {
+    private void init(FormDesigner designer) {
         this.designer = designer;
         this.cellData = getData();
+    }
+
+    MobileParaWidgetTable(FormDesigner designer) {
+        init(designer);
         this.setTableProperties();
         this.setDefaultEditor(Object.class, new MobileCellEditor());
         TableModel defaultModel = new BeanTableModel();
