@@ -51,6 +51,8 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     /*占位label*/
     protected static UILabel emptyLabel = new UILabel();
 
+    private int currentSelectedIndex;
+
     static {
         emptyLabel.setPreferredSize(new Dimension(60, 20));
     }
@@ -148,12 +150,14 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         } else {
             comboBox.setSelectedIndex(1);
         }
+        currentSelectedIndex = comboBox.getSelectedIndex();
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
                 selectedIndex = comboBox.getSelectedIndex();
                 cellInsertActions[selectedIndex].actionPerformed(e);
+                comboBox.setSelectedIndex(currentSelectedIndex);
             }
         });
         return comboBox;
