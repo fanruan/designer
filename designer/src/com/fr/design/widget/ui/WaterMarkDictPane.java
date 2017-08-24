@@ -20,18 +20,15 @@ public class WaterMarkDictPane extends JPanel {
 
         waterMarkTextField = new UITextField();
 
-        UILabel emptyLabel = new UILabel();
-        emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), emptyLabel, waterMarkTextField},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkTextField},
         };
         double[] rowSize = {p};
-        double[] columnSize = {p, p, f};
+        double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 18, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         this.add(panel, BorderLayout.CENTER);
     }
