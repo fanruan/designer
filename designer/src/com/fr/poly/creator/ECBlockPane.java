@@ -119,7 +119,7 @@ public class ECBlockPane extends PolyElementCasePane {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Insert"), 'I');
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));
 

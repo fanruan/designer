@@ -23,9 +23,10 @@ public class ExitAuthorityEditAction extends TemplateComponentAction {
 
 
 	public void prepare4Undo() {
-
+		// 遗留代码
 	}
 
+	@Override
 	public boolean executeActionReturnUndoRecordNeeded() {
 		TargetComponent tc = getEditingComponent();
 		if (tc == null) {
