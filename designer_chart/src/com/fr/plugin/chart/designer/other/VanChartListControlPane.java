@@ -6,14 +6,13 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
-import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
-import com.fr.plugin.chart.designer.component.ConditionUIMenuNameableCreator;
 import com.fr.stable.Nameable;
 
 import java.lang.reflect.Constructor;
@@ -36,7 +35,7 @@ public class VanChartListControlPane extends UIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        return new ChartConditionNameObjectCreator[]{new ChartConditionNameObjectCreator(this.plot, Inter.getLocText("Condition_Attributes"), ConditionUIMenuNameableCreator.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
+        return new NameObjectCreator[]{new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, ChartTypeInterfaceManager.getInstance().getPlotConditionPane((Plot) plot).getClass())};
     }
 
 
@@ -77,10 +76,6 @@ public class VanChartListControlPane extends UIListControlPane {
         return Inter.getLocText("Condition_Attributes");
     }
 
-    protected Object getob2Populate(Object ob2Populate) {
-        return ((ConditionUIMenuNameableCreator) ob2Populate).getObj();
-
-    }
 
     /**
      * Update.
@@ -91,8 +86,7 @@ public class VanChartListControlPane extends UIListControlPane {
         cc.clearConditionAttr();
 
         for (int i = 0; i < nameables.length; i++) {
-            UIMenuNameableCreator uiMenuNameableCreator = (UIMenuNameableCreator) ((NameObject) nameables[i]).getObject();
-            ConditionAttr ca = (ConditionAttr) uiMenuNameableCreator.getObj();
+            ConditionAttr ca = (ConditionAttr) ((NameObject) nameables[i]).getObject();
             ca.setName(nameables[i].getName());
             cc.addConditionAttr(ca);
 

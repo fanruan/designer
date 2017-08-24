@@ -11,6 +11,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,31 +36,35 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		nameBox = new UIComboBox();
 		valueBox = new UIComboBox();
 		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
-		
+
 		nameBox.setPreferredSize(new Dimension(100, 20));
 		valueBox.setPreferredSize(new Dimension(100, 20));
 
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
 		double[] columnSize = { p,f};
-		double[] rowSize = { p, p,p,p,p,p,p,p, p};
+		double[] rowSize = {p, p};
 
         Component[][] components = createComponents();
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        this.add(panel,BorderLayout.CENTER);
-        
+		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
+		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+
+		filterPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+		panel.setBorder(BorderFactory.createEmptyBorder(10,24,10,15));
+
+        this.add(getJSeparator(),BorderLayout.NORTH);
+		this.add(panel,BorderLayout.CENTER);
+		this.add(jPanel,BorderLayout.SOUTH);
+
         nameBox.addItemListener(tooltipListener);
         valueBox.addItemListener(tooltipListener);
 	}
 
     private Component[][] createComponents() {
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(METER_NAME, SwingConstants.RIGHT), getNameComponent()},
-                new Component[]{new BoldFontTextLabel(METER_VALUE, SwingConstants.RIGHT), valueBox},
-                new Component[]{new JSeparator(), null},
-                new Component[]{new BoldFontTextLabel(Inter.getLocText("Chart-Data_Filter"))},
-                new Component[]{filterPane, null}
+                new Component[]{new BoldFontTextLabel(METER_NAME), getNameComponent()},
+                new Component[]{new BoldFontTextLabel(METER_VALUE), valueBox},
         };
     }
 

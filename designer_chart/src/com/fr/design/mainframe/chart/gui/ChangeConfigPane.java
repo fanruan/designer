@@ -113,20 +113,20 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
             }
         };
         styleAttrPane.setPreferredSize(new Dimension(WIDTH, (int) styleAttrPane.getPreferredSize().getHeight()));
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character")+":", styleAttrPane);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character"), styleAttrPane);
     }
 
 
     private JPanel createButtonBackgroundColorPane(){
         colorSelectBox4button = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background") + ":", colorSelectBox4button);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background"), colorSelectBox4button);
     }
 
     private JPanel createButtonConfigPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p,p,p};
+        double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitleStylePane(),null},
                 new Component[]{createButtonBackgroundColorPane(),null},

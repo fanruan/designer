@@ -5,7 +5,7 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -22,9 +22,11 @@ import java.awt.event.ItemListener;
 public abstract class FieldEditorDefinePane<T extends FieldEditor> extends AbstractDataModify<T> {
     protected UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
-    protected UIPropertyTextField errorMsgTextField;
+    protected UITextField errorMsgTextField;
     protected JPanel validatePane;
     protected UISpinner fontSizePane;
+    protected UITextField labelNameTextField;
+
 
     public FieldEditorDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -37,10 +39,11 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        labelNameTextField = new UITextField();
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         fontSizePane = new UISpinner(0, 20, 1, 0);
-        errorMsgTextField = new UIPropertyTextField();
+        errorMsgTextField = new UITextField();
         JPanel contentPane = this.setFirstContentPane();
         if (contentPane != null) {
             UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, contentPane);
@@ -54,6 +57,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         this.allowBlankCheckBox.setSelected(ob.isAllowBlank());
         this.errorMsgTextField.setText(ob.getErrorMessage());
         this.fontSizePane.setValue(ob.getFontSize());
+        this.labelNameTextField.setText(ob.getLabelName());
         populateSubFieldEditorBean(ob);
     }
 
@@ -66,12 +70,13 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         e.setAllowBlank(this.allowBlankCheckBox.isSelected());
         e.setErrorMessage(this.errorMsgTextField.getText());
         e.setFontSize((int)fontSizePane.getValue());
+        e.setLabelName(labelNameTextField.getText());
         return e;
     }
 
     protected void initErrorMsgPane() {
         // 错误信息
-        errorMsgTextField = new UIPropertyTextField();
+        errorMsgTextField = new UITextField();
 //        // richer:主要为了方便查看比较长的错误信息
         errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
 

@@ -3,7 +3,7 @@ package com.fr.design.widget.ui.designer;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.form.ui.TreeEditor;
 import com.fr.general.Inter;
 
@@ -11,14 +11,14 @@ import java.awt.*;
 
 public class TreeComboBoxEditorDefinePane extends TreeEditorDefinePane {
 
-	protected UIPropertyTextField waterMarkDictPane;
+	protected UITextField waterMarkDictPane;
 
 	public TreeComboBoxEditorDefinePane(XCreator xCreator) {
 		super(xCreator);
 	}
 
 	public Component[] createWaterMarkPane(){
-		waterMarkDictPane = new UIPropertyTextField();
+		waterMarkDictPane = new UITextField();
 		return new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane};
 	}
 
@@ -27,15 +27,13 @@ public class TreeComboBoxEditorDefinePane extends TreeEditorDefinePane {
 		return "treecombobox";
 	}
 
-	protected  void populateSubDictionaryEditorBean(TreeEditor ob){
-		super.populateSubDictionaryEditorBean(ob);
-		formWidgetValuePane.populate(ob);
+	protected  void populateSubCustomWritableRepeatEditorBean(TreeEditor ob){
+		super.populateSubCustomWritableRepeatEditorBean(ob);
 		waterMarkDictPane.setText(ob.getWaterMark());
 	}
 
-	protected  TreeEditor updateSubDictionaryEditorBean(){
-		TreeEditor editor = super.updateSubDictionaryEditorBean();
-		formWidgetValuePane.update(editor);
+	protected  TreeEditor updateSubCustomWritableRepeatEditorBean(){
+		TreeEditor editor = super.updateSubCustomWritableRepeatEditorBean();
 		editor.setWaterMark(waterMarkDictPane.getText());
 		return editor;
 	}
@@ -44,6 +42,6 @@ public class TreeComboBoxEditorDefinePane extends TreeEditorDefinePane {
 
 	@Override
     public DataCreatorUI dataUI() {
-        return treeSettingPane;
+        return null;
     }
 }
