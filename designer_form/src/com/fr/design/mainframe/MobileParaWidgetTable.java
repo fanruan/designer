@@ -1,47 +1,30 @@
 package com.fr.design.mainframe;
 
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.util.EventObject;
-
-import javax.swing.AbstractCellEditor;
-import javax.swing.BorderFactory;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itable.GroupRenderer;
-import com.fr.design.gui.itable.HeaderRenderer;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itable.HeaderRenderer;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.form.ui.Label;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.util.EventObject;
 
 /**
  * MobileParaWidgetTable主要显示参数面板容器的控件列表，与MobileWidgetTable的区别就是该表多了UITextField这一列
