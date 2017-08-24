@@ -1,5 +1,6 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.FRContext;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -20,6 +21,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,23 +98,22 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
                         null || selectedPathArray == null) {
                     return;
                 }
-                for (int t = 0; t < selectedPathArray.length; t++) {
-                    for (int i = 0; i < buttonlists.size(); i++) {
-                        if (buttonlists.get(i).isSelected()) {
-                            buttonlists.get(i).changeAuthorityState(selectedPathArray[t], buttonVisible.isSelected());
-                            authorityToolBarPane.repaint();
-                        }
+                ToolBarButton selectedButton = null;
+                //是否可见的checkbox
+                UICheckBox checkbox = (UICheckBox) e.getSource();
+                for (int i = 0; i < buttonlists.size(); i++) {
+                    if (buttonlists.get(i).isSelected()) {
+                        selectedButton = buttonlists.get(i);
                     }
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
-                    RolesAlreadyEditedPane.getInstance().refreshDockingView();
-                    UICheckBox checkbox = (UICheckBox) e.getSource();
-                    List<ToolBarButton> btns = AuthorityEditPane.this.buttonlists;
-                    for (int j = 0; j < btns.size(); j++) {
-                        if (btns.get(j).isSelected()) {
-                            //由引擎实现保存进模板报表
-                            authorityToolBarPane.setAuthorityWebAttr(btns.get(j).getWidget(), checkbox.isSelected(), selectedPathArray[t]);
-                        }
+                }
+                if (selectedButton != null) {
+                    for (int t = 0; t < selectedPathArray.length; t++) {
+                        selectedButton.changeAuthorityState(selectedPathArray[t], buttonVisible.isSelected());
+                        authorityToolBarPane.repaint();
+                        authorityToolBarPane.setAuthorityWebAttr(selectedButton.getWidget(), checkbox.isSelected(), selectedPathArray[t]);
                     }
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();//模版更新
+                    RolesAlreadyEditedPane.getInstance().refreshDockingView();//已配置角色视图刷新
                 }
             }
         };
