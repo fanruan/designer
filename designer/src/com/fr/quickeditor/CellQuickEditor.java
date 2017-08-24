@@ -2,6 +2,7 @@ package com.fr.quickeditor;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
@@ -11,6 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
@@ -20,8 +22,6 @@ import com.fr.report.cell.TemplateCellElement;
 import com.fr.stable.ColumnRow;
 
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -119,10 +119,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         cellLabel.setPreferredSize(new Dimension(60, 20));
         UILabel insertContentLabel = new UILabel(Inter.getLocText("HF-Insert_Content"));
         insertContentLabel.setPreferredSize(new Dimension(60, 20));
-        UIComboBox cellElementEditButton = initCellElementEditComboBox();
+        UIComboBox cellElementEditComboBox = initCellElementEditComboBox();
         Component[][] components = new Component[][]{
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
-                new Component[]{insertContentLabel, cellElementEditButton},
+                new Component[]{insertContentLabel, cellElementEditComboBox},
         };
         JPanel topContent = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
         topContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
@@ -136,6 +136,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
      * @return UIButton
      */
     private UIComboBox initCellElementEditComboBox() {
+        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (jTemplate == null) {
+            return comboBox = new UIComboBox();
+        }
         final String[] items = getDefaultComboBoxItems();
         comboBox = new UIComboBox(items);
         final Object comboBoxSelected = getComboBoxSelected();
@@ -144,31 +148,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         } else {
             comboBox.setSelectedIndex(1);
         }
-        comboBox.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                if (cellInsertActions == null) {
-                    cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
-                }
-                // 这边重新获取是因为要根据JTemplate做一个过滤
-                ArrayList<String> arrayList = new ArrayList<String>();
-                for (UpdateAction action : cellInsertActions) {
-                    arrayList.add(action.getMenuKeySet().getMenuKeySetName());
-                }
-                comboBox.setModel(new DefaultComboBoxModel<>(arrayList.toArray(new String[arrayList.size()])));
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-            }
-        });
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
                 selectedIndex = comboBox.getSelectedIndex();
                 cellInsertActions[selectedIndex].actionPerformed(e);
             }
