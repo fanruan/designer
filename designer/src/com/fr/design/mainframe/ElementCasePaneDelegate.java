@@ -50,7 +50,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 if (!isEditable()) {
                     return;
                 }
-                doOnSelectionChanged();
+                doOnSelectionChanged(e);
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {
@@ -61,7 +61,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         });
     }
 
-    private void doOnSelectionChanged() {
+    private void doOnSelectionChanged(SelectionEvent e) {
         //在编辑权限，所以要更新权限编辑面板
         if (BaseUtils.isAuthorityEditing()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
