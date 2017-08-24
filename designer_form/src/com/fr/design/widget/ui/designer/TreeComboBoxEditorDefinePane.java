@@ -27,15 +27,13 @@ public class TreeComboBoxEditorDefinePane extends TreeEditorDefinePane {
 		return "treecombobox";
 	}
 
-	protected  void populateSubDictionaryEditorBean(TreeEditor ob){
-		super.populateSubDictionaryEditorBean(ob);
-		formWidgetValuePane.populate(ob);
+	protected  void populateSubCustomWritableRepeatEditorBean(TreeEditor ob){
+		super.populateSubCustomWritableRepeatEditorBean(ob);
 		waterMarkDictPane.setText(ob.getWaterMark());
 	}
 
-	protected  TreeEditor updateSubDictionaryEditorBean(){
-		TreeEditor editor = super.updateSubDictionaryEditorBean();
-		formWidgetValuePane.update(editor);
+	protected  TreeEditor updateSubCustomWritableRepeatEditorBean(){
+		TreeEditor editor = super.updateSubCustomWritableRepeatEditorBean();
 		editor.setWaterMark(waterMarkDictPane.getText());
 		return editor;
 	}
@@ -44,6 +42,6 @@ public class TreeComboBoxEditorDefinePane extends TreeEditorDefinePane {
 
 	@Override
     public DataCreatorUI dataUI() {
-        return treeSettingPane;
+        return null;
     }
 }
