@@ -73,6 +73,7 @@ public class ActionFactory {
 
     /**
      * 注册图表的 地图资源
+     *
      * @param action 地图资源action
      */
     public static void registerChartMapEditorAction(UpdateAction action) {
@@ -229,16 +230,18 @@ public class ActionFactory {
 
     public static MenuKeySet[] createCellInsertActionName() {
         List<MenuKeySet> actionNames = new ArrayList<>();
+        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         for (Class<?> clazz : actionClasses) {
             if (clazz == null) {
                 continue;
             }
-            try {
-                Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor();
-                actionNames.add(c.newInstance().getMenuKeySet());
-
-            } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+            if (jTemplate.acceptToolbarItem(clazz)) {
+                try {
+                    Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor();
+                    actionNames.add(c.newInstance().getMenuKeySet());
+                } catch (Exception e) {
+                    FRContext.getLogger().error(e.getMessage(), e);
+                }
             }
         }
         return actionNames.toArray(new MenuKeySet[actionNames.size()]);

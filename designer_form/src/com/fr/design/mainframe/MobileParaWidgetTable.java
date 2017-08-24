@@ -36,33 +36,37 @@ import java.util.EventObject;
  */
 class MobileParaWidgetTable extends JTable {
 
-    private final int WIDGET_NAME_COLUMN = 1;
     private FormDesigner designer;
     private String[][] cellData;
-    private String[] headers = {Inter.getLocText("Form-Widget_Name")};
+    private String[] headers = {Inter.getLocText("FR-Designer_Label"), Inter.getLocText("FR-Designer_Widgetname")};
     private static final int WIDGET_TABLE_ROW_HEIGHT = 22;
-    private static final int UITEXTFIELD_WIDTH = 40;
+    private static final int UITEXTFIELD_WIDTH = 0;
+    private static final int GAP = 11;
     private UILabel moveComponent = new UILabel(); // 作为拖动时候随鼠标移动的那个半透明控件
     private int selectedRow = -1;
     private int selectedColumn = -1;
-    private int GAP = 11;
     private boolean draging = false;
 
-    MobileParaWidgetTable(FormDesigner designer) {
+    private void init(FormDesigner designer) {
         this.designer = designer;
         this.cellData = getData();
         this.setTableProperties();
         this.setDefaultEditor(Object.class, new MobileCellEditor());
-        TableModel defaultModel = new BeanTableModel();
-        this.setModel(defaultModel);
-        this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        this.setModel(new BeanTableModel());
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         TableColumn tc = this.getColumn(this.getColumnName(0));
+        tc.setMinWidth(UITEXTFIELD_WIDTH);
+        tc.setMaxWidth(UITEXTFIELD_WIDTH);
         tc.setPreferredWidth(UITEXTFIELD_WIDTH);
         this.repaint();
         this.setDefaultRenderer(Object.class, new MobileWidgetTableCellRenderer());
         refreshData();
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
+    }
+
+    MobileParaWidgetTable(FormDesigner designer) {
+        init(designer);
         add(moveComponent);
     }
 
@@ -140,24 +144,27 @@ class MobileParaWidgetTable extends JTable {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
-            int width = getColumnModel().getColumn(0).getWidth();
-            setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-            draging = true;
-            moveComponent.setText(getValueAt(selectedRow, selectedColumn).toString());
-            moveComponent.setLocation(getColumnModel().getColumn(0).getWidth(), e.getY() - GAP);
-            moveComponent.setSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
-            moveComponent.setVisible(true);
-            moveComponent.setForeground(Color.lightGray);
-            moveComponent.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+            int width = getColumnModel().getColumn(1).getWidth();
+            //如果点击选中的是第二列，就可以拖动
+            if (selectedColumn == 1) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                draging = true;
+                moveComponent.setText(getValueAt(selectedRow, selectedColumn).toString());
+                moveComponent.setLocation(getColumnModel().getColumn(0).getWidth(), e.getY() - GAP);
+                moveComponent.setSize(new Dimension(width, WIDGET_TABLE_ROW_HEIGHT));
+                moveComponent.setVisible(true);
+                moveComponent.setForeground(Color.lightGray);
+                moveComponent.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+            }
         }
 
         /**
-         * 设置鼠标单击时处理的事件
+         * 设置鼠标单击时处理的事件（单击第二列的控件列表进入控件属性表）
          * @param e
          */
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (getSelectedRow() != -1 && getSelectedColumn() == 0) {
+            if (getSelectedRow() != -1 && getSelectedColumn() == 1) {
                 String widgetName = cellData[getSelectedRow()][getSelectedColumn()];
                 if (StringUtils.isNotEmpty(widgetName)) {
                     int count = getEditingDesigner().getParaComponent().getComponentCount();
@@ -222,7 +229,7 @@ class MobileParaWidgetTable extends JTable {
     private String[][] getData() {
         XLayoutContainer paraContainer = designer.getParaComponent();
         if (paraContainer == null || !paraContainer.acceptType(XWParameterLayout.class)) {
-            return new String[0][1];
+            return new String[0][0];
         }
 
         WParameterLayout para = (WParameterLayout) (paraContainer.toData());
@@ -342,7 +349,7 @@ class MobileParaWidgetTable extends JTable {
             }
             Object[] rowValue = cellData[row];
             if (column > -1 && column < rowValue.length) {
-                return cellData[row][WIDGET_NAME_COLUMN];
+                return cellData[row][column];
             }
             return null;
         }
@@ -363,10 +370,10 @@ class MobileParaWidgetTable extends JTable {
                 return;
             }
             if (aValue == null) {
-                cellData[row][WIDGET_NAME_COLUMN] = null;
+                cellData[row][column] = null;
                 return;
             }
-            cellData[row][WIDGET_NAME_COLUMN] = aValue.toString();
+            cellData[row][column] = aValue.toString();
         }
 
         /**
@@ -377,7 +384,7 @@ class MobileParaWidgetTable extends JTable {
          * @return 是否可编辑
          */
         public boolean isCellEditable(int row, int column) {
-            return false;
+            return column != 1;
         }
 
     }
