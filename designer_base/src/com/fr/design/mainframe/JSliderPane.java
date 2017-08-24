@@ -17,6 +17,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -77,6 +79,15 @@ public class JSliderPane extends JPanel {
         this.setLayout(new BorderLayout());
         initSlider();
         initShowValSpinner();
+        //MoMeak：控制只能输入10-400
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(showValSpinner, "0");
+        showValSpinner.setEditor(editor);
+        JFormattedTextField textField = ((JSpinner.NumberEditor) showValSpinner.getEditor()).getTextField();
+        textField.setEditable(true);
+        DefaultFormatterFactory factory = (DefaultFormatterFactory) textField .getFormatterFactory();
+        NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
+        formatter.setAllowsInvalid(false);
+
         initDownUpButton();
         initShowValButton();
         initUIRadioButton();
@@ -114,7 +125,7 @@ public class JSliderPane extends JPanel {
     }
 
     private void initShowValSpinner() {
-        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, TEN, FOUR_HUNDRED, 1)) {
+        showValSpinner = new UIBasicSpinner(new SpinnerNumberModel(HUNDRED, 0, FOUR_HUNDRED, 1)) {
             public Point getToolTipLocation(MouseEvent event) {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
@@ -331,7 +342,7 @@ public class JSliderPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             showValue = (int) showValSpinner.getValue();
             isButtonOrIsTxt = true;
-            if (e.getActionCommand().equals("less")) {
+            if ("less".equals(e.getActionCommand())) {
                 int newDownVal = showValue - TEN;
                 if (newDownVal >= TEN) {
                     showValue = newDownVal;
@@ -341,7 +352,7 @@ public class JSliderPane extends JPanel {
                     showValSpinner.setValue(TEN);
                 }
             }
-            if (e.getActionCommand().equals("more")) {
+            if ("more".equals(e.getActionCommand())) {
                 int newUpVal = showValue + TEN;
                 if (newUpVal <= FOUR_HUNDRED) {
                     showValue = newUpVal;

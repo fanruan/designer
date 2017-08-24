@@ -18,7 +18,9 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
 import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
 
 
@@ -45,6 +47,7 @@ public class UserInfoPane extends BasicPane{
 	
 	private UserInfoLabel userInfoLabel;
 
+
 	public UserInfoLabel getUserInfoLabel() {
 		return userInfoLabel;
 	}
@@ -64,18 +67,15 @@ public class UserInfoPane extends BasicPane{
 		this.userInfoLabel = new UserInfoLabel(this);
 
 		this.markUnSignIn();
-		autoLogin();
+		addEnvChangedListener();
 		autoPushLoginDialog();
 		
 		this.add(userInfoLabel, BorderLayout.CENTER);
 	}
-	
-	// 后台自动登录
-	private void autoLogin(){
-		Thread bbsAutoLoginThread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
+	private void addEnvChangedListener(){
+		GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+			public void envChanged() {
 				String username = ConfigManager.getProviderInstance().getBbsUsername();
 				if (StringUtils.isEmpty(username)){
 					markUnSignIn();
@@ -84,8 +84,8 @@ public class UserInfoPane extends BasicPane{
 				}
 			}
 		});
-		bbsAutoLoginThread.start();
 	}
+
 	
 	// 计算xml保存的上次弹框时间和当前时间的时间差
 	private int getDiffFromLastLogin(){

@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.WaterMark;
@@ -13,25 +13,22 @@ import java.awt.event.KeyListener;
 
 public class WaterMarkDictPane extends JPanel {
 
-    private UIPropertyTextField waterMarkTextField;
+    private UITextField waterMarkTextField;
 
     public WaterMarkDictPane() {
         this.setLayout(new BorderLayout());
 
-        waterMarkTextField = new UIPropertyTextField();
-
-        UILabel emptyLabel = new UILabel();
-        emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        waterMarkTextField = new UITextField();
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), emptyLabel, waterMarkTextField},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkTextField},
         };
         double[] rowSize = {p};
-        double[] columnSize = {p, p, f};
+        double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 18, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         this.add(panel, BorderLayout.CENTER);
     }

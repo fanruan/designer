@@ -5,6 +5,7 @@ package com.fr.design.mainframe.toolbar;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
+import com.fr.base.FRCoreContext;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
@@ -34,6 +35,7 @@ import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.VT4FR;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -379,8 +381,10 @@ public abstract class ToolBarMenuDock {
             //  shortCuts.add(new ForumAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(new AlphaFineAction());
-        shortCuts.add(SeparatorDef.DEFAULT);
+        if (VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support()) {
+            shortCuts.add(new AlphaFineAction());
+            shortCuts.add(SeparatorDef.DEFAULT);
+        }
         shortCuts.add(new AboutAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }

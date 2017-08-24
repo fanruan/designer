@@ -74,7 +74,7 @@ public class NumberDragBar extends JComponent {
 
 		g2.setColor(isEnabled() ? UIConstants.FONT_COLOR : UIManager.getColor("Label.disabledForeground"));
 		g2.drawString(String.valueOf(minValue), 2, 10);
-		g2.drawString(String.valueOf(maxValue), width - 20, 10);
+		g2.drawString(String.valueOf(maxValue), width - 10 * String.valueOf(maxValue).length(), 10);
 		if(minValue < 0) {
 			g2.drawString("0", width / 2 - 2, 10);
 		}

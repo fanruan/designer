@@ -17,7 +17,10 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
-import com.fr.design.mainframe.alphafine.preview.*;
+import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
+import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
+import com.fr.design.mainframe.alphafine.preview.NoResultPane;
+import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.search.manager.*;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
@@ -72,9 +75,11 @@ public class AlphaFineDialog extends UIDialog {
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
     private JPanel searchResultPane;
-    private Point pressedPoint;
     private UIScrollPane leftSearchResultPane;
+
     private JPanel defaultPane;
+    //分割线
+    private UILabel splitLabel;
     private JPanel rightSearchResultPane;
     private AlphaFineList searchResultList;
     private SearchListModel searchListModel;
@@ -302,7 +307,7 @@ public class AlphaFineDialog extends UIDialog {
         rightSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH - 1, AlphaFineConstants.CONTENT_HEIGHT));
         searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
         searchResultPane.add(rightSearchResultPane, BorderLayout.EAST);
-        UILabel splitLabel = new UILabel();
+        splitLabel = new UILabel();
         splitLabel.setPreferredSize(new Dimension(AlphaFineConstants.HEIGHT, 1));
         searchResultPane.add(splitLabel, BorderLayout.NORTH);
         add(searchResultPane, BorderLayout.SOUTH);
@@ -320,6 +325,8 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
+                resumeLeftPane();
+                splitLabel.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigloading.gif")));
                 rebuildList(searchTextField.getText().toLowerCase());
                 return null;
             }
@@ -327,6 +334,7 @@ public class AlphaFineDialog extends UIDialog {
             @Override
             protected void done() {
                 if (!isCancelled()) {
+                    splitLabel.setIcon(null);
                     fireStopLoading();
                 }
             }
@@ -335,11 +343,38 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
+     * 恢复左侧列表面板
+     */
+    private void resumeLeftPane() {
+        if (searchResultPane != null && defaultPane != null) {
+            rightSearchResultPane.removeAll();
+            searchResultPane.remove(defaultPane);
+            defaultPane = null;
+            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
+            refreshContainer();
+        }
+    }
+
+    /**
+     * 移除左侧列表面板
+     */
+    private void removeLeftPane() {
+        if (searchListModel.isEmpty() && defaultPane == null) {
+            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+            searchResultPane.remove(leftSearchResultPane);
+            searchResultPane.add(defaultPane, BorderLayout.WEST);
+            refreshContainer();
+        }
+    }
+
+    /**
      * 停止加载状态
      */
     private void fireStopLoading() {
         searchListModel.resetState();
-        replaceLeftPane();
+        if (searchResultPane != null) {
+            removeLeftPane();
+        }
     }
 
     /**
@@ -349,22 +384,6 @@ public class AlphaFineDialog extends UIDialog {
         validate();
         repaint();
         revalidate();
-    }
-
-    /**
-     * 重置结果面板
-     */
-    private void replaceLeftPane() {
-        if (searchListModel.getSize() == 0 && defaultPane == null) {
-            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
-            searchResultPane.remove(leftSearchResultPane);
-            searchResultPane.add(defaultPane, BorderLayout.WEST);
-        } else if (searchListModel.getSize() > 0 && defaultPane != null) {
-            searchResultPane.remove(defaultPane);
-            defaultPane = null;
-            searchResultPane.add(leftSearchResultPane, BorderLayout.WEST);
-        }
-        refreshContainer();
     }
 
     /**
@@ -409,8 +428,7 @@ public class AlphaFineDialog extends UIDialog {
         searchListModel.removeAllElements();
         searchListModel.resetSelectedState();
         rightSearchResultPane.removeAll();
-        validate();
-        repaint();
+        refreshContainer();
     }
 
     /**
@@ -605,7 +623,7 @@ public class AlphaFineDialog extends UIDialog {
                 this.showWorker.execute();
                 break;
             default:
-                return;
+                rightSearchResultPane.removeAll();
 
         }
 
@@ -677,45 +695,6 @@ public class AlphaFineDialog extends UIDialog {
             }
         });
 
-
-    }
-
-    /**
-     * 窗口拖拽
-     */
-    private void initMouseListener() {
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                doMouseDragged(e);
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                doMousePressed(e);
-            }
-
-        });
-    }
-
-    private void doMousePressed(MouseEvent e) {
-
-        pressedPoint = e.getPoint();
-
-    }
-
-    private void doMouseDragged(MouseEvent e) {
-
-        Point point = e.getPoint();// 获取当前坐标
-
-        Point locationPoint = getLocation();// 获取窗体坐标
-
-        int x = locationPoint.x + point.x - pressedPoint.x;// 计算移动后的新坐标
-
-        int y = locationPoint.y + point.y - pressedPoint.y;
-
-        setLocation(x, y);// 改变窗体位置
 
     }
 
@@ -792,7 +771,7 @@ public class AlphaFineDialog extends UIDialog {
             }
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            para.put("token", CodeUtils.md5Encode(date, "", "MD5"));
+            para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));
             para.put("content", object.toString());
             HttpClient httpClient = new HttpClient(AlphaFineConstants.CLOUD_SERVER_URL, para, true);
             httpClient.asGet();
@@ -878,6 +857,14 @@ public class AlphaFineDialog extends UIDialog {
 
     public void setStoreText(String storeText) {
         this.storeText = storeText;
+    }
+
+    public UILabel getSplitLabel() {
+        return splitLabel;
+    }
+
+    public void setSplitLabel(UILabel splitLabel) {
+        this.splitLabel = splitLabel;
     }
 
 
@@ -1047,8 +1034,13 @@ public class AlphaFineDialog extends UIDialog {
             isValidSelected = selected;
         }
 
+        @Override
+        public boolean isEmpty() {
+            return myDelegate.isEmpty();
+        }
+
         public void resetState() {
-            for (int i = 0; i< getSize(); i++) {
+            for (int i = 0; i < getSize(); i++) {
                 getElementAt(i).resetState();
             }
         }

@@ -44,8 +44,10 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 
         initSeriesPane();
 
-		this.add(seriesPane, "0,2,2,2");
-		seriesPane.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+		panel.add(seriesPane);
+		this.add(panel, "0,2,2,2");
 	}
 
     //kunsnat: 用于重载, 甘特图, 股价图 第一列 默认应该不可编辑.
@@ -190,6 +192,12 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 			}
 			return editorComponent;
 		}
+	}
+
+	protected JSeparator getJSeparator() {
+		JSeparator jSeparator = new JSeparator();
+		jSeparator.setPreferredSize(new Dimension(246, 2));
+		return jSeparator;
 	}
 
 }
