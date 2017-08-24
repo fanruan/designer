@@ -76,7 +76,7 @@ public class CellElementEditPane extends BasicPane {
         downTitle = new JPanel();
         downTitle.setLayout(new BorderLayout());
         downTitle.add(tabsHeaderIconPane, BorderLayout.NORTH);
-        center.setBorder(BorderFactory.createEmptyBorder(0, LEFT_BORDER, 0, RIGHT_BORDER));
+        center.setBorder(BorderFactory.createEmptyBorder(0, LEFT_BORDER, 0, 0));
         downTitle.add(center, BorderLayout.CENTER);
 
         this.add(downTitle, BorderLayout.CENTER);

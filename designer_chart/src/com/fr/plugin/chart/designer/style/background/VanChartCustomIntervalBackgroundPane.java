@@ -32,8 +32,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     private ColorSelectBox color;
     private UINumberDragPane transparent;
 
-    public VanChartCustomIntervalBackgroundPane(){
-    }
+    private VanChartCustomIntervalBackground customIntervalBackground;
 
     private void doLayoutPane(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -44,8 +43,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         top.add(createContentPane());
     }
 
-    private JPanel createContentPane()
-    {
+    private JPanel createContentPane() {
         bottomValue = new TinyFormulaPane();
         topValue = new TinyFormulaPane();
         bottomValue.setPreferredSize(new Dimension(124,20));
@@ -90,6 +88,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
     }
 
     public void populateBean(VanChartCustomIntervalBackground customIntervalBackground){
+        this.customIntervalBackground = customIntervalBackground;
         backgroundAxis = new UIButtonGroup(customIntervalBackground.getAxisNamesArray(), customIntervalBackground.getAxisNamesArray());
         backgroundAxis.setSelectedItem(customIntervalBackground.getAxisName());
 
@@ -99,20 +98,16 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         topValue.populateBean(Utils.objectToString(customIntervalBackground.getToFormula()));
         color.setSelectObject(customIntervalBackground.getBackgroundColor());
         transparent.populateBean(customIntervalBackground.getAlpha() * VanChartAttrHelper.PERCENT);
-
-
     }
 
-    public void updateBean(VanChartCustomIntervalBackground customIntervalBackground){
+    public VanChartCustomIntervalBackground updateBean(){
+
         customIntervalBackground.setAxisName(backgroundAxis.getSelectedItem().toString());
 
         customIntervalBackground.setFromFormula(new Formula(bottomValue.updateBean()));
         customIntervalBackground.setToFormula(new Formula(topValue.updateBean()));
         customIntervalBackground.setBackgroundColor(color.getSelectObject());
         customIntervalBackground.setAlpha(transparent.updateBean() / VanChartAttrHelper.PERCENT);
-    }
-
-    public VanChartCustomIntervalBackground updateBean(){
-        return null;
+        return customIntervalBackground;
     }
 }

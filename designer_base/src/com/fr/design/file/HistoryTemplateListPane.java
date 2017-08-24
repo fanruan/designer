@@ -232,7 +232,6 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations, C
         getCurrentEditingTemplate().repaint();
     }
 
-
     private class HistoryListCellRender extends DefaultListCellRenderer {
 
         @Override

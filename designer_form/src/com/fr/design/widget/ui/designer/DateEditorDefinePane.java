@@ -9,6 +9,7 @@ import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -38,6 +39,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     private UIComboBox currentFormatComboBox;
     private UILabel currentSamplelabel;
     private UIHeadGroup fomatHeadGroup;
+    protected UITextField labelNameTextField;
 
     public DateEditorDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -58,12 +60,13 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
         returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
         JPanel formatHead =  createFormatHead();
-
+        labelNameTextField = new UITextField();
         startDv = new DateValuePane();
         endDv = new DateValuePane();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"), formatHead},
                 new Component[]{new UILabel(Inter.getLocText("FS_Start_Date") + ":"), startDv},
@@ -73,7 +76,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
                 new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypeComboBox}
 
         };
-        double[] rowSize = {p, p, p, p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3}, {1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);

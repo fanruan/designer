@@ -6,14 +6,10 @@ import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
-import com.fr.general.Inter;
 import com.fr.general.NameObject;
-import com.fr.plugin.chart.designer.component.ConditionUIMenuNameableCreator;
 import com.fr.stable.Nameable;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Mitisky on 16/5/20.
@@ -41,17 +37,11 @@ public class VanChartConditionAttrContentPane extends AbstractConditionAttrConte
         this.setLayout(new BorderLayout());
         this.add(conditionPane, BorderLayout.CENTER);
 
-        //todo@mango
-        List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-
-        list.add(new ConditionUIMenuNameableCreator(plot, Inter.getLocText("Chart-Condition_Attributes"), new ConditionAttr(), showPane));
-
 
         NameObject[] nameables = new NameObject[collection.getConditionAttrSize()];
 
         for(int i = 0; i < collection.getConditionAttrSize(); i++) {
-            ConditionUIMenuNameableCreator c =new ConditionUIMenuNameableCreator(plot, collection.getConditionAttr(i).getName(), collection.getConditionAttr(i), showPane);
-            nameables[i]=(new NameObject(c.getName(),c));
+            nameables[i]=(new NameObject(collection.getConditionAttr(i).getName(),collection.getConditionAttr(i)));
         }
 
         conditionPane.populate(nameables);

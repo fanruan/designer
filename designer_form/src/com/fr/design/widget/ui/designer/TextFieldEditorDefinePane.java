@@ -3,7 +3,7 @@ package com.fr.design.widget.ui.designer;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.frpane.RegPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 
 public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor> {
     protected RegPane regPane;
-    private UIPropertyTextField waterMarkDictPane;
+    private UITextField waterMarkDictPane;
     FormWidgetValuePane formWidgetValuePane;
 
     public TextFieldEditorDefinePane(XCreator xCreator) {
@@ -47,7 +47,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         };
         regPane.addPhoneRegListener(pl);
-        waterMarkDictPane = new UIPropertyTextField();
+        waterMarkDictPane = new UITextField();
         waterMarkDictPane.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 regPane.removePhoneRegListener(pl);
@@ -69,13 +69,14 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT),  formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
         };
-        double[] rowSize = {p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 3},{1, 1},{1, 1}};
+        int[][] rowCount = {{1, 1},{1, 3},{1, 1},{1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

@@ -2,9 +2,9 @@ package com.fr.plugin.chart.custom.style;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
-import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.custom.CustomPlotDesignerPaneFactory;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
+import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.designer.style.background.VanChartAxisAreaPane;
 
 import java.util.List;

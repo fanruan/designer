@@ -75,13 +75,6 @@ public class PreferencePane extends BasicPane {
 
     private static final FRLevel[] LOG = {FRLevel.SEVERE, FRLevel.WARNING, FRLevel.INFO, FRLevel.DEBUG};
     private static java.util.List<String> LANGUAGE = new ArrayList<>();
-    static {
-        Map<Locale, String> map = Inter.getSupportLocaleMap();
-        LANGUAGE.add(Inter.getLocText("FR-Designer_Language_Default"));
-        for(Locale locale : map.keySet()){
-            LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
-        }
-    };
 
     private static int designerEnvLanguageIndex; // 打开设置对话框时，设计器使用的语言
     private boolean languageChanged; // 是否修改了设计器语言设置
@@ -116,6 +109,17 @@ public class PreferencePane extends BasicPane {
 
     public PreferencePane() {
         this.initComponents();
+        this.initLanguageItems();
+    }
+
+    // 语言选项
+    private void initLanguageItems() {
+        LANGUAGE.clear();
+        Map<Locale, String> map = Inter.getSupportLocaleMap();
+        LANGUAGE.add(Inter.getLocText("FR-Designer_Language_Default"));
+        for(Locale locale : map.keySet()){
+            LANGUAGE.add(getLocaledLanguage(map.get(locale), locale));
+        }
     }
 
     protected void initComponents() {

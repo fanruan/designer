@@ -27,7 +27,7 @@ import java.awt.*;
  * Created by ibm on 2017/7/25.
  */
 public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
-    private AttributeChangeListener listener2;
+    private AttributeChangeListener listener;
     private FormDesigner designer;
     //当前的编辑器属性定义面板
     private DataModify<Widget> currentEditorDefinePane;
@@ -81,7 +81,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         } else {
             return null;
         }
-
     }
 
     /**
@@ -138,7 +137,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         jPanel.add(attriCardPane, BorderLayout.CENTER);
 
-        this.listener2 = new AttributeChangeListener() {
+        this.listener = new AttributeChangeListener() {
             @Override
             public void attributeChange() {
                 updateCreator();
@@ -185,18 +184,18 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (widgetBoundPane != null) {
             widgetBoundPane.populate();
         }
-        if (cellWidget instanceof WScaleLayout) {
+        Widget innerWidget = cellWidget;
+        if (cellWidget.acceptType(WScaleLayout.class)) {
             Widget crBoundsWidget = ((WScaleLayout) cellWidget).getBoundsWidget();
-            currentEditorDefinePane.populateBean(((CRBoundsWidget) crBoundsWidget).getWidget());
-        } else if(cellWidget instanceof WTitleLayout){
+            innerWidget = ((CRBoundsWidget) crBoundsWidget).getWidget();
+        } else if(cellWidget.acceptType(WTitleLayout.class)){
             CRBoundsWidget crBoundsWidget = ((WTitleLayout) cellWidget).getBodyBoundsWidget();
-            currentEditorDefinePane.populateBean(crBoundsWidget.getWidget());
-        }else{
-            currentEditorDefinePane.populateBean(cellWidget);
+            innerWidget = crBoundsWidget.getWidget();
         }
-        widgetPropertyPane.populate(cellWidget);
+        currentEditorDefinePane.populateBean(innerWidget);
+        widgetPropertyPane.populate(innerWidget);
         reinitAllListeners();
-        this.addAttributeChangeListener(listener2);
+        this.addAttributeChangeListener(listener);
     }
 
 
@@ -208,12 +207,12 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         }
         fireValueChanged();
 
-        if (xCreator instanceof XWScaleLayout) {
+        if (xCreator.acceptType(XWScaleLayout.class)) {
             XCreator xCreator1 = xCreator.getEditingChildCreator();
             xCreator1.resetData(widget);
             xCreator.removeAll();
             xCreator.add(xCreator1);
-        }else if(xCreator instanceof XWTitleLayout){
+        }else if(xCreator.acceptType(XWTitleLayout.class)){
             XCreator xCreator1 = ((XWTitleLayout) xCreator).getXCreator(0);
             xCreator1.resetData(widget);
             xCreator.removeAll();
