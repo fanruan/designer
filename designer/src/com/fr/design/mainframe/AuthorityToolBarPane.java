@@ -215,7 +215,7 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         ReportWebAttr rw = wbTpl.getReportWebAttr();
         ConfigManagerProvider cm = ConfigManager.getProviderInstance();
         ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
-        if (webAttr == null) {
+        if (webAttr == null || rw == null || rw.getWebPage() == null) {
             return;
         }
 
@@ -224,19 +224,13 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         //看是存在服务器还存在模板里面
         if (choseComboBox.getSelectedIndex() == 0) {
             //分页
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
         } else if (choseComboBox.getSelectedIndex() == 1) {
             //填报
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
         } else {
             //view
-            if (rw == null || rw.getWebPage() == null) {
-                dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
-            }
+            dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
         }
     }
 
