@@ -45,48 +45,12 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
     public ElementCasePaneDelegate(WorkSheet sheet) {
         super(sheet);
         this.addSelectionChangeListener(new SelectionListener() {
-
             @Override
             public void selectionChanged(SelectionEvent e) {
-                //在编辑权限，所以要更新权限编辑面板
-                if (BaseUtils.isAuthorityEditing()) {
-                    AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
-                    authorityPropertyPane.populate();
-                    EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
-                    EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
-                    EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
+                if (!isEditable()) {
                     return;
                 }
-                CellWidgetPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
-                CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
-                QuickEditorRegion.getInstance().populate(getCurrentEditor());
-                JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-                if (editingTemplate != null && !editingTemplate.isUpMode()) {
-                    Selection editingSelection = ((ElementCasePaneDelegate)e.getSource()).getSelection();
-                    // 模板初始化完成后，才能初始化超级链接面板
-                    HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
-                    hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
-                    if (editingSelection instanceof FloatSelection) {
-                        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
-                        JPanel floatPane = new JPanel(new BorderLayout());
-                        floatPane.add(ReportFloatPane.getInstance(), BorderLayout.NORTH);
-                        floatPane.add(QuickEditorRegion.getInstance(), BorderLayout.CENTER);
-                        EastRegionContainerPane.getInstance().replaceFloatElementPane(floatPane);
-                    } else {
-                        // 条件属性
-                        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
-                        conditionAttributesGroupPane.populate(ElementCasePaneDelegate.this);
-
-                        EastRegionContainerPane.getInstance().replaceFloatElementPane(ReportFloatPane.getInstance());
-                        EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
-                        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
-                        EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
-                        EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
-                        EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
-                    }
-                    EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
-                    EastRegionContainerPane.getInstance().removeParameterPane();
-                }
+                doOnSelectionChanged();
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {
@@ -95,6 +59,48 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
             }
         });
+    }
+
+    private void doOnSelectionChanged() {
+        //在编辑权限，所以要更新权限编辑面板
+        if (BaseUtils.isAuthorityEditing()) {
+            AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
+            authorityPropertyPane.populate();
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION);
+            EastRegionContainerPane.getInstance().replaceAuthorityEditionPane(authorityPropertyPane);
+            EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
+            return;
+        }
+        CellWidgetPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+        CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+        QuickEditorRegion.getInstance().populate(getCurrentEditor());
+        JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (editingTemplate != null && !editingTemplate.isUpMode()) {
+            Selection editingSelection = ((ElementCasePaneDelegate)e.getSource()).getSelection();
+            // 模板初始化完成后，才能初始化超级链接面板
+            HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+            hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);
+            if (editingSelection instanceof FloatSelection) {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_FLOAT);
+                JPanel floatPane = new JPanel(new BorderLayout());
+                floatPane.add(ReportFloatPane.getInstance(), BorderLayout.NORTH);
+                floatPane.add(QuickEditorRegion.getInstance(), BorderLayout.CENTER);
+                EastRegionContainerPane.getInstance().replaceFloatElementPane(floatPane);
+            } else {
+                // 条件属性
+                ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+                conditionAttributesGroupPane.populate(ElementCasePaneDelegate.this);
+
+                EastRegionContainerPane.getInstance().replaceFloatElementPane(ReportFloatPane.getInstance());
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+                EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+                EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
+                EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
+                EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
+            }
+            EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
+            EastRegionContainerPane.getInstance().removeParameterPane();
+        }
     }
 
     @Override
@@ -123,6 +129,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
      *
      * @return 不是必须在可见范围.
      */
+    @Override
     public boolean mustInVisibleRange() {
         return false;
     }

@@ -52,6 +52,9 @@ public class ECBlockPane extends PolyElementCasePane {
 
             @Override
             public void selectionChanged(SelectionEvent e) {
+                if (!isEditable()) {
+                    return;
+                }
                 if (BaseUtils.isAuthorityEditing()) {
                     if (designer.getSelection().getEditingElementCasePane() == null) {
                         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.AUTHORITY_EDITION_DISABLED);
@@ -116,7 +119,7 @@ public class ECBlockPane extends PolyElementCasePane {
 
     // 插入菜单
     private MenuDef createInsertMenuDef() {
-        MenuDef menuDef = new MenuDef(Inter.getLocText("M-Insert"), 'I');
+        MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Insert"), 'I');
         // 单元格菜单
         menuDef.addShortCut(DeprecatedActionManager.getCellMenu(this));
 
