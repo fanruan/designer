@@ -44,14 +44,12 @@ public class UISliderButton extends JButton implements UIObserver {
     }
 
     public UISliderButton(String string) {
-        super(string);
-        init();
+        this(string, null);
     }
 
 
     public UISliderButton(Icon icon) {
-        super(icon);
-        init();
+        this(null, icon);
     }
 
     public UISliderButton(Action action) {

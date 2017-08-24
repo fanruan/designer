@@ -28,17 +28,6 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         initComponents();
     }
 
-    public static void main(String[] args) {
-//        JFrame jf = new JFrame("test");
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JPanel content = (JPanel) jf.getContentPane();
-//        content.setLayout(new BorderLayout());
-//        content.add(new FormulaDictPane(), BorderLayout.NORTH);
-//        GUICoreUtils.centerWindow(jf);
-//        jf.setSize(250, 400);
-//        jf.setVisible(true);
-    }
-
     private void initComponents() {
         keyFormulaEditor = new FormulaEditor();
         keyFormulaEditor.setColumns(EDITOR_COLUMN);
