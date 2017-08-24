@@ -50,14 +50,9 @@ class MobileParaWidgetTable extends JTable {
     private void init(FormDesigner designer) {
         this.designer = designer;
         this.cellData = getData();
-    }
-
-    MobileParaWidgetTable(FormDesigner designer) {
-        init(designer);
         this.setTableProperties();
         this.setDefaultEditor(Object.class, new MobileCellEditor());
-        TableModel defaultModel = new BeanTableModel();
-        this.setModel(defaultModel);
+        this.setModel(new BeanTableModel());
         this.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         TableColumn tc = this.getColumn(this.getColumnName(0));
         tc.setMinWidth(UITEXTFIELD_WIDTH);
@@ -68,6 +63,10 @@ class MobileParaWidgetTable extends JTable {
         refreshData();
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
+    }
+
+    MobileParaWidgetTable(FormDesigner designer) {
+        init(designer);
         add(moveComponent);
     }
 
