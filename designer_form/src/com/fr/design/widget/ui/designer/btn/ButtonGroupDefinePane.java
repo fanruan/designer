@@ -1,8 +1,8 @@
 package com.fr.design.widget.ui.designer.btn;
 
+import com.fr.data.Dictionary;
 import com.fr.design.designer.creator.*;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -67,6 +67,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
     protected void populateSubFieldEditorBean(T e) {
         this.buttonGroupDictPane.populate(e);
         formWidgetValuePane.populate(e);
+        dictionaryEditor.setValue(e.getDictionary());
         populateSubButtonGroupBean(e);
     }
 
@@ -79,6 +80,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         T e = updateSubButtonGroupBean();
         this.buttonGroupDictPane.update(e);
         formWidgetValuePane.update(e);
+        e.setDictionary((Dictionary) dictionaryEditor.getValue());
         return e;
     }
 
