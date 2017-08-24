@@ -169,12 +169,9 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         hbarContainer.add(elementCaseDesigner.getHorizontalScrollBar());
         jSliderContainer = JSliderPane.getInstance();
 
-        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, jSliderContainer);
         southPane.add(hbarContainer, BorderLayout.NORTH);
-        southPane.add(splitpane, BorderLayout.CENTER);
-        splitpane.setBorder(null);
-        splitpane.setDividerSize(3);
-        splitpane.setResizeWeight(1);
+        southPane.add(sheetNameTab, BorderLayout.CENTER);
+        southPane.add(jSliderContainer, BorderLayout.EAST);
         return southPane;
     }
 

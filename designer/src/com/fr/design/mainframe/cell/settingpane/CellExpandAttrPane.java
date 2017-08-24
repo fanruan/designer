@@ -85,8 +85,8 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         UILabel direction = new UILabel(Inter.getLocText("FR-Designer_ExpandD_Expand_Direction"), SwingConstants.LEFT);
-//        JPanel directionPane = new JPanel(new BorderLayout());
-//        directionPane.add(direction, BorderLayout.NORTH);
+        JPanel directionPane = new JPanel(new BorderLayout());
+        directionPane.add(direction, BorderLayout.NORTH);
         UILabel left = new UILabel(Inter.getLocText("FR-Designer_LeftParent"), SwingConstants.LEFT);
         JPanel leftPane = new JPanel(new BorderLayout());
         leftPane.add(left, BorderLayout.NORTH);
@@ -95,7 +95,7 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
         upPane.add(up, BorderLayout.NORTH);
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{direction, expandDirectionButton},
+                new Component[]{directionPane, expandDirectionButton},
                 new Component[]{leftPane, leftFatherPane},
                 new Component[]{upPane, rightFatherPane},
         };

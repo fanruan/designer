@@ -29,14 +29,14 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
     }
 
     public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new FormulaDictPane(), BorderLayout.NORTH);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(250, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        content.add(new FormulaDictPane(), BorderLayout.NORTH);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(250, 400);
+//        jf.setVisible(true);
     }
 
     private void initComponents() {
@@ -59,7 +59,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
-        tag.setPreferredSize(new Dimension(225, 40));
+        tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
 
