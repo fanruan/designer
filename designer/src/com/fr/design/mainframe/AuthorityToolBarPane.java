@@ -242,14 +242,11 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         for (int i = 0; i < managers.length; i++) {
             ToolBar tb = managers[i].getToolBar();
             for (int j = 0; j < tb.getWidgetSize(); j++) {
-                if (widget instanceof Button && tb.getWidget(j) instanceof Button) {
-                    if (ComparatorUtils.equals(((Button) widget).getIconName(),
-                            ((Button) tb.getWidget(j)).getIconName())) {
-                        if (!isSelected) {
-                            tb.getWidget(j).getWidgetPrivilegeControl().addInvisibleRole(selectedRole);
-                        } else {
-                            tb.getWidget(j).getWidgetPrivilegeControl().removeInvisibleRole(selectedRole);
-                        }
+                if (widget instanceof Button && tb.getWidget(j) instanceof Button && ComparatorUtils.equals(((Button) widget).getIconName(), ((Button) tb.getWidget(j)).getIconName())) {
+                    if (!isSelected) {
+                        tb.getWidget(j).getWidgetPrivilegeControl().addInvisibleRole(selectedRole);
+                    } else {
+                        tb.getWidget(j).getWidgetPrivilegeControl().removeInvisibleRole(selectedRole);
                     }
                 }
             }
