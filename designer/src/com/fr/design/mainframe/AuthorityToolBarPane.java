@@ -215,26 +215,27 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
         ReportWebAttr rw = wbTpl.getReportWebAttr();
         ConfigManagerProvider cm = ConfigManager.getProviderInstance();
         ReportWebAttr webAttr = ((ReportWebAttr) cm.getGlobalAttribute(ReportWebAttr.class));
+        if (webAttr == null) {
+            return;
+        }
 
         //wbTpl.clear先清空
         //再将所有的保存进去
         //看是存在服务器还存在模板里面
-        if (webAttr != null) {
-            if (choseComboBox.getSelectedIndex() == 0) {
-                //分页
-                if (rw == null || rw.getWebPage() == null) {
-                    dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
-                }
-            } else if (choseComboBox.getSelectedIndex() == 1) {
-                //填报
-                if (rw == null || rw.getWebPage() == null) {
-                    dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
-                }
-            } else {
-                //view
-                if (rw == null || rw.getWebPage() == null) {
-                    dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
-                }
+        if (choseComboBox.getSelectedIndex() == 0) {
+            //分页
+            if (rw == null || rw.getWebPage() == null) {
+                dealWithWebContent(webAttr.getWebPage(), widget, isSelected, selectedRole);
+            }
+        } else if (choseComboBox.getSelectedIndex() == 1) {
+            //填报
+            if (rw == null || rw.getWebPage() == null) {
+                dealWithWebContent(webAttr.getWebWrite(), widget, isSelected, selectedRole);
+            }
+        } else {
+            //view
+            if (rw == null || rw.getWebPage() == null) {
+                dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
             }
         }
     }

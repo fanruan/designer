@@ -15,6 +15,7 @@ import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.webattr.ToolBarButton;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -37,8 +38,12 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
     private AuthorityToolBarPane authorityToolBarPane;
     private String[] selectedPathArray;
 
-    public AuthorityEditToolBarPane(List<ToolBarButton> buttonlists) {
+    public AuthorityEditToolBarPane(List<ToolBarButton> buttonList) {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+        this.init(buttonList);
+    }
+
+    private void init(List<ToolBarButton> buttonList) {
         this.setLayout(new BorderLayout());
         this.setBorder(null);
         UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Permissions",
@@ -54,7 +59,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         northPane.add(authorityTitle, BorderLayout.CENTER);
         northPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.LINE_COLOR));
         this.add(northPane, BorderLayout.NORTH);
-        authorityEditPane = new AuthorityEditPane(buttonlists);
+        authorityEditPane = new AuthorityEditPane(buttonList);
         this.add(authorityEditPane, BorderLayout.CENTER);
     }
 
@@ -94,8 +99,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole ==
-                        null || selectedPathArray == null) {
+                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole == null || selectedPathArray == null) {
                     return;
                 }
                 ToolBarButton selectedButton = null;
@@ -210,29 +214,29 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
 
         public void populateType() {
-            if (name.getText() == "") {
-                type.setText("");
+            if (StringUtils.EMPTY.equals(name.getText())) {
+                type.setText(StringUtils.EMPTY);
             } else {
                 type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
             }
         }
 
         public void populateName() {
-            String names = "";
+            StringBuilder names = new StringBuilder();
             for (int i = 0; i < buttonlists.size(); i++) {
                 if (buttonlists.get(i).isSelected()) {
-                    names += "," + buttonlists.get(i).getNameOption().optionName();
+                    names.append(",").append(buttonlists.get(i).getNameOption().optionName());
                 }
             }
-            if (names != "") {
-                names = names.substring(1);
+            if (names.length() > 0) {
+                names.deleteCharAt(0);
             }
-            name.setText(names);
+            name.setText(names.toString());
         }
 
         public void populateCheckPane() {
             checkPane.removeAll();
-            if (name.getText() == "") {
+            if (StringUtils.EMPTY.equals(name.getText())) {
                 return;
             }
             double f = TableLayout.FILL;
