@@ -11,6 +11,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
@@ -42,6 +43,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     //轮播切换方式配置接界面
     private JPanel carouselConfigPane;
     protected UISpinner timeInterval;
+    protected UICheckBox arrowCheckbox;
     private ColorSelectBoxWithOutTransparent colorSelectBox4carousel;
 
     public ChangeConfigPane(){
@@ -95,9 +97,11 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         double[] rowSize = {p,p,p};
         timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
         colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
+        arrowCheckbox = new UICheckBox(Inter.getLocText("FR-Base_TurnOn"));
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), timeInterval},
                 new Component[]{new UILabel(Inter.getLocText("Background")),colorSelectBox4carousel},
+                new Component[] {new UILabel(Inter.getLocText("Plugin-ChartF_Arrow_Style")), arrowCheckbox}
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
@@ -174,6 +178,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         //轮播切换界面
         timeInterval.setValue(changeConfigAttr.getTimeInterval());
         colorSelectBox4carousel.setSelectObject(changeConfigAttr.getCarouselColor());
+        arrowCheckbox.setSelected(changeConfigAttr.getShowArrow());
 
         checkCardPane();
 
@@ -197,6 +202,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         changeConfigAttr.setButtonColor(colorSelectBox4button.getSelectObject());
         changeConfigAttr.setTimeInterval((int) timeInterval.getValue());
         changeConfigAttr.setCarouselColor(colorSelectBox4carousel.getSelectObject());
+        changeConfigAttr.setShowArrow(arrowCheckbox.isSelected());
     }
 
     @Override
