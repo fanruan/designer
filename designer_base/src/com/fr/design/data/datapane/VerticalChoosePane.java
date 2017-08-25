@@ -31,6 +31,7 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         JPanel rs = new JPanel(new BorderLayout(0, 0));
         rs.add(tableNameComboBox, BorderLayout.CENTER);
@@ -53,7 +54,7 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
                 new Component[]{l3, rs}
         };
 
-        JPanel content = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel content = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
         this.setLayout(new BorderLayout());
         this.add(content, BorderLayout.CENTER);
     }
