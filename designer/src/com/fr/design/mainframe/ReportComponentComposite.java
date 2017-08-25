@@ -204,19 +204,14 @@ public class ReportComponentComposite extends JComponent {
     }
 
     private JComponent createSouthControlPane() {
-//        hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//        hbarContainer.add(createSouthControlPaneWithJSliderPane());
         hbarContainer = FRGUIPaneFactory.createBorderLayout_S_Pane();
         hbarContainer.add(centerCardPane.editingComponet.getHorizontalScrollBar());
-//        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, hbarContainer);
         JPanel southPane = new JPanel(new BorderLayout());
         jSliderContainer = JSliderPane.getInstance();
-        JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sheetNameTab, jSliderContainer);
-        splitpane.setBorder(null);
-        splitpane.setDividerSize(3);
-        splitpane.setResizeWeight(1);
+
         southPane.add(hbarContainer, BorderLayout.NORTH);
-        southPane.add(splitpane, BorderLayout.CENTER);
+        southPane.add(sheetNameTab, BorderLayout.CENTER);
+        southPane.add(jSliderContainer, BorderLayout.EAST);
         return southPane;
     }
 
