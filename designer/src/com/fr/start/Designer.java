@@ -31,7 +31,6 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
@@ -435,7 +434,7 @@ public class Designer extends BaseDesigner {
     	collector.collectStopTime();
     	collector.saveXMLFile();
         Env currentEnv = FRContext.getCurrentEnv();
-        if (!(currentEnv instanceof RemoteEnv)) {//远程环境不需要触发stop
+        if (!currentEnv.isRemoteEnv()) {//远程环境不需要触发stop
             ServletContext.fireServletStopListener();
         }
     }
