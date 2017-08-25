@@ -28,8 +28,6 @@ public class ReportBackgroundPane extends BasicPane {
         sourth.add(isExportBackgroundCheckBox);
         sourth.add(isPrintBackgroundCheckBox);
         this.add(sourth, BorderLayout.SOUTH);
-        
-        this.add(isPrintBackgroundCheckBox, BorderLayout.SOUTH);
     }
     
     @Override
