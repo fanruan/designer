@@ -574,8 +574,6 @@ public class RemoteEnv extends AbstractEnv {
         clock.stop();
         // richer:把轮训使用的定时器也去掉
         timer.cancel();
-        // 当前环境可能用了远程环境的缓存目录,释放一下
-        CacheManager.getProviderInstance().setCacheDirectory(null);
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_out");
@@ -2282,5 +2280,10 @@ public class RemoteEnv extends AbstractEnv {
         } catch (Exception e) {
             return StringUtils.EMPTY;
         }
+    }
+
+    @Override
+    public boolean isRemoteEnv() {
+        return true;
     }
 }
