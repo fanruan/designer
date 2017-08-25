@@ -18,6 +18,7 @@ import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.script.Calculator;
 import com.fr.stable.ParameterProvider;
+import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -160,6 +161,10 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     @Override
     public void populateBean(ClassTableData ob) {
+        if(StringUtils.isEmpty(ob.getClassName())) {
+            return;
+        }
+
         this.editorPane.populate(ob.getParameters(Calculator.createCalculator()));
         this.classNameTextField.setText(ob.getClassName());
     }
