@@ -54,17 +54,6 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
         }
 		final CellSelection finalCS = (CellSelection) ePane.getSelection();
 		final TemplateElementCase tplEC = ePane.getEditingElementCase();
-//		for (int i = 0; i < finalCS.getRowSpan(); i++) {
-//			for (int j = 0; j < finalCS.getColumnSpan(); j++) {
-//				int row = i + finalCS.getRow();
-//				int column = j + finalCS.getColumn();
-//				TemplateCellElement editCellElement = tplEC.getTemplateCellElement(column, row);
-//				// alex:不加这一句话会导致跨行跨列的格子被多次update
-//				if (editCellElement.getColumn() != column || editCellElement.getRow() != row) {
-//					continue;
-//				}
-//			}
-//		}
 
         ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
             public void dealWith(CellElement editCellElement) {
