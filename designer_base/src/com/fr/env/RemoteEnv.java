@@ -574,6 +574,7 @@ public class RemoteEnv extends AbstractEnv {
         clock.stop();
         // richer:把轮训使用的定时器也去掉
         timer.cancel();
+
         HashMap<String, String> para = new HashMap<String, String>();
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_out");
@@ -2280,10 +2281,5 @@ public class RemoteEnv extends AbstractEnv {
         } catch (Exception e) {
             return StringUtils.EMPTY;
         }
-    }
-
-    @Override
-    public boolean isRemoteEnv() {
-        return true;
     }
 }

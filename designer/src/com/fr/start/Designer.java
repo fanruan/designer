@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
@@ -30,6 +31,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
@@ -432,7 +434,10 @@ public class Designer extends BaseDesigner {
     	InformationCollector collector = InformationCollector.getInstance();
     	collector.collectStopTime();
     	collector.saveXMLFile();
-        ServletContext.fireServletStopListener();
+        Env currentEnv = FRContext.getCurrentEnv();
+        if (!(currentEnv instanceof RemoteEnv)) {//远程环境不需要触发stop
+            ServletContext.fireServletStopListener();
+        }
     }
 
 }
