@@ -1055,4 +1055,14 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
         return uiButtons;
     }
+
+    /**
+     * 由于老版本的模板没有模板ID，当勾选使用参数模板时候，就加一个模板ID
+     * @param isUseParamTemplate 是否使用参数模板
+     */
+    public void needAddTemplateId(boolean isUseParamTemplate) {
+        if (isUseParamTemplate && StringUtils.isEmpty(template.getTemplateID())) {
+            template.initTemplateID();
+        }
+    }
 }
