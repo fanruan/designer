@@ -46,6 +46,8 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     private UIComboBox fontName;
     private ColorSelectBox fontColor;
 
+    private VanChartAlertValue chartAlertValue;
+
     public VanChartAlertValuePane(){
         initComponents();
     }
@@ -134,6 +136,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     }
 
     public void populateBean(VanChartAlertValue chartAlertValue){
+        this.chartAlertValue =chartAlertValue;
         alertAxis = new UIButtonGroup(chartAlertValue.getAxisNamesArray(), chartAlertValue.getAxisNamesArray());
         alertAxis.setSelectedItem(chartAlertValue.getAxisName());
         alertAxis.addChangeListener(new ChangeListener() {
@@ -165,8 +168,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         fontColor.setSelectObject(chartAlertValue.getAlertFont().getForeground());
     }
 
-    @Override
-    public void updateBean(VanChartAlertValue chartAlertValue) {
+    public VanChartAlertValue updateBean(){
         chartAlertValue.setAxisName(alertAxis.getSelectedItem().toString());
 
         chartAlertValue.setAlertValueFormula(new Formula(alertValue.updateBean()));
@@ -191,9 +193,6 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         } else {
             chartAlertValue.setAlertPosition(alertTextPosition.getSelectedIndex() == 0 ? Constants.LEFT : Constants.RIGHT);
         }
-    }
-
-    public VanChartAlertValue updateBean(){
-        return null;
+        return chartAlertValue;
     }
 }

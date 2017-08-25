@@ -1,8 +1,8 @@
 package com.fr.design.widget.ui.designer.btn;
 
+import com.fr.data.Dictionary;
 import com.fr.design.designer.creator.*;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -38,14 +38,15 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictionaryEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont")), fontSizePane},
                 new Component[]{buttonGroupDictPane, null}
         };
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 3},{1, 1},{1, 1},{1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 3},{1, 1},{1, 1},{1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
@@ -66,6 +67,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
     protected void populateSubFieldEditorBean(T e) {
         this.buttonGroupDictPane.populate(e);
         formWidgetValuePane.populate(e);
+        dictionaryEditor.setValue(e.getDictionary());
         populateSubButtonGroupBean(e);
     }
 
@@ -78,6 +80,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         T e = updateSubButtonGroupBean();
         this.buttonGroupDictPane.update(e);
         formWidgetValuePane.update(e);
+        e.setDictionary((Dictionary) dictionaryEditor.getValue());
         return e;
     }
 

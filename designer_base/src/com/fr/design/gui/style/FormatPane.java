@@ -109,7 +109,7 @@ public class FormatPane extends AbstractBasicStylePane {
         JPanel typePane = new JPanel(new BorderLayout());
         typePane.add(typeComboBox, BorderLayout.CENTER);
         typePane.setBorder(LEFT_BORDER);
-        centerPane.setBorder(LEFT_BORDER);
+//        centerPane.setBorder(LEFT_BORDER);
         frFontPane.setBorder(LEFT_BORDER);
 
         Component[][] components = getComponent(fontPane, centerPane, typePane);
@@ -125,7 +125,7 @@ public class FormatPane extends AbstractBasicStylePane {
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
-                new Component[]{null, centerPane},
+                new Component[]{centerPane, null},
                 new Component[]{fontPane, frFontPane},
         };
     }
@@ -248,7 +248,7 @@ public class FormatPane extends AbstractBasicStylePane {
         this.typeComboBox.setSelectedItem(formatStyle);
         int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle), pattern);
         if (i == -1) {
-            this.textField.setSelectedIndex(0);
+            this.textField.setSelectedItem(pattern);
         } else {
             this.textField.setSelectedIndex(i);
         }

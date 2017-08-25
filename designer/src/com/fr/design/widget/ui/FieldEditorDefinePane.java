@@ -5,7 +5,7 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -24,7 +24,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     private static final int ALLOW_BLANK_CHECK_BOX_HEIGHT = 30;
     protected UICheckBox allowBlankCheckBox;
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
-    protected UIPropertyTextField errorMsgTextField;
+    protected UITextField errorMsgTextField;
     protected JPanel validatePane;
 
     public FieldEditorDefinePane() {
@@ -44,7 +44,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
     protected void initErrorMsgPane() {
         // 错误信息
-        errorMsgTextField = new UIPropertyTextField();
+        errorMsgTextField = new UITextField();
 //        // richer:主要为了方便查看比较长的错误信息
         errorMsgTextField.getDocument().addDocumentListener(new DocumentListener() {
 

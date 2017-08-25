@@ -59,6 +59,18 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         }
     }
 
+    protected void initLayout() {
+        this.setLayout(new BorderLayout());
+        if (!paneList.isEmpty()) {
+            JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+            if (nameArray.length > 1) {
+                pane.add(tabPane);
+                this.add(pane, BorderLayout.NORTH);
+            }
+        }
+        this.add(centerPane, BorderLayout.CENTER);
+    }
+
 
     protected List<NamePane> initPaneList(Plot plot, AbstractAttrNoScrollPane parent) {
         plot4Pane = plot;

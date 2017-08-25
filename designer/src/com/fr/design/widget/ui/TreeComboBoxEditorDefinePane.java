@@ -1,19 +1,23 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.gui.frpane.TreeSettingPane;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.widget.accessibles.AccessibleTreeModelEditor;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
+import com.fr.general.Inter;
 
 public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEditor> {
-	protected TreeSettingPane treeSettingPane;
+	protected AccessibleTreeModelEditor treeSettingPane;
 	protected TreeRootPane treeRootPane;
 
 	public TreeComboBoxEditorDefinePane() {
@@ -27,9 +31,22 @@ public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane
 		content.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		treeRootPane = new TreeRootPane();
 		content.add(treeRootPane, BorderLayout.NORTH);
-		treeSettingPane = new TreeSettingPane(true);
 		return content;
 	}
+
+	@Override
+	protected JPanel setFirstContentPane() {
+		treeSettingPane = new AccessibleTreeModelEditor();
+		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		JPanel north = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Create_Tree")), treeSettingPane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		north.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		JPanel center = super.setFirstContentPane();
+		jPanel.add(north, BorderLayout.NORTH);
+		jPanel.add(center, BorderLayout.CENTER);
+		return jPanel;
+	}
+
+
 	
 	@Override
 	protected String title4PopupWindow() {
@@ -38,19 +55,20 @@ public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane
 
 	@Override
 	protected void populateSubCustomWritableRepeatEditorBean(TreeEditor e) {
-		treeSettingPane.populate(e);
+		treeSettingPane.setValue(e.getDictionary());
 		treeRootPane.populate(e.getTreeAttr());
 	}
 
 	@Override
 	protected TreeComboBoxEditor updateSubCustomWritableRepeatEditorBean() {
-		TreeComboBoxEditor editor = treeSettingPane.updateTreeComboBox();
+		TreeComboBoxEditor editor = new TreeComboBoxEditor();
+		editor.setDictionary((Dictionary)treeSettingPane.getValue());
 		editor.setTreeAttr(treeRootPane.update());
 		return editor;
 	}
 
     @Override
     public DataCreatorUI dataUI() {
-        return treeSettingPane;
+        return null;
     }
 }

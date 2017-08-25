@@ -9,7 +9,7 @@ import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -28,7 +28,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 
     private static final int P_W = 610;
     private static final int P_H = 580;
-    private UIPropertyTextField srcTextField;
+    private UITextField srcTextField;
     private ReportletParameterViewPane parameterViewPane;
     private UICheckBox horizontalCheck;
     private UICheckBox verticalCheck;
@@ -61,7 +61,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
         java.awt.Component[][] coms = {
                 {horizontalCheck, null},
                 {verticalCheck, null},
-                {new UILabel(Inter.getLocText("Form-Url")), srcTextField = new UIPropertyTextField()},
+                {new UILabel(Inter.getLocText("Form-Url")), srcTextField = new UITextField()},
                 {new UILabel(Inter.getLocText("FR-Designer_Parameters")), parameterViewPaneButton}};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, 45, LayoutConstants.VGAP_LARGE);
