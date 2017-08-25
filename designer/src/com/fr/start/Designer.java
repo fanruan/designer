@@ -36,7 +36,6 @@ import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.web.ServletContext;
 import com.fr.stable.xml.XMLTools;
 
 import javax.swing.*;
@@ -434,9 +433,7 @@ public class Designer extends BaseDesigner {
     	collector.collectStopTime();
     	collector.saveXMLFile();
         Env currentEnv = FRContext.getCurrentEnv();
-        if (!currentEnv.isRemoteEnv()) {//远程环境不需要触发stop
-            ServletContext.fireServletStopListener();
-        }
+        currentEnv.envQuit();
     }
 
 }
