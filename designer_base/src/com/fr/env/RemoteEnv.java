@@ -2282,4 +2282,9 @@ public class RemoteEnv extends AbstractEnv {
             return StringUtils.EMPTY;
         }
     }
+
+    @Override
+    public void envQuit() {
+
+    }
 }
