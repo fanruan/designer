@@ -36,6 +36,7 @@ public class UIButton extends JButton implements UIObserver {
 	private CellBorderStyle border = null;
 
 	protected UIObserverListener uiObserverListener;
+	private static final int TOOLTIP_INIT_DELAY = 1000;  // 延迟 1s 显示提示文字
 
 	public UIButton() {
 		this(StringUtils.EMPTY);
@@ -139,6 +140,7 @@ public class UIButton extends JButton implements UIObserver {
 		setBackground(null);
 		setRolloverEnabled(true);
 		initListener();
+		ToolTipManager.sharedInstance().setInitialDelay(TOOLTIP_INIT_DELAY);
 	}
 
 	@Override
