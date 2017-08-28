@@ -60,17 +60,6 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         addlistener();
     }
 
-    public static void main(String[] args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        content.add(new BarCodePane(), BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(270, 400);
-        jf.setVisible(true);
-    }
-
     private void initComponents() {
         barCodePreviewPane = new BarCodePreviewPane();
         this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(10.0, 1, 100, 1.0));
@@ -86,7 +75,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         RCodesizespinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 6, 1));
         RCodeVersionComboBox = new UIComboBox();
         RCodeErrorCorrectComboBox = new UIComboBox();
-        typeSetLabel = new UILabel(Inter.getLocText("Type_Set"), UILabel.LEFT);
+        typeSetLabel = new UILabel(Inter.getLocText("FR-Designer_Type_Set"), UILabel.LEFT);
         initVersionComboBox();
         initErrorCorrectComboBox();
 
@@ -106,7 +95,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
                 new Component[]{borderPane, null},
                 new Component[]{centerPane, null}
         };
-        JPanel barCode = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+        JPanel barCode = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
         centerPane.add(getNormalPane(), "normal");
         centerPane.add(getSpecialPane(), "special");
         typeComboBox.addItemListener(new ItemListener() {
@@ -150,9 +139,9 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         double[] rowSize = {p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f, f};
         int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
-        JPanel barWidthContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+        JPanel barWidthContainer = new JPanel(new BorderLayout());
         barWidthContainer.add(barWidthSpinner);
-        JPanel barHeightContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+        JPanel barHeightContainer = new JPanel(new BorderLayout());
         barHeightContainer.add(barHeightSpinner);
         UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.RIGHT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
@@ -172,9 +161,9 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     private JPanel getSpecialPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, p};
-        double[] rowSize = {p, p, p, p, p, p, p, p};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p, p};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
         UILabel uiLabel = new UILabel(Inter.getLocText("RCodeVersion"), UILabel.LEFT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
         RCodeVersionComboBox.setPreferredSize(new Dimension(155,20));
@@ -186,7 +175,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
                 new Component[]{new UILabel(Inter.getLocText("RCodeDrawPix"), UILabel.LEFT), RCodesizespinner}
         };
 
-        JPanel specialPane = TableLayoutHelper.createGapTableLayoutPane(components_special, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+        JPanel specialPane = TableLayoutHelper.createGapTableLayoutPane(components_special, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
         return specialPane;
     }
 

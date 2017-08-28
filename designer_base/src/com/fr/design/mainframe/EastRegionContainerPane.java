@@ -643,6 +643,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     setTabButtonSelected();
                 }
             });
+            button.setToolTipText(title);
         }
 
         public UIButton getButton() {

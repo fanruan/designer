@@ -11,6 +11,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
@@ -39,6 +40,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private static final int HEAD_WDITH = 290;
     private static final int HEAD_HEIGTH = 24;
+    private static final Dimension NORMAL_DIMENSION = new Dimension(155, 20);
+    private static final Dimension SMALL_DIMENSION = new Dimension(150, 20);
     // normal
     private UIButtonGroup autoshrik;
 
@@ -138,7 +141,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
                 new Component[]{null, insertRowPane},
         };
-        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         JPanel seniorPane = new JPanel(new BorderLayout());
         seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
         seniorPane.add(southContentPane, BorderLayout.CENTER);
@@ -167,15 +170,25 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         double[] downRowSize = {p, p, p, p, p, p};
         double[] downColumnSize = {p, f};
         int[][] downRowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+
+        JPanel showContentPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
+        showContent.setPreferredSize(SMALL_DIMENSION);
+        showContentPane.add(showContent);
+        fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+
+        JPanel tooltipTextFieldPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
+        tooltipTextField.setPreferredSize(NORMAL_DIMENSION);
+        tooltipTextFieldPane.add(tooltipTextField);
+
         Component[][] downComponent = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Show_Content"), SwingConstants.LEFT), showContent},
-                new Component[]{null, fileNamePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip"), SwingConstants.RIGHT), tooltipTextField},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Show_Content"), SwingConstants.LEFT), showContentPane},
+                new Component[]{fileNamePane, null},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextFieldPane},
                 new Component[]{null, null},
                 new Component[]{null, null},
         };
-        JPanel downPane = TableLayoutHelper.createGapTableLayoutPane(downComponent, downRowSize, downColumnSize, downRowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel downPane = TableLayoutHelper.createGapTableLayoutPane(downComponent, downRowSize, downColumnSize, downRowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         JPanel pane = new JPanel(new BorderLayout());
         pane.add(upPane, BorderLayout.NORTH);
         pane.add(downPane, BorderLayout.CENTER);
