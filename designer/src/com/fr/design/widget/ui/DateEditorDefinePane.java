@@ -129,7 +129,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 					currentSamplelabel = timeSampleLabel;
 				}
 				refreshPreviewLabel();
-				CellWidgetPropertyPane.getInstance().update();
 			}
 		};
 		fomatHeadPane.add(fomatHeadGroup, BorderLayout.NORTH);
