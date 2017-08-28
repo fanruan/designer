@@ -57,6 +57,7 @@ public abstract class AbstractSelectBox<T> extends AbstractPopBox implements Mou
 			}
 
 			public void ancestorRemoved(AncestorEvent evt) {
+				hidePopupMenu();
 			}
 
 			public void ancestorMoved(AncestorEvent event) {

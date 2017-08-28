@@ -38,6 +38,15 @@ public class FRGUIPaneFactory {
     }
 
     /**
+     * 创建一个靠右的布局
+     *
+     * @return FlowLayout对象
+     */
+    public static LayoutManager createRightZeroLayout() {
+        return new FlowLayout(FlowLayout.RIGHT, 0, 0);
+    }
+
+    /**
      * 创建一个靠左的水平和垂直间隙均为5的流式布局
      *
      * @return FlowLayout对象

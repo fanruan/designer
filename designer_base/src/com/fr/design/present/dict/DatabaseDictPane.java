@@ -37,6 +37,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
     /**
      * richer:数据字典和数据链面板
      */
+    private static final int GAP_HUGER = 32;
     protected com.fr.data.impl.Connection database;
     protected DoubleDeckValueEditorPane keyColumnPane;
     protected DoubleDeckValueEditorPane valueDictPane;
@@ -76,10 +77,10 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane}
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Actual_Value"), UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value"), UILabel.LEFT), valueDictPane}
         };
-        JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, GAP_HUGER, LayoutConstants.VGAP_LARGE);
         this.setLayout(new BorderLayout(0, 4));
         this.add(chooseTable, BorderLayout.NORTH);
         this.add(dbDictPanel, BorderLayout.CENTER);

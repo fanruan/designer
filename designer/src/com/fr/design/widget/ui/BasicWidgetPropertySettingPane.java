@@ -22,7 +22,7 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 	
 	public BasicWidgetPropertySettingPane() {
 		this.setLayout(new BorderLayout());
-		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Visible"), true);
+		enableCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Enabled"), true);
 		enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		visibleCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Widget-Visible"), true);
 		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));

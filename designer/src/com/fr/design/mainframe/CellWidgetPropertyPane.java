@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
+import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -15,6 +16,7 @@ import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
+import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -30,6 +32,7 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     private TemplateCellElement cellElement;
     private WidgetPane cellEditorDefPane;
+    private ElementCasePane ePane;
 
     public static CellWidgetPropertyPane getInstance(){
         if (singleton == null) {
@@ -84,6 +87,7 @@ public class CellWidgetPropertyPane extends BasicPane {
 
 
     public void reInit(ElementCasePane ePane){
+        this.ePane = ePane;
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
         this.add(cellEditorDefPane, BorderLayout.CENTER);
@@ -108,18 +112,23 @@ public class CellWidgetPropertyPane extends BasicPane {
         if (cellElement == null) {// 利用默认的CellElement.
             return;
         }
-
-        Widget cellWidget = this.cellEditorDefPane.update();
-        // p:最后把这个cellEditorDef设置到CellGUIAttr.
-        if (cellWidget instanceof NoneWidget) {
-            cellElement.setWidget(null);
-        } else {
-            if (cellElement.getWidget() != null) {
-                cellWidget = upDateWidgetAuthority(cellElement, cellWidget);
+        final CellSelection finalCS = (CellSelection) ePane.getSelection();
+        final TemplateElementCase tplEC = ePane.getEditingElementCase();
+        ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+            public void dealWith(CellElement editCellElement) {
+                Widget cellWidget = cellEditorDefPane.update();
+                // p:最后把这个cellEditorDef设置到CellGUIAttr.
+                TemplateCellElement cellElement = (TemplateCellElement) editCellElement;
+                if (cellWidget instanceof NoneWidget) {
+                    cellElement.setWidget(null);
+                } else {
+                    if (cellElement.getWidget() != null) {
+                        cellWidget = upDateWidgetAuthority(cellElement, cellWidget);
+                    }
+                    cellElement.setWidget(cellWidget);
+                }
             }
-            cellElement.setWidget(cellWidget);
-        }
-
+        });
     }
 
 
