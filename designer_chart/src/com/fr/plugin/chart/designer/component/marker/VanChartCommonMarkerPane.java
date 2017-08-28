@@ -6,9 +6,9 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
 import com.fr.plugin.chart.marker.type.MarkerType;
 
@@ -107,14 +107,14 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
         radius = new UISpinner(0, 100, 0.5, 0);
 
         double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double[] row = {p, p, p};
-        double[] col = {p, f};
+        double[] col = {d, e};
 
         Component[][] components = getUseComponent();
 
-        JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
+        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
         this.add(jPanel);
     }

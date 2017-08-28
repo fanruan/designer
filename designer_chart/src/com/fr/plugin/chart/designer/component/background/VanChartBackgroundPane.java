@@ -46,8 +46,9 @@ public class VanChartBackgroundPane extends BasicPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
 
-        double[] columnSize = {p, f};
         double[] rowSize = { p,p,p,p,p,p};
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getPaneComponents(), rowSize, columnSize);
         this.setLayout(new BorderLayout());

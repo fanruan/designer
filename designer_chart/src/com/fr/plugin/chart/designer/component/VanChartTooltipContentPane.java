@@ -60,7 +60,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {f, p};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = getRowSize(p);
 
         final JPanel commonPanel = TableLayoutHelper.createTableLayoutPane(getPaneComponents(), rowSize, columnSize);
@@ -81,7 +82,7 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         centerPane.add(htmlLabelPane, Inter.getLocText("Plugin-ChartF_Custom"));
         centerPane.add(commonPanel,Inter.getLocText("Plugin-ChartF_Common"));
 
-        double[] column = {p, f};
+        double[] column = {f, e};
         double[] row = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},

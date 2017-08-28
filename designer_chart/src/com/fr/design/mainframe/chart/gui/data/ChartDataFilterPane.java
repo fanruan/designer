@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
     private static final long serialVersionUID = 3650522989381790194L;
-    private static final int PAN_WIDTH = 234;
+    private static final int PAN_WIDTH = 246;
     private static final int FIL_HEIGHT = 150;
 
     private CategoryFilterPane categoryPane;
@@ -55,7 +55,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                     cardLayout.show(centerPane, nameArray[index]);
                 }
             };
-            tabPane.setPreferredSize(new Dimension(200, 20));
+            tabPane.setPreferredSize(new Dimension(221, 20));
         }
     }
 
@@ -68,6 +68,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
                 this.add(pane, BorderLayout.NORTH);
             }
         }
+        centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
         this.add(centerPane, BorderLayout.CENTER);
     }
 
@@ -125,7 +126,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         this.removeAll();
         paneList = initPaneList4NoPresent(plot4Pane, parentPane);
         initAllPane();
-        tabPane.setPreferredSize(new Dimension(200, 20));
+        tabPane.setPreferredSize(new Dimension(221, 20));
         centerPane.setPreferredSize(new Dimension(getContentPaneWidth(), 200));
         this.validate();
     }
@@ -195,6 +196,16 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         public CategoryFilterPane(AbstractAttrNoScrollPane parent) {
             super(true);
             this.parent = parent;
+        }
+
+        protected void layoutContentPane() {
+            super.layoutContentPane();
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
+        }
+
+        public void reloaPane(JPanel pane){
+            super.reloaPane(pane);
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
         }
 
         @Override
@@ -363,6 +374,17 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             Dimension dim = super.getPreferredSize();
             dim.height = FIL_HEIGHT;
             return dim;
+        }
+
+
+        protected void layoutContentPane() {
+            super.layoutContentPane();
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
+        }
+
+        public void reloaPane(JPanel pane){
+            super.reloaPane(pane);
+            leftcontentPane.setBorder(BorderFactory.createEmptyBorder());
         }
 
         @Override

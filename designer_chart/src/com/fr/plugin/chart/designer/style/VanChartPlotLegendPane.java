@@ -107,7 +107,8 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = { p,p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
@@ -131,7 +132,8 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = { p,p,p,p,p,p,p,p};
 
         Component[][] components = new Component[][]{
@@ -230,8 +232,8 @@ public class VanChartPlotLegendPane extends BasicPane {
 
 
         JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),limitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion);
-        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion,TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
         panel.add(maxProportionPane, BorderLayout.CENTER);
@@ -250,7 +252,8 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p,f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},

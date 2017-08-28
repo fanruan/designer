@@ -3,6 +3,7 @@ package com.fr.plugin.chart.wordcloud.designer.style;
 import com.fr.base.Utils;
 import com.fr.base.background.ImageBackground;
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
@@ -21,6 +22,8 @@ import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -31,11 +34,11 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
     private static final String AUTO_FONT_SIZE = Inter.getLocText("Plugin-ChartF_Auto");
     private static final String CUSTOM_FONT_SIZE = Inter.getLocText("Plugin-ChartF_Define_Size");
     private static final double MAX_ROTATION = 90;
-    private static final double LABEL_SIZE = 48;
+    private static final double LABEL_SIZE = 65;
     private UIComboBox fontNameComboBox;
     private UISpinner minRotation;
     private UISpinner maxRotation;
-    private UIComboBox defineFontSize;
+    private UIButtonGroup defineFontSize;
     private JPanel fontPanel;
     private UISpinner minFontSize;
     private UISpinner maxFontSize;
@@ -69,13 +72,14 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
         panel.add(getFillStylePane(), BorderLayout.NORTH);
-        panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 
     private JPanel createWordCloudStylePane(){
         double labelSize = LABEL_SIZE;
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+
 
         double[] centerC = {labelSize,f,p,f};
         double[] centerR = {p};
@@ -87,17 +91,17 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation_Angle")), minRotation,
                         new UILabel("-"), maxRotation},
         };
-        JPanel centerPanel = TableLayoutHelper.createTableLayoutPane(centerComps,centerR,centerC);
+        JPanel centerPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(centerComps,centerR,centerC);
 
-        double[] northC = {labelSize,f};
+        double[] northC = {f, e};
         double[] northR = {p,p};
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
-        defineFontSize = new UIComboBox(new String[]{AUTO_FONT_SIZE, CUSTOM_FONT_SIZE});
+        defineFontSize = new UIButtonGroup(new String[]{AUTO_FONT_SIZE, CUSTOM_FONT_SIZE});
         Component[][] northComps = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font")), fontNameComboBox},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), defineFontSize }
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Custom")), defineFontSize }
         };
-        JPanel northPanel = TableLayoutHelper.createTableLayoutPane(northComps,northR,northC);
+        JPanel northPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(northComps,northR,northC);
 
         minFontSize = new UISpinner(0,Double.MAX_VALUE,1,10);
         maxFontSize = new UISpinner(0,Double.MAX_VALUE,1,100);
@@ -105,7 +109,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
                 new Component[]{null, minFontSize,
                         new UILabel("-"), maxFontSize},
         };
-        fontPanel = TableLayoutHelper.createTableLayoutPane(fontComps,centerR,centerC);
+        fontPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(fontComps,centerR,centerC);
 
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p};
@@ -117,9 +121,9 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         };
 
-        defineFontSize.addItemListener(new ItemListener() {
+        defineFontSize.addActionListener(new ActionListener() {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 checkFontPane();
             }
         });

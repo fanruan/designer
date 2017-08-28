@@ -23,7 +23,8 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Style")), styleBox},

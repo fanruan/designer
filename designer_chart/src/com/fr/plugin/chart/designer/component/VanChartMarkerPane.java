@@ -43,8 +43,6 @@ public class VanChartMarkerPane extends BasicPane {
         commonMarkerPane = createCommonMarkerPane();
         imageMarkerPane = createImageMarkerPane();
 
-        commonMarkerPane.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
-
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout) {
 

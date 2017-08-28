@@ -80,7 +80,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p,p,p,p,p,p,p};
 
         Component[][] components = createComponents(plot);
@@ -115,21 +116,15 @@ public class VanChartPlotTooltipPane extends BasicPane {
                 };
             }
         };
-        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p, p};
-        Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{text, style},
-                new Component[]{null, textFontPane},
-        };
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character"), style);
+        JPanel panel1 = new JPanel(new BorderLayout());
+        panel1.add(panel, BorderLayout.CENTER);
+        panel1.add(textFontPane, BorderLayout.SOUTH);
 
         initStyleListener();
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel1);
     }
 
 
@@ -148,7 +143,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
                 Inter.getLocText("Plugin-ChartF_NotFollowMouse")});
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p,f };
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = { p,p,p};
         Component[][] components = new Component[3][2];
         components[0] = new Component[]{null,null};
@@ -186,7 +182,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     private void checkStyleUse() {
-        textFontPane.setEnabled(style.getSelectedIndex() == 1);
+        textFontPane.setVisible(style.getSelectedIndex() == 1);
     }
 
     protected AttrTooltip getAttrTooltip() {

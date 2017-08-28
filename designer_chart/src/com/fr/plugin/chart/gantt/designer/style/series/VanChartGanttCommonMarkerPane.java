@@ -5,9 +5,9 @@ import com.fr.chart.chartglyph.Marker;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
+import com.fr.plugin.chart.marker.type.MarkerType;
 
 import java.awt.*;
 
@@ -27,8 +27,8 @@ public class VanChartGanttCommonMarkerPane extends VanChartCommonMarkerPane {
         colorSelect = new ColorSelectBoxWithOutTransparent(100);
 
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shape") + ":"), getMarkerPane()},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color") + ":"), colorSelect}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shape")), getMarkerPane()},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), colorSelect}
         };
     }
 
