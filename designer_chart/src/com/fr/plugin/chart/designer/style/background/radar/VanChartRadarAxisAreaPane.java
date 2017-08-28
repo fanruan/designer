@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
-import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
+import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.plugin.chart.designer.style.background.VanChartAxisAreaPane;
 
 import java.awt.*;

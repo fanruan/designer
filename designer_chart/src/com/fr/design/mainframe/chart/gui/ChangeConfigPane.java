@@ -9,9 +9,9 @@ import com.fr.chart.base.AttrChangeType;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
@@ -178,7 +178,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         //轮播切换界面
         timeInterval.setValue(changeConfigAttr.getTimeInterval());
         colorSelectBox4carousel.setSelectObject(changeConfigAttr.getCarouselColor());
-        arrowCheckbox.setSelected(changeConfigAttr.getShowArrow());
+       // arrowCheckbox.setSelected(changeConfigAttr.getShowArrow());
 
         checkCardPane();
 
@@ -202,7 +202,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         changeConfigAttr.setButtonColor(colorSelectBox4button.getSelectObject());
         changeConfigAttr.setTimeInterval((int) timeInterval.getValue());
         changeConfigAttr.setCarouselColor(colorSelectBox4carousel.getSelectObject());
-        changeConfigAttr.setShowArrow(arrowCheckbox.isSelected());
+       // changeConfigAttr.setShowArrow(arrowCheckbox.isSelected());
     }
 
     @Override
