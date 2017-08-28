@@ -58,11 +58,12 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePane(new double[]{p, p, p, p, p,p}, columnSize, isXAxis),null},
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
+                new Component[]{createLabelPane(new double[]{p, p}, columnSize),null},
                 new Component[]{createValueDefinition(),null},
                 new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
                 new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},

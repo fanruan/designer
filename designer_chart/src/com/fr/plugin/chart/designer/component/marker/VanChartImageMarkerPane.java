@@ -8,8 +8,9 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
+import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
 
     public VanChartImageMarkerPane() {
         imageBackgroundPane = new ImageBackgroundQuickPane(false);
+        imageBackgroundPane.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.EDIT_AREA_WIDTH, (int)imageBackgroundPane.getPreferredSize().getHeight()));
         width = new UISpinner(0, 100, 0.5, 30);
         height = new UISpinner(0, 100, 0.5, 30);
 
@@ -41,6 +43,7 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         JPanel sizePanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
 
         JPanel panel = createContentPane(imageBackgroundPane, sizePanel);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,72,0,0));
 
         this.add(panel);
     }

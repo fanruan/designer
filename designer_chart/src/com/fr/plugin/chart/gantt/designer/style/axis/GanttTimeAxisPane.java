@@ -71,17 +71,18 @@ public class GanttTimeAxisPane extends AbstractVanChartScrollPane<VanChart> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p};
-        double[] col = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] row = {p, p, p, p};
+        double[] col = {f, e};
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Zoom"), SwingConstants.RIGHT), timeZoom},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Initial_Level"), SwingConstants.RIGHT), initialLevel},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Weekend_Tooltip"), SwingConstants.RIGHT), weekendTooltip}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Zoom")), timeZoom},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Initial_Level")), initialLevel},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Weekend_Tooltip")), weekendTooltip}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Condition_Config"),panel);
     }

@@ -46,7 +46,8 @@ public class VanChartLineTypePane extends BasicPane {
 
     protected JPanel createContentPane(double p, double f) {
         double[] row = {p, p, p, p};
-        double[] col = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] col = {f, e};
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},

@@ -89,7 +89,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     protected JPanel getInteractivePane(VanChartPlot plot){
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p,p,p,p};
 
 
@@ -124,10 +125,14 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_From")), from},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_To")), to},
         };
-        changeEnablePane = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        changeEnablePane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
-        zoomTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
-        zoomTypePane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+
+        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        changeEnablePane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, columnSize);
+        changeEnablePane.setBorder(BorderFactory.createEmptyBorder(10,12,0,0));
+        zoomTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        zoomTypePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = createZoomPaneContent(zoomWidgetPane, zoomGesturePane, changeEnablePane, zoomTypePane, plot);
         zoomWidget.addActionListener(new ActionListener() {
             @Override
@@ -196,9 +201,9 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected Component[][] createToolBarComponentsWithOutSort() {
         return new Component[][]{
-                new Component[]{exportImages, null},
-                new Component[]{fullScreenDisplay, null},
-                new Component[]{collapse, null}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")), exportImages},
+                new Component[]{null, fullScreenDisplay},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_layout")),collapse}
         };
     }
 

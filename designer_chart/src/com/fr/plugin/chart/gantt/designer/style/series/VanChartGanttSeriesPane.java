@@ -58,12 +58,8 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGanntStylePane(){
         seriesNewLine = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        JPanel panel = new JPanel(new BorderLayout(5, 0));
-        panel.add(new UILabel(Inter.getLocText("Plugin-ChartF_Series_New_Line")), BorderLayout.WEST);
-        panel.add(seriesNewLine, BorderLayout.CENTER);
-
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Series_New_Line"),seriesNewLine);
         JPanel ganntStylePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Style"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         return ganntStylePane;
     }
 
@@ -73,17 +69,18 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] col = {f, e};
         double[] row = {p,p,p};
-        double[] col = {p,f};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")+":"), lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")+":"), colorSelect}
+                new Component[]{null, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), lineWidth},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), colorSelect}
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         JPanel linkLinePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Link_Line"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         return linkLinePane;
     }
 
