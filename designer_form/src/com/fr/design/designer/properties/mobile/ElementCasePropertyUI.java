@@ -21,7 +21,7 @@ public class ElementCasePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     @Override
     public AbstractPropertyTable createWidgetAttrTable() {
-        return new ElementCasePropertyTable(xCreator);
+        return null;
     }
 
     @Override
