@@ -238,7 +238,11 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         superPane.setPreferredSize(BUTTON_SIZE);
         subPane = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/sub.png"));
         subPane.setPreferredSize(BUTTON_SIZE);
-        isSuperOrSubPane = new TwoButtonPane(superPane, subPane);
+        Component[] SuperOrSubComponents = new Component[]{
+                superPane, subPane
+        };
+        isSuperOrSubPane = new JPanel(new BorderLayout());
+        isSuperOrSubPane.add(GUICoreUtils.createFlowPane(SuperOrSubComponents, FlowLayout.LEFT, LayoutConstants.HGAP_SMALL));
         Component[] components_font = new Component[]{
                 colorSelectPane, underline, isStrikethroughCheckBox, isShadowCheckBox
         };
@@ -248,7 +252,6 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         initAllNames();
         setToolTips();
         this.setLayout(new BorderLayout());
-//        this.add(fontNameComboBox, BorderLayout.NORTH);
         this.add(createPane(), BorderLayout.CENTER);
         DefaultValues defaultValues = FRContext.getDefaultValues();
         populateBean(defaultValues.getFRFont());

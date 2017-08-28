@@ -2,6 +2,7 @@ package com.fr.design.present;
 
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -31,6 +32,7 @@ import java.awt.*;
 public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> {
     private static final int VS_NUM = 4;
     private static final int VG_NUM = 6;
+    private static final Dimension NORMAL_DIMENSION = new Dimension(155, 20);
     private UIBasicSpinner intPartSpinner;
     private UIBasicSpinner deciPartSpinner;
     private UITextField textField;
@@ -72,11 +74,11 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
     protected void initComponents() {
         // 整数位选择
         intPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(9, 1, 20, 1));
-        intPartSpinner.setPreferredSize(new Dimension(158, 20));
+        intPartSpinner.setPreferredSize(NORMAL_DIMENSION);
 
         // 小数位选择
         deciPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 10, 1));
-        deciPartSpinner.setPreferredSize(new Dimension(158, 20));
+        deciPartSpinner.setPreferredSize(NORMAL_DIMENSION);
         // 预览区域
         textField = new UITextField(10);
 
@@ -95,7 +97,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p, p};
-
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Data"), UILabel.LEFT), textField},
@@ -105,7 +107,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
 
         };
 
-        JPanel linePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel linePane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
         this.setLayout(new BorderLayout());
         this.add(linePane, BorderLayout.CENTER);
 
@@ -186,7 +188,7 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
     protected static JPanel groupPane(JComponent comp) {
         JPanel jp = new JPanel();
         jp.setBorder(null);
-        jp.setLayout(new FlowLayout(FlowLayout.LEFT));
+        jp.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         jp.add(comp);
         return jp;
     }
