@@ -433,7 +433,7 @@ public class Designer extends BaseDesigner {
     	collector.collectStopTime();
     	collector.saveXMLFile();
         Env currentEnv = FRContext.getCurrentEnv();
-        currentEnv.envQuit();
+        currentEnv.doWhenServerShutDown();
     }
 
 }
