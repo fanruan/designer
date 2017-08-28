@@ -30,6 +30,8 @@ import java.awt.*;
  */
 public class ChartFloatAction extends ElementCaseAction {
 
+    private boolean isRecordNeeded;
+
     /**
      * 构造函数 图表插入悬浮元素
      */
@@ -64,9 +66,10 @@ public class ChartFloatAction extends ElementCaseAction {
      * @return 是则返回true
      */
     public boolean executeActionReturnUndoRecordNeeded() {
+        isRecordNeeded = false;
         final ElementCasePane reportPane = (ElementCasePane) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentElementCasePane();
         if (reportPane == null) {
-            return false;
+            return isRecordNeeded;
         }
 
         reportPane.stopEditing();
@@ -78,7 +81,7 @@ public class ChartFloatAction extends ElementCaseAction {
         chartDialog.addDialogActionListener(new DialogActionAdapter() {
             @Override
             public void doOk() {
-
+                isRecordNeeded = true;
                 FloatElement newFloatElement;
                 try {
                     newFloatElement = new FloatElement(chartDialog.getChartCollection().clone());
@@ -101,6 +104,6 @@ public class ChartFloatAction extends ElementCaseAction {
         });
 
         chartDialog.setVisible(true);
-        return true;
+        return isRecordNeeded;
     }
 }

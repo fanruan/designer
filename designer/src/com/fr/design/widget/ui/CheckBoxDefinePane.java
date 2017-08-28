@@ -3,7 +3,7 @@ package com.fr.design.widget.ui;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UIPropertyTextField;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
-    private UIPropertyTextField text;
+    private UITextField text;
 
     public CheckBoxDefinePane() {
         this.iniComoponents();
@@ -22,7 +22,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 
     private void iniComoponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        text = new UIPropertyTextField();
+        text = new UITextField();
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(text, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));

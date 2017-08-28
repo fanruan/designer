@@ -42,6 +42,7 @@ import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.DownloadOnlineSourcesHelper;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.AreaIndependentVanChartInterface;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
@@ -125,6 +126,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 //重新注册designModuleFactory
                 DesignModuleFactory.registerExtraWidgetOptions(initWidgetOption());
                 DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
+                DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
             }
         });
     }
