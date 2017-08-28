@@ -2284,7 +2284,7 @@ public class RemoteEnv extends AbstractEnv {
     }
 
     @Override
-    public void envQuit() {
+    public void doWhenServerShutDown() {
 
     }
 }
