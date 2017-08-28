@@ -26,16 +26,17 @@ public class ValueWidgetPane extends WidgetPane {
 	}
 
 	public JPanel initNorthPane(){
+		JPanel northPane = super.initNorthPane();
 		label = new UILabel("     " + Inter.getLocText(new String[]{"Widget", "Value"})+ ":");
 		label.setVisible(false);
 		widgetValuePane = new JPanel();
 		widgetValuePane.setLayout(FRGUIPaneFactory.createBorderLayout());
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = {p, p, p, f};
+		double[] columnSize = {p, p, f};
 		double[] rowSize = {p};
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), editorTypeComboBox, label,widgetValuePane},
+				new Component[]{northPane, label,widgetValuePane},
 		};
 		JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 		return jPanel;

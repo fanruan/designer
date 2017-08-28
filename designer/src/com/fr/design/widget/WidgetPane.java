@@ -32,10 +32,10 @@ import java.util.Vector;
  */
 public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener {
 
-    protected EditorTypeComboBox editorTypeComboBox;
+    private EditorTypeComboBox editorTypeComboBox;
     private CellWidgetCardPane cellEditorCardPane;
     private boolean shouldFireSelectedEvent = true;
-    protected JPanel northPane;
+    private JPanel northPane;
 
     public WidgetPane() {
         this(null);
