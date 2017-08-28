@@ -178,7 +178,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         //轮播切换界面
         timeInterval.setValue(changeConfigAttr.getTimeInterval());
         colorSelectBox4carousel.setSelectObject(changeConfigAttr.getCarouselColor());
-        arrowCheckbox.setSelected(changeConfigAttr.getShowArrow());
+        arrowCheckbox.setSelected(changeConfigAttr.isShowArrow());
 
         checkCardPane();
 
