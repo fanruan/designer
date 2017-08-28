@@ -30,6 +30,9 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     private static final int WIDTH = 100;
     private static final int MIN_TIME = 0;
     private static final int MAX_TIME = Integer.MAX_VALUE;
+    private static final int CONSTANT_TEN = 10;
+    private static final int CONSTANT_THIRTY = 30;
+    private static final int CONSTANT_ZERO = 0;
     private JPanel contentPane;
     //配置方式按钮
     private UIButtonGroup<Integer> configStyleButton;
@@ -50,7 +53,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         initButtonGroup();
         configPane = createConfigPane();
         contentPane = createContentPane();
-        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(CONSTANT_TEN, CONSTANT_THIRTY, CONSTANT_TEN, CONSTANT_THIRTY));
         this.add(contentPane, BorderLayout.CENTER);
     }
 
@@ -74,7 +77,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         JPanel panel = new JPanel(new CardLayout()){
             @Override
             public Dimension getPreferredSize() {
-                if(configStyleButton.getSelectedIndex() == 0){
+                if (configStyleButton.getSelectedIndex() == 0){
                     return buttonConfigPane.getPreferredSize();
                 } else{
                     return carouselConfigPane.getPreferredSize();
@@ -85,7 +88,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
         panel.add(buttonConfigPane, "button");
         panel.add(carouselConfigPane, "carousel");
 
-        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(CONSTANT_ZERO, CONSTANT_TEN, CONSTANT_ZERO, CONSTANT_ZERO));
 
         return panel;
     }
@@ -104,7 +107,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
                 new Component[] {new UILabel(Inter.getLocText("Plugin-ChartF_Arrow_Style")), arrowCheckbox}
         };
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
     }
 
     private JPanel createTitleStylePane(){
@@ -136,7 +139,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
                 new Component[]{createButtonBackgroundColorPane(),null},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     private void initButtonGroup() {
