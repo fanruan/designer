@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by shine on 2017/8/21.
  */
-public class DownloadOnlineSourcesHelper {
+public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent{
     // 定义加载窗口大小
     private static final int LOAD_WIDTH = 455;
     private static final int INCIDENT_HEIGHT = 15;
