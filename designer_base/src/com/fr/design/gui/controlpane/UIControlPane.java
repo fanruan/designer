@@ -12,6 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
 
@@ -104,6 +105,11 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 
     public abstract void saveSettings();
 
+    // 是否使用新样式
+    protected boolean isNewStyle() {
+        return true;
+    }
+
     protected void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.creators = this.createNameableCreators();
@@ -117,15 +123,19 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         UILabel selectLabel = new UILabel();
         cardPane.add(selectLabel, "SELECT");
         cardPane.add(controlUpdatePane, "EDIT");
-        popupEditDialog = new PopupEditDialog(cardPane);
-        // SplitPane
-//        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
-//        mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
-//        mainSplitPane.setOneTouchExpandable(true);
+        if (isNewStyle()) {
+            popupEditDialog = new PopupEditDialog(cardPane);
+            this.add(getLeftPane(), BorderLayout.CENTER);
+            this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
+        } else {
+            // SplitPane
+            JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
+            mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
+            mainSplitPane.setOneTouchExpandable(true);
+            this.add(mainSplitPane, BorderLayout.CENTER);
+            mainSplitPane.setDividerLocation(getLeftPreferredSize());
+        }
 
-        this.add(getLeftPane(), BorderLayout.CENTER);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
-//        mainSplitPane.setDividerLocation(getLeftPreferredSize());
         this.checkButtonEnabled();
     }
 

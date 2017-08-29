@@ -77,7 +77,7 @@ public class CellWidgetCardPane extends BasicPane {
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         initPaneList();
-        eventPane = new WidgetEventPane(pane);
+        eventPane = initWidgetEventPane(pane);
         eventTabPane.add(eventPane, BorderLayout.CENTER);
         //k
         center.add(attriTabPane, Inter.getLocText("FR-Designer_Attribute"));
@@ -109,6 +109,10 @@ public class CellWidgetCardPane extends BasicPane {
         paneList = new ArrayList<JPanel>();
         paneList.add(attriTabPane);
         paneList.add(eventPane);
+    }
+
+    protected WidgetEventPane initWidgetEventPane(ElementCasePane pane){
+        return new WidgetEventPane(pane);
     }
 
     @Override

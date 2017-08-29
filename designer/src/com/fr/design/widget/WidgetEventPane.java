@@ -67,6 +67,10 @@ public class WidgetEventPane extends ObjectUIControlPane {
     
     public static class WidgetEventListenerUpdatePane extends ListenerUpdatePane {
     	private ElementCasePane epane;
+        // 反射会用到
+        public WidgetEventListenerUpdatePane() {
+            this(null);
+        }
     	public WidgetEventListenerUpdatePane(ElementCasePane epane){
     		this.epane = epane;
     		super.initComponents();
