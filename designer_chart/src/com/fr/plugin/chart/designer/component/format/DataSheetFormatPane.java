@@ -13,7 +13,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/8/14.
  */
-public class VanChartFormatPane extends FormatPane {
+public class DataSheetFormatPane extends FormatPane {
     protected Component[][] getComponent(JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, centerPane},

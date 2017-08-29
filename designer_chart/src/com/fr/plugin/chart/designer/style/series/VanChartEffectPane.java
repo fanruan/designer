@@ -57,7 +57,7 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         periodPane.setLayout(new BorderLayout(5, 0));
         periodPane.add(new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period")), BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
-        periodPane.add(new UILabel("s"), BorderLayout.EAST);
+        periodPane.add(new UILabel(Inter.getLocText("FR-Base-Time_Second")), BorderLayout.EAST);
         return periodPane;
     }
 
