@@ -62,6 +62,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
     }
 
     private void doOnSelectionChanged(SelectionEvent e) {
+        System.out.println();
         //在编辑权限，所以要更新权限编辑面板
         if (BaseUtils.isAuthorityEditing()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
@@ -97,6 +98,13 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                 EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
                 EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
+
+                if (isSelectedOneCell()) {
+                    EastRegionContainerPane.getInstance().enableCellElementPane();
+                } else {  // 如果选中多个单元格，禁用单元格元素 tab
+                    EastRegionContainerPane.getInstance().disableCellElementPane();
+                    EastRegionContainerPane.getInstance().refreshRightPane();
+                }
             }
             EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
             EastRegionContainerPane.getInstance().removeParameterPane();

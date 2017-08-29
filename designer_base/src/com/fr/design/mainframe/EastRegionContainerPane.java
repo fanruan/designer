@@ -153,6 +153,15 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return defaultPane;
     }
 
+    // 禁用单元格元素tab
+    public void disableCellElementPane() {
+        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(false);
+    }
+    // 禁用单元格元素tab
+    public void enableCellElementPane() {
+        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(true);
+    }
+
     private void initContentPane() {
         initRightPane();
         initLeftPane();

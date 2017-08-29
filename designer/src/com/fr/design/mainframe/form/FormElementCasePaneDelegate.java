@@ -46,7 +46,12 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
                 ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
                 conditionAttributesGroupPane.populate(FormElementCasePaneDelegate.this);
 
-//                populateHyperLinkGroupPane();
+                if (isSelectedOneCell()) {
+                    EastRegionContainerPane.getInstance().enableCellElementPane();
+                } else {  // 如果选中多个单元格，禁用单元格元素 tab
+                    EastRegionContainerPane.getInstance().disableCellElementPane();
+                    EastRegionContainerPane.getInstance().refreshRightPane();
+                }
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {

@@ -157,6 +157,13 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
             EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
+
+            if (isSelectedOneCell()) {
+                EastRegionContainerPane.getInstance().enableCellElementPane();
+            } else {  // 如果选中多个单元格，禁用单元格元素 tab
+                EastRegionContainerPane.getInstance().disableCellElementPane();
+                EastRegionContainerPane.getInstance().refreshRightPane();
+            }
         }
 
         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
@@ -168,5 +175,14 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
         // 条件属性
         ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
         conditionAttributesGroupPane.populate(editComponent);
+    }
+
+    private boolean isSelectedOneCell() {
+        JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+        if (jTemplate == null) {
+            return false;
+        }
+        ElementCasePane ePane = (ElementCasePane)jTemplate.getCurrentElementCasePane();
+        return ePane != null && ePane.isSelectedOneCell();
     }
 }
