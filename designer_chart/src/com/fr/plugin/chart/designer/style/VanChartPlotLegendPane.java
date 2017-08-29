@@ -116,7 +116,7 @@ public class VanChartPlotLegendPane extends BasicPane {
                 new Component[]{createTitleStylePane(),null} ,
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane),null},
-                new Component[]{TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), createDisplayStrategy()),null}
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_DisplayStrategy"), createDisplayStrategy()),null}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }

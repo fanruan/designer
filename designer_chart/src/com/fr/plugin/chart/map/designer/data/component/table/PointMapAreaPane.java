@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.map.designer.data.component.table;
-import com.fr.plugin.chart.map.designer.data.component.LongitudeLatitudeAndArea;
+
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
+import com.fr.plugin.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.plugin.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
 
 import javax.swing.*;

@@ -30,10 +30,14 @@ public class AreaPane extends AbstractReportDataContentPane {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p};
-        Component[][] components = new Component[][]{
+        Component[][] components = getComponent ();
+        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+    }
+
+    protected Component[][] getComponent () {
+       return new Component[][]{
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaName}
         };
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }
 
     @Override

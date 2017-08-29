@@ -131,10 +131,10 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
     public VanChartMapSourceChoosePane() {
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        this.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {246};
+        double[] columnSize = {230};
         double[] rowSize = {p,p,p,p,p,p,p,p};
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -214,8 +214,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p,p};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{sourceTitleLabel,sourceComboBox},

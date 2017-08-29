@@ -106,9 +106,9 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-            double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-            double[] columnSize = {p, f};
-            double[] column = {f,e};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {p, f};
+        double[] column = {f, e};
         double[] rowSize = {p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitleContentPane(new double[]{p,p,p},column),null},
