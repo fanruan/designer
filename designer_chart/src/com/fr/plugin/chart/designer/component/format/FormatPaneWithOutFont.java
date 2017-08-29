@@ -9,6 +9,7 @@ import java.awt.*;
 
 /**
  * Created by mengao on 2017/8/28.
+ * 只有文本格式设置，没有字体设置
  */
 public class FormatPaneWithOutFont extends FormatPane {
     private static final int HEIGHT = 30;
