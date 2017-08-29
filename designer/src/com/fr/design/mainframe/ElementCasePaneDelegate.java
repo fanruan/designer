@@ -62,7 +62,6 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
     }
 
     private void doOnSelectionChanged(SelectionEvent e) {
-        System.out.println();
         //在编辑权限，所以要更新权限编辑面板
         if (BaseUtils.isAuthorityEditing()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
