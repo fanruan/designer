@@ -384,7 +384,7 @@ public class KeySetUtils {
 
         @Override
         public String getMenuName() {
-            return "EXCEL"+Inter.getLocText("FR-Designer_ExportAndOutput");
+            return "EXCEL" + Inter.getLocText("FR-Designer_ExportAndOutput");
         }
 
         @Override
