@@ -738,7 +738,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 工具
      */
     public ToolBarDef[] toolbars4Target() {
-        return selection == null || isChooseBlock() ? null : this.selection.toolbars4Target();
+        return selection == null || isChooseBlock() || isChooseChartInner() ? null : this.selection.toolbars4Target();
     }
 
     /**
@@ -753,7 +753,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         }
 
 
-        if (selection == null || isChooseBlock()) {
+        if (selection == null || isChooseBlock() || isChooseChartInner()) {
             setToolBarElemEnabled(selection != null);
             return toolBarComponent;
         } else {
@@ -907,6 +907,15 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      */
     public boolean isChooseBlock() {
         return selectedtype == SelectionType.BLOCK;
+    }
+
+    /**
+     * 是否选中图表聚合块内部
+     *
+     * @return 是则返回true
+     */
+    public boolean isChooseChartInner() {
+        return selectedtype == SelectionType.CHART_INNER;
     }
 
     /**

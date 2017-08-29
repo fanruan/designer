@@ -123,9 +123,11 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 extraPane.initPropertyGroups(designer);
             }
         }
-//        for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
-//            propertyTable.initPropertyGroups(designer);
-//        }
+        if (widgetPropertyTables != null) {
+            for (AbstractPropertyTable propertyTable : widgetPropertyTables) {
+                propertyTable.initPropertyGroups(designer);
+            }
+        }
     }
 
     /**
@@ -224,12 +226,14 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     mobileExtraPropertyPanes.add(extraPane);
                     wsp.add(extraPane);
                 }
-//                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
-//                widgetPropertyTables.add(propertyTable);
-//                designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
-//
-//                UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
-//                wsp.add(uiScrollPane);
+                AbstractPropertyTable propertyTable = widgetAttrProvider.createWidgetAttrTable();
+                if (propertyTable != null) {
+                    widgetPropertyTables.add(propertyTable);
+                    designer.addDesignerEditListener(new WidgetPropertyDesignerAdapter(formWidgetCardPane));
+
+                    UIScrollPane uiScrollPane = new UIScrollPane(getExtraBodyTable(propertyTable));
+                    wsp.add(uiScrollPane);
+                }
             }
         }
     }

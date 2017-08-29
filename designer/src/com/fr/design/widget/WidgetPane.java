@@ -35,7 +35,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     private EditorTypeComboBox editorTypeComboBox;
     private CellWidgetCardPane cellEditorCardPane;
     private boolean shouldFireSelectedEvent = true;
-    protected JPanel northPane;
+    private JPanel northPane;
 
     public WidgetPane() {
         this(null);
@@ -55,7 +55,18 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         editorTypeComboBox = new EditorTypeComboBox(pane != null);
         editorTypeComboBox.setPreferredSize(new Dimension(155, 30));
         editorTypeComboBox.setMaximumRowCount(16);
+        northPane = initNorthPane();
+        northPane.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 15));
+        this.add(northPane, BorderLayout.NORTH);
 
+        editorTypeComboBox.addItemListener(this);
+
+        cellEditorCardPane = new CellWidgetCardPane(pane);
+        this.add(cellEditorCardPane, BorderLayout.CENTER);
+        this.addAttributeChangeListener(listener);
+    }
+
+    public JPanel initNorthPane(){
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
@@ -66,15 +77,8 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText(new String[]{"FR-Designer_Selection", "FR-Designer_Widget"})), emptyLabel, editorTypeComboBox},
         };
-        northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        northPane.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 15));
-        this.add(northPane, BorderLayout.NORTH);
-
-        editorTypeComboBox.addItemListener(this);
-
-        cellEditorCardPane = new CellWidgetCardPane(pane);
-        this.add(cellEditorCardPane, BorderLayout.CENTER);
-        this.addAttributeChangeListener(listener);
+        JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        return jPanel;
     }
 
     protected JPanel createContentPane() {

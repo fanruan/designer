@@ -11,9 +11,9 @@ import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
+import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
-import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
