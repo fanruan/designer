@@ -434,9 +434,10 @@ public class CellSelection extends Selection {
             popup.add(new CleanAuthorityAction(ePane).createMenuItem());
             return popup;
         }
-        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         popup.add(new EditCellAction(ePane).createMenuItem());
+        popup.add(DeprecatedActionManager.getCellMenu(ePane).createJMenu());
         // richer:add global style menu
+        popup.add(new CellExpandAttrAction().createMenuItem());
         if (!ConfigManager.getProviderInstance().hasStyle()) {
             UIMenu styleMenu = new UIMenu(KeySetUtils.GLOBAL_STYLE.getMenuName());
             styleMenu.setIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cell.png"));
@@ -455,13 +456,12 @@ public class CellSelection extends Selection {
         } else {
             popup.add(new StyleAction().createMenuItem());
         }
+        popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
+        popup.add(new CellAttributeAction().createMenuItem());
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (jTemplate.isJWorkBook()){ //表单中报表块编辑屏蔽掉  控件设置
             popup.add(new CellWidgetAttrAction().createMenuItem());
         }
-        popup.add(new CellExpandAttrAction().createMenuItem());
-        popup.add(DeprecatedActionManager.getPresentMenu(ePane).createJMenu());
-        popup.add(new CellAttributeAction().createMenuItem());
         popup.add(new ConditionAttributesAction().createMenuItem());
         popup.add(new HyperlinkAction().createMenuItem());
         // cut, copy and paste
