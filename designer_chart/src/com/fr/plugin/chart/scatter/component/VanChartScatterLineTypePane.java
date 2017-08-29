@@ -5,6 +5,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartAttrLine;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
 import com.fr.plugin.chart.type.LineStyle;
 import com.fr.stable.Constants;
@@ -27,8 +28,8 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
     @Override
     protected JPanel createContentPane(double p, double f) {
         double[] row = {p,p,p};
-        double[] col = {p,f};
-
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] col = {f, e};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), lineWidth},

@@ -1,16 +1,18 @@
 package com.fr.plugin.chart.designer.style.background;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fr.chart.chartattr.*;
+import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-import com.fr.design.mainframe.chart.gui.style.legend.AutoSelectedPane;
 import com.fr.design.mainframe.chart.gui.style.ThirdTabPane;
+import com.fr.design.mainframe.chart.gui.style.legend.AutoSelectedPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 import com.fr.plugin.chart.vanchart.VanChart;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 属性表, 图表样式-背景界面.
@@ -25,6 +27,20 @@ public class VanChartAreaPane extends ThirdTabPane<VanChart> implements AutoSele
 
     public VanChartAreaPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
+    }
+
+
+    protected void initLayout() {
+        this.setLayout(new BorderLayout());
+        if (!paneList.isEmpty()) {
+            JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+            if (nameArray.length > 1) {
+                pane.add(tabPane);
+                this.add(pane, BorderLayout.NORTH);
+            }
+        }
+        centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        this.add(centerPane, BorderLayout.CENTER);
     }
 
     /**

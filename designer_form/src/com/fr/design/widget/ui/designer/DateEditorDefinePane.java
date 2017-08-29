@@ -78,7 +78,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         };
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 3}, {1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

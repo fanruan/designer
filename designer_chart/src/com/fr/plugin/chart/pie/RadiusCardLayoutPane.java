@@ -24,9 +24,6 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
     private static final double MIN_RADIUS = 0;
     private static final double MAX_RADIUS = Double.MAX_VALUE;
 
-    //半径距离左边框的距离
-    private static final int RADIUS_LEFT_MARGIN = 53;
-
     private UIComboBox radiusType;//半径类型
     private JPanel radiusContent;//半径的布局界面
     private UISpinner radius;//半径值
@@ -45,7 +42,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
 
         radiusContent = new JPanel(new BorderLayout());
         radiusContent.add(radius, BorderLayout.CENTER);
-        radiusContent.setBorder(BorderFactory.createEmptyBorder(0, RADIUS_LEFT_MARGIN, 0, 0));
+        radiusContent.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         nullPane = new JPanel();
 

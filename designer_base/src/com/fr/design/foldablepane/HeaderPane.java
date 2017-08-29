@@ -1,10 +1,12 @@
 package com.fr.design.foldablepane;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 /**
  * Created by MoMeak on 2017/7/5.
@@ -61,6 +63,10 @@ public class HeaderPane extends JPanel {
         g2d.fillRect(0, 0, headWidth, headHeight);
         g2d.setFont(new Font("SimSun", 0, fontSize));
         g2d.setPaint(bgColor);
+        Map<?, ?> desktopHints = RSyntaxUtilities.getDesktopAntiAliasHints();
+        if (desktopHints != null) {
+            g2d.setRenderingHints(desktopHints);
+        }
         g2d.drawString(this.title, TITLE_X, headHeight - fontSize / 2 - 1);
         int leftWdith = headWidth - LEFT_X;
         if (this.isShow) {

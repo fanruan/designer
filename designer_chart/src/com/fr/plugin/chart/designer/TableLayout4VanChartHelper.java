@@ -18,39 +18,48 @@ public class TableLayout4VanChartHelper {
     private static final int SMALL_GAP = 20;
     public static final int EXPANDABLE_PANE_WIDTH =290;
     public static final int EXPANDABLE_PANE_HIGHT =24;
+    public static final double DESCRIPTION_AREA_WIDTH =60;
+    public static final double EDIT_AREA_WIDTH =155;
+    public static final double SECOND_EDIT_AREA_WIDTH =143;
+    public static final int COMPONENT_INTERVAL =12;
+
 
 
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {
         return new UIExpandablePane(title, EXPANDABLE_PANE_WIDTH, EXPANDABLE_PANE_HIGHT, panel){
             protected void setcontentPanelontentPanelBorder (){
-                getContentPanel().setBorder(BorderFactory.createEmptyBorder(0 ,10, 0, 15));
+                getContentPanel().setBorder(BorderFactory.createEmptyBorder(0 ,5, 0, 0));
             }
         };
     }
 
     public static JPanel createGapTableLayoutPane(String title, Component component) {
+        return createGapTableLayoutPane(title, component, EDIT_AREA_WIDTH);
+    }
+
+    public static JPanel createGapTableLayoutPane(String title, Component component, double componentWidth) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, componentWidth};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText(title)), component},
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, COMPONENT_INTERVAL, LayoutConstants.VGAP_LARGE);
     }
 
     public static JPanel createGapTableLayoutPane(Component[][] components,
                                                   double[] rowSize, double[] columnSize) {
 
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, SMALL_GAP, LayoutConstants.VGAP_LARGE);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, COMPONENT_INTERVAL, LayoutConstants.VGAP_LARGE);
     }
 
     public static JPanel createGapTableLayoutPane(Component[][] components,
                                                   double[] rowSize, double[] columnSize, int[][] rowCount) {
 
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,
-                SMALL_GAP, LayoutConstants.VGAP_LARGE);
+                COMPONENT_INTERVAL, LayoutConstants.VGAP_LARGE);
     }
 
     /**

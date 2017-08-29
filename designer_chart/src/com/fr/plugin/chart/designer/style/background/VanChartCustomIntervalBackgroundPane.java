@@ -14,7 +14,7 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
-import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
+import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;

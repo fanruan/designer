@@ -43,6 +43,8 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected ColorSelectBox backgroundColor;
 
+    private JPanel tractionLinePane;
+
     protected VanChartStylePane parent;
 
     public VanChartPlotLabelDetailPane(Plot plot, VanChartStylePane parent) {
@@ -61,7 +63,8 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     private JPanel createLabelPane(Plot plot) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = getLabelPaneRowSize(plot, p);
 
         Component[][] components = getLabelPaneComponents(plot, p, columnSize);
@@ -111,20 +114,22 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             autoAdjust = new UIButtonGroup<Boolean>(new String[]{Inter.getLocText("Plugin-ChartF_On"), Inter.getLocText("Plugin-ChartF_Off")}, new Boolean[]{true, false});
 
 
-            Component[][] comps = new Component[3][2];
+            Component[][] comps = new Component[2][2];
 
             comps[0] = new Component[]{null,null};
             comps[1] = new Component[]{new UILabel(Inter.getLocText("Chart-Layout_Position"), SwingConstants.LEFT), position};
 
-
+            JPanel panel =new JPanel(new BorderLayout());
+            panel.add(getLabelPositionPane(comps,row,col),BorderLayout.CENTER);
             if(plot.isSupportLeadLine()){
                 tractionLine = new UIToggleButton(Inter.getLocText("ChartF-Show_GuidLine"));
-                comps[2] = new Component[]{null,tractionLine};
+                tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("",tractionLine);
+                panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                comps[2]= new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Auto_Adjust"), SwingConstants.LEFT),autoAdjust};
+                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
             }
-            return getLabelPositionPane(comps,row,col);
+            return panel;
         }
         return new JPanel();
     }
@@ -207,7 +212,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         checkPositionEnabled();
     }
     private void checkPositionEnabled() {
-        tractionLine.setEnabled(position.getSelectedItem() == Constants.OUTSIDE);
+        tractionLinePane.setVisible(position.getSelectedItem() == Constants.OUTSIDE);
     }
 
     public void populate(AttrLabelDetail detail) {

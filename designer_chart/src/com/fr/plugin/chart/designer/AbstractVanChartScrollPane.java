@@ -13,7 +13,7 @@ public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
 
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, original));
+        leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, original));
         this.add(leftcontentPane);
     }
 
@@ -21,8 +21,10 @@ public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
         int width = parent.getWidth();
         int height = parent.getHeight();
         if (leftcontentPane.getPreferredSize().height > maxheight) {
-            leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth(), height + beginY);
-            scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
+            scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, 6, height);
+            leftcontentPane.setBounds(0, -beginY, width - 6, height + beginY);
+            leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 4, 0, 4, original));
+
         } else {
             leftcontentPane.setBounds(0, 0, width, height);
         }

@@ -43,13 +43,14 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected void initComponents() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{p, f})},
+                new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{f, e})},
                 new Component[]{createAlertLinePane()},
-                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{p, f})},
+                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{f, e})},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());

@@ -8,6 +8,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.gantt.attr.GanttAxisStyleAttr;
 
 import javax.swing.*;
@@ -28,13 +29,14 @@ public class GanttAxisStylePane extends BasicBeanPane<GanttAxisStyleAttr> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] row = {p,p,p};
-        double[] col = {p, f};
+        double[] col = {f, e};
 
         Component[][] components = new Component[][]{
                 new Component[]{textAttrPane, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), colorSelectBox4button},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha"), SwingConstants.RIGHT), transparent}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent}
         };
 
         JPanel content = TableLayoutHelper.createTableLayoutPane(components, row, col);
