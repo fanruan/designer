@@ -42,6 +42,17 @@ public class ValueWidgetPane extends WidgetPane {
 		return jPanel;
 	}
 
+	protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane){
+		return new WidgetManageCardPane(pane);
+	}
+
+	/**
+	 * 初始化所有事件.
+	 */
+	public void initAllListeners() {
+
+	}
+
 	@Override
 	public void populate(Widget widget) {
 		super.populate(widget);

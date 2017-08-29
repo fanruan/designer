@@ -61,7 +61,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
 
         editorTypeComboBox.addItemListener(this);
 
-        cellEditorCardPane = new CellWidgetCardPane(pane);
+        cellEditorCardPane = initWidgetCardPane(pane);
         this.add(cellEditorCardPane, BorderLayout.CENTER);
         this.addAttributeChangeListener(listener);
     }
@@ -79,6 +79,10 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         };
         JPanel jPanel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         return jPanel;
+    }
+
+    protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane){
+        return new CellWidgetCardPane(pane);
     }
 
     protected JPanel createContentPane() {

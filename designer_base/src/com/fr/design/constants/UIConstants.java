@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
  */
 public interface UIConstants {
 
+    public static final Icon CPT_ICON = BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png");
 
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
     public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0, 0, 0, 0);
