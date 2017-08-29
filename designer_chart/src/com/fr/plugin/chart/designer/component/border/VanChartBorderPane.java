@@ -30,7 +30,8 @@ public class VanChartBorderPane extends BasicPane {
         currentLineColorPane = new ColorSelectBox(100);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p,f };
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p};
         Component[][] components = getUseComponent();
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);

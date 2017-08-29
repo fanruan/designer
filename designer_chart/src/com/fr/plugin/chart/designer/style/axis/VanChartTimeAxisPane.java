@@ -58,11 +58,12 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePane(new double[]{p, p, p, p, p,p}, columnSize, isXAxis),null},
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize),null},
+                new Component[]{createLabelPane(new double[]{p, p}, columnSize),null},
                 new Component[]{createValueDefinition(),null},
                 new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
                 new Component[]{createAxisPositionPane(new double[]{p, p}, columnSize, isXAxis),null},
@@ -143,11 +144,13 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             double p = TableLayout.PREFERRED;
             double f = TableLayout.FILL;
             double[] rowSize = {p, p, p, p};
-            double[] columnSize = {f, p, p};
+            double[] columnSize = {f};
 
 
             JPanel mainTickPane = new JPanel();
             mainTickPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            mainUnitField.setPreferredSize(new Dimension(100,20));
+            secondUnitField.setPreferredSize(new Dimension(100,20));
             mainTickPane.add(mainUnitField);
             mainTickPane.add(mainType);
 
@@ -156,15 +159,15 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             secTickPane.add(secondUnitField);
             secTickPane.add(secondType);
 
-            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField);
-            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField);
-            mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainTickPane);
-            secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secTickPane);
+            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
-            minPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-            maxPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-            mainPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-            secPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
+            minPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
+            maxPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
+            mainPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
+            secPane.setBorder(BorderFactory.createEmptyBorder(0,TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
 
             JPanel minPaneWithCheckBox = new JPanel(new BorderLayout());
             JPanel maxPaneWithCheckBox = new JPanel(new BorderLayout());

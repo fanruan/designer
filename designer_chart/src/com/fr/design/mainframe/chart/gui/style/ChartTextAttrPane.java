@@ -144,8 +144,8 @@ public class ChartTextAttrPane extends BasicPane {
         buttonPane.add(fontSizeComboBox, BorderLayout.CENTER);
         buttonPane.add(GUICoreUtils.createFlowPane(components1, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
 
-
-        double[] columnSize = {p,f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f,e};
         double[] rowSize = {p, p, p};
 
 

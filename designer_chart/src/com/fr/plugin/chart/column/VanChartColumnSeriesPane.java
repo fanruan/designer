@@ -45,11 +45,12 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel getContentInPlotType() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{getColorPane()},
-                new Component[]{createSeriesStylePane(new double[]{p,p}, new double[]{p,f})},
+                new Component[]{createSeriesStylePane(new double[]{p,p}, new double[]{f,e})},
                 new Component[]{createBorderPane()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{createTrendLinePane()},
@@ -81,12 +82,12 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Gap_Series")),seriesGap},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Gap_Category")),categoryGap},
         };
-        JPanel panel2 = TableLayoutHelper.createTableLayoutPane(components2, row, col);
+        JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(components2, row, col);
 
         Component[][] components3 = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Filled_With_Image")),isFillWithImage},
         };
-        JPanel panel3 = TableLayoutHelper.createTableLayoutPane(components3, row, col);
+        JPanel panel3 = TableLayout4VanChartHelper.createGapTableLayoutPane(components3, row, col);
 
         JPanel panel = new JPanel(new BorderLayout(0, 4));
         panel.add(panel1, BorderLayout.NORTH);

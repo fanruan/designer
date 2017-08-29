@@ -41,11 +41,12 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePane(new double[]{p, p, p, p, p, p}, columnSize, isXAxis), null},
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createLabelPane(new double[]{p, p}, columnSize), null},
                 new Component[]{createMinMaxValuePane(new double[]{p, p}, columnSize), null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p, p}, columnSize), null},
                 new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis), null},
@@ -65,7 +66,6 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
         logBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
         logBaseField = new UITextField();
-        logBaseField.setPreferredSize(new Dimension(55, 20));
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 logBaseField.setEnabled(logBox.isSelected());
@@ -78,9 +78,9 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 //        logPane.add(logBaseField);
 
 
-        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField);
+        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
-        logPane.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 15));
+        logPane.setBorder(BorderFactory.createEmptyBorder(0, TableLayout4VanChartHelper.COMPONENT_INTERVAL, 0, 0));
 
         JPanel logPaneWithCheckBox = new JPanel(new BorderLayout());
 

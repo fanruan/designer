@@ -43,13 +43,14 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected void initComponents() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
-                new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{p, f})},
+                new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{f, e})},
                 new Component[]{createAlertLinePane()},
-                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{p, f})},
+                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{f, e})},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -75,7 +76,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected JPanel createAlertLinePane() {
         alertLine = new AlertLineListControlPane();
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"), alertLine);
-        alertLine.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
+        alertLine.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
 
@@ -98,10 +99,11 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
             }
         });
         JPanel intervalPane = new JPanel(new BorderLayout(0, 6));
-        intervalPane.add(isDefaultIntervalBackground, BorderLayout.NORTH);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Chart_Interval_Back"), isDefaultIntervalBackground);
+        intervalPane.add(panel1, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"), intervalPane);
-        intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
+        intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
 

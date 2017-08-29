@@ -2,13 +2,16 @@ package com.fr.plugin.chart.designer.component;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -16,6 +19,7 @@ import java.awt.*;
  */
 public class VanChartAreaSeriesFillColorPane extends BasicPane {
     private static final long serialVersionUID = 9166866984438854779L;
+    private static final int PANE_WIDTH = 221;
     private VanChartMarkerBackgroundPane fillColorPane;
     private UINumberDragPane transparent;
 
@@ -24,15 +28,28 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
         double f = TableLayout.FILL;
         double[] row = {p,p};
         double[] col = {f};
-        fillColorPane = new VanChartMarkerBackgroundPane();
+        fillColorPane = new VanChartMarkerBackgroundPane(){
+            protected Component[][] getPaneComponents() {
+                return  new Component[][]{
+                        new Component[]{null, null},
+                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_FillColor")), typeComboBox},
+                        new Component[]{null, centerPane},
+                };
+            }
+        };
         transparent = new UINumberDragPane(0, 100);
+
+        JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Alpha"), transparent);
 
         Component[][] components = new Component[][]{
                 new Component[]{fillColorPane},
-                new Component[]{transparent},
+                new Component[]{transparentPane},
         };
 
-        this.add(TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col));
+        JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        contentPane.setPreferredSize(new Dimension(PANE_WIDTH, (int)contentPane.getPreferredSize().getHeight()));
+
+        this.add(contentPane);
     }
 
     protected String title4PopupWindow(){

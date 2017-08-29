@@ -33,7 +33,7 @@ public class SectionLegendPane extends JPanel{
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] col = {f};
-        double[] row = {p, p, p, p};
+        double[] row = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null},
                 new Component[]{intervalConfigPaneWithTitle},

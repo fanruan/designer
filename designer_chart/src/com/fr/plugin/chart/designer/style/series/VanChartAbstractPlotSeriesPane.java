@@ -109,7 +109,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         JPanel panel = new JPanel(new BorderLayout());
         setColorPaneContent(panel);
         JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return colorPane;
     }
 
@@ -144,7 +144,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //填充颜色
     protected JPanel createAreaFillColorPane() {
         areaSeriesFillColorPane = new VanChartAreaSeriesFillColorPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_FillColor"), areaSeriesFillColorPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart_Area"), areaSeriesFillColorPane);
     }
 
     //边框（默认没有圆角）

@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
-import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
+import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.plugin.chart.designer.style.background.VanChartAxisAreaPane;
 
 import java.awt.*;
@@ -19,6 +19,7 @@ public class VanChartRadarAxisAreaPane extends VanChartAxisAreaPane {
     //雷达图只有横向的y轴的网格线配置
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
+                new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),horizontalGridLine},
         };
     }

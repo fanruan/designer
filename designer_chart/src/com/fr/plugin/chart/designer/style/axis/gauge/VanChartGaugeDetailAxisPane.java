@@ -53,7 +53,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
         switch (gaugeStyle){
             case THERMOMETER:
                 return new Component[][]{
-                        new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
+                        new Component[]{createLabelPane(new double[]{p, p}, columnSize), null},
                         new Component[]{createValueDefinition(), null},
                         new Component[]{createTickColorPane(new double[]{p, p, p}, new double[]{p, f}), null},
                         new Component[]{createValueStylePane()},

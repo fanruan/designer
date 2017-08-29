@@ -4,7 +4,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.general.FRLogger;
 import com.fr.general.NameObject;
-import com.fr.plugin.chart.base.VanChartCustomIntervalBackground;
+import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
 import com.fr.stable.Nameable;
 
 import java.lang.reflect.Constructor;

@@ -46,7 +46,7 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
                 ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
                 conditionAttributesGroupPane.populate(FormElementCasePaneDelegate.this);
 
-//                populateHyperLinkGroupPane();
+                EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {

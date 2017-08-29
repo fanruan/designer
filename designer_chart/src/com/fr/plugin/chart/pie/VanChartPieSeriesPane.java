@@ -37,11 +37,12 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel getContentInPlotType() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p,p,p};
+        double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{getColorPane()},
-                new Component[]{createSeriesStylePane(rowSize, new double[]{p,f})},
+                new Component[]{createSeriesStylePane(rowSize, new double[]{f, e})},
                 new Component[]{createBorderPane()},
         };
 

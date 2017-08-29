@@ -30,10 +30,11 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{createLabelPane(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createLabelPane(new double[]{p, p}, columnSize), null},
                 new Component[]{createMinMaxValuePane(new double[]{p, p, p}, columnSize), null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p}, columnSize), null},
                 new Component[]{createValueStylePane(), null},
@@ -45,7 +46,8 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
     protected JPanel createMinMaxValuePane(double[] row, double[] col) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
 
         valueStyle = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_UnifiedComputing"),
                 Inter.getLocText("Plugin-ChartF_RespectivelySpecified")});
@@ -68,7 +70,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         });
 
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ValueDefinition"), contentPane);
-        contentPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return panel;
     }
 

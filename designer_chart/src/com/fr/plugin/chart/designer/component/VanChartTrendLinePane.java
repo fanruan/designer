@@ -40,7 +40,8 @@ public class VanChartTrendLinePane extends BasicPane{
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] row = {p,p,p,p,p,p};
-        double[] col = {p,f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] col = {f, e};
         trendLineName = new UITextField();
         trendLineColor = new ColorSelectBox(100);
         trendLineStyle = new LineComboBox(VanChartConstants.ALERT_LINE_STYLE);

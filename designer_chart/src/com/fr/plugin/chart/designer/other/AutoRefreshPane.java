@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.designer.other;
 
 import com.fr.base.BaseUtils;
-import com.fr.design.dialog.BasicScrollPane;
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by hufan on 2016/12/30.
  */
-public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
+public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
     private static final int P_W = 320;
     private static final int P_H = 460;
@@ -50,9 +50,11 @@ public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
     public AutoRefreshPane(VanChart chart, boolean isLargeModel) {
         this.chart = chart;
         this.isLargeModel = isLargeModel;
+        this.setLayout(new BorderLayout());
+        this.add(createContentPane());
     }
 
-    @Override
+
     protected JPanel createContentPane() {
         JPanel content = new JPanel(new BorderLayout(0, 6));
         moreLabel = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
@@ -83,12 +85,12 @@ public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {p, f, 20};
         double[] rowSize = {p, p};
 
         Component[][] components = initComponent(jPanel);
         contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        contentPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         content.add(moreLabelPane, BorderLayout.NORTH);
         content.add(contentPane, BorderLayout.CENTER);
         return content;
@@ -97,8 +99,8 @@ public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
     protected Component[][] initComponent(JPanel autoTooltipPane){
 
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), autoRefreshTime},
-                new Component[]{autoTooltip, tooltipSet},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), autoRefreshTime, new UILabel(Inter.getLocText("Chart-Time_Seconds"))},
+                new Component[]{autoTooltip,null, tooltipSet},
         };
 
     }
@@ -130,12 +132,6 @@ public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
         });
     }
 
-    protected void layoutContentPane() {
-        leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
-        this.add(leftcontentPane);
-    }
-
     public void checkRefreshEnable() {
         Boolean enable = moreLabel.getSelectedIndex() == 0;
         contentPane.setVisible(enable);
@@ -157,6 +153,11 @@ public class AutoRefreshPane extends BasicScrollPane<RefreshMoreLabel> {
 
         checkRefreshEnable();
 
+    }
+
+    @Override
+    public RefreshMoreLabel updateBean() {
+        return null;
     }
 
     protected void populateAutoRefreshTime() {

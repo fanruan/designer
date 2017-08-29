@@ -73,6 +73,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected FormatPane valueFormat;
     protected JPanel centerPane;
     private VanChartHtmlLabelPane htmlLabelPane;
+    private JPanel labelGapValuePane;
 
     public VanChartBaseAxisPane(){
         this(true);
@@ -95,7 +96,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p, p, p, p,p};
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePane(new double[]{p, p, p, p, p, p}, columnSize, isXAxis), null},
@@ -124,8 +126,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),titleContent},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
                 new Component[]{null,titleUseHtml},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
                 new Component[]{titleTextAttrPane,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")),titleTextRotation},
         };
@@ -161,11 +163,14 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         Component[][] gapComponents = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")), labelTextRotation},
                 new Component[]{new UILabel(Inter.getLocText("ChartF-Label_Interval")), labelGapStyle},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Axis_labelInterval")),labelGapValue},
         };
-        JPanel gapPanel = TableLayoutHelper.createTableLayoutPane(gapComponents, row, col);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(gapComponents, row, col);
+        labelGapValuePane= TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("        "),labelGapValue);
+        JPanel gapPanel = new JPanel(new BorderLayout());
+        gapPanel.add(panel, BorderLayout.CENTER);
+        gapPanel.add(labelGapValuePane, BorderLayout.SOUTH);
 
-        Component[][] components = new Component[][]{
+                Component[][] components = new Component[][]{
                 new Component[]{labelTextAttrPane, null},
                 new Component[]{gapPanel,null},
         };
@@ -301,6 +306,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected FormatPane createFormatPane(){
         return new FormatPane(){
             protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+                typePane.setBorder(BorderFactory.createEmptyBorder());
                 return new Component[][]{
                         new Component[]{typePane,null},
                         new Component[]{centerPane, null},
@@ -343,8 +349,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected void checkLabelGapValuePane() {
-        if(labelGapValue != null && labelGapStyle != null){
-            labelGapValue.setEnabled(labelGapStyle.getSelectedIndex() == 1);
+        if(labelGapValuePane != null && labelGapStyle != null){
+            labelGapValuePane.setVisible(labelGapStyle.getSelectedIndex() == 1);
         }
     }
 

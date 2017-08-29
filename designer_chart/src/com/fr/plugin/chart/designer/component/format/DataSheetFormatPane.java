@@ -2,7 +2,6 @@ package com.fr.plugin.chart.designer.component.format;
 
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.style.FRFontPane;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.general.Inter;
@@ -14,7 +13,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/8/14.
  */
-public class VanChartFormatPane extends FormatPane {
+public class DataSheetFormatPane extends FormatPane {
     protected Component[][] getComponent(JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, centerPane},
@@ -25,7 +24,8 @@ public class VanChartFormatPane extends FormatPane {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getTypeComboBoxComponent(typeComboBox), rowSize, columnSize);
         this.add(panel, BorderLayout.NORTH);
     }
