@@ -19,6 +19,7 @@ public class VanChartRadarAxisAreaPane extends VanChartAxisAreaPane {
     //雷达图只有横向的y轴的网格线配置
     protected Component[][] getGridLinePaneComponents() {
         return new Component[][]{
+                new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),horizontalGridLine},
         };
     }

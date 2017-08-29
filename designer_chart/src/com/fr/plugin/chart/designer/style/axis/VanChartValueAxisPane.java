@@ -66,7 +66,6 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
         logBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Plugin-ChartF_LogBaseValue"}));
         logBaseField = new UITextField();
-        logBaseField.setPreferredSize(new Dimension(55, 20));
         logBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 logBaseField.setEnabled(logBox.isSelected());
@@ -79,9 +78,9 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 //        logPane.add(logBaseField);
 
 
-        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField);
+        logPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_LogBaseValue"), logBaseField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
-        logPane.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 15));
+        logPane.setBorder(BorderFactory.createEmptyBorder(0, TableLayout4VanChartHelper.COMPONENT_INTERVAL, 0, 0));
 
         JPanel logPaneWithCheckBox = new JPanel(new BorderLayout());
 

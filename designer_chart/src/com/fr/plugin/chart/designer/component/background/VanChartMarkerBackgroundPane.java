@@ -19,19 +19,15 @@ import java.awt.*;
 public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
     private static final long serialVersionUID = -1032221277140976934L;
 
-    public VanChartMarkerBackgroundPane(){
-        initComponents();
-
+    protected JPanel initContentPanel() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
 
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
-        double[] rowSize = {p, p};
+        double[] rowSize = {p, p, p};
 
-        JPanel panel =  TableLayoutHelper.createTableLayoutPane(getPaneComponents(), rowSize, columnSize);
-        this.setLayout(new BorderLayout());
-        this.add(panel,BorderLayout.CENTER);
+        return TableLayoutHelper.createTableLayoutPane(getPaneComponents(), rowSize, columnSize);
     }
 
     protected Component[][] getPaneComponents() {

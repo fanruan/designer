@@ -114,7 +114,7 @@ public abstract class VanChartFormatPaneWithCheckBox extends JPanel{
     }
 
     protected FormatPane createFormatPane() {
-        return new FormatPane();
+        return new VanChartFormatPane();
     }
 
     public boolean isDirty() {

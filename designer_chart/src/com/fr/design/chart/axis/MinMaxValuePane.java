@@ -35,9 +35,9 @@ public class MinMaxValuePane extends JPanel {
 		minValueField = new UITextField(6);
 		maxCheckBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "Max_Value"}));
 		maxValueField = new UITextField(6);
-		isCustomMainUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_MainGraduationUnit"));
+		isCustomMainUnitBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "FR-Chart_MainGraduationUnit"}));
 		mainUnitField = new UITextField(6);
-		isCustomSecUnitBox = new UICheckBox(Inter.getLocText("FR-Chart_SecondGraduationUnit"));
+		isCustomSecUnitBox = new UICheckBox(Inter.getLocText(new String[]{"Custom", "FR-Chart_SecondGraduationUnit"}));
 		secUnitField = new UITextField(6);
 
 		double p = TableLayout.PREFERRED;

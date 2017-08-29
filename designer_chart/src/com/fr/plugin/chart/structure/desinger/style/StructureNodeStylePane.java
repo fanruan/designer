@@ -36,8 +36,9 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
     public StructureNodeStylePane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p,f};
-        double[] rowSize = {p,p,p,p,p};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p, p, p, p, p};
 
         nodeRadiusType = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
                 Inter.getLocText("Plugin-ChartF_Custom")});
@@ -48,7 +49,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
 
         JPanel jPanel = new JPanel(new BorderLayout());
         jPanel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Node_Radius"), nodeRadiusType), BorderLayout.NORTH);
-        nodeRadiusPane = TableLayout4VanChartHelper.createGapTableLayoutPane("            ", nodeRadius);
+        nodeRadiusPane = TableLayout4VanChartHelper.createGapTableLayoutPane("", nodeRadius);
         jPanel.add(nodeRadiusPane, BorderLayout.CENTER);
 
         Component[][] components1 = new Component[][]{
@@ -93,7 +94,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
     }
 
     private void checkRadius() {
-        nodeRadius.setEnabled(nodeRadiusType.getSelectedIndex() == 1);
+        nodeRadiusPane.setVisible(nodeRadiusType.getSelectedIndex() == 1);
     }
 
     private void checkImagePane() {
