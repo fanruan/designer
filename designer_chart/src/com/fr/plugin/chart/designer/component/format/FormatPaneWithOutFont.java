@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * Created by mengao on 2017/8/28.
  */
-public class VanChartFormatPane extends FormatPane {
+public class FormatPaneWithOutFont extends FormatPane {
     private static final int HEIGHT = 30;
 
 

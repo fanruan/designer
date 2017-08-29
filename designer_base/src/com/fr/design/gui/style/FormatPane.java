@@ -69,7 +69,7 @@ public class FormatPane extends AbstractBasicStylePane {
         this.initComponents(TYPES);
     }
 
-    public UIComboBox getTypeComboBox() {
+    protected UIComboBox getTypeComboBox() {
         return typeComboBox;
     }
 

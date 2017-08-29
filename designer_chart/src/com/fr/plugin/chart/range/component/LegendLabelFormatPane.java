@@ -8,7 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartHtmlLabelPaneWithOutWidthAndHeight;
-import com.fr.plugin.chart.designer.component.format.VanChartFormatPane;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
@@ -31,7 +31,7 @@ public class LegendLabelFormatPane extends JPanel{
     public LegendLabelFormatPane(){
         labelFormatStyle = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Common"),
                 Inter.getLocText("Plugin-ChartF_Custom")});
-        labelFormat = new VanChartFormatPane();
+        labelFormat = new FormatPaneWithOutFont();
         htmlLabelPane = new VanChartHtmlLabelPaneWithOutWidthAndHeight();
 
         centerPane = new JPanel(new CardLayout()){
