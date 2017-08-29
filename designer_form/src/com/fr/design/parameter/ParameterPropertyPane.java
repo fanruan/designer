@@ -83,7 +83,7 @@ public class ParameterPropertyPane extends JPanel{
 	}
 
     public void setAddParaPaneVisible(boolean isVisible) {
-        if (isVisible == addParaPane.isVisible()) {
+        if (isVisible == addParaPane.isVisible() || formHierarchyTreePaneWrapper == null) {
             return;
         }
         if (isVisible && toolbarPane.hasSelectedLabelItem()) {
