@@ -153,6 +153,24 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         return defaultPane;
     }
 
+    public void updateCellElementState(boolean isSelectedOneCell) {
+        if (isSelectedOneCell) {
+            enableCellElementPane();
+        } else {  // 如果选中多个单元格，禁用单元格元素 tab
+            disableCellElementPane();
+            refreshRightPane();
+        }
+    }
+
+    // 禁用单元格元素tab
+    private void disableCellElementPane() {
+        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(false);
+    }
+    // 禁用单元格元素tab
+    private void enableCellElementPane() {
+        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(true);
+    }
+
     private void initContentPane() {
         initRightPane();
         initLeftPane();

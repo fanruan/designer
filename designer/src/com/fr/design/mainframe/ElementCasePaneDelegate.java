@@ -97,6 +97,8 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
                 EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
                 EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
+
+                EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
             }
             EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
             EastRegionContainerPane.getInstance().removeParameterPane();
