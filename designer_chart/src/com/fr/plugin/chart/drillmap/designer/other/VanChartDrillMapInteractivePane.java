@@ -6,7 +6,6 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
@@ -28,6 +27,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     private VanChartBackgroundPaneWithOutImageAndShadow backgroundPane;
     private VanChartBackgroundPaneWithOutImageAndShadow selectBackgroundPane;
     private VanChartCatalogHyperLinkPane catalogSuperLink;
+    private JPanel drillPane;
 
     @Override
     protected JPanel getInteractivePane(VanChartPlot plot){
@@ -52,9 +52,8 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         textAttrPane = new ChartTextAttrPane(){
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
-                        new Component[]{null},
-                        new Component[]{fontNameComboBox},
-                        new Component[]{buttonPane}
+                        new Component[]{fontNameComboBox, null},
+                        new Component[]{buttonPane, null}
                 };
             }
         };
@@ -67,14 +66,17 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{null,null},
-                new Component[]{openOrClose},
+                new Component[]{null},
                 new Component[]{createTitlePane(Inter.getLocText("Plugin-Chart_Character"), textAttrPane)},
                 new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Background"), backgroundPane)},
                 new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Select_Color"), selectBackgroundPane)},
-                new Component[]{createTitlePane(Inter.getLocText("M_Insert-Hyperlink"), catalogSuperLink)}
+                new Component[]{catalogSuperLink}
         };
-        JPanel drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(openOrClose, BorderLayout.NORTH);
+        panel.add(drillPane, BorderLayout.CENTER);
 
         openOrClose.addChangeListener(new ChangeListener() {
             @Override
@@ -83,7 +85,9 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             }
         });
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill_Dir"), drillPane);
+        JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill_Dir"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
+        return panel1;
     }
 
     private JPanel createTitlePane(String title, Component component) {
@@ -91,10 +95,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     }
 
     private void checkEnable() {
-        boolean enable = openOrClose.getSelectedIndex() == 0;
-        textAttrPane.setEnabled(enable);
-        GUICoreUtils.setEnabled(backgroundPane, enable);
-        GUICoreUtils.setEnabled(selectBackgroundPane, enable);
+        drillPane.setVisible(openOrClose.getSelectedIndex() == 0);
     }
 
     @Override

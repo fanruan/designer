@@ -12,7 +12,6 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
@@ -68,6 +67,10 @@ public class FormatPane extends AbstractBasicStylePane {
      */
     public FormatPane() {
         this.initComponents(TYPES);
+    }
+
+    protected UIComboBox getTypeComboBox() {
+        return typeComboBox;
     }
 
     protected void initComponents(Integer[] types) {

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
  * Created by mengao on 2017/4/4.
  */
 public class VanChartMinMaxValuePane extends MinMaxValuePane {
+    public static final int COMPONENT_INTERVAL =12;
 
     private JPanel minPane;
     private JPanel maxPane;
@@ -57,15 +58,15 @@ public class VanChartMinMaxValuePane extends MinMaxValuePane {
     @Override
     protected Component[][] getPanelComponents() {
 
-        minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField);
-        maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField);
-        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainUnitField);
-        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secUnitField);
+        minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MainType"),mainUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_SecType"),secUnitField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
-        minPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-        maxPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-        mainPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
-        secPane.setBorder(BorderFactory.createEmptyBorder(0,25,0,15));
+        minPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
+        maxPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
+        mainPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
+        secPane.setBorder(BorderFactory.createEmptyBorder(0,COMPONENT_INTERVAL,0,0));
 
         JPanel minPaneWithCheckBox = new JPanel(new BorderLayout());
         JPanel maxPaneWithCheckBox = new JPanel(new BorderLayout());

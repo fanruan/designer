@@ -6,7 +6,6 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -162,8 +161,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             case AREA:
                 panel.add(createNullValueColorPane(), BorderLayout.CENTER);
                 panel.add(createAlphaPane(), BorderLayout.SOUTH);
+                break;
             case POINT:
                 panel.add(createPointAlphaPane(), BorderLayout.CENTER);
+                break;
         }
     }
 
@@ -285,13 +286,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
         });
 
-        JPanel northPane = new JPanel(new BorderLayout());
-        northPane.add(markerTypeCom, BorderLayout.CENTER);
-        UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_Point_Style"), SwingConstants.LEFT);
-        label.setPreferredSize(new Dimension(44, 20));
-        northPane.add(label, BorderLayout.WEST);
-        northPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-
+        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Point_Style"), markerTypeCom);
         JPanel markerPane = new JPanel(new BorderLayout(0, 6));
         markerPane.add(northPane, BorderLayout.NORTH);
         markerPane.add(cardPane, BorderLayout.CENTER);

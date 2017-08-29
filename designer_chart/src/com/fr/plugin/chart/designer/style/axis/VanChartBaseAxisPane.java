@@ -126,8 +126,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Content")),titleContent},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
                 new Component[]{null,titleUseHtml},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Position")),titleAlignPane},
                 new Component[]{titleTextAttrPane,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")),titleTextRotation},
         };
@@ -306,6 +306,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected FormatPane createFormatPane(){
         return new FormatPane(){
             protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+                typePane.setBorder(BorderFactory.createEmptyBorder());
                 return new Component[][]{
                         new Component[]{typePane,null},
                         new Component[]{centerPane, null},

@@ -7,6 +7,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.map.line.condition.AttrCurve;
 
 import javax.swing.*;
@@ -33,7 +34,8 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f };
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p};
         Component[][] components = getUseComponent();
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -44,9 +46,9 @@ public class VanChartCurvePane extends BasicBeanPane<AttrCurve>{
     private Component[][] getUseComponent() {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Line_Width")+":"), lineWidth},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Bedding")+":"),bending},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha") + ":"), lineAlphaPane}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Line_Width")), lineWidth},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Bedding")),bending},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), lineAlphaPane}
         };
     }
 

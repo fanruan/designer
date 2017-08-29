@@ -76,7 +76,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected JPanel createAlertLinePane() {
         alertLine = new AlertLineListControlPane();
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"), alertLine);
-        alertLine.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
+        alertLine.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
 
@@ -99,10 +99,11 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
             }
         });
         JPanel intervalPane = new JPanel(new BorderLayout(0, 6));
-        intervalPane.add(isDefaultIntervalBackground, BorderLayout.NORTH);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Chart_Interval_Back"), isDefaultIntervalBackground);
+        intervalPane.add(panel1, BorderLayout.NORTH);
         intervalPane.add(centerPane, BorderLayout.CENTER);
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"), intervalPane);
-        intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 15));
+        intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
     }
 

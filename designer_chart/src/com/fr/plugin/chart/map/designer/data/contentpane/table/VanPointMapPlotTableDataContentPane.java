@@ -120,7 +120,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
             double[] columnSize = {p, f};
             double[] rowSize = {p};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Geographical_Position")),locationType},
+                    new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Geographic")),locationType},
             };
 
             JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,30,6);

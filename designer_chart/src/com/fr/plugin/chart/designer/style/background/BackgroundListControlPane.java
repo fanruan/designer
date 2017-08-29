@@ -2,6 +2,7 @@ package com.fr.plugin.chart.designer.style.background;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.controlpane.NameableCreator;
+import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
@@ -46,6 +47,14 @@ public class BackgroundListControlPane extends UIListControlPane {
     @Override
     public String getAddItemText() {
         return Inter.getLocText("Plugin-ChartF_CustomIntervalBackground");
+    }
+
+    protected ShortCut4JControlPane[] createShortcuts() {
+        return new ShortCut4JControlPane[]{
+                moveUpItemShortCut(),
+                moveDownItemShortCut(),
+                removeItemShortCut()
+        };
     }
 
     public void populate(Plot plot) {

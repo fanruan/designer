@@ -61,7 +61,6 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
         
         catePane.add(boxPane, BorderLayout.SOUTH);
 
-		catePane.setPreferredSize(new Dimension(246,30));
 		catePane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
 
         this.add(catePane, "0,0,2,0");
@@ -90,7 +89,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 	
 	private TinyFormulaPane addNewCatePane() {
 		final TinyFormulaPane pane = initCategoryBox(StringUtils.EMPTY);
-		pane.setPreferredSize(new Dimension(122, 16));
+		pane.setPreferredSize(new Dimension(106, 16));
 		
 		pane.registerChangeListener(uiobListener);
 		
