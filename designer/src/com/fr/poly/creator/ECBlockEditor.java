@@ -158,12 +158,7 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
 
-            if (isSelectedOneCell()) {
-                EastRegionContainerPane.getInstance().enableCellElementPane();
-            } else {  // 如果选中多个单元格，禁用单元格元素 tab
-                EastRegionContainerPane.getInstance().disableCellElementPane();
-                EastRegionContainerPane.getInstance().refreshRightPane();
-            }
+            EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
         }
 
         EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());

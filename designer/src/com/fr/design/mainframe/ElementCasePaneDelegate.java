@@ -99,12 +99,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 EastRegionContainerPane.getInstance().replaceConditionAttrPane(conditionAttributesGroupPane);
                 EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
 
-                if (isSelectedOneCell()) {
-                    EastRegionContainerPane.getInstance().enableCellElementPane();
-                } else {  // 如果选中多个单元格，禁用单元格元素 tab
-                    EastRegionContainerPane.getInstance().disableCellElementPane();
-                    EastRegionContainerPane.getInstance().refreshRightPane();
-                }
+                EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
             }
             EastRegionContainerPane.getInstance().replaceHyperlinkPane(hyperlinkGroupPane);
             EastRegionContainerPane.getInstance().removeParameterPane();
