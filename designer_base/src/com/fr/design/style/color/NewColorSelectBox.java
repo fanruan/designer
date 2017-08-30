@@ -18,10 +18,12 @@ import com.fr.design.style.AbstractSelectBox;
  */
 public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObserver, GlobalNameObserver {
     private static final long serialVersionUID = 2782150678943960557L;
-    
+
     private Color color;
     private NewColorSelectPane colorPane = new NewColorSelectPane();
     private UIObserverListener uiObserverListener;
+    private String newColorSelectBoxName = "";
+    private GlobalNameListener globalNameListener = null;
 
     public NewColorSelectBox(int preferredWidth) {
     	initBox(preferredWidth);
@@ -35,6 +37,9 @@ public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObs
                 public void stateChanged(ChangeEvent e) {
                     if(uiObserverListener == null){
                         return;
+                    }
+                    if (globalNameListener != null && shouldResponseNameListener()){
+                        globalNameListener.setGlobalName(newColorSelectBoxName);
                     }
                     uiObserverListener.doChange();
                 }
@@ -98,16 +103,16 @@ public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObs
 
     @Override
     public void registerNameListener(GlobalNameListener listener) {
-        
+        globalNameListener = listener;
     }
 
     @Override
     public boolean shouldResponseNameListener() {
-        return false;
+        return true;
     }
 
     @Override
     public void setGlobalName(String name) {
-
+        newColorSelectBoxName = name;
     }
 }
