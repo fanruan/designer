@@ -7,6 +7,8 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.plugin.basic.version.Version;
+import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 
@@ -183,5 +185,25 @@ public class PluginUtils {
             return context.getMarker();
         }
         return null;
+    }
+
+    /**
+     * 在不同设计器版本下展示不同插件
+     * @return 插件
+     */
+    public static JSONArray filterPluginsFromVersion(JSONArray oriJSONArray) throws Exception{
+        JSONArray resultJSONArray =  JSONArray.create();
+        for(int i = 0; i < oriJSONArray.length(); i++){
+            JSONObject jo = oriJSONArray.getJSONObject(i);
+            String envVersion = jo.optString("env-version");
+            if(isCompatibleCurrentEnv(envVersion)){
+                resultJSONArray.put(jo);
+            }
+        }
+        return resultJSONArray;
+    }
+
+    private static boolean isCompatibleCurrentEnv(String envVersion){
+        return VersionIntervalFactory.create(envVersion).contain(Version.currentEnvVersion());
     }
 }

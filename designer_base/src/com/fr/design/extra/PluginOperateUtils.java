@@ -140,7 +140,8 @@ public class PluginOperateUtils {
                     String result = httpClient.getResponseText();
                     JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    jsCallback.execute(jsonArray.toString());
+                    JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
+                    jsCallback.execute(resultJSONArray.toString());
                 } catch (Exception e) {
                     FRLogger.getLogger().error(e.getMessage());
                 }
@@ -171,7 +172,8 @@ public class PluginOperateUtils {
                         String result = httpClient.getResponseText();
                         JSONObject resultJSONObject = new JSONObject(result);
                         JSONArray resultArr = resultJSONObject.getJSONArray("result");
-                        jsCallback.execute(resultArr.toString());
+                        JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(resultArr);
+                        jsCallback.execute(resultJSONArray.toString());
                     } catch (Exception e) {
                         FRLogger.getLogger().error(e.getMessage());
                     }
@@ -190,7 +192,9 @@ public class PluginOperateUtils {
         try {
             HttpClient httpClient = new HttpClient(plistUrl.toString());
             String result = httpClient.getResponseText();
-            jsCallback.execute(result);
+            JSONArray jsonArray = new JSONArray(result);
+            JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
+            jsCallback.execute(resultJSONArray.toString());
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
@@ -299,5 +303,7 @@ public class PluginOperateUtils {
         }
         return pluginInfo.toString();
     }
+
+
 
 }
