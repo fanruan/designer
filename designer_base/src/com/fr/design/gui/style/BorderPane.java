@@ -197,17 +197,16 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
         CellBorderStyle cellBorderStyle = this.update();
 
-        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineCombo")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineColorPane")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "outerToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "topToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "leftToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "bottomToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "rightToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "innerToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "horizontalToggleButton")
-                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "verticalToggleButton")
-                ) {
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineCombo") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineColorPane") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "outerToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "topToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "leftToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "bottomToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "rightToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "innerToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "horizontalToggleButton") ||
+                ComparatorUtils.equals(globalNameListener.getGlobalName(), "verticalToggleButton")) {
             style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                     cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
         } else {
