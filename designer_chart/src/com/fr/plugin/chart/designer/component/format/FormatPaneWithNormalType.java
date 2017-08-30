@@ -2,7 +2,6 @@ package com.fr.plugin.chart.designer.component.format;
 
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
@@ -12,8 +11,16 @@ import java.awt.*;
 
 /**
  * Created by mengao on 2017/8/14.
+ * 没有字体设置
+ * 类型下拉框中只有常规、数字、百分比、货币、科学计数选项，没有时间型、日期型、文本型选项。
  */
-public class DataSheetFormatPane extends FormatPane {
+public class FormatPaneWithNormalType extends FormatPaneWithOutFont {
+
+    public FormatPaneWithNormalType() {
+        super();
+        setForDataSheet();
+    }
+
     protected Component[][] getComponent(JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, centerPane},

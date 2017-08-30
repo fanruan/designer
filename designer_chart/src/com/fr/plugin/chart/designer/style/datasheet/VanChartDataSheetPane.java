@@ -20,7 +20,7 @@ import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.designer.AbstractVanChartScrollPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.border.VanChartBorderPane;
-import com.fr.plugin.chart.designer.component.format.DataSheetFormatPane;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithNormalType;
 import com.fr.plugin.chart.type.AxisType;
 
 import javax.swing.*;
@@ -85,8 +85,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
 
     private JPanel createDataSheetPane(){
         textAttrPane = new ChartTextAttrPane();
-        formatPane = new DataSheetFormatPane();
-        formatPane.setForDataSheet();
+        formatPane = new FormatPaneWithNormalType();
         borderPane = new VanChartBorderPane();
 
         double p = TableLayout.PREFERRED;

@@ -15,8 +15,8 @@ import java.awt.*;
  * Created by hufan on 2016/12/21.
  */
 public class LongLatAreaPane extends AreaPane {
-    private TinyFormulaPane longitude;
-    private TinyFormulaPane latitude;
+    protected TinyFormulaPane longitude;
+    protected TinyFormulaPane latitude;
 
     public LongLatAreaPane() {
         JPanel panel = createContentPane();
@@ -33,12 +33,16 @@ public class LongLatAreaPane extends AreaPane {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
-        Component[][] components = new Component[][]{
+        Component[][] components = getComponent();
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
+    }
+
+    protected Component[][] getComponent () {
+        return new Component[][]{
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Longitude")), longitude},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Latitude")), latitude},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaName}
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
     }
 
     @Override

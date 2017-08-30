@@ -76,7 +76,6 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
 
             locationType = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Location_With_AreaName"),
                     Inter.getLocText("Plugin-ChartF_Location_With_LongAndLat")});
-
             locationType.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
@@ -99,7 +98,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
                     new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Geographic")),locationType},
             };
 
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,30,6);
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
 
 
             this.add(panel, BorderLayout.NORTH);

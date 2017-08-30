@@ -3,9 +3,9 @@ package com.fr.plugin.chart.range.component;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.axis.component.MinMaxValuePaneWithOutTick;
 import com.fr.plugin.chart.range.GradualIntervalConfig;
 
@@ -53,13 +53,14 @@ public class GradualIntervalConfigPane extends JPanel{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] col = new double[]{p,f};
-        double[] row = new double[]{p,p,p,p};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] col = new double[]{f, e};
+        double[] row = new double[]{p, p, p, p};
 
         Component[][] components = getPaneComponents();
 
         //控件承载面板
-        JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components,row,col);
+        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
         this.setLayout(new BorderLayout());
         this.add(contentPane,BorderLayout.CENTER);
     }
@@ -77,7 +78,7 @@ public class GradualIntervalConfigPane extends JPanel{
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), numberDragPane},
-                new Component[]{legendGradientBar, null},
+                new Component[]{null, legendGradientBar},
         };
     }
 
