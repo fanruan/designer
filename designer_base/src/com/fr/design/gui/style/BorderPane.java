@@ -8,6 +8,8 @@ import com.fr.base.BaseUtils;
 import com.fr.base.CellBorderStyle;
 import com.fr.base.Style;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.event.GlobalNameListener;
+import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
@@ -16,6 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
@@ -29,7 +32,7 @@ import java.awt.*;
  * @author zhou
  * @since 2012-5-28下午6:22:04
  */
-public class BorderPane extends AbstractBasicStylePane {
+public class BorderPane extends AbstractBasicStylePane implements GlobalNameObserver {
     private boolean insideMode = false;
 
     private UIToggleButton topToggleButton;
@@ -48,6 +51,7 @@ public class BorderPane extends AbstractBasicStylePane {
     private JPanel borderPanel;
     private JPanel backgroundPanel;
     private BackgroundPane backgroundPane;
+    private GlobalNameListener globalNameListener = null;
 
     public BorderPane() {
         this.initComponents();
@@ -55,7 +59,7 @@ public class BorderPane extends AbstractBasicStylePane {
 
     protected void initComponents() {
         initButtonsWithIcon();
-        this.setLayout(new BorderLayout(0, 6));
+        this.setLayout(new BorderLayout(0, 0));
         JPanel externalPane = new JPanel(new GridLayout(0, 4));
         externalPane.add(topToggleButton);
         externalPane.add(leftToggleButton);
@@ -89,7 +93,7 @@ public class BorderPane extends AbstractBasicStylePane {
         backgroundPane = new BackgroundPane();
         backgroundPanel = new UIExpandablePane(Inter.getLocText("FR-Designer_Background"), 280, 24, backgroundPane);
         this.add(backgroundPanel, BorderLayout.CENTER);
-
+        initAllNames();
         outerToggleButton.addChangeListener(outerToggleButtonChangeListener);
         innerToggleButton.addChangeListener(innerToggleButtonChangeListener);
     }
@@ -123,6 +127,19 @@ public class BorderPane extends AbstractBasicStylePane {
         verticalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"));
         this.currentLineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
         this.currentLineColorPane = new NewColorSelectBox(100);
+    }
+
+    private void initAllNames() {
+        currentLineCombo.setGlobalName("currentLineCombo");
+        currentLineColorPane.setGlobalName("currentLineColorPane");
+        outerToggleButton.setGlobalName("outerToggleButton");
+        topToggleButton.setGlobalName("topToggleButton");
+        leftToggleButton.setGlobalName("leftToggleButton");
+        bottomToggleButton.setGlobalName("bottomToggleButton");
+        rightToggleButton.setGlobalName("rightToggleButton");
+        innerToggleButton.setGlobalName("innerToggleButton");
+        horizontalToggleButton.setGlobalName("horizontalToggleButton");
+        verticalToggleButton.setGlobalName("verticalToggleButton");
     }
 
     @Override
@@ -180,9 +197,22 @@ public class BorderPane extends AbstractBasicStylePane {
 
         CellBorderStyle cellBorderStyle = this.update();
 
-        style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
-                cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-        style = style.deriveBackground(backgroundPane.update());
+        if (ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineCombo")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "currentLineColorPane")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "outerToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "topToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "leftToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "bottomToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "rightToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "innerToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "horizontalToggleButton")
+                || ComparatorUtils.equals(globalNameListener.getGlobalName(), "verticalToggleButton")
+                ) {
+            style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
+                    cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
+        } else {
+            style = style.deriveBackground(backgroundPane.update());
+        }
         return style;
     }
 
@@ -203,5 +233,20 @@ public class BorderPane extends AbstractBasicStylePane {
         cellBorderStyle.setHorizontalColor(lineColor);
         cellBorderStyle.setHorizontalStyle(horizontalToggleButton.isSelected() ? lineStyle : Constants.LINE_NONE);
         return cellBorderStyle;
+    }
+
+    @Override
+    public void registerNameListener(GlobalNameListener listener) {
+        globalNameListener = listener;
+    }
+
+    @Override
+    public boolean shouldResponseNameListener() {
+        return false;
+    }
+
+    @Override
+    public void setGlobalName(String name) {
+
     }
 }

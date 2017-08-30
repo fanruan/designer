@@ -7,6 +7,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fr.base.background.ColorBackground;
+import com.fr.design.event.GlobalNameListener;
+import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.style.AbstractSelectBox;
@@ -14,7 +16,7 @@ import com.fr.design.style.AbstractSelectBox;
 /**
  * Color select pane.
  */
-public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObserver {
+public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObserver, GlobalNameObserver {
     private static final long serialVersionUID = 2782150678943960557L;
     
     private Color color;
@@ -92,5 +94,20 @@ public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObs
      */
     public boolean shouldResponseChangeListener() {
         return true;
+    }
+
+    @Override
+    public void registerNameListener(GlobalNameListener listener) {
+        
+    }
+
+    @Override
+    public boolean shouldResponseNameListener() {
+        return false;
+    }
+
+    @Override
+    public void setGlobalName(String name) {
+
     }
 }
