@@ -16,6 +16,7 @@ import com.fr.design.gui.itextfield.UIAutoCompletionField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.FileNode;
@@ -475,7 +476,7 @@ public class FILEChooserPane extends BasicPane {
         this.suffix = suffix;
 
 
-        dialog = showWindow((Window) parent, false);
+        dialog = showWindow(parent instanceof DesignerFrame ? (Window) parent : SwingUtilities.getWindowAncestor(parent), false);
         JPanel contentPane = (JPanel) dialog.getContentPane();
         contentPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         contentPane.add(this, BorderLayout.CENTER);
