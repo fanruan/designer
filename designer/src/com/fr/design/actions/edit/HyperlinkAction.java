@@ -17,7 +17,7 @@ public class HyperlinkAction extends UpdateAction {
 
     public HyperlinkAction() {
         this.setMenuKeySet(KeySetUtils.HYPER_LINK);
-        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
+        this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_insert/hyperLink.png"));
     }
