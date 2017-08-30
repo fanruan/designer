@@ -48,6 +48,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     private Timer timer;
 
     public BaseDesigner(String[] args) {
+        BuildContext.setBuildFilePath(buildPropertiesPath());
+
         if (isDebug()) {
             setDebugEnv();
         }
@@ -59,7 +61,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             DesignUtils.clientSend(args);
             return;
         }
-        BuildContext.setBuildFilePath(buildPropertiesPath());
 
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
@@ -116,7 +117,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void bindGlobalListener() {
-    
+
         GlobalListenerProviderManager.getInstance().init();
     }
 
