@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.WriteUnableRepeatEditor;
@@ -11,11 +12,11 @@ import java.awt.*;
 public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEditor> extends FieldEditorDefinePane<WriteUnableRepeatEditor> {
 	// richer:是否去除重复的值
 	protected UICheckBox removeRepeatCheckBox;
-	
-	public WriteUnableRepeatEditorPane(){
-		this.initComponents();
+
+	public WriteUnableRepeatEditorPane(XCreator xCreator){
+		super(xCreator);
 	}
-	
+
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();

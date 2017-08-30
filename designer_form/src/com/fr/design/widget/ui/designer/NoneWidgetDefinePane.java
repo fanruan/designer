@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.creator.XCreator;
 import com.fr.form.ui.NoneWidget;
 
 /**
@@ -8,7 +9,11 @@ import com.fr.form.ui.NoneWidget;
  * 用于处理没有控件的情况
  */ 
 public class NoneWidgetDefinePane extends AbstractDataModify<NoneWidget> {
-	
+
+	public NoneWidgetDefinePane(XCreator xCreator){
+		super(xCreator);
+	}
+
 	@Override
 	public String title4PopupWindow() {
 		return "none";
