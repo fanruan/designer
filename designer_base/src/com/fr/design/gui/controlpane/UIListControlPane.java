@@ -106,22 +106,24 @@ public abstract class UIListControlPane extends UIControlPane {
                 }
             }
         });
-        nameableList.getModel().addListDataListener(new ListDataListener() {
-            @Override
-            public void intervalAdded(ListDataEvent e) {
-                saveSettings();
-            }
+        if (isNewStyle()) {
+            nameableList.getModel().addListDataListener(new ListDataListener() {
+                @Override
+                public void intervalAdded(ListDataEvent e) {
+                    saveSettings();
+                }
 
-            @Override
-            public void intervalRemoved(ListDataEvent e) {
-                saveSettings();
-            }
+                @Override
+                public void intervalRemoved(ListDataEvent e) {
+                    saveSettings();
+                }
 
-            @Override
-            public void contentsChanged(ListDataEvent e) {
-                saveSettings();
-            }
-        });
+                @Override
+                public void contentsChanged(ListDataEvent e) {
+                    saveSettings();
+                }
+            });
+        }
     }
 
     public UINameEdList createJNameList() {
@@ -388,7 +390,7 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditDialog(Point mousePos) {
+    protected void popupEditDialog(Point mousePos) {
         Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
         if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
             return;

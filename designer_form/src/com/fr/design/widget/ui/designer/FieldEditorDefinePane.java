@@ -33,10 +33,6 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         this.initComponents();
     }
 
-    public FieldEditorDefinePane() {
-        this.initComponents();
-    }
-
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         labelNameTextField = new UITextField();

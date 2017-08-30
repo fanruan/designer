@@ -54,9 +54,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
 
     private ChangeListener minValueChangeListener;
 
-    public NumberEditorDefinePane() {
-        super();
-    }
 
 
     @Override

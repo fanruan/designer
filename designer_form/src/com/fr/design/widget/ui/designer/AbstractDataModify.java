@@ -13,9 +13,7 @@ import javax.swing.*;
 public abstract class AbstractDataModify<T> extends BasicBeanPane<T> implements DataModify<T> {
     protected XCreator creator;
 
-    public AbstractDataModify(){
 
-    }
     public AbstractDataModify(XCreator xCreator){
         this.creator = xCreator;
     }
