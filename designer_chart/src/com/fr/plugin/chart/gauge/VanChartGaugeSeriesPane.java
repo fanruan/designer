@@ -53,12 +53,13 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel getContentInPlotType() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{getColorPane()},
                 new Component[]{createGaugeLayoutPane()},
-                new Component[]{createGaugeStylePane(rowSize, new double[]{p,f})},
+                new Component[]{createGaugeStylePane(rowSize, new double[]{f,e})},
                 new Component[]{createGaugeBandsPane()}
         };
 
@@ -109,7 +110,8 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel centerPanel = TableLayoutHelper.createTableLayoutPane(getDiffComponentsWithGaugeStyle(), row, col);
         panel.add(centerPanel, BorderLayout.CENTER);
         if(rotate != null){
-            panel.add(rotate, BorderLayout.NORTH);
+            JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Rotation_Direction"), rotate);
+            panel.add(panel1, BorderLayout.NORTH);
         }
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
@@ -192,8 +194,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeBandsPane() {
         colorPickerPane = new ColorPickerPaneWithFormula("meterString");
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane("",colorPickerPane);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Range"), colorPickerPane);
     }
 
 

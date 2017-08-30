@@ -45,10 +45,14 @@ public class AreaPane extends AbstractTableDataContentPane {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p};
-        Component[][] components = new Component[][]{
+        Component[][] components = getComponent();
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
+    }
+
+    protected Component[][] getComponent () {
+        return new Component[][]{
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaNameCom}
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
     }
 
     protected void initAreaNameCom() {

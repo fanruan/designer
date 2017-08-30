@@ -18,8 +18,8 @@ import java.util.List;
  * Created by hufan on 2016/12/21.
  */
 public class LongLatAreaPane extends AreaPane {
-    private UIComboBox longitudeCom;
-    private UIComboBox latitudeCom;
+    protected UIComboBox longitudeCom;
+    protected UIComboBox latitudeCom;
 
     public LongLatAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
         super(parentPane);
@@ -35,13 +35,17 @@ public class LongLatAreaPane extends AreaPane {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p, p};
-        Component[][] components = new Component[][]{
+        Component[][] components = getComponent();
+
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
+    }
+
+    protected Component[][] getComponent () {
+        return new Component[][]{
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Longitude")), longitudeCom},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_Latitude")), latitudeCom},
                 new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Area_Name")), areaNameCom}
         };
-
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
     }
 
     public void refreshBoxListWithSelectTableData(List list) {

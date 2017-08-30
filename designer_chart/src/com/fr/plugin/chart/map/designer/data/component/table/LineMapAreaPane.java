@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.map.designer.data.component.table;
 
+import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.plugin.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.plugin.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
@@ -14,7 +14,6 @@ import java.util.List;
  * Created by hufan on 2016/12/21.
  */
 public class LineMapAreaPane extends PointMapAreaPane {
-    private static final int LEFT_GAP = 15;
     private static final int V_GAP = 10;
     protected AreaPane endAreaPane;
     public LineMapAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
@@ -25,17 +24,30 @@ public class LineMapAreaPane extends PointMapAreaPane {
         initAreaPane(parentPane);
         initEndAreaPane(parentPane);
 
-        JPanel startPane = TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("Plugin-ChartF_Start_Point"), areaPane, LEFT_GAP);
-        JPanel endPane = TableLayout4VanChartHelper.createTitlePane(Inter.getLocText("Plugin-ChartF_End_Point"), endAreaPane, LEFT_GAP);
-
         JPanel content = new JPanel(new BorderLayout(0, V_GAP));
-        content.add(startPane, BorderLayout.NORTH);
-        content.add(endPane, BorderLayout.CENTER);
+        content.add(areaPane, BorderLayout.NORTH);
+        content.add(endAreaPane, BorderLayout.CENTER);
         return content;
     }
 
+    protected void initAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
+        areaPane = new AreaPane(parentPane){
+            protected Component[][] getComponent () {
+                return new Component[][]{
+                        new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Plugin-ChartF_Start", "FR-Chart-Area_Name"})), areaNameCom}
+                };
+            }
+        };
+    }
+
     protected void initEndAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
-        endAreaPane = new AreaPane(parentPane);
+        endAreaPane = new AreaPane(parentPane){
+            protected Component[][] getComponent () {
+                return new Component[][]{
+                        new Component[]{new BoldFontTextLabel(Inter.getLocText(new String[]{"Plugin-ChartF_End", "FR-Chart-Area_Name"})), areaNameCom}
+                };
+            }
+        };
     }
 
     @Override

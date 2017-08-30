@@ -43,6 +43,12 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
         return null;
     }
 
+    //设置色彩面板内容
+    protected void setColorPaneContent (JPanel panel) {
+        panel.add(createNullValueColorPane(), BorderLayout.NORTH);
+        panel.add(createAlphaPane(), BorderLayout.CENTER);
+    }
+
     /**
      * 在每个不同类型Plot, 得到不同类型的属性. 比如: 柱形的风格, 折线的线型曲线.
      */
@@ -97,10 +103,12 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p, p};
-        double[] col = {p, f, p};
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+        double[] row = {p, p, p};
+        double[] col = {d, f, p};
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Heat_Map_Radius")), radius, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Heat_Map_Blur")), blur, new UILabel("%")}
         };
@@ -117,10 +125,13 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p, p};
-        double[] col = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+
+        double[] row = {p, p, p};
+        double[] col = {f, e};
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Min")), minOpacity},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Max")), maxOpacity}
         };

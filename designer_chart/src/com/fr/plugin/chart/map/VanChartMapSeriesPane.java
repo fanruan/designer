@@ -185,7 +185,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         return TableLayoutHelper.createTableLayoutPane(components, row, col);
     }
 
-    private JPanel createNullValueColorPane() {
+    protected JPanel createNullValueColorPane() {
         nullValueColorBox = new ColorSelectBox(80);
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_NULL_Value_Color"), nullValueColorBox);
