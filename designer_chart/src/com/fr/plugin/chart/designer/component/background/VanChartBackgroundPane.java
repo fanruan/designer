@@ -98,7 +98,7 @@ public class VanChartBackgroundPane extends BasicPane {
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Alpha")), transparent},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Shadow")), shadow},
         };
     }

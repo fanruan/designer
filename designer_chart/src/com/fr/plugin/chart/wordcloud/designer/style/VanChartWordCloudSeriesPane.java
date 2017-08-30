@@ -60,18 +60,12 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
         double[] columnSize = {f};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createWordCloudStylePane()},
         };
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         return contentPane;
-    }
-
-    //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
     private JPanel createWordCloudStylePane(){

@@ -16,6 +16,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.util.ArrayList;
@@ -198,6 +199,13 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 		JSeparator jSeparator = new JSeparator();
 		jSeparator.setPreferredSize(new Dimension(246, 2));
 		return jSeparator;
+	}
+
+	protected Border getSidesBorder() {
+		return BorderFactory.createEmptyBorder(0,5,0,5);
+	}
+	protected Border getFilterPaneBorder() {
+		return BorderFactory.createEmptyBorder(10,5,0,5);
 	}
 
 }

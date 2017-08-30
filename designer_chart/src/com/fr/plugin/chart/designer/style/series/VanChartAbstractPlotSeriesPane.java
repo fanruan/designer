@@ -83,7 +83,10 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
             scrollPane.setViewportView(getContentInPlotType());
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
-        return getContentInPlotType();
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(fillStylePane, BorderLayout.NORTH);
+        panel.add(getContentInPlotType(), BorderLayout.CENTER);
+        return panel;
     }
 
     @Override
@@ -115,7 +118,6 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
         panel.add(createStylePane(), BorderLayout.CENTER);
     }
 

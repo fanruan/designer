@@ -5,7 +5,6 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.controlpane.UIListControlPane;
-import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -58,10 +57,9 @@ public class VanChartConditionAttrContentPane extends AbstractConditionAttrConte
         Nameable[] nameables = conditionPane.update();
         cc.clearConditionAttr();
         for (int i = 0; i < nameables.length; i++) {
-            if (nameables[i] instanceof UIMenuNameableCreator) {
-                UIMenuNameableCreator uiMenuNameableCreator = (UIMenuNameableCreator) nameables[i];
-                ConditionAttr ca = (ConditionAttr) uiMenuNameableCreator.getObj();
-                ca.setName(uiMenuNameableCreator.getName());
+            if (nameables[i] instanceof NameObject) {
+                ConditionAttr ca = (ConditionAttr) ((NameObject) nameables[i]).getObject();
+                ca.setName(nameables[i].getName());
                 cc.addConditionAttr(ca);
             }
         }

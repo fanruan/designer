@@ -152,20 +152,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        if (getFillStylePane() != null){
-            panel.add(getFillStylePane(), BorderLayout.NORTH);
-        }
-        mapType = ((VanChartMapPlot) plot).getAllLayersMapType();
-        switch (mapType) {
-            case AREA:
-                panel.add(createNullValueColorPane(), BorderLayout.CENTER);
-                panel.add(createAlphaPane(), BorderLayout.SOUTH);
-                break;
-            case POINT:
-                panel.add(createPointAlphaPane(), BorderLayout.CENTER);
-                break;
-        }
+    protected void setColorPaneContent(JPanel panel) {
+        panel.add(createNullValueColorPane(), BorderLayout.CENTER);
+        panel.add(createAlphaPane(), BorderLayout.SOUTH);
+
     }
 
 
@@ -199,7 +189,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((Inter.getLocText("Plugin-ChartF_Color")), createPointAlphaPane())},
                 new Component[]{createMarkerComPane()},
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createPointEffectPane()},
@@ -217,7 +207,6 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         curvePane = new VanChartCurvePane();
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createCurvePane()},
                 new Component[]{createLineMapLargeDataModelPane()},
                 new Component[]{createAnimationPane()}
