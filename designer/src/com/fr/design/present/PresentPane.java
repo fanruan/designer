@@ -57,12 +57,12 @@ public class PresentPane extends UIComboBoxPane<Present> {
 	@Override
 	protected List<FurtherBasicBeanPane<? extends Present>> initPaneList() {
 		if (keys == null) {
-			keys = new ArrayList<>();
+			keys = new ArrayList<String>();
 		}
 		if (displays == null) {
-			displays = new ArrayList<>();
+			displays = new ArrayList<String>();
 		}
-		List<FurtherBasicBeanPane<? extends Present>> paneList = new ArrayList<>();
+		List<FurtherBasicBeanPane<? extends Present>> paneList = new ArrayList<FurtherBasicBeanPane<? extends Present>>();
 		FurtherBasicBeanPane<Present> none = new NonePresentPane();
 		paneList.add(none);
 		keys.add("NOPRESENT");
@@ -99,7 +99,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 
 	@Override
 	protected UIComboBox createComboBox() {
-		return new DictionaryComboBox<>(keys.toArray(new String[keys.size()]), displays.toArray(new String[displays.size()]));
+		return new DictionaryComboBox<String>(keys.toArray(new String[keys.size()]), displays.toArray(new String[displays.size()]));
 	}
 
 	@Override
