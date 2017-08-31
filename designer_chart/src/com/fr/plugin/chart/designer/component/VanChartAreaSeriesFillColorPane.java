@@ -4,7 +4,6 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
@@ -19,7 +18,6 @@ import java.awt.*;
  */
 public class VanChartAreaSeriesFillColorPane extends BasicPane {
     private static final long serialVersionUID = 9166866984438854779L;
-    private static final int PANE_WIDTH = 221;
     private VanChartMarkerBackgroundPane fillColorPane;
     private UINumberDragPane transparent;
 
@@ -41,15 +39,9 @@ public class VanChartAreaSeriesFillColorPane extends BasicPane {
 
         JPanel transparentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Alpha"), transparent);
 
-        Component[][] components = new Component[][]{
-                new Component[]{fillColorPane},
-                new Component[]{transparentPane},
-        };
-
-        JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        contentPane.setPreferredSize(new Dimension(PANE_WIDTH, (int)contentPane.getPreferredSize().getHeight()));
-
-        this.add(contentPane);
+        this.setLayout(new BorderLayout());
+        this.add(fillColorPane, BorderLayout.NORTH);
+        this.add(transparentPane, BorderLayout.CENTER);
     }
 
     protected String title4PopupWindow(){
