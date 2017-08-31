@@ -25,8 +25,6 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	private int SERVERNUM = 0;
 
 	private boolean isWithSerious;
-	private int i;
-	private Timer timer;
 
 	public LogHandlerBar() {
 		this(null);
@@ -87,32 +85,7 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	}
 
 	public synchronized void timerPaint() {
-		isWithSerious = true;
-		timer = new Timer(500, null);
-		ActionListener taskAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (i < 5) {
-					isWithSerious = i % 2 == 0 ? true : false;
-					repaint();
-				} else if (i == 5) {
-					if (timer == null)
-						return;
-					timer.stop();
-					timer = null;
-					i = 0;
-					isWithSerious = true;
-					return;
-				}
-				i++;
-			}
-		};
-		if (timer != null) {
-			timer.addActionListener(taskAction);
-		}
-		// taskAction里还有可能置空timer.
-		if (timer != null) {
-			timer.start();
-		}
+		repaint();
 	}
 
 	public int getInfo() {
