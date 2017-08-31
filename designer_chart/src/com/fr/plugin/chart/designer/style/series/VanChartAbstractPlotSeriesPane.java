@@ -84,7 +84,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(fillStylePane, BorderLayout.NORTH);
+        if (fillStylePane != null) {
+            panel.add(fillStylePane, BorderLayout.NORTH);
+        }
         panel.add(getContentInPlotType(), BorderLayout.CENTER);
         return panel;
     }
