@@ -35,7 +35,7 @@ import java.util.HashSet;
  */
 public class BorderPane extends AbstractBasicStylePane implements GlobalNameObserver {
 
-    public static final HashSet<String> BORDERSET = new HashSet<String>() {{
+    private static final HashSet<String> BORDERSET = new HashSet<String>() {{
         add("currentLineCombo");
         add("currentLineColorPane");
         add("outerToggleButton");
