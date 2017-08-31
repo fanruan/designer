@@ -36,7 +36,8 @@ import java.util.HashSet;
  */
 public class BorderPane extends AbstractBasicStylePane implements GlobalNameObserver {
 
-    private static String[] BORDERARRAY = {"currentLineCombo", "currentLineColorPane", "outerToggleButton", "topToggleButton", "leftToggleButton", "bottomToggleButton", "rightToggleButton", "innerToggleButton", "horizontalToggleButton", "verticalToggleButton"};
+    private static final String[] BORDERARRAY = {"currentLineCombo", "currentLineColorPane", "outerToggleButton", "topToggleButton",
+            "leftToggleButton", "bottomToggleButton", "rightToggleButton", "innerToggleButton", "horizontalToggleButton", "verticalToggleButton"};
     private boolean insideMode = false;
 
     private UIToggleButton topToggleButton;
