@@ -82,7 +82,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         JPanel downPane = new JPanel(new BorderLayout());
         downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), HEAD_WDITH, HEAD_HEIGTH, seniorPane()), BorderLayout.NORTH);
         downPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Pagination"), HEAD_WDITH, HEAD_HEIGTH, pagePane()), BorderLayout.CENTER);
-        JPanel contentPane = new JPanel(new BorderLayout(0, 10));
+        JPanel contentPane = new JPanel(new BorderLayout(0, 0));
         contentPane.add(new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), HEAD_WDITH, HEAD_HEIGTH, basicPane()), BorderLayout.NORTH);
         contentPane.add(downPane, BorderLayout.CENTER);
         initAllNames();
@@ -96,13 +96,14 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         autoHeightCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         autoWidthCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         double[] columnSize = {p};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
                 new Component[]{null},
                 new Component[]{autoHeightCheckBox},
                 new Component[]{autoWidthCheckBox},
+                new Component[]{null},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
 
