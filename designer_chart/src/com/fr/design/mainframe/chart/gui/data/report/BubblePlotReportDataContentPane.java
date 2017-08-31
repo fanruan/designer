@@ -27,7 +27,8 @@ public class BubblePlotReportDataContentPane extends AbstractReportDataContentPa
 		initEveryPane();
 		filterPane = new ChartDataFilterPane(new BubblePlot(), parent);
 		JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
-		filterPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+		panel.setBorder(getSidesBorder());
+		filterPane.setBorder(getFilterPaneBorder());
 		this.add(panel, "0,6,2,4");
 	}
 	

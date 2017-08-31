@@ -57,7 +57,8 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
         this.add(cardPane, BorderLayout.CENTER);
         dataScreeningPane =  new ChartDataFilterPane(this.initplot, parent);
         JPanel panel = new UIExpandablePane(Inter.getLocText("FR-Chart-Data_Filter"), 290, 24, dataScreeningPane);
-        dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+        panel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,5));
         this.add(panel, BorderLayout.SOUTH);
     }
 

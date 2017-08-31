@@ -41,7 +41,6 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createGanntStylePane()},
                 new Component[]{createLinkLinePane()},
                 new Component[]{createMarkerPane()}
@@ -49,11 +48,6 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
-    }
-
-    //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
     private JPanel createGanntStylePane(){

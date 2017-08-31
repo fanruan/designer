@@ -44,7 +44,6 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
         double[] columnSize = {f};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createLinkPane()},
                 new Component[]{createNodePane()}
         };
@@ -53,12 +52,6 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
 
         return contentPane;
     }
-
-    //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
-    }
-
 
     private JPanel createLinkPane() {
         linkColor = new ColorSelectBox(100);
