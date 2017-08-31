@@ -80,7 +80,6 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
         editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
         }
 
         SheetUtils.calculateDefaultParent(tplEC);  // 不知道这行代码的作用，怕去掉之后会出问题，先放在这里
