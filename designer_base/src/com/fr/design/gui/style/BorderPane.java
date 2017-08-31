@@ -27,6 +27,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -35,18 +36,7 @@ import java.util.HashSet;
  */
 public class BorderPane extends AbstractBasicStylePane implements GlobalNameObserver {
 
-    private static final HashSet<String> BORDERSET = new HashSet<String>() {{
-        add("currentLineCombo");
-        add("currentLineColorPane");
-        add("outerToggleButton");
-        add("topToggleButton");
-        add("leftToggleButton");
-        add("bottomToggleButton");
-        add("rightToggleButton");
-        add("innerToggleButton");
-        add("horizontalToggleButton");
-        add("verticalToggleButton");
-    }};
+    private static String[] BORDERARRAY = {"currentLineCombo", "currentLineColorPane", "outerToggleButton", "topToggleButton", "leftToggleButton", "bottomToggleButton", "rightToggleButton", "innerToggleButton", "horizontalToggleButton", "verticalToggleButton"};
     private boolean insideMode = false;
 
     private UIToggleButton topToggleButton;
@@ -210,8 +200,8 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         }
 
         CellBorderStyle cellBorderStyle = this.update();
-
-        if (BORDERSET.contains(globalNameListener.getGlobalName())) {
+        HashSet<String> borderSet = new HashSet<String>(Arrays.asList(BORDERARRAY));
+        if (borderSet.contains(globalNameListener.getGlobalName())) {
             style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                     cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
         } else {
