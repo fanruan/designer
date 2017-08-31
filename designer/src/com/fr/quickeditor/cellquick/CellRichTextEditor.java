@@ -30,7 +30,7 @@ public class CellRichTextEditor extends CellQuickEditor {
         richTextButton = new UIButton();
         richTextButton.setOpaque(false);
         content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                        new Component[]{emptyLabel, richTextButton}},
+                        new Component[]{EMPTY_LABEL, richTextButton}},
                 new double[]{TableLayout.PREFERRED},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;

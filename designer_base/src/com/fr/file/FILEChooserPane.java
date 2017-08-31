@@ -475,7 +475,6 @@ public class FILEChooserPane extends BasicPane {
         this.type = type;
         this.suffix = suffix;
 
-
         dialog = showWindow(parent instanceof DesignerFrame ? (Window) parent : SwingUtilities.getWindowAncestor(parent), false);
         JPanel contentPane = (JPanel) dialog.getContentPane();
         contentPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());

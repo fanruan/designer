@@ -43,6 +43,15 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     /*面板配置*/
     protected UITextField columnRowTextField;
     protected TemplateCellElement cellElement;
+    /*占位label*/
+    protected static final Dimension LABEL_DIMENSION = new Dimension(60, 20);
+    protected static final UILabel EMPTY_LABEL = new UILabel();
+
+    static {
+        EMPTY_LABEL.setPreferredSize(LABEL_DIMENSION);
+    }
+
+    protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
     private UIComboBox comboBox;
     private UpdateAction[] cellInsertActions;
     private int selectedIndex;
@@ -52,12 +61,6 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     protected static UILabel emptyLabel = new UILabel();
 
     private int currentSelectedIndex;
-
-    static {
-        emptyLabel.setPreferredSize(new Dimension(60, 20));
-    }
-
-    protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
 
     public CellQuickEditor() {
 
@@ -117,10 +120,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
         double[] rowSize = {p, p};
-        UILabel cellLabel = new UILabel(Inter.getLocText("Cell"));
-        cellLabel.setPreferredSize(new Dimension(60, 20));
-        UILabel insertContentLabel = new UILabel(Inter.getLocText("HF-Insert_Content"));
-        insertContentLabel.setPreferredSize(new Dimension(60, 20));
+        UILabel cellLabel = new UILabel(Inter.getLocText("FR-Designer_Cell"));
+        cellLabel.setPreferredSize(LABEL_DIMENSION);
+        UILabel insertContentLabel = new UILabel(Inter.getLocText("FR-Designer_Insert_Cell_Element"));
+        insertContentLabel.setPreferredSize(LABEL_DIMENSION);
         UIComboBox cellElementEditComboBox = initCellElementEditComboBox();
         Component[][] components = new Component[][]{
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
