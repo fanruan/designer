@@ -203,4 +203,9 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         formulaTextField.getDocument().addDocumentListener(documentListener);
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
 }

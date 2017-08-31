@@ -49,4 +49,9 @@ public class CellRichTextEditor extends CellQuickEditor {
         richTextButton.setAction(subReportCellAction);
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
 }

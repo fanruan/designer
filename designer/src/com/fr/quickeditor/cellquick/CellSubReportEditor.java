@@ -50,4 +50,8 @@ public class CellSubReportEditor extends CellQuickEditor {
         return ActionFactory.createAction(SubReportCellAction.class);
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
 }

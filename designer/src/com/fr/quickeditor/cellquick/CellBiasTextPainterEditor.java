@@ -68,4 +68,9 @@ public class CellBiasTextPainterEditor extends CellQuickEditor {
     protected void refreshDetails() {
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
 }

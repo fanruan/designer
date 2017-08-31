@@ -98,6 +98,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
         return centerPane;
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return false;
+    }
+
     /**
      * 内容全部重新动态生成，不然容易出错
      * 刷新详细信息面板
@@ -158,9 +163,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList = new ArrayList<>();
         /*基本设置面板*/
         DSColumnBasicEditorPane cellDSColumnBasicPane = new DSColumnBasicEditorPane();
+
         paneList.add(cellDSColumnBasicPane);
         /*高级设置面板*/
         cellDSColumnAdvancedPane = new DSColumnAdvancedEditorPane();
+
         paneList.add(cellDSColumnAdvancedPane);
     }
 
@@ -209,7 +216,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         };
 
         DSColumnBasicEditorPane() {
-            this.setLayout(new BorderLayout());
             dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
             groupPane = new ResultSetGroupDockingPane(tc);
             dataPane.addListener(dataListener);
@@ -231,8 +237,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     new Component[]{uiLabel, uiButton}
             };
             conditionPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
-            this.add(this.createContentPane(), BorderLayout.CENTER);
+            this.createScrollPane();
             this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
         }
 
 
@@ -265,7 +272,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return content JPanel
          */
-        private JPanel createContentPane() {
+        protected JPanel createContentPane() {
 
             double[] columnSize = {F};
             double[] rowSize = {P, P, P};
@@ -303,9 +310,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
 
         public DSColumnAdvancedEditorPane() {
-            this.setLayout(new BorderLayout());
-            this.add(this.createContentPane(), BorderLayout.CENTER);
             this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+            this.createScrollPane();
         }
 
 
@@ -415,7 +421,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return 内容面板
          */
-        private JPanel createContentPane() {
+        protected JPanel createContentPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             //结果集排序
             sortPane = new ResultSetSortConfigPane();

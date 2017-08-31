@@ -73,6 +73,11 @@ public class CellImageQuickEditor extends CellQuickEditor {
     }
 
     @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
+    @Override
     public Object getComboBoxSelected() {
         return ActionFactory.createAction(ImageCellAction.class);
     }
