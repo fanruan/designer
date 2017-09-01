@@ -99,7 +99,7 @@ public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayo
     }
 
     public WAbsoluteLayout updateSubPane() {
-        return new WAbsoluteLayout();
+        return (WAbsoluteLayout)creator.toData();
     }
 
     public void populateSubPane(WAbsoluteLayout ob) {

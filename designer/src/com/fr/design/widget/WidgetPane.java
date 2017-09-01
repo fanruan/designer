@@ -12,7 +12,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.CellWidgetPropertyPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.widget.btn.ButtonConstants;
 import com.fr.form.ui.Button;
@@ -94,7 +93,6 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         @Override
         public void attributeChange() {
             CellWidgetPropertyPane.getInstance().update();
-            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
         }
     };
 

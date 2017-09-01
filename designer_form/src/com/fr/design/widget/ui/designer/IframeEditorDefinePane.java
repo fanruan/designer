@@ -73,7 +73,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
 
 	@Override
 	public IframeEditor updateBean() {
-		IframeEditor ob = new IframeEditor();
+		IframeEditor ob = (IframeEditor)creator.toData();
 		ob.setSrc(srcTextField.getText());
 		List<ParameterProvider> parameterList = parameterViewPane.update();
 		ob.setParameters(parameterList.toArray(new ParameterProvider[parameterList.size()]));
