@@ -243,6 +243,8 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
 
             preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
             preDataNumPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+            //默认不显示
+            preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
             notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowCate"));
             panel2.add(notShowNull, BorderLayout.NORTH);
@@ -416,6 +418,8 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
 
             preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
             preDataNumPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+            //默认不显示
+            preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
             notShowNull = new UICheckBox(Inter.getLocText("FR-Chart-Data_NotShowSeries"));
             panel2.add(notShowNull, BorderLayout.NORTH);
