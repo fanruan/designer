@@ -94,7 +94,7 @@ public class JSliderPane extends JPanel {
         initShowValButton();
         initUIRadioButton();
         initPane();
-        JPanel panel = new JPanel(new FlowLayout(1, 5, 0));
+        JPanel panel = new JPanel(new FlowLayout(1, 0, 0));
         panel.add(downButton);
         panel.add(slider);
         panel.add(upButton);
@@ -399,14 +399,14 @@ public class JSliderPane extends JPanel {
             dialog = new PopupPane(upButton, dialogContentPanel);
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         } else {
             if (upButtonX == 0) {
                 upButtonX = btnCoords.x;
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             } else {
-                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH + SLIDER_GAP * 2, -DIALOG_HEIGHT);
+                GUICoreUtils.showPopupMenu(dialog, upButton, -DIALOG_WIDTH + upButton.getWidth() + SHOWVALBUTTON_WIDTH, -DIALOG_HEIGHT);
             }
         }
     }
