@@ -278,7 +278,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     @Override
     protected NumberEditor updateSubFieldEditorBean() {
 
-        NumberEditor ob = new NumberEditor();
+        NumberEditor ob = (NumberEditor)creator.toData();
         formWidgetValuePane.update(ob);
         ob.setAllowDecimals(allowDecimalsCheckBox.isSelected());
         if (allowDecimalsCheckBox.isSelected()) {

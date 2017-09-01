@@ -129,6 +129,7 @@ public class CellWidgetPropertyPane extends BasicPane {
                 }
             }
         });
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
     }
 
 

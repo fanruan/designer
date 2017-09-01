@@ -85,7 +85,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 
 	@Override
 	protected MultiFileEditor updateSubFieldEditorBean() {
-		MultiFileEditor ob = new MultiFileEditor();
+		MultiFileEditor ob = (MultiFileEditor)creator.toData();
 		ob.setAccept((String) acceptType.getSelectedItem());
 		ob.setSingleFile(singleFileCheckBox.isSelected());
 		ob.setMaxSize(fileSizeField.getValue());

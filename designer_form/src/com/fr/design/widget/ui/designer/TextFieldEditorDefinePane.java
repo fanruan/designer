@@ -108,7 +108,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
 
     @Override
     protected TextEditor updateSubFieldEditorBean() {
-        TextEditor ob = newTextEditorInstance();
+        TextEditor ob = (TextEditor)creator.toData();
         ob.setRegex(this.regPane.update());
         ob.setWaterMark(waterMarkDictPane.getText());
         formWidgetValuePane.update(ob);
