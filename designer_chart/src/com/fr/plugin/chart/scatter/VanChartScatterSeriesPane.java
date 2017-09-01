@@ -48,7 +48,6 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
         panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 

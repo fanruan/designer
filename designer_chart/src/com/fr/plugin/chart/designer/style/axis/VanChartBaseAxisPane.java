@@ -252,8 +252,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         axisLimitSize = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Limit"),Inter.getLocText("Plugin-ChartF_NotLimit")});
 
         JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AreaSize"),axisLimitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion);
-        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_MaxProportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
         panel.add(maxProportionPane, BorderLayout.CENTER);

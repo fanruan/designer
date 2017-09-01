@@ -3,7 +3,9 @@ package com.fr.plugin.chart.range.component;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -28,6 +30,15 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
         });
     }
 
+    protected JPanel getUpControlPane (Component[][] components) {
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+        double[] columnSize = {d, e};
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, getRowSIze (), columnSize);
+        panel.setPreferredSize(new Dimension(230, (int)panel.getPreferredSize().getHeight()));
+        return panel;
+    }
+
     private void setRegionVisible(boolean visible){
         getRegionNumPane().setVisible(visible);
         numLabel.setVisible(visible);
@@ -40,7 +51,7 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
         setRegionVisible(false);
 
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(""),getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(Inter.getLocText("Plugin-ChartF_RangeNum")),getDesignTypeButtonGroup()},
                 new Component[]{numLabel, getRegionNumPane()},
         };
     }

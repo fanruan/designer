@@ -18,6 +18,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
+import com.fr.quickeditor.cellquick.CellElementBarLayout;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.stable.ColumnRow;
 
@@ -33,34 +34,145 @@ import java.util.ArrayList;
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
-    /*滚动条相关配置*/
-    private static final int MAXVALUE = 100;
-    private static final int TITLE_HEIGHT = 50;
-    private static final int MOUSE_WHEEL_SPEED = 5;
-    private static final int CONTENT_PANE_WIDTH_GAP = 4;
-    private static final int SCROLLBAR_WIDTH = 8;
-    private int maxHeight = 280;
+
     /*面板配置*/
     protected UITextField columnRowTextField;
     protected TemplateCellElement cellElement;
+    /*占位label*/
+    protected static final Dimension LABEL_DIMENSION = new Dimension(60, 20);
+    protected static final UILabel EMPTY_LABEL = new UILabel();
+    protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
+
+    static {
+        EMPTY_LABEL.setPreferredSize(LABEL_DIMENSION);
+    }
+
+    /*滚动条相关配置*/
+    private static final int MAXVALUE = 100;
+    private static final int CONTENT_PANE_WIDTH_GAP = 3;
+    private static final int MOUSE_WHEEL_SPEED = 5;
+    private static final int SCROLLBAR_WIDTH = 7;
+    private int maxHeight = 280;
+    private static final int TITLE_HEIGHT = 50;
+
     private UIComboBox comboBox;
     private UpdateAction[] cellInsertActions;
     private int selectedIndex;
+    private int currentSelectedIndex;
     private JPanel leftContentPane;
     private UIScrollBar scrollBar;
-    /*占位label*/
-    protected static UILabel emptyLabel = new UILabel();
-
-    private int currentSelectedIndex;
-
-    static {
-        emptyLabel.setPreferredSize(new Dimension(60, 20));
-    }
-
-    protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
 
     public CellQuickEditor() {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        JComponent centerBody = createCenterBody();
+        JPanel topContent = initTopContent();
+        if (isScrollAll()) {
+            prepareScrollBar();
+            topContent.setBorder(BorderFactory.createMatteBorder(10, 10, 0, 0, this.getBackground()));
+            centerBody.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 0, this.getBackground()));
+            Component[][] components = new Component[][]{
+                    new Component[]{topContent, null},
+                    new Component[]{centerBody, null}
+            };
+            leftContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
+            this.setLayout(new CellElementBarLayout(leftContentPane) {
+                @Override
+                public void layoutContainer(Container parent) {
+                    maxHeight = CellElementPropertyPane.getInstance().getHeight() - TITLE_HEIGHT;
+                    int beginY;
+                    if ((MAXVALUE - scrollBar.getVisibleAmount()) == 0) {
+                        beginY = 0;
+                    } else {
+                        int preferredHeight = leftContentPane.getPreferredSize().height;
+                        int value = scrollBar.getValue();
+                        beginY = value * (preferredHeight - maxHeight) / (MAXVALUE - scrollBar.getVisibleAmount());
+                    }
+                    int width = parent.getWidth();
+                    int height = parent.getHeight();
+                    if (leftContentPane.getPreferredSize().height > maxHeight) {
+                        leftContentPane.setBounds(0, -beginY, width - SCROLLBAR_WIDTH - CONTENT_PANE_WIDTH_GAP, height + beginY);
+                        scrollBar.setBounds(width - SCROLLBAR_WIDTH - CONTENT_PANE_WIDTH_GAP, 0, SCROLLBAR_WIDTH + CONTENT_PANE_WIDTH_GAP, height);
+                    } else {
+                        leftContentPane.setBounds(0, 0, width - SCROLLBAR_WIDTH - CONTENT_PANE_WIDTH_GAP, height);
+                    }
+                    leftContentPane.validate();
+                }
+            });
+            this.add(scrollBar);
+            this.add(leftContentPane);
+        } else {
+            topContent.setBorder(BorderFactory.createMatteBorder(10, 10, 0, 10, this.getBackground()));
+            centerBody.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, this.getBackground()));
+            Component[][] components = new Component[][]{
+                    new Component[]{topContent, null},
+                    new Component[]{centerBody, null}
+            };
+            this.setLayout(new BorderLayout());
+            this.add(TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP), BorderLayout.CENTER);
+        }
+    }
 
+    /**
+     * 初始化详细信息面板
+     *
+     * @return JComponent 待显示的详细信息面板
+     */
+    public abstract JComponent createCenterBody();
+
+    /**
+     * 是否全局具有滚动条
+     *
+     * @return boolean 是否全局具有滚动条
+     */
+    public abstract boolean isScrollAll();
+
+
+    /**
+     * 初始化下拉框中的类型
+     *
+     * @return JComponent 待显示的详细信息面板
+     */
+    public abstract Object getComboBoxSelected();
+
+    /**
+     * 刷新
+     */
+    @Override
+    protected void refresh() {
+        CellSelection cs = (CellSelection) tc.getSelection();
+        ColumnRow columnRow = ColumnRow.valueOf(cs.getColumn(), cs.getRow());
+        columnRowTextField.setText(columnRow.toString());
+        cellElement = tc.getEditingElementCase().getTemplateCellElement(cs.getColumn(), cs.getRow());
+        refreshDetails();
+    }
+
+    /**
+     * 刷新详细信息
+     */
+    protected abstract void refreshDetails();
+
+
+    private JPanel initTopContent() {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] columnSize = {p, f};
+        double[] rowSize = {p, p};
+        UILabel cellLabel = new UILabel(Inter.getLocText("FR-Designer_Cell"));
+        cellLabel.setPreferredSize(LABEL_DIMENSION);
+        UILabel insertContentLabel = new UILabel(Inter.getLocText("FR-Designer_Insert_Cell_Element"));
+        insertContentLabel.setPreferredSize(LABEL_DIMENSION);
+        UIComboBox cellElementEditComboBox = initCellElementEditComboBox();
+        Component[][] components = new Component[][]{
+                new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
+                new Component[]{insertContentLabel, cellElementEditComboBox},
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
+    }
+
+    private void prepareScrollBar() {
         scrollBar = new UIScrollBar(UIScrollBar.VERTICAL) {
             @Override
             public int getVisibleAmount() {
@@ -74,7 +186,6 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             public int getMaximum() {
                 return MAXVALUE;
             }
-
         };
 
         scrollBar.addAdjustmentListener(new AdjustmentListener() {
@@ -95,42 +206,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             }
         });
 
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
-        JComponent centerBody = createCenterBody();
-        centerBody.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 0, this.getBackground()));
-        Component[][] components = new Component[][]{
-                new Component[]{initTopContent(), null},
-                new Component[]{centerBody, null}
-        };
-        leftContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
-        this.setLayout(new BarLayout());
-        this.add(scrollBar);
-        this.add(leftContentPane);
+        scrollBar.setPreferredSize(new Dimension(SCROLLBAR_WIDTH + CONTENT_PANE_WIDTH_GAP, this.getHeight()));
+        scrollBar.setBlockIncrement(SCROLLBAR_WIDTH + CONTENT_PANE_WIDTH_GAP);
+        scrollBar.setBorder(BorderFactory.createMatteBorder(0, CONTENT_PANE_WIDTH_GAP, 0, 0, this.getBackground()));
     }
-
-
-    private JPanel initTopContent() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
-        UILabel cellLabel = new UILabel(Inter.getLocText("Cell"));
-        cellLabel.setPreferredSize(new Dimension(60, 20));
-        UILabel insertContentLabel = new UILabel(Inter.getLocText("HF-Insert_Content"));
-        insertContentLabel.setPreferredSize(new Dimension(60, 20));
-        UIComboBox cellElementEditComboBox = initCellElementEditComboBox();
-        Component[][] components = new Component[][]{
-                new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
-                new Component[]{insertContentLabel, cellElementEditComboBox},
-        };
-        JPanel topContent = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
-        topContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
-        return topContent;
-    }
-
 
     /**
      * 初始化添加按钮
@@ -205,89 +284,5 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             }
         });
         return columnRowTextField;
-    }
-
-
-    /**
-     * 初始化详细信息面板
-     *
-     * @return JComponent 待显示的详细信息面板
-     */
-    public abstract JComponent createCenterBody();
-
-
-    /**
-     * 初始化下拉框中的类型
-     *
-     * @return JComponent 待显示的详细信息面板
-     */
-    public abstract Object getComboBoxSelected();
-
-    /**
-     * 刷新
-     */
-    @Override
-    protected void refresh() {
-        CellSelection cs = (CellSelection) tc.getSelection();
-        ColumnRow columnRow = ColumnRow.valueOf(cs.getColumn(), cs.getRow());
-        columnRowTextField.setText(columnRow.toString());
-        cellElement = tc.getEditingElementCase().getTemplateCellElement(cs.getColumn(), cs.getRow());
-        refreshDetails();
-    }
-
-    /**
-     * 刷新详细信息
-     */
-    protected abstract void refreshDetails();
-
-    /**
-     * 属性面板的滚动条和内容区域的布局管理类
-     * yaoh.wu 由于这边不能继承{@link com.fr.design.mainframe.AbstractAttrPane.BarLayout}，所以冗余了一份滚动条代码进来
-     *
-     * @see com.fr.design.mainframe.AbstractAttrPane.BarLayout
-     */
-    protected class BarLayout implements LayoutManager {
-
-        @Override
-        public void addLayoutComponent(String name, Component comp) {
-
-        }
-
-        @Override
-        public void removeLayoutComponent(Component comp) {
-
-        }
-
-        @Override
-        public Dimension preferredLayoutSize(Container parent) {
-            return leftContentPane.getPreferredSize();
-        }
-
-        @Override
-        public Dimension minimumLayoutSize(Container parent) {
-            return leftContentPane.getMinimumSize();
-        }
-
-        @Override
-        public void layoutContainer(Container parent) {
-            maxHeight = CellElementPropertyPane.getInstance().getHeight() - TITLE_HEIGHT;
-            int beginY;
-            if ((MAXVALUE - scrollBar.getVisibleAmount()) == 0) {
-                beginY = 0;
-            } else {
-                int preferredHeight = leftContentPane.getPreferredSize().height;
-                int value = scrollBar.getValue();
-                beginY = value * (preferredHeight - maxHeight) / (MAXVALUE - scrollBar.getVisibleAmount());
-            }
-            int width = parent.getWidth();
-            int height = parent.getHeight();
-            if (leftContentPane.getPreferredSize().height > maxHeight) {
-                leftContentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - CONTENT_PANE_WIDTH_GAP, height + beginY);
-                scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
-            } else {
-                leftContentPane.setBounds(0, 0, width - SCROLLBAR_WIDTH - CONTENT_PANE_WIDTH_GAP, height);
-            }
-            leftContentPane.validate();
-        }
     }
 }

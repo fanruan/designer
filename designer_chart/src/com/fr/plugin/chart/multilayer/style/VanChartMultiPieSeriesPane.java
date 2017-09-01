@@ -34,7 +34,6 @@ public class VanChartMultiPieSeriesPane extends VanChartPieSeriesPane {
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createSeriesStylePane(rowSize, new double[]{p,f})},
                 new Component[]{createBorderPane()},
         };
@@ -65,11 +64,6 @@ public class VanChartMultiPieSeriesPane extends VanChartPieSeriesPane {
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
-    }
-
-    //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        panel.add(getFillStylePane(), BorderLayout.NORTH);
     }
 
     protected void populatePieAttr() {

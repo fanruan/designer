@@ -97,7 +97,6 @@ public class CellWidgetPropertyPane extends BasicPane {
         TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);

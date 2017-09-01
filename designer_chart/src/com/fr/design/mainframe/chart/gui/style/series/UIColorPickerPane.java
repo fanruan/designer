@@ -94,14 +94,9 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			}
 		};
 
-		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-		double[] columnSize = {p, f};
-
 		Component[][] components = createComponents();
 
-		upControlPane = TableLayoutHelper.createTableLayoutPane(components, getRowSIze (), columnSize);
-
+		upControlPane = getUpControlPane (components);
 		this.textFieldList = this.getTextFieldList();
 		this.textGroup = new TextFieldGroupPane();
 		this.colorGroup = new ColorGroupPane();
@@ -112,6 +107,14 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 
 		refreshGroupPane(colors, getValueArray(number));
 	}
+
+	protected JPanel getUpControlPane (Component[][] components) {
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] columnSize = {p, f};
+		return TableLayoutHelper.createTableLayoutPane(components, getRowSIze (), columnSize);
+	}
+
 
 	protected double[] getRowSIze () {
 		double p = TableLayout.PREFERRED;

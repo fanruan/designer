@@ -554,10 +554,12 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         for (int i = scrollIndex; i <= lastOneIndex; i++) {
             int textWidth = widthArray[i];
             if (evtX >= textX && evtX < textX + textWidth) {
-                if (getSelectedIndex() != i) {
+                boolean needRefreshPropertiesPane = getSelectedIndex() != i;
+                setSelectedIndex(i);
+                if (needRefreshPropertiesPane) {
                     HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
                 }
-                setSelectedIndex(i);
+
                 isBlank = false;
                 reportComposite.setComposite();
                 if (isAuthorityEditing) {

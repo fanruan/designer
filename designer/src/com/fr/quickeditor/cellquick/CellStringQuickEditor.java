@@ -90,6 +90,11 @@ public class CellStringQuickEditor extends CellQuickEditor {
         return content;
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return true;
+    }
+
 
     private void changeReportPaneCell(String tmpText) {
         isEditing = true;
