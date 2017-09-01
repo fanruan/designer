@@ -43,7 +43,7 @@ public class CellImageQuickEditor extends CellQuickEditor {
         });
         editButton.setOpaque(false);
         content.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                        new Component[]{emptyLabel, editButton}},
+                        new Component[]{EMPTY_LABEL, editButton}},
                 new double[]{TableLayout.PREFERRED},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL}, HGAP, VGAP), BorderLayout.CENTER);
         return content;
@@ -70,6 +70,11 @@ public class CellImageQuickEditor extends CellQuickEditor {
     @Override
     protected void refreshDetails() {
 
+    }
+
+    @Override
+    public boolean isScrollAll() {
+        return true;
     }
 
     @Override
