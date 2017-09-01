@@ -65,7 +65,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         this.addAttributeChangeListener(listener);
     }
 
-    public JPanel initNorthPane(){
+    public JPanel initNorthPane() {
         UILabel emptyLabel = new UILabel();
         emptyLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
@@ -80,7 +80,7 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         return jPanel;
     }
 
-    protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane){
+    protected CellWidgetCardPane initWidgetCardPane(ElementCasePane pane) {
         return new CellWidgetCardPane(pane);
     }
 
@@ -129,30 +129,29 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             editorTypeComboBox.setSelectedIndex(-1);
             return;
         }
-
+        // 预定义组件
         if (widget instanceof NameWidget) {
             String name = ((NameWidget) widget).getName();
             shouldFireSelectedEvent = false;
             editorTypeComboBox.setSelectedItem(new Item(name, name));
             shouldFireSelectedEvent = true;
             cellEditorCardPane.populate(widget);
-            return;
         }
+        // 内置组件
+        else {
+            Class clazz = widget.getClass();
+            if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
+                clazz = Button.class;
+            }
+            cellEditorCardPane.populate(widget);
 
-        Class clazz = widget.getClass();
-        if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
-            clazz = Button.class;
+            shouldFireSelectedEvent = false;
+            editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
+            shouldFireSelectedEvent = true;
         }
-        cellEditorCardPane.populate(widget);
-
-        shouldFireSelectedEvent = false;
-        editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
-        shouldFireSelectedEvent = true;
-
         removeAttributeChangeListener();
         initAllListeners();
         this.addAttributeChangeListener(listener);
-
     }
 
     public Widget update() {
