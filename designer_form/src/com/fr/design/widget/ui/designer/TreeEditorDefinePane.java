@@ -69,7 +69,7 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
     @Override
     protected void populateSubCustomWritableRepeatEditorBean(TreeEditor e) {
-        accessibleTreeModelEditor.setValue(e.getDictionary());
+        accessibleTreeModelEditor.setValue(e.getNodeOrDict());
         formWidgetValuePane.populate(e);
         treeRootPane.populate(e.getTreeAttr());
         mutiSelect.setSelected(e.isMultipleSelection());
@@ -88,7 +88,7 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
         editor.setAjax(loadAsync.isSelected());
         editor.setSelectLeafOnly(returnLeaf.isSelected());
         editor.setReturnFullPath(returnPath.isSelected());
-        editor.setDictionary((Dictionary) accessibleTreeModelEditor.getValue());
+        editor.setNodeOrDict(accessibleTreeModelEditor.getValue());
         return editor;
     }
 

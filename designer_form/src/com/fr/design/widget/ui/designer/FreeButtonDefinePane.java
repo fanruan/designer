@@ -45,10 +45,8 @@ public class FreeButtonDefinePane extends ButtonDefinePane<FreeButton> {
     public FreeButton updateSubButtonPane() {
         FreeButton freeButton = (FreeButton) creator.toData();
         backgroundCompPane.update(freeButton);
-        FRFont frFont = freeButton.getFont();
-        if(frFont != null){
-            frFontPane.update(frFont);
-        }
+        FRFont frFont = freeButton.getFont() == null ? FRFont.getInstance() : freeButton.getFont();
+        freeButton.setFont(frFontPane.update(frFont));
         return freeButton;
     }
 }
