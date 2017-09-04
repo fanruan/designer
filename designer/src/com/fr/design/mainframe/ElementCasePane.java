@@ -1325,7 +1325,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 返回正在编辑的状态.
      */
     public EditingState createEditingState() {
-        return new ElementCaseEditingState(this.selection, this.verScrollBar.getValue(), this.horScrollBar.getValue());
+        return new ElementCaseEditingState(this.selection, this.verScrollBar.getValue(), this.horScrollBar.getValue(), this.getResolution());
     }
 
     public void setCellNeedTOFormat(CellSelection selection) {
@@ -1341,10 +1341,12 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         protected Selection selection;
         protected int verticalValue = 0;
         protected int horizontalValue = 0;
+        protected int resolution = ScreenResolution.getScreenResolution();
 
-        protected ElementCaseEditingState(Selection selection, int verticalValue, int horizontalValue) {
+        protected ElementCaseEditingState(Selection selection, int verticalValue, int horizontalValue, int resolution) {
             try {
                 this.selection = selection.clone();
+                this.resolution = resolution;
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }

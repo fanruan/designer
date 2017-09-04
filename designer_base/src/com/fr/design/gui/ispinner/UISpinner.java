@@ -62,6 +62,9 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
 					if (uiObserverListener == null) {
 						return;
 					}
+					if (globalNameListener != null && shouldResponseNameListener()){
+                        globalNameListener.setGlobalName(spinnerName);
+                    }
 					uiObserverListener.doChange();
 				}
 			});

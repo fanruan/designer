@@ -1,8 +1,6 @@
 package com.fr.design.gui.ibutton;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -123,6 +121,11 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 				((ChangeListener) listeners[i + 1]).stateChanged(new ChangeEvent(this));
 			}
 		}
+	}
+
+	@Override
+	public Insets getInsets() {
+		return new Insets(0, 0, 0, 0);
 	}
 
 	@Override

@@ -119,7 +119,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 //    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
 //    	slidePane.setPreferredSize(new Dimension(260,20));
         slidePane = JFormSliderPane.getInstance();
-        slidePane.setPreferredSize(new Dimension(350, 20));
+        slidePane.setPreferredSize(new Dimension(200, 0));
 
 
         JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
@@ -130,8 +130,8 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小
         slidePane.setEnabled(false);
-        slidePane.setVisible(true);
-        initTransparent();
+        slidePane.setVisible(false);
+//        initTransparent();
         initCalculateSize();
     }
 
@@ -162,11 +162,15 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             jf.resolution = (int) value;
             jf.getFormDesign().setResolution((int) value);
             jf.getFormDesign().getArea().resolution = (int) value;
-            reCalculateRoot(value, true);
-            JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            if (form != null) {
-                form.fireTargetModified();
-            }
+            double times = (double) resolution / 100;
+//            widthPane.setValue((int)(widthPane.getValue() * times));
+            changeWidthPaneValue((int)(widthPane.getValue() * times));
+            changeHeightPaneValue((int)(heightPane.getValue() * times));
+//            reCalculateRoot(value, true);
+//            JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+//            if (form != null) {
+//                form.fireTargetModified();
+//            }
         }
     };
 
