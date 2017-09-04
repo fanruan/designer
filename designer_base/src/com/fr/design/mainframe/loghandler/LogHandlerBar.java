@@ -1,23 +1,15 @@
 package com.fr.design.mainframe.loghandler;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.ItemSelectable;
-import java.awt.LayoutManager;
+import com.fr.base.BaseUtils;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.general.Inter;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.general.Inter;
 
 public class LogHandlerBar extends JPanel implements ItemSelectable {
 
@@ -33,8 +25,6 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	private int SERVERNUM = 0;
 
 	private boolean isWithSerious;
-	private int i;
-	private Timer timer;
 
 	public LogHandlerBar() {
 		this(null);
@@ -95,29 +85,7 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	}
 
 	public synchronized void timerPaint() {
-		isWithSerious = true;
-		timer = new Timer(500, null);
-		ActionListener taskAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (i < 5) {
-					isWithSerious = i % 2 == 0 ? true : false;
-					repaint();
-				} else if (i == 5) {
-					if (timer == null)
-						return;
-					timer.stop();
-					timer = null;
-					i = 0;
-					isWithSerious = true;
-					return;
-				}
-				i++;
-			}
-		};
-		if (timer != null) {
-			timer.addActionListener(taskAction);
-			timer.start();
-		}
+		repaint();
 	}
 
 	public int getInfo() {

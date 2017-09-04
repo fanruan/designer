@@ -24,6 +24,7 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.*;
 import com.fr.plugin.PluginCollector;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.*;
 
 import javax.swing.*;
@@ -83,6 +84,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignUtils.initLookAndFeel();
 
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
+        //初始化插件引擎
+        PluginManager.init();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();

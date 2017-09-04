@@ -18,7 +18,7 @@ public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartA
 
     @Override
     public void populate(ChartCollection collection) {
-        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),acceptType())) {
+        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(), acceptType())) {
             populate(collection, (T)collection.getSelectedChart());
         }
     }
@@ -27,7 +27,7 @@ public abstract class ChartsConfigPane <T extends Charts> extends AbstractChartA
 
     @Override
     public void update(ChartCollection collection) {
-        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(),acceptType())) {
+        if (StableUtils.classInstanceOf(collection.getSelectedChart().getClass(), acceptType())) {
             update(collection, (T)collection.getSelectedChart());
         }
     }
