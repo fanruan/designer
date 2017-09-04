@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui;
 
+import com.fr.design.gui.frpane.RegFieldPane;
 import com.fr.design.gui.frpane.RegPane;
 import com.fr.form.ui.Password;
 import com.fr.form.ui.TextEditor;
@@ -12,7 +13,7 @@ public class PasswordDefinePane extends TextFieldEditorDefinePane {
 		return new Password();
 	}
 
-	protected RegPane createRegPane() {
-		return new RegPane(RegPane.PASSWORD_REG_TYPE);
+	protected RegFieldPane createRegPane() {
+		return new RegFieldPane(RegPane.PASSWORD_REG_TYPE);
 	}
 }

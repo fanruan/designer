@@ -185,7 +185,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
     @Override
     protected DateEditor updateSubDirectWriteEditorBean() {
-        DateEditor ob = new DateEditor();
+        DateEditor ob = (DateEditor)creator.toData();
         waterMarkDictPane.update(ob);
         ob.setFormatText(this.getSimpleDateFormat().toPattern());
         ob.setReturnDate(returnTypeComboBox.getSelectedIndex() == 0);

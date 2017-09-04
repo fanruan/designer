@@ -16,8 +16,6 @@ import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,7 +53,6 @@ public class RegPane extends BasicPane {
     private RegPhonePane regPhonePane;
     private DefaultRegPane defaultRegPane;
     private CustomRegRexPane customRegRexPane;
-    protected RegErrorMsgPane regErrorMsgPane;
 
 
     public UIComboBox getRegComboBox(){
@@ -78,9 +75,10 @@ public class RegPane extends BasicPane {
         regComboBox.setRenderer(listCellRender);
 
         JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-        this.add(contentPane, BorderLayout.NORTH);
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+        jPanel.add(contentPane, BorderLayout.NORTH);
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        regErrorMsgPane = new RegErrorMsgPane();
         final JPanel cardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         detailedCardLayout = new CardLayout();
         cardPane.setLayout(detailedCardLayout);
@@ -89,8 +87,8 @@ public class RegPane extends BasicPane {
         cardPane.add((regPhonePane = new RegPhonePane()), "Phone");
         cardPane.add((customRegRexPane = new CustomRegRexPane()), "Custom");
         centerPane.add(cardPane, BorderLayout.NORTH);
-        centerPane.add(regErrorMsgPane, BorderLayout.CENTER);
-        this.add(centerPane, BorderLayout.CENTER);
+        jPanel.add(centerPane, BorderLayout.CENTER);
+        this.add(jPanel, BorderLayout.NORTH);
         regComboBox.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 RegExp regExp = (RegExp)regComboBox.getSelectedItem();
@@ -113,11 +111,6 @@ public class RegPane extends BasicPane {
                     }
                     fireRegChangeAction();
                 }
-                if(regExp instanceof NoneReg){
-                    regErrorMsgPane.setVisible(false);
-                    return;
-                }
-                regErrorMsgPane.setVisible(true);
             }
         });
     }
@@ -150,12 +143,10 @@ public class RegPane extends BasicPane {
         } else {
             defaultRegPane.populate(regex);
         }
-        regErrorMsgPane.populate(regex);
     }
 
     public RegExp update(){
         RegExp regExp = (RegExp)regComboBox.getSelectedItem();
-        regErrorMsgPane.update();
         if (regExp instanceof LengthReg){
             return regLengthPane.update();
         } else if(regExp instanceof PhoneReg) {
@@ -173,6 +164,9 @@ public class RegPane extends BasicPane {
             return defaultRegPane.update();
         }
     }
+
+
+
 
     private static abstract class DisplayPane extends BasicPane {
         public abstract void populate(RegExp regRex);
@@ -481,56 +475,6 @@ public class RegPane extends BasicPane {
         }
     }
 
-    private static class RegErrorMsgPane extends DisplayPane{
-        private UITextField regErrorMsgField;
-
-        public RegErrorMsgPane(){
-            this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-            initRegErrorMsgField();
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-            this.add(panel);
-        }
-
-        private void initRegErrorMsgField(){
-            regErrorMsgField = new UITextField();
-            regErrorMsgField.getDocument().addDocumentListener(new DocumentListener() {
-                public void changedUpdate(DocumentEvent e) {
-                    regErrorMsgField.setToolTipText(regErrorMsgField.getText());
-                }
-
-                public void insertUpdate(DocumentEvent e) {
-                    regErrorMsgField.setToolTipText(regErrorMsgField.getText());
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    regErrorMsgField.setToolTipText(regErrorMsgField.getText());
-                }
-            });
-        }
-
-        @Override
-        protected String title4PopupWindow() {
-            return "CUSTOM";
-        }
-
-        @Override
-        public void populate(RegExp regRex) {
-            if (!(regRex instanceof CustomReg)){
-                return;
-            }
-            regErrorMsgField.setText(regRex.toRegText());
-        }
-
-        @Override
-        public RegExp update() {
-            return new CustomReg(regErrorMsgField.getText());
-        }
-
-        public boolean isEmpty() {
-            return StringUtils.isEmpty(regErrorMsgField.getText());
-        }
-    }
 
     ListCellRenderer listCellRender = new UIComboBoxRenderer(){
         @Override
