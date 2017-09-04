@@ -145,11 +145,13 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         barHeightContainer.add(barHeightSpinner);
         UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.RIGHT);
         uiLabel.setPreferredSize(typeSetLabel.getPreferredSize());
+        JPanel drawingTextCheckBoxPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         drawingTextCheckBox.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
+        drawingTextCheckBoxPane.add(drawingTextCheckBox);
         Component[][] components_normal = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Barcode_Size"), UILabel.LEFT), barWidthContainer, barHeightContainer},
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.CENTER), new UILabel(Inter.getLocText("FR-Designer_Height"), UILabel.CENTER)},
-                new Component[]{drawingTextCheckBox, null, null}
+                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer-Tree_Width"), UILabel.CENTER), new UILabel(Inter.getLocText("FR-Designer-Tree_Height"), UILabel.CENTER)},
+                new Component[]{drawingTextCheckBoxPane, null, null}
         };
 
 
