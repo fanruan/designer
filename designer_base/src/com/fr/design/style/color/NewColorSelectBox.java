@@ -38,7 +38,7 @@ public class NewColorSelectBox extends AbstractSelectBox<Color> implements UIObs
                     if(uiObserverListener == null){
                         return;
                     }
-                    if (globalNameListener != null && shouldResponseNameListener() && globalNameListener.getGlobalName().length() != 0){
+                    if (globalNameListener != null && shouldResponseNameListener()){
                         globalNameListener.setGlobalName(newColorSelectBoxName);
                     }
                     uiObserverListener.doChange();
