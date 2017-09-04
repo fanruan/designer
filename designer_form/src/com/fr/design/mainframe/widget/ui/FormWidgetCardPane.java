@@ -206,20 +206,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             widgetBoundPane.update();
         }
         fireValueChanged();
-
-        if (xCreator.acceptType(XWScaleLayout.class)) {
-            XCreator xCreator1 = xCreator.getEditingChildCreator();
-            xCreator1.resetData(widget);
-            xCreator.removeAll();
-            xCreator.add(xCreator1);
-        }else if(xCreator.acceptType(XWTitleLayout.class)){
-            XCreator xCreator1 = ((XWTitleLayout) xCreator).getXCreator(0);
-            xCreator1.resetData(widget);
-            xCreator.removeAll();
-            xCreator.add(xCreator1);
-        } else {
-            xCreator.resetData(widget);
-        }
     }
 
 

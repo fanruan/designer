@@ -19,6 +19,7 @@ import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -32,11 +33,14 @@ import java.util.List;
 
 public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private static final int MARGIN_TOP = 10;
+	private static final int MARGIN_LEFT = 5;
+	private static final int COLORGROUP_MARGIN_LEFT = 40;
 	private static final int OFF_HEIGHT = 6;
 	private static final int COLOR_REC_HEIGHT = 40;
 	private static final int COLOR_REC_WIDTH = 30;
 	protected static final int TEXTFIELD_HEIGHT = 20;
 	protected static final int TEXTFIELD_WIDTH = 120;
+	protected static final int UPCONTROLPANE_WIDTH = 230;
 	private static final int LAYOUR_DET = 6;
 	private static final double VALUE = 100;
 
@@ -182,17 +186,18 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		};
 
 		double p = TableLayout.PREFERRED;
-		double f = TableLayout.FILL;
-		double[] columnSize = {p, f};
+		double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+		double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+		double[] columnSize = {d, e};
 		double[] rowSize = {p};
 		Component[][] tmpComp = new Component[][]{new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Divided_stage")), regionNumPane}};
-		
-		stagePanel = TableLayoutHelper.createTableLayoutPane(tmpComp, rowSize, columnSize);
-		
+
+		stagePanel = TableLayout4VanChartHelper.createGapTableLayoutPane(tmpComp, rowSize, columnSize);
+
 		Component[][] components = new Component[][]{
 				new Component[]{new BoldFontTextLabel(Inter.getLocText("FR-Chart-Value_Tick_And_Color")), designTypeButtonGroup},
 		};
-		upControlPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+		upControlPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 
 		this.textGroup = new TextFieldGroupPane();
 		this.colorGroup = new ColorGroupPane();
@@ -204,7 +209,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 
 		this.textFieldList = this.getTextFieldList();
 		refreshGroupPane(colors, getValueArray(number));
-	
+
 	}
 
 	protected ArrayList getTextFieldList(){
@@ -249,7 +254,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	 */
 	public Dimension getPreferredSize() {
 		if (designTypeButtonGroup.getSelectedIndex() == 0) {
-			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width, upControlPane.getPreferredSize().height);
+			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width, upControlPane.getPreferredSize().height + MARGIN_TOP);
 		} else {
 			int extra = stagePanel == null ? 0 : stagePanel.getPreferredSize().height + this.MARGIN_TOP;
 			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width,
@@ -503,7 +508,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		 * 根据这些 确定每个Field的最大最小值. 并且改变背景颜色.
 		 */
 		public void checkEveryFiledMinMax() {
-			
+
 			double forValue = Double.MAX_VALUE;
 			double backValue = -Double.MAX_VALUE;
 			for(int i = 0, size = textFieldList.size(); i < size; i++) {// check 是否合格, 然后检查 是否改变颜色,
@@ -515,9 +520,9 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 						backValue = backNumber.doubleValue();
 					}
 				}
-				
+
 				Number number =  ChartBaseUtils.formula2Number(new Formula(getValue4Index(i)));
-				
+
 				if(number != null) {
 					double value = number.doubleValue();
 					if(value < forValue && value > backValue) {
@@ -571,13 +576,13 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			return null;
 		}
 
-		@Override
-		public void layoutContainer(Container parent) {
-			upControlPane.setBounds(0, 0, parent.getPreferredSize().width, upControlPane.getPreferredSize().height);
-			stagePanel.setBounds(0,upControlPane.getPreferredSize().height + LAYOUR_DET, parent.getPreferredSize().width, stagePanel.getPreferredSize().height);
-			colorGroup.setBounds(0, MARGIN_TOP + upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
-			textGroup.setBounds(colorGroup.getPreferredSize().width, upControlPane.getPreferredSize().height+ stagePanel.getPreferredSize().height + 2 * LAYOUR_DET, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
-		}
+        @Override
+        public void layoutContainer(Container parent) {
+            upControlPane.setBounds(MARGIN_LEFT, MARGIN_TOP, UPCONTROLPANE_WIDTH, upControlPane.getPreferredSize().height + MARGIN_TOP);
+            stagePanel.setBounds(MARGIN_LEFT, upControlPane.getPreferredSize().height + LAYOUR_DET + MARGIN_TOP, UPCONTROLPANE_WIDTH, stagePanel.getPreferredSize().height);
+            colorGroup.setBounds(COLORGROUP_MARGIN_LEFT, 2 * MARGIN_TOP + upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
+            textGroup.setBounds(colorGroup.getPreferredSize().width + COLORGROUP_MARGIN_LEFT, upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET + MARGIN_TOP, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
+        }
 
 		@Override
 		public void addLayoutComponent(String name, Component comp) {
@@ -601,12 +606,12 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			return null;
 		}
 
-		@Override
-		public void layoutContainer(Container parent) {
-			upControlPane.setBounds(0, 0, parent.getPreferredSize().width, upControlPane.getPreferredSize().height);
-			colorGroup.setBounds(0, MARGIN_TOP + upControlPane.getPreferredSize().height + LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
-			textGroup.setBounds(colorGroup.getPreferredSize().width, upControlPane.getPreferredSize().height + LAYOUR_DET, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
-		}
+        @Override
+        public void layoutContainer(Container parent) {
+            upControlPane.setBounds(MARGIN_LEFT, MARGIN_TOP, UPCONTROLPANE_WIDTH, upControlPane.getPreferredSize().height);
+            colorGroup.setBounds(COLORGROUP_MARGIN_LEFT, MARGIN_TOP + upControlPane.getPreferredSize().height + LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
+            textGroup.setBounds(colorGroup.getPreferredSize().width + COLORGROUP_MARGIN_LEFT, upControlPane.getPreferredSize().height + LAYOUR_DET, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
+        }
 
 		@Override
 		public void addLayoutComponent(String name, Component comp) {
@@ -633,7 +638,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	public int getDesignType(){
 		return this.designTypeButtonGroup.getSelectedIndex();
 	}
-	
+
 	public void populateBean(MapHotAreaColor hotAreaColor) {
 		Color mainColor = hotAreaColor.getMainColor();
 
@@ -650,7 +655,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		regionNumPane.populateBean(value);
 		refreshPane();
 	}
-	
+
 	private void initContainerLister(){
 		Container container = UIColorPickerPane.this;
         while (!(container instanceof ChartStylePane)) {
@@ -684,7 +689,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	// 检查 数字顺序.
 	private boolean checkInOrder() {
 		textGroup.checkEveryFiledMinMax();
-		
+
 		boolean allInOrder = true;
 
 		double maxValue = Double.MAX_VALUE;

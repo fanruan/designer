@@ -2,18 +2,14 @@ package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
 import com.fr.design.actions.utils.ReportActionUtils;
-import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.CellWriteAttrPane;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
-import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
 import com.fr.report.cell.CellElement;
@@ -34,7 +30,7 @@ public class CellWidgetPropertyPane extends BasicPane {
     private WidgetPane cellEditorDefPane;
     private ElementCasePane ePane;
 
-    public static CellWidgetPropertyPane getInstance(){
+    public static CellWidgetPropertyPane getInstance() {
         if (singleton == null) {
             singleton = new CellWidgetPropertyPane();
         }
@@ -43,11 +39,9 @@ public class CellWidgetPropertyPane extends BasicPane {
 
     public CellWidgetPropertyPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-//        this.addAttributeChangeListener(listener);
-//        cellEditorDefPane = new WidgetPane(elementCasePane);
     }
 
-    public void clear (){
+    public void clear() {
         singleton = null;
     }
 
@@ -86,7 +80,7 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
 
-    public void reInit(ElementCasePane ePane){
+    public void reInit(ElementCasePane ePane) {
         this.ePane = ePane;
         cellEditorDefPane = new WidgetPane(ePane);
         this.removeAll();
@@ -97,7 +91,6 @@ public class CellWidgetPropertyPane extends BasicPane {
         TemplateCellElement editCellElement = tplEC.getTemplateCellElement(cs.getColumn(), cs.getRow());
         if (editCellElement == null) {
             editCellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
-            tplEC.addCellElement(editCellElement);
         }
         this.cellElement = editCellElement;
         this.populate(editCellElement);
@@ -129,6 +122,7 @@ public class CellWidgetPropertyPane extends BasicPane {
                 }
             }
         });
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
     }
 
 
@@ -144,14 +138,15 @@ public class CellWidgetPropertyPane extends BasicPane {
         return newWidget;
     }
 
-    @Override
     /**
-     *检测是否有效
+     * 检测是否有效
+     *
+     * @throws Exception e
      */
+    @Override
     public void checkValid() throws Exception {
         this.cellEditorDefPane.checkValid();
     }
-
 
 
 }

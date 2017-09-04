@@ -35,7 +35,6 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
         double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double[] columnSize = {d, e};
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, getRowSIze (), columnSize);
-        panel.setPreferredSize(new Dimension(230, (int)panel.getPreferredSize().getHeight()));
         return panel;
     }
 

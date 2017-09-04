@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Formula;
 import com.fr.data.DataConstants;
 import com.fr.data.condition.*;
+import com.fr.data.core.Compare;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
@@ -21,6 +22,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.data.Condition;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -165,6 +167,9 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
             TreePath selectedTreePath = conditionsTree.getSelectionPath();
             if (selectedTreePath == null) {
+                // 清空编辑框
+                defaultConditionPane.populateBean((T)new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
+                formulaTextArea.setText(StringUtils.EMPTY);
                 return;
             }
 

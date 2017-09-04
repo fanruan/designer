@@ -41,6 +41,6 @@ public class RadioDefinePane extends AbstractDataModify<Radio> {
 	
 	@Override
 	public Radio updateBean() {
-		return new Radio();
+		return  (Radio)creator.toData();
 	}
 }

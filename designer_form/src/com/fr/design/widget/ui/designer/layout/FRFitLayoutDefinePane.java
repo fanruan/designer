@@ -116,7 +116,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
-        background.setValue(ob.getBackground());
+        background.setValue(ob.getBorderStyle());
     }
 
 

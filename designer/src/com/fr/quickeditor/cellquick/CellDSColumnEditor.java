@@ -98,6 +98,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
         return centerPane;
     }
 
+    @Override
+    public boolean isScrollAll() {
+        return false;
+    }
+
     /**
      * 内容全部重新动态生成，不然容易出错
      * 刷新详细信息面板
@@ -158,9 +163,11 @@ public class CellDSColumnEditor extends CellQuickEditor {
         paneList = new ArrayList<>();
         /*基本设置面板*/
         DSColumnBasicEditorPane cellDSColumnBasicPane = new DSColumnBasicEditorPane();
+
         paneList.add(cellDSColumnBasicPane);
         /*高级设置面板*/
         cellDSColumnAdvancedPane = new DSColumnAdvancedEditorPane();
+
         paneList.add(cellDSColumnAdvancedPane);
     }
 
@@ -209,7 +216,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         };
 
         DSColumnBasicEditorPane() {
-            this.setLayout(new BorderLayout());
             dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
             groupPane = new ResultSetGroupDockingPane(tc);
             dataPane.addListener(dataListener);
@@ -217,7 +223,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             double[] rowSize = {P}, columnSize = {P, F};
             UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Filter_Conditions"));
-            uiLabel.setPreferredSize(new Dimension(60, 20));
+            uiLabel.setPreferredSize(LABEL_DIMENSION);
             UIButton uiButton = new UIButton();
             if (tc != null) {
                 //第一次初始化时tc为空，会引发NullPointerException
@@ -231,8 +237,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     new Component[]{uiLabel, uiButton}
             };
             conditionPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
-            this.add(this.createContentPane(), BorderLayout.CENTER);
+            this.createScrollPane();
             this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
         }
 
 
@@ -265,7 +272,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return content JPanel
          */
-        private JPanel createContentPane() {
+        protected JPanel createContentPane() {
 
             double[] columnSize = {F};
             double[] rowSize = {P, P, P};
@@ -303,9 +310,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
 
         public DSColumnAdvancedEditorPane() {
-            this.setLayout(new BorderLayout());
-            this.add(this.createContentPane(), BorderLayout.CENTER);
             this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+            this.createScrollPane();
         }
 
 
@@ -415,7 +421,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return 内容面板
          */
-        private JPanel createContentPane() {
+        protected JPanel createContentPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             //结果集排序
             sortPane = new ResultSetSortConfigPane();
@@ -481,14 +487,13 @@ public class CellDSColumnEditor extends CellQuickEditor {
             multiNumSpinner = new UISpinner(1, 10000, 1, 1);
             //数据倍数
             UILabel multipleLabel = new UILabel(Inter.getLocText("Column_Multiple"));
-            multipleLabel.setPreferredSize(new Dimension(60, 20));
             multiPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                             new Component[]{
                                     multipleLabel, multiNumSpinner
                             }
                     }, new double[]{P}, new double[]{P, F}, HGAP, VGAP
             );
-            multiPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+            multiPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
             multiNumPane.add(multiPane);
             useMultiplyNumCheckBox.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -563,7 +568,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 centerPane.add(new JPanel(), "none");
                 centerPane.add(formulaField, "content");
                 UILabel sortLabel = new UILabel(Inter.getLocText("Sort-Sort_Order"));
-                sortLabel.setPreferredSize(new Dimension(60, 20));
+                sortLabel.setPreferredSize(LABEL_DIMENSION);
                 sortTypePane.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
@@ -982,7 +987,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             public CustomValuePane() {
                 this.setLayout(new BorderLayout());
                 UILabel customValueLabel = new UILabel(Inter.getLocText("FR-Designer_Display_Value"));
-                customValueLabel.setPreferredSize(new Dimension(60, 20));
+                customValueLabel.setPreferredSize(LABEL_DIMENSION);
                 formulaField = new JFormulaField(DEFAULT_VALUE);
                 this.add(TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                         new Component[]{customValueLabel, formulaField},
@@ -994,14 +999,13 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) value;
-
                         //formula
                         String valueFormula = dSColumn.getResult();
-                        if (valueFormula == null) {
-                            valueFormula = DEFAULT_VALUE;
+                        if (valueFormula != null) {
+                            formulaField.populate(valueFormula);
                         }
                         formulaField.populateElement(cellElement);
-                        formulaField.populate(valueFormula);
+
                     }
                 }
             }
