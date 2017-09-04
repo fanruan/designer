@@ -567,8 +567,11 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     }
 
     private void resetViewCenter(VanChartMapPlot mapPlot) {
-        mapPlot.getViewCenter().setAuto(true);
+        mapPlot.setViewCenter(new ViewCenter());
         viewCenterCom.setSelectedIndex(0);
+        longitude.setValue(0);
+        latitude.setValue(0);
+        longAndLatPane.setVisible(false);
     }
 
     private void resetZoomLevel(VanChartMapPlot mapPlot) {

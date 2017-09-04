@@ -7,7 +7,6 @@ import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
@@ -116,7 +115,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         Plot plot = chart.getPlot();
         if(plot instanceof VanChartMapPlot) {
             sourceChoosePane.updateBean((VanChartMapPlot) plot);
-            if(typeChanged && samePlot){
+            if(!samePlot || (typeChanged && samePlot)){
                 resetAttr(plot);
             }
         }
