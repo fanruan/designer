@@ -93,7 +93,7 @@ public class RegFieldPane extends RegPane {
 
         @Override
         protected String title4PopupWindow() {
-            return "CUSTOM";
+            return "RegErrorMsg";
         }
 
         public void populate(TextEditor textEditor) {
