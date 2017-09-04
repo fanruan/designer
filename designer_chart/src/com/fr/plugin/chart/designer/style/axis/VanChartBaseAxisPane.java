@@ -197,7 +197,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createLineStylePane(double[] row, double[] col){
-        axisLineStyle = new LineComboBox(CoreConstants.LINE_STYLE_ARRAY_4_AXIS);
+        axisLineStyle = createLineComboBox();
         axisLineColor = new ColorSelectBox(100);
         String[] strings = new String[]{Inter.getLocText("Plugin-ChartF_Open"),Inter.getLocText("Plugin-ChartF_Close")};
         AxisTickLineType[] values = new AxisTickLineType[]{AxisTickLineType.TICK_LINE_OUTSIDE, AxisTickLineType.TICK_LINE_NONE};
@@ -206,6 +206,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(getLineStylePaneComponents(), row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AxisLineStyle"), panel);
+    }
+
+    protected LineComboBox createLineComboBox() {
+        return new LineComboBox(CoreConstants.LINE_STYLE_ARRAY_4_AXIS);
     }
 
     protected Component[][] getLineStylePaneComponents() {
