@@ -55,14 +55,14 @@ public class TreeComboBoxEditorDefinePane extends CustomWritableRepeatEditorPane
 
 	@Override
 	protected void populateSubCustomWritableRepeatEditorBean(TreeEditor e) {
-		treeSettingPane.setValue(e.getDictionary());
+		treeSettingPane.setValue(e.getNodeOrDict());
 		treeRootPane.populate(e.getTreeAttr());
 	}
 
 	@Override
 	protected TreeComboBoxEditor updateSubCustomWritableRepeatEditorBean() {
 		TreeComboBoxEditor editor = new TreeComboBoxEditor();
-		editor.setDictionary((Dictionary)treeSettingPane.getValue());
+		editor.setNodeOrDict(treeSettingPane.getValue());
 		editor.setTreeAttr(treeRootPane.update());
 		return editor;
 	}

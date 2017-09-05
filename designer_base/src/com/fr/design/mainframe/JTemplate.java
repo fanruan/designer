@@ -891,6 +891,13 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     public abstract HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider);
 
     /**
+     * 返回当前支持的超链界面pane
+     * 没有悬浮弹窗，显示为两列
+     * @return 超链连接界面
+     */
+    public abstract HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider);
+
+    /**
      * 是否是图表
      *
      * @return 默认不是

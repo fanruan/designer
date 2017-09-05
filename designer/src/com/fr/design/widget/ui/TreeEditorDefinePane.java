@@ -30,7 +30,7 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 
 	@Override
 	protected void populateSubFieldEditorBean(TreeEditor e) {
-		this.accessibleTreeModelEditor.setValue(e.getDictionary());
+		this.accessibleTreeModelEditor.setValue(e.getNodeOrDict());
 		treeRootPane.populate(e.getTreeAttr());
 		if (this.removeRepeatCheckBox != null) {
 			this.removeRepeatCheckBox.setSelected(e.isRemoveRepeat());
@@ -40,7 +40,7 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 	@Override
 	protected TreeEditor updateSubFieldEditorBean() {
 		TreeEditor editor = new TreeEditor();
-		editor.setDictionary((Dictionary) accessibleTreeModelEditor.getValue());
+		editor.setNodeOrDict(accessibleTreeModelEditor.getValue());
 		editor.setTreeAttr(treeRootPane.update());
 		if (this.removeRepeatCheckBox != null) {
 			editor.setRemoveRepeat(this.removeRepeatCheckBox.isSelected());

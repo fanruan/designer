@@ -167,9 +167,6 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
             TreePath selectedTreePath = conditionsTree.getSelectionPath();
             if (selectedTreePath == null) {
-                // 清空编辑框
-                defaultConditionPane.populateBean((T)new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
-                formulaTextArea.setText(StringUtils.EMPTY);
                 return;
             }
 
@@ -855,6 +852,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
         rootTreeNode.setUserObject(new JoinCondition(DataConstants.AND, new ListCondition()));
         rootTreeNode.removeAllChildren();
+
+        // 清空编辑框
+        defaultConditionPane.populateBean((T)new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
+        formulaTextArea.setText(StringUtils.EMPTY);
 
         // peter:需要构建成ListCondition,加入到里面.
         if (liteCondition instanceof ListCondition) {
