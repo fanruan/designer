@@ -14,10 +14,9 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	 * 创建图表属性表实例.
 	 */
 	private synchronized static ChartPropertyPane getInstance() {
+		//todo
 		//创建新图表时，创建属性表配置面板
-		if (singleton == null) {
-			singleton = new ChartPropertyPane();
-		}
+		singleton = new ChartPropertyPane();
 		return singleton;
 	}
 
@@ -31,15 +30,12 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0));
+		nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0));
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	@Override
 	protected void createMainPane() {
-		this.removeAll();
-		createNameLabel();
-		this.add(createNorthComponent(), BorderLayout.NORTH);
 		this.add(chartEditPane, BorderLayout.CENTER);
 	}
 

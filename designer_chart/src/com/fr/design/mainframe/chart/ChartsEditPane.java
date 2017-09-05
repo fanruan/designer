@@ -13,15 +13,6 @@ import java.util.ArrayList;
 public class ChartsEditPane extends ChartEditPane {
 
     protected ChartsConfigPane chartsConfigPane;
-    private static ChartEditPane single;
-
-    public synchronized static ChartEditPane getInstance() {
-        if (single == null) {
-            single = new ChartsEditPane();
-        }
-        return single;
-    }
-
 
     public ChartsEditPane() {
         this.setLayout(new BorderLayout());

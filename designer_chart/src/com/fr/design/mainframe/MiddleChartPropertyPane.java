@@ -15,6 +15,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.general.Inter;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,11 +30,14 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	public MiddleChartPropertyPane() {
 		initComponenet();
 	}
-	
+
 	protected void initComponenet() {
 		this.setLayout(new BorderLayout());
 		this.setBorder(null);
-		chartEditPane = ChartEditPane.getInstance();
+
+		createNameLabel();
+		this.add(createNorthComponent(), BorderLayout.NORTH);
+		chartEditPane =  StableUtils.construct(ChartEditPane.class);
 		chartEditPane.setSupportCellData(true);
 	}
 
@@ -43,11 +47,11 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		this.createMainPane();
 		setSureProperty();
 	}
-	
+
 	protected abstract void createNameLabel();
-	
+
 	protected abstract JComponent createNorthComponent();
-	
+
 	protected abstract void createMainPane();
 
 
@@ -63,7 +67,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		nameLabel.setText(Inter.getLocText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
 		resetChartEditPane();
 	}
-	
+
 	protected void resetChartEditPane() {
 		remove(chartEditPane);
 		add(chartEditPane, BorderLayout.CENTER);
@@ -71,20 +75,20 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		repaint();
 		revalidate();
 	}
-	
+
 	protected TitleChangeListener titleListener = new TitleChangeListener() {
-		
+
 		@Override
 		public void fireTitleChange(String addName) {
 			nameLabel.setText(Inter.getLocText("Chart-Property_Table") + '-' + addName);
 		}
 	};
 
-    /**
-     * 感觉ChartCollection加载图表属性界面.
-     * @param collection  收集图表
-     * @param ePane  面板
-     */
+	/**
+	 * 感觉ChartCollection加载图表属性界面.
+	 * @param collection  收集图表
+	 * @param ePane  面板
+	 */
 	public void populateChartPropertyPane(ChartCollection collection, TargetComponent<?> ePane) {
 		addChartEditPane(collection.getSelectedChart().getPlot().getPlotID());
 		setSupportCellData(true);
@@ -92,11 +96,11 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		chartEditPane.populate(collection);
 	}
 
-    /**
-     * 感觉ChartCollection加载图表属性界面.
-     * @param collection  收集图表
-     * @param ePane  面板
-     */
+	/**
+	 * 感觉ChartCollection加载图表属性界面.
+	 * @param collection  收集图表
+	 * @param ePane  面板
+	 */
 	public void populateChartPropertyPane(BaseChartCollection collection, TargetComponent<?> ePane) {
 		if (collection instanceof ChartCollection) {
 			populateChartPropertyPane((ChartCollection)collection, ePane);
@@ -123,18 +127,18 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		return BaseUtils.readIcon("/com/fr/design/images/m_report/qb.png");
 	}
 
-    /**
-     *  预定义定位
-     * @return    定位
-     */
+	/**
+	 *  预定义定位
+	 * @return    定位
+	 */
 	public Location preferredLocation() {
 		return Location.WEST_BELOW;
 	}
 
-    /**
-     * 创建标题Panel
-     * @return  标题panel
-     */
+	/**
+	 * 创建标题Panel
+	 * @return  标题panel
+	 */
 	public UITitlePanel createTitlePanel() {
 		return new UITitlePanel(this);
 	}
@@ -144,9 +148,9 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	 */
 	public void refreshDockingView() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * 设置是否支持单元格数据.
 	 */

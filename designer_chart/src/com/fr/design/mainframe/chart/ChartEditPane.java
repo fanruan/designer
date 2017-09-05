@@ -33,15 +33,6 @@ import java.util.List;
 
 public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
 
-    public synchronized static ChartEditPane getInstance() {
-        if (singleton == null) {
-            singleton = new ChartEditPane();
-        }
-        return singleton;
-    }
-
-    private static ChartEditPane singleton;
-
     private final static int CHANGE_MIN_TIME = 80;
 
     protected ChartCollection collection;
@@ -351,7 +342,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 AbstractChartAttrPane attrPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
-                attrPane.refreshChartDataPane(collection);
+                if (attrPane.isShowing()) {
+                    attrPane.refreshChartDataPane(collection);
+                }
             }
         });
     }
