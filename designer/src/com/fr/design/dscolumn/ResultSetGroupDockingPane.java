@@ -7,7 +7,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.report.cell.TemplateCellElement;
@@ -41,12 +40,12 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
     private ItemListener listener;
 
-    public ResultSetGroupDockingPane(ElementCasePane ePane) {
+    public ResultSetGroupDockingPane() {
         super();
-        this.initComponents(ePane);
+        this.initComponents();
     }
 
-    public void initComponents(ElementCasePane ePane) {
+    public void initComponents() {
         goBox = new UIComboBox(new String[]{Inter.getLocText("BindColumn-Group"), Inter.getLocText("BindColumn-Select"), Inter.getLocText("BindColumn-Summary")});
         initCardPane();
         contentPane = layoutPane();
@@ -66,22 +65,23 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 };
         goBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ee) {
-                checkButtonEnabled();
                 int i = goBox.getSelectedIndex();
                 if (i == BIND_GROUP) {
                     cardLayout.show(cardPane, "groupPane");
-                    cardPane.setPreferredSize(new Dimension(156, 20));
-                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,10);
+                    cardPane.setPreferredSize(new Dimension(158, 20));
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
+                    checkButtonEnabled();
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
                     cardPane.setPreferredSize(new Dimension(0, 0));
-                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,0);
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
                 } else if (i == BIND_SUMMARY) {
                     cardLayout.show(cardPane, "summaryPane");
-                    cardPane.setPreferredSize(new Dimension(156, 20));
-                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane,2,10);
+                    cardPane.setPreferredSize(new Dimension(158, 20));
+                    TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
+                    checkButtonEnabled();
                 }
             }
         });
@@ -96,7 +96,6 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         cardLayout = new CardLayout();
         cardPane.setLayout(cardLayout);
 
-        JPanel pane = new JPanel(new BorderLayout(3, 0));
         groupComboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 checkButtonEnabled();
@@ -104,7 +103,9 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         });
         advancedButton = new UIButton(Inter.getLocText("Custom"));
         advancedButton.addActionListener(groupAdvancedListener);
-        pane.add(groupComboBox, BorderLayout.WEST);
+
+        JPanel pane = new JPanel(new BorderLayout(0, 10));
+        pane.add(groupComboBox, BorderLayout.NORTH);
         pane.add(advancedButton, BorderLayout.CENTER);
         cardPane.add(pane, "groupPane");
 
@@ -124,7 +125,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         // RecordGrouper
         recordGrouper = dSColumn.getGrouper();
         if (recordGrouper instanceof FunctionGrouper && !((FunctionGrouper) recordGrouper).isCustom()) {
-            int mode = ((FunctionGrouper) recordGrouper).getDivideMode();
+            int mode = recordGrouper.getDivideMode();
             if (mode == FunctionGrouper.GROUPING_MODE) {
                 cardLayout.show(cardPane, "groupPane");
                 this.goBox.setSelectedIndex(BIND_GROUP);
@@ -152,7 +153,6 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             this.goBox.setSelectedIndex(BIND_GROUP);
             this.groupComboBox.setSelectedIndex(ADVANCED);
         }
-
         checkButtonEnabled();
     }
 
@@ -189,6 +189,15 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             if (groupComboBox.getSelectedIndex() == ADVANCED) {
                 advancedButton.setEnabled(true);
             }
+        }
+        if (advancedButton.isEnabled()) {
+            cardPane.setPreferredSize(new Dimension(158, 50));
+            cardPane.revalidate();
+            cardPane.repaint();
+        } else {
+            cardPane.setPreferredSize(new Dimension(158, 20));
+            cardPane.revalidate();
+            cardPane.repaint();
         }
     }
 
