@@ -114,6 +114,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
 
     public abstract TargetComponent getCurrentElementCasePane();
 
+    public abstract JComponent getCurrentReportComponentPane();
+
     // 为收集模版信息作准备
     private void initForCollect() {
         template.initTemplateID();  // 为新模板设置 templateID 属性

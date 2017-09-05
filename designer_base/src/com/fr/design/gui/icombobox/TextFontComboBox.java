@@ -4,6 +4,7 @@ package com.fr.design.gui.icombobox;
 import com.fr.design.gui.icombobox.filter.Filter;
 import com.fr.design.gui.icombobox.filter.StartsWithFilter;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by MoMeak on 2017/9/5.
  */
-public class TextFontComboBox<T> extends ExtendedComboBox{
+public class TextFontComboBox<T> extends ExtendedComboBox {
     private Filter filter;
 
     public TextFontComboBox() {
@@ -38,8 +39,8 @@ public class TextFontComboBox<T> extends ExtendedComboBox{
 
     public void setItemArray(T[] objectArray) {
         List<T> itemList = new ArrayList<T>();
-        if(objectArray != null) {
-            for(int i = 0; i < objectArray.length; i++) {
+        if (objectArray != null) {
+            for (int i = 0; i < objectArray.length; i++) {
                 itemList.add(objectArray[i]);
             }
         }
@@ -48,8 +49,8 @@ public class TextFontComboBox<T> extends ExtendedComboBox{
     }
 
     public void setItemList(List<T> itemList) {
-        ((FilterableComboBoxModel)this.getModel()).setPrefix("");
-        ((FilterableComboBoxModel)this.getModel()).setItemList(itemList);
+        ((FilterableComboBoxModel) this.getModel()).setPrefix(StringUtils.EMPTY);
+        ((FilterableComboBoxModel) this.getModel()).setItemList(itemList);
     }
 
     class FilterComboBoxEditor implements ComboBoxEditor, DocumentListener {
@@ -75,7 +76,7 @@ public class TextFontComboBox<T> extends ExtendedComboBox{
             this.item = item;
 
             this.setting = true;
-            String newText = (item == null) ? "" : item.toString();
+            String newText = (item == null) ? StringUtils.EMPTY : item.toString();
             textField.setText(newText);
             this.setting = false;
         }

@@ -87,6 +87,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     // richer:鼠标滚轮每滚动一下，PolyDesignPane的尺寸就改变ROTATIONS这么多
     private static final int ROTATIONS = 50;
     private static final int MIN = 10;
+    private static final int HUND = 100;
     private JScrollBar verScrollBar;
     private JScrollBar horScrollBar;
 
@@ -843,6 +844,13 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      */
     public BlockCreator getDefaultSelectElement() {
         return null;
+    }
+
+    @Override
+    public void updateJSliderValue() {
+        ReportComponentComposite reportComposite = (ReportComponentComposite) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentReportComponentPane();
+        JSliderPane jSliderContainer = reportComposite.getjSliderContainer();
+        jSliderContainer.getShowVal().setValue((int)Math.ceil((double)this.resolution * HUND / ScreenResolution.getScreenResolution()));
     }
 
 
