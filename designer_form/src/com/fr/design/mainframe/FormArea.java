@@ -119,7 +119,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 //    	slidePane = new UINumberSlidePane(SLIDER_MIN, SLIDER_FLOAT);
 //    	slidePane.setPreferredSize(new Dimension(260,20));
         slidePane = JFormSliderPane.getInstance();
-        slidePane.setPreferredSize(new Dimension(200, 0));
+        slidePane.setPreferredSize(new Dimension(200, 20));
 
 
         JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{

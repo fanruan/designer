@@ -687,14 +687,16 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 返回正在编辑的状态.
      */
     public EditingState createEditingState() {
-        return new PolyDesignerEditingState(selection);
+        return new PolyDesignerEditingState(selection, resolution);
     }
 
     private class PolyDesignerEditingState implements EditingState {
         private String blockName;
         private Selection select;
+        protected int resolution = ScreenResolution.getScreenResolution();
 
-        public PolyDesignerEditingState(BlockCreator creator) {
+        public PolyDesignerEditingState(BlockCreator creator, int resolution) {
+            this.resolution = resolution;
             if (creator == null) {
                 return;
             }
@@ -710,6 +712,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         public void revert() {
             PolyDesigner.this.addedData = new AddedData(PolyDesigner.this);
             stopEditingState();
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(this.resolution);
             initPolyBlocks();
             startEditing(blockName);
             if (selection == null) {
