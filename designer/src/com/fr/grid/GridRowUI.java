@@ -159,20 +159,21 @@ public class GridRowUI extends ComponentUI {
         float fmAscent = GraphHelper.getFontMetrics(gridRow.getFont()).getAscent() * time;
         double stringWidth = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getWidth() * time;
         double stringHeight = gridRow.getFont().getStringBounds(paintText, fontRenderContext).getHeight() * time;
-        if (isSelectedBounds) {
-            g2d.setColor(gridRow.getSelectedForeground());
-        } else {
-            // p:检查eanbled
-            if (gridRow.isEnabled()) {
-                g2d.setColor(gridRow.getForeground());
+        // 如果高度太小了就不画了
+        if (stringHeight <= tmpIncreaseHeight + 2) {
+            if (isSelectedBounds) {
+                g2d.setColor(gridRow.getSelectedForeground());
             } else {
-                g2d.setPaint(UIManager.getColor("controlShadow"));
+                // p:检查eanbled
+                if (gridRow.isEnabled()) {
+                    g2d.setColor(gridRow.getForeground());
+                } else {
+                    g2d.setPaint(UIManager.getColor("controlShadow"));
+                }
             }
+
+            GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent - 2);
         }
-
-        GraphHelper.drawString(g2d, paintText, (size.width - stringWidth) / 2, tmpHeight1 + (tmpIncreaseHeight - stringHeight) / 2 + GridHeader.SIZE_ADJUST / 2 + fmAscent
-                - 2);
-
     }
 
 }

@@ -1,11 +1,13 @@
 package com.fr.plugin.chart.designer.style.axis.radar;
 
+import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.axis.VanChartBaseAxisPane;
+import com.fr.stable.CoreConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,5 +41,9 @@ public class VanChartRadarXAxisPane extends VanChartBaseAxisPane {
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")),axisLineStyle} ,
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")),axisLineColor},
         };
+    }
+
+    protected LineComboBox createLineComboBox() {
+        return new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
     }
 }

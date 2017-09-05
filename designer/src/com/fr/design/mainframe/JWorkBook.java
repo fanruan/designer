@@ -854,6 +854,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
+    @Override
+    public HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        return ReportHyperlinkGroupPaneNoPop.getInstance(hyperlinkGroupPaneActionProvider);
+    }
+
     public void setAuthorityMode(boolean isUpMode) {
         centerPane.setAuthorityMode(isUpMode);
     }

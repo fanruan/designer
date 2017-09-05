@@ -23,7 +23,8 @@ import java.awt.*;
 public class ReportHyperlinkGroupPane extends HyperlinkGroupPane {
     private static ReportHyperlinkGroupPane singleton;
 
-    private ReportHyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+    // 仅供继承使用，外部通过 getInstance 获取实例
+    protected ReportHyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         super(hyperlinkGroupPaneActionProvider);
     }
 
@@ -35,7 +36,7 @@ public class ReportHyperlinkGroupPane extends HyperlinkGroupPane {
         return singleton;
     }
 
-    private void refreshPane() {
+    protected void refreshPane() {
         ElementCasePane reportPane = ((JWorkBook)HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()).getEditingElementCasePane();
         if (reportPane == null) {
             return;
