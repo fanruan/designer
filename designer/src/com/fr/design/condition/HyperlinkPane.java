@@ -37,7 +37,7 @@ public class HyperlinkPane extends ConditionAttrSingleConditionPane<HighlightAct
         hyperlinkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NameJavaScriptGroup nameHyperlinks = jsGroup;
-                pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+                pane = DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPaneNoPop(HyperlinkGroupPaneActionImpl.getInstance());
                 pane.populate(nameHyperlinks);
                 dialog = pane.showWindow(SwingUtilities.getWindowAncestor(conditionAttributesPane));
                 dialog.addDialogActionListener(new DialogActionAdapter() {
