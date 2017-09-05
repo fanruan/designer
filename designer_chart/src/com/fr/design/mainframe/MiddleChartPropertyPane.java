@@ -16,6 +16,7 @@ import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 		chartEditPane.setContainer(container);
 		chartEditPane.addTitleChangeListener(titleListener);
 		String tabname = chartEditPane.getSelectedTabName();
-		nameLabel.setText(Inter.getLocText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : ""));
+		nameLabel.setText(Inter.getLocText("Chart-Property_Table") + (tabname != null ? ('-' + chartEditPane.getSelectedTabName()) : StringUtils.EMPTY));
 		resetChartEditPane();
 	}
 
@@ -155,7 +156,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 	 * 设置是否支持单元格数据.
 	 */
 	public void setSupportCellData(boolean supportCellData) {
-		if(chartEditPane != null) {
+		if (chartEditPane != null) {
 			chartEditPane.setSupportCellData(supportCellData);
 		}
 	}

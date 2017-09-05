@@ -22,6 +22,7 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -142,7 +143,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             addTypePane();
 
             boolean isDefault = true;
-            String plotID = "";
+            String plotID = StringUtils.EMPTY;
             if (currentChart.getPlot() != null) {
                 plotID = currentChart.getPlot().getPlotID();
                 isDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
@@ -179,6 +180,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
     }
 
     protected void setSelectedTab() {
+        //doNothing
     }
 
     /**
@@ -224,7 +226,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             return;
         }
 
-        if (checkNeedsReLayout(collection.getSelectedChart())) {
+        if (isNeedsReLayout(collection.getSelectedChart())) {
             reLayout(collection.getSelectedChart());
         }
 
@@ -265,7 +267,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
     }
 
     //populate的时候看看要不要重构面板
-    private boolean checkNeedsReLayout(Chart chart) {
+    private boolean isNeedsReLayout(Chart chart) {
         if (chart != null) {
             int lastIndex = typePane.getSelectedIndex();
             int currentIndex = getSelectedChartIndex(chart);
@@ -317,7 +319,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
     }
 
     protected void dealWithStyleChange() {
-
+        //doNothing
     }
 
     /**
@@ -326,7 +328,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
      * @param isFromToolBar 是否来自工具栏
      */
     public void styleChange(boolean isFromToolBar) {
-
+        //doNothing
     }
 
     /**
