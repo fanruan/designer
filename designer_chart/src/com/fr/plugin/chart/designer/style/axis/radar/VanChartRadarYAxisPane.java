@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.designer.style.axis.radar;
 
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -10,6 +11,7 @@ import com.fr.plugin.chart.attr.axis.VanChartValueAxis;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.axis.VanChartValueAxisPane;
 import com.fr.plugin.chart.designer.style.axis.component.MinMaxValuePaneWithOutSecTick;
+import com.fr.stable.CoreConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +43,10 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    protected LineComboBox createLineComboBox() {
+        return new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
     }
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col) {

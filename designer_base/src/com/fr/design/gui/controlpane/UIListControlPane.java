@@ -390,13 +390,15 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    protected void popupEditDialog(Point mousePos) {
-        Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
-        if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
-            return;
+    private void popupEditDialog(Point mousePos) {
+        if (isNewStyle()) {
+            Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
+            if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
+                return;
+            }
+            popupEditDialog.setLocation(getPopupDialogLocation());
+            popupEditDialog.setVisible(true);
         }
-        popupEditDialog.setLocation(getPopupDialogLocation());
-        popupEditDialog.setVisible(true);
     }
 
     private Point getPopupDialogLocation() {

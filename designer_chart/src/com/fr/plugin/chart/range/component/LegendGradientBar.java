@@ -39,7 +39,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
     //主题色
     private Color subColor;
 
-    private int max = 154;
+    private int max = 150;
     private int min = 4;
 
     //选中的颜色
@@ -77,7 +77,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
 
         iniListener();
 
-        this.setPreferredSize(new Dimension(10 + max, MAX_VERTICAL));
+        this.setPreferredSize(new Dimension(5 + max, MAX_VERTICAL));
     }
 
     private void initColorsAndDist() {
