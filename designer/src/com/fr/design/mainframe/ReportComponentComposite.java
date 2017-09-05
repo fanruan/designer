@@ -111,7 +111,6 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         centerCardPane.populate(workbook.getTemplateReport(newIndex));
-//        (ElementCasePane)templateStateList.get(newIndex-2).revert();
         if (parentContainer != null) {
             parentContainer.setDownPane(ReportComponentComposite.this);
         }
