@@ -14,9 +14,10 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 	 * 创建图表属性表实例.
 	 */
 	private synchronized static ChartPropertyPane getInstance() {
-		//todo
 		//创建新图表时，创建属性表配置面板
-		singleton = new ChartPropertyPane();
+		if (singleton == null) {
+			singleton = new ChartPropertyPane();
+		}
 		return singleton;
 	}
 
@@ -36,6 +37,9 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 
 	@Override
 	protected void createMainPane() {
+		this.removeAll();
+		createNameLabel();
+		this.add(createNorthComponent(), BorderLayout.NORTH);
 		this.add(chartEditPane, BorderLayout.CENTER);
 	}
 

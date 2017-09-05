@@ -97,7 +97,7 @@ public abstract class AbstractIndependentChartsUI extends AbstractProvider imple
 
     @Override
     public ChartEditPane getChartEditPane(String plotID) {
-        return new ChartsEditPane();
+        return ChartsEditPane.getInstance();
     }
 
 }
