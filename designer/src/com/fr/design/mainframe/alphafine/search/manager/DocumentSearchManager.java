@@ -61,7 +61,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
             if (!httpClient.isServerAlive()) {
                 return getNoConnectList();
             }
-            httpClient.setTimeout(5000);
             result = httpClient.getResponseText();
             AlphaFineHelper.checkCancel();
             try {

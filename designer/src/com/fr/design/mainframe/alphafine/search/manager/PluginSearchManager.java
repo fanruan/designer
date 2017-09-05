@@ -18,6 +18,7 @@ import com.fr.stable.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 
 /**
  * Created by XiaXiang on 2017/3/27.
@@ -89,14 +90,14 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {
-                String encodedKey = URLEncoder.encode(searchText, "UTF-8");
-                String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
-                HttpClient httpClient = new HttpClient(url);
+                String url = AlphaFineConstants.PLUGIN_SEARCH_URL;
+                final HashMap<String, String> para = new HashMap<>();
+                para.put("keyword", searchText);
+                HttpClient httpClient = new HttpClient(url, para, true);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
                 }
-                httpClient.setTimeout(5000);
                 result = httpClient.getResponseText();
                 AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);
@@ -122,8 +123,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 }
             } catch (JSONException e) {
                 FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
-            } catch (UnsupportedEncodingException e) {
-                FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
+                return this.lessModelList;
             }
         }
         return this.lessModelList;

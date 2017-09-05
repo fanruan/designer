@@ -71,6 +71,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String PLUGIN_MARK_SHORT = "k:4 ";
     private static final String PLUGIN_MARK = "k:shop ";
     private static final String PLACE_HOLDER = Inter.getLocText("FR-Designer_AlphaFine");
+    private static final int MAX_SHOW_SIZE = 12;
 
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
@@ -161,12 +162,6 @@ public class AlphaFineDialog extends UIDialog {
         });
         topPane.add(closeButton, BorderLayout.EAST);
         add(topPane, BorderLayout.CENTER);
-        searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
-            @Override
-            protected void textChanged(DocumentEvent e) {
-                doSearch(searchTextField.getText());
-            }
-        });
     }
 
     /**
@@ -174,7 +169,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initSearchTextField() {
         searchTextField = new AlphaFineTextField(PLACE_HOLDER);
-        initTextFieldKeyListener();
+        initTextFieldListener();
         searchTextField.setFont(AlphaFineConstants.GREATER_FONT);
         searchTextField.setBackground(Color.WHITE);
         searchTextField.setBorderPainted(false);
@@ -232,12 +227,12 @@ public class AlphaFineDialog extends UIDialog {
         if (StringUtils.isBlank(text) || isNeedSearch(text)) {
             removeSearchResult();
         } else {
-            showSearchResult();
+            showSearchResult(text);
         }
     }
 
     boolean isNeedSearch(String text) {
-        return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'");
+        return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'") || text.contains(StringUtils.BLANK);
     }
 
     @Override
@@ -278,11 +273,11 @@ public class AlphaFineDialog extends UIDialog {
     /**
      * 展示搜索结果
      */
-    private void showSearchResult() {
+    private void showSearchResult(String text) {
         if (searchResultPane == null) {
             initSearchResultComponents();
         }
-        initSearchWorker();
+        initSearchWorker(text);
     }
 
     /**
@@ -300,7 +295,6 @@ public class AlphaFineDialog extends UIDialog {
 
         leftSearchResultPane = new UIScrollPane(searchResultList);
         leftSearchResultPane.setBackground(Color.WHITE);
-        leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
         rightSearchResultPane.setBackground(Color.WHITE);
@@ -317,7 +311,7 @@ public class AlphaFineDialog extends UIDialog {
     /**
      * 异步加载搜索结果
      */
-    private void initSearchWorker() {
+    private void initSearchWorker(final String text) {
         if (this.searchWorker != null && !this.searchWorker.isDone()) {
             this.searchWorker.cancel(true);
             this.searchWorker = null;
@@ -393,22 +387,22 @@ public class AlphaFineDialog extends UIDialog {
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getActionList(storeText);
+                buildActionList(storeText);
             } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getDocumentList(storeText);
+                buildDocumentList(storeText);
             } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getFileList(storeText);
+                buildFileList(storeText);
             } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getFileList(searchText);
+                buildFileList(searchText);
             } else if (searchText.startsWith(DS_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getFileList(DS_NAME + storeText);
+                buildFileList(DS_NAME + storeText);
             } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
-                getPluginList(storeText);
+                buildPluginList(storeText);
             }
         } else {
             storeText = searchText.trim();
@@ -435,15 +429,15 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void doNormalSearch(String searchText) {
-        getRecentList(searchText);
-        getRecommendList(searchText);
-        getActionList(searchText);
-        getFileList(searchText);
-        getDocumentList(searchText);
-        getPluginList(searchText);
+        buildRecentList(searchText);
+        buildRecommendList(searchText);
+        buildActionList(searchText);
+        buildFileList(searchText);
+        buildDocumentList(searchText);
+        buildPluginList(searchText);
     }
 
-    private void getDocumentList(final String searchText) {
+    private void buildDocumentList(final String searchText) {
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : documentModelList) {
             AlphaFineHelper.checkCancel();
@@ -451,7 +445,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void getFileList(final String searchText) {
+    private void buildFileList(final String searchText) {
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : fileModelList) {
             AlphaFineHelper.checkCancel();
@@ -459,7 +453,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void getActionList(final String searchText) {
+    private void buildActionList(final String searchText) {
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : actionModelList) {
             AlphaFineHelper.checkCancel();
@@ -467,7 +461,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void getPluginList(final String searchText) {
+    private void buildPluginList(final String searchText) {
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : pluginModelList) {
             AlphaFineHelper.checkCancel();
@@ -475,7 +469,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void getRecommendList(final String searchText) {
+    private void buildRecommendList(final String searchText) {
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : recommendModelList) {
             AlphaFineHelper.checkCancel();
@@ -483,7 +477,7 @@ public class AlphaFineDialog extends UIDialog {
         }
     }
 
-    private void getRecentList(final String searchText) {
+    private void buildRecentList(final String searchText) {
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
         for (AlphaCellModel object : recentModelList) {
             AlphaFineHelper.checkCancel();
@@ -664,18 +658,15 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 为textfield添加键盘监听器
+     * 为textfield添加监听器
      */
-    private void initTextFieldKeyListener() {
+    private void initTextFieldListener() {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     searchResultList.requestFocus();
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
-                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    doNavigate();
-                    saveHistory(searchResultList.getSelectedValue());
                 }
             }
 
@@ -687,10 +678,14 @@ public class AlphaFineDialog extends UIDialog {
                         AlphaFineDialog.this.setVisible(false);
                     } else {
                         searchTextField.setText(null);
+                        removeSearchResult();
                     }
+                } else {
+                    doSearch(searchTextField.getText());
                 }
             }
         });
+
 
 
     }
@@ -775,7 +770,6 @@ public class AlphaFineDialog extends UIDialog {
             if (!httpClient.isServerAlive()) {
                 FRLogger.getLogger().error("Failed to sent data to server!");
             }
-            httpClient.setTimeout(5000);
         }
 
 
@@ -972,6 +966,18 @@ public class AlphaFineDialog extends UIDialog {
             myDelegate.add(element);
             fireContentsChanged(this, index, index);
             fireSelectedStateChanged(element, index);
+
+        }
+
+        @Override
+        protected void fireContentsChanged(Object source, int index0, int index1) {
+            if (myDelegate.size() > MAX_SHOW_SIZE) {
+                leftSearchResultPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
+                leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 2));
+            } else {
+                leftSearchResultPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            }
+            super.fireContentsChanged(source, index0, index1);
         }
 
         /**
@@ -993,7 +999,7 @@ public class AlphaFineDialog extends UIDialog {
         }
 
         @Override
-        public void add(int index, AlphaCellModel element) {
+        public synchronized void add(int index, AlphaCellModel element) {
             myDelegate.add(index, element);
             fireIntervalAdded(this, index, index);
         }
