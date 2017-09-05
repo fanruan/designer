@@ -62,6 +62,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		text.setText(check.getText());
 		fontSizePane.setValue(check.getFontSize());
 		formWidgetValuePane.populate(check);
+		labelNameTextField.setText(check.getLabelName());
 	}
 
 	@Override
@@ -70,6 +71,7 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		box.setText(text.getText());
 		box.setFontSize((int)fontSizePane.getValue());
 		formWidgetValuePane.update(box);
+		box.setLabelName(labelNameTextField.getText());
 		return box;
 	}
 }

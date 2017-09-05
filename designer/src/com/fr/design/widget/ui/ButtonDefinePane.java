@@ -1,10 +1,12 @@
 package com.fr.design.widget.ui;
 
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.CellWidgetPropertyPane;
 import com.fr.design.widget.ui.btn.ButtonDetailPaneFactory;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.design.widget.btn.ButtonDetailPane;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -38,6 +40,8 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
             }
         });
         this.updateUI();
+        CellWidgetPropertyPane.getInstance().reInitAllListener();
+        CellWidgetPropertyPane.getInstance().update();
     }
 
     @Override
