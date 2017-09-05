@@ -49,8 +49,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
+import java.util.Timer;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -680,8 +680,16 @@ public class AlphaFineDialog extends UIDialog {
                         searchTextField.setText(null);
                         removeSearchResult();
                     }
+                } else if (keyCode == KeyEvent.VK_SHIFT) {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            doSearch(searchTextField.getText());
+                        }
+                    }, 50);
                 } else {
                     doSearch(searchTextField.getText());
+
                 }
             }
         });
