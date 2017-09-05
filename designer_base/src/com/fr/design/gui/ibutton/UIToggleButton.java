@@ -124,11 +124,6 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 	}
 
 	@Override
-	public Insets getInsets() {
-		return new Insets(0, 0, 0, 0);
-	}
-
-	@Override
 	protected void paintBorder(Graphics g) {
 		if (!isBorderPainted()) {
 			return;
