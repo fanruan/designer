@@ -145,12 +145,13 @@ public class ReportComponentComposite extends JComponent {
     }
 
     private void updateJSlider(){
-        if (centerCardPane.editingComponet.elementCasePane == null) {
-            jSliderContainer.getShowVal().setValue(centerCardPane.getPolyDezi().getResolution() * HUND / ScreenResolution.getScreenResolution());
+        int value = 0;
+        if (centerCardPane.editingComponet.elementCasePane != null) {
+            value = centerCardPane.editingComponet.elementCasePane.getResolution() * HUND / ScreenResolution.getScreenResolution();
         }else {
-            jSliderContainer.getShowVal().setValue(centerCardPane.editingComponet.elementCasePane.getResolution() * HUND / ScreenResolution.getScreenResolution());
+            value = centerCardPane.getPolyDezi().getResolution() * HUND / ScreenResolution.getScreenResolution();
         }
-
+        jSliderContainer.getShowVal().setValue(value);
     }
 
     /**

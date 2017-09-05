@@ -162,15 +162,11 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             jf.resolution = (int) value;
             jf.getFormDesign().setResolution((int) value);
             jf.getFormDesign().getArea().resolution = (int) value;
-            double times = (double) resolution / 100;
-//            widthPane.setValue((int)(widthPane.getValue() * times));
-            changeWidthPaneValue((int)(widthPane.getValue() * times));
-            changeHeightPaneValue((int)(heightPane.getValue() * times));
-//            reCalculateRoot(value, true);
-//            JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-//            if (form != null) {
-//                form.fireTargetModified();
-//            }
+            reCalculateRoot(value, true);
+            JTemplate form = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+            if (form != null) {
+                form.fireTargetModified();
+            }
         }
     };
 
