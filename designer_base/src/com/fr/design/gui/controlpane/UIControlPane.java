@@ -27,21 +27,16 @@ import java.awt.event.WindowEvent;
 public abstract class UIControlPane extends BasicPane implements UnrepeatedNameHelper {
     protected static final int SHORT_WIDTH = 30; //每加一个short Divider位置加30
     protected JPanel controlUpdatePane;
-
     private ShortCut4JControlPane[] shorts;
     private NameableCreator[] creators;
     private ToolBarDef toolbarDef;
-
     private UIToolbar toolBar;
     private UIToolbar topToolBar;
     protected PopupEditDialog popupEditDialog;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
-
     protected JPanel cardPane;
-
     protected BasePlot plot;
-
 
     public UIControlPane() {
         this.initComponentPane();
@@ -128,8 +123,15 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
             this.add(getLeftPane(), BorderLayout.CENTER);
             this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
         } else {
+            // 增加边框
+            JPanel leftPaneWrapper = new JPanel(new BorderLayout());
+            leftPaneWrapper.add(getLeftPane(), BorderLayout.CENTER);
+            leftPaneWrapper.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+            JPanel rightPaneWrapper = new JPanel(new BorderLayout());
+            rightPaneWrapper.add(cardPane, BorderLayout.CENTER);
+            rightPaneWrapper.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
             // SplitPane
-            JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, getLeftPane(), cardPane);
+            JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftPaneWrapper, rightPaneWrapper);
             mainSplitPane.setBorder(BorderFactory.createLineBorder(GUICoreUtils.getTitleLineBorderColor()));
             mainSplitPane.setOneTouchExpandable(true);
             this.add(mainSplitPane, BorderLayout.CENTER);

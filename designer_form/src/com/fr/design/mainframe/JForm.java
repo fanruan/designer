@@ -22,6 +22,7 @@ import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
+import com.fr.design.gui.xpane.FormHyperlinkGroupPaneNoPop;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
 import com.fr.design.mainframe.actions.FormMobileAttrAction;
@@ -147,8 +148,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      *
      * @return 超链连接界面
      */
+    @Override
     public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return FormHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
+    }
+
+    @Override
+    public HyperlinkGroupPane getHyperLinkPaneNoPop(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+        return FormHyperlinkGroupPaneNoPop.getInstance(hyperlinkGroupPaneActionProvider);
     }
 
     //表单返回 FORM_TAB or ELEMENTCASE_TAB

@@ -12,7 +12,7 @@ import com.fr.js.EmailJavaScript;
 public class FormHyperlinkGroupPane extends HyperlinkGroupPane{
 	private static FormHyperlinkGroupPane singleton;
 
-	private FormHyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
+	protected FormHyperlinkGroupPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
 		super(hyperlinkGroupPaneActionProvider);
 	}
 
