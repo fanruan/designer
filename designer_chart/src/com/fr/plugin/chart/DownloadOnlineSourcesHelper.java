@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by shine on 2017/8/21.
  */
-public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent{
+public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
     // 定义加载窗口大小
     private static final int LOAD_WIDTH = 455;
     private static final int INCIDENT_HEIGHT = 15;
@@ -190,7 +190,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent{
 
     private void setProgress(double current) {
         progressbar.setValue((int) current);
-        progressbar.setString(current / totalBytes * PERCENT + "%");
+        progressbar.setString((int) (current / totalBytes * PERCENT) + "%");
         progressbar.paintImmediately(new Rectangle(0, 0, LOAD_WIDTH, INCIDENT_HEIGHT * 2));
     }
 
