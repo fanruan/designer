@@ -12,13 +12,25 @@ import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateFloatLink
 import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.editor.editor.*;
+import com.fr.design.editor.editor.BooleanEditor;
+import com.fr.design.editor.editor.ConstantsEditor;
+import com.fr.design.editor.editor.DateEditor;
+import com.fr.design.editor.editor.DoubleEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.IntegerEditor;
+import com.fr.design.editor.editor.TextEditor;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.general.Inter;
-import com.fr.js.*;
+import com.fr.js.EmailJavaScript;
+import com.fr.js.FormHyperlinkProvider;
+import com.fr.js.JavaScriptImpl;
+import com.fr.js.ParameterJavaScript;
+import com.fr.js.ReportletHyperlink;
+import com.fr.js.WebHyperlink;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.BubblePlotType;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -28,16 +40,16 @@ import com.fr.plugin.chart.custom.type.CustomStyle;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.funnel.VanChartFunnelPlot;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
 import com.fr.plugin.chart.line.VanChartLinePlot;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
 import com.fr.plugin.chart.scatter.VanChartScatterPlot;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
+import com.fr.plugin.chart.type.GaugeStyle;
+import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 
 import java.util.ArrayList;
@@ -769,6 +781,13 @@ public class HyperlinkMapFactory {
     //图表超链-联动单元格
     public static class Chart_Cell{
         public static class VAN_CHART extends ChartHyperRelateCellLinkPane{
+        }
+
+        public static class VAN_CHART_MULTICATEGORY extends ChartHyperRelateCellLinkPane{
+            @Override
+            protected ValueEditorPane getValueEditorPane() {
+                return getMultiCategoryEditorPane();
+            }
         }
 
         public static class VAN_CHART_SCATTER extends ChartHyperRelateCellLinkPane{

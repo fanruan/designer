@@ -12,8 +12,12 @@ import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
+import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
@@ -31,6 +35,10 @@ import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -116,6 +124,10 @@ public class VanChartHyperLinkPane extends UIListControlPane {
     }
 
     public void populate(Plot plot) {
+        //特殊处理，使用instanceof判断，处理连续弹窗问题
+        if (SwingUtilities.getWindowAncestor(this) instanceof JDialog) {
+            popupEditDialog = new HyperDialog(cardPane);
+        }
         this.plot = plot;
         HashMap paneMap = getHyperlinkMap(plot);
 
@@ -227,6 +239,88 @@ public class VanChartHyperLinkPane extends UIListControlPane {
             }
         }
         return null;
+    }
+
+
+    protected void popupEditDialog(Point mousePos) {
+        //特殊处理，处理连续弹窗情况
+        if (SwingUtilities.getWindowAncestor(this) instanceof JDialog) {
+            GUICoreUtils.centerWindow(popupEditDialog);
+            popupEditDialog.setVisible(true);
+            return;
+        }
+        super.popupEditDialog(mousePos);
+    }
+
+
+
+    // 点击"编辑"按钮，弹出面板
+    protected class HyperDialog extends JDialog {
+        private JComponent editPane;
+        private static final int WIDTH = 570;
+        private static final int HEIGHT = 490;
+
+        private UIButton okButton, cancelButton;
+
+
+        HyperDialog(JComponent pane) {
+            super(DesignerContext.getDesignerFrame(), true);
+            pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+            this.editPane = pane;
+            JPanel editPaneWrapper = new JPanel(new BorderLayout());
+            editPaneWrapper.add(editPane, BorderLayout.CENTER);
+            this.getContentPane().add(editPaneWrapper, BorderLayout.CENTER);
+            this.getContentPane().add(createControlButtonPane(), BorderLayout.SOUTH);
+            setSize(WIDTH, HEIGHT);
+            this.setVisible(false);
+        }
+
+        private JPanel createControlButtonPane() {
+            JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+
+            JPanel buttonsPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+            controlPane.add(buttonsPane, BorderLayout.EAST);
+
+            //确定
+            addOkButton(buttonsPane);
+            //取消
+            addCancelButton(buttonsPane);
+
+            controlPane.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+
+            return controlPane;
+        }
+
+        private void addCancelButton(JPanel buttonsPane) {
+            cancelButton = new UIButton(Inter.getLocText("Cancel"));
+            buttonsPane.add(cancelButton);
+            cancelButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent evt) {
+                    doCancel();
+                }
+            });
+        }
+
+        private void addOkButton(JPanel buttonsPane) {
+            okButton = new UIButton(Inter.getLocText("OK"));
+            buttonsPane.add(okButton);
+            okButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent evt) {
+                    doOK();
+                }
+            });
+        }
+
+        public void doOK() {
+            saveSettings();
+            setVisible(false);
+        }
+
+        public void doCancel() {
+            setVisible(false);
+        }
     }
 
 }

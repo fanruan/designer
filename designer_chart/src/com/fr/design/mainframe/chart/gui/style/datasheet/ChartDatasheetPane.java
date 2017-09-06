@@ -1,18 +1,11 @@
 package com.fr.design.mainframe.chart.gui.style.datasheet;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
 import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.DataSheet;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FormatPane;
@@ -21,10 +14,15 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartAxisPane;
-import com.fr.design.dialog.BasicScrollPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
-import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithNormalType;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ChartDatasheetPane extends BasicScrollPane<Chart>{
 	private static final long serialVersionUID = -4854070113748783014L;
@@ -48,8 +46,7 @@ public class ChartDatasheetPane extends BasicScrollPane<Chart>{
 			double[] rowSize = { p, p, p, p};
 			isDatasheetVisable = new UICheckBox(Inter.getLocText("Chart_Show_Data_Sheet"));
 			textAttrPane = new ChartTextAttrPane();
-			formatPane = new FormatPane();
-			formatPane.setForDataSheet();
+			formatPane = new FormatPaneWithNormalType();
             Component[][] components = new Component[][]{
                     new Component[]{null,textAttrPane},
                     new Component[]{new JSeparator(),null},

@@ -1,27 +1,11 @@
 package com.fr.design.chart.report;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.fr.base.Utils;
 import com.fr.chart.chartdata.MapSingleLayerTableDefinition;
 import com.fr.chart.chartdata.SeriesDefinition;
 import com.fr.data.impl.NameTableData;
-import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.frpane.UICorrelationPane;
@@ -32,6 +16,15 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 单层地图时: 数据集 定义界面
@@ -60,6 +53,10 @@ public class MapTableDataSinglePane extends FurtherBasicBeanPane<MapSingleLayerT
 		UILabel label = new UILabel(Inter.getLocText("Select_Data_Set") + ":", SwingConstants.RIGHT);
 
 		northPane.add(fromTableData = new DatabaseTableDataPane(label) {
+			@Override
+			protected void setBorder () {
+				this.setBorder(BorderFactory.createEmptyBorder());
+			}
 			@Override
 			protected void userEvent() {
 				refreshAreaNameBox();

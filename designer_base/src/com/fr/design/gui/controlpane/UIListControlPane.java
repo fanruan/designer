@@ -390,7 +390,7 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
-    private void popupEditDialog(Point mousePos) {
+    protected void popupEditDialog(Point mousePos) {
         if (isNewStyle()) {
             Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
             if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
