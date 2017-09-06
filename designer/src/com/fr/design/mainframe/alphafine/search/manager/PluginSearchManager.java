@@ -90,10 +90,9 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
             String result;
             try {
-                String url = AlphaFineConstants.PLUGIN_SEARCH_URL;
-                final HashMap<String, String> para = new HashMap<>();
-                para.put("keyword", searchText);
-                HttpClient httpClient = new HttpClient(url, para, true);
+                String encodedKey = URLEncoder.encode(searchText, "UTF-8");
+                String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
+                HttpClient httpClient = new HttpClient(url);
                 httpClient.asGet();
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
@@ -123,6 +122,9 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 }
             } catch (JSONException e) {
                 FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
+                return this.lessModelList;
+            } catch (UnsupportedEncodingException e) {
+                FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
                 return this.lessModelList;
             }
         }
