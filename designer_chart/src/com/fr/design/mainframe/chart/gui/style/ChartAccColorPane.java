@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.DesignerContext;
@@ -9,11 +10,9 @@ import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.style.color.ColorSelectDetailPane;
 import com.fr.design.style.color.ColorSelectDialog;
 import com.fr.design.style.color.ColorSelectable;
-import com.fr.design.dialog.BasicPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -73,7 +72,7 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 		}
 		Paint oldPaint = g2d.getPaint();
         g2d.setPaint(new Color(212, 212, 216));
-        g2d.fillRect(0, 0, (int)bounds.getWidth(), (int)bounds.getHeight());
+        g2d.fillRect(0, 0, WIDTH*ROWCOUNT, WIDTH*4);
         g2d.setPaint(oldPaint);
 		
 		int y  = 0;

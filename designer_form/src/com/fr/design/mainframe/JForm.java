@@ -103,6 +103,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return elementCaseDesign.getEditingElementCasePane();
     }
 
+    @Override
+    public JComponent getCurrentReportComponentPane() {
+        return null;
+    }
+
     public int getMenuState() {
 
         return DesignState.JFORM;
