@@ -163,6 +163,10 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     }
 
 
+    public void registerListener(){
+        initAllListeners();
+    }
+
     private static class EditorTypeComboBox extends UIComboBox {
 
         private Item item = new Item(Inter.getLocText("Widget-User_Defined"),

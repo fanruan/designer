@@ -75,8 +75,8 @@ public class CellWidgetPropertyPane extends BasicPane {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
         }
-        cellEditorDefPane.populate(cellWidget);
 
+        cellEditorDefPane.populate(cellWidget);
     }
 
 
@@ -122,9 +122,15 @@ public class CellWidgetPropertyPane extends BasicPane {
                 }
             }
         });
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        if(DesignerContext.getDesignerFrame().getSelectedJTemplate() != null){
+            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        }
     }
 
+
+    public void reInitAllListener(){
+        cellEditorDefPane.registerListener();
+    }
 
     private Widget upDateWidgetAuthority(TemplateCellElement cellElement, Widget newWidget) {
         try {
