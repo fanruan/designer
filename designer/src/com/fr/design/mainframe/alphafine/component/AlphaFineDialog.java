@@ -15,7 +15,6 @@ import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
-import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
@@ -40,7 +39,6 @@ import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -49,8 +47,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -267,7 +267,7 @@ public class AlphaFineDialog extends UIDialog {
             searchResultPane = null;
         }
         setSize(AlphaFineConstants.FIELD_SIZE);
-       refreshContainer();
+        refreshContainer();
     }
 
     /**
@@ -670,7 +670,8 @@ public class AlphaFineDialog extends UIDialog {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {int keyCode = e.getKeyCode();
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
                 if (keyCode == KeyEvent.VK_ESCAPE) {
                     if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
                         AlphaFineDialog.this.setVisible(false);
@@ -693,7 +694,6 @@ public class AlphaFineDialog extends UIDialog {
                 }
             }
         });
-
 
 
     }

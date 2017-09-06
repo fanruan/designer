@@ -18,7 +18,6 @@ import com.fr.stable.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 
 /**
  * Created by XiaXiang on 2017/3/27.
