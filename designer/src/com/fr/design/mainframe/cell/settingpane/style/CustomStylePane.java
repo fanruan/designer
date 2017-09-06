@@ -6,7 +6,6 @@ import com.fr.base.Style;
 import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.MultiTabPane;
-import com.fr.design.gui.ibutton.FiveButtonLayout;
 import com.fr.design.gui.style.*;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.BorderUtils;
@@ -39,7 +38,7 @@ public class CustomStylePane extends MultiTabPane<Style> {
         super();
         tabPane.setOneLineTab(true);
         tabPane.setDrawLine(false);
-        tabPane.setLayout(new FiveButtonLayout(1));
+        tabPane.setLayout(new GridLayout(1, 3, 0, 0));
     }
 
     public static void main(String[] args) {
