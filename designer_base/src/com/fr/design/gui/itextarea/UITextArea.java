@@ -4,6 +4,7 @@ import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.Constants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -99,9 +100,8 @@ public class UITextArea extends JTextArea implements UIObserver {
 
     @Override
     protected void paintBorder(Graphics g) {
-
+        getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
     }
-
 
     @Override
     /**
