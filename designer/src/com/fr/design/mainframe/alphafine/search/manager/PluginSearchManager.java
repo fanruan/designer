@@ -122,10 +122,8 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 }
             } catch (JSONException e) {
                 FRLogger.getLogger().error("plugin search json error :" + e.getMessage());
-                return this.lessModelList;
             } catch (UnsupportedEncodingException e) {
                 FRLogger.getLogger().error("plugin search encode error :" + e.getMessage());
-                return this.lessModelList;
             }
         }
         return this.lessModelList;

@@ -88,7 +88,6 @@ public class DocumentSearchManager implements AlphaFineSearchProcessor {
                 }
             } catch (JSONException e) {
                 FRLogger.getLogger().error("document search error: " + e.getMessage());
-                return lessModelList;
             }
         }
         return lessModelList;
