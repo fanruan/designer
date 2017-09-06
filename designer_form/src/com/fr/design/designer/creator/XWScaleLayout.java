@@ -163,7 +163,8 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 	}
 
 	/**
-	 * 更新组件及子组件的UI
+	 * data属性改变触发其他操作
+	 *
 	 */
 	public void firePropertyChange(){
 		XCreator child = getXCreator(INDEX);

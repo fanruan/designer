@@ -643,7 +643,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
-	 * 属性改变触发
+	 * data属性改变触发其他操作
 	 *
 	 */
 	public void firePropertyChange(){
