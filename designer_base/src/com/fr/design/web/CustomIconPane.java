@@ -6,14 +6,18 @@ import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.ibutton.UIBasicButtonUI;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.imenu.UIBasicMenuItemUI;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.ColorRoutines;
+import com.fr.design.utils.ThemeUtils;
 import com.fr.form.ui.WidgetManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -26,6 +30,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -297,11 +303,20 @@ public class CustomIconPane extends BasicPane {
             this.iconImage = WidgetManager.getProviderInstance().getIconManager().getIconImage(name);
             this.setToolTipText(iconName);
 		}
+
+        @Override
+        public void updateUI() {
+            setUI(new BasicButtonUI(){
+                public void paint(Graphics g, JComponent c) {
+                    super.paint(g, c);
+                }
+            });
+        }
 		
 		@Override
 		public void paintComponent(Graphics g) {
+            super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            
             // carl:这里缩放显示 16 × 16
             if (iconImage != null) {
             	g2d.drawImage(iconImage, 4, 4, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
