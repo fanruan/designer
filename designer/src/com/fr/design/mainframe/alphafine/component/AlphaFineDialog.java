@@ -468,7 +468,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildRecommendList(final String searchText) {
         SearchResult recommendModelList = RecommendSearchManager.getRecommendSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : recommendModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
@@ -476,7 +475,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildRecentList(final String searchText) {
         SearchResult recentModelList = RecentSearchManager.getRecentSearchManger().getLessSearchResult(searchText);
         for (AlphaCellModel object : recentModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
 
@@ -642,8 +640,7 @@ public class AlphaFineDialog extends UIDialog {
         UILabel label = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/opening.gif")));
         label.setBorder(BorderFactory.createEmptyBorder(120, 0, 0, 0));
         rightSearchResultPane.add(label, BorderLayout.CENTER);
-        validate();
-        repaint();
+        refreshContainer();
     }
 
     /**
@@ -683,6 +680,8 @@ public class AlphaFineDialog extends UIDialog {
                             doSearch(searchTextField.getText());
                         }
                     }, 50);
+                } else if (keyCode == KeyEvent.VK_UP) {
+                    return;
                 } else {
                     doSearch(searchTextField.getText());
 
