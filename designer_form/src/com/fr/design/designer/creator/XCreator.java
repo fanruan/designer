@@ -642,4 +642,12 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 		this.data = data;
 	}
 
+	/**
+	 * 属性改变触发
+	 *
+	 */
+	public void firePropertyChange(){
+
+	}
+
 }

@@ -174,5 +174,12 @@ public class XDateEditor extends XDirectWriteEditor {
 	public boolean shouldScaleCreator() {
 		return true;
 	}
-	
+
+	/**
+	 * 触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		initFieldText();
+	}
 }

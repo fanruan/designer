@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.widget.ui;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -205,6 +206,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (widgetBoundPane != null) {
             widgetBoundPane.update();
         }
+        xCreator.resetCreatorName(widget.getWidgetName());
+        designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
         fireValueChanged();
     }
 
@@ -218,8 +221,9 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     public void fireValueChanged() {
-        designer.repaint();
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        xCreator.firePropertyChange();
+        designer.fireTargetModified();
+        designer.refreshDesignerUI();
     }
 
     public String getIconPath() {

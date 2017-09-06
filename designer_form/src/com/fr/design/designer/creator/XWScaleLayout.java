@@ -161,4 +161,12 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 	public boolean supportSetVisibleOrEnable(){
 		return true;
 	}
+
+	/**
+	 * 更新组件及子组件的UI
+	 */
+	public void firePropertyChange(){
+		XCreator child = getXCreator(INDEX);
+		child.firePropertyChange();
+	}
 }
