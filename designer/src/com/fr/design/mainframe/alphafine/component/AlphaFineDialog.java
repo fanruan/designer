@@ -15,6 +15,7 @@ import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
+import com.fr.design.mainframe.alphafine.listener.DocumentAdapter;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
@@ -39,6 +40,7 @@ import com.fr.stable.project.ProjectConstants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -49,8 +51,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -89,7 +89,6 @@ public class AlphaFineDialog extends UIDialog {
     private String storeText;
     //是否强制打开，因为面板是否关闭绑定了全局鼠标事件，这里需要处理一下
     private boolean forceOpen;
-
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
@@ -223,15 +222,10 @@ public class AlphaFineDialog extends UIDialog {
      * @param text
      */
     private void doSearch(String text) {
-
-        if (isNeedSearch(text)) {
-            removeSearchResult();
-        } else {
-            showSearchResult(text);
-        }
+        showSearchResult(text);
     }
 
-    boolean isNeedSearch(String text) {
+    boolean isNoNeedSearch(String text) {
         return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'") || StringUtils.isBlank(text);
     }
 
@@ -294,6 +288,7 @@ public class AlphaFineDialog extends UIDialog {
         searchResultList.setCellRenderer(new ContentCellRender());
 
         leftSearchResultPane = new UIScrollPane(searchResultList);
+        leftSearchResultPane.setBorder(null);
         leftSearchResultPane.setBackground(Color.WHITE);
         leftSearchResultPane.setPreferredSize(new Dimension(AlphaFineConstants.LEFT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
         rightSearchResultPane = new JPanel();
@@ -319,7 +314,7 @@ public class AlphaFineDialog extends UIDialog {
         this.searchWorker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
-                rebuildList(searchTextField.getText().toLowerCase());
+                rebuildList(text);
                 return null;
             }
 
@@ -384,6 +379,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void rebuildList(String searchText) {
         resetContainer();
+
         if (searchText.startsWith(ADVANCED_SEARCH_MARK)) {
             if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
                 storeText = searchText.substring(searchText.indexOf(StringUtils.BLANK) + 1, searchText.length());
@@ -679,17 +675,22 @@ public class AlphaFineDialog extends UIDialog {
                         searchTextField.setText(null);
                         removeSearchResult();
                     }
-                } else if (keyCode == KeyEvent.VK_SHIFT) {
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            doSearch(searchTextField.getText());
-                        }
-                    }, 50);
-                } else if (keyCode == KeyEvent.VK_UP) {
-                    return;
+                }
+            }
+        });
+
+        searchTextField.getDocument().addDocumentListener(new DocumentAdapter() {
+            @Override
+            protected void textChanged(DocumentEvent e) {
+                if (isNoNeedSearch(searchTextField.getText())) {
+                    removeSearchResult();
                 } else {
-                    doSearch(searchTextField.getText());
+                    try {
+                        Thread.sleep(10);
+                        doSearch(searchTextField.getText());
+                    } catch (InterruptedException e1) {
+                        FRLogger.getLogger().error(e1.getMessage());
+                    }
 
                 }
             }
