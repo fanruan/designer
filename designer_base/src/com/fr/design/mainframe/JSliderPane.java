@@ -337,6 +337,10 @@ public class JSliderPane extends JPanel {
         return this.showValue;
     }
 
+    public void reset(){
+        this.showValSpinner.setValue(HUNDRED);
+    }
+
     public static double divide(double v1, double v2, int scale) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));

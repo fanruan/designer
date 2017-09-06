@@ -186,7 +186,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		};
 
 		double p = TableLayout.PREFERRED;
-		double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+		double e = getEditAreaWidth ();
 		double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
 		double[] columnSize = {d, e};
 		double[] rowSize = {p};
@@ -209,7 +209,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 
 		this.textFieldList = this.getTextFieldList();
 		refreshGroupPane(colors, getValueArray(number));
+	}
 
+	protected double getEditAreaWidth () {
+		return TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
 	}
 
 	protected ArrayList getTextFieldList(){
@@ -560,6 +563,10 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		return null;
 	}
 
+	protected int getColorgroupMarginLeft () {
+		return COLORGROUP_MARGIN_LEFT;
+	}
+
 	private LayoutManager layoutMeter = new LayoutManager() {
 		@Override
 		public void removeLayoutComponent(Component comp) {
@@ -580,8 +587,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
         public void layoutContainer(Container parent) {
             upControlPane.setBounds(MARGIN_LEFT, MARGIN_TOP, UPCONTROLPANE_WIDTH, upControlPane.getPreferredSize().height + MARGIN_TOP);
             stagePanel.setBounds(MARGIN_LEFT, upControlPane.getPreferredSize().height + LAYOUR_DET + MARGIN_TOP, UPCONTROLPANE_WIDTH, stagePanel.getPreferredSize().height);
-            colorGroup.setBounds(COLORGROUP_MARGIN_LEFT, 2 * MARGIN_TOP + upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
-            textGroup.setBounds(colorGroup.getPreferredSize().width + COLORGROUP_MARGIN_LEFT, upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET + MARGIN_TOP, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
+            colorGroup.setBounds( getColorgroupMarginLeft (), 2 * MARGIN_TOP + upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
+            textGroup.setBounds(colorGroup.getPreferredSize().width +  getColorgroupMarginLeft (), upControlPane.getPreferredSize().height + stagePanel.getPreferredSize().height + 2 * LAYOUR_DET + MARGIN_TOP, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
         }
 
 		@Override

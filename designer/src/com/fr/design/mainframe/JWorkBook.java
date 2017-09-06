@@ -130,6 +130,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
+    public JComponent getCurrentReportComponentPane() {
+        return reportComposite;
+    }
+
+    @Override
     protected UIModeControlContainer createCenterPane() {
         parameterPane = ModuleContext.isModuleStarted(Module.FORM_MODULE) ? new ParameterDefinitePane() : null;
         centerPane = new UIModeControlContainer(parameterPane, reportComposite = new ReportComponentComposite(this)) {

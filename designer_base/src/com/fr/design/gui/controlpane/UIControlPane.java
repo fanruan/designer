@@ -32,7 +32,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     private ToolBarDef toolbarDef;
     private UIToolbar toolBar;
     private UIToolbar topToolBar;
-    protected PopupEditDialog popupEditDialog;
+    protected Window popupEditDialog;
     // peter:这是整体的一个cardLayout Pane
     protected CardLayout cardLayout;
     protected JPanel cardPane;
@@ -119,7 +119,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         cardPane.add(selectLabel, "SELECT");
         cardPane.add(controlUpdatePane, "EDIT");
         if (isNewStyle()) {
-            popupEditDialog = new PopupEditDialog(cardPane);
+            getPopupEditDialog(cardPane);
             this.add(getLeftPane(), BorderLayout.CENTER);
             this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
         } else {
@@ -139,6 +139,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         }
 
         this.checkButtonEnabled();
+    }
+
+    protected void getPopupEditDialog (JPanel cardPane) {
+        popupEditDialog =  new PopupEditDialog(cardPane);
     }
 
     protected abstract JPanel createControlUpdatePane();

@@ -41,10 +41,12 @@ public class DatabaseTableDataPane extends BasicPane{
 
         pane.add(reviewButton,BorderLayout.EAST);
         this.add(pane,BorderLayout.CENTER);
-
-        this.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+		setBorder ();
 	}
 
+	protected void setBorder () {
+		this.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+	}
 	/**
 	 * 返回选中的数据源.
 	 */
