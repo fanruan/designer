@@ -224,7 +224,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void doSearch(String text) {
 
-        if (StringUtils.isBlank(text) || isNeedSearch(text)) {
+        if (isNeedSearch(text)) {
             removeSearchResult();
         } else {
             showSearchResult(text);
@@ -232,7 +232,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     boolean isNeedSearch(String text) {
-        return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'") || text.contains(StringUtils.BLANK);
+        return ComparatorUtils.equals(PLACE_HOLDER, text) || text.contains("'") || StringUtils.isBlank(text);
     }
 
     @Override
@@ -267,7 +267,7 @@ public class AlphaFineDialog extends UIDialog {
             searchResultPane = null;
         }
         setSize(AlphaFineConstants.FIELD_SIZE);
-        repaint();
+       refreshContainer();
     }
 
     /**
@@ -664,8 +664,7 @@ public class AlphaFineDialog extends UIDialog {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-                int keyCode = e.getKeyCode();
+            public void keyReleased(KeyEvent e) {int keyCode = e.getKeyCode();
                 if (keyCode == KeyEvent.VK_ESCAPE) {
                     if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
                         AlphaFineDialog.this.setVisible(false);
