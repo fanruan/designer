@@ -7,10 +7,7 @@ import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UINumberField;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.itextfield.UITextFieldUI;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.stable.Constants;
 
 import javax.swing.*;
@@ -18,10 +15,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 
 public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver {
 
@@ -172,7 +167,6 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         textField.setMaxValue(maxValue);
         textField.setMinValue(minValue);
         setValue(value);
-        textField.setUI(new SpinnerTextFieldUI(textField));
         preButton = new UIButton(UIConstants.ARROW_UP_ICON) {
             public boolean shouldResponseChangeListener() {
                 return false;
@@ -289,46 +283,6 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
      */
     public boolean shouldResponseNameListener() {
         return true;
-    }
-
-    private class SpinnerTextFieldUI extends UITextFieldUI {
-
-        public SpinnerTextFieldUI(UITextField textField) {
-            super(textField);
-        }
-
-        @Override
-        public void paintBorder(Graphics2D g2d, int width, int height,
-                                boolean isRound, int rectDirection) {
-            // do nothing
-        }
-
-        protected void paintBackground(Graphics g) {
-            JTextComponent editor = getComponent();
-            int width = editor.getWidth();
-            int height = editor.getHeight();
-            Shape oldClip = g.getClip();
-            Shape roundShape = new RoundRectangle2D.Double(0, 0, width, height, UIConstants.ARC, UIConstants.ARC);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.clearRect(0, 0, width, height);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.clip(roundShape);
-            g2d.setColor(Color.WHITE);
-            g2d.fillRoundRect(1, 1, width - 2, height - 2, UIConstants.ARC, UIConstants.ARC);
-            if (isRollOver && isEnabled()) {
-                Shape shape = new RoundRectangle2D.Double(1, 1, width - 3, height - 3, UIConstants.ARC, UIConstants.ARC);
-                GUIPaintUtils.paintBorderShadow(g2d, 3, shape, UIConstants.HOVER_BLUE, Color.WHITE);
-            } else {
-                g2d.setColor(UIConstants.LINE_COLOR);
-                g2d.drawRoundRect(1, 1, width - 2, height - 2, UIConstants.ARC, UIConstants.ARC);
-                g2d.clearRect(width - 2, 0, 2, height);
-                g2d.setClip(oldClip);
-                g2d.drawLine(width - 2, 1, width, 1);
-                g2d.drawLine(width - 2, height - 1, width, height - 1);
-            }
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        }
-
     }
 
     /**
