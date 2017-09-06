@@ -95,7 +95,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         formWidgetValuePane.update(layout);
         layout.setAutoLine(isStyleAlignmentWrapText.isSelected());
         layout.setVerticalCenter(isPageSetupVertically.isSelected());
-        layout.setTextalign((int)hAlignmentPane.getSelectedItem());
+        layout.setTextalign((int) hAlignmentPane.getSelectedItem());
         layout.setFont(frFontPane.update(layout.getFont()));
         return layout;
     }

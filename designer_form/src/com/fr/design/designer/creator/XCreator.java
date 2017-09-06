@@ -227,7 +227,7 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	protected String getIconName() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
 	public String getIconPath() {
@@ -472,11 +472,9 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 			selectionModel.selectACreatorAtMouseEvent(e);
 		}
 
-		if (editingMouseListener.stopEditing()) {
-			if (this != designer.getRootComponent()) {
-				ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
-				editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
-			}
+		if (editingMouseListener.stopEditing() && this != designer.getRootComponent()) {
+			ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, this);
+			editingMouseListener.startEditing(this, adapter.getDesignerEditor(), adapter);
 		}
 	}
 

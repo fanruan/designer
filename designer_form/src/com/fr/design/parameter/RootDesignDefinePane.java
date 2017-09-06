@@ -51,7 +51,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         JPanel layoutPane = createBoundsPane();
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("Size"), 280, 20, layoutPane);
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Size"), 280, 20, layoutPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
 
     }

@@ -20,6 +20,7 @@ import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -149,19 +150,12 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     private void initDefinePane() {
         currentEditorDefinePane = null;
-        XCreator creator = xCreator;
-        if (xCreator.acceptType(XWScaleLayout.class)) {
-            if (xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator()) {
-                creator = (XCreator) xCreator.getComponent(0);
-            }
-        }
-        if(xCreator.acceptType(XWTitleLayout.class)){
-            creator = (XCreator) xCreator.getComponent(0);
-        }
+        boolean dedicateLayout = xCreator.acceptType(XWScaleLayout.class) && xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator() || xCreator.acceptType(XWTitleLayout.class);
+        XCreator creator = dedicateLayout ? (XCreator) xCreator.getComponent(0) : xCreator;
         FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
-
+                //todo
             }
         });
         DataModify<Widget> definePane = rn.getDefinePane();
@@ -189,7 +183,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (cellWidget.acceptType(WScaleLayout.class)) {
             Widget crBoundsWidget = ((WScaleLayout) cellWidget).getBoundsWidget();
             innerWidget = ((CRBoundsWidget) crBoundsWidget).getWidget();
-        } else if(cellWidget.acceptType(WTitleLayout.class)){
+        } else if (cellWidget.acceptType(WTitleLayout.class)) {
             CRBoundsWidget crBoundsWidget = ((WTitleLayout) cellWidget).getBodyBoundsWidget();
             innerWidget = crBoundsWidget.getWidget();
         }
@@ -227,7 +221,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     public String getIconPath() {
-        return "";
+        return StringUtils.EMPTY;
     }
 
 
