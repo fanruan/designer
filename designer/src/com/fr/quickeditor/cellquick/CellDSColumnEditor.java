@@ -217,7 +217,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
         DSColumnBasicEditorPane() {
             dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
-            groupPane = new ResultSetGroupDockingPane(tc);
+            groupPane = new ResultSetGroupDockingPane();
             dataPane.addListener(dataListener);
             groupPane.addListener(groupListener);
 

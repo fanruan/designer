@@ -25,6 +25,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartAxisTitleNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.ChartAxisTitlePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -74,7 +75,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         zeroPane = aliagnZero4Second();
         axisReversed = new UICheckBox(Inter.getLocText("FR-Designer_AxisReversed"));
         unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
-        formatPane = new FormatPane();
+        formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
         dataPane = createDataDefinePane();
 

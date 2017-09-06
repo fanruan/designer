@@ -44,6 +44,11 @@ public abstract class ReportComponent<T extends TemplateReport, E extends Elemen
 
 	public abstract S getDefaultSelectElement();
 
+	/**
+	 * 更新JSliderPane
+	 */
+	public abstract void updateJSliderValue();
+
 
 	@Override
 	public ShortCut[] shortcut4TemplateMenu() {
