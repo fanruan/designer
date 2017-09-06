@@ -10,11 +10,9 @@ import com.fr.design.gui.ibutton.FiveButtonLayout;
 import com.fr.design.gui.style.*;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.BorderUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
