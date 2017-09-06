@@ -9,8 +9,7 @@ import com.fr.data.core.FormatField.FormatContents;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.gui.icombobox.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -22,6 +21,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.Format;
@@ -51,7 +52,7 @@ public class FormatPane extends AbstractBasicStylePane {
     private Format format;
 
     private UIComboBox typeComboBox;
-    private UIComboBox textField;
+    private TextFontComboBox textField;
     private UILabel sampleLabel;
     private JPanel contentPane;
     private JPanel txtCenterPane;
@@ -89,7 +90,8 @@ public class FormatPane extends AbstractBasicStylePane {
         contentPane.add(sampleLabel, BorderLayout.NORTH);
 
         txtCenterPane = new JPanel(new BorderLayout());
-        textField = new UIComboBox(FormatField.getInstance().getFormatArray(getFormatContents()));
+        textField = new TextFontComboBox();
+//        textField.setItemArray(FormatField.getInstance().getFormatArray(getFormatContents()));
         textField.addItemListener(textFieldItemListener);
         textField.setEditable(true);
         txtCenterPane.add(textField, BorderLayout.NORTH);
@@ -322,9 +324,8 @@ public class FormatPane extends AbstractBasicStylePane {
                     cardLayout.show(centerPane, "hide");
                 } else {
                     textField.removeAllItems();
-                    for (int i = 0; i < items.length; i++) {
-                        textField.addItem(items[i]);
-                    }
+                    textField.setItemArray(items);
+                    textField.setSelectedIndex(0);
                     centerPane.setPreferredSize(new Dimension(270, 65));
                     cardLayout.show(centerPane, "show");
                 }

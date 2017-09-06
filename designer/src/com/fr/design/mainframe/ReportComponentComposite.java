@@ -111,7 +111,6 @@ public class ReportComponentComposite extends JComponent {
             return;
         }
         centerCardPane.populate(workbook.getTemplateReport(newIndex));
-
         if (parentContainer != null) {
             parentContainer.setDownPane(ReportComponentComposite.this);
         }
@@ -120,12 +119,16 @@ public class ReportComponentComposite extends JComponent {
             EditingState reportPaneEditState = templateStateList.get(newIndex);
             if (reportPaneEditState != null) {
                 reportPaneEditState.revert();
+                updateJSlider();
             }
         } else {
             while (templateStateList.size() <= newIndex) {
                 templateStateList.add(null);
             }
             centerCardPane.editingComponet.setSelection(centerCardPane.editingComponet.getDefaultSelectElement());
+            if (jSliderContainer != null){
+                jSliderContainer.reset();
+            }
         }
 
         if (centerCardPane.editingComponet.elementCasePane == null) {
@@ -139,6 +142,10 @@ public class ReportComponentComposite extends JComponent {
         if (!grid.hasFocus() && grid.isRequestFocusEnabled()) {
             grid.requestFocus();
         }
+    }
+
+    private void updateJSlider(){
+        centerCardPane.editingComponet.updateJSliderValue();
     }
 
     /**

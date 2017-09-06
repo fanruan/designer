@@ -87,6 +87,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     // richer:鼠标滚轮每滚动一下，PolyDesignPane的尺寸就改变ROTATIONS这么多
     private static final int ROTATIONS = 50;
     private static final int MIN = 10;
+    private static final int HUND = 100;
     private JScrollBar verScrollBar;
     private JScrollBar horScrollBar;
 
@@ -687,14 +688,16 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 返回正在编辑的状态.
      */
     public EditingState createEditingState() {
-        return new PolyDesignerEditingState(selection);
+        return new PolyDesignerEditingState(selection, resolution);
     }
 
     private class PolyDesignerEditingState implements EditingState {
         private String blockName;
         private Selection select;
+        protected int resolution = ScreenResolution.getScreenResolution();
 
-        public PolyDesignerEditingState(BlockCreator creator) {
+        public PolyDesignerEditingState(BlockCreator creator, int resolution) {
+            this.resolution = resolution;
             if (creator == null) {
                 return;
             }
@@ -710,6 +713,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         public void revert() {
             PolyDesigner.this.addedData = new AddedData(PolyDesigner.this);
             stopEditingState();
+            HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(this.resolution);
             initPolyBlocks();
             startEditing(blockName);
             if (selection == null) {
@@ -840,6 +844,13 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      */
     public BlockCreator getDefaultSelectElement() {
         return null;
+    }
+
+    @Override
+    public void updateJSliderValue() {
+        ReportComponentComposite reportComposite = (ReportComponentComposite) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentReportComponentPane();
+        JSliderPane jSliderContainer = reportComposite.getjSliderContainer();
+        jSliderContainer.getShowVal().setValue((int)Math.ceil((double)this.resolution * HUND / ScreenResolution.getScreenResolution()));
     }
 
 
