@@ -220,7 +220,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         formDesign = new FormDesigner(this.getTarget(), new TabChangeAction(BaseJForm.ELEMENTCASE_TAB, this));
         WidgetToolBarPane.getInstance(formDesign);
         FormArea area = new FormArea(formDesign);
-        centerPane.add(area, BorderLayout.CENTER);
+        JPanel areaWrapper = new JPanel(new BorderLayout());
+        areaWrapper.add(area, BorderLayout.CENTER);
+        areaWrapper.setBackground(Color.white);
+        centerPane.add(areaWrapper, BorderLayout.CENTER);
         tabCenterPane.add(centerPane, FORM_CARD, FORM_TAB);
         this.add(tabCenterPane, BorderLayout.CENTER);
 
