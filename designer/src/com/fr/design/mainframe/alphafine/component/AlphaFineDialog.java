@@ -440,7 +440,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildDocumentList(final String searchText) {
         SearchResult documentModelList = DocumentSearchManager.getDocumentSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : documentModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
@@ -448,7 +447,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildFileList(final String searchText) {
         SearchResult fileModelList = FileSearchManager.getFileSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : fileModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
@@ -456,7 +454,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildActionList(final String searchText) {
         SearchResult actionModelList = ActionSearchManager.getActionSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : actionModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
@@ -464,7 +461,6 @@ public class AlphaFineDialog extends UIDialog {
     private void buildPluginList(final String searchText) {
         SearchResult pluginModelList = PluginSearchManager.getPluginSearchManager().getLessSearchResult(searchText);
         for (AlphaCellModel object : pluginModelList) {
-            AlphaFineHelper.checkCancel();
             searchListModel.addElement(object);
         }
     }
