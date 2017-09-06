@@ -20,6 +20,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> {
 	
@@ -31,6 +32,11 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 	@Override
 	protected VariableResolver variableResolver4FormulaPane() {
 		return VariableResolver.DEFAULT;
+	}
+
+	@Override
+	protected void clearDefaultConditionPane() {
+		defaultConditionPane.populateBean(new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
 	}
 
 	private  class ObjectConditionPane extends BasicBeanPane<ObjectCondition> {

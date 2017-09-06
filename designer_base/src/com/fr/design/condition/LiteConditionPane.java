@@ -854,7 +854,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         rootTreeNode.removeAllChildren();
 
         // 清空编辑框
-        defaultConditionPane.populateBean((T)new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
+        clearDefaultConditionPane();
         formulaTextArea.setText(StringUtils.EMPTY);
 
         // peter:需要构建成ListCondition,加入到里面.
@@ -890,6 +890,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             } catch (Exception e) {//not need
             }
         }
+    }
+
+    // 有需要再重写，不用做成抽象方法
+    protected void clearDefaultConditionPane() {
     }
 
     protected boolean needDoWithCondition(Condition liteCondition) {
