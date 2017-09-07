@@ -121,6 +121,7 @@ public class VanChartHyperLinkPane extends UIListControlPane {
             return;
         }
         update((VanChartPlot) plot);
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
     }
 
     public void populate(Plot plot) {

@@ -1,11 +1,8 @@
 package com.fr.plugin.chart.designer.other;
 
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.general.Inter;
 import com.fr.plugin.chart.base.RefreshMoreLabel;
 import com.fr.plugin.chart.vanchart.VanChart;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -17,9 +14,9 @@ public class AutoRefreshPaneWithoutTooltip extends AutoRefreshPane {
         super(chart, isLargeModel);
     }
 
-    protected Component[][] initComponent(JPanel autoTooltipPane){
+    protected Component[][] initAutoTooltipComponent () {
         return new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), getAutoRefreshTime(),new UILabel(Inter.getLocText("Chart-Time_Seconds"))}
+                new Component[]{null, null},
         };
     }
 
