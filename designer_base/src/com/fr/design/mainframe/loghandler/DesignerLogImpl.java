@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.stable.fun.impl.AbstractLogProvider;
+import com.fr.stable.web.SessionProvider;
 import com.fr.stable.xml.LogRecordTimeProvider;
 
 import java.util.ArrayList;
@@ -42,5 +43,10 @@ public class DesignerLogImpl extends AbstractLogProvider{
     @Override
     public void record(LogRecordTimeProvider logRecordTime) {
         records.add(logRecordTime);
+    }
+
+    @Override
+    public void record(LogRecordTimeProvider logRecordTime, SessionProvider sessionProvider) {
+
     }
 }

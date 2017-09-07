@@ -31,7 +31,7 @@ public class ReportExportAttrPane extends BasicPane {
         wordExportPane = new WordExportPane();
         uiTabbedPane.addTab("Word", wordExportPane);
         Set<ExportAttrTabProvider> providers = ExtraDesignClassManager.getInstance().getArray(ExportAttrTabProvider.XML_TAG);
-        paneList = new ArrayList<>();
+        paneList = new ArrayList<AbstractExportPane>();
         for (ExportAttrTabProvider provider : providers) {
             uiTabbedPane.addTab(provider.title(), provider.toSwingComponent());
             paneList.add(provider.toExportPane());

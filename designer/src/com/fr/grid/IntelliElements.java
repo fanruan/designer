@@ -194,7 +194,12 @@ public class IntelliElements {
                     TemplateCellElement newCellElement = new DefaultTemplateCellElement(colIndex, rowIndex);
                     applyStyle(newCellElement, sourceCellElement);//style
                     if (sourceCellElement.getValue() instanceof DSColumn) {
-                        DSColumn dsColumn = (DSColumn) sourceCellElement.getValue();
+                        DSColumn dsColumn = null;
+                        try {
+                            dsColumn = (DSColumn) ((DSColumn) sourceCellElement.getValue()).clone();
+                        } catch (CloneNotSupportedException e) {
+                            FRContext.getLogger().error(e.getMessage(), e);
+                        }
                         newCellElement.setValue(dsColumn);
                         newCellElement.setCellExpandAttr(sourceCellElement.getCellExpandAttr());
                     } else if (sourceCellElement.getValue() instanceof Number) {

@@ -399,7 +399,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
             polyDezi.updateUI();
         }
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
 
     @Override
