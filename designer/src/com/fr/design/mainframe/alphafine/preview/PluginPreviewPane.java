@@ -49,10 +49,10 @@ public class PluginPreviewPane extends JPanel {
         nameLabel.setBackground(AlphaFineConstants.BLUE);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
         line.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : String.valueOf(price);
+        String price0 = price == 0 ? Inter.getLocText("FR-Designer-Collect_Information_free") : "￥" + String.valueOf(price);
         UILabel priceLabel = new UILabel(price0);
         priceLabel.setForeground(AlphaFineConstants.RED);
-        priceLabel.setFont(AlphaFineConstants.SMALL_FONT);
+        priceLabel.setFont(AlphaFineConstants.MEDIUM_FONT);
         bottomPane.add(priceLabel, BorderLayout.WEST);
         panel.add(nameLabel, BorderLayout.NORTH);
         panel.add(line, BorderLayout.SOUTH);

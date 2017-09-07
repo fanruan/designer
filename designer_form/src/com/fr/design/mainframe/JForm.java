@@ -93,6 +93,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void refreshEastPropertiesPane() {
+        // 暂时用不到，遇到的时候再加刷新右侧tab面板的代码
+        return;
     }
 
     @Override
@@ -126,7 +128,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setJTemplateResolution(int resolution) {
-
+        return;
     }
 
     @Override
@@ -220,7 +222,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         formDesign = new FormDesigner(this.getTarget(), new TabChangeAction(BaseJForm.ELEMENTCASE_TAB, this));
         WidgetToolBarPane.getInstance(formDesign);
         FormArea area = new FormArea(formDesign);
-        centerPane.add(area, BorderLayout.CENTER);
+        JPanel areaWrapper = new JPanel(new BorderLayout());
+        areaWrapper.add(area, BorderLayout.CENTER);
+        areaWrapper.setBackground(Color.white);
+        centerPane.add(areaWrapper, BorderLayout.CENTER);
         tabCenterPane.add(centerPane, FORM_CARD, FORM_TAB);
         this.add(tabCenterPane, BorderLayout.CENTER);
 
@@ -267,14 +272,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     public void setSheetCovered(boolean isCovered) {
-
+        return;
     }
 
     /**
      * 刷新容器
      */
     public void refreshContainer() {
-
+        return;
     }
 
     /**
@@ -286,6 +291,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setScale(int resolution) {
+        return;
     }
 
     @Override
@@ -461,15 +467,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this),
-                    new FormMobileAttrAction(this)
-            }, new ShortCut[0]);
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, new ShortCut[0]);
         } else {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this),
-                    new FormMobileAttrAction(this)
-            }, this.elementCaseDesign.shortcut4TemplateMenu());
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
@@ -677,16 +677,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             return;
         }
 
-        if (formDesign.isReportBlockEditing()) {
-            if (elementCaseDesign != null) {
-                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM_REPORT);
-                EastRegionContainerPane.getInstance().removeParameterPane();
-                EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
-                EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
-                EastRegionContainerPane.getInstance().replaceConditionAttrPane(elementCaseDesign.getConditionAttrPane());
-                EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
-                return;
-            }
+        if (formDesign.isReportBlockEditing() && elementCaseDesign != null) {
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM_REPORT);
+            EastRegionContainerPane.getInstance().removeParameterPane();
+            EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
+            EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
+            EastRegionContainerPane.getInstance().replaceConditionAttrPane(elementCaseDesign.getConditionAttrPane());
+            EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
+            return;
         }
 
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
@@ -696,6 +694,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
         EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
+        refreshWidgetLibPane();
+    }
+
+    private void refreshWidgetLibPane() {
         if (EastRegionContainerPane.getInstance().getWidgetLibPane() == null) {
             new Thread() {
                 public void run() {

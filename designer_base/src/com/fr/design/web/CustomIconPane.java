@@ -7,7 +7,9 @@ import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -26,6 +28,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,14 +47,14 @@ public class CustomIconPane extends BasicPane {
 	private ListMap iconButtonMap = null;
 	private JPanel iconPane = null;
 	private ButtonGroup bg;
-	private JScrollPane jsPane;
+	private UIScrollPane jsPane;
 	// 老一次次去拿真麻烦
 	private IconManager iconManager = null;
 
-	private int width = 180;
-	private int horizontalCount = 6;
-	private int heightPer = 29;
-	private int gap = 10;
+	private static final int THE_WIDTH = 180;
+	private static final int HORIZONTAL_COUNT = 6;
+	private static final int HEIGHT_PER = 29;
+	private static final int GAP = 10;
 	
 	public CustomIconPane() {
 		this.initComponents();
@@ -69,7 +72,7 @@ public class CustomIconPane extends BasicPane {
 		// 开始加图标选择按钮
 		initIcons();
 
-		jsPane = new JScrollPane(iconPane);
+		jsPane = new UIScrollPane(iconPane);
 		refreshIconPane(false);
 		jsPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
@@ -131,14 +134,11 @@ public class CustomIconPane extends BasicPane {
 						if (iconManager.addIcon(icon, false)) {
 							IconButton iconButton = null;//初始化
 
-							addIcon(icon,iconButton);
+							addIcon(icon, iconButton);
 
 						}else {
 							// add failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-									Inter.getLocText("FR-Designer_Custom_Icon_Message2"),
-				    				Inter.getLocText("FR-Designer_Tooltips"),
-									JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Custom_Icon_Message2"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 }).setVisible(true);
@@ -189,6 +189,7 @@ public class CustomIconPane extends BasicPane {
 				try {
 					oldIcon= iconManager.getIcon(selectedIconName);
 				} catch (CloneNotSupportedException e1) {
+                    // do nothing
 				}
 				if (oldIcon == null) {
 					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
@@ -209,16 +210,13 @@ public class CustomIconPane extends BasicPane {
 							iconPane.remove(iconButton);
 							bg.remove(iconButton);
 
-							addIcon(icon,iconButton);
+							addIcon(icon, iconButton);
 
 						} else {
 							// 失败了再弄回去
 							iconManager.addIcon(oldIcon, true);
 							// edit failed
-							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-									Inter.getLocText("FR-Designer_Custom_Icon_Message2"),
-				    				Inter.getLocText("FR-Designer_Tooltips"),
-									JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Custom_Icon_Message2"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
                 });
@@ -272,8 +270,8 @@ public class CustomIconPane extends BasicPane {
 	
 	// 不知道怎么动态布局，就这么傻傻的调一下大小
 	private void refreshIconPane(boolean down) {
-		iconPane.setPreferredSize(new Dimension(width, (iconButtonMap.size() / horizontalCount + 1) * heightPer + gap));
-		JScrollBar jsBar = jsPane.getVerticalScrollBar();
+		iconPane.setPreferredSize(new Dimension(THE_WIDTH, (iconButtonMap.size() / HORIZONTAL_COUNT + 1) * HEIGHT_PER + GAP));
+		UIScrollBar jsBar = jsPane.createVerticalScrollBar();
 		try {
 			if (down) {
 				// 将滚动条滚到最后
@@ -282,29 +280,41 @@ public class CustomIconPane extends BasicPane {
 				jsBar.setValue(0);
 			}
 		} catch (RuntimeException re) {
+            return;
 		}
 	}
 	
 	private class IconButton extends JToggleButton implements ActionListener{
 		private String iconName;
 		private Image iconImage = null;
+        private static final int ICON_BUTTON_SIZE = 24;
+        private static final int ICON_X = 4;
+        private static final int ICON_Y = 4;
 		public IconButton(String name) {
 			this.iconName = name;
 			this.addActionListener(this);
-
             this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             this.setBorder(null);
             this.iconImage = WidgetManager.getProviderInstance().getIconManager().getIconImage(name);
             this.setToolTipText(iconName);
 		}
+
+        @Override
+        public void updateUI() {
+            setUI(new BasicButtonUI(){
+                public void paint(Graphics g, JComponent c) {
+                    super.paint(g, c);
+                }
+            });
+        }
 		
 		@Override
 		public void paintComponent(Graphics g) {
+            super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            
             // carl:这里缩放显示 16 × 16
             if (iconImage != null) {
-            	g2d.drawImage(iconImage, 4, 4, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
+            	g2d.drawImage(iconImage, ICON_X, ICON_Y, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
             }
             if (this.iconName != null && ComparatorUtils.equals(this.iconName, selectedIconName)) {
             	g2d.setPaint(Color.RED);
@@ -317,7 +327,7 @@ public class CustomIconPane extends BasicPane {
 		
         @Override
 		public Dimension getPreferredSize() {
-            return new Dimension(24, 24);
+            return new Dimension(ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
         }
         
         public void actionPerformed(ActionEvent evt) {
@@ -348,75 +358,80 @@ public class CustomIconPane extends BasicPane {
 		private String oldName = null;
 	    
 	    protected EditIconDialog() {
-	    	this.setLayout(FRGUIPaneFactory.createBorderLayout());
-	    	double p = TableLayout.PREFERRED;
-	        double rowSize[] = {p, p};
-	        double columnSize[] = {p, p, p};
-	        
-	        UIButton browseButton = new UIButton(Inter.getLocText("FR-Designer_Custom_Icon_SelectIcon"));
-	        browseButton.setPreferredSize(new java.awt.Dimension(80, 25));
-			browseButton.setToolTipText(Inter.getLocText("FR-Designer_Click_this_button"));
-			
-			browseButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JFileChooser jf = new JFileChooser();
-					// carl:不知道是否只要png格式,反正导出时全部都转成png了
-					FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("Icon Image File", "jpg", "jpeg", "png", "gif");
-					jf.setFileFilter(fileFilter);
-
-					if (JFileChooser.APPROVE_OPTION == jf.showOpenDialog(DesignerContext.getDesignerFrame())) {
-						String path = jf.getSelectedFile().getAbsolutePath();
-						// 将图片转化到16 × 16大小
-						Image image = BaseUtils.readImage(path);
-						BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(IconManager.DEFAULT_ICONWIDTH,
-                                IconManager.DEFAULT_ICONHEIGHT, BufferedImage.TYPE_INT_ARGB);
-						Graphics2D g2d = bufferedImage.createGraphics();
-						g2d.drawImage(image, 0, 0, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
-						bufferedImage.flush();
-						g2d.dispose();
-						iconImage = bufferedImage;
-						if (iconImage != null) {
-							showImageLabel.setIcon(new ImageIcon(iconImage));
-						}
-					}
-					
-				}
-			});
-			
-			nameTextField = new UITextField(20);
-			// 焦点丢失时看看名称是否已经存在
-			nameTextField.addFocusListener(new FocusListener() {
-				public void focusGained(FocusEvent e) {
-				}
-				public void focusLost(FocusEvent e) {
-					if (oldName != null && ComparatorUtils.equals(oldName, nameTextField.getText())) {
-						return;
-					}
-					if (WidgetManager.getProviderInstance().getIconManager().contains(nameTextField.getText())) {
-						JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-								Inter.getLocText("FR-Designer_Custom_Icon_Message3"),
-			    				Inter.getLocText("FR-Designer_Tooltips"),
-								JOptionPane.WARNING_MESSAGE);
-					}
-				}			
-			});
-	        
-			JPanel imagePane = new JPanel();
-			imagePane.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
-			showImageLabel = new UILabel();
-			showImageLabel.setPreferredSize(new Dimension(20,20));
-			imagePane.add(showImageLabel);
-			imagePane.add(browseButton);
-	        Component[][] components = {
-	        		{new UILabel(Inter.getLocText("FR-Designer_Name") + ":"), nameTextField},
-	        		{new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), imagePane}
-	        };
-	        
-	        JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-	        this.add(centerPane,BorderLayout.CENTER);
+            init();
 	    }
-	    
-	    @Override
+
+        private void init() {
+            this.setLayout(FRGUIPaneFactory.createBorderLayout());
+            double p = TableLayout.PREFERRED;
+            double rowSize[] = {p, p};
+            double columnSize[] = {p, p, p};
+
+            UIButton browseButton = new UIButton(Inter.getLocText("FR-Designer_Custom_Icon_SelectIcon"));
+            browseButton.setPreferredSize(new Dimension(80, 25));
+            browseButton.setToolTipText(Inter.getLocText("FR-Designer_Click_this_button"));
+            nameTextField = new UITextField(20);
+
+            browseButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+                    onBrowseButtonClicked();
+				}
+			});
+
+            // 焦点丢失时看看名称是否已经存在
+            nameTextField.addFocusListener(new FocusListener() {
+                public void focusGained(FocusEvent e) {
+                    // do nothing
+                }
+                public void focusLost(FocusEvent e) {
+                    if (oldName != null && ComparatorUtils.equals(oldName, nameTextField.getText())) {
+                        return;
+                    }
+                    if (WidgetManager.getProviderInstance().getIconManager().contains(nameTextField.getText())) {
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                                Inter.getLocText("FR-Designer_Custom_Icon_Message3"),
+                                Inter.getLocText("FR-Designer_Tooltips"),
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            });
+
+            JPanel imagePane = new JPanel();
+            imagePane.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
+            showImageLabel = new UILabel();
+            showImageLabel.setPreferredSize(new Dimension(20,20));
+            imagePane.add(showImageLabel);
+            imagePane.add(browseButton);
+            Component[][] components = {{new UILabel(Inter.getLocText("FR-Designer_Name") + ":"), nameTextField}, {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), imagePane}};
+
+            JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+            this.add(centerPane, BorderLayout.CENTER);
+        }
+
+        private void onBrowseButtonClicked() {
+            JFileChooser jf = new JFileChooser();
+            // carl:不知道是否只要png格式,反正导出时全部都转成png了
+            FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("Icon Image File", "jpg", "jpeg", "png", "gif");
+            jf.setFileFilter(fileFilter);
+
+            if (JFileChooser.APPROVE_OPTION == jf.showOpenDialog(DesignerContext.getDesignerFrame())) {
+                String path = jf.getSelectedFile().getAbsolutePath();
+                // 将图片转化到16 × 16大小
+                Image image = BaseUtils.readImage(path);
+                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(IconManager.DEFAULT_ICONWIDTH,
+IconManager.DEFAULT_ICONHEIGHT, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2d = bufferedImage.createGraphics();
+                g2d.drawImage(image, 0, 0, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
+                bufferedImage.flush();
+                g2d.dispose();
+                iconImage = bufferedImage;
+                if (iconImage != null) {
+                    showImageLabel.setIcon(new ImageIcon(iconImage));
+                }
+            }
+        }
+
+        @Override
 	    protected String title4PopupWindow() {
 	    	return Inter.getLocText(new String[]{"Add", "Icon"});
 	    }
