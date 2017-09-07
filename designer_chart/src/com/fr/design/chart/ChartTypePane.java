@@ -7,11 +7,7 @@ package com.fr.design.chart;
 import com.fr.base.FRContext;
 import com.fr.base.FRCoreContext;
 import com.fr.chart.base.ChartInternationalNameContentBean;
-import com.fr.chart.chartattr.Chart;
-import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.ChartIcon;
-import com.fr.chart.chartattr.MapPlot;
-import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.*;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -154,7 +150,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
         Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
-            if(chart.getPlot() instanceof MapPlot && !supportMap()){
+            if(chart.getPlot() instanceof MapPlot && !(VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.CHART_MAP.support())){
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Chart-Map_Not_Supported"));
                 throw new RegistEditionException(VT4FR.CHART_MAP);
             }
@@ -167,11 +163,6 @@ public class ChartTypePane extends ChartCommonWizardPane {
                 }
             }
         }
-    }
-
-    private boolean supportMap() {
-        byte[] bytes = FRCoreContext.getBytes();
-        return VT4FR.isLicAvailable(bytes) && VT4FR.CHART_MAP.support();
     }
 
     public void update(ChartCollection cc) {

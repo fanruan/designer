@@ -1,21 +1,18 @@
 package com.fr.design.widget.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.present.dict.DictionaryPane;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
 public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup> {
-	private DictionaryPane dictPane;
-
 	CheckBoxDictPane checkBoxDictPane;
 
 	private UICheckBox checkbox;
@@ -29,7 +26,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	protected void initComponents() {
 		super.initComponents();
 
-		dictPane = new DictionaryPane();
 	}
 	
 	@Override
@@ -39,34 +35,31 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	
 	@Override
 	protected JPanel setFirstContentPane() {
-		JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		attrPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-		advancedPane.add(attrPane);
-		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		checkBoxDictPane = new CheckBoxDictPane();
-		checkBoxDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-		northPane.add(checkBoxDictPane, BorderLayout.NORTH);
-		JPanel chooseAllPane = new JPanel();
-		checkbox = new UICheckBox(Inter.getLocText("FR-Designer_Provide_Choose_All"));
-		chooseAllPane.add(checkbox);
-		chooseAllPane.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
-		northPane.add(chooseAllPane, BorderLayout.CENTER);
-		attrPane.add(northPane, BorderLayout.NORTH);
-
-		JPanel centerPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		buttonGroupDictPane = new ButtonGroupDictPane();
-		buttonGroupDictPane.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 0));
-		centerPane.add(buttonGroupDictPane);
-		attrPane.add(centerPane, BorderLayout.CENTER);
+		checkBoxDictPane = new CheckBoxDictPane();
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		Component[][] components = new Component[][]{
+				new Component[]{buttonGroupDictPane,  null },
+				new Component[]{checkbox,  null },
+				new Component[]{checkBoxDictPane,  null },
 
-		return advancedPane;
+		};
+		double[] rowSize = {p, p, p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1, 1},{1, 1},{1,1},{1,1}};
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+//		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		advancePane.add(panel);
+		return advancePane;
+
 	}
 	
 	@Override
 	protected void populateSubFieldEditorBean(CheckBoxGroup ob) {
-		this.dictPane.populateBean(ob.getDictionary());
 		checkBoxDictPane.populate(ob);
 		checkbox.setSelected(ob.isChooseAll());
 		this.buttonGroupDictPane.populate(ob);
@@ -75,8 +68,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	@Override
 	protected CheckBoxGroup updateSubFieldEditorBean() {
 		CheckBoxGroup ob = new CheckBoxGroup();
-
-		ob.setDictionary(this.dictPane.updateBean());
 		checkBoxDictPane.update(ob);
 		ob.setChooseAll(checkbox.isSelected());
 		this.buttonGroupDictPane.update(ob);
@@ -85,6 +76,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 
     @Override
     public DataCreatorUI dataUI() {
-        return dictPane;
+        return null;
     }
 }

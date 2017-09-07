@@ -5,6 +5,7 @@ import com.fr.base.present.FormulaPresent;
 import com.fr.base.present.Present;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.fun.PresentKindProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
@@ -57,18 +58,19 @@ public class PresentPane extends UIComboBoxPane<Present> {
 	@Override
 	protected List<FurtherBasicBeanPane<? extends Present>> initPaneList() {
 		if (keys == null) {
-			keys = new ArrayList<String>();
+			keys = new ArrayList<>();
 		}
 		if (displays == null) {
-			displays = new ArrayList<String>();
+			displays = new ArrayList<>();
 		}
-		List<FurtherBasicBeanPane<? extends Present>> paneList = new ArrayList<FurtherBasicBeanPane<? extends Present>>();
+		List<FurtherBasicBeanPane<? extends Present>> paneList = new ArrayList<>();
 		FurtherBasicBeanPane<Present> none = new NonePresentPane();
 		paneList.add(none);
 		keys.add("NOPRESENT");
 		displays.add(none.title4PopupWindow());
 
-		paneList.add(dictPresentPane = new DictPresentPane());
+		dictPresentPane = new DictPresentPane();
+		paneList.add(dictPresentPane);
 		keys.add(DictPresent.class.getName());
 		displays.add(dictPresentPane.title4PopupWindow());
 
@@ -99,7 +101,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 
 	@Override
 	protected UIComboBox createComboBox() {
-		return new DictionaryComboBox<String>(keys.toArray(new String[keys.size()]), displays.toArray(new String[displays.size()]));
+		return new DictionaryComboBox<>(keys.toArray(new String[keys.size()]), displays.toArray(new String[displays.size()]));
 	}
 
 	@Override

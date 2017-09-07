@@ -118,7 +118,7 @@ public class SwitchExistEnv extends MenuDef {
                     return;
                 }
                 SignIn.signIn(selectedEnv);
-                resetLicenseBytes();
+                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                 fireDSChanged();
             } catch (Exception em) {
@@ -127,10 +127,5 @@ public class SwitchExistEnv extends MenuDef {
                 TemplatePane.getInstance().editItems();
             }
         }
-
-        private void resetLicenseBytes() {
-            FRCoreContext.retryLicLock();
-        }
     }
-
 }

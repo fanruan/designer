@@ -12,7 +12,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerStartOpenFileProcessor;
-import com.fr.design.fun.GlobalListenerProvider;
+import com.fr.design.fun.impl.GlobalListenerProviderManager;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -35,7 +35,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 /**
  * The main class of Report Designer.
@@ -49,6 +48,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     private Timer timer;
 
     public BaseDesigner(String[] args) {
+        BuildContext.setBuildFilePath(buildPropertiesPath());
+
         if (isDebug()) {
             setDebugEnv();
         }
@@ -60,14 +61,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             DesignUtils.clientSend(args);
             return;
         }
-        BuildContext.setBuildFilePath(buildPropertiesPath());
 
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
 
-        // 先加载设计器的国际化文件
+        // 在 initLanguage 之后加载设计器国际化文件，确保是正确的语言环境
         Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
-
 
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
@@ -94,6 +93,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         switch2LastEnv();
 
         initDefaultFont();
+        //PluginManager要在环境切换和模块启动之前初始化
+        PluginManager.registerEnvListener();
         // 必须先初始化Env再去startModule, 不然会导致lic读取不到
         ModuleContext.startModule(module2Start());
 
@@ -116,10 +117,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void bindGlobalListener() {
-        Set<GlobalListenerProvider> providers = ExtraDesignClassManager.getInstance().getArray(GlobalListenerProvider.XML_TAG);
-        for (GlobalListenerProvider provider : providers) {
-            Toolkit.getDefaultToolkit().addAWTEventListener(provider.listener(), AWTEvent.KEY_EVENT_MASK);
-        }
+
+        GlobalListenerProviderManager.getInstance().init();
     }
 
     private void showErrorPluginsMessage() {

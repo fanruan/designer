@@ -1,14 +1,6 @@
 package com.fr.env;
 
-import com.fr.base.AbstractEnv;
-import com.fr.base.EnvException;
-import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
-import com.fr.base.ModifiedTable;
-import com.fr.base.Parameter;
-import com.fr.base.StoreProcedureParameter;
-import com.fr.base.TableData;
-import com.fr.base.Utils;
+import com.fr.base.*;
 import com.fr.base.remote.RemoteDeziConstants;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
@@ -25,34 +17,17 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
-import com.fr.general.VT4FR;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.plugin.Plugin;
-import com.fr.plugin.PluginLicense;
-import com.fr.plugin.PluginLicenseManager;
-import com.fr.plugin.PluginLoader;
 import com.fr.share.ShareConstants;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.JavaCompileInfo;
-import com.fr.stable.LicUtils;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.SvgProvider;
+import com.fr.stable.*;
 import com.fr.stable.file.XMLFileManagerProvider;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
@@ -61,37 +36,17 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
 import javax.swing.*;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -428,7 +383,6 @@ public class RemoteEnv extends AbstractEnv {
 
     private void extraChangeEnvPara() {
         //在env连接之前, 加载一下不依赖env的插件. 看看需不需要改变参数.
-        PluginLoader.init();
         DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
         if (envProcessor != null) {
             this.path = envProcessor.changeEnvPathBeforeConnect(user, password, path);
@@ -1427,15 +1381,11 @@ public class RemoteEnv extends AbstractEnv {
                     return;
                 }
                 SignIn.signIn(remoteEnv);
-                resetLicenseBytes();
+                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);
             }
-        }
-
-        private void resetLicenseBytes() {
-            FRCoreContext.retryLicLock();
         }
 
         /**
@@ -1837,8 +1787,7 @@ public class RemoteEnv extends AbstractEnv {
         }
         LogRecordTime[] records = DavXMLUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
-            DesignerLogHandler.getInstance().printRemoteLog(logRecordTime);
-
+            //TODO
         }
     }
 
@@ -2037,7 +1986,8 @@ public class RemoteEnv extends AbstractEnv {
     public void setLicName(String licName) {
         //do nth
     }
-
+ 
+    
     /**
      * 获取当前env的build文件路径
      */
@@ -2073,74 +2023,8 @@ public class RemoteEnv extends AbstractEnv {
         info.parseJSON(jo);
         return info;
     }
-
-    /**
-     * 将文件拷贝到插件目录
-     *
-     * @param dir    要拷贝的文件
-     * @param plugin 插件
-     */
-    public void copyFilesToPluginAndLibFolder(File dir, Plugin plugin) throws Exception {
-
-    }
-
-    /**
-     * 将文件添加到指定目录或者删除指定目录的文件
-     *
-     * @param file   解压插件的临时目录
-     * @param plugin 当前处理的插件
-     */
-    public void movePluginEmbFile(File file, Plugin plugin) throws Exception {
-
-    }
-
-    /**
-     * 将文件从插件目录删除
-     *
-     * @param plugin 要删除插件
-     * @return 同上
-     */
-    public String[] deleteFileFromPluginAndLibFolder(Plugin plugin) {
-        return new String[0];
-    }
-
-    /**
-     * 保存插件的配置文件
-     *
-     * @param plugin 插件
-     */
-    public void writePlugin(Plugin plugin) throws Exception {
-
-    }
-
-
-    /**
-     * 获取插件的配置目录
-     *
-     * @param plugin
-     */
-    public String getPluginFilePath(Plugin plugin) {
-
-        return StringUtils.EMPTY;
-    }
-
-    public void readPluginLicenses() throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
-        para.put("cmd", "design_plugin_licenses");
-
-        InputStream inputStream = postBytes2ServerB(out.toByteArray(), para);
-        String pluginsLicensesStr = IOUtils.inputStream2String(inputStream, EncodeConstants.ENCODING_UTF_8);
-        if (StringUtils.isNotBlank(pluginsLicensesStr) && pluginsLicensesStr.startsWith("[")) {
-            JSONArray jsonArray = new JSONArray(pluginsLicensesStr);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                PluginLicense pluginLicense = new PluginLicense();
-                pluginLicense.parseJSON(jsonArray.getJSONObject(i));
-                PluginLicenseManager.getInstance().addRemotePluginLicense(pluginLicense);
-            }
-        }
-    }
+    
+    
 
     @Override
     public String pluginServiceAction(String serviceID, String req) throws Exception {
@@ -2161,12 +2045,6 @@ public class RemoteEnv extends AbstractEnv {
     @Override
     public void pluginServiceStart(String serviceID){
     }
-
-    @Override
-    public void checkAndRegisterLic(FileNode node, Plugin plugin) throws Exception {
-
-    }
-
     @Override
     public File[] loadREUFile() throws Exception {
         File target = new File(CacheManager.getProviderInstance().getCacheDirectory(),
@@ -2282,9 +2160,34 @@ public class RemoteEnv extends AbstractEnv {
             return StringUtils.EMPTY;
         }
     }
-
+    
     @Override
-    public void doWhenServerShutDown() {
+    public boolean isLocalEnv() {
+        
+        return false;
+    }
+    
+    @Override
+    public boolean hasPluginServiceStarted(String key) {
 
+        return true;
+    }
+    
+    @Override
+    public JSONArray getPluginStatus() {
+        
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "plugin");
+            para.put("cmd", "get_status");
+            para.put("current_uid", this.createUserID());
+            para.put("currentUsername", this.getUser());
+            
+            HttpClient client = createHttpMethod(para);
+            InputStream input = execute4InputStream(client);
+            return new JSONArray(stream2String(input));
+        } catch (Exception e) {
+            return JSONArray.create();
+        }
     }
 }
