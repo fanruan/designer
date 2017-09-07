@@ -202,10 +202,7 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isEnabled() {
-        if (VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support()) {
-            return isEnabled;
-        }
-        return false;
+        return isEnabled;
     }
 
     public void setEnabled(boolean isEnabled) {
