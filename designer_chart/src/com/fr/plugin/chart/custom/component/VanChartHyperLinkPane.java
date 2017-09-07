@@ -6,7 +6,6 @@ import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -208,7 +207,7 @@ public class VanChartHyperLinkPane extends UIListControlPane {
 
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), HyperlinkMapFactory.VanChartEmailPane.class));
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
