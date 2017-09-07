@@ -34,6 +34,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
     private static final int MAX = 400;
     private static final int HUND = 100;
     private static final int MIN = 10;
+    private static final int DIR = 15;
     private static final double MIN_TIME = 0.4;
     public FormElementCaseDesigner elementCaseDesigner;
     private BaseJForm jForm;
@@ -61,7 +62,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
             if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
-                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * DIR));
             }
         }
     };
