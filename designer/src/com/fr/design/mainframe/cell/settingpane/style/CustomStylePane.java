@@ -155,14 +155,4 @@ public class CustomStylePane extends MultiTabPane<Style> {
 //		paneList.add(backgroundPane = new BackgroundPane());
         return paneList;
     }
-
-    @Override
-    /**
-     *
-     */
-    public void updateBean(Style ob) {
-
-    }
-
-
 }

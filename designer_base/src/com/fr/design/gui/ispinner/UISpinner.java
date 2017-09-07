@@ -9,6 +9,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -23,13 +24,15 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
     protected double value;
     private static final int SIZE = 20;
     private static final int LEN = 13;
+    private static final int WIDTH = 13;
+    private static final int HEIGHT = 10;
     private UINumberField textField;
     private UIButton preButton;
     private UIButton nextButton;
     private double minValue;
     private double maxValue;
     private double dierta;
-    private String spinnerName = "";
+    private String spinnerName = StringUtils.EMPTY;
     private UIObserverListener uiObserverListener;
     private GlobalNameListener globalNameListener = null;
 
@@ -184,8 +187,8 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         JPanel arrowPane = new JPanel();
         arrowPane.setPreferredSize(new Dimension(LEN, SIZE));
         arrowPane.setLayout(new GridLayout(2, 1));
-        preButton.setBounds(0, 1, 13, 10);
-        nextButton.setBounds(0, 10, 13, 10);
+        preButton.setBounds(0, 1, WIDTH, HEIGHT);
+        nextButton.setBounds(0, HEIGHT, WIDTH, HEIGHT);
         arrowPane.add(preButton);
         arrowPane.add(nextButton);
         add(arrowPane, BorderLayout.EAST);
@@ -291,18 +294,18 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
      * @param args 参数
      */
     public static void main(String... args) {
-        LayoutManager layoutManager = null;
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(layoutManager);
-
-        UISpinner bb = new UISpinner(0, 9, 1);
-        bb.setValue(4);
-        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
-        content.add(bb);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+//        LayoutManager layoutManager = null;
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(layoutManager);
+//
+//        UISpinner bb = new UISpinner(0, 9, 1);
+//        bb.setValue(4);
+//        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
+//        content.add(bb);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
     }
 }

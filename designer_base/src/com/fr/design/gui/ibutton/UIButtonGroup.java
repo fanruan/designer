@@ -7,6 +7,7 @@ import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -28,7 +29,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     protected int selectedIndex = -1;
     private List<T> objectList;// 起到一个render的作用
     private GlobalNameListener globalNameListener = null;
-    private String buttonGroupName = "";
+    private String buttonGroupName = StringUtils.EMPTY;
     private boolean isToolBarComponent = false;
     private boolean isClick;
 
@@ -341,21 +342,21 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
      * @param args
      */
     public static void main(String... args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        Icon[] a1 = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
-                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")};
-        Integer[] a2 = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
-        UIButtonGroup<Integer> bb = new UIButtonGroup<Integer>(a1, a2);
-        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
-        bb.setSelectedIndex(0);
-        bb.setEnabled(false);
-        content.add(bb);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        Icon[] a1 = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
+//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")};
+//        Integer[] a2 = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
+//        UIButtonGroup<Integer> bb = new UIButtonGroup<Integer>(a1, a2);
+//        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
+//        bb.setSelectedIndex(0);
+//        bb.setEnabled(false);
+//        content.add(bb);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
     }
 
 

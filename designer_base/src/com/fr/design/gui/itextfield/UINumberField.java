@@ -17,24 +17,27 @@ import java.awt.*;
  */
 public class UINumberField extends UITextField {
     public static final double ERROR_VALUE = Double.MAX_VALUE + 4.44; // peter:错误的值.
+    public static final int MAX_INTEGERLENGTH = 24;
+    public static final int MAX_INTEGERLENGTH_32 = 32;
+    public static final int MAX_DECIMALLENGTH = 16;
     /**
      * 整数部分的长度
      */
-    private int maxIntegerLength = 24;
+    private int maxIntegerLength = MAX_INTEGERLENGTH;
     /**
      * 小数部分的长度
      */
     private static final int DEFAULTMAXDECIMALLENTH = 16;
     private static final int TESTMAXVALUE = 100;
     private static final int TESTMINVALUE = -10;
-    private int maxDecimalLength = 16;
+    private int maxDecimalLength = MAX_DECIMALLENGTH;
     private double minValue = -Double.MAX_VALUE;
     private double maxValue = Double.MAX_VALUE;
 
     private boolean isContentChanged = false;
 
     public UINumberField() {
-        this(32, 16);
+        this(MAX_INTEGERLENGTH_32, MAX_DECIMALLENGTH);
     }
 
     public UINumberField(int columns) {
@@ -150,8 +153,6 @@ public class UINumberField extends UITextField {
     }
 
     class NumberDocument extends PlainDocument {
-        public NumberDocument() {
-        }
 
         public boolean checkString(int offset, String s, String str) {
             return (ComparatorUtils.equals(s, "F")
@@ -216,9 +217,9 @@ public class UINumberField extends UITextField {
         }
 
         private boolean isOverMaxOrMinValue(String strIntPart, String strDecPart, String strNew) {
-            return strIntPart.length() > maxIntegerLength
-                    || strDecPart.length() > maxDecimalLength
-                    || (strNew.length() > 1 && ComparatorUtils.equals(strNew.substring(0, 1), "0") && !ComparatorUtils.equals(strNew.substring(1, 2), "."));
+            boolean checkLength = strIntPart.length() > maxIntegerLength
+                    || strDecPart.length() > maxDecimalLength;
+            return checkLength || (strNew.length() > 1 && ComparatorUtils.equals(strNew.substring(0, 1), "0") && !ComparatorUtils.equals(strNew.substring(1, 2), "."));
         }
     }
 
@@ -226,21 +227,21 @@ public class UINumberField extends UITextField {
      * 测试程序
      */
     public static void main(String[] args) {
-        JFrame frame = new JFrame("");
-        frame.setSize(400, 320);
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
-        UINumberField tt = new UINumberField();
-        tt.setMinValue(0.0);
-        tt.setMaxValue(100.0);
-        frame.getContentPane().setLayout(new GridLayout(10, 2));
-        frame.getContentPane().add(new UILabel("New JNumberField()"));
-        frame.getContentPane().add(tt);
-        frame.getContentPane().add(new UILabel("New JNumberField(2)"));
-        frame.getContentPane().add(new UILabel("New JNumberField(8,2)"));
-        frame.getContentPane().add(new UINumberField(8, 2));
-        frame.getContentPane().add(new UILabel("New JNumberField(5,2,-10,100)"));
-        frame.getContentPane().add(new UINumberField(5, 2, TESTMINVALUE, TESTMAXVALUE));
-        frame.setVisible(true);
+//        JFrame frame = new JFrame("");
+//        frame.setSize(400, 320);
+//        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+//        frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
+//        UINumberField tt = new UINumberField();
+//        tt.setMinValue(0.0);
+//        tt.setMaxValue(100.0);
+//        frame.getContentPane().setLayout(new GridLayout(10, 2));
+//        frame.getContentPane().add(new UILabel("New JNumberField()"));
+//        frame.getContentPane().add(tt);
+//        frame.getContentPane().add(new UILabel("New JNumberField(2)"));
+//        frame.getContentPane().add(new UILabel("New JNumberField(8,2)"));
+//        frame.getContentPane().add(new UINumberField(8, 2));
+//        frame.getContentPane().add(new UILabel("New JNumberField(5,2,-10,100)"));
+//        frame.getContentPane().add(new UINumberField(5, 2, TESTMINVALUE, TESTMAXVALUE));
+//        frame.setVisible(true);
     }
 }

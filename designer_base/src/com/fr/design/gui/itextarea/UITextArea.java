@@ -122,14 +122,14 @@ public class UITextArea extends JTextArea implements UIObserver {
      * @param args
      */
     public static void main(String... args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
-        content.add(bb, BorderLayout.CENTER);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
+//        content.add(bb, BorderLayout.CENTER);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
     }
 }

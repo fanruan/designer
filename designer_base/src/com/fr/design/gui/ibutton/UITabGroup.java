@@ -12,15 +12,6 @@ public class UITabGroup extends UIButtonGroup<Integer> {
     private static final int ORIGINAL_WIDTH = 10;
     private static final int GAP = 11;
 
-    /**
-     * 标签页改变
-     *
-     * @param index 序号
-     */
-    public void tabChanged(int index) {
-
-    }
-
     public UITabGroup(Icon[] iconArray) {
         super(iconArray, new Integer[iconArray.length]);
         setSelectedIndex(0);
