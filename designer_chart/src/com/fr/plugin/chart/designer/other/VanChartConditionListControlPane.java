@@ -20,10 +20,11 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by mengao on 2017/8/18.
+ * 条件属性ListControlPane，弹出条件属性设置面板
  */
-public class VanChartListControlPane extends UIListControlPane {
+public class VanChartConditionListControlPane extends UIListControlPane {
 
-    public VanChartListControlPane(BasePlot plot) {
+    public VanChartConditionListControlPane(BasePlot plot) {
         super(plot);
     }
 
