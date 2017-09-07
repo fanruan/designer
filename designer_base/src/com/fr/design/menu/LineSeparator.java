@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
  */
 public class LineSeparator extends UpdateAction{
 
-    private  Color color = new Color(152, 152, 152);
+    private  Color color = Color.RED;
 
     public LineSeparator() {
 
