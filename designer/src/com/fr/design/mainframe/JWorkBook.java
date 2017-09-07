@@ -77,7 +77,7 @@ import java.util.*;
 /**
  * JWorkBook used to edit WorkBook.
  */
-public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
+public class JWork Book extends JTemplate<WorkBook, WorkBookUndoState> {
 
     private static final String SHARE_SUFFIX = "_share";
     private static final String SHARE_FOLDER = "share";
