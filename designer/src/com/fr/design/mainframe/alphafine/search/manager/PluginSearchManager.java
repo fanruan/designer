@@ -96,7 +96,6 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 if (!httpClient.isServerAlive()) {
                     return getNoConnectList();
                 }
-                httpClient.setTimeout(5000);
                 result = httpClient.getResponseText();
                 AlphaFineHelper.checkCancel();
                 JSONObject jsonObject = new JSONObject(result);
@@ -109,11 +108,10 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                             searchResult.add(cellModel);
                         }
                     }
-                    if (searchResult.size() == 0) {
+                    if (searchResult.isEmpty()) {
                         return this.lessModelList;
-                    }
-                    if (searchResult.size() > 0 && searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer_Templates")));
+                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                        lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon")));
                         lessModelList.addAll(searchResult);
                     } else {
                         lessModelList.add(0, new MoreModel(Inter.getLocText("FR-Designer-Plugin_Addon"), Inter.getLocText("FR-Designer_AlphaFine_ShowAll"), true, CellType.PLUGIN));

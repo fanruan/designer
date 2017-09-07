@@ -47,7 +47,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         this.addSelectionChangeListener(new SelectionListener() {
             @Override
             public void selectionChanged(SelectionEvent e) {
-                if (!isEditable()) {
+                if (!isEditable() && !BaseUtils.isAuthorityEditing()) {
                     return;
                 }
                 doOnSelectionChanged(e);

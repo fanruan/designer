@@ -13,12 +13,13 @@ import java.awt.*;
 public class UIScrollPane extends JScrollPane {
 
     private static final long serialVersionUID = 1L;
+    private static final int INCREAMENT = 30;
 
     public UIScrollPane(Component c) {
         super(c, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.setHorizontalScrollBar(createHorizontalScrollBar());
-        this.getVerticalScrollBar().setUnitIncrement(30);
-        this.getVerticalScrollBar().setBlockIncrement(30);
+        this.getVerticalScrollBar().setUnitIncrement(INCREAMENT);
+        this.getVerticalScrollBar().setBlockIncrement(INCREAMENT);
         this.getHorizontalScrollBar().setOpaque(true);
         this.getHorizontalScrollBar().setBackground(Color.WHITE);
         this.getVerticalScrollBar().setOpaque(true);
@@ -29,7 +30,7 @@ public class UIScrollPane extends JScrollPane {
     /**
      * 生成水平滚动条
      */
-    public JScrollBar createHorizontalScrollBar() {
+    public UIScrollBar createHorizontalScrollBar() {
         UIScrollBar sbr = new UIScrollBar(JScrollBar.HORIZONTAL);
         sbr.setBackground(UIConstants.NORMAL_BACKGROUND);
         return sbr;
@@ -39,7 +40,7 @@ public class UIScrollPane extends JScrollPane {
     /**
      * 生成垂直滚动条
      */
-    public JScrollBar createVerticalScrollBar() {
+    public UIScrollBar createVerticalScrollBar() {
         UIScrollBar sbr = new UIScrollBar(JScrollBar.VERTICAL);
         sbr.setBackground(UIConstants.NORMAL_BACKGROUND);
         return sbr;

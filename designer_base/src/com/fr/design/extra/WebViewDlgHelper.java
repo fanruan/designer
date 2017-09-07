@@ -1,7 +1,6 @@
 package com.fr.design.extra;
 
 import com.fr.base.FRContext;
-import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
@@ -12,6 +11,7 @@ import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
+import com.fr.plugin.PluginStoreConstants;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.StableUtils;
 
@@ -55,8 +55,8 @@ public class WebViewDlgHelper {
                 String indexPath = "index.html";
                 String mainIndexPath = StableUtils.pathJoin(installHome, indexPath);
                 checkAndCopyMainFile(mainIndexPath, mainJsPath);
-                updateShopScripts(SHOP_SCRIPTS);
                 showPluginDlg(mainIndexPath);
+                updateShopScripts(SHOP_SCRIPTS);
             }
         } else {
             BasicPane traditionalStorePane = new BasicPane() {
@@ -195,6 +195,7 @@ public class WebViewDlgHelper {
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
                         copyMainFile(StableUtils.pathJoin(installHome, "index.html"),  StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
+                        PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (InterruptedException | ExecutionException e) {
@@ -209,7 +210,7 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv") + "&version=" + PluginStoreConstants.VERSION);
+                HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.cv") + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                 httpClient.asGet();
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String text = httpClient.getResponseText();
