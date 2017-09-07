@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -133,7 +134,7 @@ public class CustomIconPane extends BasicPane {
 						if (iconManager.addIcon(icon, false)) {
 							IconButton iconButton = null;//初始化
 
-							addIcon(icon,iconButton);
+							addIcon(icon, iconButton);
 
 						}else {
 							// add failed
@@ -209,7 +210,7 @@ public class CustomIconPane extends BasicPane {
 							iconPane.remove(iconButton);
 							bg.remove(iconButton);
 
-							addIcon(icon,iconButton);
+							addIcon(icon, iconButton);
 
 						} else {
 							// 失败了再弄回去
@@ -270,7 +271,7 @@ public class CustomIconPane extends BasicPane {
 	// 不知道怎么动态布局，就这么傻傻的调一下大小
 	private void refreshIconPane(boolean down) {
 		iconPane.setPreferredSize(new Dimension(THE_WIDTH, (iconButtonMap.size() / HORIZONTAL_COUNT + 1) * HEIGHT_PER + GAP));
-		JScrollBar jsBar = jsPane.createVerticalScrollBar();
+		UIScrollBar jsBar = jsPane.createVerticalScrollBar();
 		try {
 			if (down) {
 				// 将滚动条滚到最后
@@ -287,6 +288,8 @@ public class CustomIconPane extends BasicPane {
 		private String iconName;
 		private Image iconImage = null;
         private static final int ICON_BUTTON_SIZE = 24;
+        private static final int ICON_X = 4;
+        private static final int ICON_Y = 4;
 		public IconButton(String name) {
 			this.iconName = name;
 			this.addActionListener(this);
@@ -311,7 +314,7 @@ public class CustomIconPane extends BasicPane {
             Graphics2D g2d = (Graphics2D) g;
             // carl:这里缩放显示 16 × 16
             if (iconImage != null) {
-            	g2d.drawImage(iconImage, 4, 4, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
+            	g2d.drawImage(iconImage, ICON_X, ICON_Y, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
             }
             if (this.iconName != null && ComparatorUtils.equals(this.iconName, selectedIconName)) {
             	g2d.setPaint(Color.RED);
@@ -378,6 +381,7 @@ public class CustomIconPane extends BasicPane {
             // 焦点丢失时看看名称是否已经存在
             nameTextField.addFocusListener(new FocusListener() {
                 public void focusGained(FocusEvent e) {
+                    // do nothing
                 }
                 public void focusLost(FocusEvent e) {
                     if (oldName != null && ComparatorUtils.equals(oldName, nameTextField.getText())) {
@@ -401,7 +405,7 @@ public class CustomIconPane extends BasicPane {
             Component[][] components = {{new UILabel(Inter.getLocText("FR-Designer_Name") + ":"), nameTextField}, {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), imagePane}};
 
             JPanel centerPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-            this.add(centerPane,BorderLayout.CENTER);
+            this.add(centerPane, BorderLayout.CENTER);
         }
 
         private void onBrowseButtonClicked() {
