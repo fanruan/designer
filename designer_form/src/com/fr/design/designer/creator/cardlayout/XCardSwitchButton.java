@@ -389,8 +389,8 @@ public class XCardSwitchButton extends XButton {
             return;
         }
         int tabLength = this.tagLayout.getComponentCount();
-        Map<Integer, Integer> cardWidth = new HashMap<>();
-        Map<Integer, Integer> cardHeight = new HashMap<>();
+        Map<Integer, Integer> cardWidth = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> cardHeight = new HashMap<Integer, Integer>();
         for (int i = 0; i < tabLength; i++) {
             XCardSwitchButton temp = (XCardSwitchButton) this.tagLayout.getComponent(i);
             CardSwitchButton tempCard = (CardSwitchButton) temp.toData();
