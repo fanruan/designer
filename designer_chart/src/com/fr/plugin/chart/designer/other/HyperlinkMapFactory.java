@@ -387,13 +387,6 @@ public class HyperlinkMapFactory {
     }
 
 
-    public static class VanChartEmailPane extends ChartEmailPane {
-        @Override
-        protected boolean needRenamePane() {
-            return false;
-        }
-    }
-
     //网络报表
     public static class Report {
         public static class VAN_CHART extends ReportletHyperlinkPane.CHART {
@@ -481,6 +474,14 @@ public class HyperlinkMapFactory {
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
             }
+        }
+    }
+
+    //邮箱
+    public static class VanChartEmailPane extends ChartEmailPane {
+        @Override
+        protected boolean needRenamePane() {
+            return false;
         }
     }
 
