@@ -35,6 +35,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     private static final int ROTATIONS = 50;
     private static final int SHOWVALMAX = 400;
     private static final int SHOWVALMIN = 10;
+    private static final int RESIZE_PANE_GAP = 8;
     private FormDesigner designer;
     private int horizontalValue = 0;
     private int verticalValue = 0;
@@ -119,11 +120,10 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         slidePane = JFormSliderPane.getInstance();
         slidePane.setPreferredSize(new Dimension(200, 20));
 
-
-        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
-                        {tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"),
-                                heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane}},
-                rowSize, columnSize, 8);
+        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(
+                new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"),
+                                heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }},
+                rowSize, columnSize, RESIZE_PANE_GAP);
         this.add(FormRulerLayout.BOTTOM, resizePane);
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小
@@ -439,14 +439,13 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         int id = evt.getID();
         switch (id) {
             case MouseEvent.MOUSE_WHEEL: {
-                int rotations = evt.getWheelRotation();
-                int value = this.verScrollBar.getValue() + rotations * ROTATIONS;
-                value = Math.min(value, verticalMax);
-                value = Math.max(0, value);
+                int value = this.verScrollBar.getValue() + evt.getWheelRotation() * ROTATIONS;
+                value = Math.max(0, Math.min(value, verticalMax));
                 doLayout(); //加dolayout是因为每次滚动都要重置 Max的大小
                 this.verScrollBar.setValue(value);
                 break;
             }
+            default:
         }
     }
 
@@ -743,9 +742,12 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
     }
 
     private class FormRulerLayout extends RulerLayout {
-        private int DESIGNERWIDTH = 960;
-        private int DESIGNERHEIGHT = 540;
-        private int TOPGAP = 8;
+        private static final int DESIGNER_WIDTH = 960;
+        private static final int DESIGNER_HEIGHT = 540;
+        private static final int TOPGAP = 8;
+
+        private int DESIGNERWIDTH = DESIGNER_WIDTH;
+        private int DESIGNERHEIGHT = DESIGNER_HEIGHT;
 
         public FormRulerLayout() {
             super();
