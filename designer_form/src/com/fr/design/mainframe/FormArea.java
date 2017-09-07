@@ -120,10 +120,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         slidePane = JFormSliderPane.getInstance();
         slidePane.setPreferredSize(new Dimension(200, 20));
 
-        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(
-                new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"),
-                                heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }},
-                rowSize, columnSize, RESIZE_PANE_GAP);
+        JPanel resizePane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{{ tipsPane, new UILabel(), widthPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel("x"), heightPane, new UILabel(Inter.getLocText("FR-Designer_Indent-Pixel")), new UILabel(), slidePane }}, rowSize, columnSize, RESIZE_PANE_GAP);
         this.add(FormRulerLayout.BOTTOM, resizePane);
         setWidgetsConfig();
         // 先初始话滑块及对应事件，然后获取分辨率调整容器的显示大小
@@ -439,14 +436,18 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         int id = evt.getID();
         switch (id) {
             case MouseEvent.MOUSE_WHEEL: {
-                int value = this.verScrollBar.getValue() + evt.getWheelRotation() * ROTATIONS;
-                value = Math.max(0, Math.min(value, verticalMax));
-                doLayout(); //加dolayout是因为每次滚动都要重置 Max的大小
-                this.verScrollBar.setValue(value);
+                onMouseWheelScroll(evt);
                 break;
             }
             default:
         }
+    }
+
+    private void onMouseWheelScroll(MouseWheelEvent evt) {
+        int value = this.verScrollBar.getValue() + evt.getWheelRotation() * ROTATIONS;
+        value = Math.max(0, Math.min(value, verticalMax));
+        doLayout(); //加dolayout是因为每次滚动都要重置 Max的大小
+        this.verScrollBar.setValue(value);
     }
 
     /**
