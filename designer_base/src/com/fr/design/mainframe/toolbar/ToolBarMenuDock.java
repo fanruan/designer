@@ -381,10 +381,8 @@ public abstract class ToolBarMenuDock {
             //  shortCuts.add(new ForumAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
-        if (VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support()) {
-            shortCuts.add(new AlphaFineAction());
-            shortCuts.add(SeparatorDef.DEFAULT);
-        }
+        shortCuts.add(new AlphaFineAction());
+        shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
