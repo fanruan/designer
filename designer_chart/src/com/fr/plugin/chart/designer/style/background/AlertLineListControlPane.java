@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by mengao on 2017/8/22.
+ * 自定义警戒线列表面板
  */
 public class AlertLineListControlPane extends UIListControlPane {
 

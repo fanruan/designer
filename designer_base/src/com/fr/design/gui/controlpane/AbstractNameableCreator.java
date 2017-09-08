@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
+import com.fr.js.JavaScript;
 
 import javax.swing.*;
 
@@ -14,7 +15,7 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 	protected Class clazzOfObject;
 	protected Class clazzOfInitCase;
 	protected Class<? extends BasicBeanPane> clazzOfEditor;
-	
+
 	public AbstractNameableCreator(String menuName, Class clazz, Class<? extends BasicBeanPane> clazzOfEditor) {
 		this.menuName = menuName;
 		this.clazzOfObject = clazz;
@@ -28,7 +29,7 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 		this.clazzOfObject = clazz;
 		this.clazzOfInitCase = clazz;
 	}
-	
+
 	public AbstractNameableCreator(String menuName, String iconPath, Class clazz, Class<? extends BasicBeanPane> clazzOfEditor) {
 		this.menuName = menuName;
 		this.menuIcon = BaseUtils.readIcon(iconPath);
@@ -36,7 +37,7 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 		this.clazzOfEditor = clazzOfEditor;
 		this.clazzOfInitCase = clazz;
 	}
-	
+
 	public AbstractNameableCreator(String menuName, String iconPath, Class clazz, Class clazz4Init, Class<? extends BasicBeanPane> clazzOfEditor) {
 		this.menuName = menuName;
 		this.menuIcon = BaseUtils.readIcon(iconPath);
@@ -50,7 +51,7 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 	 * get menuName
 	 * @return
 	 */
-	public String menuName() {			
+	public String menuName() {
 		return this.menuName;
 	}
 
@@ -71,6 +72,14 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 	}
 
 	/**
+	 * get clazzOfObject
+	 * @return clazzOfObject
+	 */
+	public Class <? extends JavaScript> getHyperlink() {
+		return this.clazzOfObject;
+	}
+
+	/**
 	 *
 	 * @param ob
 	 * @return
@@ -83,12 +92,12 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 			doSthChanged4Icon(ob);
 			return ob;
 		}
-		
+
 		return null;
 	}
 
 	protected void doSthChanged4Icon(Object ob){
-		
+
 	}
 
 	/**
@@ -99,9 +108,9 @@ public abstract class AbstractNameableCreator implements NameableCreator {
 		return null;
 	}
 
-    public boolean isNeedParameterWhenPopulateJControlPane(){
-        return false;
-    }
+	public boolean isNeedParameterWhenPopulateJControlPane(){
+		return false;
+	}
 
 	public boolean equals(Object obj) {
 		return obj instanceof AbstractNameableCreator

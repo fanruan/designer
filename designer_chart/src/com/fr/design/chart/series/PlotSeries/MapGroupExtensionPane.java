@@ -62,7 +62,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	private UIButton addButton;
 	private JPopupMenu popupMenu;
 	private ArrayList<javax.swing.event.ChangeListener> changeListeners = new ArrayList<javax.swing.event.ChangeListener>();
-    private boolean hasPopulated = false;
+	private boolean hasPopulated = false;
 
 	@Override
 	protected String title4PopupWindow() {
@@ -113,8 +113,8 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 		groupExtensionPane.addDeleteListener(new ChangeListener() {
 			@Override
 			public void fireChanged(ChangeEvent event) {
-                //这么写有点问题
-                String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
+				//这么写有点问题
+				String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
 				saveMapInfo(oldName);
 			}
 		});
@@ -205,7 +205,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 			return;
 		}
 		MapSvgAttr attr = new MapSvgAttr();
-        attr.setFilePath(MapSvgXMLHelper.customMapPath() + CoreConstants.SEPARATOR + name + ".svg");
+		attr.setFilePath(MapSvgXMLHelper.customMapPath() + CoreConstants.SEPARATOR + name + ".svg");
 		MapSvgXMLHelper.getInstance().addNewSvgMaps(name,attr);
 	}
 
@@ -216,23 +216,23 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 				final MapCustomPane image = new MapCustomPane();
 				image.setImageSelectType(MapShapeValue.AREA);
 				image.populateBean(oldName);
-                image.setTypeNameAndMapName(groupExtensionPane.getSelectedType(), Utils.objectToString(groupExtensionPane.getSelectedObject()));
+				image.setTypeNameAndMapName(groupExtensionPane.getSelectedType(), Utils.objectToString(groupExtensionPane.getSelectedObject()));
 				mapCheckBeforeEdit(oldName);
 				final Image oldImage = getMapImage(oldName);
 				BasicDialog dialog = image.showMediumWindow(SwingUtilities.getWindowAncestor(MapGroupExtensionPane.this), new DialogActionAdapter() {
 					public void doOk() {
 						image.updateBean(); // 比较两个前后的名字是否相同,  是图片  如果图片不同, 则直接比较
-						
+
 						Image newImage = getMapImage(oldName);
 						if(!ComparatorUtils.equals(oldImage, newImage)) {
 							fireStateChange();
 						}
 
-                        //versionID递增
-                        MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
-                        if(old != null) {
-                            old.addVersionID();
-                        }
+						//versionID递增
+						MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
+						if(old != null) {
+							old.addVersionID();
+						}
 
 						saveMapInfo(oldName);
 						refresh();
@@ -244,7 +244,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 		return editFileItem;
 	}
 
-    //根据地图的名字返回地图的图片
+	//根据地图的名字返回地图的图片
 	private Image getMapImage(String mapName) {
 		if (MapSvgXMLHelper.getInstance().containsMapName(mapName)) {
 			MapSvgAttr mapAttr =  MapSvgXMLHelper.getInstance().getMapAttr(mapName);
@@ -253,7 +253,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 			}
 			return mapAttr.getMapImage();
 		}
-		
+
 		return null;
 	}
 
@@ -269,17 +269,17 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 				BasicDialog dialog = image.showMediumWindow(SwingUtilities.getWindowAncestor(image), new DialogActionAdapter() {
 					public void doOk() {
 						image.updateBean();
-						
+
 						Image newImage = getMapImage(oldName);
 						if(!ComparatorUtils.equals(oldImage, newImage)) {
 							fireStateChange();
 						}
 
-                        //versionID递增
-                        MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
-                        if(old != null) {
-                            old.addVersionID();
-                        }
+						//versionID递增
+						MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
+						if(old != null) {
+							old.addVersionID();
+						}
 
 						saveMapInfo(oldName);
 						refresh();
@@ -302,10 +302,10 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 					public void doOk() {
 						namedPane.updateBean();// 地图的名称 value对应情况
 
-                        MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
-                        if(old != null) {
-                            old.addVersionID();
-                        }
+						MapSvgAttr old = MapSvgXMLHelper.getInstance().getMapAttr(oldName);
+						if(old != null) {
+							old.addVersionID();
+						}
 
 						saveMapInfo(oldName);
 					}
@@ -320,14 +320,14 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 	private void showRenameWaring(String newName){
 		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + Inter.getLocText("Utils-has_been_existed")
-          + "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
+				+ "!", Inter.getLocText("FR-Designer_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 
 	private JMenuItem createRenameItem() {
 		JMenuItem renameItem = new JMenuItem(Inter.getLocText("FR-Chart-Map_Rename"));
 		renameItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String newName = JOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(), 
+				String newName = JOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(),
 						Inter.getLocText("FR-Chart-Map_Rename"), groupExtensionPane.getSelectedObject());
 				if (StringUtils.isNotBlank(newName)) {
 					String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
@@ -378,22 +378,22 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	private void refresh() {
 		this.validate();
 		this.repaint();
-		
+
 		DesignerFrame frame = DesignerContext.getDesignerFrame();
 		if(frame != null) {
 			frame.repaint();//kunsnat: 图表属性没变, 只是读取时 内容变化.
 		}
 	}
 
-    //保存修改过的地图信息
+	//保存修改过的地图信息
 	private void saveMapInfo(final String mapName) {
 		SwingWorker worker = new SwingWorker<Integer, Void>() {
 			@Override
 			protected Integer doInBackground() throws Exception {
 				MapSvgAttr attr = MapSvgXMLHelper.getInstance().getMapAttr(mapName);// 只有在编辑地图时才需要储存相关数据 @kuns
-                if(attr != null){
-                    attr.writeBack(mapName);
-                }
+				if(attr != null){
+					attr.writeBack(mapName);
+				}
 				return 0;
 			}
 
@@ -413,39 +413,39 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 		}
 	}
 
-    /**
-     * 更新地图属性
-     * @return 返回地图名称.
-     */
+	/**
+	 * 更新地图属性
+	 * @return 返回地图名称.
+	 */
 	public String updateBean(MapPlot plot) {
-        if(!hasPopulated){
-            this.populateBean(plot);
-            hasPopulated = true;
-        }
+		if(!hasPopulated){
+			this.populateBean(plot);
+			hasPopulated = true;
+		}
 
-        MapHelper helper = plot.isSvgMap() ? MapSvgXMLHelper.getInstance() : MapXMLHelper.getInstance();
+		MapHelper helper = plot.isSvgMap() ? MapSvgXMLHelper.getInstance() : MapXMLHelper.getInstance();
 
-        helper.clearCateNames();
-        for (String type : TYPE_NAMES) {
-            Object[] datas = groupExtensionPane.getData(type);
-            for (Object name : datas) {
-                helper.addCateNames(type, name);
-            }
-        }
+		helper.clearCateNames();
+		for (String type : TYPE_NAMES) {
+			Object[] datas = groupExtensionPane.getData(type);
+			for (Object name : datas) {
+				helper.addCateNames(type, name);
+			}
+		}
 
-        return Utils.objectToString(groupExtensionPane.getSelectedObject());
+		return Utils.objectToString(groupExtensionPane.getSelectedObject());
 	}
 
-    /**
-     * 更新地图名称
-     * @param mapPlot 地图
-     */
+	/**
+	 * 更新地图名称
+	 * @param mapPlot 地图
+	 */
 	public void populateBean(MapPlot mapPlot) {
-        hasPopulated = false;
+		hasPopulated = false;
 		groupExtensionPane.clearData();
 
 		for (String type : TYPE_NAMES) {
-            MapHelper helper = mapPlot.isSvgMap() ? MapSvgXMLHelper.getInstance() : MapXMLHelper.getInstance();
+			MapHelper helper = mapPlot.isSvgMap() ? MapSvgXMLHelper.getInstance() : MapXMLHelper.getInstance();
 			java.util.List list = helper.getNamesListWithCateName(type);
 			for (Object name : list) {
 				groupExtensionPane.addData(name, type);
@@ -454,7 +454,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 
 		groupExtensionPane.setSelectedObject(mapPlot.getMapName());
 
-        hasPopulated = true;
+		hasPopulated = true;
 	}
 
 	/**
@@ -479,10 +479,10 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 		return true;
 	}
 
-    public void setEnabled(boolean isEnabled){
-        super.setEnabled(isEnabled);
-        addButton.setEnabled(isEnabled);
-        popupMenu.setEnabled(isEnabled);
-        groupExtensionPane.setEnabled(isEnabled);
-    }
+	public void setEnabled(boolean isEnabled){
+		super.setEnabled(isEnabled);
+		addButton.setEnabled(isEnabled);
+		popupMenu.setEnabled(isEnabled);
+		groupExtensionPane.setEnabled(isEnabled);
+	}
 }

@@ -92,7 +92,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     private UIModeControlContainer centerPane;
     public ReportComponentComposite reportComposite;
     private ParameterDefinitePane parameterPane;
-    private int resolution;
+    private int resolution = ScreenResolution.getScreenResolution();
 
     public JWorkBook() {
         super(new WorkBook(new WorkSheet()), "WorkBook");
@@ -399,7 +399,6 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setJTemplateResolution(resolution);
             polyDezi.updateUI();
         }
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
 
     @Override

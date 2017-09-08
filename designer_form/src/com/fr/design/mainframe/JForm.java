@@ -93,6 +93,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void refreshEastPropertiesPane() {
+        // 暂时用不到，遇到的时候再加刷新右侧tab面板的代码
+        return;
     }
 
     @Override
@@ -126,7 +128,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setJTemplateResolution(int resolution) {
-
+        return;
     }
 
     @Override
@@ -220,7 +222,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         formDesign = new FormDesigner(this.getTarget(), new TabChangeAction(BaseJForm.ELEMENTCASE_TAB, this));
         WidgetToolBarPane.getInstance(formDesign);
         FormArea area = new FormArea(formDesign);
-        centerPane.add(area, BorderLayout.CENTER);
+        JPanel areaWrapper = new JPanel(new BorderLayout());
+        areaWrapper.add(area, BorderLayout.CENTER);
+        areaWrapper.setBackground(Color.white);
+        centerPane.add(areaWrapper, BorderLayout.CENTER);
         tabCenterPane.add(centerPane, FORM_CARD, FORM_TAB);
         this.add(tabCenterPane, BorderLayout.CENTER);
 
@@ -267,14 +272,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     public void setSheetCovered(boolean isCovered) {
-
+        return;
     }
 
     /**
      * 刷新容器
      */
     public void refreshContainer() {
-
+        return;
     }
 
     /**
@@ -286,6 +291,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setScale(int resolution) {
+        return;
     }
 
     @Override
@@ -461,15 +467,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this),
-                    new FormMobileAttrAction(this)
-            }, new ShortCut[0]);
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, new ShortCut[0]);
         } else {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
-                    new TemplateParameterAction(this),
-                    new FormMobileAttrAction(this)
-            }, this.elementCaseDesign.shortcut4TemplateMenu());
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
@@ -528,18 +528,21 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     protected void applyUndoState(FormUndoState u) {
         try {
-            //JForm的target重置
-            this.setTarget((Form) u.getForm().clone());
             if (this.index == FORM_TAB) {
+                //JForm的target重置
+                this.setTarget((Form) u.getForm().clone());
                 JForm.this.refreshRoot();
                 this.formDesign.getArea().setAreaSize(u.getAreaSize(), u.getHorizontalValue(), u.getVerticalValue(), u.getWidthValue(), u.getHeightValue(), u.getSlideValue());
                 //撤销的时候要重新选择的body布局
                 this.formDesign.getSelectionModel().setSelectedCreators(FormSelectionUtils.rebuildSelection(formDesign.getRootComponent(),
                         formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
             } else {
+                // 只在报表块里撤销是不需要修改外部form对象的, 因为编辑的是当前报表块.
+                // 修改了JForm的Target需要同步修改formDesign的Target.
+                Form undoForm = (Form) u.getForm().clone();
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
-                FormElementCaseProvider dataTable = getTarget().getElementCaseByName(widgetName);
+                FormElementCaseProvider dataTable = undoForm.getElementCaseByName(widgetName);
                 this.reportComposite.setSelectedWidget(dataTable);
                 //下面这句话是防止撤销之后直接退出编辑再编辑撤销的东西会回来,因为撤销不会保存EC
                 formDesign.setElementCase(dataTable);
@@ -677,16 +680,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             return;
         }
 
-        if (formDesign.isReportBlockEditing()) {
-            if (elementCaseDesign != null) {
-                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM_REPORT);
-                EastRegionContainerPane.getInstance().removeParameterPane();
-                EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
-                EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
-                EastRegionContainerPane.getInstance().replaceConditionAttrPane(elementCaseDesign.getConditionAttrPane());
-                EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
-                return;
-            }
+        if (formDesign.isReportBlockEditing() && elementCaseDesign != null) {
+            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM_REPORT);
+            EastRegionContainerPane.getInstance().removeParameterPane();
+            EastRegionContainerPane.getInstance().replaceCellAttrPane(elementCaseDesign.getEastDownPane());
+            EastRegionContainerPane.getInstance().replaceCellElementPane(elementCaseDesign.getEastUpPane());
+            EastRegionContainerPane.getInstance().replaceConditionAttrPane(elementCaseDesign.getConditionAttrPane());
+            EastRegionContainerPane.getInstance().replaceHyperlinkPane(elementCaseDesign.getHyperlinkPane());
+            return;
         }
 
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
@@ -696,6 +697,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
         EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
+        refreshWidgetLibPane();
+    }
+
+    private void refreshWidgetLibPane() {
         if (EastRegionContainerPane.getInstance().getWidgetLibPane() == null) {
             new Thread() {
                 public void run() {

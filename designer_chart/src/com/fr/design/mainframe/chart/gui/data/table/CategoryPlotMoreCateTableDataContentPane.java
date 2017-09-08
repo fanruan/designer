@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartdata.NormalTableDataDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -41,7 +42,11 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	private UIButton addButton;
 	
 	private UIObserverListener uiobListener = null;
-	
+
+	public List<UIComboBox> getBoxList() {
+		return boxList;
+	}
+
 	public CategoryPlotMoreCateTableDataContentPane() {
 		// do nothing
 	}
@@ -89,8 +94,8 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 			public void itemStateChanged(ItemEvent e) {
 				checkSeriseUse(categoryCombox.getSelectedItem() != null);
 				makeToolTipUse(categoryCombox);
-				
-				checkAddButton();
+
+				checkComponent();
 			}
 		});
 	}
@@ -129,15 +134,15 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 		 buttonPane.add(delButton);
 		 boxPane.add(buttonPane);
 		 boxList.add(combox);
-		 
-		 checkAddButton();
+
+		checkComponent();
 		 
 		 delButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boxPane.remove(buttonPane);
 				boxList.remove(combox);
-				checkAddButton();
+				checkComponent();
 				relayoutPane();
 			}
 		});
@@ -149,6 +154,10 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	private void checkAddButton() {
 		int size = boxList.size();
 		addButton.setEnabled(size < 2 && categoryCombox.getSelectedItem() != null);
+	}
+
+	protected void checkComponent() {
+		checkAddButton();
 	}
 	
 	private void relayoutPane() {
@@ -162,8 +171,8 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	 */
 	public void checkBoxUse(boolean hasUse) {
 		super.checkBoxUse(hasUse);
-		
-		checkAddButton();
+
+		checkComponent();
 	}
 	
     protected void refreshBoxListWithSelectTableData(List list) {
@@ -221,17 +230,23 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 	 */
 	public void updateBean(ChartCollection collection) {
 		super.updateBean(collection);
-		
+
 		TopDefinitionProvider top = collection.getSelectedChart().getFilterDefinition();
-		if(top instanceof NormalTableDataDefinition) {
-			NormalTableDataDefinition normal = (NormalTableDataDefinition)top;
+		Plot plot = collection.getSelectedChart().getPlot();
+		if (top instanceof NormalTableDataDefinition) {
+			NormalTableDataDefinition normal = (NormalTableDataDefinition) top;
 			normal.clearMoreCate();
-			for(int i = 0, size = boxList.size(); i < size; i++) {
-				UIComboBox box = boxList.get(i);
-				if(box.getSelectedItem() != null) {
-					normal.addMoreCate(box.getSelectedItem().toString());
-				}
+			updateMoreCate(normal, plot);
+		}
+	}
+
+	protected void updateMoreCate(NormalTableDataDefinition normal, Plot plot) {
+		for (int i = 0, size = boxList.size(); i < size; i++) {
+			UIComboBox box = boxList.get(i);
+			if (box.getSelectedItem() != null) {
+				normal.addMoreCate(box.getSelectedItem().toString());
 			}
 		}
 	}
+
 }

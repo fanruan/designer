@@ -33,6 +33,7 @@ public class ReportComponentComposite extends JComponent {
     private static final int MAX = 400;
     private static final int HUND = 100;
     private static final int MIN = 10;
+    private static final int DIR = 15;
     private JWorkBook parent;
     private UIModeControlContainer parentContainer = null;
 
@@ -71,7 +72,7 @@ public class ReportComponentComposite extends JComponent {
             if (InputEventBaseOnOS.isControlDown(e)) {
                 int dir = e.getWheelRotation();
                 int old_resolution = (int) jSliderContainer.getShowVal().getValue();
-                jSliderContainer.getShowVal().setValue(old_resolution - (dir * MIN));
+                jSliderContainer.getShowVal().setValue(old_resolution - (dir * DIR));
             }
         }
     };

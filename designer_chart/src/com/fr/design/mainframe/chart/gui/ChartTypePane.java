@@ -17,6 +17,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
 import com.fr.design.mainframe.chart.gui.item.ItemEventType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 
@@ -238,6 +239,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			for (int i = 0; i < this.cards.size(); i++) {
 				FurtherBasicBeanPane pane = cards.get(i);
 				if (pane.accept(ob)) {
+
+					GUICoreUtils.setEnabled(chartTypeComBox.getUIComboBox(), ob.isValidPlot());
+
 					pane.populateBean(ob);
 					Object item = pane.title4PopupWindow();
 					for (int j = 0; j < cardNames.length; j++) {

@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by mengao on 2017/8/22.
+ * 自定义间隔背景列表面板
  */
 public class BackgroundListControlPane extends UIListControlPane {
 

@@ -43,6 +43,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected List<ChartImagePane> styleList;
 
     protected JPanel stylePane; //样式布局的面板
+    private JPanel typePane;
     protected abstract String[] getTypeIconPath();
     protected abstract String[] getTypeTipName();
     protected abstract String[] getTypeLayoutPath();
@@ -70,10 +71,10 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
 
         checkDemosBackground();
 
-        JPanel typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
+        this.typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
         for(int i = 0; i < typeDemo.size(); i++) {
             ChartImagePane tmp = typeDemo.get(i);
-            typePane.add(tmp);
+            this.typePane.add(tmp);
             tmp.setDemoGroup(typeDemo.toArray(new ChartSelectDemoPane[typeDemo.size()]));
         }
 
@@ -99,7 +100,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
             stylePane.setVisible(false);
         }
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(getPaneComponents(typePane),rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane(getPaneComponents(this.typePane),rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
     }
@@ -133,7 +134,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     //子类覆盖
-    protected Plot getSelectedClonedPlot(){
+    protected <T extends Plot> T getSelectedClonedPlot(){
         return null;
     }
 
@@ -584,6 +585,10 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         return chart != null
                 &&chart.getPlot() != null
                 && chart.getPlot().getPlotStyle() != ChartConstants.STYLE_NONE;
+    }
+
+    protected JPanel getTypePane(){
+        return this.typePane;
     }
 
     public Chart getDefaultChart() {

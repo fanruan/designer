@@ -132,6 +132,10 @@ public abstract class UIListControlPane extends UIControlPane {
             protected void doAfterLostFocus() {
                 UIListControlPane.this.updateControlUpdatePane();
             }
+            @Override
+            protected void doAfterStopEditing() {
+                saveSettings();
+            }
         };
         nameEdList.setCellRenderer(new UINameableListCellRenderer(this));
         return nameEdList;
