@@ -3,16 +3,14 @@ package com.fr.plugin.chart.designer.style.background;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
-import com.fr.design.gui.controlpane.UIListControlPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
+import com.fr.plugin.chart.designer.component.VanChartUIListControlPane;
 import com.fr.stable.Nameable;
 
 import java.util.ArrayList;
@@ -22,17 +20,7 @@ import java.util.List;
  * Created by mengao on 2017/8/22.
  * 自定义警戒线列表面板
  */
-public class AlertLineListControlPane extends UIListControlPane {
-
-
-    @Override
-    public void saveSettings() {
-        if (isPopulating) {
-            return;
-        }
-        update((VanChartPlot) plot);
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
-    }
+public class AlertLineListControlPane extends VanChartUIListControlPane {
 
     @Override
     public NameableCreator[] createNameableCreators() {

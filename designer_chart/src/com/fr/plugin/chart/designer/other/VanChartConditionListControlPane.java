@@ -8,11 +8,9 @@ import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.controlpane.UIListControlPane;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
+import com.fr.plugin.chart.designer.component.VanChartUIListControlPane;
 import com.fr.stable.Nameable;
 
 import java.lang.reflect.Constructor;
@@ -22,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
  * Created by mengao on 2017/8/18.
  * 条件属性ListControlPane，弹出条件属性设置面板
  */
-public class VanChartConditionListControlPane extends UIListControlPane {
+public class VanChartConditionListControlPane extends VanChartUIListControlPane {
 
     public VanChartConditionListControlPane(BasePlot plot) {
         super(plot);
@@ -58,14 +56,6 @@ public class VanChartConditionListControlPane extends UIListControlPane {
         return null;
     }
 
-    @Override
-    public void saveSettings() {
-        if (isPopulating) {
-            return;
-        }
-        updateConditionCollection(((VanChartPlot) plot).getConditionCollection());
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
-    }
 
     @Override
     public String getAddItemText() {
@@ -81,7 +71,8 @@ public class VanChartConditionListControlPane extends UIListControlPane {
     /**
      * Update.
      */
-    public void updateConditionCollection(ConditionCollection cc) {
+    protected void update(Plot plot) {
+        ConditionCollection cc = plot.getConditionCollection();
         Nameable[] nameables = this.update();
 
         cc.clearConditionAttr();
