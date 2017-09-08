@@ -16,6 +16,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.CodeUtils;
+import com.fr.stable.StringUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ public class RecommendSearchManager implements AlphaFineSearchProcessor {
 
     @Override
     public synchronized SearchResult getLessSearchResult(String searchText) {
+        searchText = searchText.replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {

@@ -548,5 +548,4 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
             tree.collapsePath(parent);
         }
     }
-
 }
