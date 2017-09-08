@@ -56,7 +56,7 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	private static final int STATE = 2;
 	private static final int USER = 3;
 	private static final int OFFSET_X = 800;
-	private static final int OFFSET_Y = 280;
+	private static final int OFFSET_Y = 250;
 
 	private UIGroupExtensionPane groupExtensionPane;
 	private UIButton addButton;

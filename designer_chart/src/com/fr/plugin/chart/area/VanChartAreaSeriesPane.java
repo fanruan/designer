@@ -40,11 +40,6 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane{
         return contentPane;
     }
 
-    //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
-        panel.add(createStylePane(), BorderLayout.CENTER);
-    }
-
     protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
         return VanChartCustomStackAndAxisConditionPane.class;
     }

@@ -81,7 +81,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     protected JPanel createIntervalPane(double[] row, double[] col) {
-        isDefaultIntervalBackground = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_IntervalBackground"), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground")});
+        isDefaultIntervalBackground = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Default_Interval"), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground")});
         horizontalColorBackground = new ColorSelectBox(100);
         verticalColorBackground = new ColorSelectBox(100);
         Component[][] components = getIntervalPaneComponents();
@@ -90,7 +90,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout);
-        centerPane.add(defaultPane, Inter.getLocText("Plugin-ChartF_IntervalBackground"));
+        centerPane.add(defaultPane, Inter.getLocText("Plugin-ChartF_Default_Interval"));
         centerPane.add(customIntervalBackground, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"));
         isDefaultIntervalBackground.addActionListener(new ActionListener() {
             @Override
@@ -117,7 +117,7 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
 
     private void checkCardPane() {
         if (isDefaultIntervalBackground.getSelectedIndex() == 0) {
-            cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_IntervalBackground"));
+            cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_Default_Interval"));
         } else {
             cardLayout.show(centerPane, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"));
         }

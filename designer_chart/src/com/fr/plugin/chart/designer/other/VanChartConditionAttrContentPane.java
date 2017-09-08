@@ -30,7 +30,7 @@ public class VanChartConditionAttrContentPane extends AbstractConditionAttrConte
     public void populateBean(Plot plot, ConditionCollection collection,  Class<? extends ConditionAttributesPane> showPane){
 
         if (conditionPane == null) {
-            conditionPane = new VanChartListControlPane(plot);
+            conditionPane = new VanChartConditionListControlPane(plot);
         }
 
         this.setLayout(new BorderLayout());
