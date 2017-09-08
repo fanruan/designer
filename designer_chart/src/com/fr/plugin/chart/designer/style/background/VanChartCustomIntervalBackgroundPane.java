@@ -38,6 +38,7 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //
         JPanel top = FRGUIPaneFactory.createBorderLayout_L_Pane();
+        this.removeAll();
         this.add(top);
         top.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Plugin-ChartF_CustomIntervalBackground") + ":", null));
         top.add(createContentPane());
