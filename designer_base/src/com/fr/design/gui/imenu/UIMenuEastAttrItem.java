@@ -95,6 +95,7 @@ public class UIMenuEastAttrItem extends JMenuItem {
                                     fm.getAscent() - 1);
                 }
             } else {
+                menuItem.setForeground(isArmed() ? Color.white : Color.black);
                 SwingUtilities2.drawStringUnderlineCharAt(menuItem, g, text,
                         -1, 0, textRect.y + fm.getAscent());
             }

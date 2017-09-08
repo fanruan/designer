@@ -180,6 +180,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
             if (superPane.isSelected() && !isSuper) {
                 frFont = frFont.applySuperscript(true);
                 frFont = frFont.applySubscript(false);
+                this.subPane.setSelected(false);
             } else if (!superPane.isSelected() && isSuper) {
                 frFont = frFont.applySuperscript(false);
             }
@@ -188,6 +189,7 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
             if (subPane.isSelected() && !isSub) {
                 frFont = frFont.applySubscript(true);
                 frFont = frFont.applySuperscript(false);
+                this.superPane.setSelected(false);
             } else if (!subPane.isSelected() && isSub) {
                 frFont = frFont.applySubscript(false);
             }
