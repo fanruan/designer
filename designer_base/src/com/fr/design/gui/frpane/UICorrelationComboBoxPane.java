@@ -237,8 +237,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
             public Dimension getPreferredSize() {
                 Dimension dimension = new Dimension();
                 dimension.height = super.getPreferredSize().height;
-                // 不能写死，否则出现国际化显示不全的问题
-                dimension.width = Math.max(addButton.getWidth() - 2, super.getPreferredSize().width);
+                dimension.width = addButton.getWidth() - 2;
                 return dimension;
             }
         };

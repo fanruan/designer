@@ -30,7 +30,7 @@ public class ChartPropertyPane extends MiddleChartPropertyPane{
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0));
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 

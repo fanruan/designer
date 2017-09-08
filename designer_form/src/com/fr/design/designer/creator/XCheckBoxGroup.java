@@ -50,7 +50,7 @@ public class XCheckBoxGroup extends XFieldEditor {
 				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(Inter.getLocText("Adaptive"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class),
 				new CRPropertyDescriptor("chooseAll", this.data.getClass()).setI18NName(
-						Inter.getLocText("FR-Designer_Provide_Choose_All")).putKeyValue(
+						Inter.getLocText(new String[]{"Provide", "Choose_All"})).putKeyValue(
 						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
 						Inter.getLocText("Return-String")).setEditorClass(InChangeBooleanEditor.class)

@@ -12,7 +12,6 @@ import com.fr.chart.chartdata.GisMapTableDefinition;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
@@ -22,8 +21,6 @@ import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.fun.HyperlinkProvider;
-import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -56,10 +53,9 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIObserver{
-    private static final long serialVersionUID = 3477409806918835992L;
+	private static final long serialVersionUID = 3477409806918835992L;
     private static HashMap normalMap = new HashMap();
     private static HashMap gisMap = new HashMap();
     private static HashMap mapMap = new HashMap();
@@ -73,16 +69,16 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
     private static final int TIME_SWITCH_GAP = 40;
 
-    private UICheckBox isChartAnimation;// 动态
+	private UICheckBox isChartAnimation;// 动态
     private UICheckBox isSeriesDragEnable; //系列拖拽
 
     private UICheckBox isAxisZoom;// 缩放
 
-    private UICheckBox isDatapointValue;// 数据点提示
-    private UIButton dataPointValueFormat;
+	private UICheckBox isDatapointValue;// 数据点提示
+	private UIButton dataPointValueFormat;
 
-    private UICheckBox isDatapointPercent;
-    private UIButton dataPointPercentFormat;
+	private UICheckBox isDatapointPercent;
+	private UIButton dataPointPercentFormat;
 
     private UILabel tooltipStyleLabel;
     private UIComboBox tooltipStyle;
@@ -94,55 +90,55 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     private UICheckBox isAddress;
     private UICheckBox isAddressName;
 
-    private UICheckBox isAxisShowToolTip;// 坐标轴提示
+	private UICheckBox isAxisShowToolTip;// 坐标轴提示
 
-    protected UICheckBox isAutoRefresh;// 自动刷新
-    protected UISpinner autoRefreshTime;
+	protected UICheckBox isAutoRefresh;// 自动刷新
+	protected UISpinner autoRefreshTime;
 
-    private UICorrelationComboBoxPane superLink;//  超链
+	private UICorrelationComboBoxPane superLink;//  超链
 
-    private FormatPane valueFormatPane;
-    private FormatPane percentFormatPane;
-    private Format valueFormat;
-    private Format percentFormat;
+	private FormatPane valueFormatPane;
+	private FormatPane percentFormatPane;
+	private Format valueFormat;
+	private Format percentFormat;
 
-    private JPanel tooltipPane;
-    private JPanel axisShowPane;
-    private JPanel autoRefreshPane;
-    private JPanel superlinkPane;
+	private JPanel tooltipPane;
+	private JPanel axisShowPane;
+	private JPanel autoRefreshPane;
+	private JPanel superlinkPane;
 
-    private ChartOtherPane parent;
+	private ChartOtherPane parent;
 
     private UICheckBox timeSwitch;
 
     private JPanel timeSwitchContainer;
     private TimeSwitchPane timeSwitchPane;
 
-    private static final int SIZEX = 258;
-    private static final int SIZEY = 209;
-    private static final int DET = 20;
-    public ChartInteractivePane(ChartOtherPane parent) {
-        super();
-        this.parent = parent;
-    }
+	private static final int SIZEX = 258;
+	private static final int SIZEY = 209;
+	private static final int DET = 20;
+	public ChartInteractivePane(ChartOtherPane parent) {
+		super();
+		this.parent = parent;
+	}
 
-    /**
-     * 界面标题.
+	/**
+	 * 界面标题.
      * @return 返回标题.
-     */
-    public String title4PopupWindow() {
-        return Inter.getLocText("Chart-Interactive_Tab");
-    }
+	 */
+	public String title4PopupWindow() {
+		return Inter.getLocText("Chart-Interactive_Tab");
+	}
 
-    @Override
-    protected JPanel createContentPane() {
-        isChartAnimation = new UICheckBox(Inter.getLocText("Chart-Animation_JSShow"));
+	@Override
+	protected JPanel createContentPane() {
+		isChartAnimation = new UICheckBox(Inter.getLocText("Chart-Animation_JSShow"));
         isSeriesDragEnable = new UICheckBox(Inter.getLocText("Chart-Series_Drag"));
 
-        isDatapointValue = new UICheckBox(Inter.getLocText("Chart-Use_Value"));
-        dataPointValueFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
-        isDatapointPercent = new UICheckBox(Inter.getLocText("Chart-Value_Percent"));
-        dataPointPercentFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
+		isDatapointValue = new UICheckBox(Inter.getLocText("Chart-Use_Value"));
+		dataPointValueFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
+		isDatapointPercent = new UICheckBox(Inter.getLocText("Chart-Value_Percent"));
+		dataPointPercentFormat = new UIButton(Inter.getLocText("Chart-Use_Format"));
         tooltipStyle = new UIComboBox(new String []{Inter.getLocText("Chart-White_Black"), Inter.getLocText("Chart-Black_White")});
         tooltipStyleLabel = new UILabel(Inter.getLocText("Chart-Style_Name"));
         tooltipShowType = new UIComboBox(new String []{Inter.getLocText("Chart-Series_SingleData"), Inter.getLocText("Chart-Series_AllData")});
@@ -152,13 +148,13 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         isAddress = new UICheckBox(Inter.getLocText("Chart-Gis_Address"));
         isAddressName = new UICheckBox(Inter.getLocText("Chart-Address_Name"));
 
-        isAxisShowToolTip = new UICheckBox(Inter.getLocText("Chart-Interactive_AxisTooltip"));
-        isAxisZoom = new UICheckBox(Inter.getLocText("Chart-Use_Zoom"));
-        isAutoRefresh = new UICheckBox(Inter.getLocText(new String[]{"Chart-Use_Auto", "Chart-Use_Refresh"}));
-        autoRefreshTime = new UISpinner(1, Integer.MAX_VALUE, 1);
-        superLink = new UICorrelationComboBoxPane();
+		isAxisShowToolTip = new UICheckBox(Inter.getLocText("Chart-Interactive_AxisTooltip"));
+		isAxisZoom = new UICheckBox(Inter.getLocText("Chart-Use_Zoom"));
+		isAutoRefresh = new UICheckBox(Inter.getLocText(new String[]{"Chart-Use_Auto", "Chart-Use_Refresh"}));
+		autoRefreshTime = new UISpinner(1, Integer.MAX_VALUE, 1);
+		superLink = new UICorrelationComboBoxPane();
 
-        isAutoRefresh.addActionListener(new ActionListener() {
+		isAutoRefresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkAutoRefresh();
@@ -166,9 +162,9 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         });
         timeSwitch = new UICheckBox(Inter.getLocText("FR-Chart-Interactive_timeSwitch"));
         timeSwitchPane = new TimeSwitchPane();
-        initFormatListener();
-        return initPaneWithListener();
-    }
+		initFormatListener();
+		return initPaneWithListener();
+	}
 
 
     private void initFormatListener() {
@@ -244,19 +240,19 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         });
     }
 
-    private void checkAutoRefresh() {
-        GUICoreUtils.setEnabled(autoRefreshTime, isAutoRefresh.isSelected());
-    }
+	private void checkAutoRefresh() {
+		GUICoreUtils.setEnabled(autoRefreshTime, isAutoRefresh.isSelected());
+	}
 
-    /**
-     * 反正后面还有relayout,这边init一下就好了 保证所有的init 加入界面 并且加载入事件.
-     * @return
-     */
-    private JPanel initPaneWithListener() {
-        initDataPointToolTipPane();
-        initAxisShowPane();
-        initAutoRefreshPane();
-        initSuperlinkPane();
+	/**
+	 * 反正后面还有relayout,这边init一下就好了 保证所有的init 加入界面 并且加载入事件.
+	 * @return
+	 */
+	private JPanel initPaneWithListener() {
+		initDataPointToolTipPane();
+		initAxisShowPane();
+		initAutoRefreshPane();
+		initSuperlinkPane();
         initTimeSwitchPane();
 
 
@@ -275,7 +271,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         };
         //初始化界面时  加载事件
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-    }
+	}
 
     private void initTimeSwitchPane(){
         timeSwitchContainer = new JPanel(new BorderLayout());
@@ -287,11 +283,11 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     /**
      * 全部初始化, 对所有的界面 都加入, 然后会加载事件响应. 后续再relayout.
      */
-    private void initDataPointToolTipPane() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = new double[]{p, f};
-        double[] rowSize = new double[]{p, p, p, p, p, p, p};
+	private void initDataPointToolTipPane() {
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] columnSize = new double[]{p, f};
+		double[] rowSize = new double[]{p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{isDatapointValue, dataPointValueFormat},
                 new Component[]{isDatapointPercent, dataPointPercentFormat},
@@ -302,7 +298,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 new Component[]{tooltipStyleLabel, tooltipStyle}
         };
         tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartData-Tooltip"},components, rowSize, columnSize);
-    }
+	}
 
     private void relayoutDataPointToolTipPane(Plot plot) {
         double p = TableLayout.PREFERRED;
@@ -337,8 +333,8 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             } else {
                 rowSize = new double[]{p, p, p};
                 components = new Component[][]{
-                        new Component[]{isDatapointValue, dataPointValueFormat},
-                        new Component[]{isDatapointPercent, dataPointPercentFormat},
+                    new Component[]{isDatapointValue, dataPointValueFormat},
+                    new Component[]{isDatapointPercent, dataPointPercentFormat},
                         getTooltipStyleComponent()
                 };
             }
@@ -374,49 +370,49 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         return new Component[] {TableLayoutHelper.createTableLayoutPane(newComponents, newRowSize, newColumnSize), null};
     }
 
-    private void initAxisShowPane() {
-        double p = TableLayout.PREFERRED;
-        double[] columnSize = new double[]{p};
-        double[] rowSize = new double[]{p};
-        Component[][] components = new Component[][]{
-                new Component[]{isAxisShowToolTip},
-        };
-        axisShowPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Axis", "Chart-Interactive"},components, rowSize, columnSize);
-    }
+	private void initAxisShowPane() {
+		double p = TableLayout.PREFERRED;
+		double[] columnSize = new double[]{p};
+		double[] rowSize = new double[]{p};
+		Component[][] components = new Component[][]{
+				new Component[]{isAxisShowToolTip},
+		};
+		axisShowPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Axis", "Chart-Interactive"},components, rowSize, columnSize);
+	}
 
-    private void initAutoRefreshPane() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = new double[]{p, f};
-        double[] rowSize = new double[]{p, p, p,p};
+	private void initAutoRefreshPane() {
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] columnSize = new double[]{p, f};
+		double[] rowSize = new double[]{p, p, p,p};
 
-        Component[][] components = new Component[][]{
-                new Component[]{isAutoRefresh,null},
-                new Component[]{GUICoreUtils.createFlowPane(new Component[]{
-                        new UILabel(Inter.getLocText("Chart-Time_Interval")),
-                        autoRefreshTime,
-                        new UILabel(Inter.getLocText("Chart-Time_Seconds"))
-                }, 1)},
+		Component[][] components = new Component[][]{
+				new Component[]{isAutoRefresh,null},
+				new Component[]{GUICoreUtils.createFlowPane(new Component[]{
+						new UILabel(Inter.getLocText("Chart-Time_Interval")),
+						autoRefreshTime,
+						new UILabel(Inter.getLocText("Chart-Time_Seconds"))
+				}, 1)},
                 new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + Inter.getLocText("FR-Chart-AutoRefresh_NotSupportIMGAndReportData") + "</font></html>"), null},
-        };
-        autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data-Check"},components, rowSize, columnSize);
-    }
+		};
+		autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data-Check"},components, rowSize, columnSize);
+	}
 
-    private void initSuperlinkPane() {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = new double[]{p, f};
-        double[] rowSize = new double[]{p};
-        Component[][] components = new Component[][]{
-                new Component[]{superLink, null},
+	private void initSuperlinkPane() {
+		double p = TableLayout.PREFERRED;
+		double f = TableLayout.FILL;
+		double[] columnSize = new double[]{p, f};
+		double[] rowSize = new double[]{p};
+		Component[][] components = new Component[][]{
+				new Component[]{superLink, null},
 
-        };
-        superlinkPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Hyperlink"},components, rowSize, columnSize);
-    }
+		};
+		superlinkPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Hyperlink"},components, rowSize, columnSize);
+	}
 
-    private void relayoutWithPlot(Plot plot) {
-        this.removeAll();
-        double p = TableLayout.PREFERRED;
+	private void relayoutWithPlot(Plot plot) {
+		this.removeAll();
+		double p = TableLayout.PREFERRED;
         double[] columnSize = new double[]{TableLayout.FILL};
         double[] rowSize = new double[]{p, p, p};
 
@@ -431,7 +427,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
         double[] row = new double[]{p, p, p, p, p, p};
         reloaPane(TableLayoutHelper.createTableLayoutPane(components, row, columnSize));
-    }
+	}
 
 
     private Component[] getChartAnimatePane(Plot plot, double[] row, double[] col) {
@@ -459,9 +455,9 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         timeSwitchContainer.add(timeSwitch, BorderLayout.CENTER);
         if(timeSwitch.isSelected()){
             double p = TableLayout.PREFERRED;
-            double f = TableLayout.FILL;
-            double[] columnSize = new double[]{TIME_SWITCH_GAP,f};
-            double[] rowSize = new double[]{p};
+          	double f = TableLayout.FILL;
+          	double[] columnSize = new double[]{TIME_SWITCH_GAP,f};
+          	double[] rowSize = new double[]{p};
             Component[][] components = new Component[][]{
                     new Component[]{null, timeSwitchPane},
             };
@@ -527,15 +523,15 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         return new Component[]{superlinkPane};
     }
 
-    @Override
-    public void populateBean(Chart chart) {
-        if (chart == null || chart.getPlot() == null) {
-            return;
-        }
+	@Override
+	public void populateBean(Chart chart) {
+		if (chart == null || chart.getPlot() == null) {
+			return;
+		}
 
-        Plot plot = chart.getPlot();
+		Plot plot = chart.getPlot();
         relayoutWithGis(chart, plot);
-        relayoutWithPlot(plot);
+		relayoutWithPlot(plot);
 
         populateChartAnimate(chart, plot);
         populateChartScale(plot);
@@ -544,8 +540,8 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         populateAutoRefresh(chart);
         populateHyperlink(plot);
 
-        checkAutoRefresh();
-    }
+		checkAutoRefresh();
+	}
 
     private void relayoutWithGis(Chart chart, Plot plot) {
         if(plot.isSupportAddress4Gis()) {
@@ -583,7 +579,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         timeSwitch.setEnabled(false);
         //只有坐标轴为时间坐标轴,并且勾选了图表缩放的时候，才支持时间切换
         if(!plot.isSupportZoomCategoryAxis() || !isAxisZoom.isSelected()){
-            return;
+             return;
         }
 
         if(plot.getxAxis() ==null && !plot.getxAxis().isDate()){
@@ -659,13 +655,6 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     private void populateHyperlink(Plot plot) {
         HashMap paneMap = renewMapWithPlot(plot);
 
-        //安装平台内打开插件时,添加相应按钮
-        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        for (HyperlinkProvider provider : providers) {
-            NameableCreator nc = provider.createHyperlinkCreator();
-            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
-        }
-
         List<UIMenuNameableCreator> list = refreshList(paneMap);
         superLink.refreshMenuAndAddMenuAction(list);
 
@@ -683,13 +672,13 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         superLink.doLayout();
     }
 
-    @Override
-    public void updateBean(Chart chart) {
-        if (chart == null || chart.getPlot() == null) {
-            return;
-        }
+	@Override
+	public void updateBean(Chart chart) {
+		if (chart == null || chart.getPlot() == null) {
+			return;
+		}
 
-        Plot plot = chart.getPlot();
+		Plot plot = chart.getPlot();
 
         updateChartAnimate(chart, plot);
         updateChartScale(plot);
@@ -697,7 +686,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         updateAxisTip(plot);
         updateAutoRefresh(plot);
         updateHyperlink(plot);
-    }
+	}
 
     private void updateChartAnimate(Chart chart, Plot plot) {
         if(plot.isSupportAnimate()) {
@@ -829,7 +818,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     }
 
 
-    protected Class<? extends BasicBeanPane> getUseMap(HashMap map, Object key) {
+	protected Class<? extends BasicBeanPane> getUseMap(HashMap map, Object key) {
         if(map.get(key) != null){
             return (Class<? extends BasicBeanPane>)map.get(key);
         }
@@ -843,33 +832,33 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             }
         }
         return null;
-    }
+	}
+	
+	protected List<UIMenuNameableCreator> refreshList(HashMap map) {
+		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 
-    protected List<UIMenuNameableCreator> refreshList(HashMap map) {
-        List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
-        list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+		list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Float_Chart"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Cell"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Float"),
+		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
-
-        FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+		
+		FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Form"),
-                hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
-
-        return list;
-    }
+        		hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
+		
+		return list;
+	}
 
     private HashMap renewMapWithPlot(Plot plot) {
         if(plot instanceof PiePlot) {
@@ -1032,8 +1021,8 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
     private HashMap getNormalPlotHyperMap() {
         if(normalMap.isEmpty()) {
-            FormHyperlinkProvider fp = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-
+        	FormHyperlinkProvider fp = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        	
             normalMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART.class);
             normalMap.put(EmailJavaScript.class, ChartEmailPane.class);
             normalMap.put(WebHyperlink.class, WebHyperlinkPane.CHART.class);
@@ -1052,27 +1041,27 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         }
         return normalMap;
     }
-
-    @Override
-    public Chart updateBean() {
-        return null;
-    }
+	
+	@Override
+	public Chart updateBean() {
+		return null;
+	}
 
     /**
-     * 给组件登记一个观察者监听事件
-     *
-     * @param listener 观察者监听事件
-     */
+   	 * 给组件登记一个观察者监听事件
+   	 *
+   	 * @param listener 观察者监听事件
+   	 */
     public void registerChangeListener(UIObserverListener listener) {
         timeSwitch.registerChangeListener(listener);
         timeSwitchPane.registerChangeListener(listener);
     }
 
     /**
-     * 组件是否需要响应添加的观察者事件
-     *
-     * @return 如果需要响应观察者事件则返回true，否则返回false
-     */
+   	 * 组件是否需要响应添加的观察者事件
+   	 *
+   	 * @return 如果需要响应观察者事件则返回true，否则返回false
+   	 */
     public boolean shouldResponseChangeListener() {
         return true;
     }

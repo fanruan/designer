@@ -29,11 +29,6 @@ public class UILabel extends JLabel {
 		super(text);
 	}
 
-	public UILabel(String text, boolean enable) {
-		super(text);
-		this.setEnabled(enable);
-	}
-
 	public UILabel(Icon image, int horizontalAlignment) {
 		super(image, horizontalAlignment);
 	}

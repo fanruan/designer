@@ -238,7 +238,6 @@ public class AuthorityToolBarPane<T extends WebContent> extends BasicBeanPane<Re
                 dealWithWebContent(webAttr.getWebView(), widget, isSelected, selectedRole);
             }
         }
-        
     }
 
     private void dealWithWebContent(WebContent wc, Widget widget, boolean isSelected, String selectedRole) {

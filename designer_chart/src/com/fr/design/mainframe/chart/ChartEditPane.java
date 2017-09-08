@@ -21,7 +21,6 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChartEditPane extends BasicPane implements AttributeChange, Prepare4DataSourceChange, ChartEditPaneProvider {
+public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
 
     private final static int CHANGE_MIN_TIME = 80;
 
@@ -119,7 +118,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
                 } catch (CloneNotSupportedException e) {
                     FRLogger.getLogger().error("error in clone ChartEditPane");
                 }
-                if (ComparatorUtils.equals(selectedPane.title4PopupWindow(), PaneTitleConstants.CHART_STYLE_TITLE)) {
+                if(ComparatorUtils.equals(selectedPane.title4PopupWindow(),PaneTitleConstants.CHART_STYLE_TITLE)){
                     dealWithStyleChange();
                 }
 
@@ -130,11 +129,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
 
     /**
      * 重新构造面板
-     *
      * @param currentChart 图表
      */
-    public void reLayout(Chart currentChart) {
-        if (currentChart != null) {
+    public void reLayout(Chart currentChart){
+        if(currentChart != null){
             int chartIndex = getSelectedChartIndex(currentChart);
             this.removeAll();
             this.setLayout(new BorderLayout());
@@ -142,22 +140,22 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             addTypePane();
 
             boolean isDefault = true;
-            String plotID = StringUtils.EMPTY;
-            if (currentChart.getPlot() != null) {
+            String plotID = "";
+            if(currentChart.getPlot() != null){
                 plotID = currentChart.getPlot().getPlotID();
                 isDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
             }
 
-            if (isDefault) {
+            if(isDefault){
                 paneList.add(dataPane4SupportCell);
                 paneList.add(stylePane);
                 paneList.add(otherPane);
                 this.isDefaultPane = true;
-            } else {
+            }else{
                 ChartDataPane chartDataPane = createChartDataPane(plotID);
                 paneList.add(chartDataPane);
                 AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(plotID, listener);
-                for (int i = 0; i < otherPaneList.length; i++) {
+                for(int i = 0; i < otherPaneList.length; i++){
                     otherPaneList[i].addAttributeChangeListener(listener);
                     paneList.add(otherPaneList[i]);
                 }
@@ -179,7 +177,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
     }
 
     protected void setSelectedTab() {
-        //doNothing
     }
 
     /**
@@ -225,7 +222,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             return;
         }
 
-        if (isNeedsReLayout(collection.getSelectedChart())) {
+        if(checkNeedsReLayout(collection.getSelectedChart())){
             reLayout(collection.getSelectedChart());
         }
 
@@ -252,12 +249,12 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
         }
     }
 
-    public int getSelectedChartIndex(Chart chart) {
+    public int getSelectedChartIndex(Chart chart){
         int index = 0;
-        if (typePane != null) {
+        if(typePane != null){
             FurtherBasicBeanPane[] paneList = typePane.getPaneList();
-            for (; index < paneList.length; index++) {
-                if (paneList[index].accept(chart)) {
+            for(; index < paneList.length; index++){
+                if(paneList[index].accept(chart)){
                     return index;
                 }
             }
@@ -266,12 +263,12 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
     }
 
     //populate的时候看看要不要重构面板
-    private boolean isNeedsReLayout(Chart chart) {
-        if (chart != null) {
+    private boolean checkNeedsReLayout(Chart chart){
+        if(chart != null){
             int lastIndex = typePane.getSelectedIndex();
             int currentIndex = getSelectedChartIndex(chart);
             boolean currentPane = true;
-            if (chart.getPlot() != null) {
+            if(chart.getPlot() != null){
                 String plotID = chart.getPlot().getPlotID();
                 currentPane = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
             }
@@ -282,10 +279,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
 
     /**
      * 当前界面是否是默认的界面
-     *
      * @return 是否是默认的界面
      */
-    public boolean isDefaultPane() {
+    public boolean isDefaultPane(){
         return this.isDefaultPane;
     }
 
@@ -317,17 +313,16 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
         }
     }
 
-    protected void dealWithStyleChange() {
-        //doNothing
+    protected void dealWithStyleChange(){
+
     }
 
     /**
-     * 主要用于图表设计器，判断样式改变是否来自工具栏的全局样式按钮
-     *
+     *主要用于图表设计器，判断样式改变是否来自工具栏的全局样式按钮
      * @param isFromToolBar 是否来自工具栏
      */
-    public void styleChange(boolean isFromToolBar) {
-        //doNothing
+    public void styleChange(boolean isFromToolBar){
+
     }
 
     /**
@@ -346,10 +341,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 AbstractChartAttrPane attrPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
-                //不显示，没有处于编辑状态，没必要更新。
-                if (attrPane.isShowing()) {
-                    attrPane.refreshChartDataPane(collection);
-                }
+                attrPane.refreshChartDataPane(collection);
             }
         });
     }

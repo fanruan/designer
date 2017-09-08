@@ -36,7 +36,6 @@ import java.io.ByteArrayOutputStream;
 import java.text.Collator;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 设计器管理操作数据集的类:
@@ -55,11 +54,11 @@ public abstract class DesignTableDataManager {
      * 其实globalDsCache没有绝对的必要，只是为了操作方便。如果没有它，那么每次清空服务器数据集或者存储过程的时候，还要去遍历找一下，
      * 这个操作可能比较复杂 。 从减少代码复杂度的角度看，还是很有必要的
      */
-    private static java.util.Map<String, TableDataWrapper> globalDsCache = new ConcurrentHashMap<String, TableDataWrapper>();
-    private static java.util.Map<String, String> dsNameChangedMap = new ConcurrentHashMap<String, String>();
+    private static java.util.Map<String, TableDataWrapper> globalDsCache = new java.util.HashMap<String, TableDataWrapper>();
+    private static java.util.Map<String, String> dsNameChangedMap = new HashMap<String, String>();
 //    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
 
-    private static Map<String, List<ChangeListener>> dsListenersMap = new ConcurrentHashMap<String, List<ChangeListener>>();;
+    private static Map<String, List<ChangeListener>> dsListenersMap = new HashMap<String, List<ChangeListener>>();
 
 
     public static String NO_PARAMETER = "no_paramater_pane";

@@ -60,7 +60,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
                         .setRendererClass(BooleanRender.class)
                         .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, Inter.getLocText("FR-Designer_Fit"))
         };
-        List<CRPropertyDescriptor> defaultList = new ArrayList<CRPropertyDescriptor>();
+        List<CRPropertyDescriptor> defaultList = new ArrayList<>();
 
         for (CRPropertyDescriptor propertyDescriptor: propertyTableEditor) {
             defaultList.add(propertyDescriptor);
