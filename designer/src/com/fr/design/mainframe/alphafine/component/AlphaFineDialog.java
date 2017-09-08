@@ -670,6 +670,8 @@ public class AlphaFineDialog extends UIDialog {
                         searchTextField.setText(null);
                         removeSearchResult();
                     }
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    dealWithSearchResult(searchResultList.getSelectedValue());
                 }
             }
         });
@@ -692,6 +694,15 @@ public class AlphaFineDialog extends UIDialog {
         });
 
 
+    }
+
+    /**
+     * 处理搜索结果
+     * @param selectedValue
+     */
+    private void dealWithSearchResult(AlphaCellModel selectedValue) {
+        doNavigate();
+        saveLocalHistory(selectedValue);
     }
 
     /**
@@ -725,6 +736,9 @@ public class AlphaFineDialog extends UIDialog {
         //不处理
     }
 
+    /**
+     * 导航到结果页面
+     */
     private void doNavigate() {
         AlphaFineDialog.this.dispose();
         final AlphaCellModel model = searchResultList.getSelectedValue();
@@ -732,15 +746,15 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     /**
-     * 保存本地（本地常用）
+     * 保存结果到本地（本地常用）
      *
      * @param cellModel
      */
-    private void saveHistory(AlphaCellModel cellModel) {
+    private void saveLocalHistory(AlphaCellModel cellModel) {
         RecentSearchManager recentSearchManager = RecentSearchManager.getRecentSearchManger();
         recentSearchManager.addRecentModel(storeText, cellModel);
         recentSearchManager.saveXMLFile();
-        sendToServer(storeText, cellModel);
+        sendDataToServer(storeText, cellModel);
 
     }
 
@@ -750,7 +764,7 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchKey
      * @param cellModel
      */
-    private void sendToServer(String searchKey, AlphaCellModel cellModel) {
+    private void sendDataToServer(String searchKey, AlphaCellModel cellModel) {
         if (cellModel.isNeedToSendToServer()) {
             String username = ConfigManager.getProviderInstance().getBbsUsername();
             String uuid = DesignerEnvManager.getEnvManager().getUUID();
@@ -908,8 +922,7 @@ public class AlphaFineDialog extends UIDialog {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        doNavigate();
-                        saveHistory(getSelectedValue());
+                        dealWithSearchResult(getSelectedValue());
                     } else if (e.getKeyCode() == KeyEvent.VK_UP) {
                         if (getSelectedIndex() == 1) {
                             searchTextField.requestFocus();
@@ -926,8 +939,7 @@ public class AlphaFineDialog extends UIDialog {
                     int selectedIndex = getSelectedIndex();
                     AlphaCellModel selectedValue = getSelectedValue();
                     if (e.getClickCount() == 2 && selectedValue.hasAction()) {
-                        doNavigate();
-                        saveHistory(selectedValue);
+                        dealWithSearchResult(selectedValue);
                     } else if (e.getClickCount() == 1) {
                         if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
                             dealWithMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);

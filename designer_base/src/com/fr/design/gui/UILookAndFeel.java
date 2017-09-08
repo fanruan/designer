@@ -171,6 +171,7 @@ public class UILookAndFeel extends MetalLookAndFeel {
         table.put("FormattedTextField.border", new UITextFieldBorder());
         table.put("TextField.border", new UITextFieldBorder());
         table.put("PasswordField.border", new UITextFieldBorder());
+        table.put("TextArea.border", new UITextFieldBorder());
     }
 
 

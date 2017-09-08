@@ -36,7 +36,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
+		checkbox = new UICheckBox(Inter.getLocText("FR-Designer_Advanced"));
 		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		buttonGroupDictPane = new ButtonGroupDictPane();
 		checkBoxDictPane = new CheckBoxDictPane();

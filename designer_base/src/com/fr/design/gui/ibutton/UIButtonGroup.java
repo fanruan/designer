@@ -7,6 +7,7 @@ import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -28,7 +29,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     protected int selectedIndex = -1;
     private List<T> objectList;// 起到一个render的作用
     private GlobalNameListener globalNameListener = null;
-    private String buttonGroupName = "";
+    private String buttonGroupName = StringUtils.EMPTY;
     private boolean isToolBarComponent = false;
     private boolean isClick;
 
@@ -177,34 +178,6 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         g2d.clip(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), UIConstants.ARC, UIConstants.ARC));
         super.paintComponents(g);
         g2d.setClip(oldClip);
-    }
-
-    /**
-     * 重载Border画法
-     *
-     * @param g
-     */
-    @Override
-    protected void paintBorder(Graphics g) {
-        if (isToolBarComponent) {
-            return;
-        }
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(UIConstants.SHADOW_GREY);
-
-        int width = 0;
-        for (int i = 0; i < labelButtonList.size() - 1; i++) {
-            width += labelButtonList.get(i).getWidth() + 1;
-            int height = labelButtonList.get(i).getHeight();
-            g.drawLine(width, 0, width, height);
-        }
-
-        width += labelButtonList.get(labelButtonList.size() - 1).getWidth() + 1;
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.drawRoundRect(0, 0, width, getHeight() - 1, UIConstants.BUTTON_GROUP_ARC, UIConstants.BUTTON_GROUP_ARC);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-
     }
 
     /**
@@ -369,21 +342,21 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
      * @param args
      */
     public static void main(String... args) {
-        JFrame jf = new JFrame("test");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel content = (JPanel) jf.getContentPane();
-        content.setLayout(new BorderLayout());
-        Icon[] a1 = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
-                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")};
-        Integer[] a2 = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
-        UIButtonGroup<Integer> bb = new UIButtonGroup<Integer>(a1, a2);
-        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
-        bb.setSelectedIndex(0);
-        bb.setEnabled(false);
-        content.add(bb);
-        GUICoreUtils.centerWindow(jf);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        Icon[] a1 = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
+//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")};
+//        Integer[] a2 = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
+//        UIButtonGroup<Integer> bb = new UIButtonGroup<Integer>(a1, a2);
+//        bb.setBounds(20, 20, bb.getPreferredSize().width, bb.getPreferredSize().height);
+//        bb.setSelectedIndex(0);
+//        bb.setEnabled(false);
+//        content.add(bb);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
     }
 
 

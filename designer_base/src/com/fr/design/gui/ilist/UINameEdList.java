@@ -312,7 +312,12 @@ public class UINameEdList extends UIList implements CellEditorListener {
             String name = StringUtils.isBlank(value.toString()) ? oldName : value.toString();
             setNameAt(name, editingIndex);
             removeComp();
+            doAfterStopEditing();
         }
+    }
+
+    protected void doAfterStopEditing() {
+        // default: do nothing
     }
 
     public String[] getAllNames() {
