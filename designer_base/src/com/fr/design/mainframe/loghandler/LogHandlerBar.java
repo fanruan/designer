@@ -77,14 +77,12 @@ public class LogHandlerBar extends JPanel implements ItemSelectable {
 	public void errorAdd() {
 		ERRORNUM++;
 		timerPaint();
-
 	}
 
 	public void serverAdd() {
 		SERVERNUM++;
 		timerPaint();
 	}
-
 
 	private AtomicBoolean painting = new AtomicBoolean(false);
 

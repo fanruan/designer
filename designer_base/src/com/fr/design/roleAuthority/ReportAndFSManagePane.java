@@ -184,7 +184,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
     }
 
     private void initbuttonGroup() {
-        isSupportFS = VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.FS_BI.support();
+        isSupportFS = supportFineDecision();
         Icon[] iconArray = null;
         String[] textArray = null;
         if (isSupportFS) {
@@ -210,6 +210,11 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
         };
         buttonGroup.setBorder(BorderFactory.createMatteBorder(1, LEFT_GAP, 0, 0, UIConstants.LINE_COLOR));
         buttonGroup.setNeedLeftRightOutLine(false);
+    }
+
+    private boolean supportFineDecision() {
+        byte[] bytes = FRCoreContext.getBytes();
+        return VT4FR.isLicAvailable(bytes) && VT4FR.FS_BI.support();
     }
 
     private int getMode(){

@@ -1,5 +1,6 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.FRContext;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -14,12 +15,14 @@ import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.webattr.ToolBarButton;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,8 +39,12 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
     private AuthorityToolBarPane authorityToolBarPane;
     private String[] selectedPathArray;
 
-    public AuthorityEditToolBarPane(List<ToolBarButton> buttonlists) {
+    public AuthorityEditToolBarPane(List<ToolBarButton> buttonList) {
         super(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+        this.init(buttonList);
+    }
+
+    private void init(List<ToolBarButton> buttonList) {
         this.setLayout(new BorderLayout());
         this.setBorder(null);
         UILabel authorityTitle = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Permissions",
@@ -53,7 +60,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
         northPane.add(authorityTitle, BorderLayout.CENTER);
         northPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.LINE_COLOR));
 //        this.add(northPane, BorderLayout.NORTH);
-        authorityEditPane = new AuthorityEditPane(buttonlists);
+        authorityEditPane = new AuthorityEditPane(buttonList);
         this.add(authorityEditPane, BorderLayout.CENTER);
     }
 
@@ -95,27 +102,25 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
             public void itemStateChanged(ItemEvent e) {
                 String selectedRole = ReportAndFSManagePane.getInstance().getRoleTree().getSelectedRoleName();
                 initSelectedPathArray();
-                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole ==
-                        null || selectedPathArray == null) {
+                if (ComparatorUtils.equals(selectedRole, Inter.getLocText("FR-Designer_Role")) || selectedRole == null || selectedPathArray == null) {
                     return;
                 }
-                for (int t = 0; t < selectedPathArray.length; t++) {
-                    for (int i = 0; i < buttonlists.size(); i++) {
-                        if (buttonlists.get(i).isSelected()) {
-                            buttonlists.get(i).changeAuthorityState(selectedPathArray[t], buttonVisible.isSelected());
-                            authorityToolBarPane.repaint();
-                        }
+                ToolBarButton selectedButton = null;
+                //是否可见的checkbox
+                UICheckBox checkbox = (UICheckBox) e.getSource();
+                for (int i = 0; i < buttonlists.size(); i++) {
+                    if (buttonlists.get(i).isSelected()) {
+                        selectedButton = buttonlists.get(i);
                     }
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
-                    RolesAlreadyEditedPane.getInstance().refreshDockingView();
-                    UICheckBox checkbox = (UICheckBox) e.getSource();
-                    List<ToolBarButton> btns = AuthorityEditPane.this.buttonlists;
-                    for (int j = 0; j < btns.size(); j++) {
-                        if (btns.get(j).isSelected()) {
-                            //由引擎实现保存进模板报表
-                            authorityToolBarPane.setAuthorityWebAttr(btns.get(j).getWidget(), checkbox.isSelected(), selectedPathArray[t]);
-                        }
+                }
+                if (selectedButton != null) {
+                    for (int t = 0; t < selectedPathArray.length; t++) {
+                        selectedButton.changeAuthorityState(selectedPathArray[t], buttonVisible.isSelected());
+                        authorityToolBarPane.repaint();
+                        authorityToolBarPane.setAuthorityWebAttr(selectedButton.getWidget(), checkbox.isSelected(), selectedPathArray[t]);
                     }
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();//模版更新
+                    RolesAlreadyEditedPane.getInstance().refreshDockingView();//已配置角色视图刷新
                 }
             }
         };
@@ -205,29 +210,29 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
 
         public void populateType() {
-            if (name.getText() == "") {
-                type.setText("");
+            if (StringUtils.EMPTY.equals(name.getText())) {
+                type.setText(StringUtils.EMPTY);
             } else {
                 type.setText(Inter.getLocText(new String[]{"ReportServerP-Toolbar", "FR-Designer_Form_Button"}));
             }
         }
 
         public void populateName() {
-            String names = "";
+            StringBuilder names = new StringBuilder();
             for (int i = 0; i < buttonlists.size(); i++) {
                 if (buttonlists.get(i).isSelected()) {
-                    names += "," + buttonlists.get(i).getNameOption().optionName();
+                    names.append(",").append(buttonlists.get(i).getNameOption().optionName());
                 }
             }
-            if (names != "") {
-                names = names.substring(1);
+            if (names.length() > 0) {
+                names.deleteCharAt(0);
             }
-            name.setText(names);
+            name.setText(names.toString());
         }
 
         public void populateCheckPane() {
             checkPane.removeAll();
-            if (name.getText() == "") {
+            if (StringUtils.EMPTY.equals(name.getText())) {
                 return;
             }
             double f = TableLayout.FILL;
