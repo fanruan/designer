@@ -1,6 +1,7 @@
 package com.fr.design.widget;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -73,9 +74,8 @@ public class CellWidgetCardPane extends BasicPane {
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
         jPanel.add(center, BorderLayout.CENTER);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L6, 0, 0));
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-//        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         initPaneList();
         eventPane = initWidgetEventPane(pane);
