@@ -1,6 +1,7 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.FRContext;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
@@ -34,7 +35,7 @@ public class PropertyGroupPane extends BasicPane {
             components[i] = crPropertyDescriptorPanes[i].createTableLayoutComponent();
         }
 
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, 20, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         this.add(panel, BorderLayout.CENTER);
     }

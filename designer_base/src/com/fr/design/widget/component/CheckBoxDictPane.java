@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
@@ -37,7 +38,7 @@ public class CheckBoxDictPane extends JPanel {
 				new Component[]{new UILabel(Inter.getLocText("ComboCheckBox-Start_Symbol") + ":"),startComboBox},
 				new Component[]{new UILabel(Inter.getLocText("ComboCheckBox-End_Symbol") + ":"),endComboBox}
 		};
-		returnStringPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		returnStringPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 
 		returnTypeComboBox = new UIButtonGroup(new String[]{Inter.getLocText("Widget-Array"), Inter.getLocText("String")});
 		returnTypeComboBox.addActionListener(new ActionListener() {
