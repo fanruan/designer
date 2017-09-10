@@ -73,8 +73,9 @@ public class CellWidgetCardPane extends BasicPane {
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
         jPanel.add(center, BorderLayout.CENTER);
-
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+//        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         initPaneList();
         eventPane = initWidgetEventPane(pane);
@@ -91,7 +92,7 @@ public class CellWidgetCardPane extends BasicPane {
             }
         };
         tabsHeaderIconPane.setNeedLeftRightOutLine(false);
-        jPanel.add(tabsHeaderIconPane, BorderLayout.NORTH);
+        this.add(tabsHeaderIconPane, BorderLayout.NORTH);
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
 

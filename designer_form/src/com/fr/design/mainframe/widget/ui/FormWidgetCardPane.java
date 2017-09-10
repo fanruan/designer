@@ -137,6 +137,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
         attriCardPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+
         jPanel.add(attriCardPane, BorderLayout.CENTER);
 
         this.listener = new AttributeChangeListener() {

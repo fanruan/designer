@@ -1,5 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -105,37 +107,25 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void addValidatePane() {
         initErrorMsgPane();
         validatePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
         final UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
+        JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        final JPanel errorTipPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{uiLabel, errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
+        errorTipPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
+        borderPane.add(errorTipPane, BorderLayout.CENTER);
         allowBlankCheckBox.addItemListener(new ItemListener() {
-
             @Override
             public void itemStateChanged(ItemEvent e) {
                 boolean isSelected = allowBlankCheckBox.isSelected();
-                uiLabel.setVisible(!isSelected);
-                errorMsgTextField.setVisible(!isSelected);
-                if (isSelected) {
-                    uiLabel.setPreferredSize(new Dimension(0, 0));
-                    errorMsgTextField.setPreferredSize(new Dimension(0, 0));
-                } else {
-                    uiLabel.setPreferredSize(new Dimension(66, 20));
-                    errorMsgTextField.setPreferredSize(new Dimension(150, 20));
-                }
+                errorTipPane.setVisible(!isSelected);
             }
         });
 
-
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{allowBlankCheckBox, null},
-                new Component[]{uiLabel, errorMsgTextField},
+                new Component[]{allowBlankCheckBox},
+                new Component[]{borderPane},
         };
-        double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 5, 5);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6);
+        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
         validatePane.add(panel, BorderLayout.NORTH);
         JPanel contentPane = this.setValidatePane();
         if (contentPane != null) {

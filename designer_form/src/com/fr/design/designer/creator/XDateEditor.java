@@ -119,7 +119,7 @@ public class XDateEditor extends XDirectWriteEditor {
         if (editor == null) {
             editor = FRGUIPaneFactory.createBorderLayout_S_Pane();
             editor.add(textField = new UITextField(5), BorderLayout.CENTER);
-            btn = new LimpidButton("", this.getIconPath(), toData().isVisible() ? FULL_OPACITY : HALF_OPACITY);
+            btn = new LimpidButton(StringUtils.EMPTY, this.getIconPath(), toData().isVisible() ? FULL_OPACITY : HALF_OPACITY);
             btn.setPreferredSize(new Dimension(21, 21));
             editor.add(btn, BorderLayout.EAST);
             textField.setOpaque(false);

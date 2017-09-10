@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
@@ -80,18 +81,20 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         componentIntervel = new UISpinner(0, 100, 1, 0);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}};
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, 7);
+        northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Scale")), adaptComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentIntervel}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        jPanel.add(panel, BorderLayout.CENTER);
-
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, 7);
+        centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
+        jPanel.add(northPane, BorderLayout.NORTH);
+        jPanel.add(centerPane, BorderLayout.CENTER);
         return jPanel;
     }
 

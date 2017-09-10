@@ -2,18 +2,20 @@ package com.fr.design.widget.component;
 
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.editor.editor.*;
-import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
  * Created by ibm on 2017/8/8.
  */
 public class DateValuePane extends JPanel {
-    private UIHeadGroup widgetValueHead;
+    private UIButtonGroup widgetValueHead;
     private Editor[] editor;
 
 
@@ -31,9 +33,11 @@ public class DateValuePane extends JPanel {
             customPane.add(editor[i], editor[i].getName());
             tabTitles[i] = editor[i].getName();
         }
-        widgetValueHead = new UIHeadGroup(tabTitles) {
+        widgetValueHead = new UIButtonGroup(tabTitles);
+        widgetValueHead.addChangeListener(new ChangeListener() {
             @Override
-            public void tabChanged(int index) {
+            public void stateChanged(ChangeEvent e) {
+                int index = widgetValueHead.getSelectedIndex();
                 if (ComparatorUtils.equals(tabTitles[index], Inter.getLocText("None"))) {
                     customPane.setVisible(false);
                 } else {
@@ -41,7 +45,7 @@ public class DateValuePane extends JPanel {
                 }
                 cardLayout.show(customPane, tabTitles[index]);
             }
-        };
+        });
         this.add(widgetValueHead, BorderLayout.NORTH);
         this.add(customPane, BorderLayout.CENTER);
 
@@ -56,6 +60,9 @@ public class DateValuePane extends JPanel {
     }
 
     public void populate(Object ob) {
+        if(ob == null){
+            setCardValue(0, ob);
+        }
         for (int i = 0; i < editor.length; i++) {
             if (editor[i].accept(ob)) {
                 setCardValue(i, ob);
@@ -66,6 +73,7 @@ public class DateValuePane extends JPanel {
 
     private void setCardValue(int i, Object object) {
         widgetValueHead.setSelectedIndex(i);
+        widgetValueHead.populateBean();
         editor[i].setValue(object);
         // kunsnat: bug7861 所有的Editor值都要跟随改变, 因为populate的editor 从""
         // 一定是最后的Editor哦.

@@ -1,5 +1,7 @@
 package com.fr.design.gui.frpane;
 
+import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -31,6 +33,7 @@ public class RegFieldPane extends RegPane {
     }
 
     public void initComponents() {
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, IntervalConstants.INTERVAL_L1, 0));
         regErrorMsgPane = new RegErrorMsgPane();
         final RegChangeListener regChangeListener = new RegChangeListener() {
 
@@ -68,9 +71,11 @@ public class RegFieldPane extends RegPane {
 
         public RegErrorMsgPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+            this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             initRegErrorMsgField();
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+            UILabel tipLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
+            tipLabel.setPreferredSize(new Dimension(60, 20));
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{tipLabel, regErrorMsgField}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, LayoutConstants.VGAP_MEDIUM);
             this.add(panel);
         }
 
