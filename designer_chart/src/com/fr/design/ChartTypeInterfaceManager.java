@@ -81,12 +81,12 @@ import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
+import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
-import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 
 import javax.swing.*;
@@ -115,7 +115,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     static {
         readDefault();
         readVanChart();
-        StableFactory.registerMarkedObject(XML_TAG, classManager);
+        PluginModule.registerAgent(PluginModule.ExtraChartDesign, classManager);
     }
     
     static {

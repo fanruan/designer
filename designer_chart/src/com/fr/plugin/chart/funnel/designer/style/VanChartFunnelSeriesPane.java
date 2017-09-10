@@ -42,7 +42,9 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
-        panel.add(createStylePane(), BorderLayout.CENTER);
+        if (stylePane != null) {
+            panel.add(createStylePane(), BorderLayout.CENTER);
+        }
         panel.add(createAlphaPane(), BorderLayout.SOUTH);
     }
 

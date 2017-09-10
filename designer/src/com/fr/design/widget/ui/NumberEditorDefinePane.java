@@ -74,7 +74,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         return content;
     }
 
-
     public JPanel setValidatePane() {
         initListeners();
 
@@ -101,7 +100,7 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         this.setMinValueCheckBox.addActionListener(setMinListener);
         this.minValueSpinner.addChangeListener(minValueChangeListener);
 
-        UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
+        UILabel numberLabel = new UILabel(Inter.getLocText("FR-Designer_Decimal_Places"));
         limitNumberPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{numberLabel, decimalLength}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;

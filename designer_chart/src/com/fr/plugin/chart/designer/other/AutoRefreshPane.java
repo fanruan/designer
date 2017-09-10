@@ -10,7 +10,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.RefreshMoreLabel;
@@ -86,11 +85,19 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f, 20};
-        double[] rowSize = {p, p};
+        double[] column = {f, 20};
+        double[] rowSize = {p};
 
         Component[][] components = initComponent(jPanel);
-        contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        contentPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+        contentPane = new JPanel(new BorderLayout());
+        contentPane.add(panel1, BorderLayout.CENTER);
+
+        Component[][] AutoTooltipComponent = initAutoTooltipComponent();
+        JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(AutoTooltipComponent, rowSize, column);
+        panel2.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
+        contentPane.add(panel2, BorderLayout.SOUTH);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(0, 72,0,0));
         content.add(moreLabelPane, BorderLayout.NORTH);
         content.add(contentPane, BorderLayout.CENTER);
         return content;
@@ -103,6 +110,13 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
                 new Component[]{autoTooltip,null, tooltipSet},
         };
 
+    }
+
+    protected Component[][] initAutoTooltipComponent () {
+
+        return new Component[][]{
+                new Component[]{autoTooltip, tooltipSet},
+        };
     }
 
     private void initTooltipSet() {

@@ -9,7 +9,9 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * Coder: Sean
@@ -30,10 +32,11 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
     private int addY = -1;
     private int rollover = -1;
     private Color tabBorderColor = new Color(143, 160, 183);
-    private Color[] tabSelectedColor = {UIConstants.NORMAL_BLUE, new Color(187, 142, 33), new Color(214, 191, 137)};
+    private Color[] tabSelectedColor = {UIConstants.NORMAL_BLUE, UIConstants.NORMAL_BLUE, UIConstants.NORMAL_BLUE};
 
     /**
      * 创建UI对象
+     *
      * @param c 容器
      * @return 返回UI对象
      */
@@ -47,8 +50,9 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
     protected void installListeners() {
         super.installListeners();
         tabPane.addMouseMotionListener(
-                (MouseMotionListener)mouseListener);
+                (MouseMotionListener) mouseListener);
     }
+
     protected MouseListener createMouseListener() {
         return new UIMouseHandler();
     }
@@ -56,6 +60,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
     public class UIMouseHandler implements MouseListener, MouseMotionListener {
         /**
          * 鼠标按下
+         *
          * @param e 事件
          */
         public void mousePressed(MouseEvent e) {
@@ -63,14 +68,14 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
                 return;
             }
             int x = e.getX(), y = e.getY();
-            if (addX!= -1 && isMouseInAdd(x, y)){
+            if (addX != -1 && isMouseInAdd(x, y)) {
                 addBtn = ADD_CLICK;
                 tabPane.repaint();
             }
             int tabIndex = getTabAtLocation(x, y);
             if (tabIndex >= 0 && tabPane.isEnabledAt(tabIndex)) {
                 if (canClose() && isMouseInClose(x, y)) {
-                    ((UITabbedPane)tabPane).doRemoveTab(tabIndex);
+                    ((UITabbedPane) tabPane).doRemoveTab(tabIndex);
                 } else if (tabIndex != tabPane.getSelectedIndex()) {
                     tabPane.setSelectedIndex(tabIndex);
                 } else if (tabPane.isRequestFocusEnabled()) {
@@ -81,12 +86,15 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
 
         /**
          * 鼠标进入
+         *
          * @param e 事件
          */
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {
+        }
 
         /**
          * 鼠标离开
+         *
          * @param e 事件
          */
         public void mouseExited(MouseEvent e) {
@@ -101,36 +109,42 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
 
         /**
          * 鼠标点击
+         *
          * @param e 事件
          */
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {
+        }
 
         /**
          * 鼠标释放
+         *
          * @param e 事件
          */
         public void mouseReleased(MouseEvent e) {
-            if (addX!= -1 && isMouseInAdd(e.getX(),e.getY())){
-                String classpath = ((UITabbedPane)tabPane).getClassPath();
-                String tabName = ((UITabbedPane)tabPane).getTabName();
+            if (addX != -1 && isMouseInAdd(e.getX(), e.getY())) {
+                String classpath = ((UITabbedPane) tabPane).getClassPath();
+                String tabName = ((UITabbedPane) tabPane).getTabName();
                 try {
                     addBtn = ADD_NORMAL;
                     tabPane.addTab(tabName,
                             (Component) GeneralUtils.classForName(classpath).newInstance());
                 } catch (Exception ex) {
-                    FRLogger.getLogger().error(ex.getMessage(),ex);
+                    FRLogger.getLogger().error(ex.getMessage(), ex);
                 }
             }
         }
 
         /**
          * 鼠标拖拽
+         *
          * @param e 事件
          */
-        public void mouseDragged(MouseEvent e) {}
+        public void mouseDragged(MouseEvent e) {
+        }
 
         /**
          * 鼠标移动
+         *
          * @param e 事件
          */
         public void mouseMoved(MouseEvent e) {
@@ -144,7 +158,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
             if (addX != -1 && isMouseInAdd(x, y)) {
                 addBtn = ADD_OVER;
                 tabPane.repaint();
-            }else if(addBtn != ADD_NORMAL){
+            } else if (addBtn != ADD_NORMAL) {
                 addBtn = ADD_NORMAL;
                 tabPane.repaint();
             }
@@ -154,31 +168,34 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
 
     /**
      * 判断鼠标是否在添加按钮上
+     *
      * @param x 鼠标坐标x
      * @param y 鼠标坐标y
      * @return 返回鼠标是否在添加按钮上
      */
-    private boolean isMouseInAdd(int x, int y){
-        int addWidth = addBtn.getIconWidth(),addHeight = addBtn.getIconHeight();
+    private boolean isMouseInAdd(int x, int y) {
+        int addWidth = addBtn.getIconWidth(), addHeight = addBtn.getIconHeight();
         return x >= addX && x <= addX + addWidth && y > addY && y <= addY + addHeight;
     }
 
     /**
      * 判断鼠标是否在关闭按钮上
+     *
      * @param x 鼠标坐标x
      * @param y 鼠标坐标y
      * @return 返回鼠标是否在关闭按钮上
      */
-    private boolean isMouseInClose(int x, int y){
-        int closeWidth = closeIcon.getIconWidth(),closeHeight = closeIcon.getIconHeight();
+    private boolean isMouseInClose(int x, int y) {
+        int closeWidth = closeIcon.getIconWidth(), closeHeight = closeIcon.getIconHeight();
         return x >= closeX && x <= closeX + closeWidth && y > closeY && y <= closeY + closeHeight;
     }
 
     /**
      * 如果tab只剩下最后一个，则不画删除按钮
+     *
      * @return 返回当前tab还可否关闭
      */
-    private boolean canClose(){
+    private boolean canClose() {
         return tabPane.getTabCount() > 1 && ((UITabbedPane) tabPane).isClosable();
     }
 
@@ -238,7 +255,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
             drawUITabBorder(g, tabBorderColor, x, y, w, h, tabPlacement);
         } else if (isSelected || isRollover) {
             drawSelectedUITabBorder(g, tabBorderColor, x, y, w, h, tabPlacement);
-            if(isRollover && canClose()){
+            if (isRollover && canClose()) {
                 closeX = x + w - closeIcon.getIconWidth() - 3;
                 closeY = 0;
                 switch (tabPlacement) {
@@ -258,6 +275,7 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
 
     /**
      * 更新界面
+     *
      * @param g
      * @param c
      */
@@ -427,5 +445,6 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
-    protected class UITabbedPaneLayout extends TabbedPaneLayout {}
+    protected class UITabbedPaneLayout extends TabbedPaneLayout {
+    }
 }

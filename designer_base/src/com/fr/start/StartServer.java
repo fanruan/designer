@@ -154,13 +154,26 @@ public class StartServer {
             Desktop.getDesktop().browse(new URI(uri));
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
-            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            startBrowserFromCommand(uri, e);
         } catch (URISyntaxException e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
         } catch (Exception e) {
             FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
             FRContext.getLogger().error("Can not open the browser for URL:  " + uri);
+        }
+    }
+
+    private static void startBrowserFromCommand(String uri, IOException e) {
+        if (OperatingSystem.isWindows()) {
+            try {
+                // win10 内存用到到80%左右的时候, Desktop.browser经常提示"存储空间不足, 无法处理改命令", 用rundll32可以打开.
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + uri);
+            } catch (IOException ee) {
+                JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer_Set_default_browser"));
+                FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
+            }
+        } else {
+            FRContext.getLogger().errorWithServerLevel(e.getMessage(), e);
         }
     }
 

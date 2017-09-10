@@ -150,8 +150,10 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        // 添加社区菜单
-        addCommunityMenuDef(menuList);
+        if (FRContext.getLocale() == Locale.CHINA || FRContext.getLocale() == Locale.TAIWAN) {
+            // 添加社区菜单
+            addCommunityMenuDef(menuList);
+        }
 
         // 添加全部UpdateAction到actionmanager中
         addAllUpdateActionsToList(menuList);

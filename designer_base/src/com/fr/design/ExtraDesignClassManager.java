@@ -25,7 +25,6 @@ import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedSet;
-import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     }
     
     static {
-        StableFactory.registerMarkedObject(PluginModule.ExtraDesign.getAgentName(), classManager);
+        PluginModule.registerAgent(PluginModule.ExtraDesign, classManager);
     }
     
     public TableDataNameObjectCreator[] getReportTableDataCreators() {

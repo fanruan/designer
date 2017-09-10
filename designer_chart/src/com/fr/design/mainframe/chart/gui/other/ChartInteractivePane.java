@@ -6,7 +6,16 @@ import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.TimeSwitchAttr;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.chartattr.BubblePlot;
+import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.GanttPlot;
+import com.fr.chart.chartattr.GisMapPlot;
+import com.fr.chart.chartattr.MapPlot;
+import com.fr.chart.chartattr.MeterPlot;
+import com.fr.chart.chartattr.PiePlot;
+import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.StockPlot;
+import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.chart.chartdata.GisMapReportDefinition;
 import com.fr.chart.chartdata.GisMapTableDefinition;
 import com.fr.chart.web.ChartHyperPoplink;
@@ -39,7 +48,16 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.js.*;
+import com.fr.js.EmailJavaScript;
+import com.fr.js.FormHyperlinkProvider;
+import com.fr.js.JavaScript;
+import com.fr.js.JavaScriptImpl;
+import com.fr.js.NameJavaScript;
+import com.fr.js.NameJavaScriptGroup;
+import com.fr.js.ParameterJavaScript;
+import com.fr.js.ReportletHyperlink;
+import com.fr.js.WebHyperlink;
+import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -48,7 +66,12 @@ import com.fr.third.org.hsqldb.lib.Iterator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
@@ -215,7 +238,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (percentFormatPane == null) {
-                    percentFormatPane = new FormatPane();
+                    percentFormatPane = new FormatPaneWithOutFont();
                 }
 
                 DecimalFormat defaultFormat = new CoreDecimalFormat(new DecimalFormat(), "#.##%");
