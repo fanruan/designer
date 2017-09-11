@@ -100,7 +100,9 @@ public class UITextArea extends JTextArea implements UIObserver {
 
     @Override
     protected void paintBorder(Graphics g) {
-        getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
+        if (getBorder() != null) {
+            getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
+        }
     }
 
     @Override
