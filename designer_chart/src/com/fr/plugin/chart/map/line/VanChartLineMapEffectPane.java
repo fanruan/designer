@@ -45,19 +45,29 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane{
 
         panel.add(periodPane, BorderLayout.CENTER);
         panel.add(animationTypePane, BorderLayout.SOUTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
         return panel;
+    }
+    protected void setContentPaneBorder() {
+        return;
     }
 
     private Component createAnimationSelectPane() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        panel.add(new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type")), BorderLayout.WEST);
+        UILabel label1= new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type"));
+        label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
+        panel.add(label1, BorderLayout.WEST);
         panel.add(animationType, BorderLayout.CENTER);
         return panel;
     }
 
     private void initTypeContentPane() {
-        customContentPane = new VanChartImageMarkerPane();
+        customContentPane = new VanChartImageMarkerPane(){
+            protected void setImageBackgroundPaneBorder() {
+                getImageBackgroundPane().setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH, (int)getImageBackgroundPane().getPreferredSize().getHeight()));
+            }
+        };
 
         CardLayout cardLayout = new CardLayout();
         typeContentPane = new JPanel(cardLayout){

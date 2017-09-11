@@ -44,7 +44,6 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
                     new Component[]{getColorPane()},
                     new Component[]{createRadarTypePane()},
                     new Component[]{createBorderPane()},
-                    new Component[]{createAlphaPane()}
             };
         }
 

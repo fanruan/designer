@@ -42,9 +42,13 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
         this.setLayout(new BorderLayout(0, 5));
         if(hasEnabledChoose) {
             this.add(panel, BorderLayout.NORTH);
-            content.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
+            setContentPaneBorder();
         }
         this.add(content, BorderLayout.CENTER);
+    }
+
+    protected void setContentPaneBorder() {
+        content.setBorder(BorderFactory.createEmptyBorder(10,25,0,15));
     }
 
     protected JPanel createContentPane() {
@@ -55,7 +59,9 @@ public class VanChartEffectPane extends BasicBeanPane<AttrEffect> {
     protected JPanel createPeriodPane(){
         JPanel periodPane = new JPanel();
         periodPane.setLayout(new BorderLayout(5, 0));
-        periodPane.add(new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period")), BorderLayout.WEST);
+        UILabel label1= new UILabel(Inter.getLocText("Plugin-ChartF_Flash_Period"));
+        label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
+        periodPane.add(label1, BorderLayout.WEST);
         periodPane.add(period, BorderLayout.CENTER);
         periodPane.add(new UILabel(Inter.getLocText("FR-Base-Time_Second")), BorderLayout.EAST);
         return periodPane;

@@ -176,7 +176,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         };
 
         JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_AxisLabel"),showLabel);
-        labelPanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         showLabel.addActionListener(new ActionListener() {
             @Override

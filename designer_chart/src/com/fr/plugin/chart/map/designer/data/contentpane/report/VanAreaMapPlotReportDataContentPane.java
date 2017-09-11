@@ -23,9 +23,9 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
     public VanAreaMapPlotReportDataContentPane(ChartDataPane parent) {
         initEveryPane();
         initAreaName();
-
-        this.add(getContent(), "0,0,2,0");
-        this.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        JPanel panel = getContent();
+        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        this.add(panel, "0,0,2,0");
     }
 
     protected void initAreaName() {
@@ -45,11 +45,11 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
         };
     }
 
-    protected Component getContent() {
+    protected JPanel getContent() {
         return getFormulaPane();
     }
 
-    protected Component getFormulaPane() {
+    protected JPanel getFormulaPane() {
         return areaName;
     }
 

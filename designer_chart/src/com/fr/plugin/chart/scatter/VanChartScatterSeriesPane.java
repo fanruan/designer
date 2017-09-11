@@ -7,9 +7,10 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.custom.component.VanChartCustomAxisConditionPane;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
-import com.fr.plugin.chart.designer.style.series.VanChartCustomStackAndAxisEditPane;
+import com.fr.plugin.chart.designer.style.series.VanChartStackedAndAxisListControlPane;
 import com.fr.plugin.chart.scatter.component.VanChartScatterLineTypePane;
 
 import javax.swing.*;
@@ -54,18 +55,19 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
     @Override
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartCustomStackAndAxisEditPane(){
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane(){
             @Override
             protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
                 return VanChartCustomAxisConditionPane.class;
             }
 
             @Override
-            protected String getPaneTitle(){
+            public String getPaneTitle(){
                 return Inter.getLocText("Plugin-ChartF_Custom_Axis");
             }
         };
-        return stackAndAxisEditPane;
+        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        return stackAndAxisEditExpandablePane;
     }
 
     @Override

@@ -27,7 +27,7 @@ public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
 
         } else {
             leftcontentPane.setBounds(0, 0, width, height);
-            leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 10, original));
+            leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, original));
         }
     }
     public void reloaPane(JPanel pane){

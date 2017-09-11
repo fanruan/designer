@@ -26,7 +26,7 @@ public class WordCloudPlotReportDataContentPane extends AbstractReportDataConten
     public WordCloudPlotReportDataContentPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f };
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = { p, p, p};
 
         name = new UITextField();

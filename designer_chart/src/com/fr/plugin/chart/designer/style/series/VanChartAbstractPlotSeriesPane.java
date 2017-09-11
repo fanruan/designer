@@ -64,7 +64,8 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     private UINumberDragPane transparent;//不透明度
 
-    protected VanChartCustomStackAndAxisEditPane stackAndAxisEditPane;//堆積和坐標軸
+    protected VanChartStackedAndAxisListControlPane stackAndAxisEditPane;//堆積和坐標軸
+    protected JPanel stackAndAxisEditExpandablePane;//堆積和坐標軸展开面板
 
     private RadiusCardLayoutPane radiusPane;//半径设置界面
 
@@ -251,13 +252,14 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartCustomStackAndAxisEditPane();
-        return stackAndAxisEditPane;
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane();
+        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        return stackAndAxisEditExpandablePane;
     }
 
     //界面上删除堆积和坐标轴设置
     protected void removeStackWholePane() {
-        contentPane.remove(stackAndAxisEditPane);
+        contentPane.remove(stackAndAxisEditExpandablePane);
         contentPane.repaint();
     }
 
@@ -284,7 +286,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
             VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
             if(rectanglePlot.isCustomChart()){
-                stackAndAxisEditPane.populateBean(rectanglePlot);
+                stackAndAxisEditPane.populate(rectanglePlot);
             } else {
                 removeStackWholePane();
             }
@@ -339,7 +341,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
             VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
             if(rectanglePlot.isCustomChart()){
-                stackAndAxisEditPane.updateBean(rectanglePlot);
+                stackAndAxisEditPane.update(rectanglePlot);
             }
         }
 

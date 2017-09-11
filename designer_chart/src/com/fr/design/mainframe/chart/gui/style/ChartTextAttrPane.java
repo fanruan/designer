@@ -134,9 +134,6 @@ public class ChartTextAttrPane extends BasicPane {
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
 
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-
         Component[] components1 = new Component[]{
                 fontColor, italic, bold
         };
@@ -144,16 +141,20 @@ public class ChartTextAttrPane extends BasicPane {
         buttonPane.add(fontSizeComboBox, BorderLayout.CENTER);
         buttonPane.add(GUICoreUtils.createFlowPane(components1, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
 
+        this.setLayout(new BorderLayout());
+        this.add(getContentPane(buttonPane), BorderLayout.CENTER);
+
+        populate(FRFont.getInstance());
+    }
+
+    protected JPanel getContentPane (JPanel buttonPane) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f,e};
         double[] rowSize = {p, p, p};
 
-
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
-        this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
-
-        populate(FRFont.getInstance());
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {

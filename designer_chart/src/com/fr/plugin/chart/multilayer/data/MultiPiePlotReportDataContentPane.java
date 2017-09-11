@@ -61,7 +61,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
     private JPanel createNorthPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize_north = {p, f};
+        double[] columnSize_north = {f, COMPONENT_WIDTH};
         double[] rowSize_north = {p, p, p};
 
         levelNumEdit = new UISpinner(1, 15, 1, levelNum){
@@ -115,7 +115,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
     private JPanel createCenterPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize_center = {p, f};
+        double[] columnSize_center = {f, COMPONENT_WIDTH};
         double[] rowSize_center = new double[levelNum + 2];
 
         initLevelNameList();

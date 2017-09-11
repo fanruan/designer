@@ -24,9 +24,13 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
     private UISpinner width;
     private UISpinner height;
 
+    protected ImageBackgroundQuickPane getImageBackgroundPane() {
+        return imageBackgroundPane;
+    }
+
     public VanChartImageMarkerPane() {
         imageBackgroundPane = new ImageBackgroundQuickPane(false);
-        imageBackgroundPane.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.EDIT_AREA_WIDTH, (int)imageBackgroundPane.getPreferredSize().getHeight()));
+        setImageBackgroundPaneBorder();
         width = new UISpinner(0, 100, 0.5, 30);
         height = new UISpinner(0, 100, 0.5, 30);
 
@@ -46,6 +50,10 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         panel.setBorder(BorderFactory.createEmptyBorder(0,72,0,0));
 
         this.add(panel);
+    }
+
+    protected void setImageBackgroundPaneBorder() {
+        imageBackgroundPane.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.EDIT_AREA_WIDTH, (int)imageBackgroundPane.getPreferredSize().getHeight()));
     }
 
     protected JPanel createContentPane(ImageBackgroundQuickPane imageBackgroundPane, JPanel sizePanel) {

@@ -33,6 +33,7 @@ import java.util.List;
 public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPane implements UIObserver {
     private static final int HT = 20;
     private static final int WD = 100;
+
     private UISpinner levelNumEdit;
     private UITextField nameField;
     protected UIComboBox value;
@@ -83,7 +84,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
     private JPanel createCenterPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize_center = {p, f};
+        double[] columnSize_center = {f, COMPONENT_WIDTH};
         double[] rowSize_center = new double[levelNum  + 3];
 
         initLevelNameList();
@@ -147,7 +148,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
     private JPanel createNorthPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize_north = {p, f};
+        double[] columnSize_north = {f, COMPONENT_WIDTH};
         double[] rowSize_north = {p, p, p};
 
         levelNumEdit = new UISpinner(1, 15, 1, levelNum){

@@ -327,6 +327,7 @@ public class PlotFactory {
     public static FormatPane createAutoFormatPane(){
         FormatPane formatPane = new FormatPane(){
             protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+                typePane.setBorder(BorderFactory.createEmptyBorder());
                 return new Component[][]{
                         new Component[]{typePane,null},
                         new Component[]{centerPane, null},

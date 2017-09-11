@@ -2,7 +2,9 @@ package com.fr.plugin.chart.designer.component.format;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.style.FormatPane;
+import com.fr.design.layout.TableLayout;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +16,21 @@ import java.awt.*;
 public class FormatPaneWithOutFont extends FormatPane {
     private static final int HEIGHT = 30;
 
+    protected JPanel createContentPane(Component[][] components) {
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] rowSize = {p, p, p};
+        double[] columnSize = {f, e};
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+    }
 
     protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+        typePane.setBorder(BorderFactory.createEmptyBorder());
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Base_Format"), SwingConstants.LEFT), typePane},
-                new Component[]{centerPane, null},
+                new Component[]{null, centerPane},
         };
     }
 

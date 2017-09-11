@@ -39,6 +39,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     private void doLayoutPane(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.removeAll();
 
         //配置界面
         JPanel deployPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
@@ -136,6 +137,7 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     public ConditionAttr updateBean(){
         ConditionAttr conditionAttr = new ConditionAttr();
+        conditionAttr.addDataSeriesCondition(new AttrSeriesStackAndAxis());
         updateBean(conditionAttr);
         return conditionAttr;
     }
