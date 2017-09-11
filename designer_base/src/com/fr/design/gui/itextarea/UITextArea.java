@@ -20,11 +20,6 @@ public class UITextArea extends JTextArea implements UIObserver {
         initComponents();
     }
 
-    @Override
-    public Insets getInsets() {
-        return new Insets(5, 5, 5, 5);
-    }
-
     public UITextArea() {
         super();
         InputEventBaseOnOS.addBasicEditInputMap(this);
@@ -35,6 +30,26 @@ public class UITextArea extends JTextArea implements UIObserver {
         super(s);
         InputEventBaseOnOS.addBasicEditInputMap(this);
         initComponents();
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(String... args) {
+//        JFrame jf = new JFrame("test");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel content = (JPanel) jf.getContentPane();
+//        content.setLayout(new BorderLayout());
+//        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
+//        content.add(bb, BorderLayout.CENTER);
+//        GUICoreUtils.centerWindow(jf);
+//        jf.setSize(400, 400);
+//        jf.setVisible(true);
+    }
+
+    @Override
+    public Insets getInsets() {
+        return new Insets(5, 5, 5, 5);
     }
 
     private void initComponents() {
@@ -100,7 +115,9 @@ public class UITextArea extends JTextArea implements UIObserver {
 
     @Override
     protected void paintBorder(Graphics g) {
-        getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
+        if (getBorder() != null) {
+            getUI().paintBorder((Graphics2D) g, getWidth(), getHeight(), true, Constants.NULL);
+        }
     }
 
     @Override
@@ -116,20 +133,5 @@ public class UITextArea extends JTextArea implements UIObserver {
      */
     public boolean shouldResponseChangeListener() {
         return true;
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String... args) {
-//        JFrame jf = new JFrame("test");
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JPanel content = (JPanel) jf.getContentPane();
-//        content.setLayout(new BorderLayout());
-//        UITextArea bb = new UITextArea("123455weoijweio reiwj kewl jfejkfljds kl jfldk jfk jdskfjkdsfklj dkl jfsdjf");
-//        content.add(bb, BorderLayout.CENTER);
-//        GUICoreUtils.centerWindow(jf);
-//        jf.setSize(400, 400);
-//        jf.setVisible(true);
     }
 }
