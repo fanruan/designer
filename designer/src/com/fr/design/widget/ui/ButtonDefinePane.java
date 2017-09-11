@@ -28,6 +28,12 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
     }
 
     private void resetDetailPane(Button btn, Class cls) {
+        initDetailPane(btn, cls);
+        CellWidgetPropertyPane.getInstance().reInitAllListener();
+        CellWidgetPropertyPane.getInstance().update();
+    }
+
+    public void initDetailPane(Button btn, Class cls){
         if (detailPane != null) {
             remove(detailPane);
         }
@@ -40,13 +46,11 @@ public class ButtonDefinePane extends AbstractDataModify<Button> {
             }
         });
         this.updateUI();
-        CellWidgetPropertyPane.getInstance().reInitAllListener();
-        CellWidgetPropertyPane.getInstance().update();
     }
 
     @Override
     public void populateBean(Button btn) {
-        resetDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
+        initDetailPane(btn, btn instanceof FreeButton && !((FreeButton) btn).isCustomStyle() ? Button.class : null);
     }
 
     @Override
