@@ -14,8 +14,8 @@ public class DocumentPreviewPane extends JPanel {
 
     public DocumentPreviewPane(String title, String summary) {
         this.setLayout(new BorderLayout());
+        this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
-        this.setBackground(Color.white);
         UITextArea titleArea = new UITextArea(title);
         titleArea.setBorder(null);
         titleArea.setEditable(false);
