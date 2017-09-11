@@ -34,9 +34,10 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		double rowSize[] = { p, p};
 		double columnSize[] = { p, f};
 		crEditor = new ColumnRowEditor();
+		UILabel messageLabel = new UILabel(Inter.getLocText("Append_Delete_Row_Message"));
 		Component[][] components = {
-				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"}) + ":"), crEditor },
-				{new UILabel(Inter.getLocText("Append_Delete_Row_Message")),null}};
+				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor },
+				{ messageLabel, null}};
 		JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		setLayout(FRGUIPaneFactory.createBorderLayout());

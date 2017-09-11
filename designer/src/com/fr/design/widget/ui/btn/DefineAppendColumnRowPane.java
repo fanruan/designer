@@ -38,11 +38,11 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		crEditor = new ColumnRowEditor();
 		jNumberEditor = new UISpinner(0, 100 , 1, 0);
 
-		rowCountLable = new UILabel(Inter.getLocText("Edit-Row_Count") + ":");
+		rowCountLable = new UILabel(Inter.getLocText("Edit-Row_Count"));
 		JPanel lpane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		lpane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		lpane.add(new UILabel(Inter.getLocText("Append_Delete_Row_Message")));
-		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"}) + ":"), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
+		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
 		JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 

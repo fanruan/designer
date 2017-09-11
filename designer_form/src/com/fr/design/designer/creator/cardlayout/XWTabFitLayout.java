@@ -536,4 +536,22 @@ public class XWTabFitLayout extends XWFitLayout {
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
 		return new WidgetPropertyUIProvider[0];
 	}
+
+	public void firePropertyChange(){
+		checkButonType();
+		initialBackground = ((WTabFitLayout) data).getInitialBackground();
+		overBackground = ((WTabFitLayout) data).getOverBackground();
+		clickBackground = ((WTabFitLayout)data).getClickBackground();
+		CardSwitchButton cardSwitchButton = (CardSwitchButton) xCardSwitchButton.toData();
+		if(initialBackground != null){
+			xCardSwitchButton.setSelectBackground(initialBackground);
+			cardSwitchButton.setInitialBackground(initialBackground);
+		}
+		if(overBackground != null){
+			cardSwitchButton.setOverBackground(overBackground);
+		}
+		if(clickBackground != null){
+			cardSwitchButton.setClickBackground(clickBackground);
+		}
+	}
 }
