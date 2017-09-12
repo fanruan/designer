@@ -259,9 +259,9 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		if (designTypeButtonGroup.getSelectedIndex() == 0) {
 			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width, upControlPane.getPreferredSize().height + MARGIN_TOP);
 		} else {
-			int extra = stagePanel == null ? 0 : stagePanel.getPreferredSize().height + this.MARGIN_TOP;
+			int extra = stagePanel == null ? 0 : stagePanel.getPreferredSize().height + MARGIN_TOP;
 			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width,
-					extra + textGroup.getPreferredSize().height + upControlPane.getPreferredSize().height + OFF_HEIGHT + this.MARGIN_TOP);
+					extra + textGroup.getPreferredSize().height + upControlPane.getPreferredSize().height + OFF_HEIGHT + MARGIN_TOP);
 		}
 	}
 
