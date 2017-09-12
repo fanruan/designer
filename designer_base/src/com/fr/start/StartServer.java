@@ -180,10 +180,16 @@ public class StartServer {
 
     private static class InformationPane extends BasicPane {
         private static final long serialVersionUID = 1L;
+        private final int FREE_STYLE_TOP = 15;
+        private final int FREE_STYLE_OTHER = 5;
 
         public InformationPane(String message) {
+            init(message);
+        }
+
+        private void init(String message) {
             this.setLayout(new BorderLayout(10, 10));
-            this.setBorder(BorderFactory.createEmptyBorder(15, 5, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(FREE_STYLE_TOP, FREE_STYLE_OTHER, FREE_STYLE_OTHER, FREE_STYLE_OTHER));
             String text;
             if (!ComparatorUtils.equals(message, Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}))) {
                 text = new StringBuffer(Inter.getLocText("FR-Designer_Open"))
