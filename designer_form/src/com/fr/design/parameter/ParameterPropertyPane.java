@@ -95,7 +95,7 @@ public class ParameterPropertyPane extends JPanel{
             hideInJForm = DesignerContext.getDesignerFrame().getSelectedJTemplate() instanceof JForm &&
                     !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
         } catch (NullPointerException ex) {
-            hideInJForm = false;
+            hideInJForm = true;
         }
         if (isVisible && toolbarPane.hasSelectedLabelItem() && !hideInJForm) {
             addParaPane.setVisible(true);
