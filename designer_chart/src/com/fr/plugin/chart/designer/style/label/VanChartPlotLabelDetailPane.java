@@ -205,6 +205,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     private void checkStyleUse() {
         textFontPane.setVisible(style.getSelectedIndex() == 1);
+        textFontPane.setPreferredSize(style.getSelectedIndex() == 1 ? new Dimension(0, 60) : new Dimension(0, 0));
     }
 
     private void checkPosition() {
