@@ -26,16 +26,19 @@ public class ParameterPropertyPane extends JPanel{
     private static ParameterPropertyPane THIS;
 	private boolean isEditing = false;
     private static final int HIDE_HEIGHT = 40;
+    private static final int PADDING_SMALL = 5;
+    private static final int PADDING_MIDDLE = 10;
+    private static final int PADDING_LARGE = 15;
 
 	public static final ParameterPropertyPane getInstance() {
-		if(THIS == null) {
+		if (THIS == null) {
 			THIS = new ParameterPropertyPane();
 		}
 		return THIS;
 	}
 
 	public static final ParameterPropertyPane getInstance(FormDesigner editor) {
-		if(THIS == null) {
+		if (THIS == null) {
 			THIS = new ParameterPropertyPane();
 		}
 		THIS.setEditor(editor);
@@ -49,38 +52,41 @@ public class ParameterPropertyPane extends JPanel{
 	}
 
 	private ParameterPropertyPane() {
-		toolbarPane = new ParameterToolBarPane();
-		BasicScrollPane basicScrollPane = new BasicScrollPane() {
-			@Override
-			protected JPanel createContentPane() {
-				return toolbarPane;
-			}
+        init();
+	}
 
-			@Override
-			public void populateBean(Object ob) {
+    private void init() {
+        toolbarPane = new ParameterToolBarPane();
+        BasicScrollPane basicScrollPane = new BasicScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return toolbarPane;
+            }
 
-			}
+            @Override
+            public void populateBean(Object ob) {
+                // do nothing
+            }
 
-			@Override
-			protected String title4PopupWindow() {
-				return null;
-			}
-		};
+            @Override
+            protected String title4PopupWindow() {
+                return null;
+            }
+        };
         JPanel scrollPaneWrapperInner = new JPanel(new BorderLayout());
-        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 5));
+        scrollPaneWrapperInner.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, PADDING_MIDDLE, PADDING_SMALL));
         scrollPaneWrapperInner.add(basicScrollPane, BorderLayout.CENTER);
         addParaPane = new JPanel(new BorderLayout());
         addParaPane.add(scrollPaneWrapperInner, BorderLayout.CENTER);
         addParaPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.SPLIT_LINE));
 
-
         initParameterListener();
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        this.setBorder(BorderFactory.createEmptyBorder(PADDING_MIDDLE, 0, PADDING_MIDDLE, 0));
         this.add(addParaPane, BorderLayout.CENTER);
-	}
+    }
 
-	// 显示或隐藏添加参数面板
+    // 显示或隐藏添加参数面板
 	public void refreshState() {
 		setAddParaPaneVisible(toolbarPane.hasSelectedLabelItem());
 	}
@@ -110,7 +116,7 @@ public class ParameterPropertyPane extends JPanel{
 	private void setEditor(FormDesigner editor) {
 		if (formHierarchyTreePaneWrapper == null) {
 			formHierarchyTreePaneWrapper = new JPanel(new BorderLayout());
-			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
+			formHierarchyTreePaneWrapper.setBorder(BorderFactory.createEmptyBorder(0, PADDING_MIDDLE, 0, PADDING_LARGE));
 			this.add(formHierarchyTreePaneWrapper, BorderLayout.SOUTH);
 		}
 		formHierarchyTreePaneWrapper.remove(FormHierarchyTreePane.getInstance());
@@ -121,7 +127,7 @@ public class ParameterPropertyPane extends JPanel{
 		toolbarPane.setParaMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(paraPane == null) {
+				if (paraPane == null) {
 					return;
 				}
 				final UIButton parameterSelectedLabel = (UIButton) e.getSource();
@@ -142,7 +148,7 @@ public class ParameterPropertyPane extends JPanel{
 		toolbarPane.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(paraPane == null) {
+				if (paraPane == null) {
 					return;
 				}
 				paraPane.addingAllParameter2Editor();
