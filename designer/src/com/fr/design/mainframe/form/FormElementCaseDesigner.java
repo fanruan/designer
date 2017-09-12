@@ -229,8 +229,8 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
         return conditionAttributesGroupPane;
     }
 
-    public JPanel getHyperlinkPane() {
-        return DesignerContext.getDesignerFrame().getSelectedJTemplate().getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
+    public JPanel getHyperlinkPane(JTemplate jt) {
+        return jt.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
     }
 
 
