@@ -24,32 +24,27 @@ import java.awt.*;
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayout> {
-    private XWAbsoluteLayout xwAbsoluteLayout;
-    private WAbsoluteLayout wAbsoluteLayout;
     protected UIComboBox comboBox;
-    private WBodyLayoutType layoutType = WBodyLayoutType.ABSOLUTE;
     private WidgetBoundPane boundPane;
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
-        this.xwAbsoluteLayout = (XWAbsoluteLayout) xCreator;
-        wAbsoluteLayout = xwAbsoluteLayout.toData();
         initComponent();
-
     }
 
 
     public void initComponent() {
-        boundPane = new WidgetBoundPane(creator);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.add(boundPane, BorderLayout.NORTH);
+        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        boundPane = new WidgetBoundPane(creator);
+        centerPane.add(boundPane, BorderLayout.NORTH);
         initUIComboBox();
-        JPanel thirdPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        thirdPane.add(createThirdPane(), BorderLayout.CENTER);
-        thirdPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20,thirdPane );
-
-        this.add(layoutExpandablePane, BorderLayout.CENTER);
+//        JPanel thirdPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+//        thirdPane.add(, BorderLayout.CENTER);
+//        thirdPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        UIExpandablePane layoutExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer-Widget_Area_Scaling"), 280, 20,createThirdPane() );
+        centerPane.add(layoutExpandablePane, BorderLayout.CENTER);
+        this.add(centerPane, BorderLayout.CENTER);
     }
 
     public JPanel createThirdPane() {

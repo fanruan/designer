@@ -9,6 +9,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.component.CheckBoxDictPane;
 import com.fr.form.ui.CheckBoxGroup;
 import com.fr.general.Inter;
 
@@ -36,7 +37,7 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		checkbox = new UICheckBox(Inter.getLocText("FR-Designer_Advanced"));
+		checkbox = new UICheckBox(Inter.getLocText(new String[]{"Provide", "Choose_All"}));
 		checkbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		buttonGroupDictPane = new ButtonGroupDictPane();
 		checkBoxDictPane = new CheckBoxDictPane();
@@ -52,7 +53,6 @@ public class CheckBoxGroupDefinePane extends FieldEditorDefinePane<CheckBoxGroup
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1},{1,1},{1,1}};
 		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-//		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		advancePane.add(panel);
 		return advancePane;
 

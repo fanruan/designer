@@ -1,6 +1,7 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
@@ -70,7 +71,7 @@ public class RegPane extends BasicPane {
 
     private void initComponents(){
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         regComboBox = new UIComboBox(regType);
         regComboBox.setRenderer(listCellRender);
 
@@ -331,11 +332,13 @@ public class RegPane extends BasicPane {
         private final String[] dataType = {EMB_REG1, EMB_REG2, EMB_REG3, Inter.getLocText("FR-Designer_Custom")};
         DefaultComboBoxModel DefaultComboBoxModel= new DefaultComboBoxModel(dataType);
         public RegPhonePane() {
-            this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             dataTypeComboBox = new UIComboBox(DefaultComboBoxModel);
             JTextField editFiled = (JTextField)(dataTypeComboBox.getEditor().getEditorComponent());
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Data_Type")), dataTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+            UILabel dataTypeLable = new UILabel(Inter.getLocText("FR-Designer_Data_Type"));
+            dataTypeLable.setPreferredSize(new Dimension(60, 20));
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{dataTypeLable, dataTypeComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, 0);
             this.add(panel);
             editFiled.setDocument(new LimitedDocument(LIMIT_LENGTH, REG_PATTERN));
             dataTypeComboBox.addItemListener(new ItemListener() {
@@ -393,20 +396,24 @@ public class RegPane extends BasicPane {
 
         public RegLengthPane(){
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             this.setPreferredSize(new Dimension(210, 56));
             minLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
             maxLenSpinner = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+            UILabel minLabel = new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length"));
+            UILabel maxLabel = new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length"));
+            minLabel.setPreferredSize(new Dimension(60, 20));
+            maxLabel.setPreferredSize(new Dimension(60, 20));
             double f = TableLayout.FILL;
             double p = TableLayout.PREFERRED;
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Min_Length") + ":"), minLenSpinner },
-                    new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Max_Length") + ":"), maxLenSpinner},
+                    new Component[]{minLabel, minLenSpinner },
+                    new Component[]{maxLabel, maxLenSpinner},
             };
             double[] rowSize = {p, p};
             double[] columnSize = {p,f};
             int[][] rowCount = {{1, 1},{1, 1}};
-            JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+            JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, LayoutConstants.VGAP_MEDIUM);
             this.add(panel);
 
 
@@ -446,9 +453,9 @@ public class RegPane extends BasicPane {
 
         public CustomRegRexPane(){
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
-            this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
             regTextField = new UITextField();
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions")), regTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Reg_Expressions")), regTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 10, LayoutConstants.VGAP_MEDIUM);
             this.add(panel);
         }
 

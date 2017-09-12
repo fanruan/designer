@@ -44,12 +44,12 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
         UILabel backgroundLabel = new UILabel(Inter.getLocText("FR-Designer_Background"));
         backgroundLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Name") + ":"), buttonNameTextField},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Name")), buttonNameTextField},
                 {new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 backgroundCompPane,
                 frFont,
-                {new UILabel(Inter.getLocText("FR-Designer_Icon") + ":"), iconPane},
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys") + ":"), hotkeysTextField}
+                {new UILabel(Inter.getLocText("FR-Designer_Icon")), iconPane},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys")), hotkeysTextField}
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 10);

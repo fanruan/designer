@@ -6,10 +6,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.ChartSeriesPane;
-import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
 import com.fr.plugin.chart.designer.component.VanChartFillStylePane;
 
@@ -81,9 +79,8 @@ public class VanChartCustomSeriesPane extends ChartSeriesPane {
         };
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        JPanel colorPane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"),panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
-        return colorPane;
+        return panel;
     }
 
     /**

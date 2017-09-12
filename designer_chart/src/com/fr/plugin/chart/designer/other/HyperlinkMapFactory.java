@@ -116,28 +116,28 @@ public class HyperlinkMapFactory {
 
     public static HashMap getHyperlinkMap(Plot plot) {
         String plotType = plotTypeMap.get(plot.getClass().getName() + plot.getDetailType());
-        if(plotType == null){
+        if (plotType == null) {
             plotType = plotTypeMap.get(plot.getClass().getName());
-            if(plotType == null) {
+            if (plotType == null) {
                 plotType = NORMAL;
             }
         }
         return getHyperlinkMapWithType(plotType);
     }
 
-    public static HashMap getDrillUpLinkMap(){
+    public static HashMap getDrillUpLinkMap() {
         return getHyperlinkMapWithType(DIRLLMAPCATALOG);
     }
 
-    public static HashMap getLineMapHyperLinkMap(){
+    public static HashMap getLineMapHyperLinkMap() {
         return getHyperlinkMapWithType(LINEMAP);
     }
 
-    private static HashMap getHyperlinkMapWithType(String plotType){
+    private static HashMap getHyperlinkMapWithType(String plotType) {
         HashMap<Class, Class> map = new HashMap<Class, Class>();
 
         map.put(ReportletHyperlink.class, getClassWithPrefix(HyperlinkMapFactory.Report.class, plotType));
-        map.put(EmailJavaScript.class, ChartEmailPane.class);
+        map.put(EmailJavaScript.class, VanChartEmailPane.class);
         map.put(WebHyperlink.class, getClassWithPrefix(HyperlinkMapFactory.Web.class, plotType));
         map.put(ParameterJavaScript.class, getClassWithPrefix(HyperlinkMapFactory.Para.class, plotType));
 
@@ -150,9 +150,9 @@ public class HyperlinkMapFactory {
         return map;
     }
 
-    private static Class getClassWithPrefix(Class superClass, String plotType){
+    private static Class getClassWithPrefix(Class superClass, String plotType) {
         String wholeClassString = superClass.getName() + plotType;
-        try{
+        try {
             return Class.forName(wholeClassString);
         } catch (Exception e) {
             return superClass;
@@ -386,78 +386,90 @@ public class HyperlinkMapFactory {
         return ValueEditorPaneFactory.createValueEditorPane(addBasicEditors(list));
     }
 
+
     //网络报表
-    public static class Report{
-        public static class VAN_CHART extends ReportletHyperlinkPane.CHART{
+    public static class Report {
+        public static class VAN_CHART extends ReportletHyperlinkPane.CHART {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
+
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTICATEGORY extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_SCATTER extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
-               return getScatterValueEditorPane();
+                return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_GANNT extends Report.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTIPIE extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends ReportletHyperlinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends ReportletHyperlinkPane.CHART_METER {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_MAP extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_LINE_MAP extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_FUNNEL extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_WORDCLOUD extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends ReportletHyperlinkPane.CHART{
+        public static class VAN_CHART_STRUCTURE extends Report.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -465,42 +477,61 @@ public class HyperlinkMapFactory {
         }
     }
 
+    //邮箱
+    public static class VanChartEmailPane extends ChartEmailPane {
+        @Override
+        protected boolean needRenamePane() {
+            return false;
+        }
+    }
+
     //网页链接
-    public static class Web{
-        public static class VAN_CHART extends WebHyperlinkPane.CHART{
+    public static class Web {
+        public static class VAN_CHART extends WebHyperlinkPane.CHART {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTICATEGORY extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_SCATTER extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
-        public static class VAN_CHART_GANNT extends WebHyperlinkPane.CHART{
+
+        public static class VAN_CHART_GANNT extends Web.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends WebHyperlinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends WebHyperlinkPane.CHART_METER {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_MAP extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_LINE_MAP extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
@@ -508,34 +539,34 @@ public class HyperlinkMapFactory {
         }
 
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Web.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTIPIE extends Web.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_FUNNEL extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_WORDCLOUD extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends WebHyperlinkPane.CHART{
+        public static class VAN_CHART_STRUCTURE extends Web.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -544,42 +575,52 @@ public class HyperlinkMapFactory {
     }
 
     //动态参数
-    public static class Para{
-        public static class VAN_CHART extends ParameterJavaScriptPane.CHART{
+    public static class Para {
+        public static class VAN_CHART extends ParameterJavaScriptPane.CHART {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_MULTICATEGORY extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_SCATTER extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_GANNT extends Para.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends ParameterJavaScriptPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends ParameterJavaScriptPane.CHART_METER {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_MAP extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_LINE_MAP extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
@@ -587,34 +628,34 @@ public class HyperlinkMapFactory {
         }
 
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Para.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_MULTIPIE extends Para.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_FUNNEL extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_WORDCLOUD extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends ParameterJavaScriptPane.CHART{
+        public static class VAN_CHART_STRUCTURE extends Para.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -623,76 +664,86 @@ public class HyperlinkMapFactory {
     }
 
     //js超链
-    public static class Js{
-        public static class VAN_CHART extends JavaScriptImplPane.CHART{
+    public static class Js {
+        public static class VAN_CHART extends JavaScriptImplPane.CHART {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_MULTICATEGORY extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_SCATTER extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_GANNT extends Js.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends JavaScriptImplPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends Js.VAN_CHART {
+
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_MAP extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_LINE_MAP extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Js.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_MULTIPIE extends Js.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_FUNNEL extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_WORDCLOUD extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends JavaScriptImplPane.CHART{
+        public static class VAN_CHART_STRUCTURE extends Js.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -701,76 +752,84 @@ public class HyperlinkMapFactory {
     }
 
     //图表超链-悬浮窗图表
-    public static class Chart_Chart{
-        public static class VAN_CHART extends ChartHyperPoplinkPane{
+    public static class Chart_Chart {
+        public static class VAN_CHART extends ChartHyperPoplinkPane {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_MULTICATEGORY extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_SCATTER extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_GANNT extends Chart_Chart.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends ChartHyperPoplinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends ChartHyperPoplinkPane.CHART_METER {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_MAP extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_LINE_MAP extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Chart_Chart.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_MULTIPIE extends Chart_Chart.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_FUNNEL extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_WORDCLOUD extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends ChartHyperPoplinkPane{
+        public static class VAN_CHART_STRUCTURE extends Chart_Chart.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -779,76 +838,84 @@ public class HyperlinkMapFactory {
     }
 
     //图表超链-联动单元格
-    public static class Chart_Cell{
-        public static class VAN_CHART extends ChartHyperRelateCellLinkPane{
+    public static class Chart_Cell {
+        public static class VAN_CHART extends ChartHyperRelateCellLinkPane {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_MULTICATEGORY extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_SCATTER extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_GANNT extends Chart_Cell.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends ChartHyperRelateCellLinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends ChartHyperRelateCellLinkPane.CHART_METER {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_MAP extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_LINE_MAP extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Chart_Cell.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_MULTIPIE extends Chart_Cell.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_FUNNEL extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_WORDCLOUD extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends ChartHyperRelateCellLinkPane{
+        public static class VAN_CHART_STRUCTURE extends Chart_Cell.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -857,76 +924,84 @@ public class HyperlinkMapFactory {
     }
 
     //图表超链-悬浮元素
-    public static class Chart_Float{
-        public static class VAN_CHART extends ChartHyperRelateFloatLinkPane{
+    public static class Chart_Float {
+        public static class VAN_CHART extends ChartHyperRelateFloatLinkPane {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_MULTICATEGORY extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_SCATTER extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_GANNT extends Chart_Float.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends ChartHyperRelateFloatLinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends ChartHyperRelateFloatLinkPane.CHART_METER {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_MAP extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_LINE_MAP extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Chart_Float.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_MULTIPIE extends Chart_Float.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_FUNNEL extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_WORDCLOUD extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends ChartHyperRelateFloatLinkPane{
+        public static class VAN_CHART_STRUCTURE extends Chart_Float.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();
@@ -935,42 +1010,50 @@ public class HyperlinkMapFactory {
     }
 
     //当前表单对象
-    public static class Form{
-        public static class VAN_CHART extends FormHyperlinkPane.CHART{
+    public static class Form {
+        public static class VAN_CHART extends FormHyperlinkPane.CHART {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MULTICATEGORY extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTICATEGORY extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiCategoryEditorPane();
             }
         }
 
-        public static class VAN_CHART_SCATTER extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_SCATTER extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getScatterValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GANNT extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_GANNT extends Form.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getGanntValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_GAUGE extends FormHyperlinkPane.CHART_METER{
+        public static class VAN_CHART_GAUGE extends FormHyperlinkPane.CHART_METER {
+            @Override
+            protected boolean needRenamePane() {
+                return false;
+            }
         }
 
-        public static class VAN_CHART_MAP extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_MAP extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getMapValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_LINE_MAP extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_LINE_MAP extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getLineMapValueEditorPane();
@@ -978,34 +1061,34 @@ public class HyperlinkMapFactory {
         }
 
 
-        public static class VAN_CHART_DRILLMAPCATALOG extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_DRILLMAPCATALOG extends Form.VAN_CHART {
             @Override
-            protected ValueEditorPane getValueEditorPane(){
+            protected ValueEditorPane getValueEditorPane() {
                 return getDrillMapCatalogValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_MULTIPIE extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_MULTIPIE extends Form.VAN_CHART {
             protected ValueEditorPane getValueEditorPane() {
                 return getMultiPieValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_FUNNEL extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_FUNNEL extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getFunnelValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_WORDCLOUD extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_WORDCLOUD extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getWordCloudValueEditorPane();
             }
         }
 
-        public static class VAN_CHART_STRUCTURE extends FormHyperlinkPane.CHART{
+        public static class VAN_CHART_STRUCTURE extends Form.VAN_CHART {
             @Override
             protected ValueEditorPane getValueEditorPane() {
                 return getStructureValueEditorPane();

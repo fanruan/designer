@@ -15,7 +15,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	protected WaterMarkDictPane waterMarkDictPane;
 
 	public DirectWriteEditorDefinePane() {
-		this.initComponents();
+		super();
 	}
 
 

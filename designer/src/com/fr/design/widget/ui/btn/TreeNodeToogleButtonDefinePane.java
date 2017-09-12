@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.btn;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -27,34 +28,21 @@ public class TreeNodeToogleButtonDefinePane<T extends TreeNodeToggleButton> exte
     }
 
     protected void initComponents() {
-        setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel attrPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        attrPane.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p};
         double columnSize[] = {p, f};
         Component[][] n_components = {
-                {new UILabel(Inter.getLocText("FR-Designer_Button-Type") + ":"), createButtonTypeComboBox()},
+                {new UILabel(Inter.getLocText("FR-Designer_Button-Type")), createButtonTypeComboBox()},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, 0, 8);
-        UIExpandablePane advancedPane = new UIExpandablePane("高级", 280, 20, panel);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, IntervalConstants.INTERVAL_L2, 8);
+        JPanel borderPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        borderPanel.add(panel, BorderLayout.CENTER);
+        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+        UIExpandablePane advancedPane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, borderPanel);
         this.add(advancedPane);
 
-
-
-
-//        setLayout(FRGUIPaneFactory.createBorderLayout());
-//        double p = TableLayout.PREFERRED;
-//        double rowSize[] = {p};
-//        double columnSize[] = {p, 184};
-//        Component[][] n_components = {
-//                {new UILabel(Inter.getLocText(new String[]{"Form-Button", "Type"}) + ":"), createButtonTypeComboBox()}
-//        };
-//        JPanel northPane = TableLayoutHelper.createTableLayoutPane(n_components, rowSize, columnSize);
-//        JPanel advancedPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Designer_Advanced"));
-////        advancedPane.add(northPane);
-//        add(northPane);
     }
 
     @Override

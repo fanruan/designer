@@ -29,7 +29,6 @@ import com.fr.plugin.chart.custom.style.VanChartCustomStylePane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartAreaSeriesFillColorPane;
 import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
-import com.fr.plugin.chart.designer.component.VanChartFillStylePane;
 import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
 import com.fr.plugin.chart.designer.component.VanChartMarkerPane;
 import com.fr.plugin.chart.designer.component.VanChartTrendLinePane;
@@ -96,31 +95,30 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * 返回 填充界面.
      */
     protected ChartFillStylePane getFillStylePane() {
-        return new VanChartFillStylePane();
+        //如果是自定義組合圖，則不創建填充界面
+        return parentPane instanceof VanChartCustomStylePane ? null : new ChartFillStylePane();
     }
 
     //风格
     protected VanChartBeautyPane createStylePane() {
-        stylePane = new VanChartBeautyPane();
-        return stylePane;
+        return parentPane instanceof VanChartCustomStylePane ? null : new VanChartBeautyPane();
     }
 
-    //获取色彩面板
+    //获取颜色面板
     protected JPanel getColorPane () {
-        //如果是自定義組合圖，則不創建色彩界面
-        if (parentPane instanceof VanChartCustomStylePane) {
-        return null;
-        }
         JPanel panel = new JPanel(new BorderLayout());
+        stylePane = createStylePane();
         setColorPaneContent(panel);
         JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Color"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
-        return colorPane;
+        return panel.getComponentCount() == 0 ? null : colorPane;
     }
 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
-        panel.add(createStylePane(), BorderLayout.CENTER);
+        if (stylePane != null) {
+            panel.add(stylePane, BorderLayout.CENTER);
+        }
     }
 
     //趋势线

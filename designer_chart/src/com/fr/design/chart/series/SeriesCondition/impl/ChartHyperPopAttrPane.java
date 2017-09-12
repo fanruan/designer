@@ -147,7 +147,7 @@ public class ChartHyperPopAttrPane extends AbstractChartAttrPane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Hyperlink_ChartHyperlink");
+		return Inter.getLocText("Plugin-ChartF_Hyperlink");
 	}
 
 }

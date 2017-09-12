@@ -18,6 +18,7 @@ import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.server.JettyHost;
 
@@ -179,10 +180,16 @@ public class StartServer {
 
     private static class InformationPane extends BasicPane {
         private static final long serialVersionUID = 1L;
+        private static final int FREE_STYLE_TOP = 15;
+        private static final int FREE_STYLE_OTHER = 5;
 
         public InformationPane(String message) {
+            init(message);
+        }
+
+        private void init(String message) {
             this.setLayout(new BorderLayout(10, 10));
-            this.setBorder(BorderFactory.createEmptyBorder(15, 5, 5, 5));
+            this.setBorder(BorderFactory.createEmptyBorder(FREE_STYLE_TOP, FREE_STYLE_OTHER, FREE_STYLE_OTHER, FREE_STYLE_OTHER));
             String text;
             if (!ComparatorUtils.equals(message, Inter.getLocText(new String[]{"Default", "Utils-Report_Runtime_Env"}))) {
                 text = new StringBuffer(Inter.getLocText("FR-Designer_Open"))

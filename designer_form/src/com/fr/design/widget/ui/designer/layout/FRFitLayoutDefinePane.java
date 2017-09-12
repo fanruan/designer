@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
@@ -43,7 +44,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     private UIComboBox adaptComboBox;
     private UISpinner componentIntervel;
     private PaddingBoundPane paddingBound;
-    private AccessibleWLayoutBorderStyleEditor background;
+    private AccessibleWLayoutBorderStyleEditor stylePane;
 
     public FRFitLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -64,9 +65,9 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
     public JPanel createAdvancePane() {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        background = new AccessibleWLayoutBorderStyleEditor();
+        stylePane = new AccessibleWLayoutBorderStyleEditor();
         paddingBound = new PaddingBoundPane();
-        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), background}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), stylePane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);
         jPanel.add(jp2, BorderLayout.NORTH);
@@ -80,18 +81,20 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         componentIntervel = new UISpinner(0, 100, 1, 0);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}};
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, 7);
+        northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Scale")), adaptComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentIntervel}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 10);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        jPanel.add(panel, BorderLayout.CENTER);
-
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, 7);
+        centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
+        jPanel.add(northPane, BorderLayout.NORTH);
+        jPanel.add(centerPane, BorderLayout.CENTER);
         return jPanel;
     }
 
@@ -116,7 +119,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
-        background.setValue(ob.getBorderStyle());
+        stylePane.setValue(ob.getBorderStyle());
     }
 
 
@@ -124,7 +127,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     public WFitLayout updateBean() {
         WFitLayout layout = (WFitLayout) creator.toData();
         paddingBound.update(layout);
-        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) background.getValue();
+        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) stylePane.getValue();
         if(borderStyle != null){
             layout.setBorderStyle(borderStyle);
         }

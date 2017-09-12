@@ -84,7 +84,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         formWidgetValuePane.populate(ob);
         isStyleAlignmentWrapText.setSelected(ob.isAutoLine());
         isPageSetupVertically.setSelected(ob.isVerticalCenter());
-        hAlignmentPane.setSelectedIndex(ob.getTextalign());
+        hAlignmentPane.setSelectedItem(ob.getTextalign());
         frFontPane.populateBean(ob.getFont());
     }
 
@@ -95,7 +95,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         formWidgetValuePane.update(layout);
         layout.setAutoLine(isStyleAlignmentWrapText.isSelected());
         layout.setVerticalCenter(isPageSetupVertically.isSelected());
-        layout.setTextalign(hAlignmentPane.getSelectedIndex());
+        layout.setTextalign((int) hAlignmentPane.getSelectedItem());
         layout.setFont(frFontPane.update(layout.getFont()));
         return layout;
     }
