@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 import com.fr.design.gui.icombobox.DictionaryComboBox;
 import com.fr.design.gui.icombobox.DictionaryConstants;
@@ -51,6 +52,7 @@ public class CheckBoxDictPane extends JPanel {
 		JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		jPanel.add(headPane, BorderLayout.NORTH);
 		jPanel.add(returnStringPane, BorderLayout.CENTER);
+		returnStringPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
 		this.add(jPanel);
 	}
 

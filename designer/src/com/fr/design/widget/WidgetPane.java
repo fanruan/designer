@@ -92,7 +92,9 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
     AttributeChangeListener listener = new AttributeChangeListener() {
         @Override
         public void attributeChange() {
-            CellWidgetPropertyPane.getInstance().update();
+            if(shouldFireSelectedEvent){
+                CellWidgetPropertyPane.getInstance().update();
+            }
         }
     };
 
