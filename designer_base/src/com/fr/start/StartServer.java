@@ -180,8 +180,8 @@ public class StartServer {
 
     private static class InformationPane extends BasicPane {
         private static final long serialVersionUID = 1L;
-        private final int FREE_STYLE_TOP = 15;
-        private final int FREE_STYLE_OTHER = 5;
+        private static final int FREE_STYLE_TOP = 15;
+        private static final int FREE_STYLE_OTHER = 5;
 
         public InformationPane(String message) {
             init(message);
