@@ -12,7 +12,7 @@ import com.fr.plugin.chart.bubble.component.VanChartBubblePane;
 import com.fr.plugin.chart.custom.component.VanChartCustomAxisConditionPane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
-import com.fr.plugin.chart.designer.style.series.VanChartCustomStackAndAxisEditPane;
+import com.fr.plugin.chart.designer.style.series.VanChartStackedAndAxisListControlPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,9 +39,12 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{getColorPane()},
                 new Component[]{createBubblePane()},
                 new Component[]{createStackedAndAxisPane()},
-                new Component[]{createLargeDataModelPane()}
-
+                new Component[]{null}
         };
+
+        if (!((VanChartBubblePlot)plot).isForceBubble()) {
+            components[3] = new Component[]{createLargeDataModelPane()};
+        }
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
@@ -56,18 +59,19 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
     @Override
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartCustomStackAndAxisEditPane(){
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane(){
             @Override
             protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
                 return VanChartCustomAxisConditionPane.class;
             }
 
             @Override
-            protected String getPaneTitle(){
+            public String getPaneTitle(){
                 return Inter.getLocText("Plugin-ChartF_Custom_Axis");
             }
         };
-        return stackAndAxisEditPane;
+        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        return stackAndAxisEditExpandablePane;
     }
 
     private JPanel createBubblePane() {

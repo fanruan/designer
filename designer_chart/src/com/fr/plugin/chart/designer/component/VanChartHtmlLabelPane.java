@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartHtmlLabel;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
 
 import javax.swing.*;
@@ -65,6 +66,7 @@ public class VanChartHtmlLabelPane extends JPanel{
         };
 
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(0, (int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
 
         this.setLayout(new BorderLayout());
         this.add(contentPane, BorderLayout.CENTER);

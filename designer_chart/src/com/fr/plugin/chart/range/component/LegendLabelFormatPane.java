@@ -50,8 +50,9 @@ public class LegendLabelFormatPane extends JPanel{
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p,f};
-        double[] rowSize = {p,p,p};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Label_Format"), SwingConstants.LEFT), labelFormatStyle},

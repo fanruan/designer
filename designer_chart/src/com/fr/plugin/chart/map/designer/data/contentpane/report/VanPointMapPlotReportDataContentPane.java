@@ -28,7 +28,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
     }
 
     @Override
-    protected Component getContent() {
+    protected JPanel getContent() {
         longLatReportFormulaPane = new LongLatReportFormulaPane();
         JPanel content = new JPanel(new BorderLayout(0, 4));
         content.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 0));

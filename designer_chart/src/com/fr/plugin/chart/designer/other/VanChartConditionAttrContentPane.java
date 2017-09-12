@@ -4,7 +4,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
 
@@ -17,7 +16,7 @@ import java.awt.*;
 public class VanChartConditionAttrContentPane extends AbstractConditionAttrContentPane{
     private static final Dimension DIALOG_SIZE = new Dimension(500, 600);
 
-    private UIListControlPane conditionPane;
+    private VanChartConditionListControlPane conditionPane;
     public VanChartConditionAttrContentPane() {
     }
 
@@ -43,7 +42,7 @@ public class VanChartConditionAttrContentPane extends AbstractConditionAttrConte
             nameables[i]=(new NameObject(collection.getConditionAttr(i).getName(),collection.getConditionAttr(i)));
         }
 
-        conditionPane.populate(nameables);
+        conditionPane.populate(nameables, showPane);
         conditionPane.doLayout();
     }
 
