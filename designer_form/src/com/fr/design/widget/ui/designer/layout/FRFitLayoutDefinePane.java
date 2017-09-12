@@ -44,7 +44,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     private UIComboBox adaptComboBox;
     private UISpinner componentIntervel;
     private PaddingBoundPane paddingBound;
-    private AccessibleWLayoutBorderStyleEditor background;
+    private AccessibleWLayoutBorderStyleEditor stylePane;
 
     public FRFitLayoutDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -65,9 +65,9 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
     public JPanel createAdvancePane() {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        background = new AccessibleWLayoutBorderStyleEditor();
+        stylePane = new AccessibleWLayoutBorderStyleEditor();
         paddingBound = new PaddingBoundPane();
-        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Background")), background}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), stylePane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);
         jPanel.add(jp2, BorderLayout.NORTH);
@@ -119,7 +119,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
-        background.setValue(ob.getBorderStyle());
+        stylePane.setValue(ob.getBorderStyle());
     }
 
 
@@ -127,7 +127,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     public WFitLayout updateBean() {
         WFitLayout layout = (WFitLayout) creator.toData();
         paddingBound.update(layout);
-        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) background.getValue();
+        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) stylePane.getValue();
         if(borderStyle != null){
             layout.setBorderStyle(borderStyle);
         }

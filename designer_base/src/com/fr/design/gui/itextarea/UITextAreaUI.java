@@ -32,7 +32,7 @@ public class UITextAreaUI extends BasicTextAreaUI {
     }
 
     public void paintBorder(Graphics2D g2d, int width, int height, boolean isRound, int rectDirection) {
-        if (isRollOver && textField.isEnabled()) {
+        if (isRollOver && textField.isEnabled() && ((UITextArea)textField).isEditable()) {
             g2d.setColor(UIConstants.TEXT_FILED_BORDER_SELECTED);
             g2d.drawRect(0, 0, width - 1, height - 1);
         } else {

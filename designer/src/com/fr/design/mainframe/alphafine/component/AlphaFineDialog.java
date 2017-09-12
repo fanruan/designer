@@ -684,7 +684,7 @@ public class AlphaFineDialog extends UIDialog {
                 } else {
                     try {
                         Thread.sleep(10);
-                        doSearch(searchTextField.getText());
+                        doSearch(searchTextField.getText().toLowerCase());
                     } catch (InterruptedException e1) {
                         FRLogger.getLogger().error(e1.getMessage());
                     }
