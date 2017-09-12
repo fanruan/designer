@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
@@ -70,9 +71,10 @@ public interface FormECDesignerProvider {
 
     /**
      *   超级链接面板
+     *   @param jt 当前模板（JForm）
      * @return    属性面板
      */
-    public JComponent getHyperlinkPane();
+    public JComponent getHyperlinkPane(JTemplate jt);
 
     /**
      *   超级链接面板
