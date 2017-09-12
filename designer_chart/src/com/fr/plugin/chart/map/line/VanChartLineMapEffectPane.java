@@ -19,7 +19,7 @@ import java.awt.event.ItemListener;
 /**
  * Created by hufan on 2016/12/20.
  */
-public class VanChartLineMapEffectPane extends VanChartEffectPane{
+public class VanChartLineMapEffectPane extends VanChartEffectPane {
 
     //运动方式
     private JPanel typeContentPane;
@@ -45,37 +45,38 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane{
 
         panel.add(periodPane, BorderLayout.CENTER);
         panel.add(animationTypePane, BorderLayout.SOUTH);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
 
         return panel;
     }
+
     protected void setContentPaneBorder() {
         return;
     }
 
     private Component createAnimationSelectPane() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        UILabel label1= new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type"));
-        label1.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
+        UILabel label1 = new UILabel(Inter.getLocText("Plugin-ChartF_Animation_Type"));
+        label1.setPreferredSize(new Dimension((int) TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 20));
         panel.add(label1, BorderLayout.WEST);
         panel.add(animationType, BorderLayout.CENTER);
         return panel;
     }
 
     private void initTypeContentPane() {
-        customContentPane = new VanChartImageMarkerPane(){
-            protected void setImageBackgroundPaneBorder() {
-                getImageBackgroundPane().setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH, (int)getImageBackgroundPane().getPreferredSize().getHeight()));
+        customContentPane = new VanChartImageMarkerPane() {
+            protected Dimension getImageBackgroundPreferredSize(Dimension dimension) {
+                return new Dimension((int) TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH, (int) dimension.getHeight());
             }
         };
 
         CardLayout cardLayout = new CardLayout();
-        typeContentPane = new JPanel(cardLayout){
+        typeContentPane = new JPanel(cardLayout) {
             @Override
             public Dimension getPreferredSize() {
-                if(ComparatorUtils.equals(animationType.getSelectedItem(), LineMapAnimationType.DEFAULT)){
+                if (ComparatorUtils.equals(animationType.getSelectedItem(), LineMapAnimationType.DEFAULT)) {
                     return new Dimension((int) customContentPane.getPreferredSize().getWidth(), 0);
-                }else {
+                } else {
                     return customContentPane.getPreferredSize();
                 }
             }
@@ -94,15 +95,15 @@ public class VanChartLineMapEffectPane extends VanChartEffectPane{
         });
     }
 
-    private void checkCardLayout(){
+    private void checkCardLayout() {
         CardLayout cardLayout = (CardLayout) typeContentPane.getLayout();
-        cardLayout.show(typeContentPane,  LineMapAnimationType.getTypes()[animationType.getSelectedIndex()].getStringType());
+        cardLayout.show(typeContentPane, LineMapAnimationType.getTypes()[animationType.getSelectedIndex()].getStringType());
     }
 
     @Override
     public void populateBean(AttrEffect ob) {
         super.populateBean(ob);
-        if (ob instanceof AttrLineEffect){
+        if (ob instanceof AttrLineEffect) {
             animationType.setSelectedItem(((AttrLineEffect) ob).getAnimationType());
             customContentPane.populateBean(((AttrLineEffect) ob).getAttrMarker());
         }

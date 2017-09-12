@@ -24,20 +24,16 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
     private UISpinner width;
     private UISpinner height;
 
-    protected ImageBackgroundQuickPane getImageBackgroundPane() {
-        return imageBackgroundPane;
-    }
-
     public VanChartImageMarkerPane() {
         imageBackgroundPane = new ImageBackgroundQuickPane(false);
-        setImageBackgroundPaneBorder();
+        imageBackgroundPane.setPreferredSize(getImageBackgroundPreferredSize(imageBackgroundPane.getPreferredSize()));
         width = new UISpinner(0, 100, 0.5, 30);
         height = new UISpinner(0, 100, 0.5, 30);
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p};
-        double[] col = {p,f};
+        double[] row = {p, p, p};
+        double[] col = {p, f};
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Width")), width},
@@ -47,13 +43,13 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         JPanel sizePanel = TableLayoutHelper.createTableLayoutPane(components, row, col);
 
         JPanel panel = createContentPane(imageBackgroundPane, sizePanel);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,72,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 72, 0, 0));
 
         this.add(panel);
     }
 
-    protected void setImageBackgroundPaneBorder() {
-        imageBackgroundPane.setPreferredSize(new Dimension((int)TableLayout4VanChartHelper.EDIT_AREA_WIDTH, (int)imageBackgroundPane.getPreferredSize().getHeight()));
+    protected Dimension getImageBackgroundPreferredSize(Dimension dimension) {
+        return new Dimension((int) TableLayout4VanChartHelper.EDIT_AREA_WIDTH, (int) dimension.getHeight());
     }
 
     protected JPanel createContentPane(ImageBackgroundQuickPane imageBackgroundPane, JPanel sizePanel) {
@@ -75,11 +71,11 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
 
     @Override
     public void populateBean(VanChartAttrMarker marker) {
-        if(marker == null){
+        if (marker == null) {
             marker = new VanChartAttrMarker();
             marker.setCommon(false);
         }
-        if(marker.getImageBackground() != null){
+        if (marker.getImageBackground() != null) {
             imageBackgroundPane.populateBean(marker.getImageBackground());
         }
         width.setValue(marker.getWidth());
@@ -96,10 +92,10 @@ public class VanChartImageMarkerPane extends BasicBeanPane<VanChartAttrMarker> {
         return marker;
     }
 
-    public void updateBean(VanChartAttrMarker marker){
+    public void updateBean(VanChartAttrMarker marker) {
         marker.setCommon(false);
         marker.setMarkerType(MarkerType.MARKER_NULL);
-        ImageBackground background = (ImageBackground)imageBackgroundPane.updateBean();
+        ImageBackground background = (ImageBackground) imageBackgroundPane.updateBean();
         background.setLayout(Constants.IMAGE_EXTEND);
         marker.setImageBackground(background);
         marker.setWidth(width.getValue());
