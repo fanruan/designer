@@ -671,7 +671,8 @@ public class AlphaFineDialog extends UIDialog {
                         removeSearchResult();
                     }
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    dealWithSearchResult(searchResultList.getSelectedValue());
+                    searchResultList.requestFocus();
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex());
                 }
             }
         });
