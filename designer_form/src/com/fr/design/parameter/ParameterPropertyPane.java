@@ -1,10 +1,13 @@
 package com.fr.design.parameter;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
+import com.fr.design.mainframe.JForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,7 +89,10 @@ public class ParameterPropertyPane extends JPanel{
         if (isVisible == addParaPane.isVisible() || formHierarchyTreePaneWrapper == null) {
             return;
         }
-        if (isVisible && toolbarPane.hasSelectedLabelItem()) {
+        // 表单中，只有添加并选中参数面板时，才显示
+		boolean hideInJForm = DesignerContext.getDesignerFrame().getSelectedJTemplate() instanceof JForm &&
+                !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
+        if (isVisible && toolbarPane.hasSelectedLabelItem() && !hideInJForm) {
             addParaPane.setVisible(true);
             this.setPreferredSize(null);
         } else {
