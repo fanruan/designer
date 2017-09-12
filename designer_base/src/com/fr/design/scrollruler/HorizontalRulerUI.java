@@ -27,7 +27,7 @@ public class HorizontalRulerUI extends RulerUI {
             g.setColor(BaseRuler.UNIT_SIGN_COLOR);
             if (i %  BaseRuler.SCALE_10 == 0) {
                 double times = (double)HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution() / ScreenResolution.getScreenResolution();
-                String text = Utils.convertNumberStringToString(Math.round(i / times));
+                String text = Utils.convertNumberStringToString(Math.round((i / times) / showText));
                 Graphics2D gg = (Graphics2D) g.create((int) (toPX(i) / ratio) - extra + 1, 0, BaseRuler.NUMBER_100, size.height);
                 BaseUtils.drawStringStyleInRotation(gg, BaseRuler.NUMBER_100, BaseRuler.NUMBER_14, text, Style.getInstance().deriveHorizontalAlignment(
                         Style.LEFT_TO_RIGHT).deriveFRFont(BaseRuler.TEXT_FONT), ScreenResolution.getScreenResolution());
