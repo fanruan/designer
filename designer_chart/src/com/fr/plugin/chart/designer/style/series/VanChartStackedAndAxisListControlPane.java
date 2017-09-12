@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 /**
  * Created by mengao on 2017/9/11.
+ * 堆积和坐标轴面板
  */
 public class VanChartStackedAndAxisListControlPane extends VanChartUIListControlPane {
 
