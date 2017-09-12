@@ -22,10 +22,19 @@ import com.fr.env.SignIn;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
+import com.fr.general.ModuleContext;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.manage.PluginManager;
-import com.fr.stable.*;
+import com.fr.plugin.manage.PluginStartup;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.BuildContext;
+import com.fr.stable.OperatingSystem;
+import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +93,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
         //初始化插件引擎
-        PluginManager.init();
+        PluginStartup.start();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();
