@@ -90,8 +90,13 @@ public class ParameterPropertyPane extends JPanel{
             return;
         }
         // 表单中，只有添加并选中参数面板时，才显示
-		boolean hideInJForm = DesignerContext.getDesignerFrame().getSelectedJTemplate() instanceof JForm &&
-                !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
+		boolean hideInJForm;
+        try {
+            hideInJForm = DesignerContext.getDesignerFrame().getSelectedJTemplate() instanceof JForm &&
+                    !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
+        } catch (NullPointerException ex) {
+            hideInJForm = false;
+        }
         if (isVisible && toolbarPane.hasSelectedLabelItem() && !hideInJForm) {
             addParaPane.setVisible(true);
             this.setPreferredSize(null);
