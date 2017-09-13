@@ -4,10 +4,12 @@ import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
@@ -638,6 +640,10 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             selectedItem = this;
         }
 
+        private boolean isTabButtonSelected() {
+            return button.getBackground() == selectedBtnBackground;
+        }
+
         private void initButton() {
             button = new UIButton(BaseUtils.readIcon(getBtnIconUrl())) {
                 public Dimension getPreferredSize() {
@@ -649,6 +655,20 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 }
             };
             button.set4LargeToolbarButton();
+            button.setUI(new UIButtonUI() {
+                @Override
+                protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                    if (isPressed(b) && b.isPressedPainted()) {
+                        Color pressColor = isTabButtonSelected() ? UIConstants.TAB_BUTTON_PRESS_SELECTED : UIConstants.TAB_BUTTON_PRESS;
+                        GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), pressColor);
+                    } else if (isRollOver(b)) {
+                        Color hoverColor = isTabButtonSelected() ? UIConstants.TAB_BUTTON_HOVER_SELECTED : UIConstants.TAB_BUTTON_HOVER;
+                        GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), hoverColor);
+                    } else if (b.isNormalPainted()) {
+                        GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+                    }
+                }
+            });
             originBtnBackground = button.getBackground();
             button.addActionListener(new ActionListener() {
                 @Override

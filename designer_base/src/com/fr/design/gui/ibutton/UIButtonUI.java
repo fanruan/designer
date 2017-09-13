@@ -42,17 +42,21 @@ public class UIButtonUI extends BasicButtonUI {
 
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (b.isExtraPainted()) {
-            if (isPressed(b) && b.isPressedPainted()) {
-                GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
-            } else if (isRollOver(b)) {
-                GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
-            } else if (b.isNormalPainted()) {
-                GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
-            }
+            doExtraPainting(b, g2d, w, h, selectedRoles);
         }
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
         paintContent(g, b, text);
+    }
+
+    protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+        if (isPressed(b) && b.isPressedPainted()) {
+            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
+        } else if (isRollOver(b)) {
+            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+        } else if (b.isNormalPainted()) {
+            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+        }
     }
 
     protected boolean isRollOver(AbstractButton b) {
