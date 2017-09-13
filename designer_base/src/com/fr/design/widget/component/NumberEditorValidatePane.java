@@ -1,7 +1,6 @@
 package com.fr.design.widget.component;
 
 import com.fr.design.designer.IntervalConstants;
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -12,6 +11,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NumberEditor;
 import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -35,10 +35,8 @@ public class NumberEditorValidatePane extends JPanel {
     private SpinnerNumberModel minValueModel;
     private UISpinner decimalLength;
     private JPanel limitNumberPane;
-    private UITextField maxValueErrorTextField;
-    private UITextField minValueErrorTextField;
-    private JPanel maxValueFieldPane;
-    private JPanel minValueFieldPane;
+    private UITextField errorMsgTextField;
+    private JPanel errorMsgTextFieldPane;
 
     private ActionListener allowDecimalsListener;
 
@@ -79,13 +77,10 @@ public class NumberEditorValidatePane extends JPanel {
         this.setMinValueCheckBox.addActionListener(setMinListener);
         this.minValueSpinner.addChangeListener(minValueChangeListener);
         setMinValueCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        initMaxMinValueFieldPane();
-        JPanel maxValueBorderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        maxValueBorderPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
-        maxValueBorderPane.add(maxValueFieldPane, BorderLayout.CENTER);
-        JPanel minValueBorderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        minValueBorderPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L1, 0));
-        minValueBorderPane.add(minValueFieldPane, BorderLayout.CENTER);
+        initErrorMsgPane();
+        JPanel errorMsgBorderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        errorMsgBorderPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L1, 0));
+        errorMsgBorderPane.add(errorMsgTextFieldPane, BorderLayout.CENTER);
         UILabel numberLabel = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Double", "Numbers"}));
         limitNumberPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{numberLabel, decimalLength}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
         limitNumberPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
@@ -96,37 +91,20 @@ public class NumberEditorValidatePane extends JPanel {
                 new Component[]{limitNumberPane, null},
                 new Component[]{allowNegativeCheckBox, null},
                 new Component[]{setMaxValueCheckBox, maxValueSpinner},
-                new Component[]{maxValueBorderPane, null},
                 new Component[]{setMinValueCheckBox, minValueSpinner},
-                new Component[]{minValueBorderPane, null},
+                new Component[]{errorMsgBorderPane, null},
         };
-        double[] rowSize = {p, p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         this.add(panel);
     }
 
-    private void initMaxMinValueFieldPane() {
-        maxValueErrorTextField = new UITextField();
-        minValueErrorTextField = new UITextField();
-
-        maxValueFieldPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), maxValueErrorTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-        setMaxValueCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                maxValueFieldPane.setVisible(setMaxValueCheckBox.isSelected());
-            }
-        });
-
-        minValueFieldPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), minValueErrorTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-        setMinValueCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                minValueFieldPane.setVisible(setMinValueCheckBox.isSelected());
-            }
-        });
-
+    private void initErrorMsgPane() {
+        errorMsgTextField = new UITextField();
+        errorMsgTextFieldPane = TableLayoutHelper.createGapTableLayoutPane(
+                new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip")), errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
     }
 
 
@@ -257,27 +235,30 @@ public class NumberEditorValidatePane extends JPanel {
         allowNegativeCheckBox.setSelected(e.isAllowNegative());
         if (e.getMaxValue() == Double.MAX_VALUE) {
             setMaxValueCheckBox.setSelected(false);
-            maxValueFieldPane.setVisible(false);
+//            maxValueFieldPane.setVisible(false);
             maxValueSpinner.setValue(new Double(Double.MAX_VALUE));
             maxValueSpinner.setEnabled(false);
         } else {
             setMaxValueCheckBox.setSelected(true);
             maxValueSpinner.setEnabled(true);
-            maxValueFieldPane.setVisible(true);
             maxValueSpinner.setValue(new Double(e.getMaxValue()));
         }
 
         if (e.getMinValue() == -Double.MAX_VALUE) {
             setMinValueCheckBox.setSelected(false);
-            minValueFieldPane.setVisible(false);
             minValueSpinner.setValue(new Double(-Double.MAX_VALUE));
             minValueSpinner.setEnabled(false);
 
         } else {
             setMinValueCheckBox.setSelected(true);
-            minValueFieldPane.setVisible(true);
             minValueSpinner.setEnabled(true);
             minValueSpinner.setValue(new Double(e.getMinValue()));
+        }
+        errorMsgTextField.setText(e.getRegErrorMessage());
+        if(e.getMaxValue() == Double.MAX_VALUE || e.getMinValue() == -Double.MAX_VALUE){
+            errorMsgTextFieldPane.setVisible(true);
+        }else{
+            errorMsgTextFieldPane.setVisible(false);
         }
     }
 
@@ -289,15 +270,22 @@ public class NumberEditorValidatePane extends JPanel {
 
         ob.setAllowNegative(allowNegativeCheckBox.isSelected());
         if (setMaxValueCheckBox.isSelected()) {
-            ob.setMaxValue(Double.parseDouble("" + maxValueSpinner.getValue()));
+            ob.setMaxValue(Double.parseDouble(StringUtils.EMPTY + maxValueSpinner.getValue()));
         } else {
             ob.setMaxValue(Double.MAX_VALUE);
         }
 
         if (setMinValueCheckBox.isSelected()) {
-            ob.setMinValue(Double.parseDouble("" + minValueSpinner.getValue()));
+            ob.setMinValue(Double.parseDouble(StringUtils.EMPTY + minValueSpinner.getValue()));
         } else {
             ob.setMinValue(-Double.MAX_VALUE);
         }
+        if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
+            errorMsgTextFieldPane.setVisible(true);
+        }else{
+            errorMsgTextFieldPane.setVisible(false);
+            errorMsgTextField.setText(StringUtils.EMPTY);
+        }
+        ob.setRegErrorMessage(errorMsgTextField.getText());
     }
 }

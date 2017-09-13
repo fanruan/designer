@@ -1,9 +1,6 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -45,11 +42,9 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
         this.decoder = dec;
         initComponents();
         txtValue.setEditable(dec != null);
-        setBorderVisible();
-    }
-
-    protected void setBorderVisible(){
-        ((JComponent) txtValue).setBorder(null);
+        ((JComponent) txtValue).setOpaque(true);
+        ((JComponent) txtValue).setBorder(BorderFactory.createLineBorder(Color.lightGray));
+        ((JComponent) txtValue).setBackground(Color.WHITE);
     }
 
     @Override
