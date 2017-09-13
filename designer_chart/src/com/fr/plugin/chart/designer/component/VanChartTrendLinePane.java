@@ -47,16 +47,18 @@ public class VanChartTrendLinePane extends BasicPane{
         trendLineStyle = new LineComboBox(VanChartConstants.ALERT_LINE_STYLE);
 
         trendLineType = new UIComboBox(TYPES);
-        prePeriod = new UISpinner(0,Integer.MAX_VALUE,1,0);
-        afterPeriod = new UISpinner(0,Integer.MAX_VALUE,1,0);
-        double[] r = {p,p};
-        double[] c = {p,f,p};
+        prePeriod = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        afterPeriod = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        double[] r = {p, p};
+        double[] c = {f, p, f, p};
         Component[][] periodComps = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Chart_TrendLine_Forward")), prePeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle"))},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_After_Period")), afterPeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle"))},
+                new Component[]{prePeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle")), afterPeriod, new UILabel(Inter.getLocText("Plugin-ChartF_Cycle"))},
+                new Component[]{new UILabel(Inter.getLocText("Chart_TrendLine_Forward")), null, new UILabel(Inter.getLocText("Plugin-ChartF_After_Period")), null},
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 
+        UILabel label = new UILabel(Inter.getLocText("Plugin-ChartF_Period"));
+        label.setVerticalAlignment(SwingConstants.TOP);
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
@@ -64,7 +66,7 @@ public class VanChartTrendLinePane extends BasicPane{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_LineStyle")), trendLineStyle},
                 new Component[]{new UILabel(Inter.getLocText("FR-Chart-Color_Color")), trendLineColor},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_type")), trendLineType},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Period")), periodPane}
+                new Component[]{label, periodPane}
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);

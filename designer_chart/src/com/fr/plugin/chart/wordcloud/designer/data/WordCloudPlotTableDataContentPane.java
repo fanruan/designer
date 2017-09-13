@@ -7,10 +7,10 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.wordcloud.data.WordCloudTableDefinition;
 
 import javax.swing.*;
@@ -21,6 +21,7 @@ import java.util.List;
  * Created by Mitisky on 16/11/29.
  */
 public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentPane {
+
     private UITextField name;
     private UIComboBox wordName;
     private UIComboBox wordValue;
@@ -29,7 +30,7 @@ public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentP
     public WordCloudPlotTableDataContentPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f};
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = { p, p, p, p};
 
         name = new UITextField();
@@ -45,7 +46,7 @@ public class WordCloudPlotTableDataContentPane extends AbstractTableDataContentP
                 new Component[]{new UILabel(Inter.getLocText("Chart-Summary_Method")), calculateCombox}
         };
 
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,24,6);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
 
         this.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));

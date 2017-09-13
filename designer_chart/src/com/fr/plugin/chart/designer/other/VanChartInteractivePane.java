@@ -131,8 +131,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         double[] columnSize = {f, e};
         changeEnablePane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, columnSize);
         changeEnablePane.setBorder(BorderFactory.createEmptyBorder(10,12,0,0));
-        zoomTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        zoomTypePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        zoomTypePane = getzoomTypePane(zoomType);
         JPanel panel = createZoomPaneContent(zoomWidgetPane, zoomGesturePane, changeEnablePane, zoomTypePane, plot);
         zoomWidget.addActionListener(new ActionListener() {
             @Override
@@ -141,6 +140,12 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
             }
         });
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Zoom"), panel);
+    }
+
+    protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        return panel;
     }
 
     protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {

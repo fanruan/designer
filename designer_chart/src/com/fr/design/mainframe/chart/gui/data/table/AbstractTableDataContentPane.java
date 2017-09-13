@@ -13,7 +13,9 @@ import java.util.List;
 
 public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCollection>{
 
-    private boolean isNeedSummaryCaculateMethod = true;
+	protected static final double COMPONENT_WIDTH = 124;
+
+	private boolean isNeedSummaryCaculateMethod = true;
 	
 	public abstract void updateBean(ChartCollection ob);
 	

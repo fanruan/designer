@@ -34,6 +34,7 @@ import java.awt.*;
  */
 public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
     private static final int HEIGHT_MORE = 5;
+    private int resolution = ScreenResolution.getScreenResolution();
 
     public ECBlockEditor(PolyDesigner designer, ECBlockCreator creator) {
         super(designer, creator);

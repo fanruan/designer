@@ -76,15 +76,16 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p};
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Duration_Time")), duration},
         };
 
-        JPanel temp = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        return TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Duration_Time"), temp);
+        JPanel temp = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Time"), temp);
 
     }
 
