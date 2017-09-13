@@ -16,23 +16,20 @@ import java.awt.*;
  */
 public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgroundPane {
 
-    public VanChartBackgroundPaneWithOutImageAndShadow() {
-        initComponents();
-
+    @Override
+    protected JPanel initContentPanel() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
 
         double[] columnSize = {p, f};
-        double[] rowSize = { p,p,p,p,p};
+        double[] rowSize = { p,p,p};
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(getPaneComponents(),rowSize,columnSize);
-        this.setLayout(new BorderLayout());
-        this.add(panel,BorderLayout.CENTER);
+        return TableLayoutHelper.createTableLayoutPane(getPaneComponents(),rowSize,columnSize);
     }
 
     @Override
     protected void initList() {
-        paneList.add(new NullBackgroundQuickPane(){
+        paneList.add(new NullBackgroundQuickPane() {
             /**
              * 名称
              *
@@ -46,14 +43,15 @@ public class VanChartBackgroundPaneWithOutImageAndShadow extends VanChartBackgro
         paneList.add(new ColorBackgroundQuickPane());
     }
 
+
     @Override
     protected Component[][] getPaneComponents() {
-        return  new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Shape_Fill")), typeComboBox},
-                new Component[]{null, centerPane},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-Chart_Alpha")), transparent},
+        return new Component[][]{
+                new Component[]{typeComboBox, null},
+                new Component[]{centerPane, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Alpha")), transparent},
         };
     }
+
 }
 

@@ -45,7 +45,6 @@ public class ChartEmailPane extends EmailPane{
 		} else {
 			double[] rSizes = { preferred, preferred, preferred, preferred, preferred, fill, preferred};
 			contentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
-                    {new UILabel(Inter.getLocText("Name") + ":", SwingConstants.RIGHT), itemNameTextField},
                     {new UILabel(), tipsPane1},
                     createLinePane(Inter.getLocText("HJS-Mail_to"), maitoEditor = new UITextField()),
                     createLinePane(Inter.getLocText("HJS-CC_to"), ccEditor = new UITextField()),

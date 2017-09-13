@@ -33,7 +33,8 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     protected JPanel getInteractivePane(VanChartPlot plot){
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{createToolBarPane(new double[]{p, p, p}, columnSize),null},
@@ -49,16 +50,29 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
 
     private JPanel createDrillToolsPane() {
         openOrClose = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        JPanel openOrClosePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Drill_Dir"), openOrClose);
         textAttrPane = new ChartTextAttrPane(){
+
+            @Override
+            protected JPanel getContentPane (JPanel buttonPane) {
+                double p = TableLayout.PREFERRED;
+                double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
+                double[] columnSize = {e};
+                double[] rowSize = {p, p};
+
+                return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
+            }
+
+            @Override
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
-                        new Component[]{fontNameComboBox, null},
-                        new Component[]{buttonPane, null}
+                        new Component[]{fontNameComboBox},
+                        new Component[]{buttonPane}
                 };
             }
         };
-        backgroundPane = new VanChartBackgroundPane4DrillMap();
-        selectBackgroundPane = new VanChartBackgroundPane4DrillMap();
+        backgroundPane = new VanChartBackgroundPaneWithOutImageAndShadow();
+        selectBackgroundPane = new VanChartBackgroundPaneWithOutImageAndShadow();
         catalogSuperLink = new VanChartCatalogHyperLinkPane();
 
         double p = TableLayout.PREFERRED;
@@ -75,7 +89,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(openOrClose, BorderLayout.NORTH);
+        panel.add(openOrClosePane, BorderLayout.NORTH);
         panel.add(drillPane, BorderLayout.CENTER);
 
         openOrClose.addChangeListener(new ChangeListener() {
@@ -85,13 +99,15 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             }
         });
 
-        JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill_Dir"), panel);
+        JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Drill"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
         return panel1;
     }
 
     private JPanel createTitlePane(String title, Component component) {
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(title, component);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(title, component, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        return panel;
     }
 
     private void checkEnable() {
@@ -136,18 +152,6 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             backgroundPane.update(drillMapTools.getBackgroundInfo());
             selectBackgroundPane.update(drillMapTools.getSelectBackgroundInfo());
             catalogSuperLink.update(plot);
-        }
-    }
-
-    public class VanChartBackgroundPane4DrillMap extends VanChartBackgroundPaneWithOutImageAndShadow{
-        @Override
-        protected Component[][] getPaneComponents() {
-            return  new Component[][]{
-                    new Component[]{null},
-                    new Component[]{typeComboBox},
-                    new Component[]{centerPane},
-                    new Component[]{transparent},
-            };
         }
     }
 }
