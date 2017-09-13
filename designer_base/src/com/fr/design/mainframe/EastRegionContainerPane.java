@@ -40,7 +40,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
     // 弹出对话框高度
     private static final int POPUP_MIN_HEIGHT = 145;
-    private static final int POPUP_MAX_HEIGHT = 480;
     private static final int POPUP_DEFAULT_HEIGHT = 356;
     public static final String KEY_CELL_ELEMENT = "cellElement";
     public static final String KEY_CELL_ATTR = "cellAttr";
@@ -1015,9 +1014,6 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                         // 校正位置
                         if (bounds.height < POPUP_MIN_HEIGHT) {
                             bounds.height = POPUP_MIN_HEIGHT;
-                        }
-                        if (bounds.height > POPUP_MAX_HEIGHT) {
-                            bounds.height = POPUP_MAX_HEIGHT;
                         }
                         mouseDownCompCoords.y = currCoords.y;
                         setBounds(bounds);
