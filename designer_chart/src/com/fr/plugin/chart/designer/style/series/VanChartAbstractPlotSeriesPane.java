@@ -68,6 +68,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     protected JPanel stackAndAxisEditExpandablePane;//堆積和坐標軸展开面板
 
     private RadiusCardLayoutPane radiusPane;//半径设置界面
+    private JPanel radiusPaneWithTitle;
 
     private UIButtonGroup<DataProcessor> largeDataModelGroup;//大数据模式
 
@@ -158,9 +159,10 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     //半径界面
-    protected RadiusCardLayoutPane createRadiusPane() {
+    protected JPanel createRadiusPane() {
         radiusPane = initRadiusPane();
-        return radiusPane;
+        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Radius_Set"), radiusPane);
+        return ((VanChartPlot)plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
     protected JPanel createLargeDataModelPane() {
@@ -309,10 +311,10 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * @param plot
      */
     private void checkRadiusPane(Plot plot) {
-        radiusPane.setVisible(true);
+        radiusPaneWithTitle.setVisible(true);
         if (plot instanceof VanChartPlot){
             if (((VanChartPlot) plot).isInCustom()){
-                radiusPane.setVisible(false);
+                radiusPaneWithTitle.setVisible(false);
             }
         }
     }

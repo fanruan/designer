@@ -27,27 +27,24 @@ public class VanChartMoreCateReportDataContentPane extends CategoryPlotMoreCateR
     }
 
     protected void updateMoreCate(NormalReportDataDefinition reportDefinition, Plot plot) {
-        //todo@shine9.0
-//        super.updateMoreCate(reportDefinition, plot);
-//        ((VanChartPlot) plot).setCategoryNum(getFormualList().size() + 1);
-//        if (!getFormualList().isEmpty()) {
-//            plot.getDataSheet().setVisible(false);
-//        }
+        super.updateMoreCate(reportDefinition, plot);
+        ((VanChartPlot) plot).setCategoryNum(getFormualList().size() + 1);
+        if (!getFormualList().isEmpty()) {
+            plot.getDataSheet().setVisible(false);
+        }
     }
 
     protected void checkComponent() {
-        //todo@shine9.0
-//        super.checkComponent();
-//        checkBoxList(isSupportMultiCategory);
+        super.checkComponent();
+        checkBoxList(isSupportMultiCategory);
     }
 
     private void checkBoxList(boolean isSupportMulticategory) {
-        //todo@shine9.0
-//        if (getFormualList().size() != 0) {
-//            for (int i = 0; i < getFormualList().size(); i++) {
-//                getFormualList().get(i).setEnabled(isSupportMulticategory);
-//            }
-//        }
+        if (getFormualList().size() != 0) {
+            for (int i = 0; i < getFormualList().size(); i++) {
+                getFormualList().get(i).setEnabled(isSupportMulticategory);
+            }
+        }
     }
 
 }

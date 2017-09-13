@@ -10,7 +10,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.PiePlot4VanChart;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
@@ -62,7 +61,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_StartAngle")),startAngle},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_EndAngle")),endAngle},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_InnerRadius")),innerRadius},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")), createRadiusPane()},
+                new Component[]{createRadiusPane(),null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Rotation")),supportRotation}
         };
 
@@ -70,12 +69,6 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
-
-    //半径界面
-    protected RadiusCardLayoutPane initRadiusPane() {
-        return ((VanChartPlot)plot).isInCustom() ? null : new RadiusCardLayoutPane();
-    }
-
 
     public void populateBean(Plot plot) {
         if(plot == null) {

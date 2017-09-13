@@ -13,11 +13,9 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.GaugeDetailStyle;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
-import com.fr.plugin.chart.pie.RadiusCardLayoutPane;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
 
@@ -119,21 +117,21 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         new Component[]{null, null},
                         getPaneBackgroundColor(),
                         getInnerPaneBackgroundColor(),
-                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
+                        new Component[]{createRadiusPane(), null}
                 };
             case SLOT:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
+                        new Component[]{createRadiusPane(), null}
                 };
             case THERMOMETER:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
+                        new Component[]{createRadiusPane(), null}
                 };
             default:
                 return new Component[][]{
@@ -142,14 +140,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         getHingeBackgroundColor(),
                         getNeedleColor(),
                         getPaneBackgroundColor(),
-                        new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Radius_Set")),createRadiusPane()}
+                        new Component[]{createRadiusPane(), null}
                 };
         }
-    }
-
-    //半径界面
-    protected RadiusCardLayoutPane initRadiusPane() {
-        return ((VanChartPlot)plot).isInCustom() ? null : new RadiusCardLayoutPane();
     }
 
     private Component[] getHingeColor() {
