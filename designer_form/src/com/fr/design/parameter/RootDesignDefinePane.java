@@ -21,7 +21,7 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 import com.fr.general.Inter;
-import com.fr.stable.Constants;
+import com.fr.report.stable.FormConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +82,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
                 BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),};
-        Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
+        Integer[] hAlignment = new Integer[]{FormConstants.LEFTPOSITION, FormConstants.CENTERPOSITION, FormConstants.RIGHTPOSITION};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
         hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Left")
                 , Inter.getLocText("FR-Designer-StyleAlignment_Center"), Inter.getLocText("FR-Designer-StyleAlignment_Right")});

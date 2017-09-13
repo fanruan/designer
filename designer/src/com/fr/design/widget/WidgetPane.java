@@ -47,6 +47,12 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         this.initComponents(pane);
     }
 
+
+    public boolean isShouldFireSelectedEvent(){
+        return shouldFireSelectedEvent;
+    }
+
+
     protected void initComponents(ElementCasePane pane) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -136,8 +142,8 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             String name = ((NameWidget) widget).getName();
             shouldFireSelectedEvent = false;
             editorTypeComboBox.setSelectedItem(new Item(name, name));
-            shouldFireSelectedEvent = true;
             cellEditorCardPane.populate(widget);
+            shouldFireSelectedEvent = true;
         }
         // 内置组件
         else {
@@ -145,10 +151,9 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             if (ArrayUtils.contains(ButtonConstants.CLASSES4BUTTON, clazz)) {
                 clazz = Button.class;
             }
-            cellEditorCardPane.populate(widget);
-
             shouldFireSelectedEvent = false;
             editorTypeComboBox.setSelectedItemByWidgetClass(clazz);
+            cellEditorCardPane.populate(widget);
             shouldFireSelectedEvent = true;
         }
         removeAttributeChangeListener();
