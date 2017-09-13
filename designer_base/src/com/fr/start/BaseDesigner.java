@@ -27,6 +27,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
+import com.fr.general.SiteCenter;
 import com.fr.plugin.PluginCollector;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.PluginStartup;
