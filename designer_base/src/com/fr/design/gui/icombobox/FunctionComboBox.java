@@ -60,7 +60,7 @@ public class FunctionComboBox extends UIComboBox {
 
 			if (value instanceof DataFunction) {
 				DataFunction function = (DataFunction) value;
-				this.setText(DataCoreUtils.getFunctionDisplayName(function));
+				this.setText(" " + DataCoreUtils.getFunctionDisplayName(function));
 			}
 
 			return this;
