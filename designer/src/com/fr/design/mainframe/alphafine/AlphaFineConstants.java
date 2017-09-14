@@ -66,7 +66,7 @@ public class AlphaFineConstants {
 
     public static final Font GREATER_FONT = new Font("Song_TypeFace", 0, 20);
 
-
+    public static final String IMAGE_URL = "/com/fr/design/mainframe/alphafine/images/";
     public static final String PLUGIN_SEARCH_URL = SiteCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
     public static final String PLUGIN_URL = "http://shop.finereport.com/plugin/";
