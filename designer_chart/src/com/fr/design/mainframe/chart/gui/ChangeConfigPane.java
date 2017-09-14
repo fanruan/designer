@@ -114,7 +114,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     }
 
     private JPanel createTitleStylePane() {
-        UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        final UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
         styleAttrPane = new ChartTextAttrPane() {
             protected JPanel getContentPane(JPanel buttonPane) {
                 double p = TableLayout.PREFERRED;

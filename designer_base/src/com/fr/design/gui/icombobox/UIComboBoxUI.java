@@ -67,9 +67,9 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         }
         g2d.setColor(linecolor);
         if (!comboBox.isPopupVisible()) {
-            g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.LARGEARC, UIConstants.LARGEARC);
+            g2d.drawRoundRect(0, 0, c.getWidth() - arrowButton.getWidth() + 3, c.getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
         } else {
-            g2d.drawRoundRect(0, 0, c.getWidth(), c.getHeight() + 3, UIConstants.LARGEARC, UIConstants.LARGEARC);
+            g2d.drawRoundRect(0, 0, c.getWidth(), c.getHeight() + 3, UIConstants.ARC, UIConstants.ARC);
             g2d.drawLine(0, c.getHeight() - 1, c.getWidth(), c.getHeight() - 1);
         }
     }

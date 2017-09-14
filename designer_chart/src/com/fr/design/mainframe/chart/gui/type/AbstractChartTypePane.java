@@ -4,8 +4,18 @@ import com.fr.base.ChartPreStyleManagerProvider;
 import com.fr.base.ChartPreStyleServerManager;
 import com.fr.base.FRContext;
 import com.fr.base.background.ColorBackground;
-import com.fr.chart.base.*;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.base.AttrContents;
+import com.fr.chart.base.AttrFillStyle;
+import com.fr.chart.base.ChartConstants;
+import com.fr.chart.base.ChartPreStyle;
+import com.fr.chart.base.DataSeriesCondition;
+import com.fr.chart.base.TextAttr;
+import com.fr.chart.chartattr.Axis;
+import com.fr.chart.chartattr.CategoryPlot;
+import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.Legend;
+import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.Title;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.BarIndependentChart;
 import com.fr.design.beans.FurtherBasicBeanPane;
@@ -43,6 +53,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected List<ChartImagePane> styleList;
 
     protected JPanel stylePane; //样式布局的面板
+    private JPanel typePane;
     protected abstract String[] getTypeIconPath();
     protected abstract String[] getTypeTipName();
     protected abstract String[] getTypeLayoutPath();
@@ -70,7 +81,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
 
         checkDemosBackground();
 
-        JPanel typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
+        typePane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
         for(int i = 0; i < typeDemo.size(); i++) {
             ChartImagePane tmp = typeDemo.get(i);
             typePane.add(tmp);
@@ -133,7 +144,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     }
 
     //子类覆盖
-    protected Plot getSelectedClonedPlot(){
+    protected <T extends Plot> T getSelectedClonedPlot(){
         return null;
     }
 
@@ -584,6 +595,10 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         return chart != null
                 &&chart.getPlot() != null
                 && chart.getPlot().getPlotStyle() != ChartConstants.STYLE_NONE;
+    }
+
+    protected JPanel getTypePane(){
+        return typePane;
     }
 
     public Chart getDefaultChart() {

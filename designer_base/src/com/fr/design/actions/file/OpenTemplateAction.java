@@ -22,7 +22,7 @@ public class OpenTemplateAction extends UpdateAction {
         this.setMenuKeySet(KeySetUtils.OPEN_TEMPLATE);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/open.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/open.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 

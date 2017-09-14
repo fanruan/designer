@@ -8,12 +8,13 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
-import com.fr.plugin.chart.type.MapType;
-import com.fr.plugin.chart.type.ZoomLevel;
 import com.fr.plugin.chart.map.designer.type.VanChartMapSourceChoosePane;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
+import com.fr.plugin.chart.type.MapType;
+import com.fr.plugin.chart.type.ZoomLevel;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -48,29 +49,28 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
     @Override
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        leftcontentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         this.add(leftcontentPane);
     }
 
     @Override
     protected JPanel createContentPane() {
 
-        if(mapDataTree == null){
+        if (mapDataTree == null) {
             mapDataTree = new MapDataTree(CompatibleGeoJSONTreeHelper.getRootNodeWithoutPara(oldGeoUrl));
             mapDataTree.setRootVisible(true);
         }
 
+        JPanel mapDataTreePanel = new JPanel(new BorderLayout());
+        mapDataTreePanel.add(mapDataTree);
+
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p,p,p,p};
+        double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Layer_Tree"))},
-                new Component[]{new JSeparator()},
-                new Component[]{mapDataTree},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Layer_Detail"))},
-                new Component[]{new JSeparator()},
-                new Component[]{createLayerDetailPane()}
+                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Layer_Tree"), mapDataTreePanel)},
+                new Component[]{createTitlePane(Inter.getLocText("Plugin-ChartF_Layer_Detail"), createLayerDetailPane())}
         };
 
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -79,21 +79,29 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
         return panel;
     }
 
+    private JPanel createTitlePane (String title, JPanel panel) {
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+        return jPanel;
+    }
+
     private JPanel createLayerDetailPane() {
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p,p,p};
+        double f = TableLayout.FILL;
+        double[] columnSize = {f, p, p};
         double[] rowSize = new double[depth + 1];
         detailComps = new Component[depth + 1][3];
         rowSize[0] = p;
         detailComps[0] = new Component[]{
                 new UILabel(Inter.getLocText("Plugin-Chart_Descriptor")),
-                new UILabel(Inter.getLocText("Plugin-ChartF_Layer_Zoom_Level")),
+                new UILabel(Inter.getLocText("Plugin-ChartF_Zoom_Layer")),
                 new UILabel(Inter.getLocText("Plugin-ChartF_Layer_Map_Type"))
         };
-        for(int i = 0; i < depth; i++){
+        for (int i = 0; i < depth; i++) {
             rowSize[i + 1] = p;
             int d = i + 1;
-            UILabel label = new UILabel(String.format("%s%d%s",Inter.getLocText("Plugin-ChartF_Index1"), d, Inter.getLocText("Plugin-ChartF_Index3")));
+            UILabel label = new UILabel(String.format("%s%d%s", Inter.getLocText("Plugin-ChartF_Index1"), d, Inter.getLocText("Plugin-ChartF_Index3")));
             UIComboBox level = new UIComboBox(VanChartMapSourceChoosePane.ZOOM_LEVELS);
             level.setEnabled(i != 0);
             UIComboBox type = new UIComboBox(TEMP.get(oldMapType));
@@ -112,16 +120,16 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
     public void populateBean(ChartCollection ob) {
         VanChartDrillMapPlot drillMapPlot = DrillMapHelper.getDrillMapPlot(ob);
 
-        if(drillMapPlot != null) {
+        if (drillMapPlot != null) {
             java.util.List<ZoomLevel> levelList = drillMapPlot.getLayerLevelList();
             java.util.List<MapType> mapTypeList = drillMapPlot.getLayerMapTypeList();
 
-            if(detailComps == null || drillMapPlot.getMapType() != oldMapType || !ComparatorUtils.equals(drillMapPlot.getGeoUrl(), oldGeoUrl)){
+            if (detailComps == null || drillMapPlot.getMapType() != oldMapType || !ComparatorUtils.equals(drillMapPlot.getGeoUrl(), oldGeoUrl)) {
                 oldMapType = drillMapPlot.getMapType();
                 oldGeoUrl = drillMapPlot.getGeoUrl();
 
                 DefaultMutableTreeNode root = CompatibleGeoJSONTreeHelper.getNodeByJSONPath(oldGeoUrl);
-                if(root != null){
+                if (root != null) {
                     mapDataTree.changeRootNode(root);
                     depth = root.getDepth() + 1;//根节点也算一层
                 }
@@ -132,18 +140,18 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
 
             //根据层级初始属性,一切以json那边读到的层级为准
             int levelSize = levelList.size();
-            for(int i = levelSize; i < depth; i++){
+            for (int i = levelSize; i < depth; i++) {
                 levelList.add(ZoomLevel.AUTO);
             }
             MapType mapType = drillMapPlot.getMapType() == MapType.POINT ? MapType.POINT : MapType.AREA;
             int typeSize = mapTypeList.size();
-            for(int j = typeSize; j < depth; j++){
+            for (int j = typeSize; j < depth; j++) {
                 mapTypeList.add(mapType);
             }
 
-            for(int i = 0; i < depth; i++){
+            for (int i = 0; i < depth; i++) {
                 Component[] components = detailComps[i + 1];
-                if(components != null) {
+                if (components != null) {
                     UIComboBox level = (UIComboBox) components[1];
                     UIComboBox type = (UIComboBox) components[2];
                     if (level != null) {
@@ -168,11 +176,11 @@ public class DrillMapLayerPane extends BasicScrollPane<ChartCollection> {
     @Override
     public void updateBean(ChartCollection ob) {
         VanChartDrillMapPlot drillMapPlot = DrillMapHelper.getDrillMapPlot(ob);
-        if(drillMapPlot != null && detailComps != null) {
+        if (drillMapPlot != null && detailComps != null) {
             java.util.List<ZoomLevel> levelList = new ArrayList<ZoomLevel>();
             java.util.List<MapType> mapTypeList = new ArrayList<MapType>();
             for (Component[] com : detailComps) {
-                if(com[1] instanceof UIComboBox && com[2] instanceof UIComboBox) {
+                if (com[1] instanceof UIComboBox && com[2] instanceof UIComboBox) {
                     UIComboBox level = (UIComboBox) com[1];
                     UIComboBox type = (UIComboBox) com[2];
                     levelList.add((ZoomLevel) level.getSelectedItem());

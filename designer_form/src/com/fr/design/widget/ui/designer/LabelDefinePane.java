@@ -82,7 +82,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     @Override
     public void populateBean(Label ob) {
         formWidgetValuePane.populate(ob);
-        isStyleAlignmentWrapText.setSelected(ob.isAutoLine());
+        isStyleAlignmentWrapText.setSelected(ob.isWrap());
         isPageSetupVertically.setSelected(ob.isVerticalCenter());
         hAlignmentPane.setSelectedItem(ob.getTextalign());
         frFontPane.populateBean(ob.getFont());
@@ -93,7 +93,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
     public Label updateBean() {
         Label layout = (Label) creator.toData();
         formWidgetValuePane.update(layout);
-        layout.setAutoLine(isStyleAlignmentWrapText.isSelected());
+        layout.setWrap(isStyleAlignmentWrapText.isSelected());
         layout.setVerticalCenter(isPageSetupVertically.isSelected());
         layout.setTextalign((int) hAlignmentPane.getSelectedItem());
         layout.setFont(frFontPane.update(layout.getFont()));
