@@ -15,6 +15,7 @@ import com.fr.design.beans.location.Absorptionline;
 import com.fr.design.beans.location.MoveUtils;
 import com.fr.design.beans.location.MoveUtils.RectangleDesigner;
 import com.fr.design.beans.location.MoveUtils.RectangleIterator;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyDesigner.SelectionType;
@@ -101,6 +102,7 @@ public class BottomCornerMouseHanlder extends MouseInputAdapter {
 		dragStart.y -= pressed.y;
 		TemplateBlock block = editor.getValue();
 
+		resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();
 		Rectangle bounds = block.getBounds().toRectangle(resolution);
 		Point resultPoint = MoveUtils.sorption(bounds.x + dragStart.x < 0 ? 0 : bounds.x + dragStart.x, bounds.y
 				+ dragStart.y < 0 ? 0 : bounds.y + dragStart.y, bounds.width, bounds.height, rectDesigner, false);
