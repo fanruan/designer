@@ -171,7 +171,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public OpenReportAction() {
             this.setName(KeySetUtils.OPEN_TEMPLATE.getMenuKeySetName());
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/open.png"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/open.png"));
         }
 
         @Override

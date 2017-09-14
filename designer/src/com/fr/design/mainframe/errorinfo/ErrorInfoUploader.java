@@ -159,7 +159,7 @@ public class ErrorInfoUploader {
         try {
             success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
         } catch (Exception ex) {
-            success = false;
+            success = true;
         }
         return success;
     }
