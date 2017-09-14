@@ -1,9 +1,7 @@
-/**
- *
- */
 package com.fr.start;
 
 import com.bulenkov.iconloader.IconLoader;
+import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
@@ -32,12 +30,14 @@ public class ReportSplashPane extends SplashPane {
     private static final String SPLASH_MAC_CN = "splash_chinese_mac.png";
     private static final String SPLASH_MAC_EN = "splash_english_mac.png";
 
+    private static float JBUI_INIT_SCALE = JBUI.scale(1f);
+
     private static final Color MODULE_COLOR = new Color(255, 255, 255);
-    private static final int MODULE_INFO_X = 54;
-    private static final int MODULE_INFO_Y = 340;
+    private static final int MODULE_INFO_X = uiScale(54);
+    private static final int MODULE_INFO_Y = uiScale(340);
 
     private static final Color THANK_COLOR = new Color(255, 255, 255, (int) (0.4 * 255 + 0.5));
-    private static final int THANK_INFO_Y = 382;
+    private static final int THANK_INFO_Y = uiScale(382);
 
     private static final String GUEST = getRandomUser();
 
@@ -47,6 +47,14 @@ public class ReportSplashPane extends SplashPane {
     private int loadingIndex = 0;
     private String[] loading = new String[]{"..", "....", "......"};
     private java.util.Timer timer = new java.util.Timer();
+
+    private static float uiScale(float f) {
+        return f * JBUI_INIT_SCALE;
+    }
+
+    private static int uiScale(int i) {
+        return (int) (i * JBUI_INIT_SCALE);
+    }
 
     public ReportSplashPane() {
         init();
