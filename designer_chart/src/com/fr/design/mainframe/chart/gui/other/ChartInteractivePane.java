@@ -216,7 +216,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (valueFormatPane == null) {
-                    valueFormatPane = new FormatPane();
+                    valueFormatPane = new FormatPaneWithOutFont();
                 }
                 Point comPoint = dataPointValueFormat.getLocationOnScreen();
                 Point arrowPoint = new Point(comPoint.x - DET, comPoint.y + dataPointValueFormat.getHeight());
