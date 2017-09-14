@@ -502,7 +502,7 @@ public class UIResizableContainer extends JPanel {
                         button = UIConstants.DRAG_LEFT_PRESS;
                     }
                 }
-                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, 5, null);
+                g.drawImage(button, 3, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
             } else {
                 g.drawImage(UIConstants.DRAG_BAR, 0, 0, toolPaneHeight, getHeight(), null);
                 if (containerWidth == toolPaneHeight) {
