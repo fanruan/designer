@@ -33,6 +33,10 @@ public class BackgroundPane extends AbstractBasicStylePane {
 
     protected BackgroundQuickPane[] paneList;
 
+    //获取当前面板
+    protected JPanel currentPane = null;
+
+
     public BackgroundPane() {
         this.initComponents();
     }
@@ -141,6 +145,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
             if (pane.accept(background)) {
                 pane.populateBean(background);
                 typeComboBox.setSelectedIndex(i);
+                currentPane = paneList[i];
                 return;
             }
         }

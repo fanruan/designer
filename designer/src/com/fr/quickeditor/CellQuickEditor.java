@@ -235,6 +235,8 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             public void actionPerformed(ActionEvent e) {
                 cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
                 selectedIndex = comboBox.getSelectedIndex();
+                comboBox.setPopupVisible(false);
+                comboBox.repaint();
                 cellInsertActions[selectedIndex].actionPerformed(e);
                 comboBox.setSelectedIndex(currentSelectedIndex);
             }

@@ -852,6 +852,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 } else if (isMovable) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                    setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
                 } else {
                     setCursor(Cursor.getDefaultCursor());
                 }

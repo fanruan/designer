@@ -113,6 +113,7 @@ public interface UIConstants {
     public static final Color TAB_BUTTON_HOVER_SELECTED = new Color(239, 238, 243);
     public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
+    public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
 
 
 

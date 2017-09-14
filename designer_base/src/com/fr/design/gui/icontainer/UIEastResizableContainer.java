@@ -308,7 +308,7 @@ public class UIEastResizableContainer extends JPanel {
                 }
             }
 //                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
-            g.drawImage(button, 18, 9, 5, 5, null);
+            g.drawImage(button, 18, 7, 5, 10, null);
         }
     }
 
