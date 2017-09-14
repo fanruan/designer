@@ -6,6 +6,7 @@ import com.fr.base.chart.BasePlot;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
@@ -87,6 +88,7 @@ public abstract class UIListControlPane extends UIControlPane {
     protected void initLeftPane(JPanel leftPane) {
         nameableList = createJNameList();
         nameableList.setName(LIST_NAME);
+        nameableList.setSelectionBackground(UIConstants.ATTRIBUTE_PRESS);
         leftPane.add(new UIScrollPane(nameableList), BorderLayout.CENTER);
 
 
