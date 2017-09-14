@@ -64,6 +64,9 @@ public interface UIConstants {
             Constants.LINE_MEDIUM_DASH_DOT_DOT, //medium dash-dot-dot border
             Constants.LINE_SLANTED_DASH_DOT, //slanted dash-dot border
     };
+    public static final Color COMBOBOX_BTN_NORMAL = new Color(0xD9DADD);
+    public static final Color COMBOBOX_BTN_ROLLOVER = new Color(0xC8C9CD);
+    public static final Color COMBOBOX_BTN_PRESS = new Color(0xD8F2FD);
     public static final Color LINE_COLOR = new Color(153, 153, 153);
     public static final Color FONT_COLOR = new Color(51, 51, 51);
     public static final Color LIGHT_BLUE = new Color(182, 217, 253);

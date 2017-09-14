@@ -51,11 +51,11 @@ public class UIButtonUI extends BasicButtonUI {
 
     protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
         if (isPressed(b) && b.isPressedPainted()) {
-            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
+            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.COMBOBOX_BTN_PRESS);
         } else if (isRollOver(b)) {
-            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_ROLLOVER);
         } else if (b.isNormalPainted()) {
-            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_NORMAL);
         }
     }
 
