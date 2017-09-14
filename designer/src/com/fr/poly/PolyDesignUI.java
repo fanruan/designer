@@ -106,7 +106,7 @@ public class PolyDesignUI extends ComponentUI {
             BlockCreator creator = addedData.getAddedAt(i);
             // richer:如果当前这个组件正在编辑，那么他是完全被他的编辑器所遮挡的，不需要画出来
 			if (creator == designer.getSelection()) {
-                paintPositionLine(g, Math.round(creator.getX() * time), Math.round(creator.getY() * time),
+                paintPositionLine(g, Math.round(creator.getX(time)), Math.round(creator.getY(time)),
                         Math.round(designer.getHorizontalValue()*time), Math.round(designer.getVerticalValue()*time));
                 if (creator.getEditor().isDragging()) {
                     creator.getEditor().paintAbsorptionline(g);
