@@ -37,12 +37,9 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		valueBox = new UIComboBox();
 		filterPane = new ChartDataFilterPane(new MeterPlot(), parent);
 
-		nameBox.setPreferredSize(new Dimension(100, 20));
-		valueBox.setPreferredSize(new Dimension(100, 20));
-
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = { p,f};
+		double[] columnSize = {f, COMPONENT_WIDTH};
 		double[] rowSize = {p, p};
 
         Component[][] components = createComponents();

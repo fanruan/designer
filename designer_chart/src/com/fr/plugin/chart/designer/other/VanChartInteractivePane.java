@@ -111,7 +111,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
             return null;
         }
         zoomWidget = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
-        zoomResize = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Open"), Inter.getLocText("Plugin-ChartF_Close")});
+        zoomResize = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Change"), Inter.getLocText("Plugin-ChartF_Non_Adjustment")});
         from = new TinyFormulaPane();
         to = new TinyFormulaPane();
         zoomType = new UIButtonGroup(getNameArray(), getValueArray());
