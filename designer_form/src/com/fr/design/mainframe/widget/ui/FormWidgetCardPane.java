@@ -8,7 +8,6 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.widget.DataModify;
 import com.fr.design.widget.Operator;
