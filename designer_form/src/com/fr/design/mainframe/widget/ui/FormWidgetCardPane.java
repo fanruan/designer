@@ -152,8 +152,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
     private void initDefinePane() {
         currentEditorDefinePane = null;
-        boolean dedicateLayout = xCreator.acceptType(XWScaleLayout.class) && xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator() || xCreator.acceptType(XWTitleLayout.class);
-        XCreator creator = dedicateLayout ? (XCreator) xCreator.getComponent(0) : xCreator;
+        XCreator creator = getXCreatorDedicated();
         FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
@@ -168,6 +167,10 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         currentEditorDefinePane = definePane;
     }
 
+    private XCreator getXCreatorDedicated(){
+        boolean dedicateLayout = xCreator.acceptType(XWScaleLayout.class) && xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator() || xCreator.acceptType(XWTitleLayout.class);
+        return dedicateLayout ? (XCreator) xCreator.getComponent(0) : xCreator;
+    }
 
     @Override
     public String title4PopupWindow() {
@@ -217,7 +220,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     }
 
     public void fireValueChanged() {
-        xCreator.firePropertyChange();
+        XCreator creator = getXCreatorDedicated();
+        creator.firePropertyChange();
         designer.fireTargetModified();
         designer.refreshDesignerUI();
     }
