@@ -37,6 +37,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     protected CardLayout cardLayout;
     protected JPanel cardPane;
     protected BasePlot plot;
+    private static final int TOP_TOOLBAR_HEIGHT = 24;
 
     public UIControlPane() {
         this.initComponentPane();
@@ -192,11 +193,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
-        topToolBar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f};
-        double[] rowSize = {p};
+        double[] rowSize = {TOP_TOOLBAR_HEIGHT};
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(getAddItemText()), topToolBar},
         };

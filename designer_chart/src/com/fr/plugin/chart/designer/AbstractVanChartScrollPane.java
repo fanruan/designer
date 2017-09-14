@@ -13,7 +13,7 @@ public abstract class AbstractVanChartScrollPane<T> extends BasicScrollPane<T> {
 
     protected void layoutContentPane() {
         leftcontentPane = createContentPane();
-        leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, original));
+        leftcontentPane.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 10, original));
         this.add(leftcontentPane);
     }
 

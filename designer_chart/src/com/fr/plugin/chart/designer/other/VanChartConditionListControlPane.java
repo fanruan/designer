@@ -6,6 +6,7 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.general.Inter;
@@ -26,9 +27,10 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
         super(plot);
     }
 
-    @Override
-    public void populate(Nameable[] nameableArray) {
+    public void populate(Nameable[] nameableArray, Class<? extends ConditionAttributesPane> showPane) {
         initComponentPane();
+        NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, showPane)};
+        refreshNameableCreator(creators);
         super.populate(nameableArray);
     }
 

@@ -24,7 +24,7 @@ public class VerticalRulerUI  extends RulerUI{
             g.setColor(BaseRuler.UNIT_SIGN_COLOR);
             if (i % BaseRuler.SCALE_10 == 0) {
                 double times = (double) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution() / ScreenResolution.getScreenResolution();
-                String text = Utils.convertNumberStringToString(Math.round(i / times));
+                String text = Utils.convertNumberStringToString(Math.round((i / times) / showText));
                 GraphHelper.drawLine(g, size.width, toPX(i) / ratio - extra, 0, toPX(i) / ratio - extra);
                 Graphics2D gg = (Graphics2D) g.create(0, (int) (toPX(i) / ratio - extra + 1), size.width, BaseRuler.NUMBER_99);
                 BaseUtils.drawStringStyleInRotation(gg, BaseRuler.NUMBER_11, BaseRuler.NUMBER_100, text, Style.getInstance().deriveVerticalAlignment(1).deriveRotation(

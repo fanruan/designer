@@ -2,7 +2,7 @@ package com.fr.plugin.chart.pie;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -24,7 +24,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
     private static final double MIN_RADIUS = 0;
     private static final double MAX_RADIUS = Double.MAX_VALUE;
 
-    private UIComboBox radiusType;//半径类型
+    private UIButtonGroup radiusType;//半径类型
     private JPanel radiusContent;//半径的布局界面
     private UISpinner radius;//半径值
 
@@ -37,7 +37,7 @@ public class RadiusCardLayoutPane extends BasicBeanPane<Plot> {
 
         Map<String, Component> paneList = new HashMap<String, Component>();
 
-        radiusType = new UIComboBox(new String[]{Inter.getLocText("Plugin-ChartF_Auto"), Inter.getLocText("Plugin-ChartF_Fixed_Radius")});
+        radiusType = new UIButtonGroup(new String[]{Inter.getLocText("Plugin-ChartF_Auto"), Inter.getLocText("Plugin-ChartF_Fixed")});
         radius = new UISpinner(MIN_RADIUS, MAX_RADIUS, 1, 100);
 
         radiusContent = new JPanel(new BorderLayout());

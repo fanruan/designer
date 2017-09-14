@@ -64,8 +64,7 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
         populateSourcePane(plot);
 
         boolean enabled = !CompatibleGEOJSONHelper.isDeprecated(plot.getGeoUrl());
-        //todo@shine9.0
-        //GUICoreUtils.setEnabled(this.getTypePane(), enabled);
+        GUICoreUtils.setEnabled(this.getTypePane(), enabled);
         GUICoreUtils.setEnabled(this.getSourceChoosePane().getSourceComboBox(), enabled);
 
         checkDemosBackground();

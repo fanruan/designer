@@ -360,7 +360,7 @@ public abstract class JListControlPane extends JControlPane {
             this.creator = creators[0];
             this.setName(Inter.getLocText("FR-Action_Add"));
             this.setMnemonic('A');
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
         @Override

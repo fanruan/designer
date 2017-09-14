@@ -1,11 +1,12 @@
 package com.fr.design.widget.component;
 
+import com.fr.base.Formula;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.editor.editor.*;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-
+import com.fr.stable.StringUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,13 +18,16 @@ import java.awt.*;
 public class DateValuePane extends JPanel {
     private UIButtonGroup widgetValueHead;
     private Editor[] editor;
+    private static final String NONE_EDITOR_NAME = Inter.getLocText("None");
+    private static final String DATE_EDITOR_NAME = Inter.getLocText("Date");
+    private static final String FORMULA_EDITOR_NAME = Inter.getLocText("Parameter-Formula");
 
 
     public DateValuePane() {
         editor = new Editor[]{
-                new NoneEditor(null, Inter.getLocText("None")),
-                new DateEditor(true, Inter.getLocText("Date")),
-                new FormulaEditor(Inter.getLocText("Parameter-Formula"))
+                new NoneEditor(null, NONE_EDITOR_NAME),
+                new DateEditor(true, DATE_EDITOR_NAME),
+                new FormulaEditor(FORMULA_EDITOR_NAME)
         };
         this.setLayout(new BorderLayout(0, LayoutConstants.VGAP_SMALL));
         final CardLayout cardLayout = new CardLayout();
@@ -56,6 +60,9 @@ public class DateValuePane extends JPanel {
         int index = widgetValueHead.getSelectedIndex();
         Editor e = editor[index];
         Object value = e.getValue();
+        if(value == null && ComparatorUtils.equals(FORMULA_EDITOR_NAME, e.getName())){
+            value = new Formula(StringUtils.EMPTY);
+        }
         return value;
     }
 

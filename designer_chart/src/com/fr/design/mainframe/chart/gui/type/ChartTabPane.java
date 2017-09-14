@@ -21,7 +21,7 @@ public abstract class ChartTabPane extends MultiTabPane<Chart> {
     @Override
     protected void initLayout() {
         JPanel tabPanel = new JPanel(new BorderLayout());
-        tabPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 10, getBackground()));
+        tabPanel.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 10, getBackground()));
         tabPanel.add(tabPane, BorderLayout.CENTER);
         this.setLayout(new BorderLayout(0, 4));
         this.add(tabPanel, BorderLayout.NORTH);

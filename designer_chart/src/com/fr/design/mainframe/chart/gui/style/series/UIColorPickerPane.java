@@ -259,9 +259,9 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		if (designTypeButtonGroup.getSelectedIndex() == 0) {
 			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width, upControlPane.getPreferredSize().height + MARGIN_TOP);
 		} else {
-			int extra = stagePanel == null ? 0 : stagePanel.getPreferredSize().height + this.MARGIN_TOP;
+			int extra = stagePanel == null ? 0 : stagePanel.getPreferredSize().height + MARGIN_TOP;
 			return new Dimension(colorGroup.getPreferredSize().width + textGroup.getPreferredSize().width,
-					extra + textGroup.getPreferredSize().height + upControlPane.getPreferredSize().height + OFF_HEIGHT);
+					extra + textGroup.getPreferredSize().height + upControlPane.getPreferredSize().height + OFF_HEIGHT + MARGIN_TOP);
 		}
 	}
 
@@ -616,8 +616,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
         @Override
         public void layoutContainer(Container parent) {
             upControlPane.setBounds(MARGIN_LEFT, MARGIN_TOP, UPCONTROLPANE_WIDTH, upControlPane.getPreferredSize().height);
-            colorGroup.setBounds(COLORGROUP_MARGIN_LEFT, MARGIN_TOP + upControlPane.getPreferredSize().height + LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
-            textGroup.setBounds(colorGroup.getPreferredSize().width + COLORGROUP_MARGIN_LEFT, upControlPane.getPreferredSize().height + LAYOUR_DET, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
+			colorGroup.setBounds(COLORGROUP_MARGIN_LEFT, 2 * MARGIN_TOP + upControlPane.getPreferredSize().height + LAYOUR_DET, colorGroup.getPreferredSize().width, colorGroup.getPreferredSize().height + upControlPane.getPreferredSize().height);
+			textGroup.setBounds(colorGroup.getPreferredSize().width + COLORGROUP_MARGIN_LEFT, MARGIN_TOP + upControlPane.getPreferredSize().height + LAYOUR_DET, textGroup.getPreferredSize().width, textGroup.getPreferredSize().height);
         }
 
 		@Override

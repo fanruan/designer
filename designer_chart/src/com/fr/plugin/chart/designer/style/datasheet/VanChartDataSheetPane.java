@@ -4,7 +4,6 @@ import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.DataSheet;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
@@ -89,8 +88,9 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         borderPane = new VanChartBorderPane();
 
         double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {LayoutConstants.CHART_ATTR_TOMARGIN, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+        double[] columnSize = {d, e};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Base_Format"),formatPane),null},
@@ -98,7 +98,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_Border"),borderPane),null},
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
     }
 
     @Override

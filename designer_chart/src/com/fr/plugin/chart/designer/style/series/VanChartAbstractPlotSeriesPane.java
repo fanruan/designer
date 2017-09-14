@@ -64,9 +64,11 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     private UINumberDragPane transparent;//不透明度
 
-    protected VanChartCustomStackAndAxisEditPane stackAndAxisEditPane;//堆積和坐標軸
+    protected VanChartStackedAndAxisListControlPane stackAndAxisEditPane;//堆積和坐標軸
+    protected JPanel stackAndAxisEditExpandablePane;//堆積和坐標軸展开面板
 
     private RadiusCardLayoutPane radiusPane;//半径设置界面
+    private JPanel radiusPaneWithTitle;
 
     private UIButtonGroup<DataProcessor> largeDataModelGroup;//大数据模式
 
@@ -157,9 +159,10 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     //半径界面
-    protected RadiusCardLayoutPane createRadiusPane() {
+    protected JPanel createRadiusPane() {
         radiusPane = initRadiusPane();
-        return radiusPane;
+        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Radius_Set"), radiusPane);
+        return ((VanChartPlot)plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
     protected JPanel createLargeDataModelPane() {
@@ -251,13 +254,14 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartCustomStackAndAxisEditPane();
-        return stackAndAxisEditPane;
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane();
+        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        return stackAndAxisEditExpandablePane;
     }
 
     //界面上删除堆积和坐标轴设置
     protected void removeStackWholePane() {
-        contentPane.remove(stackAndAxisEditPane);
+        contentPane.remove(stackAndAxisEditExpandablePane);
         contentPane.repaint();
     }
 
@@ -284,7 +288,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
             VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
             if(rectanglePlot.isCustomChart()){
-                stackAndAxisEditPane.populateBean(rectanglePlot);
+                stackAndAxisEditPane.populate(rectanglePlot);
             } else {
                 removeStackWholePane();
             }
@@ -307,10 +311,10 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * @param plot
      */
     private void checkRadiusPane(Plot plot) {
-        radiusPane.setVisible(true);
+        radiusPaneWithTitle.setVisible(true);
         if (plot instanceof VanChartPlot){
             if (((VanChartPlot) plot).isInCustom()){
-                radiusPane.setVisible(false);
+                radiusPaneWithTitle.setVisible(false);
             }
         }
     }
@@ -339,7 +343,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
             VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
             if(rectanglePlot.isCustomChart()){
-                stackAndAxisEditPane.updateBean(rectanglePlot);
+                stackAndAxisEditPane.update(rectanglePlot);
             }
         }
 

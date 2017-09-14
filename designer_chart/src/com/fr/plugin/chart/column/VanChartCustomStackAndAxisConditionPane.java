@@ -33,12 +33,13 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
 
     private LiteConditionPane liteConditionPane;
 
-    public VanChartCustomStackAndAxisConditionPane(){
+    public VanChartCustomStackAndAxisConditionPane() {
 
     }
 
-    private void doLayoutPane(){
+    private void doLayoutPane() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.removeAll();
 
         //配置界面
         JPanel deployPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
@@ -56,23 +57,22 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
         liteConditionPane.setPreferredSize(new Dimension(300, 300));
     }
 
-    private JPanel createDeployPane()
-    {
+    private JPanel createDeployPane() {
         isStacked = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"), Inter.getLocText("Plugin-ChartF_NO")});
         isPercentStacked = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"), Inter.getLocText("Plugin-ChartF_NO")});
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p,p};
-        double[] rowSize = {p,p,p,p};
+        double[] columnSize = {p, p};
+        double[] rowSize = {p, p, p, p};
 
         return TableLayoutHelper.createTableLayoutPane(getDeployComponents(), rowSize, columnSize);
     }
 
     protected Component[][] getDeployComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("ChartF-X_Axis")),XAxis},
-                new Component[]{new UILabel(Inter.getLocText("ChartF-Y_Axis")),YAxis},
-                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Type_Stacked")),isStacked},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_PercentStacked")),isPercentStacked},
+                new Component[]{new UILabel(Inter.getLocText("ChartF-X_Axis")), XAxis},
+                new Component[]{new UILabel(Inter.getLocText("ChartF-Y_Axis")), YAxis},
+                new Component[]{new UILabel(Inter.getLocText("FR-Chart-Type_Stacked")), isStacked},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_PercentStacked")), isPercentStacked},
         };
 
         isStacked.addActionListener(new ActionListener() {
@@ -93,8 +93,8 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
         isPercentStacked.setEnabled(isStacked.getSelectedIndex() == 0);
     }
 
-    public void populateBean(ConditionAttr conditionAttr){
-        AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis)conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
+    public void populateBean(ConditionAttr conditionAttr) {
+        AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis) conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
         XAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getXAxisNamesArray());
         YAxis = new UIButtonGroup<Integer>(seriesStackAndAxis.getYAxisNameArray());
 
@@ -113,30 +113,26 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
         checkBox();
     }
 
-    public void updateBean(ConditionAttr conditionAttr){
-        AttrSeriesStackAndAxis seriesStackAndAxis = (AttrSeriesStackAndAxis)conditionAttr.getExisted(AttrSeriesStackAndAxis.class);
-
-        seriesStackAndAxis.setXAxisIndex(XAxis.getSelectedIndex());
-        seriesStackAndAxis.setYAxisIndex(YAxis.getSelectedIndex());
-
-        updateStackAndPercent(seriesStackAndAxis);
-
-        AbstractCondition con = (AbstractCondition) this.liteConditionPane.updateBean();
-        conditionAttr.setCondition(con);
-    }
-
     protected void updateStackAndPercent(AttrSeriesStackAndAxis seriesStackAndAxis) {
         seriesStackAndAxis.setStacked(isStacked.getSelectedIndex() == 0);
-        if(seriesStackAndAxis.isStacked()){
+        if (seriesStackAndAxis.isStacked()) {
             seriesStackAndAxis.setPercentStacked(isPercentStacked.getSelectedIndex() == 0);
         } else {
             seriesStackAndAxis.setPercentStacked(false);
         }
     }
 
-    public ConditionAttr updateBean(){
+    public ConditionAttr updateBean() {
         ConditionAttr conditionAttr = new ConditionAttr();
-        updateBean(conditionAttr);
+        AttrSeriesStackAndAxis seriesStackAndAxis = new AttrSeriesStackAndAxis();
+        seriesStackAndAxis.setXAxisIndex(XAxis.getSelectedIndex());
+        seriesStackAndAxis.setYAxisIndex(YAxis.getSelectedIndex());
+
+        updateStackAndPercent(seriesStackAndAxis);
+        conditionAttr.addDataSeriesCondition(seriesStackAndAxis);
+
+        AbstractCondition con = (AbstractCondition) this.liteConditionPane.updateBean();
+        conditionAttr.setCondition(con);
         return conditionAttr;
     }
 

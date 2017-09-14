@@ -48,10 +48,8 @@ public class VanChartBubblePlotTableDataContentPane extends AbstractTableDataCon
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {f};
-        double[] rowSize = {p, p};
 
-        double[] columnSize_north = {p, f};
+        double[] columnSize_north = {f, COMPONENT_WIDTH};
         double[] rowSize_north = {p, p, p, p};
 
         Component[][] components_north = new Component[][]{

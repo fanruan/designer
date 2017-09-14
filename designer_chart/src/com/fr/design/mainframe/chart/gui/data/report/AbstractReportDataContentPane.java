@@ -30,7 +30,8 @@ import java.util.List;
  */
 public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartCollection>{
 	private static final double ROW = 6;
-	
+	protected static final double COMPONENT_WIDTH = 124;
+
 	protected UICorrelationPane seriesPane;
 	
 	protected abstract String[] columnNames();

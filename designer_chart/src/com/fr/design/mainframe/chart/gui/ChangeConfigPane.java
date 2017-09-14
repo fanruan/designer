@@ -9,7 +9,6 @@ import com.fr.chart.base.AttrChangeType;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
@@ -28,6 +27,8 @@ import java.awt.event.ActionListener;
  */
 public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     private static final int WIDTH = 100;
+    private static final int EDIT_AREA_WIDTH = 180;
+    private static final int LABEL_WIDTH = 20;
     private static final int MIN_TIME = 0;
     private static final int MAX_TIME = Integer.MAX_VALUE;
     private static final int CONSTANT_TEN = 10;
@@ -97,38 +98,47 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
     private JPanel createCarouseConfigPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {p, f, p};
         double[] rowSize = {p, p, p};
         timeInterval = new UISpinner(MIN_TIME, MAX_TIME, 1, 0);
         colorSelectBox4carousel = new ColorSelectBoxWithOutTransparent(WIDTH);
         switchStyleGroup = new UIButtonGroup(new String[]{Inter.getLocText("FR-Designer_Show"), Inter.getLocText("FR-Designer_Hide")});
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Arrow_Style")), switchStyleGroup},
-                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), timeInterval},
-                new Component[]{new UILabel(Inter.getLocText("Background")),colorSelectBox4carousel}
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Arrow_Style")), switchStyleGroup, null},
+                new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Time_Interval")), timeInterval, new UILabel(Inter.getLocText("FR-Base-Time_Second"))},
+                new Component[]{new UILabel(Inter.getLocText("Background")),colorSelectBox4carousel, null}
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
     }
 
-    private JPanel createTitleStylePane(){
-        styleAttrPane = new ChartTextAttrPane(){
+    private JPanel createTitleStylePane() {
+        final UILabel text = new UILabel(Inter.getLocText("Plugin-Chart_Character"), SwingConstants.LEFT);
+        styleAttrPane = new ChartTextAttrPane() {
+            protected JPanel getContentPane(JPanel buttonPane) {
+                double p = TableLayout.PREFERRED;
+                double f = TableLayout.FILL;
+                double[] columnSize = {f, EDIT_AREA_WIDTH};
+                double[] rowSize = {p, p};
+
+                return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
+            }
+
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
-                        new Component[]{fontNameComboBox, null},
-                        new Component[]{buttonPane, null}
+                        new Component[]{text, fontNameComboBox},
+                        new Component[]{null, buttonPane}
                 };
             }
         };
-        styleAttrPane.setPreferredSize(new Dimension(WIDTH, (int) styleAttrPane.getPreferredSize().getHeight()));
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-Chart_Character"), styleAttrPane);
+        return styleAttrPane;
     }
 
 
     private JPanel createButtonBackgroundColorPane(){
         colorSelectBox4button = new ColorSelectBoxWithOutTransparent(WIDTH);
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background"), colorSelectBox4button);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Background"), colorSelectBox4button, EDIT_AREA_WIDTH);
     }
 
     private JPanel createButtonConfigPane() {

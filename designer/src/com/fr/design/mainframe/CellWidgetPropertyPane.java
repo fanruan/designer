@@ -102,31 +102,41 @@ public class CellWidgetPropertyPane extends BasicPane {
     }
 
     public void update() {
-        if (cellElement == null) {// 利用默认的CellElement.
+        if (cellElement == null || !cellEditorDefPane.isShouldFireSelectedEvent()) {
             return;
         }
         final CellSelection finalCS = (CellSelection) ePane.getSelection();
         final TemplateElementCase tplEC = ePane.getEditingElementCase();
-        ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
-            public void dealWith(CellElement editCellElement) {
-                Widget cellWidget = cellEditorDefPane.update();
-                // p:最后把这个cellEditorDef设置到CellGUIAttr.
-                TemplateCellElement cellElement = (TemplateCellElement) editCellElement;
-                if (cellWidget instanceof NoneWidget) {
-                    cellElement.setWidget(null);
-                } else {
-                    if (cellElement.getWidget() != null) {
-                        cellWidget = upDateWidgetAuthority(cellElement, cellWidget);
-                    }
-                    cellElement.setWidget(cellWidget);
-                }
+        if(finalCS.isSelectedOneCell(ePane)){
+            if(tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow())== null){//cellElement未加入到report中时要添加进去
+                tplEC.addCellElement(cellElement);
             }
-        });
+            setCellWidget(cellElement);
+        }else{
+            ReportActionUtils.actionIterateWithCellSelection(finalCS, tplEC, new ReportActionUtils.IterAction() {
+                public void dealWith(CellElement editCellElement) {
+                    // p:最后把这个cellEditorDef设置到CellGUIAttr.
+                    TemplateCellElement templateCellElement = (TemplateCellElement) editCellElement;
+                    setCellWidget(templateCellElement);
+                }
+            });
+        }
         if(DesignerContext.getDesignerFrame().getSelectedJTemplate() != null){
             DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
         }
     }
 
+    private void setCellWidget(TemplateCellElement cellElement){
+        Widget cellWidget = cellEditorDefPane.update();
+        if (cellWidget instanceof NoneWidget) {
+            cellElement.setWidget(null);
+        } else {
+            if (cellElement.getWidget() != null) {
+                cellWidget = upDateWidgetAuthority(cellElement, cellWidget);
+            }
+            cellElement.setWidget(cellWidget);
+        }
+    }
 
     public void reInitAllListener(){
         cellEditorDefPane.registerListener();

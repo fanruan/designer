@@ -9,7 +9,9 @@ import com.fr.data.core.FormatField.FormatContents;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.icombobox.*;
+import com.fr.design.gui.icombobox.TextFontComboBox;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -21,8 +23,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.Format;
@@ -108,8 +108,7 @@ public class FormatPane extends AbstractBasicStylePane {
         UILabel font = new UILabel(Inter.getLocText("FR-Designer_FRFont"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
+
         typeComboBox.setPreferredSize(new Dimension(155,20));
         JPanel typePane = new JPanel(new BorderLayout());
         typePane.add(typeComboBox, BorderLayout.CENTER);
@@ -118,11 +117,16 @@ public class FormatPane extends AbstractBasicStylePane {
         frFontPane.setBorder(LEFT_BORDER);
 
         Component[][] components = getComponent(fontPane, centerPane, typePane);
+        this.add(createContentPane(components), BorderLayout.CENTER);
+    }
+
+    protected JPanel createContentPane (Component[][] components) {
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        this.add(panel, BorderLayout.CENTER);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
     }
 
 
