@@ -27,7 +27,7 @@ public class UIComboBoxRenderer extends DefaultListCellRenderer {
 		cellHasFocus = cellHasFocus && !this.isEnabled();
 		JLabel renderer =(JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		renderer.setForeground(Color.black);
-		list.setSelectionBackground(UIConstants.FLESH_BLUE);
+		list.setSelectionBackground(UIConstants.COMBOBOX_BTN_PRESS);
 		list.setSelectionForeground(Color.black);
 		renderer.setText(" " + renderer.getText());
 		return renderer;
