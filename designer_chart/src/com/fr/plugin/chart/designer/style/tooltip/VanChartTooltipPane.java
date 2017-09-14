@@ -58,12 +58,12 @@ public class VanChartTooltipPane extends AbstractVanChartScrollPane<Chart> {
         if(chart == null) {
             return;
         }
-        ConditionAttr attrList = chart.getPlot().getConditionCollection().getDefaultAttr();
+        AttrTooltip attrTooltip = tooltipPane.update();
         DataSeriesCondition attr = ((VanChartPlot)chart.getPlot()).getAttrTooltipFromConditionCollection();
+        ConditionAttr attrList = chart.getPlot().getConditionCollection().getDefaultAttr();
         if(attr != null) {
             attrList.remove(attr);
         }
-        AttrTooltip attrTooltip = tooltipPane.update();
         if (attrTooltip != null) {
             attrList.addDataSeriesCondition(attrTooltip);
         }
