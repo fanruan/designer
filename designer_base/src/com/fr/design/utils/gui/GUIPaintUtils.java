@@ -85,13 +85,18 @@ public class GUIPaintUtils {
      * @param isPressedPainted 是否按压画
      */
     public static final void fillRollOver(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted) {
+        fillRollOver(g2d, x, y, width, height, isRound, rectDirection, isAuthorityEdited, isPressedPainted, null);
+    }
+
+    public static final void fillRollOver(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted, Color hoverColor) {
         GradientPaint gp;
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (hoverColor != null) {
+            gp = new GradientPaint(1, 1, hoverColor, 1, height - 1, hoverColor);
+        } else if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
             gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.HOVER_BLUE);
         } else if (isPressedPainted) {
             gp = new GradientPaint(1, 1, UIConstants.ATTRIBUTE_HOVER, 1, height - 1, UIConstants.ATTRIBUTE_HOVER);
-        }else {
-//            gp = new GradientPaint(1, 1, UIConstants.NORMAL_BACKGROUND, 1, height - 1, UIConstants.HOVER_BLUE);
+        } else {
             gp = new GradientPaint(1, 1, UIConstants.HOVER_BLUE, 1, height - 1, UIConstants.HOVER_BLUE);
         }
         fillPaint(g2d, x, y, width, height, isRound, rectDirection, gp, UIConstants.ARC);
@@ -110,8 +115,14 @@ public class GUIPaintUtils {
      *
      */
     public static final void fillPressed(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited) {
+        fillPressed(g2d, x, y, width, height, isRound, rectDirection, isAuthorityEdited, null);
+    }
+
+    public static final void fillPressed(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, Color pressedColor) {
         Color oldColor = g2d.getColor();
-        if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
+        if (pressedColor != null) {
+            g2d.setColor(pressedColor);
+        } else if (BaseUtils.isAuthorityEditing() && isAuthorityEdited) {
             g2d.setColor(UIConstants.AUTHORITY_PRESS_BLUE);
         } else {
             g2d.setColor(UIConstants.ATTRIBUTE_PRESS);

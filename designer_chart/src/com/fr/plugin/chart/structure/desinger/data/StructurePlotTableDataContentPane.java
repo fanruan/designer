@@ -31,7 +31,7 @@ public class StructurePlotTableDataContentPane extends AbstractTableDataContentP
     public StructurePlotTableDataContentPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p, p, p, p, p, p};
 
         nodeName = new UIComboBox();
