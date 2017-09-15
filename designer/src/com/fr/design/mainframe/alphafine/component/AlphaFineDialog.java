@@ -150,7 +150,7 @@ public class AlphaFineDialog extends UIDialog {
             }
         };
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
-        closeButton.setIcon(IOUtils.readIcon(AlphaFineConstants.IMAGE_URL + "alphafine_close.png"));
+        closeButton.setIcon(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + "alphafine_close.png"));
         closeButton.set4ToolbarButton();
         closeButton.setBorderPainted(false);
         closeButton.setRolloverEnabled(false);
