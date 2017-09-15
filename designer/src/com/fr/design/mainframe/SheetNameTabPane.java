@@ -54,10 +54,10 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     private static final Icon WORK_SHEET_ICON = BaseUtils.readIcon("com/fr/base/images/oem/worksheet.png");
     private static final Icon POLY_SHEET_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/polysheet.png");
     private static final Image DESIGN_IMAGE = BaseUtils.readImage("com/fr/design/images/sheet/left_right_btn.png");
-    private static final Icon LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 0, 14, 14);
-    private static final Icon RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 0, 14, 14);
-    private static final Icon DISABLED_LEFT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 0, 14, 14, 14);
-    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.createIcon(DESIGN_IMAGE, 14, 14, 14, 14);
+    private static final Icon DISABLED_LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_normal@1x.png");
+    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_normal@1x.png");
+    private static final Icon LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_hover@1x.png");
+    private static final Icon RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_hover@1x.png");
 
     private static final int ICON_SEP_DISTANCE = 8;
     private static final int TOOLBAR_HEIGHT = 16;
@@ -407,7 +407,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         sheeticon.paintIcon(this, g2d, (int) textX + charWidth, 2);
         // peter:画字符
         g2d.setPaint(getForeground());
-        g2d.drawString(sheetName, (int) textX + charWidth + 14, textAscent);
+        GraphHelper.drawString(g2d, sheetName, (int) textX + charWidth + 14, textAscent);
     }
 
     /**
@@ -423,7 +423,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      * @param i
      */
     private void paintUnSelectedTab(Graphics2D g2d, Icon sheetIcon, double textHeight, double textX, String sheetName, int charWidth, int textAscent, int i, boolean isNeedPaintAuthority) {
-        Color tabBackground = UIConstants.SHEET_NORMAL;
+        Color tabBackground = UIConstants.COMBOBOX_BTN_NORMAL;
         int width = widthArray[i];
         double[] x = {textX, textX, textX + LEFT_CORNOR, textX + width - RIGHT_CORNOR, textX + width, textX + width};
         double[] y = {0, textHeight - LEFT_CORNOR, textHeight, textHeight, textHeight - RIGHT_CORNOR, 0};
