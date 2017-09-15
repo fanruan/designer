@@ -1,29 +1,23 @@
 package com.fr.design.gui.icombobox;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import com.fr.common.inputevent.InputEventBaseOnOS;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
+import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
+import sun.swing.DefaultLookup;
 
 import javax.swing.*;
+import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-
-import com.fr.common.inputevent.InputEventBaseOnOS;
-import com.fr.design.constants.UIConstants;
-import sun.swing.DefaultLookup;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
 
@@ -45,6 +39,27 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
         arrowButton = new UIButton(UIConstants.ARROW_DOWN_ICON) {
             public boolean shouldResponseChangeListener() {
                 return false;
+            }
+
+            @Override
+            public ButtonUI getUI() {
+                return new UIButtonUI() {
+                    @Override
+                    protected boolean isPressed(AbstractButton b) {
+                        return model.isArmed() && model.isPressed();
+                    }
+
+                    @Override
+                    protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                        if (isPressed(b) && b.isPressedPainted()) {
+                            GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.COMBOBOX_BTN_PRESS);
+                        } else if (isRollOver(b)) {
+                            GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_ROLLOVER);
+                        } else if (b.isNormalPainted()) {
+                            GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_NORMAL);
+                        }
+                    }
+                };
             }
         };
         ((UIButton) arrowButton).setRoundBorder(true, Constants.LEFT);
