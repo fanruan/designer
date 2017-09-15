@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.component;
 
+import com.bulenkov.iconloader.IconLoader;
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
@@ -21,12 +22,16 @@ import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.NoResultPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
-import com.fr.design.mainframe.alphafine.search.manager.*;
+import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
-import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -44,7 +49,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -134,7 +145,7 @@ public class AlphaFineDialog extends UIDialog {
     private void initComponents() {
         initSearchTextField();
         JPanel topPane = new JPanel(new BorderLayout());
-        UILabel iconLabel = new UILabel(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/bigsearch.png")));
+        UILabel iconLabel = new UILabel(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + "bigsearch.png"));
         iconLabel.setPreferredSize(AlphaFineConstants.ICON_LABEL_SIZE);
         iconLabel.setOpaque(true);
         iconLabel.setBackground(Color.WHITE);
@@ -149,7 +160,7 @@ public class AlphaFineDialog extends UIDialog {
             }
         };
         closeButton.setPreferredSize(AlphaFineConstants.CLOSE_BUTTON_SIZE);
-        closeButton.setIcon(new ImageIcon(getClass().getResource("/com/fr/design/mainframe/alphafine/images/alphafine_close.png")));
+        closeButton.setIcon(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + "alphafine_close.png"));
         closeButton.set4ToolbarButton();
         closeButton.setBorderPainted(false);
         closeButton.setRolloverEnabled(false);
@@ -345,7 +356,7 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void removeLeftPane() {
         if (searchListModel.isEmpty() && defaultPane == null) {
-            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/no_result.png"));
+            defaultPane = new NoResultPane(Inter.getLocText("FR-Designer-AlphaFine_NO_Result"), AlphaFineConstants.IMAGE_URL + "no_result.png");
             searchResultPane.remove(leftSearchResultPane);
             searchResultPane.add(defaultPane, BorderLayout.WEST);
             refreshContainer();
@@ -556,7 +567,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ACTION:
                 rightSearchResultPane.removeAll();
-                rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/noresult.png")));
+                rightSearchResultPane.add(new NoResultPane(Inter.getLocText("FR-Designer_NoResult"), AlphaFineConstants.IMAGE_URL + "noresult.png"));
                 validate();
                 repaint();
                 break;
@@ -698,6 +709,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 处理搜索结果
+     *
      * @param selectedValue
      */
     private void dealWithSearchResult(AlphaCellModel selectedValue) {
