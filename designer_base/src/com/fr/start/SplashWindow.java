@@ -14,13 +14,14 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.OperatingSystem;
+import com.sun.awt.AWTUtilities;
 
 public class SplashWindow extends JFrame {
 
     private SplashPane splash = null;
 
     @SuppressWarnings("LeakingThisInConstructor")
-    public SplashWindow(SplashPane splashPane) {
+    public  SplashWindow(SplashPane splashPane) {
         // alex:必须设置这个属性为true,才可以用透明背景
         System.setProperty("sun.java2d.noddraw", "true");
 
@@ -45,7 +46,8 @@ public class SplashWindow extends JFrame {
 
         this.setAlwaysOnTop(false);
         this.setUndecorated(true);
-        
+        AWTUtilities.setWindowOpaque(this, false);
+
         //使窗体背景透明
         if (OperatingSystem.isWindows()) {
             this.setBackground(new Color(0,0,0,0));

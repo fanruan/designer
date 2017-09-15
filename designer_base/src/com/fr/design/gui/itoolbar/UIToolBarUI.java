@@ -25,6 +25,8 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIToolButtonBorder;
 import com.fr.design.gui.icheckbox.UICheckBox;
 
+import static com.fr.design.utils.ThemeUtils.BACK_COLOR;
+
 public class UIToolBarUI extends MetalToolBarUI {
     public static final String IS_TOOL_BAR_BUTTON_KEY = "JToolBar.isToolbarButton";
     public static final int FLOATABLE_GRIP_SIZE = 8;
@@ -89,7 +91,7 @@ public class UIToolBarUI extends MetalToolBarUI {
      */
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(UIConstants.TOOLBARUI_BACKGROUND);
+        g2.setColor(BACK_COLOR);
         g2.fillRect(0, 0, c.getWidth(), c.getHeight());
     }
 

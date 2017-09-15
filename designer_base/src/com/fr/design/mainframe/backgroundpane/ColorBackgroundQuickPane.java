@@ -18,6 +18,7 @@ import java.awt.*;
 public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
 	private NewColorSelectPane detailColorSelectPane;
+	private boolean isBackGroundColor;
 
 	public ColorBackgroundQuickPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -28,12 +29,17 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
 	public void populateBean(Background background) {
 		ColorBackground colorBackgroud = (ColorBackground) background;
+		isBackGroundColor = false;
 		this.detailColorSelectPane.setColor(colorBackgroud.getColor());
 	}
 
 	public Background updateBean() {
 		this.detailColorSelectPane.updateUsedColor();
 		return ColorBackground.getInstance(this.detailColorSelectPane.getNotNoneColor());
+	}
+
+	public boolean isBackGroundColor(){
+		return isBackGroundColor;
 	}
 
 	/**
@@ -45,6 +51,7 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 		detailColorSelectPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				listener.doChange();
+				isBackGroundColor = true;
 			}
 		});
 	}

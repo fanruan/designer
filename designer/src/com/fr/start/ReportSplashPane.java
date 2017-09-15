@@ -1,8 +1,7 @@
-/**
- *
- */
 package com.fr.start;
 
+import com.bulenkov.iconloader.IconLoader;
+import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
@@ -10,8 +9,6 @@ import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
-import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.ModuleAdapter;
@@ -19,9 +16,6 @@ import com.fr.stable.module.ModuleListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.image.BufferedImage;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimerTask;
@@ -36,12 +30,14 @@ public class ReportSplashPane extends SplashPane {
     private static final String SPLASH_MAC_CN = "splash_chinese_mac.png";
     private static final String SPLASH_MAC_EN = "splash_english_mac.png";
 
-    private static final Color MODULE_COLOR = new Color(230, 230, 230);
-    private static final int MODULE_INFO_X = 25;
-    private static final int MODULE_INFO_Y = 270;
+    private static float JBUI_INIT_SCALE = JBUI.scale(1f);
 
-    private static final Color THANK_COLOR = new Color(72, 216, 249);
-    private static final int THANK_INFO_X = 460;
+    private static final Color MODULE_COLOR = new Color(255, 255, 255);
+    private static final int MODULE_INFO_X = uiScale(54);
+    private static final int MODULE_INFO_Y = uiScale(340);
+
+    private static final Color THANK_COLOR = new Color(255, 255, 255, (int) (0.4 * 255 + 0.5));
+    private static final int THANK_INFO_Y = uiScale(382);
 
     private static final String GUEST = getRandomUser();
 
@@ -51,6 +47,14 @@ public class ReportSplashPane extends SplashPane {
     private int loadingIndex = 0;
     private String[] loading = new String[]{"..", "....", "......"};
     private java.util.Timer timer = new java.util.Timer();
+
+    private static float uiScale(float f) {
+        return f * JBUI_INIT_SCALE;
+    }
+
+    private static int uiScale(int i) {
+        return (int) (i * JBUI_INIT_SCALE);
+    }
 
     public ReportSplashPane() {
         init();
@@ -80,52 +84,34 @@ public class ReportSplashPane extends SplashPane {
     }
 
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        Image image = getSplashImage();
-        ImageIcon imageIcon = new ImageIcon(image);
-        GraphHelper.paintImage(g2d, imageIcon.getIconWidth(), imageIcon.getIconHeight(), image, Constants.IMAGE_DEFAULT, Constants.NULL, Constants.CENTER, -1, -1);
+        Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
+        icon.paintIcon(null, g, 0, 0);
+        paintShowText((Graphics2D) g);
     }
 
     public void setShowText(String text) {
         this.showText = text;
     }
 
-    public BufferedImage getSplashImage() {
-        // p:初始化splashImage,其中画了字符.
-        Image image = createSplashBackground();
-        BufferedImage splashBuffedImage = CoreGraphHelper.toBufferedImage(image);
-
-        Graphics2D splashG2d = splashBuffedImage.createGraphics();
-        splashG2d.setPaint(new Color(230, 230, 230));
-        splashG2d.setFont(new Font("Dialog", Font.PLAIN, 11));
-
-        //绘制需要显示的文本
-        paintShowText(splashG2d);
-
-        return splashBuffedImage;
+    public Image getSplashImage() {
+        Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
+        return ((ImageIcon) IconLoader.getIconSnapshot(icon)).getImage();
     }
 
     private void paintShowText(Graphics2D splashG2d) {
-        FontRenderContext fontRenderContext = splashG2d.getFontRenderContext();
-        LineMetrics fm = splashG2d.getFont().getLineMetrics("",
-                fontRenderContext);
-        double leading = fm.getLeading();
-        double ascent = fm.getAscent();
-        double height = fm.getHeight();
+        GraphHelper.applyRenderingHints(splashG2d);
 
         splashG2d.setPaint(MODULE_COLOR);
         splashG2d.setFont(new Font("Dialog", Font.PLAIN, 12));
 
         //加载模块信息
-        double y = MODULE_INFO_Y + height + leading + ascent;
-        GraphHelper.drawString(splashG2d, showText, MODULE_INFO_X, y);
+        GraphHelper.drawString(splashG2d, showText, MODULE_INFO_X, MODULE_INFO_Y);
 
         //每次随机感谢一位论坛用户
         if (shouldShowThanks()) {
             splashG2d.setPaint(THANK_COLOR);
             String content = Inter.getLocText("FR-Designer_Thanks-To") + GUEST;
-            GraphHelper.drawString(splashG2d, content, THANK_INFO_X, y);
+            GraphHelper.drawString(splashG2d, content, MODULE_INFO_X, THANK_INFO_Y);
         }
     }
 

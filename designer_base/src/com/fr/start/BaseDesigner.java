@@ -64,7 +64,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             setDebugEnv();
         }
         RestartHelper.deleteRecordFilesWhenStart();
-
+        //初始化插件引擎
+        PluginStartup.start();
+        
         SiteCenter.getInstance();
 
         DesignUtils.setPort(getStartPort());
@@ -95,8 +97,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignUtils.initLookAndFeel();
 
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
-        //初始化插件引擎
-        PluginStartup.start();
+    
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();

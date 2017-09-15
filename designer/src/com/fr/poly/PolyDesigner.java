@@ -272,7 +272,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
         this.time = (float) resolution / ScreenResolution.getScreenResolution();
         resetEditorComponentBounds();
-        LayoutUtils.layoutRootContainer(this);
         g.setColor(Color.black);
         GraphHelper.drawLine(g, 0, 0, this.getWidth(), 0);
         GraphHelper.drawLine(g, 0, 0, 0, this.getHeight());
@@ -281,7 +280,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     private void resetEditorComponentBounds() {
         if (selection != null) {
-            selection.setResolution(this.resolution);
+            selection.setResolution(ScreenResolution.getScreenResolution());
             selection.getEditor().setBounds((int) (selection.getEditorBounds().x * time), (int) (selection.getEditorBounds().y * time),
                     (int) (selection.getEditorBounds().width * time), (int) (selection.getEditorBounds().height * time));
             LayoutUtils.layoutRootContainer(this);

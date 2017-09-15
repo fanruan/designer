@@ -1,5 +1,6 @@
 package com.fr.design.foldablepane;
 
+import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxUtilities;
 
@@ -53,6 +54,7 @@ public class HeaderPane extends JPanel {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         BufferedImage panelImage = createPanelImage();
         g2d.drawImage(panelImage, null, 0, 0);
+        GraphHelper.drawString(g2d, this.title, TITLE_X, headHeight - fontSize / 2 - 1);
     }
 
     private BufferedImage createPanelImage() {
@@ -67,7 +69,6 @@ public class HeaderPane extends JPanel {
         if (desktopHints != null) {
             g2d.setRenderingHints(desktopHints);
         }
-        g2d.drawString(this.title, TITLE_X, headHeight - fontSize / 2 - 1);
         int leftWdith = headWidth - LEFT_X;
         if (this.isShow) {
             image = UIConstants.DRAG_DOWN_SELECTED_SMALL;
@@ -103,13 +104,13 @@ public class HeaderPane extends JPanel {
     }
 
     public static void main(String[] args) {
-//        JFrame mainFrame = new JFrame("UI Demo - Gloomyfish");
-//        mainFrame.getContentPane().setLayout(new BorderLayout());
-//        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本", 24), BorderLayout.CENTER);
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.pack();
-//        mainFrame.setSize(300, 400);
-//        mainFrame.setVisible(true);
+        JFrame mainFrame = new JFrame("UI Demo - Gloomyfish");
+        mainFrame.getContentPane().setLayout(new BorderLayout());
+        mainFrame.getContentPane().add(new HeaderPane(Color.black, "基本", 24), BorderLayout.CENTER);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setSize(300, 400);
+        mainFrame.setVisible(true);
     }
 
 }

@@ -115,10 +115,11 @@ public class PolyUtils {
 		AddedData addedData = designer.getAddedData();
 		for (int count = addedData.getAddedCount() - 1; count >= 0; count--) {
 			BlockCreator creator = addedData.getAddedAt(count);
-			int cx = creator.getX();
-			int cy = creator.getY();
-			int cw = creator.getWidth();
-			int ch = creator.getHeight();
+			float times = (float) designer.getResolution()/ScreenResolution.getScreenResolution();
+			int cx = (int) (creator.getX() * times);
+			int cy = (int) (creator.getY() * times);
+			int cw = (int) (creator.getWidth() * times);
+			int ch = (int) (creator.getHeight() * times);
 			if (x >= cx && x <= (cx + cw)) {
 				if(y >= cy && y <= (cy + ch)) {
 					return creator;

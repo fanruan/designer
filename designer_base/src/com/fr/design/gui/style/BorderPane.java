@@ -16,6 +16,7 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
@@ -202,12 +203,24 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
         CellBorderStyle cellBorderStyle = this.update();
         HashSet<String> borderSet = new HashSet<String>(Arrays.asList(BORDERARRAY));
-        if (borderSet.contains(globalNameListener.getGlobalName())) {
-            style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
-                    cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-        } else {
-            style = style.deriveBackground(backgroundPane.update());
+        if (backgroundPane.currentPane != backgroundPane.paneList[1]){
+            if (borderSet.contains(globalNameListener.getGlobalName())) {
+                style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
+                        cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
+                style = style.deriveBackground(backgroundPane.update());
+            } else {
+                style = style.deriveBackground(backgroundPane.update());
+            }
+        }else {
+            if (borderSet.contains(globalNameListener.getGlobalName()) && !((ColorBackgroundQuickPane) backgroundPane.currentPane).isBackGroundColor()){
+                style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
+                        cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
+                style = style.deriveBackground(backgroundPane.update());
+            } else {
+                style = style.deriveBackground(backgroundPane.update());
+            }
         }
+
         return style;
     }
 
