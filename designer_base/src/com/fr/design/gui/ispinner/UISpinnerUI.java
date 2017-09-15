@@ -5,7 +5,9 @@
 package com.fr.design.gui.ispinner;
 
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.SpecialUIButton;
+import com.fr.design.gui.ibutton.UIButton;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -42,8 +44,8 @@ public class UISpinnerUI extends BasicSpinnerUI {
     }
 
     protected Component createPreviousButton() {
-        JButton b = new SpecialUIButton(new UISpinnerButtonUI(SwingConstants.SOUTH));
-
+//        JButton b = new SpecialUIButton(new UISpinnerButtonUI(SwingConstants.SOUTH));
+        JButton b = new UIButton(UIConstants.ARROW_DOWN_ICON);
         b.putClientProperty("isSpinnerButton", Boolean.TRUE);
         b.setFocusable(false);
         b.addActionListener(PREVIOUS_BUTTON_HANDLER);
@@ -53,8 +55,8 @@ public class UISpinnerUI extends BasicSpinnerUI {
     }
 
     protected Component createNextButton() {
-        JButton b = new SpecialUIButton(new UISpinnerButtonUI(SwingConstants.NORTH));
-
+//        JButton b = new SpecialUIButton(new UISpinnerButtonUI(SwingConstants.NORTH));
+        JButton b = new UIButton(UIConstants.ARROW_UP_ICON);
         b.putClientProperty("isSpinnerButton", Boolean.TRUE);
         b.setFocusable(false);
         b.addActionListener(NEXT_BUTTON_HANDLER);

@@ -62,7 +62,7 @@ public class UIMenuEastAttrItem extends JMenuItem {
 
             if (menuItem.isOpaque()) {
                 if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
-                    GUIPaintUtils.fillPaint((Graphics2D) g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 0);
+                    GUIPaintUtils.fillPaint((Graphics2D) g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.POPUP_TITLE_BACKGROUND, 0);
                 } else {
                     GUIPaintUtils.fillPaint((Graphics2D) g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.TOOLBARUI_BACKGROUND, 0);
                 }
@@ -70,7 +70,7 @@ public class UIMenuEastAttrItem extends JMenuItem {
             }
             else if (model.isArmed() || (menuItem instanceof JMenu &&
                     model.isSelected())) {
-                GUIPaintUtils.fillPaint((Graphics2D)g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, 7);
+                GUIPaintUtils.fillPaint((Graphics2D)g, 0, 0, menuWidth, menuHeight, true, Constants.NULL, UIConstants.POPUP_TITLE_BACKGROUND, 7);
                 g.setColor(oldColor);
             }
         }
@@ -95,7 +95,6 @@ public class UIMenuEastAttrItem extends JMenuItem {
                                     fm.getAscent() - 1);
                 }
             } else {
-                menuItem.setForeground(isArmed() ? Color.white : Color.black);
                 SwingUtilities2.drawStringUnderlineCharAt(menuItem, g, text,
                         -1, 0, textRect.y + fm.getAscent());
             }

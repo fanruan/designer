@@ -6,6 +6,7 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -33,8 +34,8 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
     private static final int VS_NUM = 4;
     private static final int VG_NUM = 6;
     private static final Dimension NORMAL_DIMENSION = new Dimension(155, 20);
-    private UIBasicSpinner intPartSpinner;
-    private UIBasicSpinner deciPartSpinner;
+    private UISpinner intPartSpinner;
+    private UISpinner deciPartSpinner;
     private UITextField textField;
     private CurrencyLinePreviewPane CurrencyLinePreviewPane;
     private int intPart = 9;
@@ -73,11 +74,11 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
 
     protected void initComponents() {
         // 整数位选择
-        intPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(9, 1, 20, 1));
+        intPartSpinner = new UISpinner(1, 20, 1, 9);
         intPartSpinner.setPreferredSize(NORMAL_DIMENSION);
 
         // 小数位选择
-        deciPartSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 10, 1));
+        deciPartSpinner = new UISpinner(1, 10, 1, 2);
         deciPartSpinner.setPreferredSize(NORMAL_DIMENSION);
         // 预览区域
         textField = new UITextField(10);
@@ -132,8 +133,8 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
      */
     public CurrencyLineAttr update() {
         CurrencyLineAttr currencylineAttr = new CurrencyLineAttr();
-        currencylineAttr.setintPart(((Integer) this.intPartSpinner.getValue()).intValue());
-        currencylineAttr.setdeciPart(((Integer) this.deciPartSpinner.getValue()).intValue());
+        currencylineAttr.setintPart((int) this.intPartSpinner.getValue());
+        currencylineAttr.setdeciPart((int) this.deciPartSpinner.getValue());
         return currencylineAttr;
     }
 
@@ -225,8 +226,8 @@ public class CurrencyLinePane extends FurtherBasicBeanPane<CurrencyLinePresent> 
     @Override
     public CurrencyLinePresent updateBean() {
         CurrencyLineAttr currencylineAttr = new CurrencyLineAttr();
-        currencylineAttr.setintPart(((Integer) this.intPartSpinner.getValue()).intValue());
-        currencylineAttr.setdeciPart(((Integer) this.deciPartSpinner.getValue()).intValue());
+        currencylineAttr.setintPart((int) this.intPartSpinner.getValue());
+        currencylineAttr.setdeciPart((int) this.deciPartSpinner.getValue());
         return new CurrencyLinePresent(currencylineAttr);
     }
 
