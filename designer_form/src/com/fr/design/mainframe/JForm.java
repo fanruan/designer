@@ -244,10 +244,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                         || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
                     setPropertyPaneChange(formDesign.getRootComponent());
                 } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
-                    // 防止多次触发
-                    if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
-                        return;
-                    }
                     lastAffectedCreator = evt.getAffectedCreator();
                     setPropertyPaneChange(lastAffectedCreator);
                 }

@@ -157,7 +157,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         wsp.setBorder(null);
         mobileParaWidgetTable = new MobileParaWidgetTable(designer);
         mobileWidgetTable = new MobileWidgetTable(designer);
-        designer.addDesignerEditListener(new mobileWidgetDesignerAdapter());
+        designer.addDesignerEditListener(new MobileWidgetDesignerAdapter());
         centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         cardLayout = (CardLayout) centerPane.getLayout();
         centerPane.add(mobileParaWidgetTable, PARA);
@@ -245,7 +245,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
      */
     private Component getExtraBodyTable(AbstractPropertyTable abstractPropertyTable) {
         Widget selection = designer.getSelectionModel().getSelection().getSelectedCreator().toData();
-        if (selection.getWidgetName().equals("body")) {
+        if ("body".equals(selection.getWidgetName())) {
             JPanel jPanel = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
             jPanel.add(abstractPropertyTable);
             MobileWidgetTable mobileWidgetTable = new MobileWidgetTable(designer);
@@ -294,7 +294,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         XLayoutContainer container = XCreatorUtils.getHotspotContainer(xCreator);
 
         boolean xCreatorAccept = xCreator.acceptType(XWParameterLayout.class);
-        boolean containerAccept = container!=null && container.acceptType(XWParameterLayout.class);
+        boolean containerAccept = container != null && container.acceptType(XWParameterLayout.class);
 
         return xCreatorAccept || containerAccept;
     }
@@ -332,7 +332,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
                 formWidgetCardPane.populate();
-            }else if(evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
                 // 防止多次触发
                 if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
                     return;
@@ -382,9 +382,9 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     /**
      * 移动端属性表监听界面事件（改变大小，编辑，选中，增加控件）
      */
-    private class mobileWidgetDesignerAdapter implements DesignerEditListener {
+    private class MobileWidgetDesignerAdapter implements DesignerEditListener {
 
-        mobileWidgetDesignerAdapter() {
+        MobileWidgetDesignerAdapter() {
         }
 
         /**
@@ -393,10 +393,18 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
          * @param evt 事件
          */
         public void fireCreatorModified(DesignerEvent evt) {
-            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED
-                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED
-                    || evt.getCreatorEventID() == DesignerEvent.CREATOR_ADDED) {
+            int[] validEventIds = {DesignerEvent.CREATOR_RESIZED, DesignerEvent.CREATOR_EDITED,
+                    DesignerEvent.CREATOR_SELECTED, DesignerEvent.CREATOR_ADDED};
+            boolean isValid = false;
+            for (int validEventId : validEventIds) {
+                if (evt.getCreatorEventID() == validEventId) {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (!isValid) {
+                return;
+            }
                 //fanglei：下面的注释不要删，只是暂时屏蔽
 //                int value = downPanel.getVerticalScrollBar().getValue();
 //                if (hasSelectParaPane(getEditingFormDesigner())) {
@@ -411,12 +419,17 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 //                //控件列表选中某组件，触发表单中选中控件，选中事件又触发列表刷新，滚动条回到0
 //                //此处设置滚动条值为刷新前
 //                downPanel.getVerticalScrollBar().setValue(value);
-                if (mobileExtraPropertyPanes != null) {
-                    for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
-                        extraPane.populate(designer);
-                    }
+            if (mobileExtraPropertyPanes != null) {
+                for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
+                    extraPane.populate(designer);
                 }
             }
+
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof MobileWidgetDesignerAdapter;
         }
     }
 
