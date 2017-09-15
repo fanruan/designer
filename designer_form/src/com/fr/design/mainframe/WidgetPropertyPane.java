@@ -418,6 +418,11 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 }
             }
         }
+
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof mobileWidgetDesignerAdapter;
+        }
     }
 
     @Override
