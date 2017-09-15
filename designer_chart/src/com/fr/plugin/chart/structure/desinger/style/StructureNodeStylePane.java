@@ -65,6 +65,7 @@ public class StructureNodeStylePane extends BasicBeanPane<AttrNode> {
         useImage = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_YES"),
                 Inter.getLocText("Plugin-ChartF_NO")});
         imagePane = new ImageBackgroundQuickPane(false);
+        imagePane.setBorder(BorderFactory.createEmptyBorder(0,(int)TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH + TableLayout4VanChartHelper.COMPONENT_INTERVAL,0,0));
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Filled_With_Image")),useImage},
         };
