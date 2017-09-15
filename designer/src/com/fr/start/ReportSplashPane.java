@@ -9,6 +9,7 @@ import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.ModuleAdapter;
@@ -36,8 +37,11 @@ public class ReportSplashPane extends SplashPane {
     private static final int MODULE_INFO_X = uiScale(54);
     private static final int MODULE_INFO_Y = uiScale(340);
 
-    private static final Color THANK_COLOR = new Color(255, 255, 255, (int) (0.4 * 255 + 0.5));
+    private static final Color THANK_COLOR = new Color(255, 255, 255, (int) (0.6 * 255 + 0.5));
     private static final int THANK_INFO_Y = uiScale(382);
+
+    private static final String ARIAL_FONT_NAME = "Arial";
+    private static final String YAHEI_FONT_NAME = "Microsoft YaHei";
 
     private static final String GUEST = getRandomUser();
 
@@ -87,6 +91,7 @@ public class ReportSplashPane extends SplashPane {
         Icon icon = IconLoader.getIcon(StableUtils.pathJoin(OEM_PATH, getImageName()));
         icon.paintIcon(null, g, 0, 0);
         paintShowText((Graphics2D) g);
+        g.dispose();
     }
 
     public void setShowText(String text) {
@@ -102,7 +107,16 @@ public class ReportSplashPane extends SplashPane {
         GraphHelper.applyRenderingHints(splashG2d);
 
         splashG2d.setPaint(MODULE_COLOR);
-        splashG2d.setFont(new Font("Dialog", Font.PLAIN, 12));
+
+        Font font = null;
+        if (OperatingSystem.isWindows()) {
+            font = new Font(YAHEI_FONT_NAME, Font.PLAIN, uiScale(12));
+        }
+
+        if (font == null || isDialogFont(font)) {
+            font = createFont(ARIAL_FONT_NAME);
+        }
+        splashG2d.setFont(font);
 
         //加载模块信息
         GraphHelper.drawString(splashG2d, showText, MODULE_INFO_X, MODULE_INFO_Y);
@@ -113,6 +127,14 @@ public class ReportSplashPane extends SplashPane {
             String content = Inter.getLocText("FR-Designer_Thanks-To") + GUEST;
             GraphHelper.drawString(splashG2d, content, MODULE_INFO_X, THANK_INFO_Y);
         }
+    }
+
+    private boolean isDialogFont(Font font) {
+        return Font.DIALOG.equals(font.getFamily(Locale.US));
+    }
+
+    private Font createFont(String fontName) {
+        return new Font(fontName, Font.PLAIN, uiScale(12));
     }
 
     // 是否显示鸣谢文字
