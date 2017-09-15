@@ -155,21 +155,28 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     public void updateCellElementState(boolean isSelectedOneCell) {
+        PropertyItem cellElement = propertyItemMap.get(KEY_CELL_ELEMENT);
         if (isSelectedOneCell) {
-            enableCellElementPane();
+            enableCellElementPane(cellElement);
         } else {  // 如果选中多个单元格，禁用单元格元素 tab
-            disableCellElementPane();
+            disableCellElementPane(cellElement);
             refreshRightPane();
         }
     }
 
     // 禁用单元格元素tab
-    private void disableCellElementPane() {
-        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(false);
+    private void disableCellElementPane(PropertyItem cellElement) {
+        cellElement.setEnabled(false);
+        if (cellElement.isPoppedOut()) {
+            cellElement.popupDialog.showDefaultPane();
+        }
     }
     // 禁用单元格元素tab
-    private void enableCellElementPane() {
-        propertyItemMap.get(KEY_CELL_ELEMENT).setEnabled(true);
+    private void enableCellElementPane(PropertyItem cellElement) {
+        cellElement.setEnabled(true);
+        if (cellElement.isPoppedOut()) {
+            cellElement.popupDialog.replaceContentPane(cellElement);
+        }
     }
 
     private void initContentPane() {
