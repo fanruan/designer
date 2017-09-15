@@ -92,7 +92,7 @@ public abstract class VanChartFormatPaneWithCheckBox extends JPanel{
                         formatPane =  createFormatPane();
                     }
                     Point comPoint = formatButton.getLocationOnScreen();
-                    Point arrowPoint = new Point(comPoint.x, comPoint.y + formatButton.getHeight());
+                    Point arrowPoint = new Point(comPoint.x +formatButton.getWidth() - 25, comPoint.y + formatButton.getHeight());
                     UIBubbleFloatPane<Style> pane = new UIBubbleFloatPane(Constants.LEFT, arrowPoint, formatPane, 258, 209) {
 
                         @Override
