@@ -22,12 +22,16 @@ import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.NoResultPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
-import com.fr.design.mainframe.alphafine.search.manager.*;
+import com.fr.design.mainframe.alphafine.search.manager.ActionSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.FileSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.PluginSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.RecentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.RecommendSearchManager;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
-import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
@@ -45,7 +49,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -699,6 +709,7 @@ public class AlphaFineDialog extends UIDialog {
 
     /**
      * 处理搜索结果
+     *
      * @param selectedValue
      */
     private void dealWithSearchResult(AlphaCellModel selectedValue) {
