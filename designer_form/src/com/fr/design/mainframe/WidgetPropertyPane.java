@@ -157,7 +157,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         wsp.setBorder(null);
         mobileParaWidgetTable = new MobileParaWidgetTable(designer);
         mobileWidgetTable = new MobileWidgetTable(designer);
-        designer.addDesignerEditListener(new mobileWidgetDesignerAdapter());
+        designer.addDesignerEditListener(new MobileWidgetDesignerAdapter());
         centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
         cardLayout = (CardLayout) centerPane.getLayout();
         centerPane.add(mobileParaWidgetTable, PARA);
@@ -382,9 +382,9 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
     /**
      * 移动端属性表监听界面事件（改变大小，编辑，选中，增加控件）
      */
-    private class mobileWidgetDesignerAdapter implements DesignerEditListener {
+    private class MobileWidgetDesignerAdapter implements DesignerEditListener {
 
-        mobileWidgetDesignerAdapter() {
+        MobileWidgetDesignerAdapter() {
         }
 
         /**
@@ -421,7 +421,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof mobileWidgetDesignerAdapter;
+            return o instanceof MobileWidgetDesignerAdapter;
         }
     }
 
