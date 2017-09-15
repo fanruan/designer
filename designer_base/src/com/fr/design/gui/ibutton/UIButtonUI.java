@@ -1,27 +1,16 @@
 package com.fr.design.gui.ibutton;
 
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.roleAuthority.ReportAndFSManagePane;
+import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.StringUtils;
+import sun.swing.SwingUtilities2;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.roleAuthority.ReportAndFSManagePane;
-import sun.swing.SwingUtilities2;
-
-import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUIPaintUtils;
+import java.awt.*;
 
 public class UIButtonUI extends BasicButtonUI {
 
@@ -127,7 +116,7 @@ public class UIButtonUI extends BasicButtonUI {
             return;
         }
         Icon selectedIcon = null;
-		/* the fallback icon should be based on the selected state */
+        /* the fallback icon should be based on the selected state */
         if (model.isSelected()) {
             selectedIcon = (Icon) b.getSelectedIcon();
             if (selectedIcon != null) {
