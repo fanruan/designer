@@ -10,6 +10,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.component.DateValuePane;
+import com.fr.design.widget.component.UIComboBoxNoArrow;
 import com.fr.form.ui.DateEditor;
 import com.fr.general.DateUtils;
 import com.fr.general.Inter;
@@ -92,8 +93,8 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 	private JPanel createFormatHead(){
 		String[] dateArray = FormatField.getInstance().getFormatArray(FormatField.FormatContents.DATE);
 		String[] timeArray = FormatField.getInstance().getFormatArray(FormatField.FormatContents.TIME);
-		final UIComboBox dateFormatComboBox = new UIComboBox(dateArray);
-		final UIComboBox timeFormatComboBox = new UIComboBox(timeArray);
+		final UIComboBox dateFormatComboBox = new UIComboBoxNoArrow(dateArray);
+		final UIComboBox timeFormatComboBox = new UIComboBoxNoArrow(timeArray);
 		dateFormatComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				refreshPreviewLabel();
