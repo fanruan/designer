@@ -128,7 +128,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         int iconLen = iconPaths.length;
         int tipLen = tipNames.length;
         for(int i = 0, len = Math.min(iconLen, tipLen); i < len; i++) {
-            boolean isDrawRightLine = (i == len - 1 || (i + 1) % ONE_LINE_NUM == 0);
+            boolean isDrawRightLine = (i != len - 1 || (i + 1) % ONE_LINE_NUM != 0);
             ChartImagePane imagePane = new ChartImagePane(iconPaths[i], tipNames[i], isDrawRightLine);
             imagePane.isPressing = (i == 0);
             list.add(imagePane);
@@ -208,13 +208,13 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
     protected void checkDemosBackground() {
         if(this.styleList != null && !styleList.isEmpty()){
             for(int i = 0; i < styleList.size(); i++) {
-                styleList.get(i).checkBackground();
+                styleList.get(i).checkBorder();
                 styleList.get(i).repaint();
             }
         }
 
         for(int i = 0; i < typeDemo.size(); i++) {
-            typeDemo.get(i).checkBackground();
+            typeDemo.get(i).checkBorder();
             typeDemo.get(i).repaint();
         }
     }

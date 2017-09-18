@@ -94,7 +94,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 	}
 	
 	protected void initLayout() {
-		customPane.setPreferredSize(new Dimension(200, 130));
+		customPane.setPreferredSize(new Dimension(200, 100));
 		colorGradient.setPreferredSize(new Dimension(120, 30));
 		
 

@@ -8,6 +8,7 @@ import com.fr.design.gui.ibutton.UISliderButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.islider.UISlider;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.ispinner.UISpinnerUI;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -132,6 +133,7 @@ public class JSliderPane extends JPanel {
                 return new Point(event.getX(), event.getY() - TOOLTIP_Y);
             }
         };
+        showValSpinner.setUI(new UISpinnerUI());
         showValSpinner.setEnabled(true);
         showValSpinner.addChangeListener(showValSpinnerChangeListener);
         showValSpinner.setPreferredSize(new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT));
