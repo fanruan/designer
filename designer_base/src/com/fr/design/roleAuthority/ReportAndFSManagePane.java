@@ -203,8 +203,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
         buttonGroup.setBorder(BorderFactory.createMatteBorder(1, LEFT_GAP, 0, 0, UIConstants.LINE_COLOR));
         buttonGroup.setNeedLeftRightOutLine(false);
     }
-
-
+    
     private int getMode(){
         return isSupportFS?FS_MANAGE: REPORT_PLATEFORM_MANAGE;
     }

@@ -286,7 +286,9 @@ public class FormParaWidgetPane extends JPanel {
 
     private int calculateWidgetWindowRowNum() {
         //向上取整
-        int rowNum = (int) Math.ceil((double) predifinedwidgeList.size() / (double) preWidgetShowMaxNum);
+        int eastRowNum = (int) Math.ceil((double) predifinedwidgeList.size() / (double) preWidgetShowMaxNum);
+        int westRowNum = (int) Math.ceil((double) loadWidgetOptions().length / (double) commonWidgetNum);
+        int rowNum = Math.max(eastRowNum, westRowNum);
         rowNum = Math.max(rowNum, 2);
         rowNum = Math.min(rowNum, preWidgetShowMaxRow);
         return rowNum;
