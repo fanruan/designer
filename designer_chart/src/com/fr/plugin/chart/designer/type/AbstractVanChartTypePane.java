@@ -14,9 +14,9 @@ import com.fr.general.Background;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.*;
@@ -56,6 +56,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
     //适用一种图表只有一种类型的
     public void populateBean(Chart chart) {
         typeDemo.get(0).isPressing = true;
+        lastTypeIndex = 0;
         checkDemosBackground();
     }
 
