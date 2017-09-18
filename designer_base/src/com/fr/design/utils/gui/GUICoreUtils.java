@@ -172,7 +172,7 @@ public abstract class GUICoreUtils{
 	public static TitledBorder createTitledBorder(String s, Color c) {
 		UITitledBorder tb = UITitledBorder.createBorderWithTitle(s);
 		if (c == null) {
-			c = new Color(102, 153, 255);
+			c = Color.black;
 		}
 		tb.setTitleColor(c);
 		return tb;
@@ -185,7 +185,7 @@ public abstract class GUICoreUtils{
 	 * @return 同上
 	 */
 	public static TitledBorder createTitledBorder(String s) {
-		return createTitledBorder(s, new Color(102, 153, 255));
+		return createTitledBorder(s, Color.black);
 	}
 
 	/**
