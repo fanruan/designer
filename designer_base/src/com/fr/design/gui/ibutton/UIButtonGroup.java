@@ -8,11 +8,14 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -145,6 +148,24 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
                 }
 
             };
+            labelButton.setUI(new UIButtonUI() {
+                protected void paintText(Graphics g, AbstractButton b, String text, Rectangle textRec) {
+                    View v = (View) b.getClientProperty(BasicHTML.propertyKey);
+                    if (v != null) {
+                        v.paint(g, textRec);
+                        return;
+                    }
+                    FontMetrics fm = SwingUtilities2.getFontMetrics(b, g);
+                    int mnemonicIndex = b.getDisplayedMnemonicIndex();
+                    if (isPressed(b)) {
+                        g.setColor(Color.white);
+                    } else {
+                        g.setColor(Color.black);
+                    }
+
+                    SwingUtilities2.drawStringUnderlineCharAt(b, g, text, mnemonicIndex, textRec.x + getTextShiftOffset(), textRec.y + fm.getAscent() + getTextShiftOffset());
+                }
+            });
             initButton(labelButton);
         }
     }
