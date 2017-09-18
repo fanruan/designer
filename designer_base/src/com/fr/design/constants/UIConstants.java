@@ -161,6 +161,7 @@ public interface UIConstants {
     public static final Icon DELETE_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/close.png");
     public static final Icon EDIT_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/edit.png");
     public static final Icon SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/search.png");
+    public static final Icon BLACK_SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/black_search.png");
     public static final Icon CLEAR_ICON = BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png");
     public static final Icon LIST_EDIT_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
     public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit_white.png");

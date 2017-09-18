@@ -122,7 +122,9 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private void checkColumnWidth() {
-        columnWidth.setVisible(isFixedWidth.getSelectedIndex() == 0);
+        boolean b = isFixedWidth.getSelectedIndex() == 0;
+        columnWidth.setVisible(b);
+        seriesGap.setEnabled(!b);
     }
 
     private void checkImagePane() {

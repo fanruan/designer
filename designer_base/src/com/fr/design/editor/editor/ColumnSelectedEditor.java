@@ -102,4 +102,9 @@ public class ColumnSelectedEditor extends Editor<SimpleDSColumn> {
 		}
 	}
 
+	@Override
+	public void clearData() {
+        tableDataComboBox.setSelectedItem(null);
+        columnNameComboBox.setSelectedItem(null);
+    }
 }

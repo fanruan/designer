@@ -36,16 +36,21 @@ public class ObjectLiteConditionPane extends LiteConditionPane<ObjectCondition> 
 
 	@Override
 	protected void clearDefaultConditionPane() {
-		defaultConditionPane.populateBean(new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
-	}
+		((ObjectConditionPane)defaultConditionPane).clearConditionValuePane();
+        defaultConditionPane.populateBean(new ObjectCondition(new Compare(Compare.EQUALS, StringUtils.EMPTY)));
+    }
 
-	private  class ObjectConditionPane extends BasicBeanPane<ObjectCondition> {
+	private class ObjectConditionPane extends BasicBeanPane<ObjectCondition> {
 
 		private UIComboBox conditionOPComboBox;
 		private ValueEditorPane conditionValuePane;
 
 		ObjectConditionPane() {
 			this.initComponents();
+		}
+
+		private void clearConditionValuePane() {
+			conditionValuePane.clearComponentsData();
 		}
 
 		protected void initComponents() {

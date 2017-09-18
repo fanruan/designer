@@ -16,7 +16,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Rectangle2D;
 
 /**
  * 图表颜色填充--32种精确颜色选择界面.
@@ -65,11 +64,9 @@ public class ChartAccColorPane extends BasicPane implements MouseListener, UIObs
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		super.repaint();
-		
-		Rectangle2D bounds = this.getBounds();
-		if(bounds == null) {
-			return;
-		}
+
+		this.setLayout(null);
+		this.setBounds(0,0,WIDTH*ROWCOUNT, WIDTH*4);
 		Paint oldPaint = g2d.getPaint();
         g2d.setPaint(new Color(212, 212, 216));
         g2d.fillRect(0, 0, WIDTH*ROWCOUNT, WIDTH*4);
