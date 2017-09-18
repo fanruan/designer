@@ -121,7 +121,10 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
             return;
         }
         long saveTime = System.currentTimeMillis();  // 保存模板的时间点
-        tic.collectInfo(template, this, openTime, saveTime);
+        try {
+            tic.collectInfo(template, this, openTime, saveTime);
+        } catch (Throwable th) {  // 不管收集过程中出现任何异常，都不应该影响模版保存
+        }
         openTime = saveTime;  // 更新 openTime，准备下一次计算
     }
 

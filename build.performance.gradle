@@ -15,7 +15,6 @@ task appletJar<<{
 			fileset(dir:"${basicDir}/chart/build/classes/main")			
 			fileset(dir:"${basicDir}/report/build/classes/main")		
 			fileset(dir:"${basicDir}/platform/build/classes/main")
-			fileset(dir:"${basicDir}/performance/build/classes/main")
 		}
 		unjar(src:"${libDir}/3rd.jar",dest:"./tmp")
 		unjar(src:"${libDir}/servlet-api.jar",dest:"./tmp")
