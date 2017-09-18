@@ -74,7 +74,7 @@ public interface UIConstants {
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
     public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
-    public static final Color TREE_BACKGROUND = new Color(240, 240, 243);
+    public static final Color TREE_BACKGROUND = new Color(245, 245, 247);
     public static final Color TOOL_PANE_BACKGROUND = new Color(232, 232, 223);
     public static final Color SELECT_TAB = new Color(245, 245, 247);
     public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
@@ -106,7 +106,7 @@ public interface UIConstants {
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
-    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xe8e8e9);
     public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
     public static final Color PROPERTY_DIALOG_BORDER = new Color(0xc9c9cd);
     public static final Color TAB_BUTTON_HOVER = new Color(231, 230, 235);

@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
@@ -16,6 +17,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.WidgetManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -63,7 +65,7 @@ public class CustomIconPane extends BasicPane {
 	private void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		centerPane.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_Icon")));
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Icon")));
 		JPanel noNamePane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 		centerPane.add(noNamePane, BorderLayout.CENTER);
 		

@@ -68,6 +68,10 @@ public class UIButtonUI extends BasicButtonUI {
     }
 
     private void paintText(Graphics g, AbstractButton b, String text) {
+        paintText(g, b, text ,textRec);
+    }
+
+    protected void paintText(Graphics g, AbstractButton b, String text, Rectangle textRec) {
         View v = (View) b.getClientProperty(BasicHTML.propertyKey);
         if (v != null) {
             v.paint(g, textRec);
