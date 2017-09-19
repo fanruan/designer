@@ -85,6 +85,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -155,6 +156,15 @@ public class RemoteEnv extends AbstractEnv {
 
     public String getPassword() {
         return password;
+    }
+
+    // 修复密码中包含特殊字符，无法登录的问题
+    private String getEncodedPassword() {
+        try {
+            return URLEncoder.encode(password, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return password;
+        }
     }
 
     public void setPassword(String password) {
@@ -382,7 +392,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "test_server_connection");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         if (path.startsWith("https") && (!DesignerEnvManager.getEnvManager().isHttps())) {
             return false;
@@ -505,7 +515,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "r_sign_in");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         simulaRPC(para, true);
 
@@ -1990,7 +2000,7 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "design_get_designer_version");
         para.put("user", user);
-        para.put("password", password);
+        para.put("password", getEncodedPassword());
 
         HttpClient client = createHttpMethod(para, true);
         try {
