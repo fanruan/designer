@@ -323,7 +323,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 int contents = getFormatContents();
-                String[] items = FormatField.getInstance().getFormatArray(contents);
+                String[] items = FormatField.getInstance().getFormatArray(contents, false);
                 CardLayout cardLayout = (CardLayout) centerPane.getLayout();
 
                 if (isTextOrNull()) {
