@@ -59,7 +59,6 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
     //适用一种图表只有一种类型的
     public void populateBean(Chart chart) {
         typeDemo.get(0).isPressing = true;
-        lastTypeIndex = 0;
         VanChartHeatMapPlot plot = (VanChartHeatMapPlot)chart.getPlot();
         populateSourcePane(plot);
 

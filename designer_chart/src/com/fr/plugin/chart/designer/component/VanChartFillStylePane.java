@@ -27,12 +27,11 @@ public class VanChartFillStylePane extends ChartFillStylePane {
 
         };
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-
     }
     @Override
     public Dimension getPreferredSize() {
         if(styleSelectBox.getSelectedIndex() != styleSelectBox.getItemCount() - 1) {
-            return new Dimension(styleSelectBox.getPreferredSize().width, 30);
+            return new Dimension(styleSelectBox.getPreferredSize().width, 26);
         }
         return super.getPreferredSize();
     }
