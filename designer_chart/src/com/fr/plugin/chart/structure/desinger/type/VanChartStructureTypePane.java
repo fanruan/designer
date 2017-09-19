@@ -2,7 +2,6 @@ package com.fr.plugin.chart.structure.desinger.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
@@ -47,23 +46,7 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane{
     public String title4PopupWindow() {
         return Inter.getLocText("Plugin-ChartF_NewStructure");
     }
-
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartStructurePlot) {
-            lastTypeIndex = ((VanChartStructurePlot)plot).getStructureType().ordinal();
-            typeDemo.get(lastTypeIndex).isPressing = true;
-        }
-        checkDemosBackground();
-    }
-
-
+    
     protected Plot getSelectedClonedPlot(){
         VanChartStructurePlot newPlot = null;
         Chart[] charts = StructureIndependentVanChart.StructureVanCharts;

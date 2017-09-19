@@ -131,12 +131,12 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
     public void updateBean(Chart chart) {
 
         //保存上次选中的值，其会在super中更新
-        int lastState = lastTypeIndex;
+        int lastState = chart.getPlot().getDetailType();
 
         super.updateBean(chart);
 
         //如果上次的状态和这次的装填不在同一个页面，说明同一个图表內切换了，需要情況数据配置
-        if (lastState != lastTypeIndex) {
+        if (lastState != chart.getPlot().getDetailType()) {
             chart.setFilterDefinition(null);
         }
 
@@ -219,8 +219,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
         //获取上次选中的图标
         VanChartCustomPlot customPlot = (VanChartCustomPlot) chart.getPlot();
-        lastTypeIndex = customPlot.getCustomStyle().ordinal();
-        typeDemo.get(lastTypeIndex).isPressing = true;
+        typeDemo.get(customPlot.getDetailType()).isPressing = true;
 
         isCustom = customPlot.getCustomStyle() == CustomStyle.CUSTOM;
 

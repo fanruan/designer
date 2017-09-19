@@ -2,7 +2,6 @@ package com.fr.plugin.chart.area;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
@@ -39,26 +38,13 @@ public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
 
     /**
      * 返回界面标题
+     *
      * @return 界面标题
      */
     public String title4PopupWindow() {
         return Inter.getLocText("Plugin-ChartF_NewArea");
     }
 
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartAreaPlot) {
-            lastTypeIndex = ((VanChartAreaPlot) plot).getVanChartPlotType().ordinal();
-            typeDemo.get(lastTypeIndex).isPressing = true;
-        }
-        checkDemosBackground();
-    }
 
 
     /**
@@ -71,17 +57,17 @@ public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
         return VanChartAreaPlot.VAN_CHART_AREA_PLOT_ID;
     }
 
-    protected Plot getSelectedClonedPlot(){
+    protected Plot getSelectedClonedPlot() {
         VanChartAreaPlot newPlot = null;
         Chart[] areaChart = AreaIndependentVanChart.AreaVanChartTypes;
-        for(int i = 0, len = areaChart.length; i < len; i++){
-            if(typeDemo.get(i).isPressing){
-                newPlot = (VanChartAreaPlot)areaChart[i].getPlot();
+        for (int i = 0, len = areaChart.length; i < len; i++) {
+            if (typeDemo.get(i).isPressing) {
+                newPlot = (VanChartAreaPlot) areaChart[i].getPlot();
             }
         }
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+            cloned = (Plot) newPlot.clone();
         } catch (CloneNotSupportedException e) {
             FRLogger.getLogger().error("Error In AreaChart");
         }
