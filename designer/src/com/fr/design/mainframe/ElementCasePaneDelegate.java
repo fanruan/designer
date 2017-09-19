@@ -50,18 +50,18 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
                 if (!isEditable() && !BaseUtils.isAuthorityEditing()) {
                     return;
                 }
-                doOnSelectionChanged(e);
+                refreshPropertyPanes();
             }
         });
         this.addTargetModifiedListener(new TargetModifiedListener() {
             @Override
             public void targetModified(TargetModifiedEvent e) {
-                CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+                refreshPropertyPanes();
             }
         });
     }
 
-    private void doOnSelectionChanged(SelectionEvent e) {
+    private void refreshPropertyPanes() {
         //在编辑权限，所以要更新权限编辑面板
         if (BaseUtils.isAuthorityEditing()) {
             AuthorityPropertyPane authorityPropertyPane = new AuthorityPropertyPane(ElementCasePaneDelegate.this);
@@ -76,7 +76,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         QuickEditorRegion.getInstance().populate(getCurrentEditor());
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (editingTemplate != null && !editingTemplate.isUpMode()) {
-            Selection editingSelection = ((ElementCasePaneDelegate)e.getSource()).getSelection();
+            Selection editingSelection = getSelection();
             // 模板初始化完成后，才能初始化超级链接面板
             HyperlinkGroupPane hyperlinkGroupPane = editingTemplate.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
             hyperlinkGroupPane.populate(ElementCasePaneDelegate.this);

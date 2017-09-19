@@ -265,9 +265,11 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
-                roleTree.refreshTreeNode();
-                expandTree(roleTree, true);
-                roleTree.updateUI();
+                if (BaseUtils.isAuthorityEditing()) {
+                    roleTree.refreshTreeNode();
+                    expandTree(roleTree, true);
+                    roleTree.updateUI();
+                }
             }
         });
 
