@@ -44,6 +44,10 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         this(iconArray, null);
     }
 
+    public UIButtonGroup(Icon[][] iconArray) {
+        this(iconArray, null);
+    }
+
     public UIButtonGroup(Icon[] iconArray, T[] objects) {
         if (!ArrayUtils.isEmpty(objects) && iconArray.length == objects.length) {
             this.objectList = Arrays.asList(objects);

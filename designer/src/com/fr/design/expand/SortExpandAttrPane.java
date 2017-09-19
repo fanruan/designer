@@ -30,7 +30,7 @@ public class SortExpandAttrPane extends JPanel {
 				{BaseUtils.readIcon("/com/fr/design/images/expand/des.png"), BaseUtils.readIcon("/com/fr/design/images/expand/des_selected.png")}
 		};
 		String[] nameArray = { Inter.getLocText("Sort-Original"), Inter.getLocText("Sort-Ascending"), Inter.getLocText("Sort-Descending") };
-        sort_type_pane = new UIButtonGroup(iconArray, null);
+        sort_type_pane = new UIButtonGroup(iconArray);
         sort_type_pane.setAllToolTips(nameArray);
 		sort_type_pane.setGlobalName(Inter.getLocText("ExpandD-Sort_After_Expand"));
 		this.add(sort_type_pane, BorderLayout.NORTH);
