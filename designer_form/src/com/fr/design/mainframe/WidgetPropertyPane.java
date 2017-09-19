@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
@@ -275,7 +276,8 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 tabbedPane.show(center, tabTitles[index]);
             }
         };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
+        tabsHeaderIconPane.setNeedLeftRightOutLine(true);
+        tabsHeaderIconPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.SHADOW_GREY));
         this.add(tabsHeaderIconPane, BorderLayout.NORTH);
     }
 

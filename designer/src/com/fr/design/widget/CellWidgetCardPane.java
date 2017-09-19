@@ -1,5 +1,6 @@
 package com.fr.design.widget;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
@@ -91,7 +92,8 @@ public class CellWidgetCardPane extends BasicPane {
                 tabbedPane.show(center, tabTitles[index]);
             }
         };
-        tabsHeaderIconPane.setNeedLeftRightOutLine(false);
+        tabsHeaderIconPane.setNeedLeftRightOutLine(true);
+        tabsHeaderIconPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIConstants.SHADOW_GREY));
         this.add(tabsHeaderIconPane, BorderLayout.NORTH);
 
         widgetPropertyPane = new BasicWidgetPropertySettingPane();
