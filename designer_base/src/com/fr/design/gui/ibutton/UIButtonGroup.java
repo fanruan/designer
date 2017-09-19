@@ -80,6 +80,42 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         }
     }
 
+    public UIButtonGroup(Icon[][] iconArray, T[] objects) {
+        if (!ArrayUtils.isEmpty(objects) && iconArray.length == objects.length) {
+            this.objectList = Arrays.asList(objects);
+        }
+        labelButtonList = new ArrayList<UIToggleButton>(iconArray.length);
+        this.setLayout(getGridLayout(iconArray.length));
+        this.setBorder(getGroupBorder());
+        for (int i = 0; i < iconArray.length; i++) {
+            final int index = i;
+            Icon[] icon = iconArray[i];
+            final UIToggleButton labelButton = new UIToggleButton(icon) {
+                @Override
+                protected MouseListener getMouseListener() {
+                    return new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            isClick = true;
+                            if (!isEnabled()) {
+                                return;
+                            }
+                            if (globalNameListener != null) {
+                                globalNameListener.setGlobalName(buttonGroupName);
+                            }
+                            setSelectedWithFireChanged(index);
+                        }
+                    };
+                }
+
+                public boolean shouldResponseNameListener() {
+                    return false;
+                }
+            };
+            initButton(labelButton);
+        }
+    }
+
     public boolean hasClick() {
         return isClick;
     }
