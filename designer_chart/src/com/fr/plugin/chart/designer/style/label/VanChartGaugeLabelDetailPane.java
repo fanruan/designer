@@ -23,11 +23,16 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
         style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
                 Inter.getLocText("Plugin-ChartF_Custom")});
-        textFontPane = new ChartTextAttrPane();
+        textFontPane = initTextFontPane();
 
         initStyleListener();
 
-        return TableLayoutHelper.createTableLayoutPane(getLabelStyleComponents(plot),row,col);
+        return TableLayoutHelper.createTableLayoutPane(getLabelStyleComponents(plot), row, col);
+    }
+
+
+    protected ChartTextAttrPane initTextFontPane () {
+        return new ChartTextAttrPane();
     }
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){

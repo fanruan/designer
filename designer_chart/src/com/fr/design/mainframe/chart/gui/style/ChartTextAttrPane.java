@@ -148,13 +148,16 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected JPanel getContentPane (JPanel buttonPane) {
-        double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f,e};
-        double[] rowSize = {p, p, p};
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), rowSize, columnSize);
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), getRowSize(), columnSize);
+    }
+
+    protected double[] getRowSize () {
+        double p = TableLayout.PREFERRED;
+        return new double[]{p, p, p};
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {

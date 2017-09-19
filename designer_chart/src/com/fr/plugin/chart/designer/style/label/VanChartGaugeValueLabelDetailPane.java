@@ -59,7 +59,7 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
     private Component[][] getLabelPaneComponentsWithBackground(Plot plot, double p, double[] columnSize) {
         return  new Component[][]{
                 new Component[]{dataLabelContentPane,null},
-                new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
+                new Component[]{createLabelStylePane(new double[]{p}, columnSize, plot),null},
                 new Component[]{createBackgroundColorPane(),null},
         };
     }

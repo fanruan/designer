@@ -252,7 +252,20 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         markerTypeCom = new UIComboBox(MARKER_TYPES);
 
         commonMarkerPane = new VanChartMapScatterMarkerPane();
-        bubblePane = new VanChartBubblePane();
+        commonMarkerPane.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_Border);
+        bubblePane = new VanChartBubblePane(){
+            protected JPanel getContentPane () {
+                double p = TableLayout.PREFERRED;
+                double f = TableLayout.FILL;
+                double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
+                double[] row = {p, p, p, p, p};
+                double[] col = {f, e};
+
+                JPanel panel = TableLayoutHelper.createTableLayoutPane(getComponent(), row, col);
+                panel.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_Border);
+                return panel;
+            }
+        };
         imageMarkerPane = new VanChartImageMarkerPane();
 
         final JPanel[] panes = new JPanel[]{new JPanel(), commonMarkerPane, bubblePane, imageMarkerPane};

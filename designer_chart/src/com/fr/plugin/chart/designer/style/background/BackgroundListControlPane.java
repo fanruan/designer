@@ -36,7 +36,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
 
     @Override
     public String getAddItemText() {
-        return Inter.getLocText("Plugin-ChartF_CustomIntervalBackground");
+        return Inter.getLocText("Plugin-ChartF_Add_Interval");
     }
 
     protected ShortCut4JControlPane[] createShortcuts() {

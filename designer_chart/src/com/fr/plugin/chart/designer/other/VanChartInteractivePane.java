@@ -95,7 +95,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
 
         Component[][] components = new Component[][]{
-                new Component[]{createToolBarPane(new double[]{p,p,p,p,p}, columnSize),null},
+                new Component[]{createToolBarPane(getToolBarRowSize(), columnSize),null},
                 new Component[]{createAnimationPane(),null},
                 new Component[]{createAxisRotationPane(new double[]{p,p}, columnSize, plot),null},
                 new Component[]{createZoomPane(new double[]{p,p,p}, columnSize, plot),null},
@@ -193,6 +193,11 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_ToolBar"), panel);
+    }
+
+    protected double[] getToolBarRowSize () {
+        double p = TableLayout.PREFERRED;
+        return new double[]{p,p,p,p,p};
     }
 
     protected Component[][] createToolBarComponents() {
