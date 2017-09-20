@@ -42,7 +42,11 @@ public class FormElementCasePaneDelegate extends ElementCasePane<FormElementCase
         this.addTargetModifiedListener(new TargetModifiedListener() {
             @Override
             public void targetModified(TargetModifiedEvent e) {
-                refreshPropertyPanes();
+                if (DesignerContext.isRefreshOnTargetModifiedEnabled()) {
+                    refreshPropertyPanes();
+                } else {
+                    CellElementPropertyPane.getInstance().populate(FormElementCasePaneDelegate.this);
+                }
             }
         });
     }
