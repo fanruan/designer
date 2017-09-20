@@ -10,6 +10,7 @@ import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.base.Utils;
 import com.fr.base.remote.RemoteDeziConstants;
+import com.fr.data.TableDataSource;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.impl.Connection;
@@ -1263,6 +1264,11 @@ public class RemoteEnv extends AbstractEnv {
         return DavXMLUtils.readXMLParameters(input);
     }
 
+    @Override
+    public EmbeddedTableData previewTableData(Object tableData, Map parameterMap, int rowCount) throws Exception {
+        return previewTableData(null, tableData, parameterMap, rowCount);
+    }
+
     /**
      * 根据指定的参数生成一个实际可预览的数据集
      *
@@ -1272,7 +1278,7 @@ public class RemoteEnv extends AbstractEnv {
      * @return 实际的二维数据集
      * @throws Exception 如果生成数据失败则抛出此异常
      */
-    public EmbeddedTableData previewTableData(Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
+    public EmbeddedTableData previewTableData(TableDataSource dataSource, Object tableData, java.util.Map parameterMap, int rowCount) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // 把tableData写成xml文件到out
@@ -1309,6 +1315,11 @@ public class RemoteEnv extends AbstractEnv {
      */
     public Object previewTableData(Object tableData, java.util.Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
         return previewTableData(tableData, parameterMap, -1);
+    }
+
+    @Override
+    public Object previewTableData(TableDataSource dataSource, Object tableData, Map parameterMap, int start, int end, String[] cols, int[] colIdx) throws Exception {
+        return previewTableData(dataSource, tableData, parameterMap, -1);
     }
 
     /**
