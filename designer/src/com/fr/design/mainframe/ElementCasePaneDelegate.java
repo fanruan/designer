@@ -56,7 +56,11 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         this.addTargetModifiedListener(new TargetModifiedListener() {
             @Override
             public void targetModified(TargetModifiedEvent e) {
-                refreshPropertyPanes();
+                if (DesignerContext.isRefreshOnTargetModifiedEnabled()) {
+                    refreshPropertyPanes();
+                } else {
+                    CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+                }
             }
         });
     }
