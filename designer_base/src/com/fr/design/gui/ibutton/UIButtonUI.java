@@ -60,7 +60,6 @@ public class UIButtonUI extends BasicButtonUI {
 
     private void paintContent(Graphics g, AbstractButton b, String text) {
         if (b.getIcon() != null) {
-            g.setColor(Color.red);
             paintIcon(g, b);
         }
         if (!StringUtils.isEmpty(text)) {
