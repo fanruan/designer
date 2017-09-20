@@ -34,7 +34,7 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
         initEveryPane();
         categoryName = initCategoryBox(Inter.getLocText("FR-Chart-Category_Name"));
         categoryName.setPreferredSize(new Dimension(246,30));
-        categoryName.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        categoryName.setBorder(BorderFactory.createEmptyBorder(0,24,0,7));
         this.add(categoryName, "0,0,2,0");
         filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);

@@ -15,7 +15,6 @@ import java.awt.*;
  */
 public class FormatPaneWithOutFont extends FormatPane {
     private static final int HEIGHT = 30;
-    private static final int FONT_HEIGHT = 20;
 
     protected JPanel createContentPane(Component[][] components) {
         double f = TableLayout.FILL;
@@ -40,6 +39,6 @@ public class FormatPaneWithOutFont extends FormatPane {
         if (getTypeComboBox().getSelectedIndex() == 0) {
             return new Dimension((int)getTypeComboBox().getPreferredSize().getWidth(), HEIGHT);
         }
-        return new Dimension((int)super.getPreferredSize().getWidth(), (int)super.getPreferredSize().getHeight()-FONT_HEIGHT);
+        return new Dimension((int)super.getPreferredSize().getWidth(), (int)super.getPreferredSize().getHeight());
     }
 }

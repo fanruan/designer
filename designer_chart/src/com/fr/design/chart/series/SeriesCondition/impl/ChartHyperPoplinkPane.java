@@ -28,6 +28,7 @@ import java.awt.*;
  */
 public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	private static final long serialVersionUID = 2469115951510144738L;
+	private static final int EDIT_PANE_WIDTH = 248;
 	private UITextField itemNameTextField;
 	private ChartHyperEditPane hyperEditPane;
 	private ChartComponent chartComponent;
@@ -41,15 +42,16 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
         }
 
 		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-		this.add(hyperEditPane, BorderLayout.CENTER);
+		hyperEditPane.setPreferredSize(new Dimension(EDIT_PANE_WIDTH, (int)hyperEditPane.getPreferredSize().getHeight()));// 固定属性配置面板大小,灵活调整图表显示面板.
+		this.add(hyperEditPane, BorderLayout.WEST);
         ChartCollection cc = createChartCollection();
 		
 		chartComponent = new ChartComponent();
-		chartComponent.setPreferredSize(new Dimension(300, 170));// 在单元格弹出时 需要调整保证属性表的大小.
+		chartComponent.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-EDIT_PANE_WIDTH, 170));// 在单元格弹出时 需要调整保证属性表的大小.
 		chartComponent.setSupportEdit(false);
 		chartComponent.populate(cc);
 		
-		this.add(chartComponent, BorderLayout.EAST);
+		this.add(chartComponent, BorderLayout.CENTER);
 		
 		hyperEditPane.populate(cc);
 		

@@ -3,6 +3,7 @@ package com.fr.plugin.chart.map.designer;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -34,9 +35,13 @@ public abstract class VanChartGroupPane extends JPanel{
                 cardLayout.show(centerPane, nameList[buttonGroup.getSelectedIndex()]);
             }
         });
-
+        buttonGroup.setBorder(getButtonGroupBorder());
         this.setLayout(new BorderLayout(0, 4));
         this.add(buttonGroup, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    protected Border getButtonGroupBorder () {
+        return null;
     }
 }
