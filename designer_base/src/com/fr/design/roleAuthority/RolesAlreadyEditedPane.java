@@ -39,7 +39,6 @@ public class RolesAlreadyEditedPane extends JPanel {
             THIS = new RolesAlreadyEditedPane();
         }
         return THIS;
-
     }
 
 
