@@ -21,6 +21,8 @@ public abstract class BackgroundQuickPane extends BasicBeanPane<Background> impl
 	@Override
 	public abstract String title4PopupWindow();
 
+	public abstract void reset();
+
 	/**
 	 * 组件是否需要响应添加的观察者事件
 	 *

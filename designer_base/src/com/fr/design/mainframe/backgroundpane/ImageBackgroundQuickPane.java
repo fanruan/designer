@@ -179,4 +179,10 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
 	public String title4PopupWindow() {
 		return Inter.getLocText("FR-Background_Image");
 	}
+
+	@Override
+	public void reset() {
+		imageLayoutPane.setSelectedIndex(0);
+		previewPane.setImage(null);
+	}
 }

@@ -51,4 +51,9 @@ public class NullBackgroundQuickPane extends BackgroundQuickPane {
 		return Inter.getLocText("Background-Null");
 	}
 
+	@Override
+	public void reset() {
+		// do nothing
+	}
+
 }

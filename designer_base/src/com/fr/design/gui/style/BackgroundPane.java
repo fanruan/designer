@@ -140,6 +140,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
      * Populate background.
      */
     public void populateBean(Background background) {
+        resetPaneList();
         for (int i = 0; i < paneList.length; i++) {
             BackgroundQuickPane pane = paneList[i];
             if (pane.accept(background)) {
@@ -148,6 +149,12 @@ public class BackgroundPane extends AbstractBasicStylePane {
                 currentPane = paneList[i];
                 return;
             }
+        }
+    }
+
+    private void resetPaneList() {
+        for (BackgroundQuickPane pane : paneList) {
+            pane.reset();
         }
     }
 
