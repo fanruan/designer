@@ -103,7 +103,7 @@ public interface UIConstants {
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
     public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
-    public static final Color RULER_LINE_COLOR = new Color(0xababab);
+    public static final Color RULER_LINE_COLOR = new Color(0xD9DADD);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
@@ -115,6 +115,7 @@ public interface UIConstants {
     public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
     public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
+
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
