@@ -252,7 +252,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         markerTypeCom = new UIComboBox(MARKER_TYPES);
 
         commonMarkerPane = new VanChartMapScatterMarkerPane();
-        commonMarkerPane.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_Border);
+        commonMarkerPane.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_BORDER);
         bubblePane = new VanChartBubblePane(){
             protected JPanel getContentPane () {
                 double p = TableLayout.PREFERRED;
@@ -262,7 +262,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
                 double[] col = {f, e};
 
                 JPanel panel = TableLayoutHelper.createTableLayoutPane(getComponent(), row, col);
-                panel.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_Border);
+                panel.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_BORDER);
                 return panel;
             }
         };

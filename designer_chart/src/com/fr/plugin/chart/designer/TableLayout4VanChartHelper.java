@@ -22,7 +22,7 @@ public class TableLayout4VanChartHelper {
     public static final double EDIT_AREA_WIDTH =155;
     public static final double SECOND_EDIT_AREA_WIDTH =143;
     public static final int COMPONENT_INTERVAL =12;
-    public static final Border SECOND_EDIT_AREA_Border = BorderFactory.createEmptyBorder(0,12,0,0);
+    public static final Border SECOND_EDIT_AREA_BORDER = BorderFactory.createEmptyBorder(0,12,0,0);
 
 
 
