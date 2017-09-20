@@ -60,6 +60,7 @@ public class UIButtonUI extends BasicButtonUI {
 
     private void paintContent(Graphics g, AbstractButton b, String text) {
         if (b.getIcon() != null) {
+            g.setColor(Color.red);
             paintIcon(g, b);
         }
         if (!StringUtils.isEmpty(text)) {
@@ -160,7 +161,7 @@ public class UIButtonUI extends BasicButtonUI {
         paintModelIcon(model, icon, g, c);
     }
 
-    private void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
+    protected void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
         if (model.isPressed() && model.isArmed()) {
             icon.paintIcon(c, g, iconRec.x + getTextShiftOffset(),
                     iconRec.y + getTextShiftOffset());
