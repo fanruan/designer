@@ -36,6 +36,7 @@ public class VanChartAreaPane extends ThirdTabPane<VanChart> implements AutoSele
             JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
             if (nameArray.length > 1) {
                 pane.add(tabPane);
+                tabPane.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
                 this.add(pane, BorderLayout.NORTH);
             }
         }

@@ -2,7 +2,6 @@ package com.fr.plugin.chart.gauge;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
@@ -41,21 +40,6 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
      */
     public String title4PopupWindow() {
         return Inter.getLocText("Plugin-ChartF_NewGauge");
-    }
-
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartGaugePlot) {
-            lastTypeIndex = ((VanChartGaugePlot)plot).getGaugeStyle().ordinal();
-            typeDemo.get(lastTypeIndex).isPressing = true;
-        }
-        checkDemosBackground();
     }
 
     protected Plot getSelectedClonedPlot(){

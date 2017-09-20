@@ -43,10 +43,10 @@ public class AreaPane extends AbstractTableDataContentPane {
         initAreaNameCom();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p};
         Component[][] components = getComponent();
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
     }
 
     protected Component[][] getComponent () {

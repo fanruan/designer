@@ -341,7 +341,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         DesignTableDataManager.addDsChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 AbstractChartAttrPane attrPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
-                attrPane.refreshChartDataPane(collection);
+                if (attrPane.isShowing()) {
+                    attrPane.refreshChartDataPane(collection);
+                }
             }
         });
     }

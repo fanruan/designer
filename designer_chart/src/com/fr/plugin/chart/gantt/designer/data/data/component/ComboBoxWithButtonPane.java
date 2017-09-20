@@ -27,14 +27,14 @@ public abstract class ComboBoxWithButtonPane extends JPanel {
     public ComboBoxWithButtonPane(int index) {
         this.index = index;
         comboBoxName = new UIComboBox();
-        comboBoxName.setPreferredSize(new Dimension(100,20));
+        comboBoxName.setPreferredSize(new Dimension(80,20));
 
         button = new UIButton(getButtonIcon());
         button.setPreferredSize(new Dimension(20, 20));
         button.addActionListener(getButtonListener());
 
         UILabel title = new UILabel(getTitleText());
-        title.setPreferredSize(new Dimension(60, 20));
+        title.setPreferredSize(new Dimension(80, 20));
 
         this.setLayout(new BorderLayout(H_GAP, 0));
         this.add(comboBoxName, BorderLayout.CENTER);

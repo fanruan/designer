@@ -45,10 +45,10 @@ public class CellExpandAttrPane extends AbstractCellAttrPane {
      */
     public JPanel createContentPane() {
         String[] nameArray = {Inter.getLocText("ExpandD-Not_Expand"), Inter.getLocText("Utils-Top_to_Bottom"), Inter.getLocText("Utils-Left_to_Right")};
-        Icon[] iconArray = {
-                BaseUtils.readIcon("/com/fr/design/images/expand/none16x16.png"),
-                BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png"),
-                BaseUtils.readIcon("/com/fr/design/images/expand/landspace.png")
+        Icon[][] iconArray = {
+                {BaseUtils.readIcon("/com/fr/design/images/expand/none16x16.png"), BaseUtils.readIcon("/com/fr/design/images/expand/none16x16_selected@1x.png")},
+                {BaseUtils.readIcon("/com/fr/design/images/expand/vertical.png"), BaseUtils.readIcon("/com/fr/design/images/expand/vertical_selected@1x.png")},
+                {BaseUtils.readIcon("/com/fr/design/images/expand/landspace.png"), BaseUtils.readIcon("/com/fr/design/images/expand/landspace_selected@1x.png")}
         };
         Byte[] valueArray = {Constants.NONE, Constants.TOP_TO_BOTTOM, Constants.LEFT_TO_RIGHT};
         expandDirectionButton = new UIButtonGroup<Byte>(iconArray, valueArray);

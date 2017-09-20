@@ -5,7 +5,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
@@ -77,7 +76,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane{
 
     protected JPanel createLabelPane(double[] row, double[] col){
         showLabel = new UIButtonGroup(new String[]{Inter.getLocText("Chart-Use_Show"), Inter.getLocText("Plugin-ChartF_Hidden")});
-        labelTextAttrPane = new ChartTextAttrPane();
+        labelTextAttrPane = getChartTextAttrPane();
         labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(labelTextAttrPane);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));

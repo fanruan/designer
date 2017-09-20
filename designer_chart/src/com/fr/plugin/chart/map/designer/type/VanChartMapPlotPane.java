@@ -88,8 +88,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         }
         VanChartMapPlot plot = (VanChartMapPlot)chart.getPlot();
 
-        lastTypeIndex = plot.getMapTypeIndex();
-        typeDemo.get(lastTypeIndex).isPressing = true;
+        typeDemo.get(plot.getDetailType()).isPressing = true;
         populateSourcePane(plot);
 
         boolean enabled = !CompatibleGEOJSONHelper.isDeprecated(plot.getGeoUrl());

@@ -2,7 +2,6 @@ package com.fr.plugin.chart.column;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
@@ -46,20 +45,6 @@ public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
         return Inter.getLocText("Plugin-ChartF_NewColumn");
     }
 
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartColumnPlot) {
-            lastTypeIndex = ((VanChartColumnPlot)plot).getVanChartPlotType().ordinal();
-            typeDemo.get(lastTypeIndex).isPressing = true;
-        }
-        checkDemosBackground();
-    }
 
     /**
      * 获取各图表类型界面ID, 本质是plotID

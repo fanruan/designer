@@ -16,7 +16,11 @@ import com.fr.plugin.chart.designer.style.axis.VanChartAxisPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -53,7 +57,7 @@ public class VanChartAxisButtonPane extends BasicBeanPane<VanChartAxisPlot> {
         this.add(eastPane, BorderLayout.EAST);
 
         buttonPane = new JPanel();
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 0));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 0));
         this.add(buttonPane, BorderLayout.CENTER);
 
         addButton.addActionListener(addListener);

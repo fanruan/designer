@@ -2,10 +2,8 @@ package com.fr.plugin.chart.line;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.type.VanChartPlotType;
 import com.fr.plugin.chart.designer.type.AbstractVanChartTypePane;
 
 /**
@@ -38,29 +36,6 @@ public class VanChartLinePlotPane extends AbstractVanChartTypePane {
      */
     public String title4PopupWindow() {
         return Inter.getLocText("Plugin-ChartF_NewLine");
-    }
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartLinePlot) {
-            VanChartPlotType plotType = ((VanChartLinePlot)plot).getVanChartPlotType();
-            switch (plotType){
-                case CUSTOM:
-                    lastTypeIndex = 2;
-                    break;
-                default:
-                    lastTypeIndex = plotType.ordinal();
-                    break;
-            }
-            typeDemo.get(lastTypeIndex).isPressing = true;
-        }
-        checkDemosBackground();
-
     }
 
     /**

@@ -4,10 +4,15 @@ import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
@@ -23,10 +28,25 @@ public abstract class VanChartUIListControlPane extends UIListControlPane {
 
     public VanChartUIListControlPane() {
         super();
+        this.setBorder(null);
     }
 
     public VanChartUIListControlPane(BasePlot plot) {
         super(plot);
+        this.setBorder(null);
+    }
+
+    @Override
+    protected JPanel getLeftTopPane (UIToolbar topToolBar) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(getAddItemText()), topToolBar},
+        };
+        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }
 
     @Override
