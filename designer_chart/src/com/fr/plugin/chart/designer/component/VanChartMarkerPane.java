@@ -74,7 +74,13 @@ public class VanChartMarkerPane extends BasicPane {
     }
 
     protected BasicBeanPane<VanChartAttrMarker> createCommonMarkerPane() {
-        return new VanChartCommonMarkerPane();
+        return new VanChartCommonMarkerPane(){
+            protected double[] getcolumnSize () {
+                double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
+                double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+                return new double[] {d, s};
+            }
+        };
     }
 
     protected void layoutComponents() {

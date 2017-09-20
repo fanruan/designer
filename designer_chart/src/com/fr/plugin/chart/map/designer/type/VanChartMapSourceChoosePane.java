@@ -428,20 +428,25 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         latitude = new UISpinner(-Double.MAX_VALUE,Double.MAX_VALUE,1,0.0);
 
         double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
         double[] rowSize = {p,p,p};
+        double[] columnSize = {f, e};
+        double[] column = {f, s};
 
         Component[][] comps = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Zoom_Layer")), zoomLevel},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_View_Center")), viewCenterCom},
         };
-        final JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps,rowSize,COLUMN_SIZE);
+        final JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps,rowSize,columnSize);
 
         Component[][] longAndLatComps = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Longitude")), longitude},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Latitude")), latitude}
         };
-        longAndLatPane =TableLayout4VanChartHelper.createGapTableLayoutPane(longAndLatComps,rowSize,COLUMN_SIZE);
+        longAndLatPane =TableLayout4VanChartHelper.createGapTableLayoutPane(longAndLatComps,rowSize,column);
         longAndLatPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
         longAndLatPane.setVisible(false);
 

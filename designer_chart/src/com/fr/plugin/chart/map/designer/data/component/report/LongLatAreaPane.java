@@ -31,10 +31,10 @@ public class LongLatAreaPane extends AreaPane {
         latitude = new TinyFormulaPane();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p, p, p};
         Component[][] components = getComponent();
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,50,6);
+        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
     }
 
     protected Component[][] getComponent () {

@@ -29,6 +29,7 @@ public class VanChartConditionListControlPane extends VanChartUIListControlPane 
 
     public void populate(Nameable[] nameableArray, Class<? extends ConditionAttributesPane> showPane) {
         initComponentPane();
+        this.setBorder(null);
         NameObjectCreator[] creators = new NameObjectCreator[]{new NameObjectCreator(Inter.getLocText("Condition_Attributes"), ConditionAttr.class, showPane)};
         refreshNameableCreator(creators);
         super.populate(nameableArray);

@@ -34,12 +34,12 @@ import java.util.List;
 public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private static final int MARGIN_TOP = 10;
 	private static final int MARGIN_LEFT = 5;
-	private static final int COLORGROUP_MARGIN_LEFT = 40;
+	private static final int COLORGROUP_MARGIN_LEFT = 20;
 	private static final int OFF_HEIGHT = 6;
 	private static final int COLOR_REC_HEIGHT = 40;
 	private static final int COLOR_REC_WIDTH = 30;
 	protected static final int TEXTFIELD_HEIGHT = 20;
-	protected static final int TEXTFIELD_WIDTH = 120;
+	protected static final int TEXTFIELD_WIDTH = 140;
 	protected static final int UPCONTROLPANE_WIDTH = 230;
 	private static final int LAYOUR_DET = 6;
 	private static final double VALUE = 100;
@@ -115,7 +115,8 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	protected JPanel getUpControlPane (Component[][] components) {
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		double[] columnSize = {p, f};
+		double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+		double[] columnSize = {f, e};
 		return TableLayoutHelper.createTableLayoutPane(components, getRowSIze (), columnSize);
 	}
 
