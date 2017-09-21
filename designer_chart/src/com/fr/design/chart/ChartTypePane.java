@@ -97,12 +97,15 @@ public class ChartTypePane extends ChartCommonWizardPane {
             if (value instanceof ChartIcon) {
                 this.setIcon((ChartIcon) value);
                 setHorizontalAlignment(UILabel.CENTER);
+                ChartIcon chartIcon = (ChartIcon) value;
                 if (isSelected) {
                     // 深蓝色.
                     this.setBackground(new Color(57, 107, 181));
+                    this.setBorder(GUICoreUtils.createTitledBorder(getChartName(chartIcon), Color.WHITE));
+                } else {
+                    this.setBorder(GUICoreUtils.createTitledBorder(getChartName(chartIcon)));
                 }
-                ChartIcon chartIcon = (ChartIcon) value;
-                this.setBorder(GUICoreUtils.createTitledBorder(getChartName(chartIcon), null));
+
             }
             return this;
         }

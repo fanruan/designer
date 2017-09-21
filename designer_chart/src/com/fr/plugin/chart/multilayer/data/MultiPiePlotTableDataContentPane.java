@@ -33,6 +33,7 @@ import java.util.List;
 public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPane implements UIObserver {
     private static final int HT = 20;
     private static final int WD = 100;
+    private static final int LABEL_WIDTH = 72;
 
     private UISpinner levelNumEdit;
     private UITextField nameField;
@@ -84,7 +85,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
     private JPanel createCenterPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize_center = {f, COMPONENT_WIDTH};
+        double[] columnSize_center = {LABEL_WIDTH, COMPONENT_WIDTH};
         double[] rowSize_center = new double[levelNum  + 3];
 
         initLevelNameList();
@@ -113,8 +114,9 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
         registerListener4Center();
 
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(components_center,rowSize_center,columnSize_center);
-
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components_center,rowSize_center,columnSize_center);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+        return panel;
 
     }
 
@@ -147,8 +149,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
 
     private JPanel createNorthPane() {
         double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize_north = {f, COMPONENT_WIDTH};
+        double[] columnSize_north = {LABEL_WIDTH, COMPONENT_WIDTH};
         double[] rowSize_north = {p, p, p};
 
         levelNumEdit = new UISpinner(1, 15, 1, levelNum){
@@ -169,10 +170,8 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
                 super.setTextFieldValue(value);
             }
         };
-        levelNumEdit.setPreferredSize(new Dimension(WD, HT));
 
         nameField = new UITextField();
-        nameField.setPreferredSize(new Dimension(WD, HT));
 
         Component[][] components_north = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
@@ -180,7 +179,9 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Level_Number")), levelNumEdit},
         };
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(components_north, rowSize_north, columnSize_north);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components_north, rowSize_north, columnSize_north);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+        return panel;
     }
 
     private void refreshCenterPane(){

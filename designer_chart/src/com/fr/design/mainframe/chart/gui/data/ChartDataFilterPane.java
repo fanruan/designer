@@ -59,9 +59,10 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             if (nameArray.length > 1) {
                 pane.add(tabPane);
                 this.add(pane, BorderLayout.NORTH);
+                centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
             }
+            centerPane.setBorder(null);
         }
-        centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
         this.add(centerPane, BorderLayout.CENTER);
     }
 

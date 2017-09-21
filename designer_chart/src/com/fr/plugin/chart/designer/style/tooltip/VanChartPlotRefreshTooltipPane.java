@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.designer.style.tooltip;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
@@ -29,7 +30,7 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
 
     public VanChartPlotRefreshTooltipPane(Plot plot) {
         super(plot, null);
-        this.setSize(270,400);
+        this.setPreferredSize(new Dimension(320, 400));
     }
 
     protected JPanel createTooltipPane(Plot plot) {
@@ -45,13 +46,25 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
 
         Component[][] components = createComponents(plot);
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        JScrollPane jScrollPane = new JScrollPane(panel);
-        jScrollPane.setPreferredSize(new Dimension(P_W, P_H));
+        BasicScrollPane scrollPane = new BasicScrollPane() {
 
-        jScrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        JPanel jPanel = new JPanel();
-        jPanel.add(jScrollPane);
-        return jPanel;
+            @Override
+            protected String title4PopupWindow() {
+                return null;
+            }
+
+            @Override
+            protected JPanel createContentPane() {
+                return panel;
+            }
+
+            @Override
+            public void populateBean(Object ob) {
+                return;
+            }
+        };
+        scrollPane.setPreferredSize(new Dimension(P_W, P_H));
+        return scrollPane;
     }
 
     protected Component[][] createComponents(Plot plot) {
@@ -78,9 +91,10 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
-        double[] rowSize = {p};
+        double[] rowSize = {p, p};
 
         Component[][] components = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_Duration_Time")), duration},
         };
 

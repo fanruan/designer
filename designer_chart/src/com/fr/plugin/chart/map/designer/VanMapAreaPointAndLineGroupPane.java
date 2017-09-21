@@ -3,6 +3,7 @@ package com.fr.plugin.chart.map.designer;
 import com.fr.general.Inter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  * Created by Mitisky on 16/5/20.
@@ -16,5 +17,10 @@ public class VanMapAreaPointAndLineGroupPane extends VanChartGroupPane {
 
     public VanMapAreaPointAndLineGroupPane(final JPanel areaPane, final JPanel pointPane, final JPanel linePane){
         super(new String[]{AREA_MAP_STRING, POINT_MAP_STRING, LINE_MAP_STRING}, new JPanel[]{areaPane, pointPane, linePane});
+    }
+
+    @Override
+    protected Border getButtonGroupBorder () {
+        return BorderFactory.createEmptyBorder(0,8,0,18);
     }
 }
