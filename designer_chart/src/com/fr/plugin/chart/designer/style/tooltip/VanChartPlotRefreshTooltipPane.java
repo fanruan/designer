@@ -45,7 +45,7 @@ public class VanChartPlotRefreshTooltipPane extends VanChartPlotTooltipNoCheckPa
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p,p};
 
         Component[][] components = createComponents(plot);
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        final JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         BasicScrollPane scrollPane = new BasicScrollPane() {
 
             @Override
