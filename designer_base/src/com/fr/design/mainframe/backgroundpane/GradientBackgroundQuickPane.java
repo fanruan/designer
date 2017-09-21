@@ -119,4 +119,19 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 		return Inter.getLocText("Gradient-Color");
 	}
 
+	@Override
+	public void reset() {
+		this.gradientBar.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
+		this.gradientBar.getSelectColorPointBtnP2().setColorInner(Color.BLACK);
+		directionPane.setSelectedItem(0);
+		int startValue = 4;
+        int endValue = this.gradientBarWidth;
+		gradientBar.setStartValue(startValue);
+		gradientBar.setEndValue(endValue);
+		if(this.gradientBar.getSelectColorPointBtnP1() != null && this.gradientBar.getSelectColorPointBtnP2() != null){
+			this.gradientBar.getSelectColorPointBtnP1().setX(startValue);
+			this.gradientBar.getSelectColorPointBtnP2().setX(endValue);
+		}
+	}
+
 }

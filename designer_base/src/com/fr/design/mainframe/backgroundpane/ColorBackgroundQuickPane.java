@@ -76,4 +76,9 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 	public String title4PopupWindow() {
 		return Inter.getLocText("Color");
 	}
+
+	@Override
+	public void reset() {
+		this.detailColorSelectPane.setColor(null);
+	}
 }
