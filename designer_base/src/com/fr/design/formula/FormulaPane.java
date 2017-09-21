@@ -703,7 +703,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             UIScrollPane desScrollPane = new UIScrollPane(descriptionTextArea);
             desScrollPane.setBorder(null);
             this.add(this.createNamePane(Inter.getLocText("FR-Designer_FormulaPane_Formula_Description") + ":", desScrollPane), BorderLayout.EAST);
-            descriptionTextArea.setBackground(new Color(255, 255, 225));
+            descriptionTextArea.setBackground(Color.white);
             descriptionTextArea.setLineWrap(true);
             descriptionTextArea.setWrapStyleWord(true);
             descriptionTextArea.setEditable(false);
