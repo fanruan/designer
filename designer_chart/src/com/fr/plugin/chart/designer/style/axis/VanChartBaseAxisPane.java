@@ -134,7 +134,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_TextRotation")),titleTextRotation},
         };
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_TITLE_TITLE, panel);
     }
 
@@ -222,7 +222,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         mainTick = new UIButtonGroup<AxisTickLineType>(strings, values);
         secondTick = new UIButtonGroup<AxisTickLineType>(strings, values);
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(getLineStylePaneComponents(), row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLineStylePaneComponents(), row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AxisLineStyle"), panel);
     }
 
@@ -249,7 +249,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_AxisReversed")),reversed},
         } ;
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Layout_Position"), panel);
     }
 

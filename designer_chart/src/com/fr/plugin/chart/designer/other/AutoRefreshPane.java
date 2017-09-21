@@ -30,8 +30,6 @@ import java.awt.event.ActionListener;
  */
 public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
-    private static final int P_W = 320;
-    private static final int P_H = 460;
 
     private VanChart chart;
     private UIButtonGroup moreLabel;
@@ -140,7 +138,6 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
                     }
                 });
-                dialog.setSize(P_W, P_H);
                 dialog.setVisible(true);
             }
         });

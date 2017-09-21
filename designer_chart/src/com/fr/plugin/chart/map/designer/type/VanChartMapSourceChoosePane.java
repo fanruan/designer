@@ -213,9 +213,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         sourceTitleLabel = createSourceTitleLabel();
 
         double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] columnSize = {f, e};
+        double[] columnSize = {d, e};
         double[] rowSize = {p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
@@ -288,39 +288,45 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             layerCardPane.add(pane, itemName);
         }
 
-        panel.add(gisLayer, BorderLayout.CENTER);
+        JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Gis_Layer"), gisLayer);
+
+        panel.add(panel1, BorderLayout.CENTER);
         panel.add(layerCardPane, BorderLayout.SOUTH);
 
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_Gis_Layer"), panel);
+        return panel;
     }
 
     private JPanel createCustomTileLayer() {
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p};
-        double[] COLUMN_SIZE = {p, TableLayout.FILL};
+        double[] COLUMN_SIZE = {TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH-3};
 
         customTileLayer = new UITextArea();
         attribution = new UITextArea();
         Component[][] comps = new Component[][]{
-                new Component[]{new UILabel("url", SwingConstants.RIGHT), customTileLayer},
+                new Component[]{new UILabel("url"), customTileLayer},
                 new Component[]{new UILabel("Attribution"), attribution}
         };
-        return TableLayoutHelper.createTableLayoutPane(comps, rowSize, COLUMN_SIZE);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(comps, rowSize, COLUMN_SIZE);
+        panel.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_BORDER);
+        return panel;
     }
 
     private JPanel createWMSPanel() {
 
         final double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
+        double[] COLUMN_SIZE = {TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH, 84,44};
+
 
         wmsUrl = new UITextArea();
         connectButton = new UIButton(Inter.getLocText("Plugin-ChartF_Connect_WMP"));
 
         Component[][] comps = new Component[][]{
-                new Component[]{new UILabel("url", SwingConstants.RIGHT), wmsUrl, connectButton}
+                new Component[]{new UILabel("url"), wmsUrl, connectButton}
         };
-        JPanel northPane = TableLayoutHelper.createTableLayoutPane(comps,rowSize, COLUMN_SIZE);
-
+        JPanel northPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps, rowSize, COLUMN_SIZE);
+        northPane.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_BORDER);
         JPanel wmsPanel = new JPanel(new BorderLayout(0, 4));
         wmsLayerPane = new JPanel(new BorderLayout());
         resetWMSLayerPane(new ArrayList<WMSLayer>());
@@ -429,11 +435,12 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
         double[] rowSize = {p,p,p};
-        double[] columnSize = {f, e};
-        double[] column = {f, s};
+        double[] columnSize = {d, e};
+        double[] column = {d, s};
 
         Component[][] comps = new Component[][]{
                 new Component[]{null, null},

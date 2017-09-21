@@ -29,6 +29,7 @@ import com.fr.general.Inter;
 import com.fr.general.ModuleContext;
 import com.fr.general.SiteCenter;
 import com.fr.plugin.PluginCollector;
+import com.fr.plugin.conversion.PluginConversionModule;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.PluginStartup;
 import com.fr.stable.ArrayUtils;
@@ -66,7 +67,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         RestartHelper.deleteRecordFilesWhenStart();
         //初始化插件引擎
         PluginStartup.start();
-        
+        //标记一下是设计器启动
+        PluginConversionModule.getInstance().markDesignerStart();
         SiteCenter.getInstance();
 
         DesignUtils.setPort(getStartPort());
