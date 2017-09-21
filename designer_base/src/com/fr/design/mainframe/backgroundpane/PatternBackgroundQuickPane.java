@@ -215,4 +215,11 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
     public String title4PopupWindow() {
         return Inter.getLocText("FR-Designer_Background-Pattern");
     }
+
+    @Override
+    public void reset() {
+        patternButtonArray[0].setSelected(true);
+        foregroundColorPane.setSelectObject(null);
+        backgroundColorPane.setSelectObject(null);
+    }
 }

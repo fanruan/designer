@@ -6,6 +6,7 @@ import com.fr.data.TableDataSource;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.data.BasicTableDataTreePane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.StoreProcedureWorkerListener;
@@ -111,6 +112,8 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(addMenuDef, SeparatorDef.DEFAULT, editAction, removeAction, SeparatorDef.DEFAULT, previewTableDataAction, connectionTableAction);
         UIToolbar toolBar = ToolBarDef.createJToolBar();
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+        toolBar.setBorderPainted(true);
         toolbarDef.updateToolBar(toolBar);
 
         JPanel toolbarPane = FRGUIPaneFactory.createBorderLayout_S_Pane();

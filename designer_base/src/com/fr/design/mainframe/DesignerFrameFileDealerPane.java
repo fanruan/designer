@@ -79,10 +79,13 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private DesignerFrameFileDealerPane() {
         setLayout(new BorderLayout());
         toolBar = ToolBarDef.createJToolBar();
-        toolBar.setBorder(BorderFactory.createEmptyBorder(3, 0, 4, 0));
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+        toolBar.setBorderPainted(true);
         JPanel tooBarPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-        tooBarPane.add(toolBar, BorderLayout.CENTER);
+        JPanel parent = new JPanel(new BorderLayout());
+        parent.add(toolBar, BorderLayout.CENTER);
+        parent.setBorder(BorderFactory.createEmptyBorder(3, 0, 4, 0));
+        tooBarPane.add(parent, BorderLayout.CENTER);
         tooBarPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
 
         add(tooBarPane, BorderLayout.NORTH);

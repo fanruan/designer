@@ -6,8 +6,9 @@ import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.itextfield.UINumberField;
-import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -16,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ButtonUI;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -164,6 +166,34 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         }
     }
 
+    private class ButtionUI extends UIButtonUI {
+        private boolean isNormalPaint = true;
+
+        @Override
+        protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+            if (isPressed(b) && b.isPressedPainted()) {
+                isNormalPaint = false;
+                Color pressColor = UIConstants.COMBOBOX_BTN_PRESS;
+                GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), pressColor);
+            } else if (isRollOver(b)) {
+                isNormalPaint = false;
+                Color hoverColor = UIConstants.COMBOBOX_BTN_ROLLOVER;
+                GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), hoverColor);
+            } else if (b.isNormalPainted()) {
+                isNormalPaint = true;
+                GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+            }
+        }
+
+        @Override
+        protected void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
+            if (isNormalPaint) {
+                g.setColor(UIConstants.COMBOBOX_BTN_NORMAL);
+                g.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+            super.paintModelIcon(model, icon, g, c);
+        }
+    }
 
     private void initComponents() {
         textField = initNumberField();
@@ -174,11 +204,21 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
             public boolean shouldResponseChangeListener() {
                 return false;
             }
+
+            @Override
+            public ButtonUI getUI() {
+                return new ButtionUI();
+            }
         };
         preButton.setRoundBorder(true, Constants.LEFT);
         nextButton = new UIButton(UIConstants.ARROW_DOWN_ICON) {
             public boolean shouldResponseChangeListener() {
                 return false;
+            }
+
+            @Override
+            public ButtonUI getUI() {
+                return new ButtionUI();
             }
         };
         nextButton.setRoundBorder(true, Constants.LEFT);

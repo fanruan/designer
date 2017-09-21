@@ -96,6 +96,10 @@ public class FormulaEditor extends Editor<Formula> {
         }).setVisible(true);
     }
 
+    public Formula getFormula(){
+        return formula;
+    }
+
     /**
      * Return the value of the CellEditor.
      */
