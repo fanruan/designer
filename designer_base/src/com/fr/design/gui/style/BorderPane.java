@@ -203,21 +203,16 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
         CellBorderStyle cellBorderStyle = this.update();
         HashSet<String> borderSet = new HashSet<String>(Arrays.asList(BORDERARRAY));
+        style = style.deriveBackground(backgroundPane.update());
         if (backgroundPane.currentPane != backgroundPane.paneList[1]){
             if (borderSet.contains(globalNameListener.getGlobalName())) {
                 style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                         cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-                style = style.deriveBackground(backgroundPane.update());
-            } else {
-                style = style.deriveBackground(backgroundPane.update());
             }
         }else {
             if (borderSet.contains(globalNameListener.getGlobalName()) && !((ColorBackgroundQuickPane) backgroundPane.currentPane).isBackGroundColor()){
                 style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
                         cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-                style = style.deriveBackground(backgroundPane.update());
-            } else {
-                style = style.deriveBackground(backgroundPane.update());
             }
         }
 
