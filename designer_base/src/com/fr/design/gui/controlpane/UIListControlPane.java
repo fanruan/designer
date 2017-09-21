@@ -162,9 +162,13 @@ public abstract class UIListControlPane extends UIControlPane {
         if (creators.length == 1) {
             addItemShortCut = new AddItemUpdateAction(creators);
         } else {
-            addItemShortCut = new AddItemMenuDef(creators);
+            addItemShortCut = getAddItemMenuDef(creators);
         }
         return new AbsoluteEnableShortCut(addItemShortCut);
+    }
+
+    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
+        return new AddItemMenuDef(creators);
     }
 
     @Override
@@ -557,7 +561,7 @@ public abstract class UIListControlPane extends UIControlPane {
             }
         }
 
-        private boolean whetherAdd(String itemName) {
+        protected boolean whetherAdd(String itemName){
             JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
             if (jTemplate == null) {
                 return false;

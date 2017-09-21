@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.designer.style.background;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
@@ -54,7 +55,7 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(xAxisList, yAxisList);
 
-        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(axisNames, Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, VanChartCustomIntervalBackgroundPane.class)};
+        BackgroundNameObjectCreator[] creators = {new BackgroundNameObjectCreator(getCustomIntervalBackgroundAxisName(axisNames), Inter.getLocText("Plugin-ChartF_CustomIntervalBackground"), VanChartCustomIntervalBackground.class, getIntervalPaneClass())};
 
         refreshNameableCreator(creators);
 
@@ -122,5 +123,13 @@ public class BackgroundListControlPane extends VanChartUIListControlPane {
             }
             axis.setCustomIntervalBackgroundArray(axisCustomBackground);
         }
+    }
+
+    protected Class<? extends BasicBeanPane> getIntervalPaneClass() {
+        return VanChartCustomIntervalBackgroundPane.class;
+    }
+
+    protected String[] getCustomIntervalBackgroundAxisName(String[] axisNames) {
+        return axisNames;
     }
 }
