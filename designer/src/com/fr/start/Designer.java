@@ -352,7 +352,7 @@ public class Designer extends BaseDesigner {
      *
      * @return 面板组件
      */
-    public Component createAlphafinePane() {
+    public Component createAlphaFinePane() {
         return AlphaFinePane.getAlphaFinePane();
     }
 

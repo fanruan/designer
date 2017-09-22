@@ -384,7 +384,7 @@ public abstract class ToolBarMenuDock {
         return new UILabel();
     }
 
-    public Component createAlphafinePane() {
+    public Component createAlphaFinePane() {
         return new UILabel();
     }
 

@@ -23,7 +23,7 @@ public class AlphaFinePane extends BasicPane {
     private static AlphaFinePane alphaFinePane;
 
     public AlphaFinePane() {
-        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 14));
+        setLayout(new BorderLayout());
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
         }
