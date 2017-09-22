@@ -12,8 +12,8 @@ import com.fr.general.Inter;
  */
 public class HyperlinkFilterHelper {
 
-    public static boolean whetherAddHyperlink4cell(String itemName){
-        JTemplate jTemplate = getCurrentEditingTemplate ();
+    public static boolean whetherAddHyperlink4cell(String itemName) {
+        JTemplate jTemplate = getCurrentEditingTemplate();
         if (jTemplate == null) {
             return false;
         }
@@ -27,19 +27,19 @@ public class HyperlinkFilterHelper {
         return whetherAddFormLink(jTemplate, itemName);
     }
 
-    public static boolean whetherAddHyperlink4Chart(String itemName){
-        JTemplate jTemplate = getCurrentEditingTemplate ();
+    public static boolean whetherAddHyperlink4Chart(String itemName) {
+        JTemplate jTemplate = getCurrentEditingTemplate();
         if (jTemplate == null) {
             return false;
         }
         //先屏蔽掉这个，之后还有别的
         String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float"), Inter.getLocText("FR-Hyperlink_Chart_Cell")};
-        for (String name : names){
-            if(!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName,name)){
-                if(jTemplate.getEditingReportIndex() == BaseJForm.ELEMENTCASE_TAB &&  ComparatorUtils.equals(itemName, names[0])){
+        for (String name : names) {
+            if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
+                if (jTemplate.getEditingReportIndex() == BaseJForm.ELEMENTCASE_TAB && ComparatorUtils.equals(itemName, names[0])) {
                     //表单报表块中图表悬浮元素超链，只屏蔽联动悬浮元素
                     return false;
-                } else if(jTemplate.getEditingReportIndex() == BaseJForm.FORM_TAB) {
+                } else if (jTemplate.getEditingReportIndex() == BaseJForm.FORM_TAB) {
                     //表单图表超链屏蔽掉联动悬浮元素和联动单元格
                     return false;
                 }
@@ -48,7 +48,7 @@ public class HyperlinkFilterHelper {
         return whetherAddFormLink(jTemplate, itemName);
     }
 
-    private static JTemplate getCurrentEditingTemplate () {
+    private static JTemplate getCurrentEditingTemplate() {
         return HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
     }
 
