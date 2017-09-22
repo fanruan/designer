@@ -37,8 +37,8 @@ public class ReportFloatPane extends JPanel {
     }
 
     public void refreshInsertFloatMenu(ElementCasePaneDelegate elementCasePaneDelegate) {
-        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, elementCasePaneDelegate);
         insertFloatMenu.clearShortCuts();
+        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, elementCasePaneDelegate);
         for (int i = 0; i < actions.length; i++) {
             insertFloatMenu.addShortCut(actions[i]);
         }
@@ -49,7 +49,7 @@ public class ReportFloatPane extends JPanel {
 
         UIToolbar topToolBar = new UIToolbar();
         topToolBar.setLayout(new BorderLayout());
-        insertFloatMenu = createInsertToolBar();
+        initInsertToolBar();
         topToolBar.setPreferredSize(new Dimension(155,20));
         topToolBar.add(createButtonUI(), BorderLayout.CENTER);
         topToolBar.setBorder(BorderFactory.createEmptyBorder(-1, -1, -1, -1));
@@ -73,19 +73,14 @@ public class ReportFloatPane extends JPanel {
         this.add(leftTopPane, BorderLayout.NORTH);
     }
 
-    private MenuDef createInsertToolBar() {
-        MenuDef insertFloatMenu = new MenuDef(true);
+    private void initInsertToolBar() {
+        insertFloatMenu = new MenuDef(true);
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
         insertFloatMenu.setTooltip(Inter.getLocText("FR-Designer_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         ElementCasePaneDelegate elementCasePaneDelegate = (ElementCasePaneDelegate) editingTemplate.getCurrentElementCasePane();
-        UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, elementCasePaneDelegate);
-        for (int i = 0; i < actions.length; i++) {
-            insertFloatMenu.addShortCut(actions[i]);
-        }
-        return insertFloatMenu;
-
+        refreshInsertFloatMenu(elementCasePaneDelegate);
     }
 
     private UIButton createButtonUI() {
