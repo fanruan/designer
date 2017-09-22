@@ -27,7 +27,7 @@ public abstract class AlphaCellModel implements Comparable {
         this.content = content;
 
     }
-    
+
     public CellType getType() {
         return type;
     }
@@ -68,6 +68,7 @@ public abstract class AlphaCellModel implements Comparable {
     public boolean isNeedToSendToServer() {
         return true;
     }
+
     /**
      * model转json
      *
@@ -102,7 +103,7 @@ public abstract class AlphaCellModel implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        AlphaCellModel cellModel = (AlphaCellModel)o;
+        AlphaCellModel cellModel = (AlphaCellModel) o;
         int difference = cellModel.getSearchCount() - this.getSearchCount();
         if (difference != 0) {
             return difference;
