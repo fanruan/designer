@@ -135,26 +135,24 @@ public class Designer extends BaseDesigner {
     public UILargeToolbar createLargeToolbar() {
         UILargeToolbar largeToolbar = super.createLargeToolbar();
         largeToolbar.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 4));
-        JPanel templeJpanel = new JPanel() {
+        largeToolbar.add(new JPanel() {
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.width = 1;
                 return dim;
             }
-        };
-        templeJpanel.setBackground(Color.WHITE);
-        largeToolbar.add(templeJpanel);
+        });
         createRunButton(largeToolbar);
         largeToolbar.add(run);
-        templeJpanel = new JPanel() {
+        run.setBackground(UIConstants.TREE_BACKGROUND);
+        largeToolbar.add(new JPanel() {
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.width = GAP;
                 return dim;
             }
-        };
-        templeJpanel.setBackground(Color.WHITE);
-        largeToolbar.add(templeJpanel);
+        });
+        largeToolbar.addSeparator(new Dimension(2, 42));
         largeToolbar.setBorder(new MatteBorder(new Insets(0, 0, 1, 0), UIConstants.LINE_COLOR));
         return largeToolbar;
     }
