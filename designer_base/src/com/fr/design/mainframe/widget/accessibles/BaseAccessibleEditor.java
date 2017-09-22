@@ -4,29 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-
+import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
-
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+import javax.swing.plaf.ButtonUI;
 import com.fr.base.BaseUtils;
 import com.fr.design.Exception.ValidationException;
+import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.editors.ITextComponent;
 import com.fr.design.mainframe.widget.editors.TextField;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;
+import com.fr.design.utils.gui.GUIPaintUtils;
 
 /**
  * @since 6.5.3
@@ -88,6 +90,26 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
                 }
                 public boolean shouldResponseChangeListener() {
                     return false;
+                }
+                @Override
+                public ButtonUI getUI() {
+                    return new UIButtonUI() {
+                        @Override
+                        protected boolean isPressed(AbstractButton b) {
+                            return model.isArmed() && model.isPressed();
+                        }
+
+                        @Override
+                        protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                            if (isPressed(b) && b.isPressedPainted()) {
+                                GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), UIConstants.COMBOBOX_BTN_PRESS);
+                            } else if (isRollOver(b)) {
+                                GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_ROLLOVER);
+                            } else if (b.isNormalPainted()) {
+                                GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted(), UIConstants.COMBOBOX_BTN_NORMAL);
+                            }
+                        }
+                    };
                 }
             };
             initPopupButton();
