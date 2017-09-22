@@ -16,77 +16,66 @@ import javax.swing.*;
  */
 public class AlphaFineConfigManager implements XMLable {
 
+    private static AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
     /**
      * 是否开启alphafine
      */
     private boolean isEnabled = true;
-
     /**
      * 是否联网搜索
      */
     private boolean isSearchOnLine = true;
 
     /**
+     * 搜索范围
+     */
+    /**
      * 快捷键设置
      */
     private String shortcuts;
-
-    /**
-     * 搜索范围
-     */
-
     /**
      * 猜您需要
      */
     private boolean isContainRecommend = true;
-
     /**
      * 设置
      */
     private boolean isContainAction = true;
-
     /**
      * 帮助文档
      */
     private boolean isContainDocument = true;
-
     /**
      * 模板
      */
     private boolean isContainTemplate = true;
-
     /**
      * 模板内容
      */
     private boolean isContainFileContent;
-
     /**
      * 应用中心
      */
     private boolean isContainPlugin = true;
-
     /**
      * 快捷键
      */
     private KeyStroke shortCutKeyStore;
-
     /**
      * 是否提醒
      */
     private boolean isNeedRemind = true;
-
     /**
      * 直接操作菜单次数
      */
     private int operateCount;
 
-
-
-
-    private static AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
-
     public static AlphaFineConfigManager getInstance() {
         return alphaFineConfigManager;
+    }
+
+    public static boolean isALPHALicAvailable() {
+        return FRContext.getCurrentEnv() != null && VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support();
     }
 
     @Override
@@ -131,8 +120,6 @@ public class AlphaFineConfigManager implements XMLable {
         writer.end();
     }
 
-
-
     public boolean isSearchOnLine() {
         return isSearchOnLine;
     }
@@ -148,19 +135,19 @@ public class AlphaFineConfigManager implements XMLable {
         return shortcuts;
     }
 
-    /**
-     * 返回默认快捷键
-     * @return
-     */
-    private String getDefaultShortCuts() {
-        return OperatingSystem.isMacOS()? "meta + D" : "ctrl + D";
-    }
-
     public void setShortcuts(String shortcuts) {
         this.shortcuts = shortcuts;
         this.shortCutKeyStore = convert2KeyStroke(this.shortcuts);
     }
 
+    /**
+     * 返回默认快捷键
+     *
+     * @return
+     */
+    private String getDefaultShortCuts() {
+        return OperatingSystem.isMacOS() ? "meta + D" : "ctrl + D";
+    }
 
     public boolean isContainAction() {
         return isContainAction;
@@ -247,10 +234,5 @@ public class AlphaFineConfigManager implements XMLable {
 
     public void setOperateCount(int operateCount) {
         this.operateCount = operateCount;
-    }
-
-
-    public static boolean isALPHALicAvailable() {
-        return FRContext.getCurrentEnv() != null && VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support();
     }
 }
