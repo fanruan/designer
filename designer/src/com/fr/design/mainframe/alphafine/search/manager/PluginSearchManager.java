@@ -103,6 +103,7 @@ public class PluginSearchManager implements AlphaFineSearchProcessor {
                 if (jsonArray != null) {
                     SearchResult searchResult = new SearchResult();
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        AlphaFineHelper.checkCancel();
                         PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
                         if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
                             searchResult.add(cellModel);
