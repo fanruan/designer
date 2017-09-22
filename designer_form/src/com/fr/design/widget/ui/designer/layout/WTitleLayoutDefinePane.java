@@ -12,6 +12,7 @@ import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.*;
 import com.fr.form.ui.container.WTitleLayout;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -32,7 +33,6 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
@@ -74,7 +74,9 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
     @Override
     public T updateBean() {
         T e = updateSubBean();
-        e.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
+        if(!ComparatorUtils.equals(borderStyleEditor.getValue(), e.getBorderStyle())){
+            e.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
+        }
         return e;
     }
 
