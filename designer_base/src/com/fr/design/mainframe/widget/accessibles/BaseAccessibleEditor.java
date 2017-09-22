@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 
 import javax.swing.JComponent;
@@ -77,7 +78,14 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
         setOpaque(false);
 
         if (showButton) {
-            btPopup = new UIButton();
+            btPopup = new UIButton(){
+                public void registerChangeListener(UIObserverListener listener) {
+                    return;
+                }
+                public boolean shouldResponseChangeListener() {
+                    return false;
+                }
+            };
             initPopupButton();
             btPopup.addActionListener(new ActionListener() {
 
@@ -189,4 +197,6 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
 	public static void showMessage(String message, Component editorComponent) {
 	    JOptionPane.showMessageDialog(editorComponent, message, "Validation Error", JOptionPane.ERROR_MESSAGE);
 	}
+
+
 }

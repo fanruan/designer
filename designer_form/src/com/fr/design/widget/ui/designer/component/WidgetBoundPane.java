@@ -49,6 +49,8 @@ public class WidgetBoundPane extends BasicPane {
     public void initBoundPane() {
         width = new UISpinner(0, 1200, 1);
         height = new UISpinner(0, 1200, 1);
+        width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         if (creator.acceptType(XWCardLayout.class)) {
             width.setEnabled(false);
             height.setEnabled(false);

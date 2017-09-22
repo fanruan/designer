@@ -15,4 +15,9 @@ public interface DataModify<T> {
     DataCreatorUI dataUI();
 
     JComponent toSwingComponent();
+
+    String getGlobalName();
+
+    void setGlobalName(String globalName);
+
 }

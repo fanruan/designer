@@ -18,6 +18,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -199,13 +200,19 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
 
 
     public void updateCreator() {
+        currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        widgetPropertyPane.update(widget);
-        if (widgetBoundPane != null) {
+        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Widget_Name"))){
+            widgetPropertyPane.update(widget);
+            xCreator.resetCreatorName(widget.getWidgetName());
+            designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
+            return;
+        }
+
+        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Coords_And_Size"))) {
             widgetBoundPane.update();
         }
-        xCreator.resetCreatorName(widget.getWidgetName());
-        designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
+
         fireValueChanged();
     }
 

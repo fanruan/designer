@@ -64,12 +64,12 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"), formatHead},
-                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date") + ":"), startDv},
-                new Component[]{new UILabel(Inter.getLocText("FS_End_Date") + ":"), endDv},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark") + ":"), waterMarkDictPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format")), formatHead},
+                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date")), startDv},
+                new Component[]{new UILabel(Inter.getLocText("FS_End_Date")), endDv},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
-                new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypeComboBox}
+                new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}
 
         };
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p};

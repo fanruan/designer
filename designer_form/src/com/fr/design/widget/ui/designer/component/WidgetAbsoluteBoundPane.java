@@ -4,6 +4,8 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.container.WLayout;
+import com.fr.general.Inter;
+
 import java.awt.*;
 
 /**
@@ -22,6 +24,10 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         y = new UISpinner(0, 1200, 1);
         width = new UISpinner(0, 1200, 1);
         height = new UISpinner(0, 1200, 1);
+        x.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        y.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         this.add(WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height));
     }
 

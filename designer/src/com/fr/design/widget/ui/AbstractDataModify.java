@@ -3,6 +3,7 @@ package com.fr.design.widget.ui;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.widget.DataModify;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 
@@ -10,6 +11,7 @@ import javax.swing.*;
  * Created by richie on 15/11/16.
  */
 public abstract class AbstractDataModify<T> extends BasicBeanPane<T> implements DataModify<T> {
+    protected String globalName;
 
     @Override
     public DataCreatorUI dataUI() {
@@ -19,5 +21,13 @@ public abstract class AbstractDataModify<T> extends BasicBeanPane<T> implements 
     @Override
     public JComponent toSwingComponent() {
         return this;
+    }
+
+    public void setGlobalName(String globalName){
+        this.globalName = globalName;
+    }
+
+    public String getGlobalName(){
+        return globalName;
     }
 }

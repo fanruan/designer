@@ -8,6 +8,7 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleElementCaseToolBarEd
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.web.FormToolBarManager;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;
@@ -45,8 +46,13 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
 
     protected ElementCaseEditor updateSubBean() {
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor) creator.toData();
-        paddingBoundPane.update(elementCaseEditor);
-        elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());
+        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))){
+            paddingBoundPane.update(elementCaseEditor);
+        }
+        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("Form-EC_toolbar"))){
+            elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());
+        }
+
         return elementCaseEditor;
     }
 

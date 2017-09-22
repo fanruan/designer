@@ -12,6 +12,7 @@ import javax.swing.*;
  */
 public abstract class AbstractDataModify<T> extends BasicBeanPane<T> implements DataModify<T> {
     protected XCreator creator;
+    protected String globalName;
 
 
     public AbstractDataModify(XCreator xCreator){
@@ -28,5 +29,11 @@ public abstract class AbstractDataModify<T> extends BasicBeanPane<T> implements 
         return this;
     }
 
+    public void setGlobalName(String globalName){
+        this.globalName = globalName;
+    }
 
+    public String getGlobalName(){
+        return globalName;
+    }
 }
