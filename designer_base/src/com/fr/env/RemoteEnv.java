@@ -175,12 +175,8 @@ public class RemoteEnv extends AbstractEnv {
      * 根据nameValuePairs,也就是参数对,生成PostMethod,不同之处在于,参数拼在path后面,不是method.addParameters
      */
     private HttpClient createHttpMethod2(HashMap<String, String> para) throws EnvException {
-        StringBuilder sb = new StringBuilder(path);
-
-        sb.append('?');
-        sb.append("id=").append(createUserID());
-
-        return new HttpClient(sb.toString(), para, true);
+        String methodPath = path + '?' + "id=" + createUserID();
+        return new HttpClient(methodPath, para, true);
     }
 
 
@@ -362,7 +358,7 @@ public class RemoteEnv extends AbstractEnv {
                     Inter.getLocText(new String[]{"Datasource-Connection_failed", "Registration-User_Name", "Password", "Error"}, new String[]{",", "", "", "!"})
                     , Inter.getLocText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
             return false;
-        } else if (res.indexOf("RegistEditionException") != -1) {
+        } else if (res.contains("RegistEditionException")) {
             if (needMessage) {
                 JOptionPane.showMessageDialog(parentComponent, Inter.getLocText(new String[]{"Datasource-Connection_failed", "Version-does-not-support"}, new String[]{",", "!"}));
             } else {
@@ -415,9 +411,8 @@ public class RemoteEnv extends AbstractEnv {
         para.put("op", "fr_remote_design");
         para.put("cmd", "heart_beat");
         para.put("user", user);
-        para.put("userid", userID);
 
-        HttpClient client = createHttpMethod(para, true);
+        HttpClient client = createHttpMethod(para);
         execute4InputStream(client);
 
         //这做法不好, 30秒刷一次, 刷新的时候会重新构建树, 构建完会把子节点都收缩起来, 效果太差.
@@ -552,7 +547,7 @@ public class RemoteEnv extends AbstractEnv {
         if (resJSON == null) {
             return false;
         }
-        if (resJSON.indexOf("RegistEditionException") != -1) {
+        if (resJSON.contains("RegistEditionException")) {
             JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Lic_does_not_Support_Remote"));
             return false;
         }

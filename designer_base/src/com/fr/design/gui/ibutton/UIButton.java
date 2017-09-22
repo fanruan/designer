@@ -36,7 +36,7 @@ public class UIButton extends JButton implements UIObserver {
 	private CellBorderStyle border = null;
 
 	protected UIObserverListener uiObserverListener;
-	private static final int TOOLTIP_INIT_DELAY = 1000;  // 延迟 1s 显示提示文字
+	private static final int TOOLTIP_INIT_DELAY = 300;  // 延迟 0.3s 显示提示文字
 
 	public UIButton() {
 		this(StringUtils.EMPTY);

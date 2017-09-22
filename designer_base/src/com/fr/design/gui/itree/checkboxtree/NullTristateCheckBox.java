@@ -65,7 +65,6 @@ public class NullTristateCheckBox extends TristateCheckBox {
 
 //    @Override
     public void updateUI() {
-        super.updateUI();
         clearAttribute();
     }
 
