@@ -102,6 +102,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
         initLegendTypeButtonListener();
 
         JPanel legendTypeButtonWithTilePane = createTableLayoutPaneWithTitle(Inter.getLocText("Plugin-ChartF_Legend_Form"),legendTypeButton);
+        legendTypeButtonWithTilePane.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
 
         rangeLegendPane = createRangeLegendPane();
 

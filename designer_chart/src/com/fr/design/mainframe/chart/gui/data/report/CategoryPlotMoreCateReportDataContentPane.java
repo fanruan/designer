@@ -67,7 +67,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 		catePane.add(boxPane, BorderLayout.SOUTH);
 
-		catePane.setBorder(BorderFactory.createEmptyBorder(0,24,10,15));
+		catePane.setBorder(BorderFactory.createEmptyBorder(0,24,10,6));
 
 		this.add(catePane, "0,0,2,0");
 		filterPane = new ChartDataFilterPane(new Bar2DPlot(), parent);
@@ -96,7 +96,7 @@ public class CategoryPlotMoreCateReportDataContentPane extends CategoryPlotRepor
 
 	private TinyFormulaPane addNewCatePane() {
 		final TinyFormulaPane pane = initCategoryBox(StringUtils.EMPTY);
-		pane.setPreferredSize(new Dimension(106, 16));
+		pane.setPreferredSize(new Dimension(100, 16));
 
 		pane.registerChangeListener(uiobListener);
 

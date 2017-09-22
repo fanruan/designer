@@ -47,8 +47,9 @@ public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane 
 		JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("FR-Chart-Data_Filter"),filterPane);
 		JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
 
-		filterPane.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
+		filterPane.setBorder(BorderFactory.createEmptyBorder(0,10,0,15));
 		panel.setBorder(BorderFactory.createEmptyBorder(10,24,10,15));
+		jPanel.setBorder(BorderFactory.createEmptyBorder(0,12,0,5));
 
         this.add(getJSeparator(),BorderLayout.NORTH);
 		this.add(panel,BorderLayout.CENTER);

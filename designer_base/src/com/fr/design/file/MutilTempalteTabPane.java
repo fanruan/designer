@@ -373,7 +373,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
         g2d.setPaint(new GradientPaint(1, 1, new Color(217, 218, 221), 1, getHeight() - 1, new Color(217, 218, 221)));
-        g2d.fillRect(getX(), getY(), getWidth(), getHeight());
+        g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 
 

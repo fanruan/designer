@@ -64,6 +64,7 @@ public interface UIConstants {
             Constants.LINE_MEDIUM_DASH_DOT_DOT, //medium dash-dot-dot border
             Constants.LINE_SLANTED_DASH_DOT, //slanted dash-dot border
     };
+    public static final Color TOOLBAR_BORDER_COLOR = new Color(0xD9DADD);
     public static final Color COMBOBOX_BTN_NORMAL = new Color(0xD9DADD);
     public static final Color COMBOBOX_BTN_ROLLOVER = new Color(0xC8C9CD);
     public static final Color COMBOBOX_BTN_PRESS = new Color(0xD8F2FD);
@@ -102,7 +103,7 @@ public interface UIConstants {
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
     public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
-    public static final Color RULER_LINE_COLOR = new Color(0xababab);
+    public static final Color RULER_LINE_COLOR = new Color(0xD9DADD);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);

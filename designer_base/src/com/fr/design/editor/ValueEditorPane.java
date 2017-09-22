@@ -2,6 +2,7 @@ package com.fr.design.editor;
 
 import com.fr.base.Formula;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.editor.editor.*;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
@@ -11,10 +12,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.BasicPane;
-import com.fr.design.editor.editor.ColumnNameEditor;
-import com.fr.design.editor.editor.Editor;
-import com.fr.design.editor.editor.TextEditor;
-import com.fr.design.editor.editor.XMLANameEditor;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -207,9 +204,10 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
         String name = currentEditor.getName();
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
-//        if (ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
-//            columnIndex = new Formula(columnIndex == null ? "" : columnIndex.toString());
-//        }
+        //MoMeak：我也想注释了，但是有bug啊。。。
+        if (columnIndex == null && ComparatorUtils.equals(name, Inter.getLocText("Formula"))) {
+            columnIndex = ((FormulaEditor) currentEditor).getFormula();
+        }
 
         return columnIndex;
     }
