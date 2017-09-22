@@ -122,7 +122,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isEnabled() && !isEventBannded) {
-					setSelectedWithFireListener(!isSelected()); 
+					setSelectedWithFireListener(!isSelected());
 				}
 			}
 		};
