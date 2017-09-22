@@ -6,7 +6,8 @@ import com.fr.design.widget.WidgetBoundsPaneFactory;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.Rectangle;
+
 
 /**
  * Created by ibm on 2017/8/3.

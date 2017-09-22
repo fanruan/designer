@@ -22,8 +22,11 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
 
 /**
  * Created by ibm on 2017/7/25.

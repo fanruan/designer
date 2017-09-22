@@ -11,8 +11,11 @@ import com.fr.form.ui.AbstractMarginWidget;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+
 
 /**
  * Created by ibm on 2017/8/3.

@@ -2,21 +2,22 @@ package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
-import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
-import com.fr.form.ui.*;
-import com.fr.form.ui.container.WTitleLayout;
+import com.fr.form.ui.AbstractBorderStyleWidget;
+import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+
 
 /**
  * Created by ibm on 2017/8/3.

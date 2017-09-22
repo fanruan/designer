@@ -12,7 +12,7 @@ import com.fr.form.web.FormToolBarManager;
 import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.ArrayList;

@@ -5,7 +5,8 @@ import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.widget.DataModify;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+
 
 /**
  * Created by kerry on 17/07/28.

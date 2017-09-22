@@ -11,8 +11,10 @@ import com.fr.form.web.FormToolBarManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by ibm on 2017/8/7.

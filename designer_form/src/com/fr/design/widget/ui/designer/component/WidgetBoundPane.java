@@ -16,8 +16,9 @@ import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import java.awt.Rectangle;
+
 
 /**
  * Created by ibm on 2017/7/30.

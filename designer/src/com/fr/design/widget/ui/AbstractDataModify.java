@@ -3,9 +3,9 @@ package com.fr.design.widget.ui;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.widget.DataModify;
-import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+
 
 /**
  * Created by richie on 15/11/16.
