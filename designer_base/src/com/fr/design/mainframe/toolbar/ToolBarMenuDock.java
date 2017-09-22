@@ -5,17 +5,33 @@ package com.fr.design.mainframe.toolbar;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
 import com.fr.design.DesignState;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.community.*;
-import com.fr.design.actions.file.*;
+import com.fr.design.actions.community.BBSAction;
+import com.fr.design.actions.community.BugAction;
+import com.fr.design.actions.community.NeedAction;
+import com.fr.design.actions.community.QuestionAction;
+import com.fr.design.actions.community.SignAction;
+import com.fr.design.actions.community.UpAction;
+import com.fr.design.actions.community.VideoAction;
+import com.fr.design.actions.file.CloseCurrentTemplateAction;
+import com.fr.design.actions.file.ExitDesignerAction;
+import com.fr.design.actions.file.OpenRecentReportMenuDef;
+import com.fr.design.actions.file.OpenTemplateAction;
+import com.fr.design.actions.file.PreferenceAction;
+import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.actions.help.AboutAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.help.alphafine.AlphaFineAction;
-import com.fr.design.actions.server.*;
+import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
+import com.fr.design.actions.server.ConnectionListAction;
+import com.fr.design.actions.server.FunctionManagerAction;
+import com.fr.design.actions.server.GlobalParameterAction;
+import com.fr.design.actions.server.GlobalTableDataAction;
+import com.fr.design.actions.server.PlatformManagerAction;
+import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
 import com.fr.design.fun.TableDataPaneProcessor;
@@ -35,7 +51,6 @@ import com.fr.env.RemoteEnv;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
-import com.fr.general.VT4FR;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -48,8 +63,11 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author richer
@@ -61,12 +79,63 @@ import java.util.List;
  * 还有docking的状态的保存,下次打开设计器,也应该是这样的
  */
 public abstract class ToolBarMenuDock {
+    public static final int PANLE_HEIGNT = 26;
+    public static final ToolBarMenuDockPlus NULLAVOID = new ToolBarMenuDockPlus() {
+
+        @Override
+        public ToolBarDef[] toolbars4Target() {
+            return new ToolBarDef[0];
+        }
+
+
+        @Override
+        public ShortCut[] shortcut4FileMenu() {
+            return new ShortCut[0];
+        }
+
+        @Override
+        public MenuDef[] menus4Target() {
+            return new MenuDef[0];
+        }
+
+        @Override
+        public JPanel[] toolbarPanes4Form() {
+            return new JPanel[0];
+        }
+
+        public JComponent[] toolBarButton4Form() {
+            return new JComponent[0];
+        }
+
+        public JComponent toolBar4Authority() {
+            return new JPanel();
+        }
+
+        @Override
+        public int getMenuState() {
+            return DesignState.WORK_SHEET;
+        }
+
+        public int getToolBarHeight() {
+            return PANLE_HEIGNT;
+        }
+
+        /**
+         * 导出菜单的子菜单 ，目前用于图表设计器
+         *
+         * @return 子菜单
+         */
+        public ShortCut[] shortcut4ExportMenu() {
+            return new ShortCut[0];
+        }
+
+    };
     private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
-    public static final int PANLE_HEIGNT = 26;
     private MenuDef[] menus;
     private ToolBarDef toolBarDef;
     private List<UpdateActionModel> shortCutsList;
+
     /**
      * 更新菜单
      */
@@ -118,6 +187,10 @@ public abstract class ToolBarMenuDock {
         return jMenuBar;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////menu below/////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * 生成报表设计和表单设计的编辑区域
      *
@@ -126,10 +199,6 @@ public abstract class ToolBarMenuDock {
     public JTemplate<?, ?> createNewTemplate() {
         return null;
     }
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////menu below/////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////
 
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
@@ -164,6 +233,7 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 获取所有actionmodel
+     *
      * @param menuList
      */
     private void addAllUpdateActionsToList(List<MenuDef> menuList) {
@@ -175,6 +245,7 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 递归获取所有UpdateAction
+     *
      * @param menuDef
      */
     private void addUpdateActionToList(MenuDef menuDef, int level) {
@@ -195,11 +266,11 @@ public abstract class ToolBarMenuDock {
         }
     }
 
-    public  void addCommunityMenuDef(java.util.List<MenuDef> menuList){
+    public void addCommunityMenuDef(java.util.List<MenuDef> menuList) {
         Locale locale = FRContext.getLocale();
-        Locale [] locales =supportCommunityLocales();
-        for(int i = 0; i < locales.length; i++) {
-            if(locale.equals(locales[i])){
+        Locale[] locales = supportCommunityLocales();
+        for (int i = 0; i < locales.length; i++) {
+            if (locale.equals(locales[i])) {
                 menuList.add(createCommunityMenuDef());
                 break;
             }
@@ -218,13 +289,13 @@ public abstract class ToolBarMenuDock {
         // 给菜单加插件入口
         for (MenuDef m : menuDefs) {
             switch (m.getAnchor()) {
-                case MenuHandler.TEMPLATE :
+                case MenuHandler.TEMPLATE:
                     insertMenu(m, MenuHandler.TEMPLATE, new TemplateTargetAction(plus));
                     break;
-                case MenuHandler.INSERT :
+                case MenuHandler.INSERT:
                     insertMenu(m, MenuHandler.INSERT);
                     break;
-                case MenuHandler.CELL :
+                case MenuHandler.CELL:
                     insertMenu(m, MenuHandler.CELL);
                     break;
                 default:
@@ -271,7 +342,7 @@ public abstract class ToolBarMenuDock {
 
         addSwitchExistEnvAction(menuDef);
 
-        menuDef.addShortCut( new ExitDesignerAction());
+        menuDef.addShortCut(new ExitDesignerAction());
 
         insertMenu(menuDef, MenuHandler.FILE);
         return menuDef;
@@ -293,7 +364,7 @@ public abstract class ToolBarMenuDock {
         menuDef.addShortCut(new SwitchExistEnv());
     }
 
-    protected ShortCut openTemplateAction(){
+    protected ShortCut openTemplateAction() {
         return new OpenTemplateAction();
     }
 
@@ -308,16 +379,14 @@ public abstract class ToolBarMenuDock {
      * 创建论坛登录面板, chart那边不需要
      *
      * @return 面板组件
-     *
      */
-    public Component createBBSLoginPane(){
+    public Component createBBSLoginPane() {
         return new UILabel();
     }
 
-    public Component createAlphafinePane(){
+    public Component createAlphafinePane() {
         return new UILabel();
     }
-
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_M-Server"), 'S');
@@ -361,6 +430,7 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 创建帮助子菜单
+     *
      * @return 帮组菜单的子菜单
      */
     public ShortCut[] createHelpShortCuts() {
@@ -372,18 +442,14 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new TutorialAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
-        //shortCuts.add(new TutorialAction());
         shortCuts.add(SeparatorDef.DEFAULT);
-        if (ComparatorUtils.equals(ProductConstants.APP_NAME,FINEREPORT)) {
-
-            // mod by anchore 16/11/17 去掉反馈
-            //shortCuts.add(new FeedBackAction());
+        if (ComparatorUtils.equals(ProductConstants.APP_NAME, FINEREPORT)) {
             shortCuts.add(SeparatorDef.DEFAULT);
-            shortCuts.add(SeparatorDef.DEFAULT);
-            //  shortCuts.add(new ForumAction());
         }
-        shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(new AlphaFineAction());
+        if (AlphaFineConfigManager.isALPHALicAvailable()) {
+            shortCuts.add(new AlphaFineAction());
+            shortCuts.add(SeparatorDef.DEFAULT);
+        }
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
@@ -391,6 +457,7 @@ public abstract class ToolBarMenuDock {
 
     /**
      * 创建社区子菜单
+     *
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
@@ -405,6 +472,7 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
+
     public MenuDef createHelpMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
@@ -414,6 +482,7 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.HELP);
         return menuDef;
     }
+
     public MenuDef createCommunityMenuDef() {
         MenuDef menuDef = new MenuDef(Inter.getLocText("FR-Designer_COMMUNITY"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
@@ -423,6 +492,7 @@ public abstract class ToolBarMenuDock {
         insertMenu(menuDef, MenuHandler.BBS);
         return menuDef;
     }
+
     /**
      * 生成工具栏
      *
@@ -460,7 +530,6 @@ public abstract class ToolBarMenuDock {
         }
     }
 
-
     protected JPanel polyToolBar(String text) {
         JPanel panel = new JPanel(new BorderLayout()) {
             public Dimension getPreferredSize() {
@@ -477,7 +546,6 @@ public abstract class ToolBarMenuDock {
         return panel;
     }
 
-
     /**
      * 重置上面的工具栏
      *
@@ -487,7 +555,6 @@ public abstract class ToolBarMenuDock {
     public JComponent[] resetUpToolBar(ToolBarMenuDockPlus plus) {
         return plus.toolBarButton4Form();
     }
-
 
     /**
      * 创建大的工具按钮
@@ -507,62 +574,11 @@ public abstract class ToolBarMenuDock {
         return new UIButton[0];
     }
 
-
     protected void refreshLargeToolbarState() {
 
     }
 
-    public static final ToolBarMenuDockPlus NULLAVOID = new ToolBarMenuDockPlus() {
-
-        @Override
-        public ToolBarDef[] toolbars4Target() {
-            return new ToolBarDef[0];
-        }
-
-
-        @Override
-        public ShortCut[] shortcut4FileMenu() {
-            return new ShortCut[0];
-        }
-
-        @Override
-        public MenuDef[] menus4Target() {
-            return new MenuDef[0];
-        }
-
-        @Override
-        public JPanel[] toolbarPanes4Form() {
-            return new JPanel[0];
-        }
-
-        public JComponent[] toolBarButton4Form() {
-            return new JComponent[0];
-        }
-
-        public JComponent toolBar4Authority() {
-            return new JPanel();
-        }
-
-        @Override
-        public int getMenuState() {
-            return DesignState.WORK_SHEET;
-        }
-        public int getToolBarHeight(){
-            return PANLE_HEIGNT;
-        }
-
-        /**
-         * 导出菜单的子菜单 ，目前用于图表设计器
-         *
-         * @return 子菜单
-         */
-        public ShortCut[] shortcut4ExportMenu(){
-            return new ShortCut[0];
-        }
-
-    };
-
-    public NewTemplatePane getNewTemplatePane(){
+    public NewTemplatePane getNewTemplatePane() {
         return new NewTemplatePane() {
             @Override
             public Icon getNew() {
@@ -584,28 +600,28 @@ public abstract class ToolBarMenuDock {
     protected void insertMenu(MenuDef menuDef, String anchor) {
         insertMenu(menuDef, anchor, new NoTargetAction());
     }
-    
+
     protected void insertMenu(MenuDef menuDef, String anchor, ShortCutMethodAction action) {
-        
+
         listenPluginMenuChange(menuDef, anchor, action);
         Set<MenuHandler> set = ExtraDesignClassManager.getInstance().getArray(MenuHandler.MARK_STRING);
         addExtraMenus(menuDef, anchor, action, set);
-        
+
     }
-    
+
     private void listenPluginMenuChange(final MenuDef menuDef, final String anchor, final ShortCutMethodAction action) {
-        
+
         PluginFilter filter = new PluginFilter() {
-            
+
             @Override
             public boolean accept(PluginContext context) {
-                
+
                 return context.contain(MenuHandler.MARK_STRING);
             }
         };
-    
+
         GeneralContext.listenPlugin(PluginEventType.BeforeStop, new PluginEventListener() {
-            
+
             @Override
             public void on(PluginEvent event) {
                 PluginRuntime runtime = event.getContext().getRuntime();
@@ -614,59 +630,59 @@ public abstract class ToolBarMenuDock {
             }
         }, filter);
         GeneralContext.listenPlugin(PluginEventType.AfterRun, new PluginEventListener() {
-            
+
             @Override
             public void on(PluginEvent event) {
-                
+
                 PluginRuntime runtime = event.getContext().getRuntime();
                 Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
                 addExtraMenus(menuDef, anchor, action, menuHandlers);
             }
         }, filter);
     }
-    
+
     private void removeExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
-    
-    
+
+
         List<MenuHandler> target = new ArrayList<>();
         for (MenuHandler handler : set) {
             if (ComparatorUtils.equals(handler.category(), anchor)) {
                 target.add(handler);
             }
         }
-    
+
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
             if (insertPosition == MenuHandler.HIDE) {
                 return;
             }
             ShortCut shortCut = action.methodAction(handler);
-            if (shortCut == null){
+            if (shortCut == null) {
                 continue;
             }
             menuDef.removeShortCut(shortCut);
         }
     }
-    
+
     private void addExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
-        
+
         List<MenuHandler> target = new ArrayList<>();
         for (MenuHandler handler : set) {
             if (ComparatorUtils.equals(handler.category(), anchor)) {
                 target.add(handler);
             }
         }
-        
+
         for (MenuHandler handler : target) {
             int insertPosition = handler.insertPosition(menuDef.getShortCutCount());
             if (insertPosition == MenuHandler.HIDE) {
                 return;
             }
             ShortCut shortCut = action.methodAction(handler);
-            if (shortCut == null){
+            if (shortCut == null) {
                 continue;
             }
-            
+
             if (insertPosition == MenuHandler.LAST) {
                 if (handler.insertSeparatorBefore()) {
                     menuDef.addShortCut(SeparatorDef.DEFAULT);
@@ -676,48 +692,47 @@ public abstract class ToolBarMenuDock {
                 menuDef.insertShortCut(insertPosition, shortCut);
                 if (handler.insertSeparatorBefore()) {
                     menuDef.insertShortCut(insertPosition, SeparatorDef.DEFAULT);
-                    insertPosition ++;
+                    insertPosition++;
                 }
                 if (handler.insertSeparatorAfter()) {
-                    insertPosition ++;
+                    insertPosition++;
                     menuDef.insertShortCut(insertPosition, SeparatorDef.DEFAULT);
                 }
             }
         }
     }
-    
+
     /**
      * 设计器退出时, 做的一些操作.
-     *
      */
-    public void shutDown(){
+    public void shutDown() {
 
     }
 
-    private interface ShortCutMethodAction{
+    private interface ShortCutMethodAction {
 
         public ShortCut methodAction(MenuHandler handler);
     }
 
-    private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction{
+    private abstract class AbstractShortCutMethodAction implements ShortCutMethodAction {
 
-        public ShortCut methodAction(MenuHandler handler){
+        public ShortCut methodAction(MenuHandler handler) {
             return handler.shortcut();
         }
     }
 
     //不需要编辑对象的菜单, 比如文件, 服务器, 关于
-    private class NoTargetAction extends AbstractShortCutMethodAction{
+    private class NoTargetAction extends AbstractShortCutMethodAction {
 
     }
 
     //模板为对象的菜单, 比如模板, 后续如果单元格也要, 直接加个CellTargetAction即可.
     //在methodAction中做handler.shortcut(cell), 不需要修改handler中原有接口, 加个shortcut(cell).
-    private class TemplateTargetAction extends AbstractShortCutMethodAction{
+    private class TemplateTargetAction extends AbstractShortCutMethodAction {
 
         private ToolBarMenuDockPlus plus;
 
-        public TemplateTargetAction(ToolBarMenuDockPlus plus){
+        public TemplateTargetAction(ToolBarMenuDockPlus plus) {
             this.plus = plus;
         }
 

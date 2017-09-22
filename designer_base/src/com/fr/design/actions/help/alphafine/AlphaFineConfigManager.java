@@ -1,5 +1,6 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.base.FRContext;
 import com.fr.base.FRCoreContext;
 import com.fr.general.VT4FR;
 import com.fr.stable.OperatingSystem;
@@ -246,5 +247,10 @@ public class AlphaFineConfigManager implements XMLable {
 
     public void setOperateCount(int operateCount) {
         this.operateCount = operateCount;
+    }
+
+
+    public static boolean isALPHALicAvailable() {
+        return FRContext.getCurrentEnv() != null && VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support();
     }
 }
