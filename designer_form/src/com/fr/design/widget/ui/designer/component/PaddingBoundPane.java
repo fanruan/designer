@@ -11,13 +11,16 @@ import com.fr.form.ui.AbstractMarginWidget;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+
 
 /**
  * Created by ibm on 2017/8/3.
  */
-public class PaddingBoundPane extends BasicPane {
+public class PaddingBoundPane extends BasicPane{
     protected UISpinner top;
     protected UISpinner bottom;
     protected UISpinner left;
@@ -33,6 +36,10 @@ public class PaddingBoundPane extends BasicPane {
         bottom = new UISpinner(0, 1000, 1, 0);
         left = new UISpinner(0, 1000, 1, 0);
         right = new UISpinner(0, 1000, 1, 0);
+        top.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
+        bottom.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
+        left.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
+        right.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p};
@@ -47,8 +54,8 @@ public class PaddingBoundPane extends BasicPane {
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         this.add(panel);
-
     }
+
 
     public void update(AbstractMarginWidget marginWidget) {
         marginWidget.setMargin(new PaddingMargin((int)top.getValue(), (int)left.getValue(), (int)bottom.getValue(), (int)right.getValue() ));
@@ -65,5 +72,6 @@ public class PaddingBoundPane extends BasicPane {
         left.setValue(paddingMargin.getLeft());
         right.setValue(paddingMargin.getRight());
     }
+
 
 }

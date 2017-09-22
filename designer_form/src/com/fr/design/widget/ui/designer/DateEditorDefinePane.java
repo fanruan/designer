@@ -20,10 +20,15 @@ import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.UtilEvalError;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -64,12 +69,12 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format") + ":"), formatHead},
-                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date") + ":"), startDv},
-                new Component[]{new UILabel(Inter.getLocText("FS_End_Date") + ":"), endDv},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark") + ":"), waterMarkDictPane},
+                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format")), formatHead},
+                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date")), startDv},
+                new Component[]{new UILabel(Inter.getLocText("FS_End_Date")), endDv},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
-                new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), returnTypeComboBox}
+                new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}
 
         };
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p};

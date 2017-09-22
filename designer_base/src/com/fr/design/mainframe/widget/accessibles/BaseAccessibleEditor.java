@@ -1,12 +1,17 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 
 import javax.swing.JComponent;
@@ -77,7 +82,14 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
         setOpaque(false);
 
         if (showButton) {
-            btPopup = new UIButton();
+            btPopup = new UIButton(){
+                public void registerChangeListener(UIObserverListener listener) {
+                    return;
+                }
+                public boolean shouldResponseChangeListener() {
+                    return false;
+                }
+            };
             initPopupButton();
             btPopup.addActionListener(new ActionListener() {
 
@@ -189,4 +201,6 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
 	public static void showMessage(String message, Component editorComponent) {
 	    JOptionPane.showMessageDialog(editorComponent, message, "Validation Error", JOptionPane.ERROR_MESSAGE);
 	}
+
+
 }
