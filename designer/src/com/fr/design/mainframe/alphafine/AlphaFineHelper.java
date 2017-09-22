@@ -19,7 +19,6 @@ import java.util.List;
  * Created by XiaXiang on 2017/5/8.
  */
 public class AlphaFineHelper {
-    public static final NoResultModel NO_RESULT_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_AlphaFine_NoResult"));
     public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(Inter.getLocText("FR-Designer_ConnectionFailed"));
     private static AlphaFineDialog alphaFineDialog;
 

@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.alphafine.component;
 
+import com.bulenkov.iconloader.IconLoader;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineContext;
 import com.fr.design.actions.help.alphafine.AlphaFineListener;
@@ -27,7 +28,7 @@ public class AlphaFinePane extends BasicPane {
             Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
         }
         UIButton refreshButton = new UIButton();
-        refreshButton.setIcon(IOUtils.readIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
+        refreshButton.setIcon(IconLoader.getIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
         refreshButton.set4ToolbarButton();
         refreshButton.setRolloverEnabled(false);
