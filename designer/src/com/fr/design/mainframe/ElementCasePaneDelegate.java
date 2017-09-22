@@ -176,6 +176,9 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         for (int i = 0; i < actions.length; i++) {
             subMenuDef.addShortCut(actions[i]);
         }
+
+        // 顺便更新右侧属性面板悬浮元素tab中的菜单项
+        ReportFloatPane.getInstance().refreshInsertFloatMenu(this);
     }
 
     // 格式菜单
