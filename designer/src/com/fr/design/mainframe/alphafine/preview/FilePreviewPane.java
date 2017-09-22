@@ -18,7 +18,7 @@ public class FilePreviewPane extends JPanel {
         float widthScale = (AlphaFineConstants.RIGHT_WIDTH) / (float) image.getWidth();
         float heightScale = (AlphaFineConstants.CONTENT_HEIGHT) / (float) image.getHeight();
         Image showImage;
-        showImage = widthScale > heightScale? image.getScaledInstance((int) (image.getWidth() * heightScale), AlphaFineConstants.CONTENT_HEIGHT, Image.SCALE_SMOOTH) : image.getScaledInstance(AlphaFineConstants.RIGHT_WIDTH, (int) (image.getWidth() * widthScale), Image.SCALE_SMOOTH);
+        showImage = widthScale > heightScale ? image.getScaledInstance((int) (image.getWidth() * heightScale), AlphaFineConstants.CONTENT_HEIGHT, Image.SCALE_SMOOTH) : image.getScaledInstance(AlphaFineConstants.RIGHT_WIDTH, (int) (image.getWidth() * widthScale), Image.SCALE_SMOOTH);
         label.setIcon(new ImageIcon(showImage));
         add(label);
     }

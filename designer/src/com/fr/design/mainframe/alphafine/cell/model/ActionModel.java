@@ -6,8 +6,6 @@ import com.fr.general.FRLogger;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 
-import javax.swing.*;
-
 /**
  * Created by XiaXiang on 2017/4/20.
  */

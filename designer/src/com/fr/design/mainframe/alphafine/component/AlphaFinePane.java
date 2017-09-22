@@ -8,10 +8,8 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.utils.ThemeUtils;
-import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
