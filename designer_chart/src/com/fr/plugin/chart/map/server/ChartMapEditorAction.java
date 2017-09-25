@@ -1,6 +1,8 @@
 package com.fr.plugin.chart.map.server;
 
 import com.fr.base.ConfigManager;
+import com.fr.base.Env;
+import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.general.GeneralContext;
@@ -24,7 +26,8 @@ public class ChartMapEditorAction extends UpdateAction {
         int port = DesignerEnvManager.getEnvManager().getJettyServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ConfigManager.getProviderInstance().getServletMapping();
-        StartServer.browserURLWithLocalEnv(String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet));
+        Env env = FRContext.getCurrentEnv();
+        StartServer.browserURLWithLocalEnv(env.isLocalEnv() ? String.format("http://localhost:%d/%s/%s?op=map", port, web, serverlet) : env.getPath() + "?op=map");
     }
 
 }
