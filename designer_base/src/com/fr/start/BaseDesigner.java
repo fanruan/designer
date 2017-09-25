@@ -59,11 +59,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     private Timer timer;
 
     public BaseDesigner(String[] args) {
-        BuildContext.setBuildFilePath(buildPropertiesPath());
 
-        if (isDebug()) {
-            setDebugEnv();
-        }
         RestartHelper.deleteRecordFilesWhenStart();
         //初始化插件引擎
         PluginStartup.start();
@@ -71,7 +67,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         PluginConversionModule.getInstance().markDesignerStart();
         SiteCenter.getInstance();
 
-        DesignUtils.setPort(getStartPort());
+        BuildContext.setBuildFilePath(buildPropertiesPath());
+        if (isDebug()) {
+            setDebugEnv();
+        } else {
+            DesignUtils.setPort(getStartPort());
+        }
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
@@ -99,7 +100,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         DesignUtils.initLookAndFeel();
 
         DesignUtils.creatListeningServer(getStartPort(), startFileSuffix());
-    
+
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         DesignerFrame df = createDesignerFrame();
