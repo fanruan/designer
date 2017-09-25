@@ -1,26 +1,23 @@
 package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.widget.WidgetBoundsPaneFactory;
-import com.fr.form.ui.container.WAbsoluteLayout;
+import com.fr.form.ui.container.WLayout;
+import com.fr.general.Inter;
 
-import java.awt.*;
+import java.awt.Rectangle;
+
 
 /**
  * Created by ibm on 2017/8/3.
  */
 public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
-    protected XWAbsoluteLayout parent;
     private UISpinner x;
     private UISpinner y;
 
     public WidgetAbsoluteBoundPane(XCreator source){
         super(source);
-        XLayoutContainer xLayoutContainer = getParent(source);
-        this.parent = (XWAbsoluteLayout) xLayoutContainer;
     }
 
     public void initBoundPane() {
@@ -28,6 +25,10 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         y = new UISpinner(0, 1200, 1);
         width = new UISpinner(0, 1200, 1);
         height = new UISpinner(0, 1200, 1);
+        x.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        y.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
+        height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         this.add(WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height));
     }
 
@@ -40,13 +41,25 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         if (parent == null) {
             return;
         }
-        WAbsoluteLayout wabs = parent.toData();
+        WLayout wabs = parent.toData();
         wabs.setBounds(creator.toData(), bounds);
         creator.setBounds(bounds);
     }
 
+
+    public void limitWidth(WLayout wabs, int w, Rectangle bounds, Rectangle rec){
+        bounds.width = w;
+    }
+
+    public void limitHeight(WLayout wabs, int h, Rectangle bounds, Rectangle rec){
+        bounds.height = h;
+    }
+
+
+
+
     protected String title4PopupWindow() {
-        return "";
+        return "absoluteBound";
     }
 
     public void populate() {

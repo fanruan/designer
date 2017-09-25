@@ -367,7 +367,6 @@ public class AlphaFineDialog extends UIDialog {
      * 停止加载状态
      */
     private void fireStopLoading() {
-        searchListModel.resetState();
         if (searchResultPane != null) {
             removeLeftPane();
         }
@@ -665,25 +664,18 @@ public class AlphaFineDialog extends UIDialog {
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    searchResultList.requestFocus();
-                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_ESCAPE) {
-                    if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
-                        AlphaFineDialog.this.setVisible(false);
-                    } else {
-                        searchTextField.setText(null);
-                        removeSearchResult();
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (searchResultList.getModel().getSize() > 1) {
+                        dealWithSearchResult(searchResultList.getSelectedValue());
                     }
-                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    dealWithSearchResult(searchResultList.getSelectedValue());
-                }
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (searchResultList.getSelectedIndex() == searchResultList.getModel().getSize() - 1) {
+                        searchResultList.setSelectedIndex(0);
+                    }
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() - 1);
+                } else escAlphaFine(e);
             }
         });
 
@@ -754,7 +746,9 @@ public class AlphaFineDialog extends UIDialog {
     private void doNavigate() {
         AlphaFineDialog.this.dispose();
         final AlphaCellModel model = searchResultList.getSelectedValue();
-        model.doAction();
+        if (model != null) {
+            model.doAction();
+        }
     }
 
     /**
@@ -888,6 +882,21 @@ public class AlphaFineDialog extends UIDialog {
         this.splitLabel = splitLabel;
     }
 
+    /**
+     * 键盘退出AlphaFine
+     *
+     * @param e
+     */
+    private void escAlphaFine(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
+                AlphaFineDialog.this.setVisible(false);
+            } else {
+                searchTextField.setText(null);
+                removeSearchResult();
+            }
+        }
+    }
 
     /**
      * +-------------------------------------+
@@ -907,7 +916,9 @@ public class AlphaFineDialog extends UIDialog {
          */
         @Override
         public void setSelectedIndex(int index) {
-            if (index > 0 && checkSelectedIndex(index)) {
+            if (index == 0 && getModel().getSize() > 1) {
+                super.setSelectedIndex(1);
+            } else if (index > 0 && checkSelectedIndex(index)) {
                 int previousIndex = getSelectedIndex();
                 super.setSelectedIndex(index);
                 AlphaCellModel cellModel = getSelectedValue();
@@ -930,21 +941,6 @@ public class AlphaFineDialog extends UIDialog {
         }
 
         private void initListListener() {
-            addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        dealWithSearchResult(getSelectedValue());
-                    } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                        if (getSelectedIndex() == 1) {
-                            searchTextField.requestFocus();
-                        }
-                    } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                        searchTextField.requestFocus();
-                    }
-                }
-            });
-
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -966,6 +962,14 @@ public class AlphaFineDialog extends UIDialog {
                     if (!e.getValueIsAdjusting() && getSelectedValue() != null) {
                         showResult(getSelectedValue());
                     }
+                }
+            });
+
+            addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    escAlphaFine(e);
+
                 }
             });
         }

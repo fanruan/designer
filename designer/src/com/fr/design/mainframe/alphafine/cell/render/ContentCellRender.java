@@ -5,7 +5,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -55,7 +54,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             detailLabel.setForeground(AlphaFineConstants.LIGHT_GRAY);
             panel.add(detailLabel, BorderLayout.CENTER);
             int width = (int) (titleLabel.getPreferredSize().getWidth() + detailLabel.getPreferredSize().getWidth());
-            if ( width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
+            if (width > AlphaFineConstants.LEFT_WIDTH - OFFSET) {
                 int nameWidth = (int) (AlphaFineConstants.LEFT_WIDTH - detailLabel.getPreferredSize().getWidth() - OFFSET);
                 titleLabel.setPreferredSize(new Dimension(nameWidth, AlphaFineConstants.CELL_HEIGHT));
             }

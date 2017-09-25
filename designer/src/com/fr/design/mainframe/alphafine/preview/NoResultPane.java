@@ -20,7 +20,7 @@ public class NoResultPane extends JPanel {
         image.setPreferredSize(new Dimension(150, 111));
         image.setHorizontalAlignment(SwingConstants.CENTER);
         image.setIcon(IconLoader.getIcon(iconUrl));
-        image.setBorder(BorderFactory.createEmptyBorder(100,0,0,0));
+        image.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
         UILabel description = new UILabel(title);
         description.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         description.setFont(FRFont.getInstance("SimSun", Font.PLAIN, 14));
