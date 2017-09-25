@@ -49,7 +49,7 @@ import java.util.Map.Entry;
  *
  * @author zhou
  */
-public abstract class DesignTableDataManager {
+public abstract class Desig nTableDataManager {
     /**
      * 其实globalDsCache没有绝对的必要，只是为了操作方便。如果没有它，那么每次清空服务器数据集或者存储过程的时候，还要去遍历找一下，
      * 这个操作可能比较复杂 。 从减少代码复杂度的角度看，还是很有必要的
