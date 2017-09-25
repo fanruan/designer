@@ -3,8 +3,8 @@ package com.fr.plugin.chart.designer.style.background.radar;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.Inter;
-import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
-import com.fr.plugin.chart.attr.axis.VanChartCustomIntervalBackground;
+import com.fr.plugin.chart.designer.style.background.AlertLineListControlPane;
+import com.fr.plugin.chart.designer.style.background.BackgroundListControlPane;
 import com.fr.plugin.chart.designer.style.background.VanChartAxisAreaPane;
 
 import java.awt.*;
@@ -30,19 +30,29 @@ public class VanChartRadarAxisAreaPane extends VanChartAxisAreaPane {
         };
     }
 
-    protected Class<? extends BasicBeanPane> getAlertPaneClass() {
-        return VanChartRadarAlertValuePane.class;
+    @Override
+    protected AlertLineListControlPane getAlertLinePane() {
+        return new AlertLineListControlPane(){
+            protected Class<? extends BasicBeanPane> getAlertPaneClass() {
+                return VanChartRadarAlertValuePane.class;
+            }
+
+            protected String[] getAlertAxisName(String[] axisNames) {
+                return new String[]{axisNames[axisNames.length - 1]};//默认y轴，居左居右
+            }
+        };
     }
 
-    protected void setAlertDemoAxisName(VanChartAlertValue demo, String[] axisNames) {
-        demo.setAxisName(axisNames[axisNames.length - 1]);//默认y轴，居左居右
-    }
+    @Override
+    protected BackgroundListControlPane getBackgroundListControlPane() {
+        return new BackgroundListControlPane(){
+            protected Class<? extends BasicBeanPane> getIntervalPaneClass() {
+                return VanChartRadarCustomIntervalBackgroundPane.class;
+            }
 
-    protected Class<? extends BasicBeanPane> getIntervalPaneClass() {
-        return VanChartRadarCustomIntervalBackgroundPane.class;
-    }
-
-    protected void setCustomIntervalBackgroundDemoAxisName(VanChartCustomIntervalBackground demo, String[] axisNames) {
-        demo.setAxisName(axisNames[axisNames.length - 1]);
+            protected String[] getCustomIntervalBackgroundAxisName(String[] axisNames) {
+                return new String[]{axisNames[axisNames.length - 1]};
+            }
+        };
     }
 }

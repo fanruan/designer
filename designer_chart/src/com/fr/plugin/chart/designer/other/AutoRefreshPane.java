@@ -126,7 +126,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
                 final VanChartPlotTooltipPane pane = PlotFactory.createPlotRefreshTooltipPane(chart.getPlot());
                 pane.populate(chart.getRefreshMoreLabel().getAttrTooltip());
-                UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(new JPanel()), new DialogActionListener() {
+                UIDialog dialog = pane.showUnsizedWindow(SwingUtilities.getWindowAncestor(contentPane), new DialogActionListener() {
                     @Override
                     public void doOk() {
 
@@ -138,6 +138,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
                     }
                 });
+                dialog.setModal(true);
                 dialog.setVisible(true);
             }
         });
