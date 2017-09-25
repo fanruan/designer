@@ -25,10 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -43,6 +40,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     private UIComboBox currentFormatComboBox;
     private UILabel currentSamplelabel;
     private UIButtonGroup fomatHeadGroup;
+    private static final int SAMPLE_LABEL_PADDING = 4;
 
     public DateEditorDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -90,7 +88,13 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
     private JPanel createFormatPane(UIComboBox formatComboBox, UILabel sampleLabel){
         JPanel previewPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Base_StyleFormat_Sample"));
-        previewPane.add(sampleLabel);
+        previewPane.setLayout(new BorderLayout());
+
+        JPanel sampleLabelWrapper = new JPanel(new BorderLayout());
+        sampleLabelWrapper.setBorder(BorderFactory.createEmptyBorder(0, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING));
+        sampleLabelWrapper.add(sampleLabel, BorderLayout.CENTER);
+
+        previewPane.add(sampleLabelWrapper, BorderLayout.CENTER);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.add(previewPane, BorderLayout.NORTH);
         jPanel.add(formatComboBox, BorderLayout.CENTER);
@@ -98,7 +102,13 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     }
 
     private UILabel createSamplePane(){
-        UILabel sampleLabel = new UILabel("");
+        UILabel sampleLabel = new UILabel("") {
+            @Override
+            public void setText(String text) {
+                // 加上<html>可以自动换行
+                super.setText("<html>" + text + "</html>");
+            }
+        };
         sampleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         sampleLabel.setFont(FRContext.getDefaultValues().getFRFont());
         return sampleLabel;
