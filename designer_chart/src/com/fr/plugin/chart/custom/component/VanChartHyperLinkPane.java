@@ -8,6 +8,7 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
+import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
@@ -73,6 +74,11 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     @Override
     protected String getAddItemText() {
         return Inter.getLocText("FR-Designer_Add_Hyperlink");
+    }
+
+    @Override
+    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
+        return new AddVanChartItemMenuDef(creators);
     }
 
     public void populate(NameJavaScriptGroup nameHyperlink_array) {
@@ -218,4 +224,18 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         }
         return null;
     }
+
+    protected class AddVanChartItemMenuDef extends AddItemMenuDef {
+
+        public AddVanChartItemMenuDef(NameableCreator[] creators) {
+            super(creators);
+        }
+
+        @Override
+        protected boolean whetherAdd(String itemName) {
+            return HyperlinkFilterHelper.whetherAddHyperlink4Chart(itemName);
+        }
+    }
+
+
 }

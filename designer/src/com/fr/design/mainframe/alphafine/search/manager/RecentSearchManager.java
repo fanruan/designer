@@ -10,6 +10,7 @@ import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.file.XMLFileManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
@@ -26,8 +27,17 @@ import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by XiaXiang on 2017/5/15.
@@ -220,21 +230,24 @@ public class RecentSearchManager extends XMLFileManager implements AlphaFineSear
                 recentModelList = recentKVModelMap.get(searchText);
                 SearchResult resultModelList = recentModelList;
                 Iterator<AlphaCellModel> modelIterator = resultModelList.iterator();
+                SearchResult searchResult = new SearchResult();
                 while (modelIterator.hasNext()) {
                     AlphaCellModel model = modelIterator.next();
-                    if (model.getType() == CellType.ACTION && !((ActionModel) model).getAction().isEnabled()) {
-                        modelIterator.remove();
+                    if (model.getType() == CellType.ACTION && !UpdateActionManager.getUpdateActionManager().isEnable(((ActionModel) model).getAction())) {
+                        continue;
+                    } else {
+                        searchResult.add(model);
                     }
 
                 }
-                Collections.sort(resultModelList);
-                int size = resultModelList.size();
+                Collections.sort(searchResult);
+                int size = searchResult.size();
                 if (size > MAX_SIZE) {
                     SearchResult result = new SearchResult();
-                    result.addAll(resultModelList.subList(0, MAX_SIZE));
+                    result.addAll(searchResult.subList(0, MAX_SIZE));
                     return result;
                 }
-                return resultModelList;
+                return searchResult;
             }
         }
         return recentModelList;
