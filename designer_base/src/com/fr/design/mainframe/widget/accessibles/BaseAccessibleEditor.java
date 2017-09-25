@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -85,12 +84,6 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
 
         if (showButton) {
             btPopup = new UIButton(){
-                public void registerChangeListener(UIObserverListener listener) {
-                    return;
-                }
-                public boolean shouldResponseChangeListener() {
-                    return false;
-                }
                 @Override
                 public ButtonUI getUI() {
                     return new UIButtonUI() {
