@@ -12,7 +12,11 @@ import com.fr.design.designer.beans.actions.FormDeleteAction;
 import com.fr.design.designer.beans.actions.PasteAction;
 import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XComponent;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -497,6 +501,24 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             this.undoState = u;
         }
 
+    }
+
+    @Override
+    public void setTarget(Form form) {
+        if (this.formDesign == null) {
+            super.setTarget(form);
+            return;
+        }
+        this.formDesign.setTarget(form);
+    }
+
+    @Override
+    public Form getTarget() {
+        if (this.formDesign == null) {
+            return super.getTarget();
+        }
+
+        return this.formDesign.getTarget();
     }
 
     @Override
