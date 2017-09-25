@@ -29,6 +29,8 @@ public class ErrorInfoUploader {
 
     private static ErrorInfoUploader collector;
     private static boolean licSupport = true;
+    // 在一台不能上网的电脑里发现了10w个errorinfo...
+    private static final int MAX_ERROR_SIZE = 2000;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -123,6 +125,11 @@ public class ErrorInfoUploader {
         }
 
         File[] files = folder.listFiles();
+        if (files.length > MAX_ERROR_SIZE) {
+            StableUtils.deleteFile(folder);
+            return;
+        }
+
         try {
             for (File file : files) {
                 String filePath = file.getPath();
@@ -131,6 +138,11 @@ public class ErrorInfoUploader {
                 if (suffix.endsWith(SUFFIX)) {
                     Thread.sleep(1000L);
                     String content = IOUtils.inputStream2String(new FileInputStream(file));
+                    if (content.length() > MAX_ERROR_SIZE) {
+                        file.delete();
+                        continue;
+                    }
+
                     String url = SiteCenter.getInstance().acquireUrlByKind("design.error");
                     if (sendErroInfo(url, content)) {
                         file.delete();
