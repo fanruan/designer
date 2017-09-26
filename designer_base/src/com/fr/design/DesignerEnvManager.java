@@ -1479,18 +1479,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 }
             }
         });
-
-        // xml读完之后,看一下nameEnvMap是不是长度为0
-        if (nameEnvMap.isEmpty() && StableUtils.getInstallHome() != null) {
-            String install_home = StableUtils.getInstallHome();
-            if (install_home != null && new java.io.File(install_home).exists()) {
-                nameEnvMap.put("Default", LocalEnv.createEnv(StableUtils.pathJoin(new String[]{
-                        install_home, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME
-                })));
-
-                curEnvName = "Default";
-            }
-        }
     }
 
     private void readRecentOpenFileList(XMLableReader reader) {
