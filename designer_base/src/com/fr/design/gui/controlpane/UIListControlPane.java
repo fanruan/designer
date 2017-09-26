@@ -601,7 +601,7 @@ public abstract class UIListControlPane extends UIControlPane {
             this.setName(Inter.getLocText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/base/images/cell/control/copy.png"));
+                    .readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
         @Override
