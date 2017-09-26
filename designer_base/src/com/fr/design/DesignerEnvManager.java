@@ -61,6 +61,7 @@ import java.util.logging.Handler;
 public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static final int MAX_SHOW_NUM = 10;
+    private static final String VERSION_80 = "80";
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -276,14 +277,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         try {
             FileWriter fileWriter = new FileWriter(envFile);
             File oldEnvFile = new File(ProductConstants.getEnvHome() + File.separator + ProductConstants.APP_NAME + "6-1" + "Env.xml");
-            File oldEnvFile80 = new File(ProductConstants.getEnvHome() + File.separator + ProductConstants.APP_NAME + "Env" + ProductConstants.OLD_VERSION_8_0 + ".xml");
+            File envFile80 = new File(getEnvHome(VERSION_80) + File.separator + getEnvFile().getName());
             if (oldEnvFile.exists()) {
                 // marks:兼容DesignerEnv6-1.xml
                 FileReader fileReader = new FileReader(oldEnvFile);
                 Utils.copyCharTo(fileReader, fileWriter);
                 fileReader.close();
-            } else if (oldEnvFile80.exists()) {
-                compatibilityPrevVersion(oldEnvFile80);
+            } else if (envFile80.exists()) {
+                compatibilityPrevVersion(envFile80);
             } else {
                 // marks:生成一个新的xml文件
                 StringReader stringReader = new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><Env></Env>");
@@ -294,6 +295,20 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         } catch (IOException e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
+    }
+
+    private static String getEnvHome(String version) {
+        String userHome = System.getProperty("user.home");
+        if (userHome == null) {
+            userHome = System.getProperty("userHome");
+        }
+
+        File envHome = new File(userHome + File.separator + "." + ProductConstants.APP_NAME + version);
+        if (!envHome.exists()) {
+            StableUtils.mkdirs(envHome);
+        }
+
+        return envHome.getAbsolutePath();
     }
 
     private void compatibilityPrevVersion(File prevEnvFile) {
@@ -307,10 +322,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         recentOpenedFilePathList = new ArrayList<String>();
         curEnvName = null;
         designerEnvManager.saveXMLFile();
-        boolean delete = prevEnvFile.delete();
-        if (!delete) {
-            prevEnvFile.deleteOnExit();
-        }
     }
 
     public static void setEnvFile(File envFile) {
