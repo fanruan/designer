@@ -36,7 +36,7 @@ public abstract class ButtonGroupAction extends ElementCaseAction{
 				break;
 			}
 		}
-        if(value == -1 && createToolBarComponent().hasClick()) {
+        if(createToolBarComponent().hasClick()) {
             index = getSelectedIndex();
             createToolBarComponent().setClickState(false);
         }
