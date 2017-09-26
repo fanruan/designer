@@ -219,7 +219,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             dataPane = new SelectedDataColumnPane(true, true, tc, cellElement);
             groupPane = new ResultSetGroupDockingPane();
             dataPane.addListener(dataListener);
-            groupPane.addListener(groupListener);
+            groupPane.setListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
             UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Filter_Conditions"));
