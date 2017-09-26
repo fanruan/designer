@@ -70,7 +70,6 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                     cardLayout.show(cardPane, "groupPane");
                     cardPane.setPreferredSize(new Dimension(158, 20));
                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
-                    checkButtonEnabled();
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
                     cardPane.setPreferredSize(new Dimension(0, 0));
@@ -81,8 +80,8 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
-                    checkButtonEnabled();
                 }
+                checkButtonEnabled();
             }
         });
 
@@ -194,11 +193,17 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             cardPane.setPreferredSize(new Dimension(158, 50));
             cardPane.revalidate();
             cardPane.repaint();
-        } else {
+            return;
+        }
+        if (groupComboBox.isEnabled() || functionComboBox.isEnabled()) {
             cardPane.setPreferredSize(new Dimension(158, 20));
             cardPane.revalidate();
             cardPane.repaint();
+            return;
         }
+        cardPane.setPreferredSize(new Dimension(158, 0));
+        cardPane.revalidate();
+        cardPane.repaint();
     }
 
     public void addListener(ItemListener listener) {
