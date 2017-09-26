@@ -154,7 +154,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
 	 *
 	 */
 	public void firePropertyChange(){
-		initStyle();
+
 	}
     
 }
