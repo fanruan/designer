@@ -365,7 +365,7 @@ public class Designer extends BaseDesigner {
 	 */
     protected void collectUserInformation() {
     	//定制的就不弹出来了
-    	if (!ComparatorUtils.equals(ProductConstants.APP_NAME, ProductConstants.DEFAULT_APPNAME)) {
+    	if (!ComparatorUtils.equals(ProductConstants.APP_NAME, ProductConstants.DEFAULT_APP_NAME)) {
 			return;
 		}
     	
