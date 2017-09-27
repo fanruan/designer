@@ -455,10 +455,7 @@ class JSliderPaneUI extends BasicSliderUI {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.translate(knobBounds.x, knobBounds.y);
-//        g2d.setColor(slider.getBackground());
-//        g2d.fillRect(0, FOUR, FOUR, 9);
         g2d.setColor(new Color(51, 51, 52));
-        g2d.drawRoundRect(0, SIX, FOUR, 9, 2, 2);
         g2d.fillRoundRect(0, SIX, FOUR, 9, 2, 2);
     }
 
