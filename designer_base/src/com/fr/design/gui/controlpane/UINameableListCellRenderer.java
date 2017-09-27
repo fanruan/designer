@@ -110,19 +110,6 @@ public class UINameableListCellRenderer extends
         setEnabled(list.isEnabled());
         setFont(list.getFont());
 
-        Border border = null;
-        if (cellHasFocus) {
-            if (isSelected) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusSelectedCellHighlightBorder");
-            }
-            if (border == null) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusCellHighlightBorder");
-            }
-        } else {
-            border = getNoFocusBorder();
-        }
-        setBorder(border);
-
         if (value instanceof ListModelElement) {
             Nameable wrappee = ((ListModelElement) value).wrapper;
             this.setText(((ListModelElement) value).wrapper.getName());
