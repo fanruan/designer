@@ -6,7 +6,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -15,7 +14,6 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartConstants;
-import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.plugin.chart.designer.other.VanChartOtherPane;
 import com.fr.plugin.chart.designer.style.VanChartStylePane;
@@ -26,7 +24,6 @@ import com.fr.plugin.chart.wordcloud.designer.other.VanChartWordCloudConditionPa
 import com.fr.plugin.chart.wordcloud.designer.style.VanChartWordCloudSeriesPane;
 import com.fr.plugin.chart.wordcloud.designer.type.VanChartWordCloudTypePane;
 
-import javax.swing.*;
 import java.util.List;
 
 /**
@@ -87,11 +84,6 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
             @Override
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort(){
-                    @Override
-                    protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
-                        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
-                        return panel;
-                    }
 
                     @Override
                     protected String[] getNameArray() {
