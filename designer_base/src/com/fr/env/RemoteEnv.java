@@ -56,8 +56,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -65,7 +64,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1537,7 +1536,7 @@ public class RemoteEnv extends AbstractEnv {
         testServerConnection();
 
         HashMap<String, String> para = new HashMap<String, String>();
-        para.put("op", "fr_remote_design");
+        para.put("op", "svgrelate");
         para.put("cmd", "design_save_svg");
         para.put("filePath", svgFile.getFilePath());
         para.put("current_uid", this.createUserID());
@@ -1576,6 +1575,37 @@ public class RemoteEnv extends AbstractEnv {
         }
 
         return true;
+    }
+
+
+    /**
+     * 删除svg文件
+     *
+     * @param filePath svg文件地址
+     * @return 删除成功返回true
+     */
+    public boolean deleteSvg(String filePath) {
+        if (filePath == null) {
+            return false;
+        }
+        try {
+            HashMap<String, String> para = new HashMap<String, String>();
+            para.put("op", "svgrelate");
+            para.put("cmd", "delete_svg");
+            para.put("file_path", filePath);
+
+            HttpClient client = createHttpMethod(para);
+            InputStream input = execute4InputStream(client);
+
+            if (input == null) {
+                return false;
+            }
+
+            return Boolean.valueOf(IOUtils.inputStream2String(input, EncodeConstants.ENCODING_UTF_8));
+        } catch (Exception e) {
+            FRLogger.getLogger().error(e.getMessage());
+        }
+        return false;
     }
 
     /**
