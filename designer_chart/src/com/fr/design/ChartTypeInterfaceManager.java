@@ -96,6 +96,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
+
 /**
  * Created by eason on 14/12/29.
  */
@@ -215,7 +217,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     
     private static void readDefault() {
         
-        if (chartTypeInterfaces.containsKey(ChartTypeManager.CHART_PRIORITY)) {
+        if (chartTypeInterfaces.containsKey(CHART_PRIORITY)) {
             return;
         }
         CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap> chartUIList =
@@ -238,7 +240,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         chartUIList.put(ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
         chartUIList.put(ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
         
-        chartTypeInterfaces.put(ChartTypeManager.CHART_PRIORITY, chartUIList);
+        chartTypeInterfaces.put(CHART_PRIORITY, chartUIList);
     }
     
     
@@ -406,7 +408,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getChartDataPane(priority, plotID, listener);
             }
         }
-        return getChartDataPane(ChartTypeManager.CHART_PRIORITY, plotID, listener);
+        return getChartDataPane(CHART_PRIORITY, plotID, listener);
     }
     
     private ChartDataPane getChartDataPane(String priority, String plotID, AttributeChangeListener listener) {
@@ -436,7 +438,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getAttrPaneArray(priority, plotID, listener);
             }
         }
-        return getAttrPaneArray(ChartTypeManager.CHART_PRIORITY, plotID, listener);
+        return getAttrPaneArray(CHART_PRIORITY, plotID, listener);
     }
     
     private AbstractChartAttrPane[] getAttrPaneArray(String priority, String plotID, AttributeChangeListener listener) {
@@ -454,7 +456,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getTableDataSourcePane(priority, plot, parent);
             }
         }
-        return getTableDataSourcePane(ChartTypeManager.CHART_PRIORITY, plot, parent);
+        return getTableDataSourcePane(CHART_PRIORITY, plot, parent);
     }
     
     private AbstractTableDataContentPane getTableDataSourcePane(String priority, Plot plot, ChartDataPane parent) {
@@ -474,7 +476,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getReportDataSourcePane(priority, plot, parent);
             }
         }
-        return getReportDataSourcePane(ChartTypeManager.CHART_PRIORITY, plot, parent);
+        return getReportDataSourcePane(CHART_PRIORITY, plot, parent);
     }
     
     private boolean plotInChart(String plotID, String priority) {
@@ -500,7 +502,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getPlotConditionPane(priority, plot);
             }
         }
-        return getPlotConditionPane(ChartTypeManager.CHART_PRIORITY, plot);
+        return getPlotConditionPane(CHART_PRIORITY, plot);
     }
     
     private ConditionAttributesPane getPlotConditionPane(String priority, Plot plot) {
@@ -519,7 +521,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getPlotSeriesPane(priority, parent, plot);
             }
         }
-        return getPlotSeriesPane(ChartTypeManager.CHART_PRIORITY, parent, plot);
+        return getPlotSeriesPane(CHART_PRIORITY, parent, plot);
     }
     
     private BasicBeanPane<Plot> getPlotSeriesPane(String priority, ChartStylePane parent, Plot plot) {
@@ -557,7 +559,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public void mount(PluginSingleInjection injection) {
         
         if (isIndependentChartUIProvider(injection)) {
-            String priority = injection.getAttribute("priority");
+            String priority = injection.getAttribute("priority", CHART_PRIORITY);
             String plotID = injection.getAttribute("plotID");
             IndependentChartUIProvider instance = (IndependentChartUIProvider) injection.getObject();
             addChartTypeInterface(instance, priority, plotID);
@@ -569,7 +571,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public void demount(PluginSingleInjection injection) {
         
         if (isIndependentChartUIProvider(injection)) {
-            String priority = injection.getAttribute("priority");
+            String priority = injection.getAttribute("priority", CHART_PRIORITY);
             String plotID = injection.getAttribute("plotID");
             removeChartTypeInterface(priority, plotID);
         }
@@ -602,7 +604,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getChartEditPane(priority, plotID);
             }
         }
-        return getChartEditPane(ChartTypeManager.CHART_PRIORITY, plotID);
+        return getChartEditPane(CHART_PRIORITY, plotID);
     }
 
     private ChartEditPane getChartEditPane(String priority, String plotID) {
@@ -618,7 +620,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 return getChartConfigPane(priority, plotID);
             }
         }
-        return getChartConfigPane(ChartTypeManager.CHART_PRIORITY, plotID);
+        return getChartConfigPane(CHART_PRIORITY, plotID);
     }
 
     private ChartsConfigPane getChartConfigPane(String priority, String plotID) {
