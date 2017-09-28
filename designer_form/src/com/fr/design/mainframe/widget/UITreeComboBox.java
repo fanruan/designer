@@ -55,6 +55,14 @@ public class UITreeComboBox extends UIComboBox {
         this.updateUI();
     }
 
+    @Override
+    public void setRenderer(ListCellRenderer aRenderer) {
+        ListCellRenderer oldRenderer = renderer;
+        renderer = aRenderer;
+        firePropertyChange( "renderer", oldRenderer, renderer );
+        invalidate();
+    }
+
     /**
      * 取得树
      * @return JTree
