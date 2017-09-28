@@ -115,6 +115,7 @@ public interface UIConstants {
     public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
     public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
+    public static final Color LIST_ITEM_SPLIT_LINE = new Color(0xf0f0f3);
 
 
 
@@ -130,6 +131,7 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");

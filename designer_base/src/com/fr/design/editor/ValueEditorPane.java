@@ -2,16 +2,17 @@ package com.fr.design.editor;
 
 import com.fr.base.Formula;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.editor.editor.*;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.gui.imenu.UIMenuEastAttrItem;
+import com.fr.design.gui.imenu.UIPopupEastAttrMenu;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
@@ -136,14 +137,14 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
 
 
     private JPopupMenu createPopMenu() {
-        JPopupMenu scate = new JPopupMenu();
+        JPopupMenu scate = new UIPopupEastAttrMenu();
 
         if (this.cards == null) {
             return scate;
         }
 
         for (int i = 0; i < this.cards.length; i++) {
-            UIMenuItem item = new UIMenuItem(cards[i].getName());
+            JMenuItem item = new UIMenuEastAttrItem(cards[i].getName());
             final int j = i;
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -162,9 +163,6 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
                 }
             });
             scate.add(item);
-            if (i < cards.length - 1) {
-                scate.addSeparator();
-            }
         }
         return scate;
     }
