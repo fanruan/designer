@@ -9,12 +9,11 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
+import javax.swing.*;
+
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ButtonUI;
@@ -128,7 +127,7 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
 
     protected void initPopupButton() {
         if (!isComboButton()) {
-            btPopup.setText("...");
+            btPopup.setIcon(new ImageIcon(UIConstants.ACCESSIBLE_EDITOR_DOT));
             btPopup.setPreferredSize(new Dimension(20, 20));
         } else {
             btPopup.setRolloverEnabled(true);

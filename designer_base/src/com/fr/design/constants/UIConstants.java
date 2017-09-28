@@ -131,6 +131,7 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
