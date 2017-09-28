@@ -56,7 +56,8 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -64,7 +65,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
