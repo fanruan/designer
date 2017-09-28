@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -64,7 +65,15 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
     }
 
     protected ITextComponent createTextField() {
-        return new TextField();
+        return new TextField() {
+            public void registerChangeListener(UIObserverListener listener) {
+                return;
+            }
+
+            public boolean shouldResponseChangeListener() {
+                return false;
+            }
+        };
     }
 
     private void initComponents() {

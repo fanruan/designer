@@ -3,6 +3,8 @@ package com.fr.design.widget;
 import com.fr.base.FRContext;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.core.WidgetConstants;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.widget.ui.designer.WidgetDefinePane;
 import com.fr.design.parameter.RootDesignDefinePane;
 import com.fr.design.widget.ui.designer.*;
 import com.fr.design.widget.ui.designer.layout.*;
@@ -11,7 +13,6 @@ import com.fr.form.ui.*;
 import com.fr.form.ui.container.*;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
-import com.fr.general.Inter;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
 
@@ -66,8 +67,6 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(WCardLayout.class, new Appearance(WCardLayoutDefinePane.class, "wCardLayout"));
         defineMap.put(Label.class, new Appearance(LabelDefinePane.class, "label"));
         defineMap.put(WTabFitLayout.class, new Appearance(WTabFitLayoutDefinePane.class, "wTabFitLayout"));
-        //todo 添加扩展控件接口
-//        defineMap.putAll(getOtherWidgetOptionMap());
 
     }
 
@@ -76,10 +75,11 @@ public class FormWidgetDefinePaneFactoryBase {
 
     }
 
-    public static RN createWidgetDefinePane(XCreator creator, Widget widget, Operator operator) {
+    public static RN createWidgetDefinePane(XCreator creator, FormDesigner designer, Widget widget, Operator operator) {
         Appearance dn = defineMap.get(widget.getClass());
         if(dn == null){
-            dn = new Appearance(DefaultWidgetDefinePane.class, "default");
+            WidgetDefinePane widgetDefinePane = new WidgetDefinePane(creator, designer);
+            return new RN(widgetDefinePane, widgetDefinePane.title4PopupWindow());
         }
         DataModify<Widget> definePane = null;
         try {
