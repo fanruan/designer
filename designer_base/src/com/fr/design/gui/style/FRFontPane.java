@@ -7,6 +7,7 @@ package com.fr.design.gui.style;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,8 +38,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
  * Pane to edit Font.
  */
 public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObserver {
-    public static Integer[] FONT_SIZES = {new Integer(6), new Integer(8), new Integer(9), new Integer(10), new Integer(11), new Integer(12), new Integer(14), new Integer(16),
-            new Integer(18), new Integer(20), new Integer(22), new Integer(24), new Integer(26), new Integer(28), new Integer(36), new Integer(48), new Integer(72)};
+    private static final int MAX_FONT_SIZE = 100;
     private static final Dimension BUTTON_SIZE = new Dimension(24, 20);
     private JPanel buttonPane;
     private JPanel isSuperOrSubPane;
@@ -212,10 +212,18 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         return style.deriveFRFont(frFont);
     }
 
+    public static Vector<Integer> getFontSizes() {
+        Vector<Integer> FONT_SIZES = new Vector<Integer>();
+        for (int i = 1; i < MAX_FONT_SIZE; i++) {
+            FONT_SIZES.add(i);
+        }
+        return FONT_SIZES;
+    }
+
     protected void initComponents() {
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         fontNameComboBox.setPreferredSize(new Dimension(144, 20));
-        fontSizeComboBox = new UIComboBox(FONT_SIZES);
+        fontSizeComboBox = new UIComboBox(getFontSizes());
         this.underlineCombo = new LineComboBox(UIConstants.BORDER_LINE_STYLE_ARRAY);
         colorSelectPane = new UIColorButton();
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
