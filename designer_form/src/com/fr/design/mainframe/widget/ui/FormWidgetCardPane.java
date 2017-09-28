@@ -156,7 +156,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     private void initDefinePane() {
         currentEditorDefinePane = null;
         XCreator creator = getXCreatorDedicated();
-        FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
+        FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, designer, creator.toData(), new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
                 //todo
@@ -170,7 +170,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         currentEditorDefinePane = definePane;
     }
 
-    private XCreator getXCreatorDedicated(){
+    private XCreator getXCreatorDedicated() {
         boolean dedicateLayout = xCreator.acceptType(XWScaleLayout.class) && xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator() || xCreator.acceptType(XWTitleLayout.class);
         return dedicateLayout ? (XCreator) xCreator.getComponent(0) : xCreator;
     }
@@ -205,7 +205,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void updateCreator() {
         currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Widget_Name"))){
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Widget_Name"))) {
             widgetPropertyPane.update(widget);
             xCreator.resetCreatorName(widget.getWidgetName());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
