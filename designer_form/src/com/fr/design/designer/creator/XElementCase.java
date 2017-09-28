@@ -318,4 +318,13 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	public void setXDescrption(String msg) {
 		coverPanel.setHelpMsg(msg);
 	}
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		initStyle();
+	}
+
 }

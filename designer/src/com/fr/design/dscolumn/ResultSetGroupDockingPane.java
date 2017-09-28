@@ -23,7 +23,7 @@ import java.awt.event.ItemListener;
  * 这个pane是选中数据列后，在上方QuickRegion处显示的pane
  *
  * @author zhou, yaoh.wu
- * @version 2017年8月2日14点55分
+ * @version 2017年9月26日17点22分
  * @since 8.0
  */
 public class ResultSetGroupDockingPane extends ResultSetGroupPane {
@@ -70,7 +70,6 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                     cardLayout.show(cardPane, "groupPane");
                     cardPane.setPreferredSize(new Dimension(158, 20));
                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
-                    checkButtonEnabled();
                 } else if (i == BIND_SELECTED) {
                     cardLayout.show(cardPane, "listPane");
                     cardPane.setPreferredSize(new Dimension(0, 0));
@@ -81,8 +80,8 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 10);
                     CellExpandAttr cellExpandAttr = cellElement.getCellExpandAttr();
                     cellExpandAttr.setDirection(Constants.NONE);
-                    checkButtonEnabled();
                 }
+                checkButtonEnabled();
             }
         });
 
@@ -116,13 +115,13 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
 
     @Override
     public void populate(TemplateCellElement cellElement) {
+        //更新面板信息时可能会触发绑定在组件上的事件，先移除这些事件
+        this.removeListener();
         this.cellElement = cellElement;
-
-        if (isNPE(cellElement)) return;
+        if (isNPE(cellElement)) {
+            return;
+        }
         DSColumn dSColumn = (DSColumn) cellElement.getValue();
-
-        // populate groupPane
-        // RecordGrouper
         recordGrouper = dSColumn.getGrouper();
         if (recordGrouper instanceof FunctionGrouper && !((FunctionGrouper) recordGrouper).isCustom()) {
             int mode = recordGrouper.getDivideMode();
@@ -154,13 +153,16 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             this.groupComboBox.setSelectedIndex(ADVANCED);
         }
         checkButtonEnabled();
+        //加上面板组件的交互事件监听
+        this.addListener();
     }
 
     @Override
     public void update() {
-        if (isNPE(cellElement)) return;
+        if (isNPE(cellElement)) {
+            return;
+        }
         DSColumn dSColumn = (DSColumn) cellElement.getValue();
-
         if (this.goBox.getSelectedIndex() == BIND_GROUP) {
             recordGrouper = updateGroupCombox();
         } else if (this.goBox.getSelectedIndex() == BIND_SELECTED) {
@@ -194,17 +196,21 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             cardPane.setPreferredSize(new Dimension(158, 50));
             cardPane.revalidate();
             cardPane.repaint();
-        } else {
+            return;
+        }
+        if (groupComboBox.isEnabled() || functionComboBox.isEnabled()) {
             cardPane.setPreferredSize(new Dimension(158, 20));
             cardPane.revalidate();
             cardPane.repaint();
+            return;
         }
+        cardPane.setPreferredSize(new Dimension(158, 0));
+        cardPane.revalidate();
+        cardPane.repaint();
     }
 
-    public void addListener(ItemListener listener) {
-        goBox.addItemListener(listener);
-        groupComboBox.addItemListener(listener);
-        functionComboBox.addItemListener(listener);
+
+    public void setListener(ItemListener listener) {
         this.listener = listener;
     }
 
@@ -215,5 +221,17 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     @Override
     public void setRecordGrouper(RecordGrouper recordGrouper) {
         this.recordGrouper = recordGrouper;
+    }
+
+    private void addListener() {
+        goBox.addItemListener(this.listener);
+        groupComboBox.addItemListener(this.listener);
+        functionComboBox.addItemListener(this.listener);
+    }
+
+    private void removeListener() {
+        goBox.removeItemListener(this.listener);
+        groupComboBox.removeItemListener(this.listener);
+        functionComboBox.removeItemListener(this.listener);
     }
 }

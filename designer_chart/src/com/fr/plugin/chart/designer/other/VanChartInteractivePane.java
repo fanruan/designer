@@ -142,10 +142,9 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Chart-Use_Zoom"), panel);
     }
 
+
     protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-        return panel;
+        return TableLayout4VanChartHelper.createGapTableLayoutPane(Inter.getLocText("Plugin-ChartF_ZoomType"), zoomType);
     }
 
     protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {
@@ -245,7 +244,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     private void checkZoomPane() {
         boolean zoomWidgetEnabled = zoomWidget.getSelectedIndex() == 0;
         changeEnablePane.setVisible(zoomWidgetEnabled);
-        zoomTypePane.setVisible(!zoomWidgetEnabled);
+        zoomType.setEnabled(!zoomWidgetEnabled);
     }
 
     @Override

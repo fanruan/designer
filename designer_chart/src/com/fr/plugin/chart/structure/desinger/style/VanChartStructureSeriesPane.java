@@ -135,8 +135,10 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
     protected void updateCondition(ConditionAttr defaultAttr){
         if(nodeStylePane != null){
             AttrNode attrNode =defaultAttr.getExisted(AttrNode.class);
-            defaultAttr.remove(attrNode);
-            defaultAttr.addDataSeriesCondition(nodeStylePane.updateBean());
+            if (attrNode != null) {
+                defaultAttr.remove(attrNode);
+                defaultAttr.addDataSeriesCondition(nodeStylePane.updateBean());
+            }
         }
     }
 }
