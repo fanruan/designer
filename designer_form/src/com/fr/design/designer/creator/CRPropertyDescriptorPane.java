@@ -95,17 +95,7 @@ public class CRPropertyDescriptorPane {
         }
         return component;
     }
-
-    private PropertyEditor initExtendEditor(CRPropertyDescriptor crPropertyDescriptor, XCreator xCreator) throws Exception {
-        ExtendedPropertyEditor editor = (ExtendedPropertyEditor) crPropertyDescriptor.createPropertyEditor(xCreator.toData());
-        if (editor == null) {
-            Class propType = crPropertyDescriptor.getPropertyType();
-            editor = TableUtils.getPropertyEditorClass(propType).newInstance();
-        }
-
-        return editor;
-    }
-
+    
     public void populate(Widget widget) {
         try {
             isPopulate = true;
