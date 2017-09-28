@@ -438,6 +438,7 @@ class JSliderPaneUI extends BasicSliderUI {
     private static final int FOUR = 4;
     private static final int FIVE = 5;
     private static final int SIX = 6;
+    private static final int MID_X_SHIFT = 2;  // 中点标记的水平位置偏移
 
     public JSliderPaneUI(UISlider b) {
         super(b);
@@ -455,10 +456,7 @@ class JSliderPaneUI extends BasicSliderUI {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.translate(knobBounds.x, knobBounds.y);
-//        g2d.setColor(slider.getBackground());
-//        g2d.fillRect(0, FOUR, FOUR, 9);
         g2d.setColor(new Color(51, 51, 52));
-        g2d.drawRoundRect(0, SIX, FOUR, 9, 2, 2);
         g2d.fillRoundRect(0, SIX, FOUR, 9, 2, 2);
     }
 
@@ -477,7 +475,7 @@ class JSliderPaneUI extends BasicSliderUI {
             g2.fillRect(0, -cy, cw + 10, cy * 4);
             g.setColor(new Color(216, 216, 216));
             g.drawLine(0, cy, cw + 3, cy);
-            g.drawLine(FIVE + cw / 2, cy - FOUR, FIVE + cw / 2, cy + FOUR);
+            g.drawLine(MID_X_SHIFT + cw / 2, cy - FOUR, MID_X_SHIFT + cw / 2, cy + FOUR);
         } else {
             super.paintTrack(g);
         }

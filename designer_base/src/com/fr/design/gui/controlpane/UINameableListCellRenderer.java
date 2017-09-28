@@ -51,7 +51,7 @@ public class UINameableListCellRenderer extends
             }
         };
         editButton.setIcon(listControlPane.isNewStyle() ? UIConstants.LIST_EDIT_ICON : UIConstants.CPT_ICON);
-        editButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, BORDER_COLOR));
+        editButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, UIConstants.LIST_ITEM_SPLIT_LINE));
         editButton.setHorizontalAlignment(SwingConstants.CENTER);
         label = new UILabel();
         label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
@@ -62,7 +62,7 @@ public class UINameableListCellRenderer extends
     }
 
     private Border getNoFocusBorder() {
-        return BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_COLOR);
+        return BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.LIST_ITEM_SPLIT_LINE);
     }
 
     private void setText(String t) {
@@ -109,19 +109,6 @@ public class UINameableListCellRenderer extends
 
         setEnabled(list.isEnabled());
         setFont(list.getFont());
-
-        Border border = null;
-        if (cellHasFocus) {
-            if (isSelected) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusSelectedCellHighlightBorder");
-            }
-            if (border == null) {
-                border = DefaultLookup.getBorder(this, ui, "List.focusCellHighlightBorder");
-            }
-        } else {
-            border = getNoFocusBorder();
-        }
-        setBorder(border);
 
         if (value instanceof ListModelElement) {
             Nameable wrappee = ((ListModelElement) value).wrapper;

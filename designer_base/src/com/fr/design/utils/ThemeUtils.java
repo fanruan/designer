@@ -145,7 +145,7 @@ public class ThemeUtils {
     public static final boolean MENU_ROLLOVER = true;
 
 
-    public static final ColorUIResource SCROLL_PANE_BORDER_COLOR = new ColorUIResource(201, 198, 184);
+    public static final ColorUIResource SCROLL_PANE_BORDER_COLOR = new ColorUIResource(0xD9DADD);
     public static final ColorUIResource TABLE_BORDER_LIGHT_COLOR = new ColorUIResource(210, 210, 210);
     public static final ColorUIResource TABLE_BORDER_DARK_COLOR = new ColorUIResource(210, 210, 210);
 
