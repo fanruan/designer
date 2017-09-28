@@ -22,5 +22,6 @@ public class CellWidgetAttrAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_WIDGET_SETTINGS);
+        EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }
 }

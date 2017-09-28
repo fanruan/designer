@@ -25,5 +25,6 @@ public class HyperlinkAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_HYPERLINK);
+        EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }
 }
