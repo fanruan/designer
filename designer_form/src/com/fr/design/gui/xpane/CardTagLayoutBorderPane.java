@@ -43,7 +43,7 @@ public class CardTagLayoutBorderPane extends LayoutBorderPane {
 	}
 	
 	protected UIScrollPane initRightBottomPane(){
-        this.setFontSizeComboBox(new UIComboBox(FRFontPane.FONT_SIZES));
+        this.setFontSizeComboBox(new UIComboBox(FRFontPane.getFontSizes()));
         this.setFontNameComboBox(new UIComboBox(Utils.getAvailableFontFamilyNames4Report())); 
         JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
         fontSizeTypePane.add(this.getFontSizeComboBox(), BorderLayout.CENTER);

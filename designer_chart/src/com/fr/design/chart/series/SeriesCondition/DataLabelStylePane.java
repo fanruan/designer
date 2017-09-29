@@ -47,7 +47,7 @@ public class DataLabelStylePane extends BasicPane {
 		this.add(fontStyleBox = new UIComboBox(styles));
 		fontStyleBox.setPreferredSize(new Dimension(80, 20));
 		
-		this.add(sizeBox = new UIComboBox(FRFontPane.Font_Sizes));
+		this.add(sizeBox = new UIComboBox(FRFontPane.getFontSizes()));
 		sizeBox.setPreferredSize(new Dimension(80, 20));
 		
 		if (isSurpportFontColor) {
