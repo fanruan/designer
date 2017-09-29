@@ -25,6 +25,8 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     private String textFeildName = "";
     private GlobalNameListener globalNameListener = null;
     private Dimension preferredSize = null;
+    //有些情况下setText的时候不希望触发attributeChange，添加一个属性标识
+    private boolean isSetting = false;
 
     public UITextField() {
         super();
@@ -79,6 +81,7 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     }
 
 
+
     public void setPreferredSize(Dimension preferredSize) {
         this.preferredSize = preferredSize;
     }
@@ -88,6 +91,9 @@ public class UITextField extends JTextField implements UIObserver, GlobalNameObs
     }
 
     protected void attributeChange() {
+        if(isSetting){
+            return;
+        }
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(textFeildName);
         }
