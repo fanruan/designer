@@ -119,12 +119,8 @@ public class ChartAlertValuePane extends BasicBeanPane<ChartAlertValue> {
 			fontNameBox.addItem(names[i]);
 		}
 		
-		fontSizeBox = new UIComboBox();
+		fontSizeBox = new UIComboBox(FRFontPane.getFontSizes());
 		fontSizeBox.setPreferredSize(new Dimension(80,20));
-		Integer[] sizes = FRFontPane.Font_Sizes;
-		for(int i = 0; i < sizes.length; i++) {
-			fontSizeBox.addItem(sizes[i]);
-		}
 		
 		double t = TableLayout.FILL;
 		double[] rowSize = {t, t, t, t, t};
