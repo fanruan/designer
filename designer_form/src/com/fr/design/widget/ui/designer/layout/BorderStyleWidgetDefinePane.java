@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.layout;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
@@ -31,7 +32,8 @@ public class BorderStyleWidgetDefinePane extends AbstractDataModify<AbstractBord
         borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         advancePane.add(jPanel, BorderLayout.CENTER);
 

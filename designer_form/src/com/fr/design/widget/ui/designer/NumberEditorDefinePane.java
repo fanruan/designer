@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
@@ -49,9 +50,8 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1}, {1, 3},{1, 1},{1, 1}};
-        JPanel advancePane =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+        JPanel advancePane =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        advancePane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(advancePane);
         return boundsPane;
     }

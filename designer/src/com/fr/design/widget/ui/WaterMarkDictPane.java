@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
@@ -28,8 +29,8 @@ public class WaterMarkDictPane extends JPanel {
         double[] rowSize = {p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 18, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,  IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+//        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         this.add(panel, BorderLayout.CENTER);
     }
 

@@ -1,7 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
-import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 
@@ -38,9 +38,17 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
 
     public JPanel createOtherPane() {
         mutiSelect = new UICheckBox(Inter.getLocText("Tree-Mutiple_Selection_Or_Not"));
+        mutiSelect.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         loadAsync = new UICheckBox(Inter.getLocText("Widget-Load_By_Async"));
+        loadAsync.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         returnLeaf = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Leaf"));
+        returnLeaf.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         returnPath = new UICheckBox(Inter.getLocText("FR-Designer_Widget_Return_Path"));
+        returnPath.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -51,8 +59,7 @@ public class TreeEditorDefinePane extends CustomWritableRepeatEditorPane<TreeEdi
         };
         double[] rowSize = {p, p, p, p};
         double[] columnSize = {p};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         return panel;
     }
 

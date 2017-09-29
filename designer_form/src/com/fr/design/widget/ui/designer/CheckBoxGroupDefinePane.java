@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.TableLayout;
@@ -50,8 +51,7 @@ public class CheckBoxGroupDefinePane extends ButtonGroupDefinePane<CheckBoxGroup
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		return panel;
 	}
 

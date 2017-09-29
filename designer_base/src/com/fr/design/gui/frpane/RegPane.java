@@ -75,7 +75,8 @@ public class RegPane extends BasicPane {
         regComboBox = new UIComboBox(regType);
         regComboBox.setRenderer(listCellRender);
 
-        JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Input_Rule")), regComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         jPanel.add(contentPane, BorderLayout.NORTH);

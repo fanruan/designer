@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -37,7 +38,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
                 new Component[]{paddingBoundPane, null},
                 new Component[]{new UILabel(Inter.getLocText("Form-EC_toolbar")), elementCaseToolBarEditor},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, 20, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         CRPropertyDescriptor[] extraTableEditor = ((XElementCase)creator).getExtraTableEditor();
         extraPropertyGroupPane = new PropertyGroupPane(extraTableEditor, creator);

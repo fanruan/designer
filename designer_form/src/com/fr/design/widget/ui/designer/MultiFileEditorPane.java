@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.DictionaryComboBox;
@@ -59,16 +60,15 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{singleFileCheckBox, null },
-				new Component[]{new UILabel(Inter.getLocText("File-Allow_Upload_Files") + ":"), acceptType},
-				new Component[]{new UILabel( Inter.getLocText("File-File_Size_Limit") + ":"), fileSizeField},
+				new Component[]{new UILabel(Inter.getLocText("File-Allow_Upload_Files")), acceptType},
+				new Component[]{new UILabel( Inter.getLocText("File-File_Size_Limit")), fileSizeField},
 				new Component[]{new UILabel( Inter.getLocText("FR-Designer_Font-Size")), fontSizeField}
 		};
-		double[] rowSize = {p, p,p,p};
+		double[] rowSize = {p, p, p, p};
 		double[] columnSize = {p,f};
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
 		JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		boundsPane.add(panel);
 
 		return boundsPane;
