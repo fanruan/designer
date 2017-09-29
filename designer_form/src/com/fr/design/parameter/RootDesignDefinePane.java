@@ -66,7 +66,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("Form-Desin_Width")), designerWidth},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         jPanel.add(panel);
@@ -98,7 +98,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
                 new Component[]{useParamsTemplate, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WidgetDisplyPosition")), hAlignmentPane}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
         jPanel.add(panel);
         return jPanel;

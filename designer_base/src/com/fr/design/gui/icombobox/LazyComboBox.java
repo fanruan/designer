@@ -175,8 +175,10 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
 			this.item = item;
 
 			this.setting = true;
+			textField.setSetting(true);
 			String newText = (item == null) ? "" : item.toString();
 			textField.setText(newText);
+			textField.setSetting(false);
 			this.setting = false;
 		}
 

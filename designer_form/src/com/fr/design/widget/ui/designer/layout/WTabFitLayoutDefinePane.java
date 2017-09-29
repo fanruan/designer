@@ -44,7 +44,8 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         paddingBoundPane = new PaddingBoundPane();
         borderStyle = new TabFitLayoutBackgroundPane();
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{borderStyle, null}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{borderStyle, null}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         jPanel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
         advancePane.add(jPanel, BorderLayout.NORTH);
         advancePane.add(paddingBoundPane, BorderLayout.CENTER);
@@ -62,7 +63,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Title")), titleField}
         };
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         jPanel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
         borderPane.add(jPanel, BorderLayout.CENTER);
         UIExpandablePane currentEditTab = new UIExpandablePane(Inter.getLocText("FR-Designer_Current_tab"), 280, 20, borderPane);
