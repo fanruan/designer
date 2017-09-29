@@ -361,9 +361,9 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 						groupExtensionPane.setValueAtCurrentSelectIndex(newName);
 						fireStateChange();
 						saveMapInfo(newName);
-						FRContext.getCurrentEnv().deleteSvg(
+						FRContext.getCurrentEnv().deleteFile(
 								StableUtils.pathJoin(new String[]{MapSvgXMLHelper.relativeDefaultMapPath(),oldName+SvgProvider.EXTENSION}));
-						FRContext.getCurrentEnv().deleteSvg(
+						FRContext.getCurrentEnv().deleteFile(
 								StableUtils.pathJoin(new String[]{MapSvgXMLHelper.relativeCustomMapPath(),oldName+SvgProvider.EXTENSION}));
 						refresh();
 					}catch (Exception exp){
