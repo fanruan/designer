@@ -17,6 +17,8 @@ public class IntervalConstants {
 
     public static final int INTERVAL_L6 = 5;
 
+    public static final int INTERVAL_L7 = 8;
+
     public static final int INTERVAL_W0 = 3;
 
     public static final int INTERVAL_W1 = 25;
