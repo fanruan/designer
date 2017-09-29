@@ -1013,15 +1013,8 @@ public class RemoteEnv extends AbstractEnv {
         }
         try {
             HashMap<String, String> para = new HashMap<String, String>();
-            //assets目录下的svg文件
-            if (filePath.contains(ProjectConstants.ASSETS_NAME) && filePath.endsWith(".svg")) {
-                para.put("op", "svgrelate");
-                para.put("cmd", "delete_svg");
-            } else {
-                para.put("op", "fr_remote_design");
-                para.put("cmd", "delete_file");
-            }
-
+            para.put("op", "fr_remote_design");
+            para.put("cmd", "delete_file");
             para.put("file_path", filePath);
 
             HttpClient client = createHttpMethod(para);

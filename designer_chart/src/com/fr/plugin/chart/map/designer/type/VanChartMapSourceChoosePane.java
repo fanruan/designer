@@ -308,7 +308,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
     }
 
     private void refreshZoomLevel(){
-        //gis图层不同，对应的suo缩放等级不同。
+        //gis图层不同，对应的缩放等级不同。
         ZoomLevel[] levels;
         if (ComparatorUtils.equals(gisLayer.getSelectedItem(), Inter.getLocText("Plugin-ChartF_Layer_Blue"))) {
             levels = BLUE_ZOOM_LEVELS;
