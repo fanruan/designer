@@ -145,7 +145,7 @@ public class Designer extends BaseDesigner {
         return largeToolbar;
     }
 
-    private JPanel generateEmptyGap(int width) {
+    private JPanel generateEmptyGap(final int width) {
         JPanel panel = new JPanel() {
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
