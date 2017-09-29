@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.btn;
 
 import com.fr.data.Dictionary;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -47,8 +48,7 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 3},{1, 1},{1, 1},{1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         advancePane.add(panel, BorderLayout.NORTH);
         JPanel otherPane = createOtherPane();
         if (otherPane != null) {

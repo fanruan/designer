@@ -2,6 +2,7 @@ package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -57,14 +58,15 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
         parameterViewPaneButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
         parameterViewPaneButton.addActionListener(parameterListener);
         parameterViewPane = new ReportletParameterViewPane();
-
+        horizontalCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        verticalCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         java.awt.Component[][] coms = {
                 {horizontalCheck, null},
                 {verticalCheck, null},
                 {new UILabel(Inter.getLocText("Form-Url")), srcTextField = new UITextField()},
                 {new UILabel(Inter.getLocText("FR-Designer_Parameters")), parameterViewPaneButton}};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, 45, LayoutConstants.VGAP_LARGE);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
 
 
         contentPane.add(panel);

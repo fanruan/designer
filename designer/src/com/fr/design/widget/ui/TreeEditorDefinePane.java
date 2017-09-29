@@ -2,6 +2,7 @@ package com.fr.design.widget.ui;
 
 import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itree.refreshabletree.TreeRootPane;
@@ -55,8 +56,9 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 
 	protected JPanel setSecondContentPane() {
 		accessibleTreeModelEditor = new AccessibleTreeModelEditor();
-		JPanel createTree = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Create_Tree")), accessibleTreeModelEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-		createTree.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		JPanel createTree = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Create_Tree")), accessibleTreeModelEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
+		createTree.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		JPanel contenter = FRGUIPaneFactory.createBorderLayout_S_Pane();
 

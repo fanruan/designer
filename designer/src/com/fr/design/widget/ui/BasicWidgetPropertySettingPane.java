@@ -1,6 +1,6 @@
 package com.fr.design.widget.ui;
 
-import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.dialog.BasicPane;
@@ -11,8 +11,11 @@ import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+
 
 public class BasicWidgetPropertySettingPane extends BasicPane {
 	private ParameterTreeComboBox widgetNameComboBox;
@@ -28,20 +31,17 @@ public class BasicWidgetPropertySettingPane extends BasicPane {
 		visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		widgetNameComboBox = new ParameterTreeComboBox();
 		widgetNameComboBox.refreshTree();
-		JPanel widgetNamePane = new JPanel(new BorderLayout());
-		widgetNamePane.add(widgetNameComboBox, BorderLayout.CENTER);
-		widgetNamePane.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name")), widgetNamePane},
+				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Form-Widget_Name")), widgetNameComboBox},
 				new Component[]{enableCheckBox, null},
 				new Component[]{visibleCheckBox, null},
 		};
 		double[] rowSize = {p, p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 1},{1, 1},{1, 1}};
-		JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);
+		JPanel pane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 		pane.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 
 		this.add(pane, BorderLayout.CENTER);

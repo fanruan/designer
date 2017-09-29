@@ -3,6 +3,7 @@ package com.fr.design.widget.ui.designer;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -56,8 +57,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     protected JPanel setFirstContentPane() {
         waterMarkDictPane = new WaterMarkDictPane();
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
-        JPanel returnTypePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        returnTypePane.add(new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type") + ":"), BorderLayout.WEST);
         returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
         JPanel formatHead =  createFormatHead();
         startDv = new DateValuePane();
@@ -78,9 +77,8 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
         return boundsPane;
     }

@@ -46,7 +46,8 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public void initComponent() {
         super.initComponent();
         borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
-        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), borderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         borderPane.add(jPanel, BorderLayout.CENTER);
@@ -57,11 +58,13 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public JPanel createThirdPane() {
         initLayoutComboBox();
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutCombox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, 7);
-        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, 7);
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutCombox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         jPanel.add(northPane, BorderLayout.NORTH);
         jPanel.add(centerPane, BorderLayout.CENTER);
-        northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+//        northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
         return jPanel;
 

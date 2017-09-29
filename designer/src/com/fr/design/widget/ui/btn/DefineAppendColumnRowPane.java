@@ -3,6 +3,8 @@ package com.fr.design.widget.ui.btn;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
+
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
 import javax.swing.JPanel;
 
@@ -43,7 +45,7 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		lpane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		lpane.add(new UILabel(Inter.getLocText("Append_Delete_Row_Message")));
 		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
-		JPanel contentPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());

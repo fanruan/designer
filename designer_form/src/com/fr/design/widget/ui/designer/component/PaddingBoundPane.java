@@ -43,17 +43,29 @@ public class PaddingBoundPane extends BasicPane{
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p};
-        double[] columnSize = {p, f, f};
-        int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
+        double[] columnSize = {p, f};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Layout-Padding")), top, bottom},
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer_Top"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Bottom"), SwingConstants.CENTER)},
-                new Component[]{null, left, right},
-                new Component[]{null, new UILabel(Inter.getLocText("FR-Designer_Left"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Right"), SwingConstants.CENTER)},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Layout-Padding")), createRightPane(top, bottom)},
+                new Component[]{null, createRightPane(new UILabel(Inter.getLocText("FR-Designer_Top"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Bottom"), SwingConstants.CENTER))},
+                new Component[]{null, createRightPane(left, right)},
+                new Component[]{null, createRightPane(new UILabel(Inter.getLocText("FR-Designer_Left"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Right"), SwingConstants.CENTER))},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(panel);
+    }
+
+    public JPanel createRightPane(Component com1, Component com2){
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p};
+        double[] columnSize = {f, f};
+        int[][] rowCount = {{1, 1}};
+        Component[][] components = new Component[][]{
+                new Component[]{com1, com2}
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L1);
     }
 
 
@@ -62,7 +74,7 @@ public class PaddingBoundPane extends BasicPane{
     }
 
     protected String title4PopupWindow() {
-        return "";
+        return "PaddingBoundPane";
     }
 
     public void populate(AbstractMarginWidget marginWidget) {

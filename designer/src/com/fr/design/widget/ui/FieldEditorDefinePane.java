@@ -32,8 +32,11 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel contentPane = this.setFirstContentPane();
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        jPanel.add(contentPane, BorderLayout.CENTER);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         if (contentPane != null) {
-            UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 24, contentPane);
+            UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 24, jPanel);
             this.add(uiExpandablePane, BorderLayout.NORTH);
         }
         this.addValidatePane();

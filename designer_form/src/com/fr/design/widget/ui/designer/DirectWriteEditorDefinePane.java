@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -44,8 +45,8 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 		double[] rowSize = {p, p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1, 1},{1, 3},{1, 1},{1, 1},{1,1},{1,1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+//		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		advancePane.add(panel, BorderLayout.NORTH);
 		JPanel otherPane = createOtherPane();
 		if(otherPane != null){
@@ -75,9 +76,8 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
         directWriteCheckBox = new UICheckBox(Inter.getLocText("Form-Allow_Edit"), false);
 		directWriteCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JPanel otherContentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-        otherContentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        otherContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         JPanel jPanel = GUICoreUtils.createFlowPane(new JComponent[]{directWriteCheckBox}, FlowLayout.LEFT, 0);
-        jPanel.setPreferredSize(new Dimension(220, 30));
 		otherContentPane.add(jPanel);
 		return otherContentPane;
 	}

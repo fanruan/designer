@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -36,8 +37,7 @@ public abstract class WriteUnableRepeatEditorPane<E extends WriteUnableRepeatEdi
 		double[] rowSize = {p, p};
 		double[] columnSize = {p, f};
 		int[][] rowCount = {{1,1},{1,1}};
-		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 7);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
 		contentPane.add(panel);
 		JPanel otherContentPane = this.setThirdContentPane();
 		if (otherContentPane != null)

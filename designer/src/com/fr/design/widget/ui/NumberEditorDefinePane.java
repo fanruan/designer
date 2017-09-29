@@ -29,7 +29,6 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     protected JPanel setFirstContentPane() {
         JPanel content = FRGUIPaneFactory.createBorderLayout_S_Pane();
         waterMarkDictPane = new WaterMarkDictPane();
-        waterMarkDictPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         content.add(waterMarkDictPane, BorderLayout.CENTER);
         return content;
     }

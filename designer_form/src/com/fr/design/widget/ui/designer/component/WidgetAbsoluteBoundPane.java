@@ -56,8 +56,6 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
     }
 
 
-
-
     protected String title4PopupWindow() {
         return "absoluteBound";
     }
