@@ -214,6 +214,7 @@ public abstract class UIListControlPane extends UIControlPane {
     @Override
     public void populate(Nameable[] nameableArray) {
         isPopulating = true;  // 加一个标识位，避免切换单元格时，触发 saveSettings
+        nameableList.getCellEditor().stopCellEditing();
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(nameableArray)) {
