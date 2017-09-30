@@ -110,13 +110,18 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double[] row = {p, p, p};
-        double[] col = {d, e};
 
         Component[][] components = getUseComponent();
 
-        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        JPanel jPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, getcolumnSize());
 
         this.add(jPanel);
+    }
+
+    protected double[] getcolumnSize () {
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+        return new double[] {d, e};
     }
 
     protected Marker[] getMarkers() {

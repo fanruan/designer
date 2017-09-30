@@ -11,15 +11,21 @@ import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.stable.Constants;
 
+import javax.swing.*;
+
 /**
  * Bold.
  */
 public class ReportFontUnderlineAction extends ReportFontBoldAction {
-	public ReportFontUnderlineAction(ElementCasePane t) {
+
+    private final static Icon blackIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png");
+    private final static Icon whiteIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline_white.png");
+
+    public ReportFontUnderlineAction(ElementCasePane t) {
 		super(t);
 
 		this.setName(Inter.getLocText("FRFont-Underline"));
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png"));
+		this.setSmallIcon(blackIcon);
 	}
 
     protected void setSelectedFont (Style style) {
@@ -30,6 +36,9 @@ public class ReportFontUnderlineAction extends ReportFontBoldAction {
         this.style = StyleUtils.setReportFontUnderline(style, false);
     }
 
+    protected Icon getToggleButtonIcon(boolean isSelected) {
+        return isSelected ? blackIcon : whiteIcon;
+    }
 
     protected boolean isStyle(FRFont frFont) {
         return frFont.getUnderline() != Constants.LINE_NONE;

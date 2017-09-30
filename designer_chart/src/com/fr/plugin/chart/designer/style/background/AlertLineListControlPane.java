@@ -1,6 +1,7 @@
 package com.fr.plugin.chart.designer.style.background;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.general.ComparatorUtils;
@@ -52,7 +53,7 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
         List<VanChartAxis> yAxisList = rectanglePlot.getYAxisList();
         String[] axisNames = DefaultAxisHelper.getAllAxisNames(xAxisList, yAxisList);
 
-        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(axisNames, Inter.getLocText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, VanChartAlertValuePane.class)};
+        ChartNameObjectCreator[] creators = {new ChartNameObjectCreator(getAlertAxisName(axisNames), Inter.getLocText("Plugin-ChartF_AlertLine"), VanChartAlertValue.class, getAlertPaneClass())};
 
         refreshNameableCreator(creators);
 
@@ -110,5 +111,13 @@ public class AlertLineListControlPane extends VanChartUIListControlPane {
             }
             axis.setAlertValues(axisAlerts);
         }
+    }
+
+    protected Class<? extends BasicBeanPane> getAlertPaneClass() {
+        return VanChartAlertValuePane.class;
+    }
+
+    protected String[] getAlertAxisName(String[] axisNames) {
+        return axisNames;
     }
 }

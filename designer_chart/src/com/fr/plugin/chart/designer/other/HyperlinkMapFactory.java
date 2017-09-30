@@ -236,8 +236,6 @@ public class HyperlinkMapFactory {
         startTime.setEnabled(false);
         ConstantsEditor endTime = new ConstantsEditor(Inter.getLocText("Plugin-ChartF_End_Time"), new Formula("END_TIME"));
         endTime.setEnabled(false);
-        ConstantsEditor duration = new ConstantsEditor(Inter.getLocText("Plugin-ChartF_Duration_Time"), new Formula("DURATION"));
-        duration.setEnabled(false);
         ConstantsEditor progress = new ConstantsEditor(Inter.getLocText("Plugin-ChartF_Process"), new Formula("PROGRESS"));
         progress.setEnabled(false);
 
@@ -246,7 +244,6 @@ public class HyperlinkMapFactory {
         lists.add(series);
         lists.add(startTime);
         lists.add(endTime);
-        lists.add(duration);
         lists.add(progress);
 
         return lists;

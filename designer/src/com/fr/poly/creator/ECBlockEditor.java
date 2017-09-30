@@ -47,6 +47,9 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             @Override
             public void targetModified(TargetModifiedEvent e) {
                 designer.fireTargetModified();
+                if (DesignerContext.isRefreshOnTargetModifiedEnabled()) {
+                    resetSelectionAndChooseState();
+                }
             }
         });
     }

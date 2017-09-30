@@ -67,10 +67,8 @@ public class DonutPlotPane extends AbstractChartTypePane{
         Plot plot = chart.getPlot();
         if(plot instanceof Donut3DPlot) {
             typeDemo.get(THREE_D_DONUT_CHART).isPressing = true;
-            lastTypeIndex = THREE_D_DONUT_CHART;
         } else {
             typeDemo.get(DONUT_CHART).isPressing = true;
-            lastTypeIndex = DONUT_CHART;
         }
 
         checkDemosBackground();

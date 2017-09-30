@@ -64,6 +64,7 @@ public interface UIConstants {
             Constants.LINE_MEDIUM_DASH_DOT_DOT, //medium dash-dot-dot border
             Constants.LINE_SLANTED_DASH_DOT, //slanted dash-dot border
     };
+    public static final Color TOOLBAR_BORDER_COLOR = new Color(0xD9DADD);
     public static final Color COMBOBOX_BTN_NORMAL = new Color(0xD9DADD);
     public static final Color COMBOBOX_BTN_ROLLOVER = new Color(0xC8C9CD);
     public static final Color COMBOBOX_BTN_PRESS = new Color(0xD8F2FD);
@@ -74,7 +75,7 @@ public interface UIConstants {
     public static final Color OCEAN_BLUE = new Color(141, 179, 217);
     public static final Color DARK_BLUE = new Color(0, 88, 144);
     public static final Color NORMAL_BACKGROUND = new Color(212, 212, 216);
-    public static final Color TREE_BACKGROUND = new Color(240, 240, 243);
+    public static final Color TREE_BACKGROUND = new Color(245, 245, 247);
     public static final Color TOOL_PANE_BACKGROUND = new Color(232, 232, 223);
     public static final Color SELECT_TAB = new Color(245, 245, 247);
     public static final Color TOOLBARUI_BACKGROUND = new Color(255, 255, 255);
@@ -102,11 +103,11 @@ public interface UIConstants {
     public static final Color SELECTED_BACKGROUND = new Color(0xdeedfe);
     public static final Color SELECTED_BORDER_LINE_COLOR = new Color(0x3384f0);
     public static final Color DEFAULT_BG_RULER = new Color(0xffffff);
-    public static final Color RULER_LINE_COLOR = new Color(0xababab);
+    public static final Color RULER_LINE_COLOR = new Color(0xD9DADD);
     public static final Color RULER_SCALE_COLOR = new Color(0x4e504f);
     public static final Color PROPERTY_PANE_BACKGROUND = new Color(0xdadadd);
     public static final Color SPLIT_LINE = new Color(201, 198, 184);
-    public static final Color TITLED_BORDER_COLOR = new Color(0xededee);
+    public static final Color TITLED_BORDER_COLOR = new Color(0xe8e8e9);
     public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
     public static final Color PROPERTY_DIALOG_BORDER = new Color(0xc9c9cd);
     public static final Color TAB_BUTTON_HOVER = new Color(231, 230, 235);
@@ -114,6 +115,7 @@ public interface UIConstants {
     public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
     public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
+    public static final Color LIST_ITEM_SPLIT_LINE = new Color(0xf0f0f3);
 
 
 
@@ -129,6 +131,7 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
     public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");

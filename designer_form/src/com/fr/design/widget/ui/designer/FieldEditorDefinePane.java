@@ -43,8 +43,11 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         fontSizePane = new UISpinner(0, 20, 1, 0);
         errorMsgTextField = new UITextField();
         JPanel contentPane = this.setFirstContentPane();
+        JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        jPanel.add(contentPane, BorderLayout.CENTER);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         if (contentPane != null) {
-            UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, contentPane);
+            UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Advanced"), 280, 20, jPanel);
             this.add(uiExpandablePane, BorderLayout.NORTH);
         }
         this.addValidatePane();
@@ -110,7 +113,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         final UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Widget_Error_Tip"));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         final JPanel errorTipPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{uiLabel, errorMsgTextField}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
-        errorTipPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L5, 0, 0));
+        errorTipPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, 0, 0));
         borderPane.add(errorTipPane, BorderLayout.CENTER);
         allowBlankCheckBox.addItemListener(new ItemListener() {
             @Override
@@ -124,7 +127,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
                 new Component[]{allowBlankCheckBox},
                 new Component[]{borderPane},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L6, 0);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
         validatePane.add(panel, BorderLayout.NORTH);
         JPanel contentPane = this.setValidatePane();

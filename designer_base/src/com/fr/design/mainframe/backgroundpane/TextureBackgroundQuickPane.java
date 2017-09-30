@@ -169,4 +169,10 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 	public String title4PopupWindow() {
 		return Inter.getLocText("Background-Texture");
 	}
+
+	@Override
+	public void reset() {
+		this.texturePaint = null;
+		textureButtonArray[0].setSelected(true);
+	}
 }

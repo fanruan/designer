@@ -2,15 +2,24 @@ package com.fr.plugin.chart.designer.component;
 
 import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,14 +28,80 @@ import java.awt.event.ActionListener;
  * Created by mengao on 2017/9/8.
  * 新图表UIListControlPane，基础面板。
  */
-public abstract class VanChartUIListControlPane extends UIListControlPane {
+public abstract class VanChartUIListControlPane extends UIListControlPane implements UIObserver {
+    private UIObserverListener uiObserverListener;
+
 
     public VanChartUIListControlPane() {
         super();
+        this.setBorder(null);
+        iniListener();
     }
 
     public VanChartUIListControlPane(BasePlot plot) {
         super(plot);
+        this.setBorder(null);
+        iniListener();
+    }
+
+    /**
+     * 注册观察者监听事件
+     * @param listener 观察者监听事件
+     */
+    @Override
+    public void registerChangeListener(UIObserverListener listener) {
+        uiObserverListener = listener;
+    }
+
+    @Override
+    public boolean shouldResponseChangeListener() {
+        return true;
+    }
+
+    private void iniListener() {
+        if (shouldResponseChangeListener()) {
+            this.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    if (uiObserverListener == null) {
+                        return;
+                    }
+                    uiObserverListener.doChange();
+                }
+            });
+        }
+    }
+
+    protected void fireChanged() {
+        Object[] listeners = listenerList.getListenerList();
+
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ChangeListener.class) {
+                ((ChangeListener) listeners[i + 1]).stateChanged(new ChangeEvent(this));
+            }
+        }
+
+    }
+
+    /**
+     * 增加监听事件
+     * @param l 监听的对象
+     */
+    public void addChangeListener(ChangeListener l) {
+        this.listenerList.add(ChangeListener.class, l);
+    }
+
+    @Override
+    protected JPanel getLeftTopPane(UIToolbar topToolBar) {
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p};
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(getAddItemText()), topToolBar},
+        };
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     @Override
@@ -35,7 +110,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane {
             return;
         }
         update((Plot) plot);
-        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+        fireChanged();//图表属性改变，响应事件
     }
 
     protected abstract void update(Plot plot);
@@ -43,7 +118,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane {
 
     //-------------------连续弹窗问题  start-------------------//
 
-    public void populate (Nameable[] nameableArray) {
+    public void populate(Nameable[] nameableArray) {
         //特殊处理，使用instanceof判断，弹出不同的面板
         if (SwingUtilities.getWindowAncestor(this) instanceof JDialog) {
             popupEditDialog = new HyperDialog(cardPane);
@@ -93,7 +168,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane {
             //取消
             addCancelButton(buttonsPane);
 
-            controlPane.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+            controlPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
             return controlPane;
         }

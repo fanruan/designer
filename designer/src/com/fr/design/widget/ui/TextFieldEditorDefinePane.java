@@ -51,9 +51,7 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
             }
         });
         JPanel content = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        waterMarkDictPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         content.add(waterMarkDictPane, BorderLayout.CENTER);
-
         return content;
     }
 

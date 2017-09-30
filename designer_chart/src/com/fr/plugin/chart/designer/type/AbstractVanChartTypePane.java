@@ -10,13 +10,14 @@ import com.fr.chart.chartglyph.DataSheet;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.Background;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
-import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.*;
@@ -53,9 +54,15 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
         };
     }
 
-    //适用一种图表只有一种类型的
+    /**
+     * 更新界面内容
+     */
     public void populateBean(Chart chart) {
-        typeDemo.get(0).isPressing = true;
+        for(ChartImagePane imagePane : typeDemo) {
+            imagePane.isPressing = false;
+        }
+        Plot plot = chart.getPlot();
+        typeDemo.get(plot.getDetailType()).isPressing = true;
         checkDemosBackground();
     }
 
@@ -63,9 +70,9 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
      * 保存界面属性
      */
     public void updateBean(Chart chart) {
-        checkTypeChange();
-        VanChartPlot oldPlot = (VanChartPlot)chart.getPlot();
-        VanChartPlot newPlot = (VanChartPlot)getSelectedClonedPlot();
+        VanChartPlot oldPlot = chart.getPlot();
+        VanChartPlot newPlot = getSelectedClonedPlot();
+        checkTypeChange(oldPlot);
         samePlot = accept(chart);
         if(typeChanged && samePlot){
             //同一中图表切换不同类型
@@ -115,11 +122,10 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
         return new VanChartTools();
     }
 
-    protected void checkTypeChange(){
+    protected void checkTypeChange(Plot oldPlot){
         for(int i = 0; i < typeDemo.size(); i++){
-            if(typeDemo.get(i).isPressing && i != lastTypeIndex){
+            if(typeDemo.get(i).isPressing && i != oldPlot.getDetailType()){
                 typeChanged = true;
-                lastTypeIndex = i;
                 break;
             }
             typeChanged = false;

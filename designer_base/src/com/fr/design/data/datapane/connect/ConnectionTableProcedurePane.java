@@ -1,6 +1,8 @@
 package com.fr.design.data.datapane.connect;
 
 import com.fr.base.BaseUtils;
+import com.fr.data.impl.AbstractDatabaseConnection;
+import com.fr.data.impl.Connection;
 import com.fr.design.constants.UIConstants;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.design.border.UIRoundedBorder;
@@ -20,6 +22,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 /**
  * 数据集编辑面板左边的部分
@@ -39,6 +42,12 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	public ConnectionTableProcedurePane() {
 		this.setLayout(new BorderLayout(4, 4));
 		connectionComboBox = new ConnectionComboBoxPanel(com.fr.data.impl.Connection.class) {
+
+			@Override
+			protected void filterConnection(Connection connection, String conName, List<String> nameList) {
+				filter(connection, conName, nameList);
+			}
+
 			protected void refreshItems() {
 				super.refreshItems();
 				if (tableViewList != null) {
@@ -81,6 +90,10 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		this.add(tableViewListPane, BorderLayout.CENTER);
 		this.add(filterPane, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
+	}
+
+	protected void filter(Connection connection, String conName, List<String> nameList) {
+		connection.addConnection(nameList, conName, new Class[]{AbstractDatabaseConnection.class});
 	}
 
 	protected JPanel createCheckBoxgroupPane() {

@@ -3,12 +3,13 @@ package com.fr.design.gui.ibutton;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.Icon;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -46,6 +47,26 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 		addMouseListener(getMouseListener());
 	}
 
+	/**
+	 * 需要反白的按钮接口
+	 * support icons[normalIcon, selectedIcon]
+	 * @param icons
+	 */
+	public UIToggleButton(Icon[] icons) {
+		super(icons[0], null, icons[1]);
+		setSelectedIcon(icons[1]);
+		setExtraPainted(true);
+		addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!UIToggleButton.super.isSelected()) {
+					UIToggleButton.super.setSelected(!UIToggleButton.super.isSelected());
+				}
+			}
+		});
+		addMouseListener(getMouseListener());
+	}
+
 	public void setGlobalName(String name){
 		toggleButtonName = name ;
 	}
@@ -66,6 +87,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 
 	@Override
 	public void setSelected(boolean isSelected) {
+		super.setSelected(isSelected);
 		if (this.isSelected != isSelected) {
 			this.isSelected = isSelected;
 			repaint();
@@ -100,7 +122,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isEnabled() && !isEventBannded) {
-					setSelectedWithFireListener(!isSelected()); 
+					setSelectedWithFireListener(!isSelected());
 				}
 			}
 		};

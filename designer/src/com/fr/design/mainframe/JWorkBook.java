@@ -114,10 +114,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (isEditingPolySheet()) {
             EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
         } else {
-            EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
-            EastRegionContainerPane.getInstance().replaceCellElementPane(getEastUpPane());
-            EastRegionContainerPane.getInstance().replaceCellAttrPane(getEastDownPane());
+            if (isUpMode()) {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT_PARA);
+            } else {
+                EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.REPORT);
+            }
         }
+        refreshToolArea();
     }
 
     private boolean isEditingPolySheet() {

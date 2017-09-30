@@ -67,8 +67,9 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         stylePane = new AccessibleWLayoutBorderStyleEditor();
         paddingBound = new PaddingBoundPane();
-        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), stylePane}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
-        jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Widget_Style")), stylePane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+        jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);
         jPanel.add(jp2, BorderLayout.NORTH);
         return jPanel;
@@ -84,14 +85,15 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
-        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, 7);
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
 
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Scale")), adaptComboBox},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentIntervel}
         };
-        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L2, 7);
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
         jPanel.add(northPane, BorderLayout.NORTH);
         jPanel.add(centerPane, BorderLayout.CENTER);

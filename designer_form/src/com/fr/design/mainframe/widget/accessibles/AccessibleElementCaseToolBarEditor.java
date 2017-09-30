@@ -9,7 +9,7 @@ import com.fr.design.mainframe.widget.wrappers.ElementCaseToolBarWrapper;
 import com.fr.form.web.FormToolBarManager;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,4 +54,5 @@ public class AccessibleElementCaseToolBarEditor extends UneditableAccessibleEdit
         options.addAll(defaultOptions);
         return options.toArray(new WidgetOption[options.size()]);
     }
+
 }

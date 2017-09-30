@@ -68,6 +68,10 @@ public class UIButtonUI extends BasicButtonUI {
     }
 
     private void paintText(Graphics g, AbstractButton b, String text) {
+        paintText(g, b, text ,textRec);
+    }
+
+    protected void paintText(Graphics g, AbstractButton b, String text, Rectangle textRec) {
         View v = (View) b.getClientProperty(BasicHTML.propertyKey);
         if (v != null) {
             v.paint(g, textRec);
@@ -156,7 +160,7 @@ public class UIButtonUI extends BasicButtonUI {
         paintModelIcon(model, icon, g, c);
     }
 
-    private void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
+    protected void paintModelIcon(ButtonModel model, Icon icon, Graphics g, JComponent c) {
         if (model.isPressed() && model.isArmed()) {
             icon.paintIcon(c, g, iconRec.x + getTextShiftOffset(),
                     iconRec.y + getTextShiftOffset());

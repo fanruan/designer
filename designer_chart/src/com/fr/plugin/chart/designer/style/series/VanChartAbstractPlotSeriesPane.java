@@ -29,6 +29,7 @@ import com.fr.plugin.chart.custom.style.VanChartCustomStylePane;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartAreaSeriesFillColorPane;
 import com.fr.plugin.chart.designer.component.VanChartBeautyPane;
+import com.fr.plugin.chart.designer.component.VanChartFillStylePane;
 import com.fr.plugin.chart.designer.component.VanChartLineTypePane;
 import com.fr.plugin.chart.designer.component.VanChartMarkerPane;
 import com.fr.plugin.chart.designer.component.VanChartTrendLinePane;
@@ -98,7 +99,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      */
     protected ChartFillStylePane getFillStylePane() {
         //如果是自定義組合圖，則不創建填充界面
-        return parentPane instanceof VanChartCustomStylePane ? null : new ChartFillStylePane();
+        return parentPane instanceof VanChartCustomStylePane ? null : new VanChartFillStylePane();
     }
 
     //风格

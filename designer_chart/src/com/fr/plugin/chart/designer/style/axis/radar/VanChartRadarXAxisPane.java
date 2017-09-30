@@ -24,10 +24,12 @@ public class VanChartRadarXAxisPane extends VanChartBaseAxisPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
+        double[] column = {f, s};
         double[] rowSize = {p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{createLabelPane(new double[]{p, p}, columnSize),null},
+                new Component[]{createLabelPane(new double[]{p, p}, column),null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p}, columnSize),null},
                 new Component[]{createValueStylePane(),null},
         };

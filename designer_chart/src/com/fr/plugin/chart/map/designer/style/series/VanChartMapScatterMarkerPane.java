@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.map.designer.style.series;
 
 import com.fr.chart.chartglyph.Marker;
-import com.fr.plugin.chart.marker.type.MarkerType;
+import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
 
 import java.awt.*;
@@ -19,5 +19,12 @@ public class VanChartMapScatterMarkerPane extends VanChartCommonMarkerPane {
     @Override
     protected Marker[] getMarkers() {
         return getMapScatterMarkers();
+    }
+
+    @Override
+    protected double[] getcolumnSize () {
+        double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
+        double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
+        return new double[] {d, s};
     }
 }

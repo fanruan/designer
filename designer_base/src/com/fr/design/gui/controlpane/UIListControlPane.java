@@ -11,7 +11,7 @@ import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -19,7 +19,6 @@ import com.fr.design.gui.ilist.ModNameActionListener;
 import com.fr.design.gui.ilist.UINameEdList;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -162,9 +161,13 @@ public abstract class UIListControlPane extends UIControlPane {
         if (creators.length == 1) {
             addItemShortCut = new AddItemUpdateAction(creators);
         } else {
-            addItemShortCut = new AddItemMenuDef(creators);
+            addItemShortCut = getAddItemMenuDef(creators);
         }
         return new AbsoluteEnableShortCut(addItemShortCut);
+    }
+
+    protected AddItemMenuDef getAddItemMenuDef (NameableCreator[] creators) {
+        return new AddItemMenuDef(creators);
     }
 
     @Override
@@ -211,6 +214,7 @@ public abstract class UIListControlPane extends UIControlPane {
     @Override
     public void populate(Nameable[] nameableArray) {
         isPopulating = true;  // 加一个标识位，避免切换单元格时，触发 saveSettings
+        nameableList.getCellEditor().stopCellEditing();
         DefaultListModel listModel = (DefaultListModel) this.nameableList.getModel();
         listModel.removeAllElements();
         if (ArrayUtils.isEmpty(nameableArray)) {
@@ -557,20 +561,8 @@ public abstract class UIListControlPane extends UIControlPane {
             }
         }
 
-        private boolean whetherAdd(String itemName) {
-            JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            if (jTemplate == null) {
-                return false;
-            }
-            //先屏蔽掉这个，之后还有别的
-            String[] names = {Inter.getLocText("FR-Hyperlink_Chart_Float")};
-            for (String name : names) {
-                if (!jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, name)) {
-                    return false;
-                }
-            }
-            String formName = Inter.getLocText("Hyperlink-Form_link");
-            return !(jTemplate.isJWorkBook() && ComparatorUtils.equals(itemName, formName));
+        protected boolean whetherAdd(String itemName){
+            return HyperlinkFilterHelper.whetherAddHyperlink4cell(itemName);
         }
     }
 
@@ -591,6 +583,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 UIListControlPane.this.nameableList.getCellEditor()
                         .stopCellEditing();
             } catch (Exception ignored) {
+                // do nothing
             }
             // bug:在选中一个NameObject并删除，会遗留下Name.
             doBeforeRemove();
@@ -610,7 +603,7 @@ public abstract class UIListControlPane extends UIControlPane {
             this.setName(Inter.getLocText("FR-Action_Copy"));
             this.setMnemonic('C');
             this.setSmallIcon(BaseUtils
-                    .readIcon("/com/fr/base/images/cell/control/copy.png"));
+                    .readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
         @Override

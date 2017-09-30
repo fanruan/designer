@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
@@ -52,7 +53,7 @@ public abstract class ButtonDefinePane<T extends Button> extends AbstractDataMod
                 {new UILabel(Inter.getLocText("FR-Designer_Button-Hotkeys")), hotkeysTextField}
         };
         hotkeysTextField.setToolTipText(StableUtils.join(ButtonConstants.HOTKEYS, ","));
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, 10, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(n_components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         boundsPane.add(panel);

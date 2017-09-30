@@ -8,11 +8,14 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
+import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,6 +44,10 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         this(iconArray, null);
     }
 
+    public UIButtonGroup(Icon[][] iconArray) {
+        this(iconArray, null);
+    }
+
     public UIButtonGroup(Icon[] iconArray, T[] objects) {
         if (!ArrayUtils.isEmpty(objects) && iconArray.length == objects.length) {
             this.objectList = Arrays.asList(objects);
@@ -51,6 +58,42 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         for (int i = 0; i < iconArray.length; i++) {
             final int index = i;
             Icon icon = iconArray[i];
+            final UIToggleButton labelButton = new UIToggleButton(icon) {
+                @Override
+                protected MouseListener getMouseListener() {
+                    return new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            isClick = true;
+                            if (!isEnabled()) {
+                                return;
+                            }
+                            if (globalNameListener != null) {
+                                globalNameListener.setGlobalName(buttonGroupName);
+                            }
+                            setSelectedWithFireChanged(index);
+                        }
+                    };
+                }
+
+                public boolean shouldResponseNameListener() {
+                    return false;
+                }
+            };
+            initButton(labelButton);
+        }
+    }
+
+    public UIButtonGroup(Icon[][] iconArray, T[] objects) {
+        if (!ArrayUtils.isEmpty(objects) && iconArray.length == objects.length) {
+            this.objectList = Arrays.asList(objects);
+        }
+        labelButtonList = new ArrayList<UIToggleButton>(iconArray.length);
+        this.setLayout(getGridLayout(iconArray.length));
+        this.setBorder(getGroupBorder());
+        for (int i = 0; i < iconArray.length; i++) {
+            final int index = i;
+            Icon[] icon = iconArray[i];
             final UIToggleButton labelButton = new UIToggleButton(icon) {
                 @Override
                 protected MouseListener getMouseListener() {
@@ -145,6 +188,24 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
                 }
 
             };
+            labelButton.setUI(new UIButtonUI() {
+                protected void paintText(Graphics g, AbstractButton b, String text, Rectangle textRec) {
+                    View v = (View) b.getClientProperty(BasicHTML.propertyKey);
+                    if (v != null) {
+                        v.paint(g, textRec);
+                        return;
+                    }
+                    FontMetrics fm = SwingUtilities2.getFontMetrics(b, g);
+                    int mnemonicIndex = b.getDisplayedMnemonicIndex();
+                    if (isPressed(b)) {
+                        g.setColor(Color.white);
+                    } else {
+                        g.setColor(Color.black);
+                    }
+
+                    SwingUtilities2.drawStringUnderlineCharAt(b, g, text, mnemonicIndex, textRec.x + getTextShiftOffset(), textRec.y + fm.getAscent() + getTextShiftOffset());
+                }
+            });
             initButton(labelButton);
         }
     }

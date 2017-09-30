@@ -44,13 +44,14 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p};
 
         Component[][] components = new Component[][]{
                 new Component[]{createGridLinePane(new double[]{p, p, p}, new double[]{f, e})},
                 new Component[]{createAlertLinePane()},
-                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{f, e})},
+                new Component[]{createIntervalPane(new double[]{p, p, p, p}, new double[]{f, s})},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -74,10 +75,14 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     protected JPanel createAlertLinePane() {
-        alertLine = new AlertLineListControlPane();
+        alertLine = getAlertLinePane();
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_AlertLine"), alertLine);
         alertLine.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
+    }
+
+    protected AlertLineListControlPane getAlertLinePane () {
+        return new AlertLineListControlPane();
     }
 
     protected JPanel createIntervalPane(double[] row, double[] col) {
@@ -86,7 +91,8 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         verticalColorBackground = new ColorSelectBox(100);
         Component[][] components = getIntervalPaneComponents();
         JPanel defaultPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        customIntervalBackground = new BackgroundListControlPane();
+        defaultPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        customIntervalBackground = getBackgroundListControlPane();
 
         cardLayout = new CardLayout();
         centerPane = new JPanel(cardLayout);
@@ -105,6 +111,10 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Inter.getLocText("Plugin-ChartF_IntervalBackground"), intervalPane);
         intervalPane.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel;
+    }
+
+    protected BackgroundListControlPane getBackgroundListControlPane() {
+        return new BackgroundListControlPane();
     }
 
     protected Component[][] getIntervalPaneComponents() {

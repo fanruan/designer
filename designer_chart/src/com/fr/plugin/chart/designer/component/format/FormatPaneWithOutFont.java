@@ -39,6 +39,6 @@ public class FormatPaneWithOutFont extends FormatPane {
         if (getTypeComboBox().getSelectedIndex() == 0) {
             return new Dimension((int)getTypeComboBox().getPreferredSize().getWidth(), HEIGHT);
         }
-        return super.getPreferredSize();
+        return new Dimension((int)super.getPreferredSize().getWidth(), (int)super.getPreferredSize().getHeight());
     }
 }

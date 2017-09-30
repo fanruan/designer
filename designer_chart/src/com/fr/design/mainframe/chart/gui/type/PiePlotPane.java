@@ -93,10 +93,8 @@ public class PiePlotPane extends AbstractChartTypePane{
 		Plot plot = chart.getPlot();
 		if(plot instanceof Pie3DPlot) {
 			typeDemo.get(THREE_D_PIE_CHART).isPressing = true;
-            lastTypeIndex = THREE_D_PIE_CHART;
 		} else {
 			typeDemo.get(PIE_CHART).isPressing = true;
-            lastTypeIndex = PIE_CHART;
 		}
 
 		checkDemosBackground();

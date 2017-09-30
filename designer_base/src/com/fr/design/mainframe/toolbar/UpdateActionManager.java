@@ -1,5 +1,8 @@
 package com.fr.design.mainframe.toolbar;
 
+import com.fr.design.actions.UpdateAction;
+import com.fr.general.ComparatorUtils;
+
 import java.util.List;
 
 /**
@@ -22,5 +25,14 @@ public class UpdateActionManager {
 
     public void setUpdateActions(List<UpdateActionModel> updateActions) {
         this.updateActions = updateActions;
+    }
+
+    public boolean isEnable(UpdateAction updateAction) {
+        for (UpdateActionModel action : updateActions) {
+            if (ComparatorUtils.equals(updateAction.getName(), action.getActionName()) && action.getAction().isEnabled()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

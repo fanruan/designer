@@ -26,8 +26,9 @@ public class VanChartFillStylePane extends ChartFillStylePane {
                 new Component[]{null,customPane},
 
         };
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
+        panel.setBorder(BorderFactory.createEmptyBorder(5,5,0,0));
+        return panel;
     }
     @Override
     public Dimension getPreferredSize() {

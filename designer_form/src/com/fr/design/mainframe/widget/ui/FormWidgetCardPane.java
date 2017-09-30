@@ -18,11 +18,15 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
 
 /**
  * Created by ibm on 2017/7/25.
@@ -105,6 +109,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     private void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        XCreator innerCreator = getXCreatorDedicated();
+
         final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         BasicScrollPane basicScrollPane = new BasicScrollPane() {
             @Override
@@ -123,36 +129,37 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             }
         };
         this.add(basicScrollPane, BorderLayout.CENTER);
+        attriCardPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        jPanel.add(attriCardPane, BorderLayout.CENTER);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        if (xCreator.supportSetVisibleOrEnable()) {
-            widgetPropertyPane = new FormBasicWidgetPropertyPane();
-        } else {
-            widgetPropertyPane = new FormBasicPropertyPane();
+        final boolean isExtraWidget = FormWidgetDefinePaneFactoryBase.isExtraXWidget(innerCreator.toData());
+        this.listener = new AttributeChangeListener() {
+            @Override
+            public void attributeChange() {
+                if(!isExtraWidget){
+                    updateCreator();
+                }
+                updateWidgetBound();
+            }
+        };
+
+        if(isExtraWidget){
+            return;
         }
+
+        widgetPropertyPane = WidgetBasicPropertyPaneFactory.createBasicPropertyPane(innerCreator);
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
 
         jPanel.add(uiExpandablePane, BorderLayout.NORTH);
-
-        attriCardPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-
-        jPanel.add(attriCardPane, BorderLayout.CENTER);
-
-        this.listener = new AttributeChangeListener() {
-            @Override
-            public void attributeChange() {
-                updateCreator();
-            }
-        };
 
     }
 
     private void initDefinePane() {
         currentEditorDefinePane = null;
         XCreator creator = getXCreatorDedicated();
-        FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, creator.toData(), new Operator() {
+        FormWidgetDefinePaneFactoryBase.RN rn = FormWidgetDefinePaneFactoryBase.createWidgetDefinePane(creator, designer, creator.toData(), new Operator() {
             @Override
             public void did(DataCreatorUI ui, String cardName) {
                 //todo
@@ -166,7 +173,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         currentEditorDefinePane = definePane;
     }
 
-    private XCreator getXCreatorDedicated(){
+    private XCreator getXCreatorDedicated() {
         boolean dedicateLayout = xCreator.acceptType(XWScaleLayout.class) && xCreator.getComponentCount() > 0 && ((XCreator) xCreator.getComponent(0)).shouldScaleCreator() || xCreator.acceptType(XWTitleLayout.class);
         return dedicateLayout ? (XCreator) xCreator.getComponent(0) : xCreator;
     }
@@ -192,21 +199,31 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             innerWidget = crBoundsWidget.getWidget();
         }
         currentEditorDefinePane.populateBean(innerWidget);
-        widgetPropertyPane.populate(innerWidget);
+        if(widgetPropertyPane != null){
+            widgetPropertyPane.populate(innerWidget);
+        }
         reinitAllListeners();
         this.addAttributeChangeListener(listener);
     }
 
 
     public void updateCreator() {
+        currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        widgetPropertyPane.update(widget);
-        if (widgetBoundPane != null) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Widget_Name")) && widgetPropertyPane != null) {
+            widgetPropertyPane.update(widget);
+            xCreator.resetCreatorName(widget.getWidgetName());
+            designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
+            return;
+        }
+        fireValueChanged();
+    }
+
+    public void updateWidgetBound (){
+        if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Coords_And_Size"))) {
             widgetBoundPane.update();
         }
-        xCreator.resetCreatorName(widget.getWidgetName());
-        designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
-        fireValueChanged();
+        designer.refreshDesignerUI();
     }
 
 
@@ -222,7 +239,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         XCreator creator = getXCreatorDedicated();
         creator.firePropertyChange();
         designer.fireTargetModified();
-        designer.refreshDesignerUI();
     }
 
     public String getIconPath() {

@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.frpane.RegFieldPane;
 import com.fr.design.gui.frpane.RegPane;
@@ -69,9 +70,8 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 3},{1, 1},{1, 1}};
-        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 10, 10);
+        final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
         return boundsPane;
     }

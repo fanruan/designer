@@ -54,7 +54,8 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
         double[] rowSize = {p,p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null, null},

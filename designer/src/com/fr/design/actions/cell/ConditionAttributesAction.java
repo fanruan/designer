@@ -24,5 +24,6 @@ public class ConditionAttributesAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CONDITION_ATTR);
+        EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }
 }

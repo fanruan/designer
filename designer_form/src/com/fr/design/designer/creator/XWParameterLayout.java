@@ -210,4 +210,13 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     protected String getIconName() {
         return "layout_absolute.png";
     }
+
+    /**
+     * data属性改变触发其他操作
+     *
+     */
+    public void firePropertyChange(){
+
+    }
+
 }

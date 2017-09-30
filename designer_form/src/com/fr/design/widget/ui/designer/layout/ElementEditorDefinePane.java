@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.*;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -8,10 +9,13 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleElementCaseToolBarEd
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.web.FormToolBarManager;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by ibm on 2017/8/7.
@@ -34,9 +38,9 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
                 new Component[]{paddingBoundPane, null},
                 new Component[]{new UILabel(Inter.getLocText("Form-EC_toolbar")), elementCaseToolBarEditor},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, 20, 10);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
-        CRPropertyDescriptor[] extraTableEditor = ((XElementCase)creator).getExtraTableEditor();
+        CRPropertyDescriptor[] extraTableEditor = ((XElementCase) creator).getExtraTableEditor();
         extraPropertyGroupPane = new PropertyGroupPane(extraTableEditor, creator);
         centerPane.add(panel, BorderLayout.NORTH);
         centerPane.add(extraPropertyGroupPane, BorderLayout.CENTER);
@@ -45,8 +49,11 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
 
     protected ElementCaseEditor updateSubBean() {
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor) creator.toData();
-        paddingBoundPane.update(elementCaseEditor);
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
+            paddingBoundPane.update(elementCaseEditor);
+        }
         elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());
+
         return elementCaseEditor;
     }
 

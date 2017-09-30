@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
-import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartTools;
@@ -50,26 +49,6 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
         return Inter.getLocText("Plugin-ChartF_NewBubble");
     }
 
-    /**
-     * 更新界面内容
-     */
-    public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
-            imagePane.isPressing = false;
-        }
-
-
-        Plot plot = chart.getPlot();
-        if(plot instanceof VanChartBubblePlot && ((VanChartBubblePlot)plot).isForceBubble()){
-            lastTypeIndex = BubblePlotType.FORCE.ordinal();
-        } else {
-            lastTypeIndex = BubblePlotType.NORMAL.ordinal();
-        }
-
-        typeDemo.get(lastTypeIndex).isPressing = true;
-
-        checkDemosBackground();
-    }
 
     private void removeDefaultAttr(ConditionAttr conditionAttr, Class <? extends DataSeriesCondition> targetClass) {
         DataSeriesCondition attr = conditionAttr.getExisted(targetClass);

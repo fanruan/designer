@@ -178,7 +178,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         // 封装一层，加边框
         JPanel toolBarPane = new JPanel(new BorderLayout());
         toolBarPane.add(toolBar, BorderLayout.CENTER);
-        toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(201, 198, 184)));
+        toolBarPane.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIConstants.RULER_LINE_COLOR));
+
         leftContentPane.add(toolBarPane, BorderLayout.NORTH);
 
         //  顶部标签及add按钮
@@ -193,6 +194,16 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
+
+        JPanel leftTopPane = getLeftTopPane(topToolBar);
+
+        leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
+        leftPane.add(leftTopPane, BorderLayout.NORTH);
+
+        return leftPane;
+    }
+
+    protected JPanel getLeftTopPane (UIToolbar topToolBar) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = { p, f};
@@ -200,11 +211,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(getAddItemText()), topToolBar},
         };
-        JPanel leftTopPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
-        leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
-        leftPane.add(leftTopPane, BorderLayout.NORTH);
-
-        return leftPane;
+       return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }
 
     /**

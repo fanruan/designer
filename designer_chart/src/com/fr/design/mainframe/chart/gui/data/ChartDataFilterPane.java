@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
-import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -48,15 +47,9 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
     }
 
     protected void initTabPane() {
-        if (!paneList.isEmpty()) {
-            tabPane = new UIHeadGroup(nameArray) {
-                @Override
-                public void tabChanged(int index) {
-                    cardLayout.show(centerPane, nameArray[index]);
-                }
-            };
-            tabPane.setPreferredSize(new Dimension(221, 20));
-        }
+        super.initTabPane();
+        tabPane.setPreferredSize(new Dimension(221, 25));
+
     }
 
     protected void initLayout() {
@@ -66,9 +59,10 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             if (nameArray.length > 1) {
                 pane.add(tabPane);
                 this.add(pane, BorderLayout.NORTH);
+                centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
             }
+            centerPane.setBorder(null);
         }
-        centerPane.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
         this.add(centerPane, BorderLayout.CENTER);
     }
 
@@ -126,7 +120,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
         this.removeAll();
         paneList = initPaneList4NoPresent(plot4Pane, parentPane);
         initAllPane();
-        tabPane.setPreferredSize(new Dimension(221, 20));
+        tabPane.setPreferredSize(new Dimension(221, 25));
         centerPane.setPreferredSize(new Dimension(getContentPaneWidth(), 200));
         this.validate();
     }
@@ -242,7 +236,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             };
 
             preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
-            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);
@@ -417,7 +411,7 @@ public class ChartDataFilterPane extends ThirdTabPane<ChartCollection> {
             };
 
             preDataNumPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
-            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
+            preDataNumPane.setBorder(BorderFactory.createEmptyBorder(10,15,0,0));
             //默认不显示
             preDataNumPane.setVisible(false);
             panel1.add(preDataNumPane, BorderLayout.CENTER);

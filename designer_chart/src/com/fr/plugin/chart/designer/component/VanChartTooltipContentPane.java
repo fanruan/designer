@@ -61,7 +61,7 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] columnSize = {f, e};
+        double[] columnSize = {f, p};
         double[] rowSize = getRowSize(p);
 
         final JPanel commonPanel = TableLayoutHelper.createTableLayoutPane(getPaneComponents(), rowSize, columnSize);

@@ -8,84 +8,96 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
-import com.fr.general.FRFont;
-import com.fr.general.Inter;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
+import com.fr.general.Inter;
+
+import javax.swing.*;
 
 /**
  * Bold.
  */
 public class ReportFontBoldAction extends AbstractStyleAction implements ToggleButtonUpdateAction {
-	private UIToggleButton button;
-	protected Style style;
+    private UIToggleButton button;
+    protected Style style;
+    private final static Icon blackIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png");
+    private final static Icon whiteIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png");
 
-	public ReportFontBoldAction(ElementCasePane t) {
-		super(t);
+    public ReportFontBoldAction(ElementCasePane t) {
+        super(t);
 
-		this.setName(Inter.getLocText("FRFont-bold"));
-		this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
-	}
+        this.setName(Inter.getLocText("FRFont-bold"));
+        this.setSmallIcon(blackIcon);
+    }
 
-	/**
-	 * 根据按钮状态获取格式
-	 *
-	 * @param style
-	 * @param defStyle
-	 * @return
-	 */
-	@Override
-	public Style executeStyle(Style style, Style defStyle) {
-		createToolBarComponent().setSelected(!createToolBarComponent().isSelected());
-		if (createToolBarComponent().isSelected()) {
-			setSelectedFont(style);
-			createToolBarComponent().setSelected(false);
-		} else {
-			setUnselectedFont(style);
-			createToolBarComponent().setSelected(true);
-		}
+    /**
+     * 根据按钮状态获取格式
+     *
+     * @param style
+     * @param defStyle
+     * @return
+     */
+    @Override
+    public Style executeStyle(Style style, Style defStyle) {
+        button = createToolBarComponent();
+        button.setIcon(getToggleButtonIcon(button.isSelected()));
+        button.setSelected(!button.isSelected());
+        if (button.isSelected()) {
+            setSelectedFont(style);
+            button.setSelected(false);
+        } else {
+            setUnselectedFont(style);
+            button.setSelected(true);
+        }
 
-		return this.style;
-	}
+        return this.style;
+    }
 
-	protected void setSelectedFont(Style style) {
-		this.style = StyleUtils.boldReportFont(style);
-	}
+    protected Icon getToggleButtonIcon(boolean isSelected) {
+        return isSelected ? blackIcon : whiteIcon;
+    }
 
-	protected void setUnselectedFont(Style style) {
-		this.style = StyleUtils.unBoldReportFont(style);
-	}
+    protected void setSelectedFont(Style style) {
+        this.style = StyleUtils.boldReportFont(style);
+    }
 
-	/**
-	 * Update Style.
-	 */
-	@Override
-	public void updateStyle(Style style) {
-		if (style == null) {
-			return;
-		}
-		FRFont frFont = style.getFRFont();
-		if (frFont == null) {
-			return;
-		}
-		createToolBarComponent().setSelected(isStyle(frFont));
-	}
+    protected void setUnselectedFont(Style style) {
+        this.style = StyleUtils.unBoldReportFont(style);
+    }
 
-	protected boolean isStyle(FRFont frFont) {
-		return frFont.isBold();
-	}
+    /**
+     * Update Style.
+     */
+    @Override
+    public void updateStyle(Style style) {
+        if (style == null) {
+            return;
+        }
+        FRFont frFont = style.getFRFont();
+        if (frFont == null) {
+            return;
+        }
+        button = createToolBarComponent();
+        button.setSelected(isStyle(frFont));
+        button.setIcon(getToggleButtonIcon(!button.isSelected()));
+    }
 
-	/**
-	 * Gets component on toolbar.
-	 *
-	 * @return the created components on toolbar.
-	 */
-	@Override
-	public UIToggleButton createToolBarComponent() {
-		if (button == null) {
-			button = GUICoreUtils.createToolBarComponent(this);
-			button.setEventBannded(true);
-		}
-		return button;
-	}
+    protected boolean isStyle(FRFont frFont) {
+        return frFont.isBold();
+    }
+
+    /**
+     * Gets component on toolbar.
+     *
+     * @return the created components on toolbar.
+     */
+    @Override
+    public UIToggleButton createToolBarComponent() {
+        if (button == null) {
+            button = GUICoreUtils.createToolBarComponent(this);
+            button.setEventBannded(true);
+        }
+        return button;
+    }
 }

@@ -1,21 +1,24 @@
 package com.fr.design.widget.ui.designer.layout;
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
-import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
-import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
-import com.fr.form.ui.*;
-import com.fr.form.ui.container.WTitleLayout;
+import com.fr.form.ui.AbstractBorderStyleWidget;
+import com.fr.form.ui.LayoutBorderStyle;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+
 
 /**
  * Created by ibm on 2017/8/3.
@@ -32,7 +35,6 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         borderStyleEditor = new AccessibleWLayoutBorderStyleEditor();
-
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
@@ -41,7 +43,7 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Style")), borderStyleEditor}
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 20, 7);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         advancePane.add(panel, BorderLayout.NORTH);
         JPanel centerPane = createCenterPane();
@@ -74,7 +76,9 @@ public abstract class WTitleLayoutDefinePane<T extends AbstractBorderStyleWidget
     @Override
     public T updateBean() {
         T e = updateSubBean();
-        e.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
+        if(!ComparatorUtils.equals(borderStyleEditor.getValue(), e.getBorderStyle())){
+            e.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());
+        }
         return e;
     }
 

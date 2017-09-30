@@ -24,4 +24,5 @@ public class VanChartBubbleInteractivePane extends VanChartInteractivePaneWithOu
         }
         return super.getValueArray();
     }
+
 }

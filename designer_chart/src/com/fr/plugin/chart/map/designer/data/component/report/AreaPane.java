@@ -28,7 +28,7 @@ public class AreaPane extends AbstractReportDataContentPane {
         areaName = new TinyFormulaPane();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p};
         Component[][] components = getComponent ();
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

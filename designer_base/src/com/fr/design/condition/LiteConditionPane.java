@@ -69,6 +69,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
     private static final int DOWN_PADDING = 4;
     private static final int STRUT_ONE = 35;
     private static final int STRUT_TWO = 4;
+    private static final int ADD_CONTROL_PANE_PADDING_RIGHT = -5;
 
     private ActionListener actionListener1 = new ActionListener() {
 
@@ -537,8 +538,14 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     private void initControlPane(JPanel controlPane) {
         JPanel addControlPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        controlPane.add(addControlPane, BorderLayout.SOUTH);
-        addControlPane.setBorder(new ModLineBorder(ModLineBorder.TOP));
+        addControlPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, ADD_CONTROL_PANE_PADDING_RIGHT));
+        JPanel splitPane = new JPanel();
+        splitPane.setBorder(new ModLineBorder(ModLineBorder.TOP));
+
+        JPanel addControlPaneWrapper = new JPanel(new BorderLayout());
+        addControlPaneWrapper.add(addControlPane, BorderLayout.CENTER);
+        addControlPaneWrapper.add(splitPane, BorderLayout.NORTH);
+        controlPane.add(addControlPaneWrapper, BorderLayout.SOUTH);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(andRadioButton);

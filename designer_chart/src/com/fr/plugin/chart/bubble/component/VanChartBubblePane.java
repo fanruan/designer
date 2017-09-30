@@ -30,12 +30,23 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
         displayNegative = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Open"),
                 Inter.getLocText("Plugin-ChartF_Close")});
 
+
+
+        this.setLayout(new BorderLayout());
+        this.add(getContentPane(), BorderLayout.CENTER);
+    }
+
+    protected JPanel getContentPane () {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] row = {p, p, p, p, p};
         double[] col = {p, f};
 
-        Component[][] components = new Component[][]{
+        return TableLayoutHelper.createTableLayoutPane(getComponent(), row, col);
+    }
+
+    protected Component[][] getComponent () {
+        return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MinDiameter")), minDiameter},
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_MaxDiameter")), maxDiameter},
@@ -43,10 +54,6 @@ public class VanChartBubblePane extends BasicBeanPane<VanChartAttrBubble> {
                 new Component[]{new UILabel(Inter.getLocText("Plugin-ChartF_DisplayNegative")), displayNegative},
 
         };
-        JPanel content = TableLayoutHelper.createTableLayoutPane(components, row, col);
-
-        this.setLayout(new BorderLayout());
-        this.add(content, BorderLayout.CENTER);
     }
 
     public void populateBean(VanChartAttrBubble bubble) {

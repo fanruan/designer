@@ -7,6 +7,7 @@ import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.actions.ChangeNameAction;
 import com.fr.design.designer.beans.events.DesignerEditor;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.PropertyGroupPane;
 import com.fr.design.designer.creator.XButton;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.form.util.XCreatorConstants;
@@ -90,6 +91,30 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 
 	private ArrayList<PropertyGroupModel> createPropertyGroupModels(CRPropertyDescriptor[] properties) {
 		HashMap<String, ArrayList<CRPropertyDescriptor>> maps = new HashMap<String, ArrayList<CRPropertyDescriptor>>();
+		ArrayList<String> groupNames = getGroupNames(properties, maps);
+		ArrayList<PropertyGroupModel> groups = new ArrayList<PropertyGroupModel>();
+		for (String groupName : groupNames) {
+			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
+			PropertyGroupModel groupModel = new PropertyGroupModel(groupName, xCreator, groupProperties
+					.toArray(new CRPropertyDescriptor[0]), designer);
+			groups.add(groupModel);
+		}
+		return groups;
+	}
+
+	private ArrayList<PropertyGroupPane> createPropertyGroupPanes(CRPropertyDescriptor[] properties) {
+		HashMap<String, ArrayList<CRPropertyDescriptor>> maps = new HashMap<String, ArrayList<CRPropertyDescriptor>>();
+		ArrayList<String> groupNames = getGroupNames(properties, maps);
+		ArrayList<PropertyGroupPane> groups = new ArrayList<PropertyGroupPane>();
+		for (String groupName : groupNames) {
+			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
+			PropertyGroupPane propertyGroupPane = new PropertyGroupPane(groupProperties.toArray(new CRPropertyDescriptor[0]), xCreator, groupName, designer);
+			groups.add(propertyGroupPane);
+		}
+		return groups;
+	}
+
+	private ArrayList<String> getGroupNames(CRPropertyDescriptor[] properties, HashMap<String, ArrayList<CRPropertyDescriptor>> maps ){
 		ArrayList<String> groupNames = new ArrayList<String>();
 		for (CRPropertyDescriptor property : properties) {
 			String groupName = (String) property.getValue(XCreatorConstants.PROPERTY_CATEGORY);
@@ -108,14 +133,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 			groupProperties.add(property);
 		}
 		adjustGroupNamesPosition(groupNames);
-		ArrayList<PropertyGroupModel> groups = new ArrayList<PropertyGroupModel>();
-		for (String groupName : groupNames) {
-			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
-			PropertyGroupModel groupModel = new PropertyGroupModel(groupName, xCreator, groupProperties
-					.toArray(new CRPropertyDescriptor[0]), designer);
-			groups.add(groupModel);
-		}
-		return groups;
+		return groupNames;
 	}
 
 		public void adjustGroupNamesPosition(ArrayList<String> groupNames){
@@ -134,6 +152,17 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		properties = getCalculateCreatorProperties();
 		ArrayList<PropertyGroupModel> groups = createPropertyGroupModels(properties);
 		Collections.sort(groups);
+		groupModels.addAll(groups);
+		return groupModels;
+	}
+
+	@Override
+	public ArrayList<PropertyGroupPane> getXCreatorPropertyPane() {
+		ArrayList<PropertyGroupPane> groupModels = new ArrayList<PropertyGroupPane>();
+		CRPropertyDescriptor[] properties;
+		properties = getCalculateCreatorProperties();
+		ArrayList<PropertyGroupPane> groups = createPropertyGroupPanes(properties);
+//		Collections.sort(groups);
 		groupModels.addAll(groups);
 		return groupModels;
 	}

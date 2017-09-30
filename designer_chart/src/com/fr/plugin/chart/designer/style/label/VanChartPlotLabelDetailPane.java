@@ -76,14 +76,18 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             return new Component[][]{
                     new Component[]{dataLabelContentPane,null},
                     new Component[]{createLabelPositionPane(new double[]{p,p,p}, columnSize, plot),null},
-                    new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
+                    new Component[]{createLabelStylePane(getLabelStyleRowSize(p), columnSize, plot),null},
             };
         } else {
             return  new Component[][]{
                     new Component[]{dataLabelContentPane,null},
-                    new Component[]{createLabelStylePane(new double[]{p,p,p}, columnSize, plot),null},
+                    new Component[]{createLabelStylePane(getLabelStyleRowSize(p), columnSize, plot),null},
             };
         }
+    }
+
+    protected double[] getLabelStyleRowSize(double p) {
+        return new double[]{p, p, p};
     }
 
     protected double[] getLabelPaneRowSize(Plot plot, double p) {
@@ -152,7 +156,16 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
         style = new UIButtonGroup<Integer>(new String[]{Inter.getLocText("Plugin-ChartF_Automatic"),
                 Inter.getLocText("Plugin-ChartF_Custom")});
-        textFontPane = new ChartTextAttrPane(){
+        textFontPane =initTextFontPane();
+
+        initStyleListener();
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLabelStyleComponents(plot),row,col);
+        return createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
+    }
+
+    protected ChartTextAttrPane initTextFontPane () {
+        return new ChartTextAttrPane(){
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
                         new Component[]{null, null},
@@ -161,11 +174,6 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
                 };
             }
         };
-
-        initStyleListener();
-
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(getLabelStyleComponents(plot),row,col);
-        return createTableLayoutPaneWithTitle(Inter.getLocText("FR-Designer-Widget_Style"), panel);
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {

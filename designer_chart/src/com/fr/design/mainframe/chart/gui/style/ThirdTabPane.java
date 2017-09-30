@@ -6,24 +6,26 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
-import com.fr.design.gui.ibutton.UIHeadGroup;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 
 public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 	private static final long serialVersionUID = 2298609199400393886L;
-	protected UIHeadGroup tabPane;
+	protected UIButtonGroup tabPane;
 	protected String[] nameArray;
 	public JPanel centerPane;
 	public CardLayout cardLayout;
 	public List<NamePane> paneList;
 
 	protected abstract List<NamePane> initPaneList(Plot plot, AbstractAttrNoScrollPane parent);
-	
+
 	public ThirdTabPane(Plot plot, AbstractAttrNoScrollPane parent) {
 		paneList = initPaneList(plot, parent);
         initAllPane();
@@ -45,16 +47,20 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 
     protected void initTabPane() {
 		if (!paneList.isEmpty()) {
-			tabPane = new UIHeadGroup(nameArray) {
+			tabPane = new UIButtonGroup(nameArray);
+			tabPane.setSelectedIndex(0);
+			tabPane.setPreferredSize(new Dimension(60 * nameArray.length, 25));
+			tabPane.addActionListener(new ActionListener() {
 				@Override
-				public void tabChanged(int index) {
-					cardLayout.show(centerPane, nameArray[index]);
+				public void actionPerformed(ActionEvent e) {
+					cardLayout.show(centerPane, nameArray[tabPane.getSelectedIndex()]);
 				}
-			};
+			});
+
 			centerPane.setBorder(myBorder);
 		}
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -64,7 +70,7 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 			g2d.drawLine(getWidth() - 2, tabPane.getPreferredSize().height, getWidth() - 2, getHeight() - 1);
 		}
 	}
-	
+
 	protected void initLayout() {
 		this.setLayout(new BorderLayout());
 		if (!paneList.isEmpty()) {
@@ -97,19 +103,19 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 	};
 
 	/**
-	 * 
+	 *
 	 * @return 中间的内容面板的指定宽度
 	 */
 	protected int getContentPaneWidth() {
 		return centerPane.getPreferredSize().width;
 	}
-	
+
 
 	@Override
 	public T updateBean() {
 		return null;
 	}
-	
+
 	protected static class NamePane {
 		private String name;
 		private BasicScrollPane pane;
@@ -129,6 +135,6 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 		public void setPane(BasicScrollPane pane) {
 			this.pane = pane;
 		}
-		
+
 	}
 }
