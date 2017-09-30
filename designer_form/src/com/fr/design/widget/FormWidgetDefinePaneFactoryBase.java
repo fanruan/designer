@@ -76,11 +76,11 @@ public class FormWidgetDefinePaneFactoryBase {
     }
 
     public static RN createWidgetDefinePane(XCreator creator, FormDesigner designer, Widget widget, Operator operator) {
-        Appearance dn = defineMap.get(widget.getClass());
-        if(dn == null){
+        if(isExtraXWidget(widget)){
             WidgetDefinePane widgetDefinePane = new WidgetDefinePane(creator, designer);
             return new RN(widgetDefinePane, widgetDefinePane.title4PopupWindow());
         }
+        Appearance dn = defineMap.get(widget.getClass());
         DataModify<Widget> definePane = null;
         try {
             Constructor con =  dn.getDefineClass().getConstructor(XCreator.class);
@@ -90,6 +90,10 @@ public class FormWidgetDefinePaneFactoryBase {
             FRContext.getLogger().error(e.getMessage(), e);
         }
         return new RN(definePane, dn.getDisplayName());
+    }
+
+    public static boolean isExtraXWidget(Widget widget){
+        return  defineMap.get(widget.getClass()) == null;
     }
 
     public static class RN {

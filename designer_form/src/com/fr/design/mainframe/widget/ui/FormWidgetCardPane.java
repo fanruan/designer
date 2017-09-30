@@ -133,7 +133,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         jPanel.add(attriCardPane, BorderLayout.CENTER);
         jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        if(FormWidgetDefinePaneFactoryBase.isWidget(innerCreator.toData())){
+        if(FormWidgetDefinePaneFactoryBase.isExtraXWidget(innerCreator.toData())){
             return;
         }
 
