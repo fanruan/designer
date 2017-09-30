@@ -133,7 +133,18 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         jPanel.add(attriCardPane, BorderLayout.CENTER);
         jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        if(FormWidgetDefinePaneFactoryBase.isExtraXWidget(innerCreator.toData())){
+        final boolean isExtraWidget = FormWidgetDefinePaneFactoryBase.isExtraXWidget(innerCreator.toData());
+        this.listener = new AttributeChangeListener() {
+            @Override
+            public void attributeChange() {
+                if(!isExtraWidget){
+                    updateCreator();
+                }
+                updateWidgetBound();
+            }
+        };
+
+        if(isExtraWidget){
             return;
         }
 
@@ -142,13 +153,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
 
         jPanel.add(uiExpandablePane, BorderLayout.NORTH);
-
-        this.listener = new AttributeChangeListener() {
-            @Override
-            public void attributeChange() {
-                updateCreator();
-            }
-        };
 
     }
 
@@ -212,12 +216,14 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
             return;
         }
+        fireValueChanged();
+    }
 
+    public void updateWidgetBound (){
         if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Coords_And_Size"))) {
             widgetBoundPane.update();
         }
-
-        fireValueChanged();
+        designer.refreshDesignerUI();
     }
 
 
@@ -233,7 +239,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         XCreator creator = getXCreatorDedicated();
         creator.firePropertyChange();
         designer.fireTargetModified();
-        designer.refreshDesignerUI();
     }
 
     public String getIconPath() {
