@@ -536,4 +536,20 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         initStyle();
     }
 
+    /**
+     * 是否支持设置可见
+     * return boolean
+     */
+    public boolean supportSetVisible(){
+        return false;
+    }
+
+    /**
+     * 是否支持设置可用
+     * return boolean
+     */
+    public boolean supportSetEnable(){
+        return false;
+    }
+
 }

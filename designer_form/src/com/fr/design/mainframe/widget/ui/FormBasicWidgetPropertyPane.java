@@ -1,34 +1,24 @@
 package com.fr.design.mainframe.widget.ui;
 
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Widget;
 import com.fr.general.Inter;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
 
 /**
  * Created by ibm on 2017/7/26.
  */
-public class FormBasicWidgetPropertyPane extends FormBasicPropertyPane {
+public class FormBasicWidgetPropertyPane extends BasicSetVisiblePropertyPane {
     private UICheckBox enableCheckBox;
-    private UICheckBox visibleCheckBox;
 
-    public FormBasicWidgetPropertyPane (){
-        initOtherPane();
+    public FormBasicWidgetPropertyPane() {
+        super();
     }
 
-    protected void initOtherPane() {
-        JPanel pane2 = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
-        pane2.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+    public UICheckBox createOtherConfig() {
         enableCheckBox = new UICheckBox(Inter.getLocText("Enabled"), true);
-        enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        pane2.add(enableCheckBox);
-        visibleCheckBox = new UICheckBox(Inter.getLocText("Widget-Visible"), true);
-        visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        pane2.add(visibleCheckBox);
-        this.add(pane2, BorderLayout.CENTER);
+        enableCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        return enableCheckBox;
     }
 
     @Override
@@ -39,13 +29,12 @@ public class FormBasicWidgetPropertyPane extends FormBasicPropertyPane {
     public void populate(Widget widget) {
         super.populate(widget);
         enableCheckBox.setSelected(widget.isEnabled());
-        visibleCheckBox.setSelected(widget.isVisible());
+
     }
 
     public void update(Widget widget) {
         super.update(widget);
         widget.setEnabled(enableCheckBox.isSelected());
-        widget.setVisible(visibleCheckBox.isSelected());
     }
 
 }
