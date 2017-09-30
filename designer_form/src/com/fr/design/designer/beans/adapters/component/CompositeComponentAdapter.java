@@ -108,7 +108,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		ArrayList<PropertyGroupPane> groups = new ArrayList<PropertyGroupPane>();
 		for (String groupName : groupNames) {
 			ArrayList<CRPropertyDescriptor> groupProperties = maps.get(groupName);
-			PropertyGroupPane propertyGroupPane = new PropertyGroupPane(groupProperties.toArray(new CRPropertyDescriptor[0]), xCreator, groupName);
+			PropertyGroupPane propertyGroupPane = new PropertyGroupPane(groupProperties.toArray(new CRPropertyDescriptor[0]), xCreator, groupName, designer);
 			groups.add(propertyGroupPane);
 		}
 		return groups;

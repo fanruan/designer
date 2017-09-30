@@ -1,19 +1,16 @@
 package com.fr.design.designer.creator;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.form.ui.FreeButton;
+import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 
 /**
  * Created by kerry on 2017/9/7.
@@ -23,6 +20,7 @@ public class PropertyGroupPane extends BasicPane {
     private CRPropertyDescriptorPane[] crPropertyDescriptorPanes;
     private XCreator xCreator;
     private String groupName;
+    private FormDesigner designer;
 
     public String getGroupName() {
         return groupName;
@@ -36,22 +34,25 @@ public class PropertyGroupPane extends BasicPane {
     public PropertyGroupPane(CRPropertyDescriptor[] crPropertyDescriptors, XCreator xCreator) {
         this.crPropertyDescriptors = crPropertyDescriptors;
         this.xCreator = xCreator;
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
         initComponent();
     }
 
 
-    public PropertyGroupPane(CRPropertyDescriptor[] crPropertyDescriptors, XCreator xCreator, String groupName) {
-        this(crPropertyDescriptors, xCreator);
+    public PropertyGroupPane(CRPropertyDescriptor[] crPropertyDescriptors, XCreator xCreator, String groupName, FormDesigner designer) {
+        this.designer = designer;
         this.groupName = groupName;
+        this.crPropertyDescriptors = crPropertyDescriptors;
+        this.xCreator = xCreator;
+        initComponent();
     }
 
     public void initComponent() {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
         int count = crPropertyDescriptors.length;
         crPropertyDescriptorPanes = new CRPropertyDescriptorPane[count];
         Component[][] components = new Component[count][];
         for (int i = 0; i < count; i++) {
-            crPropertyDescriptorPanes[i] = new CRPropertyDescriptorPane(crPropertyDescriptors[i], xCreator);
+            crPropertyDescriptorPanes[i] = new CRPropertyDescriptorPane(crPropertyDescriptors[i], xCreator, designer);
             components[i] = crPropertyDescriptorPanes[i].createTableLayoutComponent();
         }
 
@@ -71,21 +72,5 @@ public class PropertyGroupPane extends BasicPane {
         return "PropertyGroupPane";
     }
 
-    public static void main(String[] args) {
-        try {
-            XCreator xCreator = new XButton(new FreeButton(), new Dimension(100, 100));
-            PropertyGroupPane propertyGroupPane = new PropertyGroupPane(xCreator.supportedDescriptor(), xCreator);
-            JFrame jf = new JFrame("jFrame");
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JPanel content = (JPanel) jf.getContentPane();
-            content.setLayout(new BorderLayout());
-            content.add(propertyGroupPane, BorderLayout.CENTER);
-            jf.setSize(439, 400);
-            jf.setVisible(true);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
-        }
-
-    }
 
 }
