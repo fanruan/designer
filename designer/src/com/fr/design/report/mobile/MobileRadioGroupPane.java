@@ -89,7 +89,9 @@ public class MobileRadioGroupPane extends BasicBeanPane<MobileFitAttrState>{
      * 选中指定index的按钮
      */
     public void selectIndexButton(int index) {
-        if (index < 0 || index > radioButtons.size() - 1) {
+        //这里删了默认按钮，所以这边判断的时候不能-1了
+//        if (index < 0 || index > radioButtons.size() - 1) { fanglei: 这个注释不要删！不然以后可能忘记这个问题
+        if (index < 0 || index > radioButtons.size()) {
             return;
         }
 
