@@ -625,10 +625,18 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	}
 
 	/**
-	 * 是否支持设置可见和可用
+	 * 是否支持设置可见
 	 * return boolean
 	 */
-	public boolean supportSetVisibleOrEnable(){
+	public boolean supportSetVisible(){
+		return true;
+	}
+
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
 		return true;
 	}
 

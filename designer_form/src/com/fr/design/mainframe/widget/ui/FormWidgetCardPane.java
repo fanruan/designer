@@ -128,11 +128,9 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         };
         this.add(basicScrollPane, BorderLayout.CENTER);
 
-        if (xCreator.supportSetVisibleOrEnable()) {
-            widgetPropertyPane = new FormBasicWidgetPropertyPane();
-        } else {
-            widgetPropertyPane = new FormBasicPropertyPane();
-        }
+        XCreator innerCreator = getXCreatorDedicated();
+
+        widgetPropertyPane = new FormBasicWidgetPropertyPane(innerCreator);
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 20, widgetPropertyPane);
 

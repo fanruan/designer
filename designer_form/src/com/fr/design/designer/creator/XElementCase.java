@@ -327,4 +327,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		initStyle();
 	}
 
+	/**
+	 * 是否支持设置可用
+	 * return boolean
+	 */
+	public boolean supportSetEnable(){
+		return false;
+	}
 }
