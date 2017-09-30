@@ -40,7 +40,7 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
-        CRPropertyDescriptor[] extraTableEditor = ((XElementCase)creator).getExtraTableEditor();
+        CRPropertyDescriptor[] extraTableEditor = ((XElementCase) creator).getExtraTableEditor();
         extraPropertyGroupPane = new PropertyGroupPane(extraTableEditor, creator);
         centerPane.add(panel, BorderLayout.NORTH);
         centerPane.add(extraPropertyGroupPane, BorderLayout.CENTER);
@@ -49,12 +49,10 @@ public class ElementEditorDefinePane extends WTitleLayoutDefinePane<ElementCaseE
 
     protected ElementCaseEditor updateSubBean() {
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor) creator.toData();
-        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))){
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Layout-Padding"))) {
             paddingBoundPane.update(elementCaseEditor);
         }
-        if(ComparatorUtils.equals(getGlobalName(), Inter.getLocText("Form-EC_toolbar"))){
-            elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());
-        }
+        elementCaseEditor.setToolBars((FormToolBarManager[]) elementCaseToolBarEditor.getValue());
 
         return elementCaseEditor;
     }

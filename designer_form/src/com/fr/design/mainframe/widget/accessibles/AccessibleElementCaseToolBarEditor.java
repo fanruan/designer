@@ -2,15 +2,11 @@ package com.fr.design.mainframe.widget.accessibles;
 
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.mainframe.FormWebWidgetConstants;
 import com.fr.design.mainframe.widget.editors.ElementCaseToolBarPane;
-import com.fr.design.mainframe.widget.editors.ITextComponent;
-import com.fr.design.mainframe.widget.editors.TextField;
 import com.fr.design.mainframe.widget.wrappers.ElementCaseToolBarWrapper;
 import com.fr.form.web.FormToolBarManager;
-import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.SwingUtilities;
@@ -57,20 +53,6 @@ public class AccessibleElementCaseToolBarEditor extends UneditableAccessibleEdit
         List<WidgetOption> options = new ArrayList<WidgetOption>();
         options.addAll(defaultOptions);
         return options.toArray(new WidgetOption[options.size()]);
-    }
-
-    protected ITextComponent createTextField() {
-        TextField textField = new TextField() {
-            public void registerChangeListener(UIObserverListener listener) {
-                return;
-            }
-
-            public boolean shouldResponseChangeListener() {
-                return false;
-            }
-        };
-        textField.setGlobalName(Inter.getLocText("Form-EC_toolbar"));
-        return textField;
     }
 
 }
