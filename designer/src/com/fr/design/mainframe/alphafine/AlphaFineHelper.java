@@ -26,6 +26,9 @@ public class AlphaFineHelper {
      * 弹出alphafine搜索面板
      */
     public static void showAlphaFineDialog(boolean forceOpen) {
+        if (!AlphaFineConfigManager.isALPHALicAvailable()) {
+            return;
+        }
         if (alphaFineDialog == null) {
             alphaFineDialog = new AlphaFineDialog(DesignerContext.getDesignerFrame(), forceOpen);
             alphaFineDialog.setVisible(true);

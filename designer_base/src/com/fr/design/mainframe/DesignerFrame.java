@@ -339,7 +339,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             processor = new DefaultTitlePlace();
         }
         processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
-        if (AlphaFineConfigManager.isALPHALicAvailable() && DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
+        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             northEastPane.add(ad.createAlphaFinePane(), BorderLayout.CENTER);
         }
     }
