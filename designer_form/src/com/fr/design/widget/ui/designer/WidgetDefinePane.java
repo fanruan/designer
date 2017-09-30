@@ -8,7 +8,6 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
 import javax.swing.JPanel;
@@ -31,13 +30,6 @@ public class WidgetDefinePane extends AbstractDataModify<Widget> {
     public void initComponent(XCreator source, FormDesigner designer) {
         ComponentAdapter adapter = AdapterBus.getComponentAdapter(designer, source);
         groupPanes = adapter.getXCreatorPropertyPane();
-        //todo 留着做兼容，以后删掉
-        for (int i = 0; i < groupPanes.size(); i++) {
-            if (ComparatorUtils.equals(groupPanes.get(i).getGroupName(), "Form-Basic_Properties")) {
-                groupPanes.remove(i);
-            }
-        }
-
         this.add(createCenterPane(START_INDEX), BorderLayout.CENTER);
     }
 
