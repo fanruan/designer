@@ -669,6 +669,69 @@ public class CellDSColumnEditor extends CellQuickEditor {
             private JFormulaField topFormulaPane;
             private JFormulaField bottomFormulaPane;
 
+            private ActionListener actionListener = new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    int selectIndex = rsComboBox.getSelectedIndex();
+                    CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
+                    CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
+                    if (selectIndex == SelectCount.TOP) {
+                        //前N个
+                        setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
+                        //隐藏tip 显示set
+                        setCardPane.setPreferredSize(new Dimension(156, 20));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
+                        tipCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
+                    } else if (selectIndex == SelectCount.BOTTOM) {
+                        //后N个
+                        setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
+                        //隐藏tip 显示set
+                        setCardPane.setPreferredSize(new Dimension(156, 20));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
+                        tipCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
+                    } else if (selectIndex == SelectCount.ODD) {
+                        //奇数
+                        setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
+                        //隐藏set 显示tip
+                        setCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
+                        tipCardPane.setPreferredSize(new Dimension(224, 40));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
+                    } else if (selectIndex == SelectCount.EVEN) {
+                        //偶数
+                        setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
+                        //隐藏set 显示tip
+                        setCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
+                        tipCardPane.setPreferredSize(new Dimension(224, 40));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
+                    } else if (selectIndex == SelectCount.SPECIFY) {
+                        //指定
+                        setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
+                        //显示set和tip
+                        setCardPane.setPreferredSize(new Dimension(156, 20));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
+                        tipCardPane.setPreferredSize(new Dimension(224, 40));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
+                    } else {
+                        //未定义
+                        setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
+                        tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
+                        //隐藏set和tip
+                        setCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
+                        tipCardPane.setPreferredSize(new Dimension(0, 0));
+                        TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
+                    }
+                }
+            };
+
             public ResultSetFilterConfigPane() {
                 this.setLayout(FRGUIPaneFactory.createBorderLayout());
                 UILabel filterLabel = new UILabel(Inter.getLocText("BindColumn-Results_Filter"));
@@ -681,65 +744,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         Inter.getLocText("Even"),
                         Inter.getLocText("Specify")
                 });
-                rsComboBox.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        int selectIndex = rsComboBox.getSelectedIndex();
-                        CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
-                        CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
-                        if (selectIndex == 1) {
-                            //前N个
-                            setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
-                            //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(156, 20));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
-                            tipCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
-                        } else if (selectIndex == 2) {
-                            //后N个
-                            setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
-                            //隐藏tip 显示set
-                            setCardPane.setPreferredSize(new Dimension(156, 20));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
-                            tipCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
-                        } else if (selectIndex == 3) {
-                            //奇数
-                            setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
-                            //隐藏set 显示tip
-                            setCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
-                            tipCardPane.setPreferredSize(new Dimension(224, 40));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
-                        } else if (selectIndex == 4) {
-                            setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
-                            //隐藏set 显示tip
-                            setCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
-                            tipCardPane.setPreferredSize(new Dimension(224, 40));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
-                        } else if (selectIndex == 5) {
-                            setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
-                            //显示set和tip
-                            setCardPane.setPreferredSize(new Dimension(156, 20));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
-                            tipCardPane.setPreferredSize(new Dimension(224, 40));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
-                        } else {
-                            setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
-                            tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
-                            //隐藏set和tip
-                            setCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
-                            tipCardPane.setPreferredSize(new Dimension(0, 0));
-                            TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
-                        }
-                    }
-                });
+                rsComboBox.addActionListener(actionListener);
                 //配置展示CardLayout
                 setCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();
                 //提示信息展示CardLayout
@@ -787,6 +792,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
 
             public void populate(CellElement cellElement) {
+                rsComboBox.removeActionListener(actionListener);
                 if (cellElement != null) {
                     Object value = cellElement.getValue();
                     if (value != null && value instanceof DSColumn) {
@@ -794,12 +800,17 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         SelectCount selectCount = dSColumn.getSelectCount();
                         this.topFormulaPane.populateElement(cellElement);
                         this.bottomFormulaPane.populateElement(cellElement);
+                        CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
+                        CardLayout tipCardPaneLayout = (CardLayout) tipCardPane.getLayout();
                         if (selectCount != null) {
                             int selectCountType = selectCount.getType();
                             this.rsComboBox.setSelectedIndex(selectCountType);
                             switch (selectCountType) {
                                 case SelectCount.TOP:
                                     this.topFormulaPane.populate(selectCount.getFormulaCount());
+                                    //前N个
+                                    setCardPaneLayout.show(setCardPane, FilterType.TOP.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.TOP.name());
                                     //隐藏tip 显示set
                                     setCardPane.setPreferredSize(new Dimension(156, 20));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
@@ -808,6 +819,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     break;
                                 case SelectCount.BOTTOM:
                                     this.bottomFormulaPane.populate(selectCount.getFormulaCount());
+                                    //后N个
+                                    setCardPaneLayout.show(setCardPane, FilterType.BOTTOM.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.BOTTOM.name());
                                     //隐藏tip 显示set
                                     setCardPane.setPreferredSize(new Dimension(156, 20));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
@@ -816,6 +830,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     break;
                                 case SelectCount.SPECIFY:
                                     this.serialTextField.setText(selectCount.getSerial());
+                                    //指定
+                                    setCardPaneLayout.show(setCardPane, FilterType.SPECIFY.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.SPECIFY.name());
                                     //显示set和tip
                                     setCardPane.setPreferredSize(new Dimension(156, 20));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, VGAP);
@@ -823,6 +840,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
                                     break;
                                 case SelectCount.EVEN:
+                                    //偶数
+                                    setCardPaneLayout.show(setCardPane, FilterType.EVEN.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.EVEN.name());
                                     //隐藏set 显示tip
                                     setCardPane.setPreferredSize(new Dimension(0, 0));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
@@ -830,6 +850,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
                                     break;
                                 case SelectCount.ODD:
+                                    //奇数
+                                    setCardPaneLayout.show(setCardPane, FilterType.ODD.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.ODD.name());
                                     //隐藏set 显示tip
                                     setCardPane.setPreferredSize(new Dimension(0, 0));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
@@ -837,6 +860,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, VGAP_INNER);
                                     break;
                                 default:
+                                    //未定义
+                                    setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
+                                    tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
                                     //隐藏set和tip
                                     setCardPane.setPreferredSize(new Dimension(0, 0));
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
@@ -844,6 +870,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 4, 0);
                             }
                         } else {
+                            //未定义
+                            setCardPaneLayout.show(setCardPane, FilterType.UNDEFINE.name());
+                            tipCardPaneLayout.show(tipCardPane, FilterType.UNDEFINE.name());
                             //隐藏set和tip
                             setCardPane.setPreferredSize(new Dimension(0, 0));
                             TableLayoutHelper.modifyTableLayoutIndexVGap(contentPane, 2, 0);
@@ -852,6 +881,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                         }
                     }
                 }
+                rsComboBox.addActionListener(actionListener);
             }
 
             public void update(CellElement cellElement) {
@@ -887,6 +917,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 topFormulaPane.addListener(formulaListener);
                 bottomFormulaPane.addListener(formulaListener);
                 rsComboBox.registerChangeListener(formulaListener);
+                serialTextField.registerChangeListener(formulaListener);
             }
         }
 
