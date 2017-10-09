@@ -257,7 +257,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         currentIndex++;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
         refreshParameter();
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        fireTargetModified();
     }
 
     /**
@@ -301,7 +301,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         currentIndex = currentIndex + NUM_IN_A_LINE - currentIndex % NUM_IN_A_LINE;
         parameterArray = (Parameter[]) ArrayUtils.removeElement(parameterArray, parameter);
         refreshParameter();
-        EastRegionContainerPane.getInstance().refreshDownPane();
+        fireTargetModified();
     }
 
     /**
@@ -667,9 +667,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 // 只有选择组件时不触发模版更新，其他都要触发
                 if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     FormDesigner.this.fireTargetModified();
-                    //bug59192
-                    //setParameterArray(getNoRepeatParas(getTarget().getParameters()));
-                    //refreshParameter();
+                    setParameterArray(getNoRepeatParas(getTarget().getParameters()));
+                    refreshParameter();
                 }
             }
 
