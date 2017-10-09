@@ -34,6 +34,7 @@ import com.fr.plugin.chart.service.WMSFactory;
 import com.fr.plugin.chart.type.GISLayerType;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
+import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -79,6 +80,9 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             ZoomLevel.SEVENTEEN, ZoomLevel.SEVENTEENPOINTFIVE,
             ZoomLevel.EIGHTEEN
     };
+    //深蓝和高德地图下拉框层级
+    private static final ZoomLevel[] BLUE_ZOOM_LEVELS =(ZoomLevel[]) ArrayUtils.subarray(ZOOM_LEVELS, 0, 34);
+    private static final ZoomLevel[] GAODE_ZOOM_LEVELS =ArrayUtils.addAll(new ZoomLevel[]{ZoomLevel.AUTO}, (ZoomLevel[])ArrayUtils.subarray(ZOOM_LEVELS, 7, 38));
     private static final String AUTO_CENTER_STRING = Inter.getLocText("Plugin-ChartF_Automatic");
     private static final String CUSTOM_CENTER_STRING = Inter.getLocText("Plugin-ChartF_Custom");
 
@@ -230,6 +234,13 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         gisLayer = new UIComboBox(layers);
 
+        gisLayer.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                refreshZoomLevel();
+            }
+        });
+
         gisLayer.addPopupMenuListener(new PopupMenuListener() {
             public void popupMenuCanceled(PopupMenuEvent e) {
             }
@@ -295,6 +306,23 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         return panel;
     }
+
+    private void refreshZoomLevel(){
+        //gis图层不同，对应的缩放等级不同。
+        ZoomLevel[] levels;
+        if (ComparatorUtils.equals(gisLayer.getSelectedItem(), Inter.getLocText("Plugin-ChartF_Layer_Blue"))) {
+            levels = BLUE_ZOOM_LEVELS;
+        } else if (ComparatorUtils.equals(gisLayer.getSelectedItem(), Inter.getLocText("Plugin-ChartF_Layer_GaoDe"))) {
+            levels = GAODE_ZOOM_LEVELS;
+        } else {
+            levels = ZOOM_LEVELS;
+        }
+        zoomLevel.removeAllItems();
+        for (int i = 0; i < levels.length; i++) {
+            zoomLevel.addItem(levels[i]);
+        }
+    }
+
 
     private JPanel createCustomTileLayer() {
         double p = TableLayout.PREFERRED;
@@ -620,6 +648,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         customTileLayer.setText(layer.getCustomTileLayer());
         attribution.setText(layer.getAttribution());
 
+        refreshZoomLevel();
         zoomLevel.setSelectedItem(mapPlot.getZoomLevel());
 
         ViewCenter viewCenter = mapPlot.getViewCenter();
