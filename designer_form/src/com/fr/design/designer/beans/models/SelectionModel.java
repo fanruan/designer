@@ -227,7 +227,11 @@ public class SelectionModel {
         XCreator[] roots = selection.getSelectedCreators();
 
         if (roots.length > 0) {
+            boolean isInPara = true;  // 在参数面板内删除控件
             for (XCreator creator : roots) {
+                if (isInPara && !(creator.getParent() instanceof XWParameterLayout)) {
+                    isInPara = false;
+                }
                 if (creator.acceptType(XWParameterLayout.class)) {
                     designer.removeParaComponent();
                 }
@@ -236,8 +240,7 @@ public class SelectionModel {
                 // 清除被选中的组件
                 selection.reset();
             }
-            setSelectedCreator(designer.getRootComponent());
-            FormSelectionUtils.rebuildSelection(designer);
+            setSelectedCreator(isInPara ? designer.getParaComponent() : designer.getRootComponent());
             // 触发事件
             designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_DELETED);
             designer.repaint();
