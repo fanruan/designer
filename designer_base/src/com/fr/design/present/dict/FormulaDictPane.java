@@ -5,6 +5,7 @@ import com.fr.base.Formula;
 import com.fr.data.impl.FormulaDictionary;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
@@ -48,6 +49,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
+        tag.setForeground(new Color(51, 51, 52));
         tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
