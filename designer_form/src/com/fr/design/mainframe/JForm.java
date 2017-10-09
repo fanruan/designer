@@ -331,7 +331,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
             ParameterPropertyPane.getInstance().setAddParaPaneVisible(false, this);
             return;
         }
-        ParameterPropertyPane.getInstance().setAddParaPaneVisible(comp instanceof XWParameterLayout, this);
+        ParameterPropertyPane.getInstance().setAddParaPaneVisible(isAddParaPaneVisible(comp), this);
         editingComponent = comp.createToolPane(this, formDesign);
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         if (BaseUtils.isAuthorityEditing()) {
@@ -340,6 +340,16 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         } else {
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(editingComponent);
         }
+    }
+
+    private boolean isAddParaPaneVisible(XComponent comp) {
+        boolean isVisible = false;
+        try {
+            isVisible = comp instanceof XWParameterLayout || ((XCreator) comp).getParent() instanceof XWParameterLayout;
+        } catch (Throwable throwable) {
+            // 发生异常则返回 false
+        }
+        return isVisible;
     }
 
     public JComponent getEditingPane() {
