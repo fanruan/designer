@@ -11,11 +11,10 @@ import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.Elem;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class BasicChartQuickEditor extends CellQuickEditor {
-    private JPanel content;
+    private BaseChartPropertyPane editingPropertyPane;
 
     public BasicChartQuickEditor() {
         super();
@@ -23,9 +22,9 @@ public class BasicChartQuickEditor extends CellQuickEditor {
 
     @Override
     public JComponent createCenterBody() {
-        content = new JPanel();
-        content.setLayout(new BorderLayout());
-        return content;
+        editingPropertyPane = DesignModuleFactory.getChartPropertyPane();
+        editingPropertyPane.setBorder(BorderFactory.createEmptyBorder());
+        return editingPropertyPane;
     }
 
     @Override
@@ -40,16 +39,12 @@ public class BasicChartQuickEditor extends CellQuickEditor {
 
     @Override
     protected void refreshDetails() {
-        BaseChartPropertyPane editingPropertyPane;
         BaseChartCollection collection;
         Selection selection = tc.getSelection();
         Elem element;
         CellSelection cs = (CellSelection) selection;
         element = tc.getEditingElementCase().getCellElement(cs.getColumn(), cs.getRow());
         collection = (BaseChartCollection) element.getValue();
-        editingPropertyPane = DesignModuleFactory.getChartPropertyPane();
-        editingPropertyPane.setBorder(BorderFactory.createEmptyBorder());
-        content.add(editingPropertyPane, BorderLayout.CENTER);
         editingPropertyPane.populateChartPropertyPane(collection, tc);
     }
 
