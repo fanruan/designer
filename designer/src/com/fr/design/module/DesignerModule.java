@@ -32,7 +32,8 @@ import com.fr.general.xml.GeneralXMLTools;
 import com.fr.io.importer.Excel2007ReportImporter;
 import com.fr.io.importer.ExcelReportImporter;
 import com.fr.main.impl.WorkBook;
-import com.fr.quickeditor.ChartQuickEditor;
+import com.fr.quickeditor.chartquick.BasicChartQuickEditor;
+import com.fr.quickeditor.chartquick.FloatChartQuickEditor;
 import com.fr.quickeditor.cellquick.*;
 import com.fr.quickeditor.floatquick.FloatImageQuickEditor;
 import com.fr.quickeditor.floatquick.FloatStringQuickEditor;
@@ -119,7 +120,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerCellEditor(BiasTextPainter.class, CellBiasTextPainterEditor.class);
         ActionFactory.registerCellEditor(BufferedImage.class, CellImageQuickEditor.class);
 
-        ActionFactory.registerChartCellEditorInEditor(ChartQuickEditor.class);
+        ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
@@ -139,11 +140,10 @@ public class DesignerModule extends DesignModule {
     private void registerFloatEditor() {
         ActionFactory.registerFloatEditor(String.class, FloatStringQuickEditor.class);
         ActionFactory.registerFloatEditor(Formula.class, FloatStringQuickEditor.class);
-
-        FloatImageQuickEditor floatImageQuickEditor = new FloatImageQuickEditor();
         ActionFactory.registerFloatEditor(Image.class, FloatImageQuickEditor.class);
         ActionFactory.registerFloatEditor(BufferedImage.class, FloatImageQuickEditor.class);
-        ActionFactory.registerChartFloatEditorInEditor(ChartQuickEditor.class);
+
+        ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
 
     /**
