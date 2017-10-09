@@ -35,6 +35,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private static final int BUTTON_HEIGHT = 20;
 	private static final int WIDTH = 225;
 	private static final int L_H = 18;
+	private static final int LABEL_PADDING_LEFT = 4;
 
 	public ParameterToolBarPane() {
 		this.setLayout(new FlowParameterPaneLayout());
@@ -47,9 +48,9 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 				return new Dimension(super.getPreferredSize().width, 18);
 			}
 		};
-		label.setText(Inter.getLocText("FR-Following_parameters_are_not_generated")+":");
+		label.setText(Inter.getLocText("FR-Following_parameters_are_not_generated") + ":");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
+		label.setBorder(BorderFactory.createEmptyBorder(0, LABEL_PADDING_LEFT, 0, 0));
 		this.add(label);
 
 		addAll = new UIButton(Inter.getLocText("FR-Designer_Add_all"));
@@ -68,7 +69,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 	public Parameter getTargetParameter(UIButton button) {
 		int index = parameterSelectedLabellist.indexOf(button);
-		if(index < 0 || index > parameterList.length - 1) {
+		if (index < 0 || index > parameterList.length - 1) {
 			return null;
 		}
 		return parameterList[index];
@@ -122,12 +123,15 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 	private class FlowParameterPaneLayout implements LayoutManager {
 
 		public FlowParameterPaneLayout() {
+            // do nothing
 		}
 
 		public void addLayoutComponent(String name, Component comp) {
+            // do nothing
 		}
 
 		public void removeLayoutComponent(Component comp) {
+            // do nothing
 		}
 
 		public Dimension preferredLayoutSize(Container parent) {
@@ -135,7 +139,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 			layoutContainer(parent);
 
-			int h= ((parameterSelectedLabellist.size() == 0) ? 0 : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
+			int h= (parameterSelectedLabellist.isEmpty() ? 0 : breakid * (BUTTON_HEIGHT + GAP_V) + GAP_BV + L_H + GAP_H + addAll.getPreferredSize().height);
 			return new Dimension(w, h);
 		}
 
@@ -153,7 +157,7 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 			breakid = 1;
 			for (UIButton tab : parameterSelectedLabellist) {
 				Dimension dim = tab.getPreferredSize();
-				if(x + dim.width > width) {
+				if (x + dim.width > width) {
 					breakid++;
 					x = 0;
 					y += (dim.height + GAP_V);

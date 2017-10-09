@@ -70,6 +70,9 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
     private static final int SECOND_H_LOCATION = 170;
     private static final int ADD_HEIGHT = 20;
     private static final int H_GAP = 105;
+    private static final int SUBMIT_BUTTON_H_LOCATION = 270;
+    private static final int PARA_IMAGE_SHIFT_X = -4;
+    private static final int FORM_AREA_PADDING_LEFT = 13;
 
     private static Image paraImage = BaseUtils.readImage("/com/fr/design/images/form/parameter.png");
 
@@ -166,12 +169,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                if (evt.getCreatorEventID() == DesignerEvent.CREATOR_ADDED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_CUTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_PASTED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_EDITED
-                        || evt.getCreatorEventID() == DesignerEvent.CREATOR_RENAMED) {
+                if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     paraDefinitePane.setParameterArray(
                             paraDefinitePane.getNoRepeatParas(DesignModelAdapter.getCurrentModelAdapter().getParameters()));
                     paraDefinitePane.refreshParameter();
@@ -187,7 +185,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      */
     public Component createWrapper() {
         FormArea area = new FormArea(this, false);
-        area.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
+        area.setBorder(BorderFactory.createEmptyBorder(0, FORM_AREA_PADDING_LEFT, 0, 0));
         return area;
     }
 
@@ -439,7 +437,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
             }
             for (Parameter p : paras) {
                 if (p.getName().equalsIgnoreCase(creator.toData().getWidgetName())) {
-                    g.drawImage(paraImage, creator.getX() - 4, creator.getY() + 2, null);
+                    g.drawImage(paraImage, creator.getX() + PARA_IMAGE_SHIFT_X, creator.getY() + 2, null);
                     break;
                 }
             }
@@ -617,7 +615,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         formSubmitButton.setWidgetName("Search");
         formSubmitButton.setText(Inter.getLocText("FR-Designer_Query"));
         xCreator = XCreatorUtils.createXCreator(formSubmitButton);
-        if (!(this.autoAddComponent(xCreator, 270, FIRST_V_LOCATION + V_COMPONENT_GAP
+        if (!(this.autoAddComponent(xCreator, SUBMIT_BUTTON_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
             return false;
         }

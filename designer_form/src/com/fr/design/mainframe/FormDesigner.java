@@ -123,6 +123,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private static final int SECOND_H_LOCATION = 170;
     private static final int ADD_HEIGHT = 20;
     private static final int H_GAP = 105;
+    private static final int SUBMIT_BUTTON_H_LOCATION = 270;
 
     public FormDesigner(Form form) {
         this(form, null);
@@ -294,7 +295,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         formSubmitButton.setWidgetName("Search");
         formSubmitButton.setText(Inter.getLocText("FR-Designer_Query"));
         xCreator = XCreatorUtils.createXCreator(formSubmitButton);
-        if (!(this.autoAddComponent(xCreator, 270, FIRST_V_LOCATION + V_COMPONENT_GAP
+        if (!(this.autoAddComponent(xCreator, SUBMIT_BUTTON_H_LOCATION, FIRST_V_LOCATION + V_COMPONENT_GAP
                 * (currentIndex / NUM_IN_A_LINE)))) {
             return;
         }
@@ -1146,7 +1147,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * 同步
      */
     public void populateRootSize() {
-
+        // do nothing
     }
 
     /**
@@ -1232,6 +1233,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     @Override
     public void stopEditing() {
+        // do nothing
     }
 
     /**
@@ -1411,7 +1413,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 parent = parent.getParent();
             }
 
-            Object[] components = path.toArray();
+            Object[] components = (Object[]) path.toArray();
             if (components.length == 0) {
                 return null;
             }

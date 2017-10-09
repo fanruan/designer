@@ -136,37 +136,7 @@ public class SelectionModel {
     private void unselectedPaste() {
         if (designer.getClass().equals(FormDesigner.class)) {
             if (selection.getSelectedCreator() instanceof XWFitLayout) {
-                if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
-                    XLayoutContainer container = (XLayoutContainer) selection.getSelectedCreator();
-                    //tab布局编辑器内部左上角第一个坐标点
-                    int leftUpX = container.toData().getMargin().getLeft() + 1;
-                    int leftUpY = container.toData().getMargin().getTop() + 1;
-                    //选中第一个坐标点坐在的组件
-                    selection.setSelectedCreator((XCreator) container.getComponentAt(leftUpX, leftUpY));
-                    Rectangle rectangle = selection.getRelativeBounds();
-                    if (hasSelectedPasteSource()) {
-                        selectedPaste();
-                    } else {
-                        FormSelectionUtils.paste2Container(designer, container, clipboard,
-                                rectangle.x + rectangle.width / 2,
-                                rectangle.y + DELTA_X_Y);
-                    }
-                } else {
-                    //自适应布局编辑器内部左上角第一个坐标点
-                    int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
-                    int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
-                    //选中第一个坐标点坐在的组件
-                    selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
-                    Rectangle rectangle = selection.getRelativeBounds();
-                    if (hasSelectedPasteSource()) {
-                        selectedPaste();
-                    } else {
-                        FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                                clipboard,
-                                rectangle.x + rectangle.width / 2,
-                                rectangle.y + DELTA_X_Y);
-                    }
-                }
+                pasteXWFitLayout();
             } else {
                 //绝对布局
                 //编辑器外面还有两层容器，使用designer.getRootComponent()获取到的是编辑器中层的容器，不是编辑器表层
@@ -183,6 +153,40 @@ public class SelectionModel {
                     clipboard,
                     DELTA_X_Y,
                     DELTA_X_Y);
+        }
+    }
+
+    private void pasteXWFitLayout() {
+        if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
+            XLayoutContainer container = (XLayoutContainer) selection.getSelectedCreator();
+            //tab布局编辑器内部左上角第一个坐标点
+            int leftUpX = container.toData().getMargin().getLeft() + 1;
+            int leftUpY = container.toData().getMargin().getTop() + 1;
+            //选中第一个坐标点坐在的组件
+            selection.setSelectedCreator((XCreator) container.getComponentAt(leftUpX, leftUpY));
+            Rectangle rectangle = selection.getRelativeBounds();
+            if (hasSelectedPasteSource()) {
+                selectedPaste();
+            } else {
+                FormSelectionUtils.paste2Container(designer, container, clipboard,
+                        rectangle.x + rectangle.width / 2,
+                        rectangle.y + DELTA_X_Y);
+            }
+        } else {
+            //自适应布局编辑器内部左上角第一个坐标点
+            int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
+            int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
+            //选中第一个坐标点坐在的组件
+            selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
+            Rectangle rectangle = selection.getRelativeBounds();
+            if (hasSelectedPasteSource()) {
+                selectedPaste();
+            } else {
+                FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                        clipboard,
+                        rectangle.x + rectangle.width / 2,
+                        rectangle.y + DELTA_X_Y);
+            }
         }
     }
 
@@ -404,45 +408,57 @@ public class SelectionModel {
         if (x < (bounds.x - XCreatorConstants.RESIZE_BOX_SIZ)) {
             return Location.outer;
         } else if ((x >= (bounds.x - XCreatorConstants.RESIZE_BOX_SIZ)) && (x <= bounds.x)) {
-            if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
-                return Location.outer;
-            } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
-                return Location.left_top;
-            } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
-                return Location.left;
-            } else if ((y >= (bounds.y + bounds.height))
-                    && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
-                return Location.left_bottom;
-            } else {
-                return Location.outer;
-            }
+            return getDirectionLeft(bounds, y);
         } else if ((x > bounds.x) && (x < (bounds.x + bounds.width))) {
-            if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
-                return Location.outer;
-            } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
-                return Location.top;
-            } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
-                return Location.inner;
-            } else if ((y >= (bounds.y + bounds.height))
-                    && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
-                return Location.bottom;
-            } else {
-                return Location.outer;
-            }
+            return getDirectionCenter(bounds, y);
         } else if ((x >= (bounds.x + bounds.width))
                 && (x <= (bounds.x + bounds.width + XCreatorConstants.RESIZE_BOX_SIZ))) {
-            if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
-                return Location.outer;
-            } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
-                return Location.right_top;
-            } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
-                return Location.right;
-            } else if ((y >= (bounds.y + bounds.height))
-                    && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
-                return Location.right_bottom;
-            } else {
-                return Location.outer;
-            }
+            return getDirectionRight(bounds, y);
+        } else {
+            return Location.outer;
+        }
+    }
+
+    private Direction getDirectionRight(Rectangle bounds, int y) {
+        if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
+            return Location.outer;
+        } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
+            return Location.right_top;
+        } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
+            return Location.right;
+        } else if ((y >= (bounds.y + bounds.height))
+                && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
+            return Location.right_bottom;
+        } else {
+            return Location.outer;
+        }
+    }
+
+    private Direction getDirectionCenter(Rectangle bounds, int y) {
+        if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
+            return Location.outer;
+        } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
+            return Location.top;
+        } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
+            return Location.inner;
+        } else if ((y >= (bounds.y + bounds.height))
+                && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
+            return Location.bottom;
+        } else {
+            return Location.outer;
+        }
+    }
+
+    private Direction getDirectionLeft(Rectangle bounds, int y) {
+        if (y < (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) {
+            return Location.outer;
+        } else if ((y >= (bounds.y - XCreatorConstants.RESIZE_BOX_SIZ)) && (y <= bounds.y)) {
+            return Location.left_top;
+        } else if ((y > bounds.y) && (y < (bounds.y + bounds.height))) {
+            return Location.left;
+        } else if ((y >= (bounds.y + bounds.height))
+                && (y <= (bounds.y + bounds.height + XCreatorConstants.RESIZE_BOX_SIZ))) {
+            return Location.left_bottom;
         } else {
             return Location.outer;
         }
