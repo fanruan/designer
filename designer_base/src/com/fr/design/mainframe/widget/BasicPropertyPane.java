@@ -28,7 +28,7 @@ public class BasicPropertyPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         widgetName = new UITextField();
-        widgetName.setGlobalName(Inter.getLocText("FR-Designer_Widget_Name"));
+        widgetName.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p};
