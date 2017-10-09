@@ -82,7 +82,6 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 		this.add(label);
 
 		if (parameterArray.length == 0) {
-			ParameterPropertyPane.getInstance().refreshState();
 			this.setVisible(false);
 			this.repaint();
 			return;
@@ -103,7 +102,6 @@ public class ParameterToolBarPane extends BasicBeanPane<Parameter[]> {
 
 		this.add(addAll);
 		this.doLayout();
-		ParameterPropertyPane.getInstance().refreshState();
 		this.repaint();
 	}
 

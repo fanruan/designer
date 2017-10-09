@@ -298,7 +298,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
      */
     public void refreshParameter() {
         if (paraDesignEditor != null) {
-            paraDesignEditor.refreshParameter(this);
+            paraDesignEditor.refreshParameter(this, this.workBook);
         }
     }
 

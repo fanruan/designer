@@ -37,16 +37,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.mainframe.AuthorityEditPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.EastRegionContainerPane;
-import com.fr.design.mainframe.FormArea;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.FormDesignerModeForSpecial;
-import com.fr.design.mainframe.FormParaPane;
-import com.fr.design.mainframe.FormWidgetDetailPane;
-import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.design.mainframe.WidgetToolBarPane;
+import com.fr.design.mainframe.*;
 import com.fr.design.parameter.ParaDefinitePane;
 import com.fr.design.parameter.ParameterDesignerProvider;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -224,6 +215,16 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      * @param p 参数面板
      */
     public void refreshParameter(ParaDefinitePane p) {
+        refreshParameter(p, DesignerContext.getDesignerFrame().getSelectedJTemplate());
+    }
+
+    /**
+     * 刷新参数
+     *
+     * @param p 参数面板
+     * @param jt 当前模版
+     */
+    public void refreshParameter(ParaDefinitePane p, JTemplate jt) {
         XLayoutContainer rootContainer = this.getRootComponent();
         java.util.List<String> namelist = getAllXCreatorNameList(rootContainer);
         // parameterArray是报表的所有参数, nameList是已经在参数面板添加过控件的参数名
@@ -240,8 +241,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         }
         ParameterPropertyPane.getInstance().getParameterToolbarPane().populateBean(
                 p.getParameterArray() == null ? new Parameter[0] : p.getParameterArray());
-        EastRegionContainerPane.getInstance().setParameterHeight(ParameterPropertyPane.getInstance().getPreferredSize().height);
-
+        ParameterPropertyPane.getInstance().refreshState(jt);
     }
 
     /**

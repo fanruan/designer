@@ -328,10 +328,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     private void setPropertyPaneChange(XComponent comp) {
         if (comp == null) {
-            ParameterPropertyPane.getInstance().setAddParaPaneVisible(false);
+            ParameterPropertyPane.getInstance().setAddParaPaneVisible(false, this);
             return;
         }
-        ParameterPropertyPane.getInstance().setAddParaPaneVisible(comp instanceof XWParameterLayout);
+        ParameterPropertyPane.getInstance().setAddParaPaneVisible(comp instanceof XWParameterLayout, this);
         editingComponent = comp.createToolPane(this, formDesign);
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         if (BaseUtils.isAuthorityEditing()) {
@@ -718,7 +718,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(formDesign);
-        parameterPropertyPane.setAddParaPaneVisible(false);
+        parameterPropertyPane.setAddParaPaneVisible(false, this);
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
         EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 
