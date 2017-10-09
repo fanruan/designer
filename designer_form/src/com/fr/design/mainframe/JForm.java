@@ -556,6 +556,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 //撤销的时候要重新选择的body布局
                 this.formDesign.getSelectionModel().setSelectedCreators(FormSelectionUtils.rebuildSelection(formDesign.getRootComponent(),
                         formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
+                refreshToolArea();
             } else {
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
