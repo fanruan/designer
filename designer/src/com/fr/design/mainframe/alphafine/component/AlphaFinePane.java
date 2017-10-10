@@ -21,6 +21,7 @@ public class AlphaFinePane extends BasicPane {
     private static AlphaFinePane alphaFinePane;
 
     public AlphaFinePane() {
+        setPreferredSize(new Dimension(24,24));
         setLayout(new BorderLayout());
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
