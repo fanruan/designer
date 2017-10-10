@@ -40,6 +40,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.env.EnvContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -960,8 +961,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         Env currentEnv = FRContext.getCurrentEnv();
         try {
+            EnvContext.fireBeforeSignOut();
             currentEnv.signOut();
-            GeneralContext.fireEnvSignOutListener();
+            EnvContext.fireAfterSignOut();
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
