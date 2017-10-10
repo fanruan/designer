@@ -302,6 +302,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
         topToolBar.validate();
+        this.controlUpdatePane = createControlUpdatePane();//REPORT-4841 刷新一下编辑面板
+        cardPane.add(controlUpdatePane, "EDIT");
 
         this.repaint();
     }
