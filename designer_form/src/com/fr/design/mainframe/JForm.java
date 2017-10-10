@@ -328,10 +328,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     private void setPropertyPaneChange(XComponent comp) {
         if (comp == null) {
-            ParameterPropertyPane.getInstance().setAddParaPaneVisible(false);
+            ParameterPropertyPane.getInstance().setAddParaPaneVisible(false, this);
             return;
         }
-        ParameterPropertyPane.getInstance().setAddParaPaneVisible(comp instanceof XWParameterLayout);
+        ParameterPropertyPane.getInstance().setAddParaPaneVisible(isAddParaPaneVisible(comp), this);
         editingComponent = comp.createToolPane(this, formDesign);
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         if (BaseUtils.isAuthorityEditing()) {
@@ -340,6 +340,16 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         } else {
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(editingComponent);
         }
+    }
+
+    private boolean isAddParaPaneVisible(XComponent comp) {
+        boolean isVisible = false;
+        try {
+            isVisible = comp instanceof XWParameterLayout || ((XCreator) comp).getParent() instanceof XWParameterLayout;
+        } catch (Throwable throwable) {
+            // 发生异常则返回 false
+        }
+        return isVisible;
     }
 
     public JComponent getEditingPane() {
@@ -546,6 +556,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
                 //撤销的时候要重新选择的body布局
                 this.formDesign.getSelectionModel().setSelectedCreators(FormSelectionUtils.rebuildSelection(formDesign.getRootComponent(),
                         formDesign.getRootComponent() == selectedBodyLayout() ? u.getSelectWidgets() : new Widget[]{selectedBodyLayout().toData()}));
+                refreshToolArea();
             } else {
                 String widgetName = this.formDesign.getElementCaseContainerName();
                 //这儿太坑了，u.getForm() 与 getTarget内容不一样
@@ -718,7 +729,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.FORM);
         EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(WidgetPropertyPane.getInstance(formDesign));
         ParameterPropertyPane parameterPropertyPane = ParameterPropertyPane.getInstance(formDesign);
-        parameterPropertyPane.setAddParaPaneVisible(false);
+        parameterPropertyPane.setAddParaPaneVisible(false, this);
         EastRegionContainerPane.getInstance().addParameterPane(parameterPropertyPane);
         EastRegionContainerPane.getInstance().setParameterHeight(parameterPropertyPane.getPreferredSize().height);
 

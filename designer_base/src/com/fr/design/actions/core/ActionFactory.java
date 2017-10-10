@@ -24,11 +24,11 @@ public class ActionFactory {
     private ActionFactory() {
     }
 
-    private static Map<Class, Class<? extends QuickEditor>> floatEditor = new HashMap<Class, Class<? extends QuickEditor>>();
+    private static Map<Class, Class<? extends QuickEditor>> floatEditor = new HashMap<>();
 
     private static Class chartCollectionClass = null;
 
-    private static Map<Class, Class<? extends QuickEditor>> cellEditor = new HashMap<Class, Class<? extends QuickEditor>>();
+    private static Map<Class, Class<? extends QuickEditor>> cellEditor = new HashMap<>();
 
     private static UpdateAction chartPreStyleAction = null;
 
@@ -98,7 +98,7 @@ public class ActionFactory {
     }
 
     /**
-     * kunsnat: 图表注册 悬浮元素编辑器 , 因为ChartCollecion和ChartQuickEditor一个在Chart,一个在Designer, 所以分开注册.
+     * kunsnat: 图表注册 悬浮元素编辑器 , 因为ChartCollection和ChartQuickEditor一个在Chart,一个在Designer, 所以分开注册.
      *
      * @param editor 待说明
      */

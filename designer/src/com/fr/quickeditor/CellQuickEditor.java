@@ -66,7 +66,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
+        double[] rowSize = {p, f};
         JComponent centerBody = createCenterBody();
         JPanel topContent = initTopContent();
         if (isScrollAll()) {

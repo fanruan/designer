@@ -210,7 +210,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void updateCreator() {
         currentEditorDefinePane.setGlobalName(getGlobalName());
         Widget widget = currentEditorDefinePane.updateBean();
-        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Widget_Name")) && widgetPropertyPane != null) {
+        if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Basic")) && widgetPropertyPane != null) {
             widgetPropertyPane.update(widget);
             xCreator.resetCreatorName(widget.getWidgetName());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);

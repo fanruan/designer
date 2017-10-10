@@ -27,6 +27,8 @@ public class BasicSetVisiblePropertyPane extends FormBasicPropertyPane {
             pane2.add(otherOtherConfig);
         }
         visibleCheckBox = new UICheckBox(Inter.getLocText("Widget-Visible"), true);
+        visibleCheckBox.setGlobalName(Inter.getLocText("FR-Designer_Basic"));
+
         visibleCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         pane2.add(visibleCheckBox);
         this.add(pane2, BorderLayout.CENTER);
