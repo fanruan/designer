@@ -326,7 +326,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
         northEastPane.removeAll();
-        northEastPane.setOpaque(false);
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
