@@ -2,10 +2,12 @@ package com.fr.design.designer.creator;
 
 import com.fr.base.FRContext;
 import com.fr.design.designer.IntervalConstants;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.xtable.TableUtils;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.StringEditor;
@@ -27,10 +29,12 @@ public class CRPropertyDescriptorPane {
     private XCreator xCreator;
     private PropertyEditor propertyEditor;
     private boolean isPopulate = true;
+    private FormDesigner designer;
 
-    public CRPropertyDescriptorPane(CRPropertyDescriptor crPropertyDescriptor, XCreator xCreator) {
+    public CRPropertyDescriptorPane(CRPropertyDescriptor crPropertyDescriptor, XCreator xCreator, FormDesigner designer) {
         this.crPropertyDescriptor = crPropertyDescriptor;
         this.xCreator = xCreator;
+        this.designer = designer;
     }
 
     public Component[] createTableLayoutComponent() {
@@ -49,7 +53,7 @@ public class CRPropertyDescriptorPane {
 
     }
 
-    private Component initEditorComponent(CRPropertyDescriptor crPropertyDescriptor, final XCreator xCreator) {
+    private Component initEditorComponent(final CRPropertyDescriptor crPropertyDescriptor, final XCreator xCreator) {
         Component component = null;
         try {
             // 如果已有的编辑器就生成对应的component
@@ -86,6 +90,14 @@ public class CRPropertyDescriptorPane {
                     update(xCreator.toData());
                     if (extendEditor.refreshInTime()) {
                         WidgetPropertyPane.getInstance().refreshDockingView();
+                    }
+                    if (designer == null) {
+                        return;
+                    }
+                    if ("widgetName".equals(crPropertyDescriptor.getName())) {
+                        designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
+                    } else {
+                        designer.fireTargetModified();
                     }
 
                 }

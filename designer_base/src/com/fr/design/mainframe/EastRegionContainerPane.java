@@ -589,7 +589,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             if (popupDialog != null && isPoppedOut) {
                 popupDialog.replaceContentPane(this);
             }
-            if (popupPane != null && !isRightPaneVisible()) {
+            if (popupPane != null && popupPane.isVisible()) {
                 popupPane.replaceContentPane(contentArea);
             }
 
@@ -627,7 +627,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             if (isRightPaneVisible()) {
                 hideCurrentPopupPane();
                 replaceContentPane(contentPane);
-            } else if(popupPane != null) {
+            } else if(popupPane != null && popupPane.isVisible()) {
                 popupPane.replaceContentPane(contentArea);
             }
         }

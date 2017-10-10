@@ -66,10 +66,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
-        double[] rowSize = {p, p};
         JComponent centerBody = createCenterBody();
         JPanel topContent = initTopContent();
         if (isScrollAll()) {
+            double[] scrollAllRowSize = {p, p};
             prepareScrollBar();
             topContent.setBorder(BorderFactory.createMatteBorder(10, 10, 0, 0, this.getBackground()));
             centerBody.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 0, this.getBackground()));
@@ -77,7 +77,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                     new Component[]{topContent, null},
                     new Component[]{centerBody, null}
             };
-            leftContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
+            leftContentPane = TableLayoutHelper.createGapTableLayoutPane(components, scrollAllRowSize, columnSize, HGAP, VGAP);
             this.setLayout(new CellElementBarLayout(leftContentPane) {
                 @Override
                 public void layoutContainer(Container parent) {
@@ -104,6 +104,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             this.add(scrollBar);
             this.add(leftContentPane);
         } else {
+            double[] scrollContentRowSize = {p, f};
             topContent.setBorder(BorderFactory.createMatteBorder(10, 10, 0, 10, this.getBackground()));
             centerBody.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, this.getBackground()));
             Component[][] components = new Component[][]{
@@ -111,7 +112,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
                     new Component[]{centerBody, null}
             };
             this.setLayout(new BorderLayout());
-            this.add(TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP), BorderLayout.CENTER);
+            this.add(TableLayoutHelper.createGapTableLayoutPane(components, scrollContentRowSize, columnSize, HGAP, VGAP), BorderLayout.CENTER);
         }
     }
 
