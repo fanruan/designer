@@ -4,10 +4,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.FormHierarchyTreePane;
-import com.fr.design.mainframe.JForm;
+import com.fr.design.mainframe.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,18 +84,23 @@ public class ParameterPropertyPane extends JPanel{
     }
 
     // 显示或隐藏添加参数面板
-	public void refreshState() {
-		setAddParaPaneVisible(toolbarPane.hasSelectedLabelItem());
+	public void refreshState(JTemplate jt) {
+		setAddParaPaneVisible(toolbarPane.hasSelectedLabelItem(), jt);
 	}
 
-    public void setAddParaPaneVisible(boolean isVisible) {
+	// 显示或隐藏添加参数面板
+	public void refreshState() {
+		refreshState(DesignerContext.getDesignerFrame().getSelectedJTemplate());
+	}
+
+    public void setAddParaPaneVisible(boolean isVisible, JTemplate jt) {
         if (isVisible == addParaPane.isVisible() || formHierarchyTreePaneWrapper == null) {
             return;
         }
         // 表单中，只有添加并选中参数面板时，才显示
 		boolean hideInJForm;
         try {
-            hideInJForm = DesignerContext.getDesignerFrame().getSelectedJTemplate() instanceof JForm &&
+            hideInJForm = jt instanceof JForm &&
                     !(FormHierarchyTreePane.getInstance().getComponentTree().getSelectionPath().getLastPathComponent() instanceof XWParameterLayout);
         } catch (NullPointerException ex) {
             hideInJForm = true;
