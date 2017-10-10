@@ -18,7 +18,7 @@ public class IntegerEditor extends NumberEditor<Integer> {
 	}
 
 	public IntegerEditor(Integer value) {
-		super(value, Inter.getLocText("Parameter-Integer"));
+		super(value, Inter.getLocText("FR-Designer_Parameter_Integer"));
 	}
 
 	@Override

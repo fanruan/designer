@@ -6,7 +6,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,7 +21,7 @@ public class SpinnerIntegerEditor extends Editor<Integer> {
         spinner = new UISpinner(-Integer.MAX_VALUE, Integer.MAX_VALUE, 1, 0);
         this.add(spinner, BorderLayout.CENTER);
         this.spinner.addKeyListener(textKeyListener);
-        this.setName(Inter.getLocText("Parameter-Integer"));
+        this.setName(Inter.getLocText("FR-Designer_Parameter_Integer"));
     }
 
     @Override

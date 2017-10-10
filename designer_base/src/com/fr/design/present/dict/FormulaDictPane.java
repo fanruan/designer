@@ -48,14 +48,14 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         double[] rowSize = {p, p, p};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
-        UILabel tag = new UILabel(Inter.getLocText("Formula_Dictionary_Display_Examples_Html"));
+        UILabel tag = new UILabel(Inter.getLocText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
         tag.setForeground(new Color(51, 51, 52));
         tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
 
         Formula vf = new Formula("$$$");
-        valueFormulaEditor = new FormulaEditor("", vf);
+        valueFormulaEditor = new FormulaEditor(StringUtils.EMPTY, vf);
 
         JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
         valueFormulaContainer.setBorder(BorderFactory.createEmptyBorder(0, -LEFT_BORDER, 0, -LEFT_BORDER));
