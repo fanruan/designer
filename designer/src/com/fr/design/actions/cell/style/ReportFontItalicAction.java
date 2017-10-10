@@ -17,14 +17,13 @@ import javax.swing.*;
  */
 public class ReportFontItalicAction extends ReportFontBoldAction {
 
-    private final static Icon blackIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png");
-    private final static Icon whiteIcon = BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png");
+    private final static Icon[] icons = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
 
     public ReportFontItalicAction(ElementCasePane t) {
 		super(t);
 
 		this.setName(Inter.getLocText("FRFont-italic"));
-		this.setSmallIcon(blackIcon);
+		this.setSmallIcon(icons, true);
 	}
 
 
@@ -34,10 +33,6 @@ public class ReportFontItalicAction extends ReportFontBoldAction {
 
     protected void setUnselectedFont (Style style) {
         this.style = StyleUtils.unItalicReportFont(style);
-    }
-
-    protected Icon getToggleButtonIcon(boolean isSelected) {
-        return isSelected ? blackIcon : whiteIcon;
     }
 
     protected boolean isStyle(FRFont frFont) {

@@ -21,20 +21,16 @@ import javax.swing.*;
 
 public class AlignmentAction extends ButtonGroupAction implements StyleActionInterface {
 
-    private static final Icon[] normalBlackIcon = new Icon[]{
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png")};
+    private static final Icon[][] icons = new Icon[][]{
+            {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png")},
+            {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png")},
+            {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")}};
 
-    private static final Icon[] toggleWhiteIcon = new Icon[]{
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png"),
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png"),
-            BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")};
 
     private static final Integer[] valueArray = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
 
     public AlignmentAction(ElementCasePane t) {
-        super(t, normalBlackIcon, valueArray);
+        super(t, icons, valueArray);
     }
 
 
@@ -49,24 +45,14 @@ public class AlignmentAction extends ButtonGroupAction implements StyleActionInt
         return style.deriveHorizontalAlignment(getSelectedValue());
     }
 
-    /**
-     * 更新Style
-     *
-     * @param style style
-     */
-    public void updateStyle(Style style) {
-        UIButtonGroup<Integer> buttonGroup = createToolBarComponent();
-        int selected = BaseUtils.getAlignment4Horizontal(style);
-        for (int i = 0; i < normalBlackIcon.length; i++) {
-            UIToggleButton button = buttonGroup.getButton(i);
-            Icon currentIcon = button.getIcon();
-            Icon newIcon = selected == valueArray[i] ? toggleWhiteIcon[i] : normalBlackIcon[i];
-            if (newIcon != currentIcon) {
-                button.setIcon(newIcon);
-            }
-        }
-        setSelectedIndex(selected);
-    }
+	/**
+	 * 更新Style
+	 *
+	 * @param style style
+	 */
+	public void updateStyle(Style style) {
+		setSelectedIndex(BaseUtils.getAlignment4Horizontal(style));
+	}
 
     /**
      * executeActionReturnUndoRecordNeeded
