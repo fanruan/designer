@@ -219,6 +219,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
 
         updateFormatPane(attrTooltipContent);
 
+        updateFormatsWithPaneWidth(attrTooltipContent);
+
         htmlLabelPane.update(attrTooltipContent.getHtmlLabel());
 
         return attrTooltipContent;
@@ -239,6 +241,19 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
         }
         if (changedPercentFormatPane != null) {
             changedPercentFormatPane.update(attrTooltipContent.getChangedPercentFormat());
+        }
+    }
+
+    /**
+     * CHART-1295
+     * 通过格式的面板宽度来判断在自定义js代码中是否显示this.seriesName字符串。
+     * 图表对于其他的格式有要求也可以在这里继续添加。
+     * @param attrTooltipContent
+     */
+    private void updateFormatsWithPaneWidth (AttrTooltipContent attrTooltipContent) {
+        int paneWidth = seriesNameFormatPane.getWidth();
+        if (paneWidth == 0) {
+            attrTooltipContent.getSeriesFormat().setEnable(false);
         }
     }
 }
