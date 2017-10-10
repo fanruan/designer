@@ -202,7 +202,7 @@ public class ValueEditorPaneFactory {
         FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("Parameter-Formula"));
         return new Editor[]{
                 new TextEditor(),
-                new IntegerEditor(),
+                new SpinnerIntegerEditor(),
                 new DoubleEditor(),
                 new DateEditor(true, Inter.getLocText("Date")),
                 new BooleanEditor(),
