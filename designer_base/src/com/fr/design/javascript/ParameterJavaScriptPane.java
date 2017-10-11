@@ -1,7 +1,7 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
-import com.fr.chart.chartattr.Plot;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -17,11 +17,11 @@ import java.awt.*;
 import java.util.List;
 
 public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> {
-    private Plot plot;
+    private BasePlot plot;
     private UITextField itemNameTextField;
 	private ReportletParameterViewPane parameterViewPane;
 
-    protected Plot getPlot() {
+    protected BasePlot getPlot() {
         return plot;
     }
 
@@ -29,7 +29,7 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
         this(null);
     }
 
-	public ParameterJavaScriptPane(Plot plot){
+	public ParameterJavaScriptPane(BasePlot plot){
         this.plot = plot;
 		this.setLayout(new  BorderLayout());		
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());

@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Parameter;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
@@ -19,16 +20,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
-    private Plot plot;
+    private BasePlot plot;
 
     private ReportletParameterViewPane parameterViewPane;
     private FormHyperlinkNorthPane northPane;
 
-    protected Plot getPlot() {
+    protected BasePlot getPlot() {
         return plot;
     }
 
-    public FormHyperlinkPane(Plot plot) {
+    public FormHyperlinkPane(BasePlot plot) {
         super();
         this.plot = plot;
         this.initComponents();

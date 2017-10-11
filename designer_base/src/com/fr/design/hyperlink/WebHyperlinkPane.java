@@ -1,7 +1,7 @@
 package com.fr.design.hyperlink;
 
 import com.fr.base.Parameter;
-import com.fr.chart.chartattr.Plot;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -19,7 +19,7 @@ import java.awt.*;
 import java.util.List;
 
 public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
-	private Plot plot;
+	private BasePlot plot;
 	private WebHyperNorthPane northPane;
 	
 	private ReportletParameterViewPane parameterViewPane;
@@ -28,7 +28,7 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
     
     private UICheckBox extendParametersCheckBox;
 
-	protected Plot getPlot() {
+	protected BasePlot getPlot() {
 		return plot;
 	}
 
@@ -37,7 +37,7 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 		this.initComponents();
 	}
     
-	public WebHyperlinkPane(Plot plot) {
+	public WebHyperlinkPane(BasePlot plot) {
 		super();
 		this.plot = plot;
 		this.initComponents();

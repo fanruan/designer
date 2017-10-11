@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -34,9 +35,9 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	private ChartHyperEditPane hyperEditPane;
 	private ChartComponent chartComponent;
 
-	private Plot plot;
+	private BasePlot plot;
 
-	protected Plot getPlot() {
+	protected BasePlot getPlot() {
 		return plot;
 	}
 
@@ -44,7 +45,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 		this(null);
 	}
 	
-	public ChartHyperPoplinkPane(Plot plot) {
+	public ChartHyperPoplinkPane(BasePlot plot) {
 		this.plot = plot;
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 

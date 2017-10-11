@@ -1,7 +1,7 @@
 package com.fr.design.editor;
 
 import com.fr.base.Formula;
-import com.fr.chart.chartattr.Plot;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.editor.editor.BooleanEditor;
 import com.fr.design.editor.editor.ColumnRowEditor;
 import com.fr.design.editor.editor.ColumnRowGroupEditor;
@@ -202,7 +202,7 @@ public class ValueEditorPaneFactory {
        return createVallueEditorPaneWithUseType(paraUseType, null);
     }
 
-    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, Plot plot) {
+    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, BasePlot plot) {
         if (paraUseType == ParameterTableModel.NO_CHART_USE) {
             return createBasicValueEditorPane();
         } else if (paraUseType == ParameterTableModel.FORM_NORMAL_USE) {
@@ -218,7 +218,7 @@ public class ValueEditorPaneFactory {
      * @param plot plot类型
      * @return 值编辑器
      */
-    public static ValueEditorPane createChartHotValueEditorPane(Plot plot) {
+    public static ValueEditorPane createChartHotValueEditorPane(BasePlot plot) {
         return createValueEditorPane(chartHotEditors(plot), StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
@@ -446,7 +446,7 @@ public class ValueEditorPaneFactory {
      *
      * @return 值编辑器
      */
-    public static Editor[] chartHotEditors(Plot plot) {
+    public static Editor[] chartHotEditors(BasePlot plot) {
         List<Editor> list = createEditors4Chart(plot);
 
         list.add(new TextEditor());
@@ -467,7 +467,7 @@ public class ValueEditorPaneFactory {
      *
      * @return 值编辑器
      */
-    private static List<Editor> createEditors4Chart(Plot plot) {
+    private static List<Editor> createEditors4Chart(BasePlot plot) {
         List<Editor> lists = new ArrayList<Editor>();
         if (plot == null) {
             return lists;

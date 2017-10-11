@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.design.beans.BasicBeanPane;
@@ -32,9 +33,9 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 	private ColumnRowVerticalPane colRowPane;
 	private ReportletParameterViewPane parameterViewPane;
 
-	private Plot plot;
+	private BasePlot plot;
 
-	protected Plot getPlot() {
+	protected BasePlot getPlot() {
 		return plot;
 	}
 	
@@ -42,7 +43,7 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 		this.initComponent();
 	}
 
-	public ChartHyperRelateCellLinkPane(Plot plot) {
+	public ChartHyperRelateCellLinkPane(BasePlot plot) {
 		this.plot = plot;
 		this.initComponent();
 	}

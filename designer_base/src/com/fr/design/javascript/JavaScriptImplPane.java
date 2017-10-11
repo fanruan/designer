@@ -1,7 +1,7 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
-import com.fr.chart.chartattr.Plot;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
 import com.fr.design.editor.ValueEditorPane;
@@ -27,14 +27,14 @@ import java.util.HashSet;
 import java.util.List;
 
 public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
-	private Plot plot;
+	private BasePlot plot;
     private UITextField itemNameTextField;
 	private JSContentPane jsPane;
 	private UITableEditorPane<String> importedJsPane;
 	private ReportletParameterViewPane parameterPane;
 	private String[] defaultArgs;
 
-	protected Plot getPlot() {
+	protected BasePlot getPlot() {
 		return plot;
 	}
 
@@ -42,7 +42,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		this(new String[0]);
 	}
 
-	public JavaScriptImplPane(Plot plot) {
+	public JavaScriptImplPane(BasePlot plot) {
 		this.plot = plot;
 		this.defaultArgs = new String[0];
 		initComponents();

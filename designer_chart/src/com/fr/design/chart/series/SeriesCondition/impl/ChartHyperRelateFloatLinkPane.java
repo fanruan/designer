@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
@@ -38,9 +39,9 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 	private UIComboBox floatNameBox;
 	private ReportletParameterViewPane parameterViewPane;
 
-	private Plot plot;
+	private BasePlot plot;
 
-	protected Plot getPlot() {
+	protected BasePlot getPlot() {
 		return plot;
 	}
 	
@@ -48,7 +49,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 		this.initComponent();
 	}
 
-	public ChartHyperRelateFloatLinkPane(Plot plot) {
+	public ChartHyperRelateFloatLinkPane(BasePlot plot) {
 
 		this.plot = plot;
 		this.initComponent();
