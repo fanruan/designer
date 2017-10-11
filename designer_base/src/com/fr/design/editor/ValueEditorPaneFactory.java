@@ -15,6 +15,7 @@ import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.editor.editor.NoneEditor;
 import com.fr.design.editor.editor.ParameterEditor;
+import com.fr.design.editor.editor.SpinnerIntegerEditor;
 import com.fr.design.editor.editor.TextEditor;
 import com.fr.design.editor.editor.WidgetNameEditor;
 import com.fr.design.gui.ilable.UILabel;
