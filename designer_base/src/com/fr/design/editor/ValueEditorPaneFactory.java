@@ -210,7 +210,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new SpinnerIntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -227,7 +227,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new WidgetNameEditor(Inter.getLocText("Widget"))
@@ -245,11 +245,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("Cell"))
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell"))
         };
     }
 
@@ -264,11 +264,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("Cell")),
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
                 new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
         };
     }
@@ -280,7 +280,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] cellGroupEditor() {
         return new Editor[]{
-                new ColumnRowEditor(Inter.getLocText("Cell")),
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
                 new ColumnRowGroupEditor(Inter.getLocText("FR-Designer-Cell_Group"))
         };
     }
@@ -309,7 +309,7 @@ public class ValueEditorPaneFactory {
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
                 new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("None") : popupName),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))
         };
     }
@@ -326,11 +326,11 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
-                new ColumnRowEditor(Inter.getLocText("Cell")),
+                new ColumnRowEditor(Inter.getLocText("FR-Designer_Cell")),
                 new ColumnSelectedEditor(),
                 //23328 allEditors中删除控件选项
 //                new WidgetNameEditor(Inter.getLocText("Widget"))
@@ -347,7 +347,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
         };
     }
@@ -363,7 +363,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
                 new ParameterEditor(),
@@ -393,7 +393,7 @@ public class ValueEditorPaneFactory {
     public static Editor<?>[] dateEditors() {
         FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
         return new Editor[]{
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 formulaEditor,
                 new ParameterEditor(),
         };
@@ -412,7 +412,7 @@ public class ValueEditorPaneFactory {
                 new TextEditor(),
                 new IntegerEditor(),
                 new DoubleEditor(),
-                new DateEditor(true, Inter.getLocText("Date")),
+                new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor
         };
@@ -430,7 +430,7 @@ public class ValueEditorPaneFactory {
         list.add(new TextEditor());
         list.add(new IntegerEditor());
         list.add(new DoubleEditor());
-        list.add(new DateEditor(true, Inter.getLocText("Date")));
+        list.add(new DateEditor(true, Inter.getLocText("FR-Designer_Date")));
         list.add(new BooleanEditor());
 
         FormulaEditor formulaEditor = new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"));
@@ -447,30 +447,31 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     private static List<Editor> createEditors4Chart(int paraUseType) {
-        if (paraUseType == ParameterTableModel.CHART_PIE_USE) {
-            return getPieEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_MAP_USE) {
-            return getMapEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_GIS_USE) {
-            return getGisEditor();
-        } else if (paraUseType == ParameterTableModel.CHART__XY_USE) {
-            return getXYEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_BUBBLE_USE) {
-            return getBubbbleEdtor();
-        } else if (paraUseType == ParameterTableModel.CHART_NO_USE) {
-            return getChartNoUseEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_METER_USE) {
-            return getMeterEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_STOCK_USE) {
-            return getStockEditor();
-        } else if (paraUseType == ParameterTableModel.CHART_GANTT_USE) {
-            return getGanttEditor();
-        } else if (paraUseType == ParameterTableModel.FORM_ELEMENTCASE_USE) {
-            return getFormElementCaseEditor();
-        } else if (paraUseType == ParameterTableModel.FORM_CHART_USE) {
-            return getFormChartEditor();
-        } else {
-            return getChartEditor();
+        switch (paraUseType) {
+            case ParameterTableModel.CHART_PIE_USE:
+                return getPieEditor();
+            case ParameterTableModel.CHART_MAP_USE:
+                return getMapEditor();
+            case ParameterTableModel.CHART_GIS_USE:
+                return getGisEditor();
+            case ParameterTableModel.CHART__XY_USE:
+                return getXYEditor();
+            case ParameterTableModel.CHART_BUBBLE_USE:
+                return getBubbbleEdtor();
+            case ParameterTableModel.CHART_NO_USE:
+                return getChartNoUseEditor();
+            case ParameterTableModel.CHART_METER_USE:
+                return getMeterEditor();
+            case ParameterTableModel.CHART_STOCK_USE:
+                return getStockEditor();
+            case ParameterTableModel.CHART_GANTT_USE:
+                return getGanttEditor();
+            case ParameterTableModel.FORM_ELEMENTCASE_USE:
+                return getFormElementCaseEditor();
+            case ParameterTableModel.FORM_CHART_USE:
+                return getFormChartEditor();
+            default:
+                return getChartEditor();
         }
     }
 

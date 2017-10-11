@@ -21,7 +21,7 @@ import javax.swing.*;
 
 public class AlignmentAction extends ButtonGroupAction implements StyleActionInterface {
 
-    private static final Icon[][] icons = new Icon[][]{
+    private static final Icon[][] ICONS = new Icon[][]{
             {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png")},
             {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png")},
             {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")}};
@@ -30,7 +30,7 @@ public class AlignmentAction extends ButtonGroupAction implements StyleActionInt
     private static final Integer[] valueArray = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT};
 
     public AlignmentAction(ElementCasePane t) {
-        super(t, icons, valueArray);
+        super(t, ICONS, valueArray);
     }
 
 

@@ -17,13 +17,13 @@ import javax.swing.*;
  */
 public class ReportFontItalicAction extends ReportFontBoldAction {
 
-    private final static Icon[] icons = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
 
     public ReportFontItalicAction(ElementCasePane t) {
 		super(t);
 
 		this.setName(Inter.getLocText("FRFont-italic"));
-		this.setSmallIcon(icons, true);
+		this.setSmallIcon(ICONS, true);
 	}
 
 

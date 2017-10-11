@@ -18,13 +18,13 @@ import javax.swing.*;
  */
 public class ReportFontUnderlineAction extends ReportFontBoldAction {
 
-    private final static Icon[] icons = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline_white.png")};
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/underline_white.png")};
 
     public ReportFontUnderlineAction(ElementCasePane t) {
 		super(t);
 
 		this.setName(Inter.getLocText("FRFont-Underline"));
-		this.setSmallIcon(icons, true);
+		this.setSmallIcon(ICONS, true);
 	}
 
     protected void setSelectedFont (Style style) {

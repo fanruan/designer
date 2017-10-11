@@ -21,13 +21,13 @@ import javax.swing.*;
 public class ReportFontBoldAction extends AbstractStyleAction implements ToggleButtonUpdateAction {
     private UIToggleButton button;
     protected Style style;
-    private final static Icon[] icons = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png")};
+    private final static Icon[] ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png")};
 
     public ReportFontBoldAction(ElementCasePane t) {
         super(t);
 
         this.setName(Inter.getLocText("FRFont-bold"));
-        this.setSmallIcon(icons, true);
+        this.setSmallIcon(ICONS, true);
     }
 
 	/**
