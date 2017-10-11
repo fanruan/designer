@@ -3,7 +3,6 @@ package com.fr.env;
 import com.fr.base.AbstractEnv;
 import com.fr.base.EnvException;
 import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
 import com.fr.base.ModifiedTable;
 import com.fr.base.Parameter;
 import com.fr.base.StoreProcedureParameter;
@@ -35,16 +34,16 @@ import com.fr.general.FRLogger;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.LogRecordTime;
-import com.fr.general.VT4FR;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.license.function.VT4FR;
+import com.fr.regist.License;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.JavaCompileInfo;
-import com.fr.stable.LicUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -56,8 +55,7 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.web.ResourceConstants;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -65,7 +63,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.Component;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -198,7 +196,7 @@ public class RemoteEnv extends AbstractEnv {
     private String createUserID() throws EnvException {
         // 如果登录之后userID还是null
         if (this.userID == null) {
-            if (!VT4FR.REMOTE_DESIGN.support() && licNotSupport <= 0) {
+            if (!VT4FR.RemoteDesign.support() && licNotSupport <= 0) {
                 licNotSupport++;
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Lic_does_not_Support_Remote"));
             }
@@ -1438,7 +1436,6 @@ public class RemoteEnv extends AbstractEnv {
                     return;
                 }
                 SignIn.signIn(remoteEnv);
-                FRCoreContext.resetBytes();
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
             } catch (Exception em) {
                 FRContext.getLogger().error(em.getMessage(), em);
@@ -2036,7 +2033,7 @@ public class RemoteEnv extends AbstractEnv {
 
     @Override
     public String getLicName() {
-        return LicUtils.FILE_NAME;
+        return License.FILE_NAME;
     }
 
     @Override

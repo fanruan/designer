@@ -48,7 +48,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 	}
 
 	/**
-	 * 需要反白的按钮接口
+	 * 需要反白的按钮接口(组合按钮情况-UIButtonGroup)
 	 * support icons[normalIcon, selectedIcon]
 	 * @param icons
 	 */
@@ -64,6 +64,18 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 				}
 			}
 		});
+		addMouseListener(getMouseListener());
+	}
+
+	/**
+	 * 需要反白的按钮接口(单个按钮情况)-再次点击取消选中状态
+	 * support icons[normalIcon, selectedIcon]
+	 * @param icons
+	 */
+	public UIToggleButton(Icon[] icons, boolean needRelease) {
+		super(icons[0], null, icons[1]);
+		setSelectedIcon(icons[1]);
+		setExtraPainted(true);
 		addMouseListener(getMouseListener());
 	}
 

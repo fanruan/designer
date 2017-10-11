@@ -821,7 +821,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             if(isAutoRefresh.isSelected() && autoRefreshTime.getValue() >= 2) {
                 plot.setAutoRefreshPerSecond((int) autoRefreshTime.getValue());
             } else {
-                plot.setAutoRefreshPerSecond(-1);
+                plot.setAutoRefreshPerSecond(0);
             }
         }
     }

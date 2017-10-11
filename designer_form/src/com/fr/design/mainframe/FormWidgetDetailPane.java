@@ -147,6 +147,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private void initReuWidgetPanel() {
         elCaseBindInfoList = ShareLoader.getLoader().getAllBindInfoList();
         downPane = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, false));
+        downPane.setBorder(null);
         reuWidgetPanel.add(downPane);
     }
 
@@ -429,6 +430,7 @@ public class FormWidgetDetailPane extends FormDockView{
     public void refreshDownPanel(boolean isEdit) {
         reuWidgetPanel.remove(downPane);
         downPane = new UIScrollPane(new ShareWidgetPane(elCaseBindInfoList, isEdit));
+        downPane.setBorder(null);
         reuWidgetPanel.add(downPane);
         repaintContainer();
 

@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.*;
 import com.fr.base.io.IOFile;
+import com.fr.base.iofileattr.TemplateIdAttrMark;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -46,6 +47,7 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
+import com.fr.stable.core.UUID;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
@@ -1066,12 +1068,12 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     }
 
     /**
-     * 由于老版本的模板没有模板ID，当勾选使用参数模板时候，就加一个模板ID
+     * 由于老版本的模板没有模板ID，当勾选使用参数模板时候，就加一个模板ID attr
      * @param isUseParamTemplate 是否使用参数模板
      */
-    public void needAddTemplateId(boolean isUseParamTemplate) {
-        if (isUseParamTemplate && StringUtils.isEmpty(template.getTemplateID())) {
-            template.initTemplateID();
+    public void needAddTemplateIdAttr(boolean isUseParamTemplate) {
+        if (isUseParamTemplate && template.getAttrMark(TemplateIdAttrMark.XML_TAG) == null) {
+            template.addAttrMark(new TemplateIdAttrMark(UUID.randomUUID().toString()));
         }
     }
 }

@@ -120,6 +120,12 @@ public interface UIConstants {
 
 
     public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
+    public static final BufferedImage DRAG_BAR_LIGHT = BaseUtils.readImage("com/fr/design/images/control/bar-light.png");
+    public static final BufferedImage ARROW_NORTH = BaseUtils.readImage("com/fr/design/images/control/up_arrow.png");
+    public static final BufferedImage ARROW_SOUTH = BaseUtils.readImage("com/fr/design/images/control/down_arrow.png");
+    public static final BufferedImage ARROW_EAST = BaseUtils.readImage("com/fr/design/images/control/east_arrow.png");
+    public static final BufferedImage ARROW_WEST = BaseUtils.readImage("com/fr/design/images/control/west_arrow.png");
+
     public static final BufferedImage DRAG_BAR_RIGHT = BaseUtils.readImage("com/fr/design/images/control/barm.png");
     public static final BufferedImage DRAG_BAR_LEFT = BaseUtils.readImage("com/fr/design/images/control/barl.png");
     public static final BufferedImage DRAG_UP_NORMAL = BaseUtils.readImage("com/fr/design/images/control/upnor.png");
@@ -131,6 +137,7 @@ public interface UIConstants {
     public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
     public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
     public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage DRAG_LINE = BaseUtils.readImage("com/fr/design/images/control/dot-line.png");
     public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
     public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
     public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");

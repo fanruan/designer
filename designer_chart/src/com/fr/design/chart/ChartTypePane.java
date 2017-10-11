@@ -5,7 +5,6 @@ package com.fr.design.chart;
  */
 
 import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
 import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -17,8 +16,8 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
-import com.fr.general.RegistEditionException;
-import com.fr.general.VT4FR;
+import com.fr.license.exception.RegistEditionException;
+import com.fr.license.function.VT4FR;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -159,7 +158,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         if(chart.getPlot() != null){
             if(chart.getPlot() instanceof MapPlot && !supportMap()){
                 JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Chart-Map_Not_Supported"));
-                throw new RegistEditionException(VT4FR.CHART_MAP);
+                throw new RegistEditionException(VT4FR.ChartMap);
             }
 
             if (chart.getPlot() != null) {
@@ -173,8 +172,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
     }
 
     private boolean supportMap() {
-        byte[] bytes = FRCoreContext.getBytes();
-        return VT4FR.isLicAvailable(bytes) && VT4FR.CHART_MAP.support();
+        return VT4FR.ChartMap.support();
     }
 
     public void update(ChartCollection cc) {

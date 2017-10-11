@@ -1,11 +1,15 @@
 package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
-import com.fr.base.FRCoreContext;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.license.function.VT4FR;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -41,7 +45,7 @@ public class ErrorInfoUploader {
         });
 
         // 这个控制没啥意义, 主要在于宣传功能.
-        licSupport = VT4FR.isLicAvailable(FRCoreContext.getBytes()) && VT4FR.ALPHA_FINE.support();
+        licSupport = VT4FR.AlphaFine.support();
     }
 
     private ErrorInfoUploader() {

@@ -128,7 +128,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         wParameterLayout.setDelayDisplayContent(displayReport.isSelected());
         wParameterLayout.setUseParamsTemplate(useParamsTemplate.isSelected());
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        jTemplate.needAddTemplateId(useParamsTemplate.isSelected());
+        jTemplate.needAddTemplateIdAttr(useParamsTemplate.isSelected());
         wParameterLayout.setBackground((Background) background.getValue());
         wParameterLayout.setPosition((int)hAlignmentPane.getSelectedItem());
         return wParameterLayout;
