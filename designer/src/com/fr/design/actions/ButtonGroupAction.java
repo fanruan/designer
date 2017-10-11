@@ -6,12 +6,12 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.ElementCasePane;
 
 public abstract class ButtonGroupAction extends ElementCaseAction{
-	protected Icon[] iconArray;
+	protected Icon[][] iconArray;
 	protected Integer[] valueArray;
 
 	private UIButtonGroup<Integer> group;
 	
-	protected ButtonGroupAction(ElementCasePane t, Icon[] iconArray, Integer[] valueArray) {
+	protected ButtonGroupAction(ElementCasePane t, Icon[][] iconArray, Integer[] valueArray) {
 		super(t);
 		this.iconArray = iconArray;
 		this.valueArray = valueArray;

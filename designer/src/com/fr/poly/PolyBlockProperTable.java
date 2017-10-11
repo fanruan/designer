@@ -42,6 +42,8 @@ public class PolyBlockProperTable extends JPanel {
 		height = new UISpinner(0, MAX_SPINNER_VALUE, 1);
 		UIExpandablePane boundsPane = WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height);
 		this.add(boundsPane, BorderLayout.CENTER);
+
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 	}
 
 	private void initListener(Container parentComponent) {

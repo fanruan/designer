@@ -496,7 +496,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
      */
     private int paintSelectedTab(Graphics2D g2d, Icon sheeticon, double templateStartX, String sheetName, Icon closeIcon) {
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
-        double[] y = {-1, getHeight(), getHeight(), -1, -1};
+        double[] y = {1, getHeight() + 1, getHeight() + 1, 1, 1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(templateStartX, 1, this.getWidth(), this.getHeight(), 7, 7);
         g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, getHeight() - 1, UIConstants.SELECT_TAB));
         //选了30度和60度的特殊角度的x,y作为经过的两个点的坐标

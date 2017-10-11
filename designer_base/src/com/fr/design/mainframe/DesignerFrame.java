@@ -10,7 +10,6 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -27,7 +26,6 @@ import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.hold.DefaultTitlePlace;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -42,6 +40,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
+import com.fr.general.env.EnvContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
@@ -233,11 +232,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         basePane.add(centerPane, BorderLayout.CENTER);
         laoyoutWestPane();
-//		JPanel eastRegionPane = new JPanel(new BorderLayout());
-//		eastRegionPane.add(EastRegionContainerPane.getInstance(), BorderLayout.CENTER);
-//		eastRegionPane.add(JSliderPane.getInstance(), BorderLayout.SOUTH);
-//		basePane.add(eastRegionPane, BorderLayout.EAST);
-
         basePane.add(EastRegionContainerPane.getInstance(), BorderLayout.EAST);
         basePane.setBounds(0, 0, contentWidth, contentHeight);
 
@@ -332,16 +326,17 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
 
     private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
-
         northEastPane.removeAll();
+        northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
-        if (processor == null) {
-            processor = new DefaultTitlePlace();
+        if (processor != null) {
+            processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
         }
-        processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
-            northEastPane.add(ad.createAlphaFinePane(), BorderLayout.CENTER);
+            northEastPane.add(ad.createAlphaFinePane());
         }
+        northEastPane.add(ad.createBBSLoginPane());
     }
 
 
@@ -966,8 +961,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         Env currentEnv = FRContext.getCurrentEnv();
         try {
+            EnvContext.fireBeforeSignOut();
             currentEnv.signOut();
-            GeneralContext.fireEnvSignOutListener();
+            EnvContext.fireAfterSignOut();
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }

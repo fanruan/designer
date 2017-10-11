@@ -466,6 +466,17 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
     }
 
+    public boolean isConditionAttrPaneEnabled() {
+        return propertyItemMap.get(KEY_CONDITION_ATTR).isEnabled();
+    }
+
+    public boolean isWidgetSettingsPaneEnabled() {
+        return propertyItemMap.get(KEY_WIDGET_SETTINGS).isEnabled();
+    }
+
+    public boolean isCellAttrPaneEnabled() {
+        return propertyItemMap.get(KEY_CELL_ATTR).isEnabled();
+    }
 
 
     class PropertyItem {
