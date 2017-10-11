@@ -2,6 +2,7 @@ package com.fr.design.actions.cell;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.EastRegionContainerPane;
 
 import java.awt.event.ActionEvent;
 
@@ -20,4 +21,9 @@ public abstract class CellAttributeTableAction extends UpdateAction {
 		CellElementPropertyPane.getInstance().GoToPane(getID());
 	}
 
+	@Override
+	public void update() {
+		super.update();
+		this.setEnabled(EastRegionContainerPane.getInstance().isCellAttrPaneEnabled());
+	}
 }

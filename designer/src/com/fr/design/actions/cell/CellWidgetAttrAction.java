@@ -24,4 +24,10 @@ public class CellWidgetAttrAction extends UpdateAction {
         EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_WIDGET_SETTINGS);
         EastRegionContainerPane.getInstance().setWindow2PreferWidth();
     }
+
+    @Override
+    public void update() {
+        super.update();
+        this.setEnabled(EastRegionContainerPane.getInstance().isWidgetSettingsPaneEnabled());
+    }
 }
