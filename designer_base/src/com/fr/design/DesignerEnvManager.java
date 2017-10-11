@@ -153,6 +153,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * DesignerEnvManager.
      */
     public static DesignerEnvManager getEnvManager() {
+        return getEnvManager(true);
+    }
+
+    public static DesignerEnvManager getEnvManager(boolean needCheckEnv) {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
             try {
@@ -162,14 +166,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
 
             // james：如果没有env定义，要设置一个默认的
-            if (designerEnvManager.nameEnvMap.size() <= 0) {
-                String installHome = StableUtils.getInstallHome();
-                if (installHome != null) {
-                    String name = Inter.getLocText("FR-Engine_DEFAULT");
-                    String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
-                    designerEnvManager.putEnv(name, LocalEnv.createEnv(envPath));
-                    designerEnvManager.setCurEnvName(name);
-                }
+            if (needCheckEnv) {
+                checkNameEnvMap();
             }
 
             GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -185,6 +183,19 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
 
         return designerEnvManager;
+    }
+
+    public static void checkNameEnvMap() {
+        if (designerEnvManager == null || designerEnvManager.nameEnvMap.size() > 0) {
+            return;
+        }
+        String installHome = StableUtils.getInstallHome();
+        if (installHome != null) {
+            String name = Inter.getLocText("FR-Engine_DEFAULT");
+            String envPath = StableUtils.pathJoin(new String[]{installHome, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME});
+            designerEnvManager.putEnv(name, LocalEnv.createEnv(envPath));
+            designerEnvManager.setCurEnvName(name);
+        }
     }
 
     /**
