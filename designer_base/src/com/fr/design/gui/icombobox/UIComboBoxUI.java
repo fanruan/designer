@@ -94,6 +94,10 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
      */
     @Override
     public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus) {
+        paintCurrentValue(g, bounds, hasFocus, 0);
+    }
+
+    public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus, int paddingLeft) {
         ListCellRenderer renderer = comboBox.getRenderer();
         Component c;
 
@@ -142,7 +146,7 @@ public class UIComboBoxUI extends BasicComboBoxUI implements MouseListener {
 
         int x = bounds.x, y = bounds.y, w = bounds.width, h = bounds.height;
 
-        currentValuePane.paintComponent(g, c, comboBox, x, y, w, h, shouldValidate);
+        currentValuePane.paintComponent(g, c, comboBox, x + paddingLeft, y, w, h, shouldValidate);
     }
 
     @Override

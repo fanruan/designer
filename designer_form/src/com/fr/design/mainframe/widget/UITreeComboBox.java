@@ -121,6 +121,11 @@ public class UITreeComboBox extends UIComboBox {
         protected ComboPopup createPopup() {
             return new TreePopup(comboBox);
         }
+
+        @Override
+        public void paintCurrentValue(Graphics g, Rectangle bounds, boolean hasFocus) {
+            paintCurrentValue(g, bounds, hasFocus, 3);
+        }
     }
 
     class MotifJTreeComboBoxUI extends MotifComboBoxUI{
