@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VerticalChoosePane extends ChoosePane implements DesignerBean {
+    private static final int RIGHTBORDER = 5;
 
     public VerticalChoosePane(Previewable previewable) {
         this(previewable, -1);
@@ -36,7 +37,7 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
         JPanel rs = new JPanel(new BorderLayout(0, 0));
         rs.add(tableNameComboBox, BorderLayout.CENTER);
         rs.add(GUICoreUtils.createFlowPane(new Component[]{new RefreshLabel(this), previewLabel}, FlowLayout.LEFT, LayoutConstants.HGAP_LARGE), BorderLayout.EAST);
-
+        rs.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, -RIGHTBORDER));
         UILabel l1 = new UILabel(Inter.getLocText("FR-Designer_Database"), UILabel.LEFT);
         UILabel l2 = new UILabel(Inter.getLocText("FR-Designer_Model"), UILabel.LEFT);
         UILabel l3 = new UILabel(Inter.getLocText(new String[]{"FR-Designer_Database", "FR-Designer_Table"}), UILabel.LEFT);
