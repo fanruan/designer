@@ -38,6 +38,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
     public static final int FORM_NORMAL_USE = -1;
     public static final int FORM_ELEMENTCASE_USE = 11;
     public static final int FORM_CHART_USE = 12;
+    public static final int VAN_CHART_USE = 20;
 
 	private static final long serialVersionUID = 1L;
 	protected Component component = null; //指定确认对话框的父窗口,bug40340
