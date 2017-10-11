@@ -22,9 +22,14 @@ public class HeaderPane extends JPanel {
     private int headHeight;
     private Color bgColor;
     private boolean isShow;
+    private boolean isPressed = false;
     private String title;
     private Image image;
     private int fontSize;
+
+    public void setPressed(boolean pressed) {
+        this.isPressed = pressed;
+    }
 
     public void setShow(boolean isShow) {
         this.isShow = isShow;
@@ -60,7 +65,8 @@ public class HeaderPane extends JPanel {
     private BufferedImage createPanelImage() {
         BufferedImage panelImage = new BufferedImage(getWidth(), headHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = panelImage.createGraphics();
-        g2d.setColor(UIConstants.COMPONENT_BACKGROUND_COLOR);
+
+        g2d.setColor(isPressed ? UIConstants.POPUP_TITLE_BACKGROUND : UIConstants.COMPONENT_BACKGROUND_COLOR);
         headWidth = this.getWidth();
         g2d.fillRect(0, 0, headWidth, headHeight);
         g2d.setFont(new Font("SimSun", 0, fontSize));

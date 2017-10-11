@@ -1,7 +1,6 @@
 package com.fr.design.gui.itree.filetree;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +106,7 @@ public class EnvFileTree extends RefreshableJTree {
 			dim.height += 2;
 			this.setPreferredSize(dim);
 			this.setBackgroundNonSelectionColor(UIConstants.TREE_BACKGROUND);
-			this.setForeground(UIConstants.FONT_COLOR);
+			this.setTextSelectionColor(Color.WHITE);
 			this.setBackgroundSelectionColor(UIConstants.FLESH_BLUE);
 			return this;
 		}

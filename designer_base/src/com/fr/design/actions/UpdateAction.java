@@ -139,6 +139,10 @@ public abstract class UpdateAction extends ShortCut implements Action {
 		this.putValue(Action.SMALL_ICON, smallIcon);
 	}
 
+	public void setSmallIcon(Icon[] smallIcon, boolean white) {
+		this.putValue(Action.SMALL_ICON, smallIcon);
+	}
+
 	/**
 	 * Returns the mnemonic property setting.
 	 *

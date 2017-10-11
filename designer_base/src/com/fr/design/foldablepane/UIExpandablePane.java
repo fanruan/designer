@@ -58,7 +58,8 @@ public class UIExpandablePane extends JPanel {
     }
 
     class PanelAction extends MouseAdapter {
-        public void mousePressed(MouseEvent e) {
+        @Override
+        public void mouseClicked(MouseEvent e) {
             HeaderPane hp = (HeaderPane) e.getSource();
             if (contentPanel.isShowing()) {
                 contentPanel.setVisible(false);
@@ -67,7 +68,21 @@ public class UIExpandablePane extends JPanel {
                 contentPanel.setVisible(true);
                 hp.setShow(true);
             }
+            hp.setPressed(false);
             hp.getParent().validate();
+            hp.getParent().repaint();
+        }
+
+        public void mousePressed(MouseEvent e) {
+            HeaderPane hp = (HeaderPane) e.getSource();
+            hp.setPressed(true);
+            hp.getParent().repaint();
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            HeaderPane hp = (HeaderPane) e.getSource();
+            hp.setPressed(false);
             hp.getParent().repaint();
         }
     }
