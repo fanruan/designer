@@ -110,7 +110,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 	}
 
 	protected int getChartParaType() {
-		return plot != null ? plot.getHyperLinkParaType() : ParameterTableModel.NO_CHART_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
@@ -118,7 +118,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 	}
 
 	protected boolean needRenamePane(){
-		return getChartParaType() != ParameterTableModel.NO_CHART_USE  && getChartParaType() != ParameterTableModel.VAN_CHART_USE ;
+		return plot != null && plot.needRenameHyperLinkPane();
 	}
 
 	/**

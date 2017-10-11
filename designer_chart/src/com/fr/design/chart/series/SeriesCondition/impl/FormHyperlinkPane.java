@@ -2,7 +2,6 @@ package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -57,7 +56,7 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
     }
 
     protected int getChartParaType() {
-        return plot != null ? plot.getHyperLinkParaType() : ParameterTableModel.NO_CHART_USE;
+        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
     }
 
     protected ValueEditorPane getValueEditorPane() {
@@ -65,7 +64,7 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
     }
 
     protected boolean needRenamePane(){
-        return getChartParaType() != ParameterTableModel.NO_CHART_USE  && getChartParaType() != ParameterTableModel.VAN_CHART_USE ;
+        return plot != null && plot.needRenameHyperLinkPane();
     }
     
     protected int getHyperlinkType() {

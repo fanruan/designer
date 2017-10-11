@@ -2,7 +2,6 @@ package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
 import com.fr.base.chart.BasePlot;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.BasicBeanPane;
@@ -88,7 +87,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 	}
 
 	protected int getChartParaType() {
-		return plot != null ? plot.getHyperLinkParaType() : ParameterTableModel.NO_CHART_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
@@ -96,7 +95,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 	}
 
 	protected boolean needRenamePane(){
-		return getChartParaType() != ParameterTableModel.NO_CHART_USE  && getChartParaType() != ParameterTableModel.VAN_CHART_USE ;
+		return plot != null && plot.needRenameHyperLinkPane();
 	}
 
 	private String[] getFloatNames() {

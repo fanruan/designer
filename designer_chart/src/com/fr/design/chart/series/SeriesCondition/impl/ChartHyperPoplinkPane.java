@@ -5,7 +5,6 @@ import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.design.beans.BasicBeanPane;
@@ -89,7 +88,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
     }
 
 	protected int getChartParaType() {
-		return plot != null ? plot.getHyperLinkParaType() : ParameterTableModel.NO_CHART_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
@@ -97,7 +96,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	}
 
 	protected boolean needRenamePane(){
-		return getChartParaType() != ParameterTableModel.NO_CHART_USE  && getChartParaType() != ParameterTableModel.VAN_CHART_USE ;
+		return plot != null && plot.needRenameHyperLinkPane();
 	}
 	
 	@Override
