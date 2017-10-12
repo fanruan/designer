@@ -1,7 +1,6 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
@@ -12,6 +11,7 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.stable.ParameterProvider;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJavaScript> {
@@ -22,8 +22,8 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
         this(null);
     }
 
-	public ParameterJavaScriptPane(BasePlot plot){
-        super(plot);
+	public ParameterJavaScriptPane(HashMap hyperLinkEditorMap){
+        super(hyperLinkEditorMap);
 		this.setLayout(new  BorderLayout());
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);

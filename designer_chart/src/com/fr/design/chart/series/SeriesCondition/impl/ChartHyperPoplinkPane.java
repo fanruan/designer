@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -18,6 +17,7 @@ import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * 类说明: 图表超链 -- 弹出 悬浮窗. 
@@ -37,8 +37,8 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 		this(null);
 	}
 	
-	public ChartHyperPoplinkPane(BasePlot plot) {
-		super(plot);
+	public ChartHyperPoplinkPane(HashMap hyperLinkEditorMap) {
+		super(hyperLinkEditorMap);
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
         if(this.needRenamePane()){

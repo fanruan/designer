@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
-import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.constants.UIConstants;
@@ -20,6 +19,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,8 +38,8 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 		this.initComponent();
 	}
 
-	public ChartHyperRelateFloatLinkPane(BasePlot plot) {
-		super(plot);
+	public ChartHyperRelateFloatLinkPane(HashMap hyperLinkEditorMap) {
+		super(hyperLinkEditorMap);
 		this.initComponent();
 	}
 	

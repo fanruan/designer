@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
-import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.design.gui.columnrow.ColumnRowVerticalPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
@@ -15,6 +14,7 @@ import com.fr.stable.ParameterProvider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,8 +33,8 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
 		this.initComponent();
 	}
 
-	public ChartHyperRelateCellLinkPane(BasePlot plot) {
-		super(plot);
+	public ChartHyperRelateCellLinkPane(HashMap hyperLinkEditorMap) {
+		super(hyperLinkEditorMap);
 		this.initComponent();
 	}
 

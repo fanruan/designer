@@ -2,7 +2,6 @@ package com.fr.design.hyperlink;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -19,14 +18,15 @@ import com.fr.stable.StringUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.List;
 
 public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyperlink> {
     private ReporletHyperNorthPane northPane;
     private UICheckBox extendParametersCheckBox;
 
-    public ReportletHyperlinkPane(BasePlot plot) {
-        super(plot);
+    public ReportletHyperlinkPane(HashMap hyperLinkEditorMap) {
+        super(hyperLinkEditorMap);
         this.initComponents();
     }
 

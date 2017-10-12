@@ -1,7 +1,6 @@
 package com.fr.design.hyperlink;
 
 import com.fr.base.Parameter;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -13,6 +12,7 @@ import com.fr.stable.ParameterProvider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
@@ -27,8 +27,8 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 		this.initComponents();
 	}
     
-	public WebHyperlinkPane(BasePlot plot) {
-		super(plot);
+	public WebHyperlinkPane(HashMap hyperLinkEditorMap) {
+		super(hyperLinkEditorMap);
 		this.initComponents();
 	}
 

@@ -1,7 +1,6 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Parameter;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
@@ -15,14 +14,15 @@ import com.fr.stable.bridge.StableFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvider> {
 
     private FormHyperlinkNorthPane northPane;
 
 
-    public FormHyperlinkPane(BasePlot plot) {
-        super(plot);
+    public FormHyperlinkPane(HashMap hyperLinkEditorMap) {
+        super(hyperLinkEditorMap);
         this.initComponents();
     }
 

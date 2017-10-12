@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart.gui.other;
 
 import com.fr.base.CoreDecimalFormat;
+import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.base.AttrContents;
@@ -685,7 +686,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             NameJavaScript javaScript = nameGroup.getNameHyperlink(i);
             if(javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
-                hyperList.add(new ChartUIMenuNameableCreator(plot, javaScript.getName(), script, getUseMap(paneMap, script.getClass())));
+                hyperList.add(new ChartUIMenuNameableCreator(plot.getHyperLinkEditorMap(), javaScript.getName(), script, getUseMap(paneMap, script.getClass())));
             }
         }
 
@@ -857,25 +858,26 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 	
 	protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
 		List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
+        java.util.HashMap<String, Formula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Reportlet"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Web"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Dynamic_Parameters"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
-		list.add(new ChartUIMenuNameableCreator(plot, "JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Float_Chart"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Cell"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Float"),
+		list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
 		
 		FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Form"),
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Form"),
         		hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
 		
 		return list;

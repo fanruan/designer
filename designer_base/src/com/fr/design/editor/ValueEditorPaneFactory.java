@@ -1,7 +1,6 @@
 package com.fr.design.editor;
 
 import com.fr.base.Formula;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.editor.editor.BooleanEditor;
 import com.fr.design.editor.editor.ColumnRowEditor;
 import com.fr.design.editor.editor.ColumnRowGroupEditor;
@@ -202,24 +201,24 @@ public class ValueEditorPaneFactory {
        return createVallueEditorPaneWithUseType(paraUseType, null);
     }
 
-    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, BasePlot plot) {
+    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, HashMap hyperLinkEditorMap) {
         if (paraUseType == ParameterTableModel.NO_CHART_USE) {
             return createBasicValueEditorPane();
         } else if (paraUseType == ParameterTableModel.FORM_NORMAL_USE) {
             return createFormEditorPane();
         } else {
-            return createChartHotValueEditorPane(plot);
+            return createChartHotValueEditorPane(hyperLinkEditorMap);
         }
     }
 
     /**
      * 图表用的参数编辑器的ValueEditorPane
      *
-     * @param plot plot类型
+     * @param hyperLinkEditorMap 超链下拉参数类型
      * @return 值编辑器
      */
-    public static ValueEditorPane createChartHotValueEditorPane(BasePlot plot) {
-        return createValueEditorPane(chartHotEditors(plot), StringUtils.EMPTY, StringUtils.EMPTY);
+    public static ValueEditorPane createChartHotValueEditorPane(HashMap hyperLinkEditorMap) {
+        return createValueEditorPane(chartHotEditors(hyperLinkEditorMap), StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
     /**
@@ -446,8 +445,8 @@ public class ValueEditorPaneFactory {
      *
      * @return 值编辑器
      */
-    public static Editor[] chartHotEditors(BasePlot plot) {
-        List<Editor> list = createEditors4Chart(plot);
+    public static Editor[] chartHotEditors(HashMap hyperLinkEditorMap) {
+        List<Editor> list = createEditors4Chart(hyperLinkEditorMap);
 
         list.add(new TextEditor());
         list.add(new IntegerEditor());
@@ -467,14 +466,12 @@ public class ValueEditorPaneFactory {
      *
      * @return 值编辑器
      */
-    private static List<Editor> createEditors4Chart(BasePlot plot) {
+    private static List<Editor> createEditors4Chart(HashMap hyperLinkEditorMap) {
         List<Editor> lists = new ArrayList<Editor>();
-        if (plot == null) {
+        if (hyperLinkEditorMap == null) {
             return lists;
         }
-        HashMap<String, Formula> map = plot.getHyperLinkEditorMap();
-
-        Iterator<Map.Entry<String, Formula>> entries = map.entrySet().iterator();
+        Iterator<Map.Entry<String, Formula>> entries = hyperLinkEditorMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Formula> entry = entries.next();
             ConstantsEditor editor = new ConstantsEditor(entry.getKey(), entry.getValue());

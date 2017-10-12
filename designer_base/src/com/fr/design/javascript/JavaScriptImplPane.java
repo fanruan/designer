@@ -1,7 +1,6 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
-import com.fr.base.chart.BasePlot;
 import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -21,6 +20,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
 		this(new String[0]);
 	}
 
-	public JavaScriptImplPane(BasePlot plot) {
-		super(plot);
+	public JavaScriptImplPane(HashMap hyperLinkEditorMap) {
+		super(hyperLinkEditorMap);
 		this.defaultArgs = new String[0];
 		initComponents();
 	}
