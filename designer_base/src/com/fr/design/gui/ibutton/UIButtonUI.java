@@ -80,7 +80,7 @@ public class UIButtonUI extends BasicButtonUI {
         FontMetrics fm = SwingUtilities2.getFontMetrics(b, g);
         int mnemonicIndex = b.getDisplayedMnemonicIndex();
         if (b.isEnabled()) {
-            g.setColor(UIConstants.FONT_COLOR);
+            g.setColor(b.getForeground());
         } else {
             g.setColor(UIConstants.LINE_COLOR);
         }
