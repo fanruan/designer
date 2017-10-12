@@ -1,36 +1,28 @@
 package com.fr.design.gui.imenutable;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.TableUI;
-import javax.swing.table.TableCellRenderer;
-
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.EmailPane;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.dialog.UIDialog;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.TableUI;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UIMenuTable extends JTable {
 	protected int selectedRowIndex = -1;
@@ -220,13 +212,13 @@ public class UIMenuTable extends JTable {
 		content.setLayout(new BorderLayout());
 		List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
 		UIMenuNameableCreator reportlet = new UIMenuNameableCreator(Inter.getLocText("Reportlet"), 
-				new ReportletHyperlink(), true ? ReportletHyperlinkPane.CHART.class : ReportletHyperlinkPane.class);
+				new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
 		UIMenuNameableCreator email = new UIMenuNameableCreator(Inter.getLocText("Email"),
 				new EmailJavaScript(), EmailPane.class);
 
 		UIMenuNameableCreator web = new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"), 
-				new WebHyperlink(), true ? WebHyperlinkPane.CHART.class : WebHyperlinkPane.class );
+				new WebHyperlink(), WebHyperlinkPane.class );
 		data.add(reportlet);
 		data.add(email);
 		data.add(web);

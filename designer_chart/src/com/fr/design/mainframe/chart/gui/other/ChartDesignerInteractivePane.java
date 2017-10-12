@@ -6,10 +6,11 @@ package com.fr.design.mainframe.chart.gui.other;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartdata.TopDefinition;
-import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.general.Inter;
-import com.fr.js.*;
+import com.fr.js.JavaScriptImpl;
+import com.fr.js.WebHyperlink;
+import com.fr.plugin.chart.designer.component.ChartUIMenuNameableCreator;
 import com.fr.third.org.hsqldb.lib.HashMap;
 
 import java.util.ArrayList;
@@ -27,13 +28,13 @@ public class ChartDesignerInteractivePane extends ChartInteractivePane {
         super(parent);
     }
 
-    protected List<UIMenuNameableCreator> refreshList(HashMap map) {
-   		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
+    protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
+   		List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
 
-   		list.add(new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"),
+   		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Hyperlink-Web_link"),
                    new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-   		list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("RelatedChart"),null,null));
+   		list.add(new ChartUIMenuNameableCreator(plot,"JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+        list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("RelatedChart"),null,null));
 
    		return list;
    	}

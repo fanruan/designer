@@ -3,6 +3,7 @@ package com.fr.design.widget.ui.designer.layout;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWScaleLayout;
@@ -117,11 +118,26 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
     @Override
     public void populateBean(WFitLayout ob) {
+        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        XLayoutContainer rootLayout = selectedBodyLayout(formDesigner);
+        if (rootLayout != formDesigner.getRootComponent()
+                && formDesigner.getSelectionModel().getSelection().getSelectedCreator() == formDesigner.getRootComponent()) {
+            formDesigner.getSelectionModel().setSelectedCreators(
+                    FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{selectedBodyLayout(formDesigner).toData()}));
+        }
         paddingBound.populate(ob);
         layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
         adaptComboBox.setSelectedIndex(ob.getCompState());
         componentIntervel.setValue(ob.getCompInterval());
         stylePane.setValue(ob.getBorderStyle());
+    }
+
+    private XLayoutContainer selectedBodyLayout(FormDesigner formDesigner) {
+        XLayoutContainer rootLayout = formDesigner.getRootComponent();
+        if (rootLayout.getComponentCount() == 1 && rootLayout.getXCreator(0).acceptType(XWAbsoluteBodyLayout.class)){
+            rootLayout = (XWAbsoluteBodyLayout)rootLayout.getXCreator(0);
+        }
+        return rootLayout;
     }
 
 
