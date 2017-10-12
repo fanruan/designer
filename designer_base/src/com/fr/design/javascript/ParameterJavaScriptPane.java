@@ -49,7 +49,7 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
     }
 
     protected boolean needRenamePane(){
-        return plot != null && plot.needRenameHyperLinkPane();
+        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
 
 	@Override
