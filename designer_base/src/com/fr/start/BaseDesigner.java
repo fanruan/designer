@@ -64,8 +64,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         RestartHelper.deleteRecordFilesWhenStart();
         //启动core
         Register.load();
-        //初始化插件引擎
-        PluginStartup.start();
         //标记一下是设计器启动
         PluginConversionModule.getInstance().markDesignerStart();
         SiteCenter.getInstance();
