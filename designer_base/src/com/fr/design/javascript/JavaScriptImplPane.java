@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
-    private final int bottomBorder = 12;
+    private static final int BOTTOM_BORDER = 12;
     private UITextField itemNameTextField;
     private JSContentPane jsPane;
     private UITableEditorPane<String> importedJsPane;
@@ -95,7 +95,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
                 parameterPane, BorderLayout.EAST
         );
         topPane.setPreferredSize(new Dimension(300, 150));
-        topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, bottomBorder, 0));
+        topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, BOTTOM_BORDER, 0));
 
         this.setLayout(new BorderLayout());
         this.add(topPane, BorderLayout.NORTH);
@@ -209,7 +209,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
         }
     }
 
-    public static class chartNoRename extends JavaScriptImplPane {
+    public static class ChartNoRename extends JavaScriptImplPane {
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }

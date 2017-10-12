@@ -128,7 +128,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
         }
     }
 
-    public static class chartNoRename extends ReportletHyperlinkPane {
+    public static class ChartNoRename extends ReportletHyperlinkPane {
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }

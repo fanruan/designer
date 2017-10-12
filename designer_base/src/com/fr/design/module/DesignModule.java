@@ -91,11 +91,11 @@ public abstract class DesignModule extends TopModule {
 
     public NameableCreator[] hyperlinkTypes() {
         return new NameableCreator[]{
-                new NameObjectCreator(Inter.getLocText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.chartNoRename.class),
+                new NameObjectCreator(Inter.getLocText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
                 new NameObjectCreator(Inter.getLocText("FR-Designer_Email"), EmailJavaScript.class, EmailPane.class),
-                new NameObjectCreator(Inter.getLocText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.chartNoRename.class),
-                new NameObjectCreator(Inter.getLocText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.chartNoRename.class),
-                new NameObjectCreator("FR-Designer_JavaScript", JavaScriptImpl.class, JavaScriptImplPane.chartNoRename.class)
+                new NameObjectCreator(Inter.getLocText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
+                new NameObjectCreator(Inter.getLocText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
+                new NameObjectCreator("FR-Designer_JavaScript", JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
         };
     }
 
