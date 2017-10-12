@@ -1,17 +1,36 @@
 package com.fr.design.editor;
 
 import com.fr.base.Formula;
+import com.fr.base.chart.BasePlot;
+import com.fr.design.editor.editor.BooleanEditor;
+import com.fr.design.editor.editor.ColumnRowEditor;
+import com.fr.design.editor.editor.ColumnRowGroupEditor;
+import com.fr.design.editor.editor.ColumnSelectedEditor;
+import com.fr.design.editor.editor.ConstantsEditor;
+import com.fr.design.editor.editor.CursorEditor;
+import com.fr.design.editor.editor.DateEditor;
+import com.fr.design.editor.editor.DoubleEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.IntegerEditor;
+import com.fr.design.editor.editor.NoneEditor;
+import com.fr.design.editor.editor.ParameterEditor;
+import com.fr.design.editor.editor.SpinnerIntegerEditor;
+import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.editor.editor.WidgetNameEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.editor.editor.*;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ValueEditorPaneFactory {
 
@@ -180,23 +199,27 @@ public class ValueEditorPaneFactory {
      * @return 值编辑器
      */
     public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType) {
+       return createVallueEditorPaneWithUseType(paraUseType, null);
+    }
+
+    public static ValueEditorPane createVallueEditorPaneWithUseType(int paraUseType, BasePlot plot) {
         if (paraUseType == ParameterTableModel.NO_CHART_USE) {
             return createBasicValueEditorPane();
         } else if (paraUseType == ParameterTableModel.FORM_NORMAL_USE) {
             return createFormEditorPane();
         } else {
-            return createChartHotValueEditorPane(paraUseType);
+            return createChartHotValueEditorPane(plot);
         }
     }
 
     /**
      * 图表用的参数编辑器的ValueEditorPane
      *
-     * @param paraUseType 参数类型
+     * @param plot plot类型
      * @return 值编辑器
      */
-    public static ValueEditorPane createChartHotValueEditorPane(int paraUseType) {
-        return createValueEditorPane(chartHotEditors(paraUseType), StringUtils.EMPTY, StringUtils.EMPTY);
+    public static ValueEditorPane createChartHotValueEditorPane(BasePlot plot) {
+        return createValueEditorPane(chartHotEditors(plot), StringUtils.EMPTY, StringUtils.EMPTY);
     }
 
     /**
@@ -421,11 +444,10 @@ public class ValueEditorPaneFactory {
     /**
      * 图表热点的一些编辑器
      *
-     * @param paraUseType 参数类型
      * @return 值编辑器
      */
-    public static Editor[] chartHotEditors(int paraUseType) {
-        List<Editor> list = createEditors4Chart(paraUseType);
+    public static Editor[] chartHotEditors(BasePlot plot) {
+        List<Editor> list = createEditors4Chart(plot);
 
         list.add(new TextEditor());
         list.add(new IntegerEditor());
@@ -443,179 +465,22 @@ public class ValueEditorPaneFactory {
     /**
      * 为图表创建编辑器.
      *
-     * @param paraUseType 参数类型
      * @return 值编辑器
      */
-    private static List<Editor> createEditors4Chart(int paraUseType) {
-        switch (paraUseType) {
-            case ParameterTableModel.CHART_PIE_USE:
-                return getPieEditor();
-            case ParameterTableModel.CHART_MAP_USE:
-                return getMapEditor();
-            case ParameterTableModel.CHART_GIS_USE:
-                return getGisEditor();
-            case ParameterTableModel.CHART__XY_USE:
-                return getXYEditor();
-            case ParameterTableModel.CHART_BUBBLE_USE:
-                return getBubbbleEdtor();
-            case ParameterTableModel.CHART_NO_USE:
-                return getChartNoUseEditor();
-            case ParameterTableModel.CHART_METER_USE:
-                return getMeterEditor();
-            case ParameterTableModel.CHART_STOCK_USE:
-                return getStockEditor();
-            case ParameterTableModel.CHART_GANTT_USE:
-                return getGanttEditor();
-            case ParameterTableModel.FORM_ELEMENTCASE_USE:
-                return getFormElementCaseEditor();
-            case ParameterTableModel.FORM_CHART_USE:
-                return getFormChartEditor();
-            default:
-                return getChartEditor();
+    private static List<Editor> createEditors4Chart(BasePlot plot) {
+        List<Editor> lists = new ArrayList<Editor>();
+        if (plot == null) {
+            return lists;
         }
-    }
+        HashMap<String, Formula> map = plot.getHyperLinkEditorMap();
 
-    private static List<Editor> getMeterEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getPieEditor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-        return lists;
-    }
-
-    private static List<Editor> getGisEditor() {
-        ConstantsEditor areaValue = new ConstantsEditor(Inter.getLocText("Area_Value"), new Formula("AREA_VALUE"));
-        areaValue.setEnabled(false);
-        ConstantsEditor chartAddress = new ConstantsEditor(Inter.getLocText("Chart-Address"), new Formula("ADDRESS"));
-        chartAddress.setEnabled(false);
-        ConstantsEditor addressName = new ConstantsEditor(Inter.getLocText("Chart-Address-Name"), new Formula("ADDRESS_NAME"));
-        addressName.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(chartAddress);
-        lists.add(addressName);
-        lists.add(areaValue);
-
-        return lists;
-    }
-
-    private static List<Editor> getGanttEditor() {
-        ConstantsEditor projectid = new ConstantsEditor(Inter.getLocText("Chart_ProjectID"), new Formula("PROJECTID"));
-        projectid.setEnabled(false);
-        ConstantsEditor step = new ConstantsEditor(Inter.getLocText("Chart_Step_Name"), new Formula("STEP"));
-        step.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(projectid);
-        lists.add(step);
-
-        return lists;
-    }
-
-    private static List<Editor> getXYEditor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getStockEditor() {
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getBubbbleEdtor() {
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getChartNoUseEditor() {
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getMapEditor() {
-        ConstantsEditor areaValue = new ConstantsEditor(Inter.getLocText("Area_Value"), new Formula("AREA_VALUE"));
-        areaValue.setEnabled(false);
-        ConstantsEditor areaName = new ConstantsEditor(Inter.getLocText("Area_Name"), new Formula("AREA_NAME"));
-        areaName.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(areaName);
-        lists.add(areaValue);
-
-        return lists;
-    }
-
-    private static List<Editor> getChartEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(series);
-        lists.add(value);
-
-        return lists;
-    }
-
-    private static List<Editor> getFormElementCaseEditor() {
-
-        List<Editor> lists = new ArrayList<Editor>();
-
-        return lists;
-    }
-
-    private static List<Editor> getFormChartEditor() {
-        ConstantsEditor cate = new ConstantsEditor(Inter.getLocText("CategoryName"), new Formula("CATEGORY"));
-        cate.setEnabled(false);
-        ConstantsEditor series = new ConstantsEditor(Inter.getLocText("ChartF-Series_Name"), new Formula("SERIES"));
-        series.setEnabled(false);
-        ConstantsEditor value = new ConstantsEditor(Inter.getLocText("Chart-Series_Value"), new Formula("VALUE"));
-        value.setEnabled(false);
-
-        List<Editor> lists = new ArrayList<Editor>();
-        lists.add(cate);
-        lists.add(series);
-        lists.add(value);
-
+        Iterator<Map.Entry<String, Formula>> entries = map.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Formula> entry = entries.next();
+            ConstantsEditor editor = new ConstantsEditor(entry.getKey(), entry.getValue());
+            editor.setEnabled(false);
+            lists.add(editor);
+        }
         return lists;
     }
 

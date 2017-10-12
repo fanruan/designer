@@ -1,6 +1,7 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
 import com.fr.design.editor.ValueEditorPane;
@@ -26,18 +27,34 @@ import java.util.HashSet;
 import java.util.List;
 
 public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
+	private BasePlot plot;
     private UITextField itemNameTextField;
 	private JSContentPane jsPane;
 	private UITableEditorPane<String> importedJsPane;
 	private ReportletParameterViewPane parameterPane;
 	private String[] defaultArgs;
 
+	protected BasePlot getPlot() {
+		return plot;
+	}
+
 	public JavaScriptImplPane() {
 		this(new String[0]);
 	}
 
+	public JavaScriptImplPane(BasePlot plot) {
+		this.plot = plot;
+		this.defaultArgs = new String[0];
+		initComponents();
+	}
+
+
 	public JavaScriptImplPane(String[] args) {
 		this.defaultArgs = args;
+		initComponents();
+	}
+
+	protected void initComponents() {
 		parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_Parameter")));
 		parameterPane.addTableEditorListener(new TableModelListener() {
@@ -61,7 +78,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		});
 
 		OneListTableModel<String> model = new OneListTableModel<String>(Inter.getLocText("ReportServerP-Import_JavaScript"), this) {
-			
+
 			public UITableEditAction[] createAction() {
 				return new UITableEditAction[] { getAddAction(),new DeleteAction(this.component), new MoveUpAction(), new MoveDownAction() };
 			}
@@ -74,7 +91,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		importedJsPane = new UITableEditorPane<String>(model);
 		importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("ReportServerP-Import_JavaScript")));
 		importedJsPane.setPreferredSize(new Dimension(265, 150));
-		jsPane = new JSContentPane(args);
+		jsPane = new JSContentPane(defaultArgs);
 		jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_JavaScript")));
 
 		parameterPane.setPreferredSize(new Dimension(265, 150));
@@ -85,24 +102,24 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		topPane.setPreferredSize(new Dimension(300, 150));
 		topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
 
-        this.setLayout(new BorderLayout());
-        this.add(topPane,BorderLayout.NORTH) ;
-        this.add(jsPane,BorderLayout.CENTER);
+		this.setLayout(new BorderLayout());
+		this.add(topPane,BorderLayout.NORTH) ;
+		this.add(jsPane,BorderLayout.CENTER);
 
-        this.reLayoutForChart();
+		this.reLayoutForChart();
 	}
 
 	protected int getChartParaType() {
-		return ParameterTableModel.NO_CHART_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
 	}
 
-    protected boolean needRenamePane(){
-        return getChartParaType() != ParameterTableModel.NO_CHART_USE;
-    }
+	protected boolean needRenamePane(){
+		return plot != null && plot.isNeedRenameHyperLinkPane();
+	}
 
 	/**
 	 *参数改变
@@ -213,62 +230,6 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
         }
         protected boolean needRenamePane(){
             return false;
-        }
-    }
-
-    public static class CHART extends JavaScriptImplPane {
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_NORMAL_USE;
-    	}
-    }
-    
-    public static class CHART_MAP extends JavaScriptImplPane {
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_MAP_USE;
-    	}
-    }
-    
-    public static class CHART_GIS extends JavaScriptImplPane{
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_GIS_USE;
-		}
-	}
-    
-    
-    public static class CHART_PIE extends JavaScriptImplPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_PIE_USE;
-    	}
-    };
-
-    public static class CHART_XY extends JavaScriptImplPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends JavaScriptImplPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  JavaScriptImplPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  JavaScriptImplPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  JavaScriptImplPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 

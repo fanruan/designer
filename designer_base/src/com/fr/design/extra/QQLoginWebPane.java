@@ -62,7 +62,7 @@ public class QQLoginWebPane extends JFXPanel {
                 QQLoginWebPane.this.setScene(scene);
                 final WebView webView = new WebView();
                 webEngine = webView.getEngine();
-                url = "file:///" + installHome + "/scripts/qqLogin/web/qqLogin.html";
+                url = "file:///" + installHome + "/scripts/qqLogin.html";
                 webEngine.load(url);
 
                 final Stage primaryStage = new Stage();

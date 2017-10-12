@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -32,8 +33,19 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	private UITextField itemNameTextField;
 	private ChartHyperEditPane hyperEditPane;
 	private ChartComponent chartComponent;
-	
+
+	private BasePlot plot;
+
+	protected BasePlot getPlot() {
+		return plot;
+	}
+
 	public ChartHyperPoplinkPane() {
+		this(null);
+	}
+	
+	public ChartHyperPoplinkPane(BasePlot plot) {
+		this.plot = plot;
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
         if(this.needRenamePane()){
@@ -75,21 +87,17 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
         return cc;
     }
 
-    protected int getChartParaType() {
-		return ParameterTableModel.CHART_NORMAL_USE;
+	protected int getChartParaType() {
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
 	}
 
-    /**
-     * 是否需要加载重命名的空间
-     * @return 默认需要加载
-     */
-    protected boolean needRenamePane(){
-        return true;
-    }
+	protected boolean needRenamePane(){
+		return plot != null && plot.isNeedRenameHyperLinkPane();
+	}
 	
 	@Override
 	protected String title4PopupWindow() {
@@ -141,57 +149,6 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
     public static class CHART_NO_RENAME extends ChartHyperPoplinkPane{
         protected boolean needRenamePane(){
             return false;
-        }
-    }
-
-	public static class CHART_MAP extends ChartHyperPoplinkPane {
-		
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_MAP_USE;
-		}
-	}
-	
-	public static class CHART_GIS extends ChartHyperPoplinkPane {
-		
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_GIS_USE;
-		}
-	}
-	
-	public static class CHART_PIE extends ChartHyperPoplinkPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_PIE_USE;
-    	}
-    }
-
-    public static class CHART_XY extends ChartHyperPoplinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends ChartHyperPoplinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  ChartHyperPoplinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  ChartHyperPoplinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  ChartHyperPoplinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 }

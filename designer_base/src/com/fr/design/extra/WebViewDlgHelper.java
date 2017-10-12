@@ -37,7 +37,7 @@ public class WebViewDlgHelper {
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
-            String relativePath = "/scripts/store/web/index.html";
+            String relativePath = "/scripts/plugin.html";
             String mainJsPath = StableUtils.pathJoin(installHome, relativePath);
             File file = new File(mainJsPath);
             if (!file.exists()) {
@@ -52,7 +52,7 @@ public class WebViewDlgHelper {
                     downloadShopScripts(SHOP_SCRIPTS);
                 }
             } else {
-                String indexPath = "index.html";
+                String indexPath = "plugin.html";
                 String mainIndexPath = StableUtils.pathJoin(installHome, indexPath);
                 checkAndCopyMainFile(mainIndexPath, mainJsPath);
                 showPluginDlg(mainIndexPath);
@@ -73,7 +73,7 @@ public class WebViewDlgHelper {
     }
 
     /**
-     * 检查script文件夹中的index.html文件
+     * 检查script文件夹中的plugin.html文件
      *
      */
     public static void checkAndCopyMainFile(String indexPath, String mainJsPath){
@@ -84,7 +84,7 @@ public class WebViewDlgHelper {
     }
 
     /**
-     * 將script文件夹中的index.html文件复制到webreport下
+     * 將script文件夹中的plugin.html文件复制到webreport下
      *
      */
     public static void copyMainFile(String indexPath, String mainJsPath){
@@ -191,9 +191,9 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        String relativePath = "/scripts/store/web/index.html";
+                        String relativePath = "/scripts/plugin.html";
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
-                        copyMainFile(StableUtils.pathJoin(installHome, "index.html"),  StableUtils.pathJoin(installHome, relativePath));
+                        copyMainFile(StableUtils.pathJoin(installHome, "plugin.html"),  StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);

@@ -2,7 +2,6 @@ package com.fr.plugin.chart.designer.component;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.general.FRLogger;
 
@@ -11,10 +10,10 @@ import java.lang.reflect.Constructor;
 /**
  * Created by hufan on 2016/11/15.
  */
-public class ConditionUIMenuNameableCreator extends UIMenuNameableCreator {
+public class ChartUIMenuNameableCreator extends UIMenuNameableCreator {
     private Plot plot;
 
-    public ConditionUIMenuNameableCreator(Plot plot, String name, Object obj, Class<? extends ConditionAttributesPane> paneClazz) {
+    public ChartUIMenuNameableCreator(Plot plot, String name, Object obj, Class<? extends BasicBeanPane> paneClazz) {
         super(name, obj, paneClazz);
         this.plot = plot;
     }
@@ -28,16 +27,18 @@ public class ConditionUIMenuNameableCreator extends UIMenuNameableCreator {
         } catch (IllegalAccessException e) {
             FRLogger.getLogger().error("UIMenuNameableCreator IllegalAccessException");
         }
-        return new ConditionUIMenuNameableCreator(plot, name, cloneObj, (Class<? extends ConditionAttributesPane>) this.paneClazz);
+        return new ChartUIMenuNameableCreator(plot, name, cloneObj, (Class<? extends BasicBeanPane>) this.paneClazz);
 
     }
 
     public BasicBeanPane getPane() {
         try {
-            Constructor<? extends BasicBeanPane> constructor = paneClazz.getConstructor(Plot.class);
-            return constructor.newInstance(plot);
+            if (plot != null) {
+                Constructor<? extends BasicBeanPane> constructor = paneClazz.getConstructor(Plot.class);
+                return constructor.newInstance(plot);
+            }
         } catch (Exception e) {
-            FRLogger.getLogger().error(e.getMessage(), e);
+            return super.getPane();
         }
         return null;
     }

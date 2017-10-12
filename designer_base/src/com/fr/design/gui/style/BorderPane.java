@@ -82,10 +82,10 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
                 new Component[]{null, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Color") + "    ", SwingConstants.LEFT), currentLineColorPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/out.png"))},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_outBorder") + "    ", SwingConstants.LEFT), outerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/out.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/out_white.png")}, false)},
                 new Component[]{null, externalPane},
                 new Component[]{null, null},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(BaseUtils.readIcon("com/fr/design/images/m_format/in.png"))},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_inBorder") + "    ", SwingConstants.LEFT), innerToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("com/fr/design/images/m_format/in.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/in_white.png")}, false)},
                 new Component[]{null, insidePane},
                 new Component[]{null, null}
         };
@@ -125,12 +125,12 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
     };
 
     private void initButtonsWithIcon() {
-        topToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/top.png"));
-        leftToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/left.png"));
-        bottomToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/bottom.png"));
-        rightToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/right.png"));
-        horizontalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/horizontal.png"));
-        verticalToggleButton = new UIToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"));
+        topToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/top.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/top_white.png")}, false);
+        leftToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/left.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/left_white.png")}, false);
+        bottomToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/bottom.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bottom_white.png")}, false);
+        rightToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/right.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/right_white.png")}, false);
+        horizontalToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/horizontal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/horizontal_white.png")}, false);
+        verticalToggleButton = new UIToggleButton(new Icon[]{BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/vertical_white.png")}, false);
         this.currentLineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
         this.currentLineColorPane = new NewColorSelectBox(100);
     }

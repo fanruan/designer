@@ -1,6 +1,7 @@
 package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -16,10 +17,20 @@ import java.awt.*;
 import java.util.List;
 
 public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> {
+    private BasePlot plot;
     private UITextField itemNameTextField;
 	private ReportletParameterViewPane parameterViewPane;
-	
-	public ParameterJavaScriptPane(){
+
+    protected BasePlot getPlot() {
+        return plot;
+    }
+
+    public ParameterJavaScriptPane(){
+        this(null);
+    }
+
+	public ParameterJavaScriptPane(BasePlot plot){
+        this.plot = plot;
 		this.setLayout(new  BorderLayout());		
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);
@@ -28,17 +39,17 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
             this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("Name") + ":"), BorderLayout.NORTH);
         }
 	}
-	
-	protected int getChartParaType() {
-		return ParameterTableModel.NO_CHART_USE;
-	}
+
+    protected int getChartParaType() {
+        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
+    }
 
     protected ValueEditorPane getValueEditorPane() {
-        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
     }
 
     protected boolean needRenamePane(){
-        return getChartParaType() != ParameterTableModel.NO_CHART_USE;
+        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
 
 	@Override
@@ -86,61 +97,4 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
             return false;
         }
     }
-
-    public static class CHART extends ParameterJavaScriptPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_NORMAL_USE;
-    	}
-    }
-    
-    public static class CHART_MAP extends ParameterJavaScriptPane {
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_MAP_USE;
-    	}
-    }
-    
-    public static class CHART_GIS extends ParameterJavaScriptPane{
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_GIS_USE;
-		}
-	}
-    
-    public static class CHART_PIE extends ParameterJavaScriptPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_PIE_USE;
-    	}
-    };
-
-    public static class CHART_XY extends ParameterJavaScriptPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends ParameterJavaScriptPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  ParameterJavaScriptPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  ParameterJavaScriptPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  ParameterJavaScriptPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
-        }
-    }
-	
 }

@@ -1,6 +1,7 @@
 package com.fr.design.hyperlink;
 
 import com.fr.base.Parameter;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -18,6 +19,7 @@ import java.awt.*;
 import java.util.List;
 
 public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
+	private BasePlot plot;
 	private WebHyperNorthPane northPane;
 	
 	private ReportletParameterViewPane parameterViewPane;
@@ -25,9 +27,19 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
     private UICheckBox useCJKCheckBox;
     
     private UICheckBox extendParametersCheckBox;
-    
+
+	protected BasePlot getPlot() {
+		return plot;
+	}
+
 	public WebHyperlinkPane() {
 		super();
+		this.initComponents();
+	}
+    
+	public WebHyperlinkPane(BasePlot plot) {
+		super();
+		this.plot = plot;
 		this.initComponents();
 	}
 
@@ -53,15 +65,15 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 	}
 	
 	protected int getChartParaType() {
-		return ParameterTableModel.NO_CHART_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
 	}
 
     protected boolean needRenamePane(){
-        return getChartParaType() != ParameterTableModel.NO_CHART_USE;
+        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
 
     @Override
@@ -108,63 +120,6 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
         }
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
-        }
-    }
-
-    public static class CHART extends WebHyperlinkPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_NORMAL_USE;
-    	}
-    }
-    
-    public static class CHART_MAP extends WebHyperlinkPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_MAP_USE;
-    	}
-    }
-    
-    public static class CHART_GIS extends WebHyperlinkPane{
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_GIS_USE;
-		}
-	}
-    
-    public static class CHART_PIE extends WebHyperlinkPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_PIE_USE;
-    	}
-    };
-
-    public static class CHART_XY extends WebHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends WebHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  WebHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  WebHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  WebHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Parameter;
+import com.fr.base.chart.BasePlot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
@@ -18,9 +19,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
+    private BasePlot plot;
 
     private ReportletParameterViewPane parameterViewPane;
     private FormHyperlinkNorthPane northPane;
+
+    protected BasePlot getPlot() {
+        return plot;
+    }
+
+    public FormHyperlinkPane(BasePlot plot) {
+        super();
+        this.plot = plot;
+        this.initComponents();
+    }
 
     public FormHyperlinkPane() {
         super();
@@ -44,15 +56,15 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
     }
 
     protected int getChartParaType() {
-    	return ParameterTableModel.NO_CHART_USE;
+        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
     }
 
     protected ValueEditorPane getValueEditorPane() {
-        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
     }
 
     protected boolean needRenamePane(){
-        return getChartParaType() != ParameterTableModel.NO_CHART_USE;
+        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
     
     protected int getHyperlinkType() {
@@ -106,63 +118,6 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
         }
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
-        }
-    }
-
-    public static class CHART extends FormHyperlinkPane {
-        @Override
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_NORMAL_USE;
-        }
-    }
-
-    public static class CHART_MAP extends FormHyperlinkPane {
-        @Override
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_MAP_USE;
-        }
-    }
-
-    public static class CHART_GIS extends FormHyperlinkPane{
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GIS_USE;
-        }
-    }
-
-    public static class CHART_PIE extends FormHyperlinkPane {
-        @Override
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_PIE_USE;
-        }
-    };
-
-    public static class CHART_XY extends FormHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends FormHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  FormHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  FormHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  FormHyperlinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 }
