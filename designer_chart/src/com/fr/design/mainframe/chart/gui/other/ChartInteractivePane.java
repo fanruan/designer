@@ -449,16 +449,14 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     private Component[] getChartAnimatePane(Plot plot, double[] row, double[] col) {
         if (plot.isSupportAnimate() && plot.isSupportSeriesDrag()) {
             return new Component[]{TableLayoutHelper.createTableLayoutPane(
-                    new Component[][]{
-                            new Component[]{isChartAnimation},
+                    new Component[][]{new Component[]{isChartAnimation},
                             new Component[]{isSeriesDragEnable},
                             new Component[]{new JSeparator()}
                     }, row, col)
             };
         } else if (plot.isSupportAnimate() && !plot.isSupportSeriesDrag()) {
             return new Component[]{TableLayoutHelper.createTableLayoutPane(
-                    new Component[][]{
-                            new Component[]{isChartAnimation},
+                    new Component[][]{new Component[]{isChartAnimation},
                             new Component[]{new JSeparator()}
                     }, row, col)
             };
@@ -487,15 +485,13 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         boolean isNeedTimeSwitch = plot.getxAxis() != null && plot.getxAxis().isDate();
         if (plot.isSupportZoomCategoryAxis() && !isNeedTimeSwitch) {
             return new Component[]{TableLayoutHelper.createTableLayoutPane(
-                    new Component[][]{
-                            new Component[]{isAxisZoom},
+                    new Component[][]{new Component[]{isAxisZoom},
                             new Component[]{new JSeparator()}
                     }, row, col)
             };
         } else if (plot.isSupportZoomCategoryAxis() && isNeedTimeSwitch) {
             return new Component[]{TableLayoutHelper.createTableLayoutPane(
-                    new Component[][]{
-                            new Component[]{isAxisZoom},
+                    new Component[][]{new Component[]{isAxisZoom},
                             new Component[]{timeSwitchContainer},
                             new Component[]{new JSeparator()}
                     }, row, col)
@@ -525,8 +521,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     private Component[] getAutoRefreshPane(Plot plot, double[] row, double[] col) {
         if (plot.isSupportAutoRefresh()) {
             return new Component[]{TableLayoutHelper.createTableLayoutPane(
-                    new Component[][]{
-                            new Component[]{autoRefreshPane},
+                    new Component[][]{new Component[]{autoRefreshPane},
                             new Component[]{new JSeparator()}
                     }, row, col)
             };
@@ -760,10 +755,8 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
             }
 
             seriesAttrContents.setFormat(valueFormat);
-            if (plot.isSupportValuePercent()) {
-                if (percentFormat != null) {
-                    seriesAttrContents.setPercentFormat(percentFormat);
-                }
+            if (plot.isSupportValuePercent() && percentFormat != null) {
+                seriesAttrContents.setPercentFormat(percentFormat);
             }
         }
     }
