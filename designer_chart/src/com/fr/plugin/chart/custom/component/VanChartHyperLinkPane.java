@@ -22,6 +22,7 @@ import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
@@ -79,13 +80,13 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
             return constructor.newInstance(plot.getHyperLinkEditorMap(), false);
 
         } catch (InstantiationException e) {
-            throw new RuntimeException(e);
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            FRLogger.getLogger().error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
             return super.createPaneByCreators(creator);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            FRLogger.getLogger().error(e.getMessage(), e);
         }
         return null;
     }
@@ -122,6 +123,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
     public void populate(TargetComponent elementCasePane) {
+        //populate
     }
 
     /**

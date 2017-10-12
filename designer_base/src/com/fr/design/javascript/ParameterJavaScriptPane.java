@@ -18,63 +18,64 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
     private UITextField itemNameTextField;
 
 
-    public ParameterJavaScriptPane(){
+    public ParameterJavaScriptPane() {
         this(null, false);
     }
 
-	public ParameterJavaScriptPane(HashMap hyperLinkEditorMap, boolean needRenamePane){
+    public ParameterJavaScriptPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
         super(hyperLinkEditorMap, needRenamePane);
-		this.setLayout(new  BorderLayout());
-		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-		this.add(parameterViewPane, BorderLayout.CENTER);
-        if(needRenamePane()){
+        this.setLayout(new BorderLayout());
+        parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
+        this.add(parameterViewPane, BorderLayout.CENTER);
+        if (needRenamePane()) {
             itemNameTextField = new UITextField();
             this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("Name") + ":"), BorderLayout.NORTH);
         }
-	}
-
-	@Override
-    public String title4PopupWindow() {
-		return Inter.getLocText("JavaScript-Dynamic_Parameters");
-	}
+    }
 
     @Override
-	public void populateBean(ParameterJavaScript ob){
-		ParameterProvider[] parameters = ob.getParameters();
-		if (parameters.length == 0){
-	    	// TODO ALEX_SEP
+    public String title4PopupWindow() {
+        return Inter.getLocText("JavaScript-Dynamic_Parameters");
+    }
+
+    @Override
+    public void populateBean(ParameterJavaScript ob) {
+        ParameterProvider[] parameters = ob.getParameters();
+        if (parameters.length == 0) {
+            // TODO ALEX_SEP
 //			parameters = DesignUtils.getEditingTemplateReport().getTemplateWorkBook().getParameters();
-		}
-		parameterViewPane.populate(parameters);
-        if(itemNameTextField != null){
+        }
+        parameterViewPane.populate(parameters);
+        if (itemNameTextField != null) {
             itemNameTextField.setText(ob.getItemName());
         }
-	}
+    }
 
     @Override
-	public ParameterJavaScript updateBean(){
-		ParameterJavaScript js = new ParameterJavaScript();
-		
-		updateBean(js);
-		if(this.itemNameTextField != null){
+    public ParameterJavaScript updateBean() {
+        ParameterJavaScript js = new ParameterJavaScript();
+
+        updateBean(js);
+        if (this.itemNameTextField != null) {
             js.setItemName(itemNameTextField.getText());
         }
-		return js;
-	}
-    
+        return js;
+    }
+
     public void updateBean(ParameterJavaScript parameter) {
-    	List<ParameterProvider> parameterList = parameterViewPane.update();
-    	parameter.setParameters(parameterList.toArray(new Parameter[parameterList.size()]));
-        if(this.itemNameTextField != null){
+        List<ParameterProvider> parameterList = parameterViewPane.update();
+        parameter.setParameters(parameterList.toArray(new Parameter[parameterList.size()]));
+        if (this.itemNameTextField != null) {
             parameter.setItemName(itemNameTextField.getText());
         }
     }
 
-    public static class CHART_NO_RENAME extends ParameterJavaScriptPane{
+    public static class CHART_NO_RENAME extends ParameterJavaScriptPane {
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }
-        protected boolean needRenamePane(){
+
+        protected boolean needRenamePane() {
             return false;
         }
     }
