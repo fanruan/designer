@@ -67,6 +67,15 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
     }
 
     /**
+     * 重置组件的可见性
+     * @param visible 可见性
+     */
+    public void resetVisible(boolean visible){
+        super.resetVisible(visible);
+        XCreator child = getXCreator(XWScaleLayout.INDEX);
+        child.toData().setVisible(visible);
+    }
+    /**
      * 返回对应属性表的组件，scale和title返回其子组件
      *
      * @return 组件
