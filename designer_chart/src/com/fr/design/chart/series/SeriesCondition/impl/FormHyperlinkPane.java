@@ -64,7 +64,7 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
     }
 
     protected boolean needRenamePane(){
-        return plot != null && plot.needRenameHyperLinkPane();
+        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
     
     protected int getHyperlinkType() {
