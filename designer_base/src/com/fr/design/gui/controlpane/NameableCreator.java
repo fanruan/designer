@@ -2,6 +2,7 @@ package com.fr.design.gui.controlpane;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilist.ListModelElement;
+import com.fr.js.JavaScript;
 import com.fr.stable.Nameable;
 
 import javax.swing.*;
@@ -21,5 +22,8 @@ public interface NameableCreator {
 	
 	public void saveUpdatedBean(ListModelElement wrapper, Object bean);
 
-    public boolean isNeedParameterWhenPopulateJControlPane();
+	public Class <? extends JavaScript> getHyperlink();
+
+
+	public boolean isNeedParameterWhenPopulateJControlPane();
 }

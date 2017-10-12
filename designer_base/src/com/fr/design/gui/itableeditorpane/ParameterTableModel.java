@@ -26,18 +26,7 @@ public class ParameterTableModel extends UITableModelAdapter<ParameterProvider> 
 	
 	public static final int NO_CHART_USE = 0;
 	public static final int CHART_NORMAL_USE = 1;
-	public static final int CHART_MAP_USE = 2;
-	public static final int CHART_PIE_USE = 3;
-	public static final int CHART__XY_USE = 4;
-	public static final int CHART_BUBBLE_USE = 5;
-	public static final int CHART_STOCK_USE = 6;
-	public static final int CHART_NO_USE = 7;
-	public static final int CHART_GIS_USE = 8;
-    public static final int CHART_GANTT_USE = 9;
-    public static final int CHART_METER_USE = 10;
     public static final int FORM_NORMAL_USE = -1;
-    public static final int FORM_ELEMENTCASE_USE = 11;
-    public static final int FORM_CHART_USE = 12;
 
 	private static final long serialVersionUID = 1L;
 	protected Component component = null; //指定确认对话框的父窗口,bug40340

@@ -76,6 +76,18 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 		super(icons[0], null, icons[1]);
 		setSelectedIcon(icons[1]);
 		setExtraPainted(true);
+		if (!needRelease) {
+			addActionListener(new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (UIToggleButton.super.isSelected()) {
+						UIToggleButton.super.setSelected(false);
+					} else {
+						UIToggleButton.super.setSelected(true);
+					}
+				}
+			});
+		}
 		addMouseListener(getMouseListener());
 	}
 

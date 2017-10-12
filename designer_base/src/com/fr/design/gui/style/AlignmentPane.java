@@ -83,12 +83,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         Icon[][] hAlignmentIconArray = {{BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png")},
                 {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png")},
                 {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png")}};
-//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"),
-//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"),
-//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"),
-//                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png")};
+                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal_white.png")},
+                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment_white.png")}};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
         hAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Left"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Right"),
@@ -96,9 +92,9 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         vPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        Icon[] vAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal.png"),
-                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal.png"),
-                BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png")};
+        Icon[][] vAlignmentIconArray = {{BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal_white.png")},
+                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal_white.png")},
+                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal_white.png")}};
         Integer[] vAlignment = new Integer[]{Constants.TOP, Constants.CENTER, Constants.BOTTOM};
         vAlignmentPane = new UIButtonGroup<Integer>(vAlignmentIconArray, vAlignment);
         vAlignmentPane.setAllToolTips(new String[]{Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Top"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Center"), Inter.getLocText("FR-Designer-StyleAlignment_Tooltips_Bottom")});
