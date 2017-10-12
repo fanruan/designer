@@ -3,17 +3,16 @@
  */
 package com.fr.poly.creator;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import javax.swing.JComponent;
+import javax.swing.plaf.ButtonUI;
 
 import com.fr.base.ScreenResolution;
 import com.fr.design.beans.location.Absorptionline;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
+import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.poly.PolyConstants;
@@ -65,15 +64,15 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 		editComponent = createEffective();
 		this.add(BlockEditorLayout.CENTER, editComponent);
 
-		this.addHeightTool = new UIButton();
+		this.addHeightTool = new BlockControlButton();
 		this.add(BlockEditorLayout.LEFTBOTTOM, this.addHeightTool);
 		this.addHeightTool.setPreferredSize(getAddHeigthPreferredSize());
 
-		this.addWidthTool = new UIButton();
+		this.addWidthTool = new BlockControlButton();
 		this.add(BlockEditorLayout.RIGHTTOP, this.addWidthTool);
 		this.addWidthTool.setPreferredSize(getAddWidthPreferredSize());
 
-		this.moveTool = new UIButton();
+		this.moveTool = new BlockControlButton();
 		this.add(BlockEditorLayout.BOTTOMCORNER, this.moveTool);
 		
 		this.forbiddenWindow = new BlockForbiddenWindow();
@@ -204,5 +203,21 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 		return new Dimension();
 	}
 	
-	
+	private class BlockControlButton extends UIButton {
+        @Override
+        public ButtonUI getUI() {
+            return new UIButtonUI() {
+                // 调换 normal 和 rollover 状态的填充色
+                protected void doExtraPainting(UIButton b, Graphics2D g2d, int w, int h, String selectedRoles) {
+                    if (isPressed(b) && b.isPressedPainted()) {
+                        GUIPaintUtils.fillPressed(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles));
+                    } else if (isRollOver(b)) {
+                        GUIPaintUtils.fillNormal(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+                    } else if (b.isNormalPainted()) {
+                        GUIPaintUtils.fillRollOver(g2d, 0, 0, w, h, b.isRoundBorder(), b.getRectDirection(), b.isDoneAuthorityEdited(selectedRoles), b.isPressedPainted());
+                    }
+                }
+            };
+        }
+	}
 }
