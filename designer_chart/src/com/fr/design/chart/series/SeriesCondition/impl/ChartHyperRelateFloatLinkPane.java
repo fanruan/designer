@@ -50,7 +50,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), BorderLayout.NORTH);
         }
 
         this.add(centerPane, BorderLayout.CENTER);
@@ -70,7 +70,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         centerPane.add(pane, BorderLayout.NORTH);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
     }

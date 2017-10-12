@@ -86,13 +86,13 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         Component[][] components;
         if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("Name") + ":"), itemNameTextField},
-                    {new UILabel(" " + Inter.getLocText("Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
+                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -134,7 +134,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
     }
 
     public String getReportletName() {
-        return StringUtils.isBlank(this.reportPathTextField.getText()) ? "" : this.reportPathTextField.getText().substring(1);
+        return StringUtils.isBlank(this.reportPathTextField.getText()) ? StringUtils.EMPTY : this.reportPathTextField.getText().substring(1);
     }
 
     /**
@@ -155,7 +155,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         }
 
         public void actionPerformed(ActionEvent e) {
-
+            //do nothing
         }
     }
 

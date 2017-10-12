@@ -42,19 +42,19 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         if (needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Designer_Name") + ":"), BorderLayout.NORTH);
         }
 
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(centerPane, BorderLayout.CENTER);
 
-        centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Related", "Cell"})));
+        centerPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText(new String[]{"Related", "FR-Designer_Cell"})));
 
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("FR-Designer_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
     }

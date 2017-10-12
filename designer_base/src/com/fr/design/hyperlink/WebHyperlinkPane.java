@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
+    private final int BORDER_WIDTH = 4;
     private WebHyperNorthPane northPane;
 
     private UICheckBox useCJKCheckBox;
@@ -34,7 +35,7 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH));
 
         northPane = new WebHyperNorthPane(needRenamePane());
         this.add(northPane, BorderLayout.NORTH);

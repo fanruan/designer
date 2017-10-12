@@ -252,7 +252,7 @@ public class ValueEditorPaneFactory {
                 new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new BooleanEditor(),
                 formulaEditor,
-                new WidgetNameEditor(Inter.getLocText("Widget"))
+                new WidgetNameEditor(Inter.getLocText("FR-Designer_Widget"))
         };
     }
 
@@ -316,7 +316,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] URLEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
                 new TextEditor()
         };
     }
@@ -330,7 +330,7 @@ public class ValueEditorPaneFactory {
      */
     public static Editor<?>[] dateEditors(String popupName, String textEditorValue) {
         return new Editor[]{
-                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("None") : popupName),
+                new NoneEditor(textEditorValue, StringUtils.isEmpty(popupName) ? Inter.getLocText("FR-Designer_None") : popupName),
                 new DateEditor(true, Inter.getLocText("FR-Designer_Date")),
                 new FormulaEditor(Inter.getLocText("FR-Designer_Parameter-Formula"))
         };
@@ -493,12 +493,12 @@ public class ValueEditorPaneFactory {
 
         JPanel paneLeft = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneLeft);
-        paneLeft.add(new UILabel(" " + Inter.getLocText("Actual_Value") + ":"), BorderLayout.NORTH);
+        paneLeft.add(new UILabel(" " + Inter.getLocText("FR-Designer_Actual_Value") + ":"), BorderLayout.NORTH);
         paneLeft.add(keyColumnPane, BorderLayout.CENTER);
 
         JPanel paneRight = FRGUIPaneFactory.createBorderLayout_S_Pane();
         pane.add(paneRight);
-        paneRight.add(new UILabel(" " + Inter.getLocText("Display_Value") + ":"), BorderLayout.NORTH);
+        paneRight.add(new UILabel(" " + Inter.getLocText("FR-Designer_Display_Value") + ":"), BorderLayout.NORTH);
 
         paneRight.add(valueDictPane, BorderLayout.CENTER);
 

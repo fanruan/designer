@@ -17,7 +17,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvider> {
-
+    private final int BORDER_WIDTH = 4;
     private FormHyperlinkNorthPane northPane;
 
 
@@ -33,7 +33,7 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
 
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH));
         northPane = new FormHyperlinkNorthPane(needRenamePane());
         this.add(northPane, BorderLayout.NORTH);
 
@@ -48,10 +48,8 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
     }
 
     protected int getHyperlinkType() {
-        if (northPane.getEditingEditor() != null) {
-            if (northPane.getEditingEditor().acceptType(ElementCaseEditorProvider.class)) {
-                return FormHyperlinkProvider.ELEMENTCASE;
-            }
+        if (northPane.getEditingEditor() != null && northPane.getEditingEditor().acceptType(ElementCaseEditorProvider.class)) {
+            return FormHyperlinkProvider.ELEMENTCASE;
         }
         return FormHyperlinkProvider.CHART;
     }
