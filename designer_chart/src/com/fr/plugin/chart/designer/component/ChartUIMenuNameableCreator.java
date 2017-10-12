@@ -1,6 +1,5 @@
 package com.fr.plugin.chart.designer.component;
 
-import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.general.FRLogger;
