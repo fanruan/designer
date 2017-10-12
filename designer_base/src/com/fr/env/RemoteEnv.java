@@ -29,11 +29,7 @@ import com.fr.file.CacheManager;
 import com.fr.file.DatasourceManager;
 import com.fr.file.DatasourceManagerProvider;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLogger;
-import com.fr.general.IOUtils;
-import com.fr.general.Inter;
-import com.fr.general.LogRecordTime;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -1839,7 +1835,7 @@ public class RemoteEnv extends AbstractEnv {
         if (input == null) {
             return;
         }
-        LogRecordTime[] records = DavXMLUtils.readXMLLogRecords(input);
+        LogRecordTime[] records = LogUtils.readXMLLogRecords(input);
         for (LogRecordTime logRecordTime : records) {
             //TODO
         }
