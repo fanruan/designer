@@ -137,7 +137,7 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         return Inter.getLocText(new String[]{"Related", "M_Insert-Float"});
     }
 
-    public static class CHART_NO_RENAME extends ChartHyperRelateFloatLinkPane {
+    public static class ChartNoRename extends ChartHyperRelateFloatLinkPane {
         protected boolean needRenamePane() {
             return false;
         }

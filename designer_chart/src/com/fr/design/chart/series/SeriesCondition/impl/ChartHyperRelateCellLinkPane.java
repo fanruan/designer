@@ -116,7 +116,7 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         return Inter.getLocText(new String[]{"Related", "Cell"});
     }
 
-    public static class CHART_NO_RENAME extends ChartHyperRelateCellLinkPane {
+    public static class ChartNoRename extends ChartHyperRelateCellLinkPane {
         protected boolean needRenamePane() {
             return false;
         }

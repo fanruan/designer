@@ -128,7 +128,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
         }
     }
 
-    public static class CHART_NO_RENAME extends ChartHyperPoplinkPane {
+    public static class ChartNoRename extends ChartHyperPoplinkPane {
         protected boolean needRenamePane() {
             return false;
         }
