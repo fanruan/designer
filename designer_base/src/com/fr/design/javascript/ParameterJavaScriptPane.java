@@ -70,7 +70,7 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
         }
     }
 
-    public static class CHART_NO_RENAME extends ParameterJavaScriptPane {
+    public static class chartNoRename extends ParameterJavaScriptPane {
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }

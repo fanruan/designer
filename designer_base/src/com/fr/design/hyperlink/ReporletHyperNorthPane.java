@@ -65,7 +65,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         reportPathTextField = new UITextField(20);
         reportletNamePane.add(reportPathTextField, BorderLayout.CENTER);
 
-        browserButton = new UIButton(Inter.getLocText("Select"));
+        browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
         browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width, 20));
         reportletNamePane.add(browserButton, BorderLayout.EAST);
         browserButton.addActionListener(new ActionListener() {
