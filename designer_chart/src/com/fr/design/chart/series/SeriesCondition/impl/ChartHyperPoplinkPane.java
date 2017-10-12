@@ -96,7 +96,7 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
 	}
 
 	protected boolean needRenamePane(){
-		return plot != null && plot.needRenameHyperLinkPane();
+		return plot != null && plot.isNeedRenameHyperLinkPane();
 	}
 	
 	@Override

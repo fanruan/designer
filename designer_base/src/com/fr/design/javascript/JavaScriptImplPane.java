@@ -118,7 +118,7 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 	}
 
 	protected boolean needRenamePane(){
-		return plot != null && plot.needRenameHyperLinkPane();
+		return plot != null && plot.isNeedRenameHyperLinkPane();
 	}
 
 	/**
