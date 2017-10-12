@@ -28,8 +28,8 @@ public class FormHyperlinkGroup extends BaseHyperlinkGroup {
     public NameableCreator[] getHyperlinkCreators() {
     	FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         NameableCreator[] realted4CharthyperUse = {
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Float_chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_NO_RENAME.class),
-                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_NO_RENAME.class),
+                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Float_chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
+                new NameObjectCreator(Inter.getLocText("FR-Designer_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
                 new NameObjectCreator(Inter.getLocText("FR-Designer_Hyperlink-Form_link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
         return (NameableCreator[]) ArrayUtils.addAll(super.getHyperlinkCreators(), realted4CharthyperUse);
 
