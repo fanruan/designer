@@ -69,6 +69,7 @@ import com.fr.plugin.chart.map.MapIndependentVanChartInterface;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.multilayer.MultiPieIndependentVanChartInterface;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
+import com.fr.plugin.chart.phantom.VanChartPhantomService;
 import com.fr.plugin.chart.pie.PieIndependentVanChartInterface;
 import com.fr.plugin.chart.radar.RadarIndependentVanChartInterface;
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
@@ -156,7 +157,9 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             
             @Override
             public void run() {
-                
+
+                VanChartPhantomService.startPhantomService();
+
                 initAllChartsDemoImage(allCharts);
             }
         }).start();
