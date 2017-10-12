@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.beans.BasicBeanPane;
@@ -36,8 +37,20 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 
 	private UIComboBox floatNameBox;
 	private ReportletParameterViewPane parameterViewPane;
+
+	private BasePlot plot;
+
+	protected BasePlot getPlot() {
+		return plot;
+	}
 	
 	public ChartHyperRelateFloatLinkPane() {
+		this.initComponent();
+	}
+
+	public ChartHyperRelateFloatLinkPane(BasePlot plot) {
+
+		this.plot = plot;
 		this.initComponent();
 	}
 	
@@ -72,22 +85,18 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
 	}
-	
+
 	protected int getChartParaType() {
-		return ParameterTableModel.CHART_NORMAL_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
 	}
 
-    /**
-     * 是否需要加载重命名的空间
-     * @return 默认需要加载
-     */
-    protected boolean needRenamePane(){
-        return true;
-    }
+	protected boolean needRenamePane(){
+		return plot != null && plot.isNeedRenameHyperLinkPane();
+	}
 
 	private String[] getFloatNames() {
 		DesignModelAdapter adapter = DesignModelAdapter.getCurrentModelAdapter();
@@ -154,54 +163,6 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
     public static class CHART_NO_RENAME extends ChartHyperRelateFloatLinkPane{
         protected boolean needRenamePane(){
             return false;
-        }
-    }
-
-	public static final class CHART_MAP extends ChartHyperRelateFloatLinkPane {
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_MAP_USE;
-		}
-	}
-	
-	public static final class CHART_GIS extends ChartHyperRelateFloatLinkPane {
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_GIS_USE;
-		}
-	}
-	
-	public static final class CHART_PIE extends ChartHyperRelateFloatLinkPane {
-		protected int getChartParaType() {
-			return ParameterTableModel.CHART_PIE_USE;
-		}
-	}
-
-    public static class CHART_XY extends ChartHyperRelateFloatLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends ChartHyperRelateFloatLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  ChartHyperRelateFloatLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  ChartHyperRelateFloatLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  ChartHyperRelateFloatLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 }

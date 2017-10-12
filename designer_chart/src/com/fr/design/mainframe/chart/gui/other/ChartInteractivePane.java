@@ -6,21 +6,14 @@ import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.TimeSwitchAttr;
-import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.Chart;
-import com.fr.chart.chartattr.GanttPlot;
-import com.fr.chart.chartattr.GisMapPlot;
-import com.fr.chart.chartattr.MapPlot;
-import com.fr.chart.chartattr.MeterPlot;
-import com.fr.chart.chartattr.PiePlot;
 import com.fr.chart.chartattr.Plot;
-import com.fr.chart.chartattr.StockPlot;
-import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.chart.chartdata.GisMapReportDefinition;
 import com.fr.chart.chartdata.GisMapTableDefinition;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
@@ -30,6 +23,8 @@ import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.fun.HyperlinkProvider;
+import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.frpane.UICorrelationComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -57,6 +52,7 @@ import com.fr.js.NameJavaScriptGroup;
 import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
+import com.fr.plugin.chart.designer.component.ChartUIMenuNameableCreator;
 import com.fr.plugin.chart.designer.component.format.FormatPaneWithOutFont;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
@@ -76,19 +72,11 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIObserver{
 	private static final long serialVersionUID = 3477409806918835992L;
     private static HashMap normalMap = new HashMap();
-    private static HashMap gisMap = new HashMap();
-    private static HashMap mapMap = new HashMap();
-    private static HashMap pieMap = new HashMap();
-
-    private static HashMap xyMap = new HashMap();
-    private static HashMap bubbleMap = new HashMap();
-    private static HashMap stockMap = new HashMap();
-    private static HashMap ganttMap = new HashMap();
-    private static HashMap meterMap = new HashMap();
 
     private static final int TIME_SWITCH_GAP = 40;
 
@@ -136,6 +124,8 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
     private JPanel timeSwitchContainer;
     private TimeSwitchPane timeSwitchPane;
+
+    protected Plot plot;
 
 	private static final int SIZEX = 258;
 	private static final int SIZEY = 209;
@@ -553,6 +543,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 		}
 
 		Plot plot = chart.getPlot();
+		this.plot =plot;
         relayoutWithGis(chart, plot);
 		relayoutWithPlot(plot);
 
@@ -676,18 +667,25 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     }
 
     private void populateHyperlink(Plot plot) {
-        HashMap paneMap = renewMapWithPlot(plot);
+        HashMap paneMap = getPlotHyperMap();
+        //安装平台内打开插件时,添加相应按钮
+        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
+        for (HyperlinkProvider provider : providers) {
+            NameableCreator nc = provider.createHyperlinkCreator();
+            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
+        }
 
-        List<UIMenuNameableCreator> list = refreshList(paneMap);
+
+        List<ChartUIMenuNameableCreator> list = refreshList(paneMap);
         superLink.refreshMenuAndAddMenuAction(list);
 
-        List<UIMenuNameableCreator> hyperList = new ArrayList<UIMenuNameableCreator>();
+        List<ChartUIMenuNameableCreator> hyperList = new ArrayList<ChartUIMenuNameableCreator>();
         NameJavaScriptGroup nameGroup = plot.getHotHyperLink();
         for(int i = 0; nameGroup != null &&  i < nameGroup.size(); i++) {
             NameJavaScript javaScript = nameGroup.getNameHyperlink(i);
             if(javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
-                hyperList.add(new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass())));
+                hyperList.add(new ChartUIMenuNameableCreator(plot, javaScript.getName(), script, getUseMap(paneMap, script.getClass())));
             }
         }
 
@@ -857,209 +855,50 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         return null;
 	}
 	
-	protected List<UIMenuNameableCreator> refreshList(HashMap map) {
-		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
+	protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
+		List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
 
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), ChartEmailPane.class));
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Dynamic_Parameters"),
                 new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
-		list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+		list.add(new ChartUIMenuNameableCreator(plot, "JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
 
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Float_Chart"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Float_Chart"),
                 new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Cell"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Cell"),
                 new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-		list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Float"),
+		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Float"),
                 new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
 		
 		FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Form"),
+        list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Chart-Link_Form"),
         		hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
 		
 		return list;
 	}
 
-    private HashMap renewMapWithPlot(Plot plot) {
-        if(plot instanceof PiePlot) {
-            return getPiePlotHyperMap();
-        } else if(plot instanceof MapPlot) {
-            return getMapPlotHyperMap();
-        } else if(plot instanceof GisMapPlot) {
-            return getGisPlotHyperMap();
-        } else if(plot instanceof XYScatterPlot) {
-            return getXYHyperMap();
-        } else if(plot instanceof BubblePlot) {
-            return getBubbleHyperMap();
-        } else if(plot instanceof StockPlot) {
-            return getStockHyperMap();
-        } else if(plot instanceof GanttPlot) {
-            return getGanttHyperMap();
-        } else if(plot instanceof MeterPlot) {
-            return getMeterHyperMap();
-        }
-
-        else {
-            return getNormalPlotHyperMap();
-        }
-    }
-
-    private HashMap getXYHyperMap() {
-        if(xyMap.isEmpty()) {
-            xyMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_XY.class);
-            xyMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            xyMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_XY.class);
-            xyMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_XY.class);
-
-            xyMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_XY.class);
-            xyMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_XY.class);
-            xyMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_XY.class);
-            xyMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_XY.class);
-
-            xyMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_XY.class);
-        }
-        return xyMap;
-    }
-
-    private HashMap getBubbleHyperMap() {
-        if(bubbleMap.isEmpty()) {
-            bubbleMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_BUBBLE.class);
-            bubbleMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            bubbleMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_BUBBLE.class);
-            bubbleMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_BUBBLE.class);
-
-            bubbleMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_BUBBLE.class);
-            bubbleMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_BUBBLE.class);
-            bubbleMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_BUBBLE.class);
-            bubbleMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_BUBBLE.class);
-            bubbleMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_BUBBLE.class);
-        }
-        return bubbleMap;
-    }
-
-    private HashMap getStockHyperMap() {
-        if(stockMap.isEmpty()) {
-            stockMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_STOCK.class);
-            stockMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            stockMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_STOCK.class);
-            stockMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_STOCK.class);
-
-            stockMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_STOCK.class);
-            stockMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_STOCK.class);
-            stockMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_STOCK.class);
-            stockMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_STOCK.class);
-
-            stockMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_STOCK.class);
-        }
-        return stockMap;
-    }
-
-    private HashMap getGanttHyperMap() {
-        if(ganttMap.isEmpty()) {
-            ganttMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_GANTT.class);
-            ganttMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            ganttMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_GANTT.class);
-            ganttMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_GANTT.class);
-
-            ganttMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_GANTT.class);
-            ganttMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_GANTT.class);
-            ganttMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_GANTT.class);
-            ganttMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_GANTT.class);
-
-            ganttMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_GANTT.class);
-        }
-        return ganttMap;
-    }
-
-    private HashMap getMeterHyperMap() {
-        if(meterMap.isEmpty()) {
-            meterMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_METER.class);
-            meterMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            meterMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_METER.class);
-            meterMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_METER.class);
-
-            meterMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_METER.class);
-            meterMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_METER.class);
-            meterMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_METER.class);
-            meterMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_METER.class);
-
-            meterMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_METER.class);
-        }
-        return meterMap;
-    }
-
-    private HashMap getMapPlotHyperMap() {
-        if(mapMap.isEmpty()) {
-            mapMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_MAP.class);
-            mapMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            mapMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_MAP.class);
-            mapMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_MAP.class);
-
-            mapMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_MAP.class);
-            mapMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_MAP.class);
-            mapMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_MAP.class);
-            mapMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_MAP.class);
-
-            mapMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_MAP.class);
-        }
-        return mapMap;
-    }
-
-    private HashMap getPiePlotHyperMap() {
-        if(pieMap.isEmpty()) {
-            pieMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_PIE.class);
-            pieMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            pieMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_PIE.class);
-            pieMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_PIE.class);
-
-            pieMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_PIE.class);
-            pieMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_PIE.class);
-            pieMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_PIE.class);
-            pieMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_PIE.class);
-
-            pieMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_PIE.class);
-        }
-        return pieMap;
-    }
-
-    private HashMap getGisPlotHyperMap() {
-        if(gisMap.isEmpty()) {
-            gisMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART_GIS.class);
-            gisMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            gisMap.put(WebHyperlink.class, WebHyperlinkPane.CHART_GIS.class);
-            gisMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART_GIS.class);
-
-            gisMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART_GIS.class);
-            gisMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.CHART_GIS.class);
-            gisMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.CHART_GIS.class);
-            gisMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.CHART_GIS.class);
-
-            gisMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART_GIS.class);
-        }
-        return gisMap;
-    }
-
-    private HashMap getNormalPlotHyperMap() {
+    private HashMap getPlotHyperMap() {
         if(normalMap.isEmpty()) {
         	FormHyperlinkProvider fp = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         	
-            normalMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.CHART.class);
+            normalMap.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
             normalMap.put(EmailJavaScript.class, ChartEmailPane.class);
-            normalMap.put(WebHyperlink.class, WebHyperlinkPane.CHART.class);
-            normalMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.CHART.class);
+            normalMap.put(WebHyperlink.class, WebHyperlinkPane.class);
+            normalMap.put(ParameterJavaScript.class, ParameterJavaScriptPane.class);
 
-            normalMap.put(JavaScriptImpl.class, JavaScriptImplPane.CHART.class);
+            normalMap.put(JavaScriptImpl.class, JavaScriptImplPane.class);
             normalMap.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.class);
             normalMap.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class);
             normalMap.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class);
 
-            normalMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.CHART.class);
+            normalMap.put(FormHyperlinkProvider.class, FormHyperlinkPane.class);
             //兼容老的FormHyperlink.class
             if(fp != null){
-                normalMap.put(fp.getClass(), FormHyperlinkPane.CHART.class);
+                normalMap.put(fp.getClass(), FormHyperlinkPane.class);
             }
         }
         return normalMap;

@@ -40,7 +40,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
     private JPopupMenu popMenu;
     private UIMenuTable tablePane;
     private UIButton addButton;
-    private List<UIMenuNameableCreator> values;
+    private List<? extends UIMenuNameableCreator> values;
     private UIObserverListener uiObserverListener;
 
     public UICorrelationComboBoxPane() {
@@ -78,7 +78,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
      * 刷新下拉列表和按钮
      * @param values 下拉列表里的值
      */
-    public void refreshMenuAndAddMenuAction(List<UIMenuNameableCreator> values) {
+    public void refreshMenuAndAddMenuAction(List<? extends UIMenuNameableCreator> values) {
         if (values == null || values.isEmpty()) {
             return;
         }
@@ -378,13 +378,13 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         content.setLayout(new BorderLayout());
         List<UIMenuNameableCreator> data = new ArrayList<UIMenuNameableCreator>();
         UIMenuNameableCreator reportlet = new UIMenuNameableCreator(Inter.getLocText("FR-Hyperlink_Reportlet"),
-                new ReportletHyperlink(), true ? ReportletHyperlinkPane.CHART.class : ReportletHyperlinkPane.class);
+                new ReportletHyperlink(), ReportletHyperlinkPane.class);
 
         UIMenuNameableCreator email = new UIMenuNameableCreator(Inter.getLocText("FR-Designer_Email"),
                 new EmailJavaScript(), EmailPane.class);
 
         UIMenuNameableCreator web = new UIMenuNameableCreator(Inter.getLocText("Hyperlink-Web_link"),
-                new WebHyperlink(), true ? WebHyperlinkPane.CHART.class : WebHyperlinkPane.class);
+                new WebHyperlink(), WebHyperlinkPane.class);
         data.add(reportlet);
         data.add(email);
         data.add(web);

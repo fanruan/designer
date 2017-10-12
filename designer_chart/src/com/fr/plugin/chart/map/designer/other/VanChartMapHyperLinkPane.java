@@ -4,14 +4,12 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.chart.custom.component.VanChartHyperLinkPane;
-import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.designer.VanMapAreaPointAndLineGroupPane;
+import com.fr.plugin.chart.type.MapType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 /**
  * Created by hufan on 2016/12/20.
@@ -193,11 +191,6 @@ public class VanChartMapHyperLinkPane extends BasicScrollPane<Plot> {
             @Override
             protected NameJavaScriptGroup populateHotHyperLink(Plot plot) {
                 return ((VanChartMapPlot)plot).getLineHotHyperLink();
-            }
-
-            @Override
-            protected HashMap getHyperlinkMap(Plot plot){
-                return HyperlinkMapFactory.getLineMapHyperLinkMap();
             }
         };
     }

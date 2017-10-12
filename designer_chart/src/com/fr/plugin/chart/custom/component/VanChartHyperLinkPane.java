@@ -6,12 +6,21 @@ import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chart.javascript.ChartEmailPane;
+import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
+import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateCellLinkPane;
+import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateFloatLinkPane;
+import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
+import com.fr.design.hyperlink.ReportletHyperlinkPane;
+import com.fr.design.hyperlink.WebHyperlinkPane;
+import com.fr.design.javascript.JavaScriptImplPane;
+import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.Inter;
 import com.fr.general.NameObject;
@@ -25,11 +34,12 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.plugin.chart.designer.component.VanChartUIListControlPane;
-import com.fr.plugin.chart.designer.other.HyperlinkMapFactory;
 import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +69,25 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
             nameCreators.put(nc.menuName(), nc);
         }
         return nameCreators.values().toArray(new NameableCreator[nameCreators.size()]);
+    }
+
+
+    protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
+        Constructor<? extends BasicBeanPane> constructor = null;
+        try {
+            constructor = creator.getUpdatePane().getConstructor(Plot.class);
+            return constructor.newInstance(plot);
+
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            return super.createPaneByCreators(creator);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -119,8 +148,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
-            //todo@shine9.0
-            // paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
+                paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
         }
 
         java.util.List<UIMenuNameableCreator> list = refreshList(paneMap);
@@ -155,7 +183,20 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     }
 
     protected HashMap getHyperlinkMap(Plot plot) {
-        return HyperlinkMapFactory.getHyperlinkMap(plot);
+        HashMap<Class, Class> map = new HashMap<Class, Class>();
+
+        map.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
+        map.put(EmailJavaScript.class, ChartEmailPane.class);
+        map.put(WebHyperlink.class, WebHyperlinkPane.class);
+        map.put(ParameterJavaScript.class, ParameterJavaScriptPane.class);
+
+        map.put(JavaScriptImpl.class, JavaScriptImplPane.class);
+        map.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.class);
+        map.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class);
+        map.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class);
+
+        map.put(FormHyperlinkProvider.class, FormHyperlinkPane.class);
+        return map;
     }
 
     public void update(Plot plot) {
@@ -191,7 +232,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
 
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), HyperlinkMapFactory.VanChartEmailPane.class));
+        list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Mail"), new EmailJavaScript(), VanChartEmailPane.class));
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Web"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
         list.add(new UIMenuNameableCreator(Inter.getLocText("Chart-Link_Dynamic_Parameters"),
@@ -234,6 +275,14 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         @Override
         protected boolean whetherAdd(String itemName) {
             return HyperlinkFilterHelper.whetherAddHyperlink4Chart(itemName);
+        }
+    }
+
+    //邮箱
+    public static class VanChartEmailPane extends ChartEmailPane {
+        @Override
+        protected boolean needRenamePane() {
+            return false;
         }
     }
 

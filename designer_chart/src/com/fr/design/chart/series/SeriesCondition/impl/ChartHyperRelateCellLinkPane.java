@@ -1,6 +1,7 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Utils;
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.editor.ValueEditorPane;
@@ -30,11 +31,22 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
     private UITextField itemNameTextField;
 	private ColumnRowVerticalPane colRowPane;
 	private ReportletParameterViewPane parameterViewPane;
+
+	private BasePlot plot;
+
+	protected BasePlot getPlot() {
+		return plot;
+	}
 	
 	public ChartHyperRelateCellLinkPane() {
 		this.initComponent();
 	}
-	
+
+	public ChartHyperRelateCellLinkPane(BasePlot plot) {
+		this.plot = plot;
+		this.initComponent();
+	}
+
 	private void initComponent() {
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         if(needRenamePane()){
@@ -55,22 +67,18 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
 	}
-	
+
 	protected int getChartParaType() {
-		return ParameterTableModel.CHART_NORMAL_USE;
+		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
 	}
 
 	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType());
+		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
 	}
 
-    /**
-     * 是否需要加载重命名的空间
-     * @return 默认需要加载
-     */
-    protected boolean needRenamePane(){
-        return true;
-    }
+	protected boolean needRenamePane(){
+		return plot != null && plot.isNeedRenameHyperLinkPane();
+	}
 	
 	@Override
 	public void populateBean(ChartHyperRelateCellLink ob) {
@@ -132,56 +140,6 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
     public static class CHART_NO_RENAME extends ChartHyperRelateCellLinkPane{
         protected boolean needRenamePane(){
             return false;
-        }
-    }
-
-    public static class CHART_MAP extends ChartHyperRelateCellLinkPane {
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_MAP_USE;
-    	}
-    }
-    
-    public static class CHART_GIS extends ChartHyperRelateCellLinkPane {
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_GIS_USE;
-    	}
-    }
-    
-	public static class CHART_PIE extends ChartHyperRelateCellLinkPane {
-    	@Override
-    	protected int getChartParaType() {
-    		return ParameterTableModel.CHART_PIE_USE;
-    	}
-    };
-
-
-    public static class CHART_XY extends ChartHyperRelateCellLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART__XY_USE;
-        }
-    }
-
-    public static class CHART_BUBBLE extends ChartHyperRelateCellLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_BUBBLE_USE;
-        }
-    }
-
-    public static class CHART_STOCK extends  ChartHyperRelateCellLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_STOCK_USE;
-        }
-    }
-
-    public static class CHART_GANTT extends  ChartHyperRelateCellLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_GANTT_USE;
-        }
-    }
-
-    public static class CHART_METER extends  ChartHyperRelateCellLinkPane {
-        protected int getChartParaType() {
-            return ParameterTableModel.CHART_METER_USE;
         }
     }
 
