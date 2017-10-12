@@ -564,7 +564,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         mapDataTree.changeRootNode(this.getRootNode());
         if(samePlotChange) {
-            mapPlot.setGeoUrl(GEOJSONHelper.getInstance().getDefaultJSONURL());
+            mapPlot.setGeoUrl(GEOJSONHelper.getDefaultJSONURL());
             mapDataTree.selectDefaultTreeNode();
             selectTreePath = mapDataTree.getSelectionPath();
             sourceComboBox.setSelectedItem(selectTreePath);
