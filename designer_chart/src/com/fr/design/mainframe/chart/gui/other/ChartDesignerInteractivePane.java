@@ -4,6 +4,7 @@
 
 package com.fr.design.mainframe.chart.gui.other;
 
+import com.fr.base.Formula;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
@@ -29,22 +30,23 @@ public class ChartDesignerInteractivePane extends ChartInteractivePane {
     }
 
     protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
-   		List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
+        List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
+        java.util.HashMap<String, Formula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
-   		list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("Hyperlink-Web_link"),
-                   new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-   		list.add(new ChartUIMenuNameableCreator(plot,"JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
-        list.add(new ChartUIMenuNameableCreator(plot, Inter.getLocText("RelatedChart"),null,null));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Hyperlink-Web_link"),
+                new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, "FR-Designer_JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+        list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("FR-Engine_Interactive-chart"), null, null));
 
-   		return list;
-   	}
+        return list;
+    }
 
-    protected void populateAutoRefresh(Chart chart){
+    protected void populateAutoRefresh(Chart chart) {
         super.populateAutoRefresh(chart);
-        if(chart.getFilterDefinition() != null){
-            TopDefinition definition = (TopDefinition)chart.getFilterDefinition();
+        if (chart.getFilterDefinition() != null) {
+            TopDefinition definition = (TopDefinition) chart.getFilterDefinition();
             isAutoRefresh.setEnabled(definition.isSupportAutoRefresh());
-            if(!isAutoRefresh.isEnabled()){
+            if (!isAutoRefresh.isEnabled()) {
                 isAutoRefresh.setSelected(false);
             }
             autoRefreshTime.setEnabled(definition.isSupportAutoRefresh());

@@ -1,38 +1,33 @@
 package com.fr.design.hyperlink;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.gui.itree.filetree.ReportletPane;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itree.filetree.ReportletPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 热点链接部分 上方 定义特征 样式 报表 等属性的界面.
  *
  * @author kunsnat
  */
-public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyperlink> {
+public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
     private UITextField reportPathTextField;
@@ -70,7 +65,7 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
         reportPathTextField = new UITextField(20);
         reportletNamePane.add(reportPathTextField, BorderLayout.CENTER);
 
-        browserButton = new UIButton(Inter.getLocText("Select"));
+        browserButton = new UIButton(Inter.getLocText("FR-Designer_Select"));
         browserButton.setPreferredSize(new Dimension(browserButton.getPreferredSize().width, 20));
         reportletNamePane.add(browserButton, BorderLayout.EAST);
         browserButton.addActionListener(new ActionListener() {
@@ -89,15 +84,15 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
         });
 
         Component[][] components;
-        if(!this.needRenamePane){
+        if (!this.needRenamePane) {
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
-        }else{
+        } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
-                    {new UILabel(" " + Inter.getLocText("Name") + ":"), itemNameTextField},
-                    {new UILabel(" " + Inter.getLocText("Reportlet") + ":"), reportletNamePane},
+                    {new UILabel(" " + Inter.getLocText("FR-Designer-Hyperlink_Name") + ":"), itemNameTextField},
+                    {new UILabel(" " + Inter.getLocText("FR-Hyperlink_Reportlet") + ":"), reportletNamePane},
             };
         }
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -112,7 +107,7 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
 
     @Override
     protected void populateSubHyperlinkBean(ReportletHyperlink link) {
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             this.itemNameTextField.setText(link.getItemName());
         }
         this.reportPathTextField.setText(link.getReportletPath());
@@ -130,7 +125,7 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
 
     @Override
     protected void updateSubHyperlinkBean(ReportletHyperlink reportletHyperlink) {
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             reportletHyperlink.setItemName(this.itemNameTextField.getText());
         }
         reportletHyperlink.setReportletPath(this.reportPathTextField.getText());
@@ -139,7 +134,7 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
     }
 
     public String getReportletName() {
-        return StringUtils.isBlank(this.reportPathTextField.getText()) ? "" : this.reportPathTextField.getText().substring(1);
+        return StringUtils.isBlank(this.reportPathTextField.getText()) ? StringUtils.EMPTY : this.reportPathTextField.getText().substring(1);
     }
 
     /**
@@ -160,7 +155,7 @@ public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyper
         }
 
         public void actionPerformed(ActionEvent e) {
-
+            //do nothing
         }
     }
 
