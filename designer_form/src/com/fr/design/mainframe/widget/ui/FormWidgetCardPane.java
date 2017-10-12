@@ -213,6 +213,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         if (ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Basic")) && widgetPropertyPane != null) {
             widgetPropertyPane.update(widget);
             xCreator.resetCreatorName(widget.getWidgetName());
+            xCreator.resetVisible(widget.isVisible());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
             return;
         }
