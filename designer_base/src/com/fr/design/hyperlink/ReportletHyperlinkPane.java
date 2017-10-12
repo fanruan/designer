@@ -124,7 +124,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
 
         @Override
         public void checkEnabled() {
-
+            //do nothing
         }
     }
 

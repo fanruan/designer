@@ -26,201 +26,205 @@ import java.util.List;
 
 public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
     private UITextField itemNameTextField;
-	private JSContentPane jsPane;
-	private UITableEditorPane<String> importedJsPane;
-	private ReportletParameterViewPane parameterPane;
-	private String[] defaultArgs;
+    private JSContentPane jsPane;
+    private UITableEditorPane<String> importedJsPane;
+    private ReportletParameterViewPane parameterPane;
+    private String[] defaultArgs;
 
 
-	public JavaScriptImplPane() {
-		this(new String[0]);
-	}
+    public JavaScriptImplPane() {
+        this(new String[0]);
+    }
 
-	public JavaScriptImplPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
-		super(hyperLinkEditorMap, needRenamePane);
-		this.defaultArgs = new String[0];
-		initComponents();
-	}
+    public JavaScriptImplPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+        super(hyperLinkEditorMap, needRenamePane);
+        this.defaultArgs = new String[0];
+        initComponents();
+    }
 
 
-	public JavaScriptImplPane(String[] args) {
-		this.defaultArgs = args;
-		initComponents();
-	}
+    public JavaScriptImplPane(String[] args) {
+        this.defaultArgs = args;
+        initComponents();
+    }
 
-	protected void initComponents() {
-		parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-		parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_Parameter")));
-		parameterPane.addTableEditorListener(new TableModelListener() {
-			public void tableChanged(TableModelEvent e) {
-				List<ParameterProvider> list = parameterPane.update();
-				HashSet tempSet = new HashSet();
-				for (int i = 0; i < list.size(); i++) {
-					if (StringUtils.isEmpty(list.get(i).getName())) {
-						continue;
-					}
-					if (tempSet.contains(list.get(i).toString())) {
-						list.remove(i);
-						JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Repeat", "Parameter_Name"}) + "!");
-						parameterChanger(list);
-						return;
-					}
-					tempSet.add(list.get(i).toString());
-				}
-				parameterChanger(list);
-			}
-		});
+    protected void initComponents() {
+        parameterPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
+        parameterPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_Parameter")));
+        parameterPane.addTableEditorListener(new TableModelListener() {
+            public void tableChanged(TableModelEvent e) {
+                List<ParameterProvider> list = parameterPane.update();
+                HashSet tempSet = new HashSet();
+                for (int i = 0; i < list.size(); i++) {
+                    if (StringUtils.isEmpty(list.get(i).getName())) {
+                        continue;
+                    }
+                    if (tempSet.contains(list.get(i).toString())) {
+                        list.remove(i);
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText(new String[]{"Repeat", "Parameter_Name"}) + "!");
+                        parameterChanger(list);
+                        return;
+                    }
+                    tempSet.add(list.get(i).toString());
+                }
+                parameterChanger(list);
+            }
+        });
 
-		OneListTableModel<String> model = new OneListTableModel<String>(Inter.getLocText("ReportServerP-Import_JavaScript"), this) {
+        OneListTableModel<String> model = new OneListTableModel<String>(Inter.getLocText("ReportServerP-Import_JavaScript"), this) {
 
-			public UITableEditAction[] createAction() {
-				return new UITableEditAction[] { getAddAction(),new DeleteAction(this.component), new MoveUpAction(), new MoveDownAction() };
-			}
+            public UITableEditAction[] createAction() {
+                return new UITableEditAction[]{getAddAction(), new DeleteAction(this.component), new MoveUpAction(), new MoveDownAction()};
+            }
 
-			@Override
-			public UITableEditAction getAddAction() {
-				return new AddJsAction();
-			}
-		};
-		importedJsPane = new UITableEditorPane<String>(model);
-		importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("ReportServerP-Import_JavaScript")));
-		importedJsPane.setPreferredSize(new Dimension(265, 150));
-		jsPane = new JSContentPane(defaultArgs);
-		jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_JavaScript")));
+            @Override
+            public UITableEditAction getAddAction() {
+                return new AddJsAction();
+            }
+        };
+        importedJsPane = new UITableEditorPane<String>(model);
+        importedJsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("ReportServerP-Import_JavaScript")));
+        importedJsPane.setPreferredSize(new Dimension(265, 150));
+        jsPane = new JSContentPane(defaultArgs);
+        jsPane.setBorder(BorderFactory.createTitledBorder(new ModLineBorder(ModLineBorder.TOP), Inter.getLocText("FR-Designer_JavaScript")));
 
-		parameterPane.setPreferredSize(new Dimension(265, 150));
-		JPanel topPane = GUICoreUtils.createBorderLayoutPane(
-				importedJsPane, BorderLayout.CENTER,
-				parameterPane, BorderLayout.EAST
-		);
-		topPane.setPreferredSize(new Dimension(300, 150));
-		topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
+        parameterPane.setPreferredSize(new Dimension(265, 150));
+        JPanel topPane = GUICoreUtils.createBorderLayoutPane(
+                importedJsPane, BorderLayout.CENTER,
+                parameterPane, BorderLayout.EAST
+        );
+        topPane.setPreferredSize(new Dimension(300, 150));
+        topPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
 
-		this.setLayout(new BorderLayout());
-		this.add(topPane,BorderLayout.NORTH) ;
-		this.add(jsPane,BorderLayout.CENTER);
+        this.setLayout(new BorderLayout());
+        this.add(topPane, BorderLayout.NORTH);
+        this.add(jsPane, BorderLayout.CENTER);
 
-		this.reLayoutForChart();
-	}
+        this.reLayoutForChart();
+    }
 
-	/**
-	 *参数改变
-	 * @param list  参数列表.
-	 */
-	public void parameterChanger(List<ParameterProvider> list) {
-		String[] name = new String[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i) instanceof Parameter) {
-				name[i] = list.get(i).getName();
-			}
-		}
-		jsPane.setFunctionTitle(name, defaultArgs);
-	}
+    /**
+     * 参数改变
+     *
+     * @param list 参数列表.
+     */
+    public void parameterChanger(List<ParameterProvider> list) {
+        String[] name = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof Parameter) {
+                name[i] = list.get(i).getName();
+            }
+        }
+        jsPane.setFunctionTitle(name, defaultArgs);
+    }
 
-	/**
-	 * title for popup window 弹出界面标题
-     * @return  标题.
-	 */
-	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Designer_JavaScript");
-	}
+    /**
+     * title for popup window 弹出界面标题
+     *
+     * @return 标题.
+     */
+    public String title4PopupWindow() {
+        return Inter.getLocText("FR-Designer_JavaScript");
+    }
 
     /**
      * 重置
      */
-	public void reset() {
-		populateBean(null);
-	}
+    public void reset() {
+        populateBean(null);
+    }
 
-	public void populateBean(JavaScriptImpl javaScriptImpl) {
-		if (javaScriptImpl == null) {
-			javaScriptImpl = new JavaScriptImpl();
-		}
+    public void populateBean(JavaScriptImpl javaScriptImpl) {
+        if (javaScriptImpl == null) {
+            javaScriptImpl = new JavaScriptImpl();
+        }
 
-		int rowCount = javaScriptImpl.getJSImportSize();
-		String[] value = new String[rowCount];
-		for (int i = 0; i < rowCount; i++) {
-			value[i] = javaScriptImpl.getJSImport(i);
-		}
-		importedJsPane.populate(value);
-		parameterPane.populate(javaScriptImpl.getParameters());
-		jsPane.populate(javaScriptImpl.getContent());
+        int rowCount = javaScriptImpl.getJSImportSize();
+        String[] value = new String[rowCount];
+        for (int i = 0; i < rowCount; i++) {
+            value[i] = javaScriptImpl.getJSImport(i);
+        }
+        importedJsPane.populate(value);
+        parameterPane.populate(javaScriptImpl.getParameters());
+        jsPane.populate(javaScriptImpl.getContent());
 
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             itemNameTextField.setText(javaScriptImpl.getItemName());
         }
-	}
+    }
 
-	public JavaScriptImpl updateBean() {
-		JavaScriptImpl javaScript = new JavaScriptImpl();
-		updateBean(javaScript);
-		return javaScript;
-	}
-	
-	public void updateBean(JavaScriptImpl javaScript) {
-		List<String> list = importedJsPane.update();
+    public JavaScriptImpl updateBean() {
+        JavaScriptImpl javaScript = new JavaScriptImpl();
+        updateBean(javaScript);
+        return javaScript;
+    }
+
+    public void updateBean(JavaScriptImpl javaScript) {
+        List<String> list = importedJsPane.update();
         javaScript.clearJSImports();
-		for (int i = 0; i < list.size(); i++) {
-			String a = list.get(i);
-			javaScript.addJSImort(a);
-		}
+        for (int i = 0; i < list.size(); i++) {
+            String a = list.get(i);
+            javaScript.addJSImort(a);
+        }
 
-		List<ParameterProvider> parameterList = parameterPane.update();
-		javaScript.setParameters(parameterList.toArray(new Parameter[parameterList.size()]));
-		javaScript.setContent(jsPane.update());
+        List<ParameterProvider> parameterList = parameterPane.update();
+        javaScript.setParameters(parameterList.toArray(new Parameter[parameterList.size()]));
+        javaScript.setContent(jsPane.update());
 
-        if(this.itemNameTextField != null){
+        if (this.itemNameTextField != null) {
             javaScript.setItemName(itemNameTextField.getText());
         }
-	}
+    }
 
-	private GridBagConstraints setConstraints(int x, int y, int w, int h, double wx, double wy, GridBagConstraints c) {
-		if (c == null) {
-			return null;
-		}
-		c.gridx = x;
-		c.gridy = y;
-		c.gridheight = h;
-		c.gridwidth = w;
-		c.weightx = wx;
-		c.weighty = wy;
-		return c;
-	}
+    private GridBagConstraints setConstraints(int x, int y, int w, int h, double wx, double wy, GridBagConstraints c) {
+        if (c == null) {
+            return null;
+        }
+        c.gridx = x;
+        c.gridy = y;
+        c.gridheight = h;
+        c.gridwidth = w;
+        c.weightx = wx;
+        c.weighty = wy;
+        return c;
+    }
 
-    protected void reLayoutForChart(){
-        if(needRenamePane()){
+    protected void reLayoutForChart() {
+        if (needRenamePane()) {
             this.removeAll();
             itemNameTextField = new UITextField();
 
             JPanel topPane = GUICoreUtils.createBorderLayoutPane(
-                    GUICoreUtils.createNamedPane(itemNameTextField,Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH,
+                    GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH,
                     importedJsPane, BorderLayout.CENTER,
                     parameterPane, BorderLayout.EAST
             );
             topPane.setPreferredSize(new Dimension(300, 150));
 
             this.setLayout(new BorderLayout());
-            this.add(topPane,BorderLayout.NORTH) ;
-            this.add(jsPane,BorderLayout.CENTER);
+            this.add(topPane, BorderLayout.NORTH);
+            this.add(jsPane, BorderLayout.CENTER);
             this.repaint();
         }
     }
 
-    public static class CHART_NO_RENAME extends JavaScriptImplPane{
+    public static class CHART_NO_RENAME extends JavaScriptImplPane {
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }
-        protected boolean needRenamePane(){
+
+        protected boolean needRenamePane() {
             return false;
         }
     }
 
     /**
      * 判断类型
-     * @param ob  判断目标
+     *
+     * @param ob 判断目标
      * @return 返回是否符合类型.
      */
-	public boolean accept(Object ob) {
-		return ob instanceof JavaScriptImpl;
-	}
+    public boolean accept(Object ob) {
+        return ob instanceof JavaScriptImpl;
+    }
 }
