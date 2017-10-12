@@ -20,6 +20,7 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
 
     public AbstractHyperLinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
         this.hyperLinkEditorMap = hyperLinkEditorMap;
+        this.needRenamePane = needRenamePane;
     }
 
     public AbstractHyperLinkPane() {
