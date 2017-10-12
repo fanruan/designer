@@ -84,11 +84,11 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
         });
 
         Component[][] components;
-        if(!this.needRenamePane){
+        if (!this.needRenamePane) {
             components = new Component[][]{
                     {new UILabel(" " + Inter.getLocText("Reportlet") + ":"), reportletNamePane},
             };
-        }else{
+        } else {
             itemNameTextField = new UITextField();
             components = new Component[][]{
                     {new UILabel(" " + Inter.getLocText("Name") + ":"), itemNameTextField},
@@ -107,7 +107,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
     @Override
     protected void populateSubHyperlinkBean(ReportletHyperlink link) {
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             this.itemNameTextField.setText(link.getItemName());
         }
         this.reportPathTextField.setText(link.getReportletPath());
@@ -125,7 +125,7 @@ public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHype
 
     @Override
     protected void updateSubHyperlinkBean(ReportletHyperlink reportletHyperlink) {
-        if(itemNameTextField != null){
+        if (itemNameTextField != null) {
             reportletHyperlink.setItemName(this.itemNameTextField.getText());
         }
         reportletHyperlink.setReportletPath(this.reportPathTextField.getText());

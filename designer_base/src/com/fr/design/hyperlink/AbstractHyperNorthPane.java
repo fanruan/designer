@@ -15,130 +15,131 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicBeanPane<T> {
-	public static final int NEW_WINDOW = 0;
-	public static final int DIALOG = 1;
-	public static final int SELF = 2;
-	public static final int DEFAULT_H_VALUE = 400;
-	public static final int DEFAULT_V_VALUE = 600;
+    public static final int NEW_WINDOW = 0;
+    public static final int DIALOG = 1;
+    public static final int SELF = 2;
+    public static final int DEFAULT_H_VALUE = 400;
+    public static final int DEFAULT_V_VALUE = 600;
 
-	private JPanel headerPane;
-	private UIComboBox targetFrameComboBox;
+    private JPanel headerPane;
+    private UIComboBox targetFrameComboBox;
 
-	private UINumberField heightTextFiled;
-	private UINumberField widthTextFiled;
+    private UINumberField heightTextFiled;
+    private UINumberField widthTextFiled;
 
 
-	public AbstractHyperNorthPane() {
-		this.initComponents();
-	}
+    public AbstractHyperNorthPane() {
+        this.initComponents();
+    }
 
-	protected void initComponents() {
-		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-		headerPane = this.setHeaderPanel();
-		this.add(headerPane, BorderLayout.NORTH);
-		this.add(centerPane, BorderLayout.CENTER);
-		targetFrameComboBox = new UIComboBox(getTargetFrames());
-		targetFrameComboBox.setRenderer(new DefaultListCellRenderer() {
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-				return this;
-			}
-		});
-		JPanel targetFramePanel = new JPanel();
-		targetFramePanel.add(new UILabel(Inter.getLocText("Hyperlink-Link_Opened_in")));
-		targetFramePanel.add(targetFrameComboBox);
-		targetFrameComboBox.setEditable(true);
-		targetFrameComboBox.setPreferredSize(new Dimension(100, 20));
+    protected void initComponents() {
+        this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
+        JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
+        headerPane = this.setHeaderPanel();
+        this.add(headerPane, BorderLayout.NORTH);
+        this.add(centerPane, BorderLayout.CENTER);
+        targetFrameComboBox = new UIComboBox(getTargetFrames());
+        targetFrameComboBox.setRenderer(new DefaultListCellRenderer() {
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                return this;
+            }
+        });
+        JPanel targetFramePanel = new JPanel();
+        targetFramePanel.add(new UILabel(Inter.getLocText("Hyperlink-Link_Opened_in")));
+        targetFramePanel.add(targetFrameComboBox);
+        targetFrameComboBox.setEditable(true);
+        targetFrameComboBox.setPreferredSize(new Dimension(100, 20));
 
-		final JPanel newWindowConfPane = new JPanel();
-		newWindowConfPane.add(new UILabel(Inter.getLocText("FR-Designer_Height") + ": "));
-		heightTextFiled = new UINumberField();
+        final JPanel newWindowConfPane = new JPanel();
+        newWindowConfPane.add(new UILabel(Inter.getLocText("FR-Designer_Height") + ": "));
+        heightTextFiled = new UINumberField();
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
-		heightTextFiled.setPreferredSize(new Dimension(40, 20));
-		newWindowConfPane.add(heightTextFiled);
-		newWindowConfPane.add(new UILabel("  " + Inter.getLocText("FR-Designer_Width") + ": "));
-		widthTextFiled = new UINumberField();
+        heightTextFiled.setPreferredSize(new Dimension(40, 20));
+        newWindowConfPane.add(heightTextFiled);
+        newWindowConfPane.add(new UILabel("  " + Inter.getLocText("FR-Designer_Width") + ": "));
+        widthTextFiled = new UINumberField();
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
-		widthTextFiled.setPreferredSize(new Dimension(40, 20));
-		newWindowConfPane.add(widthTextFiled);
+        widthTextFiled.setPreferredSize(new Dimension(40, 20));
+        newWindowConfPane.add(widthTextFiled);
 
-		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.add(targetFramePanel, BorderLayout.WEST);
-		centerPanel.add(newWindowConfPane, BorderLayout.EAST);
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(targetFramePanel, BorderLayout.WEST);
+        centerPanel.add(newWindowConfPane, BorderLayout.EAST);
         newWindowConfPane.setVisible(false);
 
-		centerPane.add(centerPanel);
-		targetFrameComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				newWindowConfPane.setVisible(DIALOG == targetFrameComboBox.getSelectedIndex());
-			}
-		});
+        centerPane.add(centerPanel);
+        targetFrameComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newWindowConfPane.setVisible(DIALOG == targetFrameComboBox.getSelectedIndex());
+            }
+        });
 
-		this.add(this.setFootPanel(), BorderLayout.SOUTH);
-	}
-	protected String[] getTargetFrames(){
-		return new String[]{Inter.getLocText("Hyperlink-New_Window"), Inter.getLocText("FR-Hyperlink_Dialog"), Inter.getLocText("Hyperlink-Self_Window")};
-	}
+        this.add(this.setFootPanel(), BorderLayout.SOUTH);
+    }
 
-	protected abstract JPanel setHeaderPanel();
+    protected String[] getTargetFrames() {
+        return new String[]{Inter.getLocText("Hyperlink-New_Window"), Inter.getLocText("FR-Hyperlink_Dialog"), Inter.getLocText("Hyperlink-Self_Window")};
+    }
 
-	protected abstract JPanel setFootPanel();
+    protected abstract JPanel setHeaderPanel();
 
-	protected abstract void populateSubHyperlinkBean(T link);
+    protected abstract JPanel setFootPanel();
 
-	public UIComboBox getTargetFrameComboBox() {
-		return targetFrameComboBox;
-	}
+    protected abstract void populateSubHyperlinkBean(T link);
 
-	public void setTargetFrameComboBox(UIComboBox targetFrameComboBox) {
-		this.targetFrameComboBox = targetFrameComboBox;
-	}
+    public UIComboBox getTargetFrameComboBox() {
+        return targetFrameComboBox;
+    }
 
-	public UINumberField getHeightTextFiled() {
-		return heightTextFiled;
-	}
+    public void setTargetFrameComboBox(UIComboBox targetFrameComboBox) {
+        this.targetFrameComboBox = targetFrameComboBox;
+    }
 
-	public void setHeightTextFiled(UINumberField heightTextFiled) {
-		this.heightTextFiled = heightTextFiled;
-	}
+    public UINumberField getHeightTextFiled() {
+        return heightTextFiled;
+    }
 
-	public UINumberField getWidthTextFiled() {
-		return widthTextFiled;
-	}
+    public void setHeightTextFiled(UINumberField heightTextFiled) {
+        this.heightTextFiled = heightTextFiled;
+    }
 
-	public void setWidthTextFiled(UINumberField widthTextFiled) {
-		this.widthTextFiled = widthTextFiled;
-	}
+    public UINumberField getWidthTextFiled() {
+        return widthTextFiled;
+    }
 
-	@Override
-	public void populateBean(T link) {
-		String name = link.getTargetFrame();
-		targetFrameComboBox.setSelectedIndex(HyperlinkTargetFrame.convert(name));
-		heightTextFiled.setText(String.valueOf(link.getHeight() == 0 ? DEFAULT_H_VALUE : link.getHeight()));
-		widthTextFiled.setText(String.valueOf(link.getWidth() == 0 ? DEFAULT_V_VALUE : link.getWidth()));
-		populateSubHyperlinkBean(link);
-	}
+    public void setWidthTextFiled(UINumberField widthTextFiled) {
+        this.widthTextFiled = widthTextFiled;
+    }
 
-	protected abstract T updateSubHyperlinkBean();
+    @Override
+    public void populateBean(T link) {
+        String name = link.getTargetFrame();
+        targetFrameComboBox.setSelectedIndex(HyperlinkTargetFrame.convert(name));
+        heightTextFiled.setText(String.valueOf(link.getHeight() == 0 ? DEFAULT_H_VALUE : link.getHeight()));
+        widthTextFiled.setText(String.valueOf(link.getWidth() == 0 ? DEFAULT_V_VALUE : link.getWidth()));
+        populateSubHyperlinkBean(link);
+    }
 
-	protected abstract void updateSubHyperlinkBean(T t);
+    protected abstract T updateSubHyperlinkBean();
 
-	@Override
-	public T updateBean() {
-		T link = updateSubHyperlinkBean();
+    protected abstract void updateSubHyperlinkBean(T t);
 
-		updateBean(link);
+    @Override
+    public T updateBean() {
+        T link = updateSubHyperlinkBean();
 
-		return link;
-	}
+        updateBean(link);
 
-	public void updateBean(T link) {
-		updateSubHyperlinkBean(link);
-		link.setTargetFrame(HyperlinkTargetFrame.parse(targetFrameComboBox.getSelectedIndex()).getName());
-		link.setHeight(Utils.objectToNumber(heightTextFiled.getText(), false).intValue());
-		link.setWidth(Utils.objectToNumber(widthTextFiled.getText(), false).intValue());
-	}
+        return link;
+    }
+
+    public void updateBean(T link) {
+        updateSubHyperlinkBean(link);
+        link.setTargetFrame(HyperlinkTargetFrame.parse(targetFrameComboBox.getSelectedIndex()).getName());
+        link.setHeight(Utils.objectToNumber(heightTextFiled.getText(), false).intValue());
+        link.setWidth(Utils.objectToNumber(widthTextFiled.getText(), false).intValue());
+    }
 
 }

@@ -20,115 +20,116 @@ import java.awt.*;
 import java.util.HashMap;
 
 /**
- * 类说明: 图表超链 -- 弹出 悬浮窗. 
+ * 类说明: 图表超链 -- 弹出 悬浮窗.
+ *
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2011-12-28 上午10:41:39
  */
 public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPoplink> {
-	private static final long serialVersionUID = 2469115951510144738L;
-	private static final int EDIT_PANE_WIDTH = 248;
-	private UITextField itemNameTextField;
-	private ChartHyperEditPane hyperEditPane;
-	private ChartComponent chartComponent;
+    private static final long serialVersionUID = 2469115951510144738L;
+    private static final int EDIT_PANE_WIDTH = 248;
+    private UITextField itemNameTextField;
+    private ChartHyperEditPane hyperEditPane;
+    private ChartComponent chartComponent;
 
 
+    public ChartHyperPoplinkPane() {
+        this(null, false);
+    }
 
-	public ChartHyperPoplinkPane() {
-		this(null, false);
-	}
-	
-	public ChartHyperPoplinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
-		super(hyperLinkEditorMap, needRenamePane);
-		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
+    public ChartHyperPoplinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+        super(hyperLinkEditorMap, needRenamePane);
+        this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
-        if(this.needRenamePane()){
+        if (this.needRenamePane()) {
             itemNameTextField = new UITextField();
             this.add(GUICoreUtils.createNamedPane(itemNameTextField, Inter.getLocText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH);
         }
 
-		hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
-		hyperEditPane.setPreferredSize(new Dimension(EDIT_PANE_WIDTH, (int)hyperEditPane.getPreferredSize().getHeight()));// 固定属性配置面板大小,灵活调整图表显示面板.
-		this.add(hyperEditPane, BorderLayout.WEST);
+        hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
+        hyperEditPane.setPreferredSize(new Dimension(EDIT_PANE_WIDTH, (int) hyperEditPane.getPreferredSize().getHeight()));// 固定属性配置面板大小,灵活调整图表显示面板.
+        this.add(hyperEditPane, BorderLayout.WEST);
         ChartCollection cc = createChartCollection();
-		
-		chartComponent = new ChartComponent();
-		chartComponent.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-EDIT_PANE_WIDTH, 170));// 在单元格弹出时 需要调整保证属性表的大小.
-		chartComponent.setSupportEdit(false);
-		chartComponent.populate(cc);
-		
-		this.add(chartComponent, BorderLayout.CENTER);
-		
-		hyperEditPane.populate(cc);
-		
-		hyperEditPane.useChartComponent(chartComponent);
-	}
+
+        chartComponent = new ChartComponent();
+        chartComponent.setPreferredSize(new Dimension((int) this.getPreferredSize().getWidth() - EDIT_PANE_WIDTH, 170));// 在单元格弹出时 需要调整保证属性表的大小.
+        chartComponent.setSupportEdit(false);
+        chartComponent.populate(cc);
+
+        this.add(chartComponent, BorderLayout.CENTER);
+
+        hyperEditPane.populate(cc);
+
+        hyperEditPane.useChartComponent(chartComponent);
+    }
 
     private ChartCollection createChartCollection() {
         ChartCollection cc = new ChartCollection();
 
         Chart chart = ChartTypeManager.getFirstChart();
-        if (chart != null){
+        if (chart != null) {
             try {
-                cc.addChart((Chart)chart.clone());
+                cc.addChart((Chart) chart.clone());
             } catch (CloneNotSupportedException e) {
                 FRLogger.getLogger().error(e.getMessage(), e);
             }
 
-        }else {
+        } else {
             cc.addChart(new Chart(new Bar2DPlot()));
         }
         return cc;
     }
-	
-	@Override
-	public String title4PopupWindow() {
-		return Inter.getLocText("FR-Chart-Pop_Chart");
-	}
 
-	@Override
-	public void populateBean(ChartHyperPoplink chartHyperlink) {
-        if(itemNameTextField != null){
+    @Override
+    public String title4PopupWindow() {
+        return Inter.getLocText("FR-Chart-Pop_Chart");
+    }
+
+    @Override
+    public void populateBean(ChartHyperPoplink chartHyperlink) {
+        if (itemNameTextField != null) {
             this.itemNameTextField.setText(chartHyperlink.getItemName());
         }
 
-		BaseChartCollection cc = chartHyperlink.getChartCollection();
-		if (cc == null || cc.getChartCount() < 1) {
-			cc = createChartCollection();
-			chartHyperlink.setChartCollection(cc);
-		}
-		
-		hyperEditPane.populateHyperLink(chartHyperlink);
-		chartComponent.populate(cc);
-	}
+        BaseChartCollection cc = chartHyperlink.getChartCollection();
+        if (cc == null || cc.getChartCount() < 1) {
+            cc = createChartCollection();
+            chartHyperlink.setChartCollection(cc);
+        }
 
-	/**
-	 * 超链数组HyperlinkGoup切换时 updateBean.
-	 * @return 返回的弹出超链.
-	 */
-	public ChartHyperPoplink updateBean() {
-		ChartHyperPoplink chartLink = new ChartHyperPoplink();
-		updateBean(chartLink);
-        if(itemNameTextField != null){
+        hyperEditPane.populateHyperLink(chartHyperlink);
+        chartComponent.populate(cc);
+    }
+
+    /**
+     * 超链数组HyperlinkGoup切换时 updateBean.
+     *
+     * @return 返回的弹出超链.
+     */
+    public ChartHyperPoplink updateBean() {
+        ChartHyperPoplink chartLink = new ChartHyperPoplink();
+        updateBean(chartLink);
+        if (itemNameTextField != null) {
             chartLink.setItemName(this.itemNameTextField.getText());
         }
-		return chartLink;
-	}
-	
-	/**
-	 * 属性表 对应update
-	 */
-	public void updateBean(ChartHyperPoplink chartHyperlink) {
-		hyperEditPane.updateHyperLink(chartHyperlink);
-		chartHyperlink.setChartCollection(chartComponent.update());
+        return chartLink;
+    }
 
-		DesignModuleFactory.getChartPropertyPane().getChartEditPane().fire();// 响应整个图表保存事件等.
-        if(itemNameTextField != null){
+    /**
+     * 属性表 对应update
+     */
+    public void updateBean(ChartHyperPoplink chartHyperlink) {
+        hyperEditPane.updateHyperLink(chartHyperlink);
+        chartHyperlink.setChartCollection(chartComponent.update());
+
+        DesignModuleFactory.getChartPropertyPane().getChartEditPane().fire();// 响应整个图表保存事件等.
+        if (itemNameTextField != null) {
             chartHyperlink.setItemName(this.itemNameTextField.getText());
         }
-	}
+    }
 
-    public static class CHART_NO_RENAME extends ChartHyperPoplinkPane{
-        protected boolean needRenamePane(){
+    public static class CHART_NO_RENAME extends ChartHyperPoplinkPane {
+        protected boolean needRenamePane() {
             return false;
         }
     }

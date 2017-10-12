@@ -46,14 +46,14 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
     public String title4PopupWindow() {
         return Inter.getLocText("Hyperlink-Form_link");
     }
-    
+
     protected int getHyperlinkType() {
-    	if (northPane.getEditingEditor() != null){
-    		if (northPane.getEditingEditor().acceptType(ElementCaseEditorProvider.class)) {
-    			return FormHyperlinkProvider.ELEMENTCASE;
-    		}
-    	}
-    	return FormHyperlinkProvider.CHART;
+        if (northPane.getEditingEditor() != null) {
+            if (northPane.getEditingEditor().acceptType(ElementCaseEditorProvider.class)) {
+                return FormHyperlinkProvider.ELEMENTCASE;
+            }
+        }
+        return FormHyperlinkProvider.CHART;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
 
     @Override
     public FormHyperlinkProvider updateBean() {
-    	FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         formHyperlink.setType(getHyperlinkType());
         updateBean(formHyperlink);
 
@@ -77,8 +77,8 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
     }
 
     public void updateBean(FormHyperlinkProvider formHyperlink) {
-    	formHyperlink.setType(getHyperlinkType());
-    	
+        formHyperlink.setType(getHyperlinkType());
+
         northPane.updateBean(formHyperlink);
         //Parameter.
         java.util.List<ParameterProvider> parameterList = this.parameterViewPane.update();
@@ -92,10 +92,11 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         }
     }
 
-    public static class CHART_NO_RENAME extends FormHyperlinkPane{
-        protected boolean needRenamePane(){
+    public static class CHART_NO_RENAME extends FormHyperlinkPane {
+        protected boolean needRenamePane() {
             return false;
         }
+
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
         }

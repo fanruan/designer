@@ -34,11 +34,12 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
         this.parameterViewPane = parameterViewPane;
     }
 
-    public boolean accept(Object ob){
+    public boolean accept(Object ob) {
         return ob instanceof JavaScript;
     }
 
-    public void reset() {}
+    public void reset() {
+    }
 
     protected int getChartParaType() {
         return hyperLinkEditorMap != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
@@ -48,7 +49,7 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
         return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), hyperLinkEditorMap);
     }
 
-    protected boolean needRenamePane(){
+    protected boolean needRenamePane() {
         return needRenamePane;
     }
 
