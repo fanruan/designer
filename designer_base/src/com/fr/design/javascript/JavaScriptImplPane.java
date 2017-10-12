@@ -2,15 +2,13 @@ package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditAction;
 import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -26,24 +24,20 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 
-public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
-	private BasePlot plot;
+public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
     private UITextField itemNameTextField;
 	private JSContentPane jsPane;
 	private UITableEditorPane<String> importedJsPane;
 	private ReportletParameterViewPane parameterPane;
 	private String[] defaultArgs;
 
-	protected BasePlot getPlot() {
-		return plot;
-	}
 
 	public JavaScriptImplPane() {
 		this(new String[0]);
 	}
 
 	public JavaScriptImplPane(BasePlot plot) {
-		this.plot = plot;
+		super(plot);
 		this.defaultArgs = new String[0];
 		initComponents();
 	}
@@ -107,18 +101,6 @@ public class JavaScriptImplPane extends FurtherBasicBeanPane<JavaScriptImpl> {
 		this.add(jsPane,BorderLayout.CENTER);
 
 		this.reLayoutForChart();
-	}
-
-	protected int getChartParaType() {
-		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-	}
-
-	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-	}
-
-	protected boolean needRenamePane(){
-		return plot != null && plot.isNeedRenameHyperLinkPane();
 	}
 
 	/**

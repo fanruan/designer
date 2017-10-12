@@ -7,12 +7,9 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chart.web.ChartHyperPoplink;
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.gui.ChartComponent;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
-import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.ChartHyperEditPane;
 import com.fr.design.module.DesignModuleFactory;
@@ -27,25 +24,21 @@ import java.awt.*;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2011-12-28 上午10:41:39
  */
-public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
+public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPoplink> {
 	private static final long serialVersionUID = 2469115951510144738L;
 	private static final int EDIT_PANE_WIDTH = 248;
 	private UITextField itemNameTextField;
 	private ChartHyperEditPane hyperEditPane;
 	private ChartComponent chartComponent;
 
-	private BasePlot plot;
 
-	protected BasePlot getPlot() {
-		return plot;
-	}
 
 	public ChartHyperPoplinkPane() {
 		this(null);
 	}
 	
 	public ChartHyperPoplinkPane(BasePlot plot) {
-		this.plot = plot;
+		super(plot);
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
         if(this.needRenamePane()){
@@ -86,21 +79,9 @@ public class ChartHyperPoplinkPane extends BasicBeanPane<ChartHyperPoplink> {
         }
         return cc;
     }
-
-	protected int getChartParaType() {
-		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-	}
-
-	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-	}
-
-	protected boolean needRenamePane(){
-		return plot != null && plot.isNeedRenameHyperLinkPane();
-	}
 	
 	@Override
-	protected String title4PopupWindow() {
+	public String title4PopupWindow() {
 		return Inter.getLocText("FR-Chart-Pop_Chart");
 	}
 

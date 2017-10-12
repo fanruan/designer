@@ -2,7 +2,6 @@ package com.fr.design.hyperlink;
 
 import com.fr.base.ConfigManager;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -19,7 +18,7 @@ import java.awt.*;
  * 
  * @author kunsnat
  */
-public class WebHyperNorthPane extends AbstractHyperlinkPane<WebHyperlink> {
+public class WebHyperNorthPane extends AbstractHyperNorthPane<WebHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
 	private UITextField urlTextField;

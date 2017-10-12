@@ -3,13 +3,10 @@ package com.fr.design.chart.series.SeriesCondition.impl;
 import com.fr.base.Utils;
 import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateCellLink;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.columnrow.ColumnRowVerticalPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
-import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
@@ -25,25 +22,19 @@ import java.util.List;
  * @version 创建时间：2011-12-28 下午02:51:10
  * 类说明: 图表超链 -- 关联单元格图表.
  */
-public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelateCellLink>{
+public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyperRelateCellLink> {
 	private static final long serialVersionUID = 7874948047886548990L;
 
     private UITextField itemNameTextField;
 	private ColumnRowVerticalPane colRowPane;
 	private ReportletParameterViewPane parameterViewPane;
 
-	private BasePlot plot;
-
-	protected BasePlot getPlot() {
-		return plot;
-	}
-	
 	public ChartHyperRelateCellLinkPane() {
 		this.initComponent();
 	}
 
 	public ChartHyperRelateCellLinkPane(BasePlot plot) {
-		this.plot = plot;
+		super(plot);
 		this.initComponent();
 	}
 
@@ -66,18 +57,6 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
-	}
-
-	protected int getChartParaType() {
-		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-	}
-
-	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-	}
-
-	protected boolean needRenamePane(){
-		return plot != null && plot.isNeedRenameHyperLinkPane();
 	}
 	
 	@Override
@@ -133,7 +112,7 @@ public class ChartHyperRelateCellLinkPane extends BasicBeanPane<ChartHyperRelate
 	}
 
 	@Override
-	protected String title4PopupWindow() {
+	public String title4PopupWindow() {
 		return Inter.getLocText(new String[]{"Related", "Cell"});
 	}
 

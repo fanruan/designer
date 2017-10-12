@@ -2,11 +2,9 @@ package com.fr.design.chart.series.SeriesCondition.impl;
 
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.ElementCaseEditorProvider;
@@ -18,19 +16,13 @@ import com.fr.stable.bridge.StableFactory;
 import javax.swing.*;
 import java.awt.*;
 
-public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
-    private BasePlot plot;
+public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvider> {
 
-    private ReportletParameterViewPane parameterViewPane;
     private FormHyperlinkNorthPane northPane;
 
-    protected BasePlot getPlot() {
-        return plot;
-    }
 
     public FormHyperlinkPane(BasePlot plot) {
-        super();
-        this.plot = plot;
+        super(plot);
         this.initComponents();
     }
 
@@ -51,20 +43,8 @@ public class FormHyperlinkPane extends BasicBeanPane<FormHyperlinkProvider> {
     }
 
     @Override
-    protected String title4PopupWindow() {
+    public String title4PopupWindow() {
         return Inter.getLocText("Hyperlink-Form_link");
-    }
-
-    protected int getChartParaType() {
-        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-    }
-
-    protected ValueEditorPane getValueEditorPane() {
-        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-    }
-
-    protected boolean needRenamePane(){
-        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
     
     protected int getHyperlinkType() {

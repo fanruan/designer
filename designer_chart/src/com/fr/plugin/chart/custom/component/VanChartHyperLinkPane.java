@@ -1,5 +1,6 @@
 package com.fr.plugin.chart.custom.component;
 
+import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
@@ -75,7 +76,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
-            constructor = creator.getUpdatePane().getConstructor(Plot.class);
+            constructor = creator.getUpdatePane().getConstructor(BasePlot.class);
             return constructor.newInstance(plot);
 
         } catch (InstantiationException e) {

@@ -3,9 +3,6 @@ package com.fr.design.hyperlink;
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -24,19 +21,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
-    private BasePlot plot;
+public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyperlink> {
     private ReporletHyperNorthPane northPane;
-    private ReportletParameterViewPane parameterViewPane = null;
     private UICheckBox extendParametersCheckBox;
 
-    protected BasePlot getPlot() {
-        return plot;
-    }
-
     public ReportletHyperlinkPane(BasePlot plot) {
-        super();
-        this.plot = plot;
+        super(plot);
         this.initComponents();
     }
 
@@ -62,20 +52,8 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
     }
 
     @Override
-    protected String title4PopupWindow() {
+    public String title4PopupWindow() {
         return Inter.getLocText("FR-Hyperlink_Reportlet");
-    }
-
-    protected int getChartParaType() {
-        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-    }
-
-    protected ValueEditorPane getValueEditorPane() {
-        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-    }
-
-    protected boolean needRenamePane(){
-        return plot != null && plot.isNeedRenameHyperLinkPane();
     }
 
     @Override
@@ -166,14 +144,6 @@ public class ReportletHyperlinkPane extends BasicBeanPane<ReportletHyperlink> {
 
     public void setNorthPane(ReporletHyperNorthPane northPane) {
         this.northPane = northPane;
-    }
-
-    public ReportletParameterViewPane getParameterViewPane() {
-        return parameterViewPane;
-    }
-
-    public void setParameterViewPane(ReportletParameterViewPane parameterViewPane) {
-        this.parameterViewPane = parameterViewPane;
     }
 
     public UICheckBox getExtendParametersCheckBox() {

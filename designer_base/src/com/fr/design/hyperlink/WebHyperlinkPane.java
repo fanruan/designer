@@ -2,9 +2,6 @@ package com.fr.design.hyperlink;
 
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -18,19 +15,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
-	private BasePlot plot;
+public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 	private WebHyperNorthPane northPane;
-	
-	private ReportletParameterViewPane parameterViewPane;
-    
+
     private UICheckBox useCJKCheckBox;
     
     private UICheckBox extendParametersCheckBox;
-
-	protected BasePlot getPlot() {
-		return plot;
-	}
 
 	public WebHyperlinkPane() {
 		super();
@@ -38,8 +28,7 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 	}
     
 	public WebHyperlinkPane(BasePlot plot) {
-		super();
-		this.plot = plot;
+		super(plot);
 		this.initComponents();
 	}
 
@@ -60,23 +49,11 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 	}
 	
 	@Override
-	protected String title4PopupWindow() {
+	public String title4PopupWindow() {
 		return Inter.getLocText("Hyperlink-Web_link");
 	}
-	
-	protected int getChartParaType() {
-		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-	}
 
-	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-	}
-
-    protected boolean needRenamePane(){
-        return plot != null && plot.isNeedRenameHyperLinkPane();
-    }
-
-    @Override
+	@Override
 	public void populateBean(WebHyperlink ob) {
 		northPane.populateBean(ob);
 		//parameter
@@ -129,14 +106,6 @@ public class WebHyperlinkPane extends BasicBeanPane<WebHyperlink> {
 
 	public void setNorthPane(WebHyperNorthPane northPane) {
 		this.northPane = northPane;
-	}
-
-	public ReportletParameterViewPane getParameterViewPane() {
-		return parameterViewPane;
-	}
-
-	public void setParameterViewPane(ReportletParameterViewPane parameterViewPane) {
-		this.parameterViewPane = parameterViewPane;
 	}
 
 	public UICheckBox getUseCJKCheckBox() {

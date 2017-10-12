@@ -1,38 +1,33 @@
 package com.fr.design.hyperlink;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.gui.itree.filetree.ReportletPane;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itree.filetree.ReportletPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.ReportletHyperlink;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 热点链接部分 上方 定义特征 样式 报表 等属性的界面.
  *
  * @author kunsnat
  */
-public class ReporletHyperNorthPane extends AbstractHyperlinkPane<ReportletHyperlink> {
+public class ReporletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyperlink> {
     private UITextField itemNameTextField;
     private boolean needRenamePane = false;
     private UITextField reportPathTextField;

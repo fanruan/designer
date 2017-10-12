@@ -4,15 +4,12 @@ import com.fr.base.Utils;
 import com.fr.base.chart.BasePlot;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
 import com.fr.design.DesignModelAdapter;
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
@@ -30,27 +27,19 @@ import java.util.List;
  * @version 创建时间：2011-12-28 下午03:02:43
  * 类说明: 图表超链  关联悬浮元素
  */
-public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelateFloatLink> {
+public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHyperRelateFloatLink> {
 	private static final long serialVersionUID = -3308412003405587689L;
 
     private UITextField itemNameTextField;
 
 	private UIComboBox floatNameBox;
-	private ReportletParameterViewPane parameterViewPane;
 
-	private BasePlot plot;
-
-	protected BasePlot getPlot() {
-		return plot;
-	}
-	
 	public ChartHyperRelateFloatLinkPane() {
 		this.initComponent();
 	}
 
 	public ChartHyperRelateFloatLinkPane(BasePlot plot) {
-
-		this.plot = plot;
+		super(plot);
 		this.initComponent();
 	}
 	
@@ -84,18 +73,6 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 		parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Inter.getLocText("Parameters")));
 		parameterViewPane.setPreferredSize(new Dimension(500, 200));
 		this.add(parameterViewPane, BorderLayout.SOUTH);
-	}
-
-	protected int getChartParaType() {
-		return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-	}
-
-	protected ValueEditorPane getValueEditorPane() {
-		return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-	}
-
-	protected boolean needRenamePane(){
-		return plot != null && plot.isNeedRenameHyperLinkPane();
 	}
 
 	private String[] getFloatNames() {
@@ -156,7 +133,7 @@ public class ChartHyperRelateFloatLinkPane extends BasicBeanPane<ChartHyperRelat
 	}
 
 	@Override
-	protected String title4PopupWindow() {
+	public String title4PopupWindow() {
 		return Inter.getLocText(new String[]{"Related", "M_Insert-Float"});
 	}
 

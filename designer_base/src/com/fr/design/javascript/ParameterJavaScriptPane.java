@@ -2,12 +2,10 @@ package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
 import com.fr.base.chart.BasePlot;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.js.ParameterJavaScript;
@@ -16,22 +14,17 @@ import com.fr.stable.ParameterProvider;
 import java.awt.*;
 import java.util.List;
 
-public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> {
-    private BasePlot plot;
+public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJavaScript> {
     private UITextField itemNameTextField;
-	private ReportletParameterViewPane parameterViewPane;
 
-    protected BasePlot getPlot() {
-        return plot;
-    }
 
     public ParameterJavaScriptPane(){
         this(null);
     }
 
 	public ParameterJavaScriptPane(BasePlot plot){
-        this.plot = plot;
-		this.setLayout(new  BorderLayout());		
+        super(plot);
+		this.setLayout(new  BorderLayout());
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);
         if(needRenamePane()){
@@ -40,20 +33,8 @@ public class ParameterJavaScriptPane extends BasicBeanPane<ParameterJavaScript> 
         }
 	}
 
-    protected int getChartParaType() {
-        return plot != null ? ParameterTableModel.CHART_NORMAL_USE : ParameterTableModel.NO_CHART_USE;
-    }
-
-    protected ValueEditorPane getValueEditorPane() {
-        return ValueEditorPaneFactory.createVallueEditorPaneWithUseType(getChartParaType(), plot);
-    }
-
-    protected boolean needRenamePane(){
-        return plot != null && plot.isNeedRenameHyperLinkPane();
-    }
-
 	@Override
-	protected String title4PopupWindow() {
+    public String title4PopupWindow() {
 		return Inter.getLocText("JavaScript-Dynamic_Parameters");
 	}
 
