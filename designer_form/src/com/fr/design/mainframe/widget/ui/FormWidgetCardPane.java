@@ -238,12 +238,15 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void fireValueChanged() {
         XCreator creator = getXCreatorDedicated();
         creator.firePropertyChange();
-        designer.fireTargetModified();
+        firePropertyEdit();
     }
 
     public String getIconPath() {
         return StringUtils.EMPTY;
     }
 
+    public void firePropertyEdit() {
+        designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
+    }
 
 }

@@ -27,7 +27,7 @@ public class LoginWebPane extends JFXPanel {
                 LoginWebPane.this.setScene(scene);
                 WebView webView = new WebView();
                 WebEngine webEngine = webView.getEngine();
-                webEngine.load("file:///" + installHome + "/scripts/qqLogin/web/login.html");
+                webEngine.load("file:///" + installHome + "/scripts/login.html");
                 webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
                     @Override
                     public void handle(WebEvent<String> event) {
