@@ -73,7 +73,6 @@ public abstract class DedicateLayoutContainer extends XLayoutContainer {
     public void resetVisible(boolean visible){
         super.resetVisible(visible);
         XCreator child = getXCreator(XWScaleLayout.INDEX);
-        //实现WTitleLayout的SetWidgetName
         child.toData().setVisible(visible);
     }
     /**
