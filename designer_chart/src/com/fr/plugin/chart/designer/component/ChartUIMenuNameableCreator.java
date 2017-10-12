@@ -35,8 +35,8 @@ public class ChartUIMenuNameableCreator extends UIMenuNameableCreator {
     public BasicBeanPane getPane() {
         try {
             if (hyperLinkEditorMap != null) {
-                Constructor<? extends BasicBeanPane> constructor = paneClazz.getConstructor(Plot.class);
-                return constructor.newInstance(hyperLinkEditorMap);
+                Constructor<? extends BasicBeanPane> constructor = paneClazz.getConstructor(HashMap.class, boolean.class);
+                return constructor.newInstance(hyperLinkEditorMap,true);
             }
         } catch (Exception e) {
             return super.getPane();

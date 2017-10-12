@@ -27,8 +27,8 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 		this.initComponents();
 	}
     
-	public WebHyperlinkPane(HashMap hyperLinkEditorMap) {
-		super(hyperLinkEditorMap);
+	public WebHyperlinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+		super(hyperLinkEditorMap, needRenamePane);
 		this.initComponents();
 	}
 

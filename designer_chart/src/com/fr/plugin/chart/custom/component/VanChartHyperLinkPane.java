@@ -75,8 +75,8 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     protected BasicBeanPane createPaneByCreators(NameableCreator creator) {
         Constructor<? extends BasicBeanPane> constructor = null;
         try {
-            constructor = creator.getUpdatePane().getConstructor(HashMap.class);
-            return constructor.newInstance(plot.getHyperLinkEditorMap());
+            constructor = creator.getUpdatePane().getConstructor(HashMap.class, boolean.class);
+            return constructor.newInstance(plot.getHyperLinkEditorMap(), false);
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);

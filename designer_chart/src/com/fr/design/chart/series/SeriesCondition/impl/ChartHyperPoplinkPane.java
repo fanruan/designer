@@ -34,11 +34,11 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 
 
 	public ChartHyperPoplinkPane() {
-		this(null);
+		this(null, false);
 	}
 	
-	public ChartHyperPoplinkPane(HashMap hyperLinkEditorMap) {
-		super(hyperLinkEditorMap);
+	public ChartHyperPoplinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+		super(hyperLinkEditorMap, needRenamePane);
 		this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
 
         if(this.needRenamePane()){

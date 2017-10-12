@@ -25,8 +25,8 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
     private ReporletHyperNorthPane northPane;
     private UICheckBox extendParametersCheckBox;
 
-    public ReportletHyperlinkPane(HashMap hyperLinkEditorMap) {
-        super(hyperLinkEditorMap);
+    public ReportletHyperlinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+        super(hyperLinkEditorMap, needRenamePane);
         this.initComponents();
     }
 

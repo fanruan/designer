@@ -19,11 +19,11 @@ public class ParameterJavaScriptPane extends AbstractHyperLinkPane<ParameterJava
 
 
     public ParameterJavaScriptPane(){
-        this(null);
+        this(null, false);
     }
 
-	public ParameterJavaScriptPane(HashMap hyperLinkEditorMap){
-        super(hyperLinkEditorMap);
+	public ParameterJavaScriptPane(HashMap hyperLinkEditorMap, boolean needRenamePane){
+        super(hyperLinkEditorMap, needRenamePane);
 		this.setLayout(new  BorderLayout());
 		parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
 		this.add(parameterViewPane, BorderLayout.CENTER);

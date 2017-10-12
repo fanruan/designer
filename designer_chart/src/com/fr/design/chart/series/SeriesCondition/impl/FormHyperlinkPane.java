@@ -21,8 +21,8 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
     private FormHyperlinkNorthPane northPane;
 
 
-    public FormHyperlinkPane(HashMap hyperLinkEditorMap) {
-        super(hyperLinkEditorMap);
+    public FormHyperlinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+        super(hyperLinkEditorMap, needRenamePane);
         this.initComponents();
     }
 

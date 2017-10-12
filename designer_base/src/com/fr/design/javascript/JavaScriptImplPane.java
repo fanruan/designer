@@ -36,8 +36,8 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
 		this(new String[0]);
 	}
 
-	public JavaScriptImplPane(HashMap hyperLinkEditorMap) {
-		super(hyperLinkEditorMap);
+	public JavaScriptImplPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+		super(hyperLinkEditorMap, needRenamePane);
 		this.defaultArgs = new String[0];
 		initComponents();
 	}

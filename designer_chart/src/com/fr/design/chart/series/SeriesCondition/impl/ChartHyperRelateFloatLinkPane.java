@@ -38,8 +38,8 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
 		this.initComponent();
 	}
 
-	public ChartHyperRelateFloatLinkPane(HashMap hyperLinkEditorMap) {
-		super(hyperLinkEditorMap);
+	public ChartHyperRelateFloatLinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+		super(hyperLinkEditorMap, needRenamePane);
 		this.initComponent();
 	}
 	

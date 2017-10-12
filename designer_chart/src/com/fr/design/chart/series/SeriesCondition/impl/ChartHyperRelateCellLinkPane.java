@@ -33,8 +33,8 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
 		this.initComponent();
 	}
 
-	public ChartHyperRelateCellLinkPane(HashMap hyperLinkEditorMap) {
-		super(hyperLinkEditorMap);
+	public ChartHyperRelateCellLinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+		super(hyperLinkEditorMap, needRenamePane);
 		this.initComponent();
 	}
 

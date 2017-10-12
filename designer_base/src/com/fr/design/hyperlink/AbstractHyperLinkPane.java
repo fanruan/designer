@@ -14,10 +14,11 @@ import java.util.HashMap;
  */
 public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
     private HashMap hyperLinkEditorMap;
+    private boolean needRenamePane = false;
     protected ReportletParameterViewPane parameterViewPane;
 
 
-    public AbstractHyperLinkPane(HashMap hyperLinkEditorMap) {
+    public AbstractHyperLinkPane(HashMap hyperLinkEditorMap, boolean needRenamePane) {
         this.hyperLinkEditorMap = hyperLinkEditorMap;
     }
 
@@ -47,7 +48,7 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
     }
 
     protected boolean needRenamePane(){
-        return false;
+        return needRenamePane;
     }
 
 }
