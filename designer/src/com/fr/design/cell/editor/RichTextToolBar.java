@@ -81,7 +81,7 @@ public class RichTextToolBar extends BasicPane{
     private void initAllButton(){
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         fontNameComboBox.setPreferredSize(new Dimension(144, 20));
-        fontSizeComboBox = new UIComboBox(FRFontPane.FONT_SIZES);
+        fontSizeComboBox = new UIComboBox(FRFontPane.getFontSizes());
 		colorSelectPane = new UIToolbarColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
 		colorSelectPane.set4Toolbar();
         

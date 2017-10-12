@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -63,18 +64,21 @@ public class FRFontPane extends BasicPane {
     private FRFontPreviewArea preview;
     
     private EventListenerList eventChangeList = new EventListenerList();
-    
-    public static  Integer[] Font_Sizes = {new Integer(6), new Integer(8), new Integer(9),
-        new Integer(10), new Integer(11), new Integer(12),
-        new Integer(14), new Integer(16), new Integer(18),
-        new Integer(20), new Integer(22), new Integer(24),
-        new Integer(26), new Integer(28), new Integer(36),
-        new Integer(48), new Integer(72)};
-    
+
+    private static final int MAX_FONT_SIZE = 100;
+
     public FRFontPane() {
     	this.initComponents();
     }
-      
+
+    public static Vector<Integer> getFontSizes() {
+        Vector<Integer> FONT_SIZES = new Vector<Integer>();
+        for (int i = 1; i < MAX_FONT_SIZE; i++) {
+            FONT_SIZES.add(i);
+        }
+        return FONT_SIZES;
+    }
+
     protected void initComponents() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));

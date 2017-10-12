@@ -156,7 +156,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     protected void initLanguage() {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
-        FRContext.setLanguage(DesignerEnvManager.getEnvManager().getLanguage());
+        FRContext.setLanguage(DesignerEnvManager.getEnvManager(false).getLanguage());
+        DesignerEnvManager.checkNameEnvMap();
     }
 
     protected void initDefaultFont() {

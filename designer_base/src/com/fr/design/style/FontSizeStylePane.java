@@ -51,7 +51,7 @@ public class FontSizeStylePane extends JPanel {
 
         fontVSizPane.add(Box.createHorizontalStrut(6));
 
-        JPanel sizePanel = FRFontPane.createTextFieldListPane("", 	sizeField = new UINumberField(), sizeList = new JList(FRFontPane.Font_Sizes));
+        JPanel sizePanel = FRFontPane.createTextFieldListPane("", 	sizeField = new UINumberField(), sizeList = new JList(FRFontPane.getFontSizes()));
         sizeField.setMaxDecimalLength(1);
         
         sizeField.setEditable(false);
