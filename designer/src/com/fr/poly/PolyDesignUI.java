@@ -220,18 +220,21 @@ public class PolyDesignUI extends ComponentUI {
         ArrayList<JComponent> dbcomponents = new ArrayList<JComponent>();
         // richer:禁止双缓冲行为,否则会出现两个图像
         ComponentUtils.disableBuffer(comp, dbcomponents);
-        if (comp instanceof ECBlockCreator) {
-            Graphics clipg = g.create((int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time));
-            comp.paint(clipg);
-            clipg.dispose();
-        }else {
-            BufferedImage img = CoreGraphHelper.createBufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = img.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            comp.printAll(g2d);
-            g2d.dispose();
-            g.drawImage(img, (int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time),null);
-        }
+//        if (comp instanceof ECBlockCreator) {
+//            Graphics clipg = g.create((int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time));
+//            comp.paint(clipg);
+//            clipg.dispose();
+//        }else {
+        BufferedImage img = CoreGraphHelper.createBufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+
+        Graphics2D g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        comp.printAll(g2d);
+        g.drawImage(img, (int) (x * time), (int) (y * time), (int) (width * time), (int) (height * time),null);
+
+        g2d.dispose();
+
+//        }
 
         ComponentUtils.resetBuffer(dbcomponents);
     }

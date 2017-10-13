@@ -114,10 +114,12 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 	public Rectangle getEditorBounds() {
 		Rectangle bounds = this.getBounds();
 		Dimension d = getEditor().getCornerSize();
-		bounds.x -= d.width + designer.getHorizontalValue();
-		bounds.y -= d.height + designer.getVerticalValue();
-		bounds.width += d.width + PolyConstants.OPERATION_SIZE;
-		bounds.height += d.height + PolyConstants.OPERATION_SIZE;
+		//ECBlockCreator缩放的时候边框需要重新算下
+		double times = this.designer.getResolution() / (double)resolution;
+		bounds.x -= d.width/times + designer.getHorizontalValue();
+		bounds.y -= d.height/times + designer.getVerticalValue();
+		bounds.width += Math.ceil(d.width/times + PolyConstants.OPERATION_SIZE/times);
+		bounds.height += Math.ceil(d.height/times + PolyConstants.OPERATION_SIZE/times);
 		return bounds;
 	}
 
