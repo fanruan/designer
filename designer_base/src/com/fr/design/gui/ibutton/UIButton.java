@@ -79,6 +79,7 @@ public class UIButton extends JButton implements UIObserver {
 		setPressedIcon(pressed);
 		setExtraPainted(false);
 		setBackground(null);
+		setForeground(UIConstants.FONT_COLOR);
 		setOpaque(false);
 		initListener();
 	}

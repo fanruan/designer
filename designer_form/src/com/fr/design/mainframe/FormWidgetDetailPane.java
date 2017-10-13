@@ -2,17 +2,12 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.imenu.UIMenuItem;
-import com.fr.design.gui.imenu.UIPopupMenu;
-import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ElCaseBindInfo;
 import com.fr.general.FRLogger;
@@ -196,10 +191,8 @@ public class FormWidgetDetailPane extends FormDockView{
         resetPanel = new JPanel();
         resetButton = new UIButton(Inter.getLocText("FR-Designer_Reset"));
         resetPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        resetButton.set4ToolbarButton();
-        resetButton.setOpaque(true);
-        resetButton.setBackground(new Color(184, 220, 242));
-        resetButton.setForeground(Color.WHITE);
+        resetButton.setBackground(Color.white);
+        resetButton.setForeground(new Color(0x333334));
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -210,9 +203,8 @@ public class FormWidgetDetailPane extends FormDockView{
         });
 
         deleteButton = new UIButton(Inter.getLocText("FR-Designer_Remove_Item"));
-        deleteButton.set4ToolbarButton();
-        deleteButton.setOpaque(true);
-        deleteButton.setBackground(Color.red);
+        deleteButton.setBackground(Color.white);
+        deleteButton.setForeground(new Color(0xeb1d1f));
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
