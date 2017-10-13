@@ -141,6 +141,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
                     updateCreator();
                 }
                 updateWidgetBound();
+                firePropertyEdit();
             }
         };
 
@@ -239,7 +240,6 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void fireValueChanged() {
         XCreator creator = getXCreatorDedicated();
         creator.firePropertyChange();
-        firePropertyEdit();
     }
 
     public String getIconPath() {
