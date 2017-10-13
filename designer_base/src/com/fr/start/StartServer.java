@@ -10,6 +10,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
@@ -43,6 +44,10 @@ public class StartServer {
      * 找默认工作目录，不应该按照名字去找，而应该按照安装路径，因为默认工作目录的名字可能会改变。
      */
 	public static void browserDemoURL() {
+		if (FRContext.getCurrentEnv() instanceof RemoteEnv) {
+			browser(FRContext.getCurrentEnv().getPath() + "?op=fs");
+			return;
+		}
 		if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
 			String web = GeneralContext.getCurrentAppNameOfEnv();
 			browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getJettyServerPort() + "/" + web + "/" + ConfigManager.getProviderInstance().getServletMapping()
