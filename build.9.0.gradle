@@ -11,7 +11,6 @@ task appletJar<<{
 		mkdir(dir:"./tmp")
 		mkdir(dir:"build/classes/main")
 		copy(todir:"build/classes/"){
-			fileset(dir:"${basicDir}/core/build/classes/main")
 			fileset(dir:"${basicDir}/chart/build/classes/main")			
 			fileset(dir:"${basicDir}/report/build/classes/main")		
 			fileset(dir:"${basicDir}/platform/build/classes/main")		
