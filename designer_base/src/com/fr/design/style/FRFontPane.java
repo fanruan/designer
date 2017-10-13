@@ -67,6 +67,9 @@ public class FRFontPane extends BasicPane {
 
     private static final int MAX_FONT_SIZE = 100;
 
+    // 兼容调用老接口（FRFontPane.FONT_SIZES）的代码（例如图表插件）
+    public static final Vector<Integer> FONT_SIZES = getFontSizes();
+
     public FRFontPane() {
     	this.initComponents();
     }
