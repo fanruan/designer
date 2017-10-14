@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.alphafine.component;
 
 import com.bulenkov.iconloader.IconLoader;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineContext;
 import com.fr.design.actions.help.alphafine.AlphaFineListener;
 import com.fr.design.dialog.BasicPane;
@@ -20,12 +19,13 @@ import java.awt.event.ActionListener;
 public class AlphaFinePane extends BasicPane {
     private static AlphaFinePane alphaFinePane;
 
+    static {
+        Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
+    }
+
     public AlphaFinePane() {
-        setPreferredSize(new Dimension(24,24));
+        setPreferredSize(new Dimension(24, 24));
         setLayout(new BorderLayout());
-        if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
-            Toolkit.getDefaultToolkit().addAWTEventListener(AlphaFineDialog.listener(), AWTEvent.KEY_EVENT_MASK);
-        }
         UIButton refreshButton = new UIButton();
         refreshButton.setIcon(IconLoader.getIcon("/com/fr/design/mainframe/alphafine/images/smallsearch.png"));
         refreshButton.setToolTipText(Inter.getLocText("FR-Designer_AlphaFine"));
