@@ -4,6 +4,7 @@ import com.bulenkov.iconloader.IconLoader;
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -123,7 +124,7 @@ public class AlphaFineDialog extends UIDialog {
                     KeyEvent e = (KeyEvent) event;
                     KeyStroke keyStroke = (KeyStroke) KeyStroke.getAWTKeyStrokeForEvent(e);
                     KeyStroke storeKeyStroke = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().getShortCutKeyStore();
-                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFinePane.getAlphaFinePane().isVisible()) {
+                    if (ComparatorUtils.equals(keyStroke.toString(), storeKeyStroke.toString()) && AlphaFineConfigManager.isALPHALicAvailable() && AlphaFinePane.getAlphaFinePane().isVisible()) {
                         doClickAction();
                     }
 
