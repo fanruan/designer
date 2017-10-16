@@ -63,12 +63,12 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
         RestartHelper.deleteRecordFilesWhenStart();
         //启动core
+        BuildContext.setBuildFilePath(buildPropertiesPath());
         Register.load();
         //标记一下是设计器启动
         PluginConversionModule.getInstance().markDesignerStart();
         SiteCenter.getInstance();
 
-        BuildContext.setBuildFilePath(buildPropertiesPath());
         if (isDebug()) {
             setDebugEnv();
         } else {
