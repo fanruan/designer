@@ -6,6 +6,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -13,6 +14,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
 import com.fr.plugin.PluginStoreConstants;
 import com.fr.plugin.PluginVerifyException;
+import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StableUtils;
 
 import javax.swing.*;
@@ -34,6 +36,15 @@ public class WebViewDlgHelper {
     // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
     private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
     private static final int BYTES_NUM = 1024;
+
+    static {
+        GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+            @Override
+            public void envChanged() {
+                installHome = FRContext.getCurrentEnv().getWebReportPath();
+            }
+        });
+    }
 
     public static void createPluginDialog() {
         if (StableUtils.getMajorJavaVersion() >= VERSION_8) {
@@ -74,9 +85,8 @@ public class WebViewDlgHelper {
 
     /**
      * 检查script文件夹中的plugin.html文件
-     *
      */
-    public static void checkAndCopyMainFile(String indexPath, String mainJsPath){
+    public static void checkAndCopyMainFile(String indexPath, String mainJsPath) {
         File file = new File(indexPath);
         if (!file.exists()) {
             copyMainFile(indexPath, mainJsPath);
@@ -85,9 +95,8 @@ public class WebViewDlgHelper {
 
     /**
      * 將script文件夹中的plugin.html文件复制到webreport下
-     *
      */
-    public static void copyMainFile(String indexPath, String mainJsPath){
+    public static void copyMainFile(String indexPath, String mainJsPath) {
         try {
             File mainJsFile = new File(mainJsPath);
             int byteread = 0;
@@ -193,7 +202,7 @@ public class WebViewDlgHelper {
                     if (get()) {
                         String relativePath = "/scripts/plugin.html";
                         IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
-                        copyMainFile(StableUtils.pathJoin(installHome, "plugin.html"),  StableUtils.pathJoin(installHome, relativePath));
+                        copyMainFile(StableUtils.pathJoin(installHome, "plugin.html"), StableUtils.pathJoin(installHome, relativePath));
                         // TODO: 2017/4/17 删除之前存放在安装目录下的script
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, Inter.getLocText("FR-Designer-Plugin_Shop_Installed"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.INFORMATION_MESSAGE);
