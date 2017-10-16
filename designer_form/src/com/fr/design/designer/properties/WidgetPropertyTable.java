@@ -93,13 +93,6 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 		this.repaint();
 	}
 
-    private void setRightColumnWidth(boolean automode) {
-		int rightColumnWidth = this.getWidth() - LEFT_COLUMN_WIDTH;
-		TableColumn tcRight = this.getColumn(this.getColumnName(1));
-		tcRight.setMinWidth(automode ? 0 : rightColumnWidth);
-		tcRight.setMaxWidth(automode ? this.getWidth() : rightColumnWidth);
-	}
-
 	private void setDesigner(FormDesigner designer) {
 		this.designer = designer;
 	}
@@ -119,13 +112,6 @@ public class WidgetPropertyTable extends AbstractPropertyTable {
 			return String.valueOf(this.getValueAt(row, column));
 		}
 		return null;
-	}
-
-    @Override
-	public void columnMarginChanged(javax.swing.event.ChangeEvent e) {
-		setRightColumnWidth(false);
-		super.columnMarginChanged(e);
-		setRightColumnWidth(true);
 	}
 
     /**
