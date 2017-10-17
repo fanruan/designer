@@ -158,7 +158,8 @@ public class VanChartTooltipContentPane extends BasicBeanPane<AttrTooltipContent
     }
 
     public boolean isDirty() {
-        return categoryNameFormatPane.isDirty() || seriesNameFormatPane.isDirty() || valueFormatPane.isDirty() || percentFormatPane.isDirty();
+        return categoryNameFormatPane.isDirty() || seriesNameFormatPane.isDirty() || valueFormatPane.isDirty() || percentFormatPane.isDirty()
+                || (changedValueFormatPane != null && changedValueFormatPane.isDirty()) || (changedValueFormatPane != null && changedPercentFormatPane.isDirty());
     }
 
     public void setDirty(boolean isDirty) {
