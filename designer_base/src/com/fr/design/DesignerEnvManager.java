@@ -33,7 +33,6 @@ import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
-import org.apache.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.SwingWorker.StateValue;
@@ -54,6 +53,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 
 /**
  * The manager of Designer GUI.
