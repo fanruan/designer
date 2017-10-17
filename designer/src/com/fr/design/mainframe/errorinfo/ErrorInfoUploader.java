@@ -10,6 +10,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
+import com.fr.log.LogHandler;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -40,7 +41,12 @@ public class ErrorInfoUploader {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
             @Override
             public void envChanged() {
-                FRLogger.getLogger().addLogAppender(new ErrorInfoLogAppender());
+                FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+                    @Override
+                    public ErrorInfoLogAppender getHandler() {
+                        return new ErrorInfoLogAppender();
+                    }
+                });
             }
         });
 
@@ -49,7 +55,12 @@ public class ErrorInfoUploader {
     }
 
     private ErrorInfoUploader() {
-        FRLogger.getLogger().addLogAppender(new ErrorInfoLogAppender());
+        FRLogger.getLogger().addLogAppender(new LogHandler<ErrorInfoLogAppender>() {
+            @Override
+            public ErrorInfoLogAppender getHandler() {
+                return new ErrorInfoLogAppender();
+            }
+        });
     }
 
     public static ErrorInfoUploader getInstance() {

@@ -10,19 +10,23 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
-import com.fr.third.fr.pdf.kernel.utils.CompareTool;
-import com.sap.conn.jco.JCo;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class EastRegionContainerPane extends UIEastResizableContainer {
     private static EastRegionContainerPane THIS;

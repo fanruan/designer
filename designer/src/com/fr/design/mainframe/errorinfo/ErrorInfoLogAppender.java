@@ -13,11 +13,11 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.third.apache.log4j.AppenderSkeleton;
+import com.fr.third.apache.log4j.Level;
+import com.fr.third.apache.log4j.spi.LoggingEvent;
 import com.fr.web.core.SessionDealWith;
 import com.fr.web.core.SessionIDInfor;
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Level;
-import org.apache.log4j.spi.LoggingEvent;
 
 import java.io.InputStream;
 
@@ -36,7 +36,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     private String activekey;
 
     public ErrorInfoLogAppender() {
-        this.layout = new org.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
+        this.layout = new com.fr.third.apache.log4j.PatternLayout("%d{HH:mm:ss} %t %p [%c] %m%n");
 
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         this.username = ConfigManager.getProviderInstance().getBbsUsername();
@@ -63,7 +63,7 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     public void subAppend(LoggingEvent event) {
         Level level = event.getLevel();
         // 只分析上传记录error以上的.
-        if (level.isGreaterOrEqual(FRLogLevel.ERROR)) {
+        if (level.isGreaterOrEqual(Level.ERROR)) {
             String msg = this.layout.format(event);
             // 这个id并不是一定会有的, 有就记录下, 说明是预览模板出的错.
             String templateid = readTemplateID();
