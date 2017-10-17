@@ -995,7 +995,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                                     if (valueFormula.getContent().length() <= 1) {
                                         formulaTextField.setText(defaultValue);
                                     } else {
-                                        formulaTextField.setText(valueFormula.getContent().substring(1));
+                                        formulaTextField.setText(valueFormula.getContent());
                                     }
                                 }
                             }).setVisible(true);
