@@ -668,8 +668,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 // 只有选择组件时不触发模版更新，其他都要触发
                 if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     FormDesigner.this.fireTargetModified();
-                    setParameterArray(getNoRepeatParas(getTarget().getParameters()));
-                    refreshParameter();
+                    if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                        setParameterArray(getNoRepeatParas(getTarget().getParameters()));
+                        refreshParameter();
+                    }
                 }
             }
 
