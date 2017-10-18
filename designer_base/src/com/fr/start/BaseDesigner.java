@@ -3,6 +3,8 @@
  */
 package com.fr.start;
 
+import com.fr.base.ConfigManagerCreatorProxy;
+import com.fr.base.ConfigManagerFactory;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -62,6 +64,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     public BaseDesigner(String[] args) {
 
         RestartHelper.deleteRecordFilesWhenStart();
+        ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
         //启动core
         BuildContext.setBuildFilePath(buildPropertiesPath());
         Register.load();
