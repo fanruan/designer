@@ -95,7 +95,7 @@ public abstract class DesignModule extends TopModule {
                 new NameObjectCreator(Inter.getLocText("FR-Designer_Email"), EmailJavaScript.class, EmailPane.class),
                 new NameObjectCreator(Inter.getLocText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
                 new NameObjectCreator(Inter.getLocText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
-                new NameObjectCreator("FR-Designer_JavaScript", JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
+                new NameObjectCreator(Inter.getLocText("FR-Designer_JavaScript"), JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
         };
     }
 
