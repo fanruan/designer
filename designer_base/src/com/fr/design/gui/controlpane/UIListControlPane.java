@@ -98,7 +98,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 // richie:避免多次update和populate大大降低效率
                 if (!evt.getValueIsAdjusting()) {
                     // shoc 切换的时候加检验
-                    if (hasInvalid(false) || DesignerContext.getDesignerFrame().getSelectedJTemplate() == null) {
+                    if (hasInvalid(false)) {
                         return;
                     }
                     ((JControlUpdatePane) UIListControlPane.this.controlUpdatePane).update();

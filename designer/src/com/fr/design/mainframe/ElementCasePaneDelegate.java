@@ -75,7 +75,9 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
             EastRegionContainerPane.getInstance().replaceConfiguredRolesPane(RolesAlreadyEditedPane.getInstance());
             return;
         }
-        CellWidgetPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+        if (DesignerContext.getDesignerFrame().getSelectedJTemplate() != null) {
+            CellWidgetPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
+        }
         CellElementPropertyPane.getInstance().populate(ElementCasePaneDelegate.this);
         QuickEditorRegion.getInstance().populate(getCurrentEditor());
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
