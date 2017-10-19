@@ -195,7 +195,7 @@ public class PluginUtils {
         JSONArray resultJSONArray =  JSONArray.create();
         for(int i = 0; i < oriJSONArray.length(); i++){
             JSONObject jo = oriJSONArray.getJSONObject(i);
-            String envVersion = jo.optString("env-version");
+            String envVersion = jo.optString("envversion");
             if(isCompatibleCurrentEnv(envVersion)){
                 resultJSONArray.put(jo);
             }
