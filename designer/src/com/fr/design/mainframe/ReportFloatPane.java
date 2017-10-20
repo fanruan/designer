@@ -80,7 +80,9 @@ public class ReportFloatPane extends JPanel {
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         ElementCasePaneDelegate elementCasePaneDelegate = (ElementCasePaneDelegate) editingTemplate.getCurrentElementCasePane();
-        refreshInsertFloatMenu(elementCasePaneDelegate);
+        if (elementCasePaneDelegate != null) {
+            refreshInsertFloatMenu(elementCasePaneDelegate);
+        }
     }
 
     private UIButton createButtonUI() {
