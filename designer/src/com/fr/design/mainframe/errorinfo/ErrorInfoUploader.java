@@ -11,6 +11,8 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.log.LogHandler;
+import com.fr.regist.FRCoreContext;
+import com.fr.regist.LicenseListener;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -52,6 +54,14 @@ public class ErrorInfoUploader {
 
         // 这个控制没啥意义, 主要在于宣传功能.
         licSupport = VT4FR.AlphaFine.support();
+        FRCoreContext.listenerLicense(new LicenseListener() {
+        
+            @Override
+            public void onChange() {
+            
+                licSupport = VT4FR.AlphaFine.support();
+            }
+        });
     }
 
     private ErrorInfoUploader() {
