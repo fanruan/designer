@@ -280,7 +280,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     private void resetEditorComponentBounds() {
         if (selection != null) {
-//            selection.setResolution(ScreenResolution.getScreenResolution());
+            selection.setResolution(ScreenResolution.getScreenResolution());
             selection.getEditor().setBounds((int) (selection.getEditorBounds().x * time), (int) (selection.getEditorBounds().y * time),
                     (int) (selection.getEditorBounds().width * time), (int) (selection.getEditorBounds().height * time));
             LayoutUtils.layoutRootContainer(this);
