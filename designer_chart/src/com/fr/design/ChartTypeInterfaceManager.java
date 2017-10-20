@@ -1,5 +1,6 @@
 package com.fr.design;
 
+import com.fr.base.FRContext;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
@@ -157,9 +158,11 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             
             @Override
             public void run() {
-
-                VanChartPhantomService.startPhantomService();
-
+                try {
+                    VanChartPhantomService.startPhantomService();
+                } catch (Exception e){
+                    FRContext.getLogger().info("phantomjs server startup failure：" + e.getMessage());
+                }
                 initAllChartsDemoImage(allCharts);
             }
         }).start();
