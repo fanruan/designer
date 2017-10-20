@@ -1,6 +1,5 @@
 package com.fr.design;
 
-import com.fr.base.FRContext;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
@@ -70,7 +69,6 @@ import com.fr.plugin.chart.map.MapIndependentVanChartInterface;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.multilayer.MultiPieIndependentVanChartInterface;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
-import com.fr.plugin.chart.phantom.VanChartPhantomService;
 import com.fr.plugin.chart.pie.PieIndependentVanChartInterface;
 import com.fr.plugin.chart.radar.RadarIndependentVanChartInterface;
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
@@ -152,21 +150,16 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             
             allCharts[i] = rowChart;
         }
-        
+
         //异步加载图片
         new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
-                try {
-                    VanChartPhantomService.startPhantomService();
-                } catch (Exception e){
-                    FRContext.getLogger().info("phantomjs server startup failure：" + e.getMessage());
-                }
                 initAllChartsDemoImage(allCharts);
             }
         }).start();
-        
+
         return child;
     }
     
