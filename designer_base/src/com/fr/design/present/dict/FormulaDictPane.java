@@ -49,7 +49,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
 
         UILabel tag = new UILabel(Inter.getLocText("FR-Designer-Formula_Dictionary_Display_Examples_Html"));
-        tag.setForeground(new Color(51, 51, 52));
+        tag.setForeground(new Color(143, 143, 146));
         tag.setPreferredSize(new Dimension(225, 80));
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);

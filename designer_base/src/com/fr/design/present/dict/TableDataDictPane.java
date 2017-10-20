@@ -51,6 +51,7 @@ import java.util.List;
 public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary> implements Previewable, UIObserver {
     private static final int BEGIN = 1;
     private static final int END = 10;
+    private static final int VGAP = 24;
     private static final long serialVersionUID = -5469742115988153206L;
     private static final int SELECTED_NO_TABLEDATA = -2;
     public TableDataComboBox tableDataNameComboBox;
@@ -111,7 +112,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
         };
 
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, VGAP, LayoutConstants.VGAP_MEDIUM);
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
     }
