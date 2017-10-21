@@ -925,7 +925,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         } else {
             this.addAndActivateJTemplate(jt);
         }
-
+        //REPORT-5084：激活后刷新一下右側面板
+        jt.refreshEastPropertiesPane();
     }
 
     /**

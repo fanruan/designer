@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.Env;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.core.ActionFactory;
@@ -447,7 +448,8 @@ public class Designer extends BaseDesigner {
         InformationCollector collector = InformationCollector.getInstance();
         collector.collectStopTime();
         collector.saveXMLFile();
-        ServletContext.fireServletStopListener();
+        Env currentEnv = FRContext.getCurrentEnv();
+        currentEnv.doWhenServerShutDown();
     }
 
 }

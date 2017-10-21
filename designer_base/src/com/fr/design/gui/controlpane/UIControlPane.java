@@ -37,7 +37,8 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     protected CardLayout cardLayout;
     protected JPanel cardPane;
     protected BasePlot plot;
-    private static final int TOP_TOOLBAR_HEIGHT = 24;
+    private static final int TOP_TOOLBAR_HEIGHT = 20;
+    private static final int TOP_TOOLBAR_WIDTH = 156;  // 可能因为用了tablelayout，要比其他地方多一个像素，看起来才正常
 
     public UIControlPane() {
         this.initComponentPane();
@@ -191,6 +192,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                 g2.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
         });
+        topToolBar.setBorder(null);
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
@@ -206,10 +208,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     protected JPanel getLeftTopPane (UIToolbar topToolBar) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = { p, f};
+        double[] columnSize = { p, f, TOP_TOOLBAR_WIDTH};
         double[] rowSize = {TOP_TOOLBAR_HEIGHT};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(getAddItemText()), topToolBar},
+                new Component[]{new UILabel(getAddItemText()), new JPanel(), topToolBar},
         };
        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
     }

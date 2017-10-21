@@ -209,10 +209,10 @@ public class PolyDesignUI extends ComponentUI {
 
     private void paintAddingData(Graphics g, AddingData addingData) {
         BlockCreator comp = addingData.getCreator();
-        int x = (int) (addingData.getCurrentX()*time);
-        int y = (int) (addingData.getCurrentY()*time);
-        int width = (int) (comp.getWidth()*time);
-        int height = (int) (comp.getHeight()*time);
+        int x = (int) (addingData.getCurrentX() / time);
+        int y = (int) (addingData.getCurrentY() / time);
+        int width = comp.getWidth();
+        int height = comp.getHeight();
         paintCreator(g, comp, x, y, width, height);
     }
 
