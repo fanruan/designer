@@ -6,11 +6,10 @@ import com.fr.design.designer.creator.*;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.form.ui.FieldEditor;
 import com.fr.general.Inter;
 
@@ -26,7 +25,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
     // richer:错误信息，是所有控件共有的属性，所以放到这里来
     protected UITextField errorMsgTextField;
     protected JPanel validatePane;
-    protected UISpinner fontSizePane;
+    protected FontSizeComboPane fontSizePane;
     protected UITextField labelNameTextField;
 
 
@@ -40,7 +39,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
         labelNameTextField = new UITextField();
         allowBlankCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Allow_Null"));
         allowBlankCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        fontSizePane = new UISpinner(0, 20, 1, 0);
+        fontSizePane = new FontSizeComboPane();
         errorMsgTextField = new UITextField();
         JPanel contentPane = this.setFirstContentPane();
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -70,7 +69,7 @@ public abstract class FieldEditorDefinePane<T extends FieldEditor> extends Abstr
 
         e.setAllowBlank(this.allowBlankCheckBox.isSelected());
         e.setErrorMessage(this.errorMsgTextField.getText());
-        e.setFontSize((int)fontSizePane.getValue());
+        e.setFontSize(fontSizePane.getValue());
         e.setLabelName(labelNameTextField.getText());
         return e;
     }

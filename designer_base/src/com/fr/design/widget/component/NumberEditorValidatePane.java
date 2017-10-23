@@ -254,11 +254,12 @@ public class NumberEditorValidatePane extends JPanel {
             minValueSpinner.setEnabled(true);
             minValueSpinner.setValue(new Double(e.getMinValue()));
         }
-        errorMsgTextField.setText(e.getRegErrorMessage());
-        if(e.getMaxValue() == Double.MAX_VALUE || e.getMinValue() == -Double.MAX_VALUE){
+        if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
             errorMsgTextFieldPane.setVisible(true);
+            errorMsgTextField.setText(e.getRegErrorMessage());
         }else{
             errorMsgTextFieldPane.setVisible(false);
+            errorMsgTextField.setText(StringUtils.EMPTY);
         }
     }
 

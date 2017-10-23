@@ -10,6 +10,7 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.ui.designer.component.FontSizeComboPane;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.general.Inter;
 
@@ -20,7 +21,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 	private DictionaryComboBox acceptType;
 	private UICheckBox singleFileCheckBox;
 	private UISpinner fileSizeField;
-	private UISpinner fontSizeField;
+	private FontSizeComboPane fontSizeField;
 
 	public MultiFileEditorPane(XCreator xCreator) {
 		super(xCreator);
@@ -39,7 +40,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		fileSizeField = new UISpinner(0, Integer.MAX_VALUE, 1, -1);
 		fileSizeField.setPreferredSize(new Dimension(140, 20));
-		fontSizeField = new UISpinner(0, 20, 1, 0);
+		fontSizeField = new FontSizeComboPane();
 
 		JPanel singleFilePane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		singleFilePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -82,7 +83,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
 		ob.setAccept((String) acceptType.getSelectedItem());
 		ob.setSingleFile(singleFileCheckBox.isSelected());
 		ob.setMaxSize(fileSizeField.getValue());
-		ob.setFontSize((int)fontSizeField.getValue());
+		ob.setFontSize(fontSizeField.getValue());
 		return ob;
 	}
 

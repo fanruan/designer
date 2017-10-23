@@ -56,7 +56,7 @@ public class WTabFitLayoutDefinePane extends AbstractDataModify<WTabFitLayout> {
     }
 
     public void initLayoutComponent(){
-        componentInterval = new UISpinner(0, 100, 1, 0);
+        componentInterval = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         titleField = new UITextField();
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Component_Interval")), componentInterval},
