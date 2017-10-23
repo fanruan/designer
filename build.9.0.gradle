@@ -15,6 +15,7 @@ task appletJar<<{
 			fileset(dir:"${basicDir}/report/build/classes/main")		
 			fileset(dir:"${basicDir}/platform/build/classes/main")		
 		}
+		unjar(src:"${libDir}/fr-core-9.0.jar",dest:"./tmp")
 		unjar(src:"${libDir}/fr-third-9.0.jar",dest:"./tmp")
 		unjar(src:"${libDir}/servlet-api.jar",dest:"./tmp")
 		jar(jarfile:"build/libs/fr-applet-9.0.jar"){

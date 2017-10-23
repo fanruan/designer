@@ -3,6 +3,7 @@ package com.fr.design.widget.ui.designer.mobile;
 import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -27,11 +28,11 @@ import java.awt.*;
  * Created by fanglei on 2017/8/8.
  */
 public class ElementCaseDefinePane extends MobileWidgetDefinePane{
-    private static final String[] ITEMS = {
-            MobileFitAttrState.HORIZONTAL.description(),
-            MobileFitAttrState.VERTICAL.description(),
-            MobileFitAttrState.BIDIRECTIONAL.description(),
-            MobileFitAttrState.NONE.description()
+    private static final Item[] ITEMS = {
+            new Item(MobileFitAttrState.HORIZONTAL.description(), MobileFitAttrState.HORIZONTAL),
+            new Item(MobileFitAttrState.VERTICAL.description(), MobileFitAttrState.VERTICAL),
+            new Item(MobileFitAttrState.BIDIRECTIONAL.description(), MobileFitAttrState.BIDIRECTIONAL),
+            new Item(MobileFitAttrState.NONE.description(), MobileFitAttrState.NONE)
     };
 
     private XCreator xCreator; // 当前选中控件的xCreator
@@ -122,8 +123,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.designer = designer;
         this.addAttributeChangeListener(changeListener);
         ElementCaseEditor elementCaseEditor = (ElementCaseEditor)xCreator.toData();
-        this.hComboBox.setSelectedIndex(elementCaseEditor.getHorziontalAttr().getState() - 1);
-        this.vComboBox.setSelectedIndex(elementCaseEditor.getVerticalAttr().getState() - 1);
+        this.hComboBox.setSelectedItem(new Item (elementCaseEditor.getHorziontalAttr().description(), elementCaseEditor.getHorziontalAttr()));
+        this.vComboBox.setSelectedItem(new Item (elementCaseEditor.getVerticalAttr().description(), elementCaseEditor.getVerticalAttr()));
         this.heightRestrictCheckBox.setSelected(elementCaseEditor.isHeightRestrict());
         this.maxHeightLabel.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
@@ -136,10 +137,10 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         String globalName = this.getGlobalName();
         switch (globalName) {
             case "hComboBox":
-                ((ElementCaseEditor)xCreator.toData()).setHorziontalAttr(MobileFitAttrState.parse(hComboBox.getSelectedIndex() + 1));
+                ((ElementCaseEditor)xCreator.toData()).setHorziontalAttr(((MobileFitAttrState)((Item)hComboBox.getSelectedItem()).getValue()));
                 break;
             case "vComboBox":
-                ((ElementCaseEditor)xCreator.toData()).setVerticalAttr(MobileFitAttrState.parse(vComboBox.getSelectedIndex() + 1));
+                ((ElementCaseEditor)xCreator.toData()).setVerticalAttr(((MobileFitAttrState)((Item)vComboBox.getSelectedItem()).getValue()));
                 break;
             case "heightRestrictCheckBox":
                 boolean isHeightRestrict = heightRestrictCheckBox.isSelected();

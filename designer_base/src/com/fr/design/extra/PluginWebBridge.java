@@ -10,6 +10,8 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
+import com.fr.json.JSONException;
+import com.fr.json.JSONObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
@@ -19,7 +21,6 @@ import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,10 +92,14 @@ public class PluginWebBridge {
     public String getRunConfig() {
         if (action != null) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put(ACTION, action.getContext());
-            Set<String> keySet = config.keySet();
-            for (String key : keySet) {
-                jsonObject.put(key, config.get(key).toString());
+            try {
+                jsonObject.put(ACTION, action.getContext());
+                Set<String> keySet = config.keySet();
+                for (String key : keySet) {
+                    jsonObject.put(key, config.get(key).toString());
+                }
+            } catch (JSONException e) {
+                FRContext.getLogger().error(e.getMessage(), e);
             }
             return jsonObject.toString();
         }
