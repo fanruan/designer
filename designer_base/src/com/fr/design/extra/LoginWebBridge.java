@@ -2,7 +2,6 @@ package com.fr.design.extra;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.ucenter.Client;
@@ -10,6 +9,7 @@ import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.json.JSONObject;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
@@ -312,9 +312,9 @@ public class LoginWebBridge {
      * @param userInfo
      */
     public void getLoginInfo(String userInfo) {
-        org.json.JSONObject jo = new org.json.JSONObject(userInfo);
-        String status = jo.get("status").toString();
         try{
+            JSONObject jo = new JSONObject(userInfo);
+            String status = jo.get("status").toString();
             if (status.equals(LOGIN_SUCCESS)) {
                 String username = jo.get("username").toString();
                 int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
