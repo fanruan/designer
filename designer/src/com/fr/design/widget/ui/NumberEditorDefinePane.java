@@ -1,11 +1,11 @@
 package com.fr.design.widget.ui;
 
-import java.awt.*;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.component.NumberEditorValidatePane;
 import com.fr.form.ui.NumberEditor;
+
+import java.awt.BorderLayout;
 
 public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> {
     /**

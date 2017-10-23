@@ -80,7 +80,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         layoutComboBox = initUIComboBox(FRLayoutTypeItems.ITEMS);
         adaptComboBox = initUIComboBox(FRFitConstraintsItems.ITEMS);
-        componentIntervel = new UISpinner(0, 100, 1, 0);
+        componentIntervel = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p};
@@ -185,8 +185,24 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         //todo 验证下
         layout.setLayoutType(WBodyLayoutType.parse(state));
         layout.setCompState(adaptComboBox.getSelectedIndex());
-        layout.setCompInterval((int)componentIntervel.getValue());
+
+        int intervelValue = (int)componentIntervel.getValue();
+        if (xWFitLayout.canAddInterval(intervelValue)) {
+//             设置完间隔后，要同步处理界面组件，容器刷新后显示出对应效果
+            setLayoutGap(intervelValue);
+        }
+
         return layout;
+    }
+
+    private void setLayoutGap(int value) {
+        int  interval = wFitLayout.getCompInterval();
+        if (value != interval) {
+            xWFitLayout.moveContainerMargin();
+            xWFitLayout.moveCompInterval(xWFitLayout.getAcualInterval());
+            wFitLayout.setCompInterval(value);
+            xWFitLayout.addCompInterval(xWFitLayout.getAcualInterval());
+        }
     }
 
     @Override

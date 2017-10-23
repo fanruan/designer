@@ -21,10 +21,10 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
     }
 
     public void initBoundPane() {
-        x = new UISpinner(0, 1200, 1);
-        y = new UISpinner(0, 1200, 1);
-        width = new UISpinner(0, 1200, 1);
-        height = new UISpinner(0, 1200, 1);
+        x = new UISpinner(0, Integer.MAX_VALUE, 1);
+        y = new UISpinner(0, Integer.MAX_VALUE, 1);
+        width = new UISpinner(0, Integer.MAX_VALUE, 1);
+        height = new UISpinner(0, Integer.MAX_VALUE, 1);
         x.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         y.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
