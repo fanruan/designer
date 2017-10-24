@@ -1,20 +1,44 @@
 package com.fr.design.mainframe.loghandler;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.*;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.FRLogLevel;
+import com.fr.general.FRLogger;
+import com.fr.general.GeneralContext;
+import com.fr.general.Inter;
 import com.fr.log.LogHandler;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.xml.LogRecordTimeProvider;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -105,7 +129,7 @@ public class DesignerLogHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPopupMenu showsetPopup = new JPopupMenu();
-                int logLevelvalue = DesignerEnvManager.getEnvManager().getLogLevel().intValue();
+                int logLevelvalue = ConfigManager.getProviderInstance().getServerLogLevel().intValue();
                 if (logLevelvalue <= INFO_INT) {
                     showsetPopup.add(showInfo);
                     showsetPopup.add(showError);

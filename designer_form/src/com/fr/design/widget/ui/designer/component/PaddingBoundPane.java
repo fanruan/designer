@@ -32,10 +32,10 @@ public class PaddingBoundPane extends BasicPane{
 
     public void initBoundPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        top = new UISpinner(0, 1000, 1, 0);
-        bottom = new UISpinner(0, 1000, 1, 0);
-        left = new UISpinner(0, 1000, 1, 0);
-        right = new UISpinner(0, 1000, 1, 0);
+        top = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        bottom = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        left = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        right = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         top.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
         bottom.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
         left.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
@@ -52,7 +52,7 @@ public class PaddingBoundPane extends BasicPane{
                 new Component[]{null, createRightPane(new UILabel(Inter.getLocText("FR-Designer_Left"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Right"), SwingConstants.CENTER))},
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
         this.add(panel);
     }
 
