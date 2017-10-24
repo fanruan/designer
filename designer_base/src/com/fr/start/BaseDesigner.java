@@ -67,10 +67,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
         //启动core
         BuildContext.setBuildFilePath(buildPropertiesPath());
-        Register.load();
-        //标记一下是设计器启动
-        PluginConversionModule.getInstance().markDesignerStart();
-        SiteCenter.getInstance();
 
         if (isDebug()) {
             setDebugEnv();
@@ -82,6 +78,11 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             DesignUtils.clientSend(args);
             return;
         }
+        
+        Register.load();
+        //标记一下是设计器启动
+        PluginConversionModule.getInstance().markDesignerStart();
+        SiteCenter.getInstance();
 
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
