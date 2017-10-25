@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -13,12 +12,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.widget.component.DateValuePane;
 import com.fr.design.widget.component.UIComboBoxNoArrow;
 import com.fr.form.ui.DateEditor;
-import com.fr.general.DateUtils;
 import com.fr.general.Inter;
-import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.FormulaProvider;
-import com.fr.stable.UtilEvalError;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
