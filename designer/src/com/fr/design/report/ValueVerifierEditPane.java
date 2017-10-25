@@ -1,6 +1,6 @@
 package com.fr.design.report;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.data.VerifyItem;
 import com.fr.design.gui.itableeditorpane.ActionStyle;
 import com.fr.design.gui.itableeditorpane.UIArrayFormulaTableModel;
@@ -50,7 +50,7 @@ public class ValueVerifierEditPane extends JPanel {
 			if (!StableUtils.canBeFormula(msg)) {
 				msg = "\"" + msg + "\"";//如果报错信息是以前的写法(字符串)就拼上""
 			}
-			os[tableDataCount++] = new Object[]{formula, new Formula(msg)};
+			os[tableDataCount++] = new Object[]{formula, BaseFormula.createFormulaBuilder().build(msg)};
 		}
 		this.tableEditorPane.populate(os);
 	}
@@ -63,7 +63,7 @@ public class ValueVerifierEditPane extends JPanel {
 			if (o == null || o[0] == null) {
 				continue;
 			}
-			VerifyItem item = new VerifyItem(new Formula(GeneralUtils.objectToString(o[0])), GeneralUtils.objectToString(o[1]));
+			VerifyItem item = new VerifyItem(BaseFormula.createFormulaBuilder().build(o[0]), GeneralUtils.objectToString(o[1]));
 			valueVerifier.addVerifyItem(item);
 		}
 		return valueVerifier;

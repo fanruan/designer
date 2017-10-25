@@ -1,6 +1,6 @@
 package com.fr.design.dscolumn;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.data.util.SortOrder;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicPane;
@@ -31,7 +31,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.*;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.BOTTOM;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.SPECIFY;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.TOP;
 
 public class DSColumnAdvancedPane extends BasicPane {
 
@@ -460,7 +462,7 @@ public class DSColumnAdvancedPane extends BasicPane {
         private ActionListener formulaButtonActionListener = new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                Formula valueFormula = new Formula();
+                BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                 String text = formulaTextField.getText();
                 if (text == null || text.length() <= 0) {
                     valueFormula.setContent(defaultValue);
@@ -485,7 +487,7 @@ public class DSColumnAdvancedPane extends BasicPane {
                 formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(JFormulaField.this), new DialogActionAdapter() {
                     @Override
                     public void doOk() {
-                        Formula valueFormula = formulaPane.update();
+                        BaseFormula valueFormula = formulaPane.update();
                         if (valueFormula.getContent().length() <= 1) {
                             formulaTextField.setText(defaultValue);
                         } else {

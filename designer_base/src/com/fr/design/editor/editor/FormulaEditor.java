@@ -3,13 +3,13 @@
  */
 package com.fr.design.editor.editor;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -23,10 +23,10 @@ import java.awt.event.MouseEvent;
  * @editor zhou
  * @since 2012-3-29下午6:27:27
  */
-public class FormulaEditor extends Editor<Formula> {
-    private Formula formula = new Formula(StringUtils.EMPTY);
+public class FormulaEditor extends Editor<BaseFormula> {
+    private BaseFormula formula = BaseFormula.createFormulaBuilder().build();
     private UITextField currentTextField;
-    private ShowPaneListener listerner = new ShowPaneListener();
+    private ShowPaneListener listener = new ShowPaneListener();
 
     /**
      * Constructor.
@@ -39,7 +39,7 @@ public class FormulaEditor extends Editor<Formula> {
         this(name, null);
     }
 
-    public FormulaEditor(String name, Formula formula) {
+    public FormulaEditor(String name, BaseFormula formula) {
         if (formula != null) {
             this.formula = formula;
         }
@@ -51,7 +51,7 @@ public class FormulaEditor extends Editor<Formula> {
 
         editPane.add(currentTextField, BorderLayout.CENTER);
         currentTextField.setEditable(false);
-        currentTextField.addMouseListener(listerner);
+        currentTextField.addMouseListener(listener);
         this.add(editPane, BorderLayout.CENTER);
         this.setName(name);
     }
@@ -96,7 +96,7 @@ public class FormulaEditor extends Editor<Formula> {
         }).setVisible(true);
     }
 
-    public Formula getFormula(){
+    public BaseFormula getFormula(){
         return formula;
     }
 
@@ -104,7 +104,7 @@ public class FormulaEditor extends Editor<Formula> {
      * Return the value of the CellEditor.
      */
     @Override
-    public Formula getValue() {
+    public BaseFormula getValue() {
         if (formula != null && "=".equals(formula.getContent())) {
             return null;
         }
@@ -115,9 +115,9 @@ public class FormulaEditor extends Editor<Formula> {
      * Set the value to the CellEditor.
      */
     @Override
-    public void setValue(Formula value) {
+    public void setValue(BaseFormula value) {
         if (value == null) {
-            value = new Formula(StringUtils.EMPTY);
+            value = BaseFormula.createFormulaBuilder().build();
         }
         this.formula = value;
         currentTextField.setText(value.toString());
@@ -151,7 +151,7 @@ public class FormulaEditor extends Editor<Formula> {
      */
     public void reset() {
         currentTextField.setText("=");
-        formula = new Formula(StringUtils.EMPTY);
+        formula = BaseFormula.createFormulaBuilder().build();
     }
 
     /**
@@ -170,13 +170,13 @@ public class FormulaEditor extends Editor<Formula> {
         this.setEnabled(flag);
         this.currentTextField.setEnabled(flag);
         if (flag == false) {
-            this.currentTextField.removeMouseListener(listerner);
+            this.currentTextField.removeMouseListener(listener);
         } else {
             int listenerSize = this.currentTextField.getMouseListeners().length;
             for (int i = 0; i < listenerSize; i++) {
-                this.currentTextField.removeMouseListener(listerner);
+                this.currentTextField.removeMouseListener(listener);
             }
-            this.currentTextField.addMouseListener(listerner);
+            this.currentTextField.addMouseListener(listener);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.fr.design.condition;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.data.DataConstants;
 import com.fr.data.condition.*;
 import com.fr.design.beans.BasicBeanPane;
@@ -75,13 +75,13 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            Formula formula;
+            BaseFormula formula;
 
             String text = formulaTextArea.getText();
             if (text == null || text.length() <= 0) {
-                formula = new Formula(StringUtils.EMPTY);
+                formula = BaseFormula.createFormulaBuilder().build();
             } else {
-                formula = new Formula(text);
+                formula = BaseFormula.createFormulaBuilder().build(text);
             }
 
             final UIFormula formulaPane = FormulaFactory.createFormulaPane();
@@ -90,7 +90,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
                 @Override
                 public void doOk() {
-                    Formula formula = formulaPane.update();
+                    BaseFormula formula = formulaPane.update();
                     if (formula.getContent().length() <= 1) {// 如果没有填任何字符，则是空白文本
                         formulaTextArea.setText(StringUtils.EMPTY);
                     } else {

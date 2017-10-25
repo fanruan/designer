@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data.report;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.NormalReportDataDefinition;
@@ -140,7 +140,7 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 			return null;
 		}
 		
-		return StableUtils.canBeFormula(object) ? new Formula(object.toString()) : object.toString();
+		return StableUtils.canBeFormula(object) ? BaseFormula.createFormulaBuilder().build(object) : object.toString();
 	}
 
     protected class InnerTableEditor extends UITableEditor {
@@ -179,7 +179,7 @@ public abstract class AbstractReportDataContentPane extends BasicBeanPane<ChartC
 					}
 
 					@Override
-					protected void populateTextField(Formula fm) {
+					protected void populateTextField(BaseFormula fm) {
 						formulaTextField.setText(fm.getContent());
 					}
 				};

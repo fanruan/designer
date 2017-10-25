@@ -3,6 +3,7 @@
  */
 package com.fr.design.actions.insert.flot;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.Formula;
@@ -108,7 +109,7 @@ public class FormulaFloatAction extends ElementCaseAction {
         reportPane.stopEditing();
         final FloatElement floatElement = new FloatElement();
         final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-        formulaPane.populate(new Formula(StringUtils.EMPTY));
+        formulaPane.populate(BaseFormula.createFormulaBuilder().build());
 
         BasicDialog dialog = formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 

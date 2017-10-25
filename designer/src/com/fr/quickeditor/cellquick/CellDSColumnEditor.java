@@ -1,6 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
 import com.fr.design.actions.core.ActionFactory;
@@ -47,7 +47,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.*;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.BOTTOM;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.EVEN;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.ODD;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.SPECIFY;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.TOP;
+import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.UNDEFINE;
 
 
 /**
@@ -974,7 +979,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             private ActionListener formulaButtonActionListener = new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    Formula valueFormula = new Formula();
+                    BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                     String text = formulaTextField.getText();
                     if (text == null || text.length() <= 0) {
                         valueFormula.setContent(defaultValue);
@@ -991,7 +996,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
                             formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(DSColumnAdvancedEditorPane.JFormulaField.this), new DialogActionAdapter() {
                                 @Override
                                 public void doOk() {
-                                    Formula valueFormula = formulaPane.update();
+                                    BaseFormula valueFormula = formulaPane.update();
                                     if (valueFormula.getContent().length() <= 1) {
                                         formulaTextField.setText(defaultValue);
                                     } else {

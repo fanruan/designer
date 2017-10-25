@@ -3,6 +3,7 @@
  */
 package com.fr.design.mainframe.widget.accessibles;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -37,7 +38,7 @@ public class AccessibleFormulaEditor extends BaseAccessibleEditor {
                 fireStateChanged();
             }
         });
-        formulaPane.populate((Formula) getValue());
+        formulaPane.populate((BaseFormula) getValue());
         dlg.setVisible(true);
     }
 }

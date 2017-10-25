@@ -1,25 +1,12 @@
 package com.fr.design.chart.report;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartdata.BaseSeriesDefinition;
 import com.fr.chart.chartdata.MapSingleLayerReportDefinition;
 import com.fr.chart.chartdata.SeriesDefinition;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.TinyFormulaPane;
@@ -30,6 +17,13 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.general.Inter;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 多层地图, 单元格, 多层切换 单界面.
@@ -98,7 +92,7 @@ public class MapMoreReportIndexPane extends BasicBeanPane<MapSingleLayerReportDe
 		
 		String areaName = areaNamePane.updateBean();
 		if(StableUtils.canBeFormula(areaName)) {
-			definition.setCategoryName(new Formula(areaName));
+			definition.setCategoryName(BaseFormula.createFormulaBuilder().build(areaName));
 		} else {
 			definition.setCategoryName(areaName);
 		}

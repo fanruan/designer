@@ -3,6 +3,7 @@
  */
 package com.fr.design.cell.editor;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
@@ -311,12 +312,12 @@ public class RichTextToolBar extends BasicPane{
 	private ActionListener formulaActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent evt) {
 			final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-			formulaPane.populate(new Formula());
+			formulaPane.populate(BaseFormula.createFormulaBuilder().build());
 			formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 				@Override
 				public void doOk() {
 					StyledDocument doc = (StyledDocument) textPane.getDocument();
-					Formula fm = formulaPane.update();
+					BaseFormula fm = formulaPane.update();
 					String content = RichTextConverter.asFormula(fm.getContent());
 					int start = textPane.getSelectionStart();
                     AttributeSet attrs = start > 0 ? doc.getCharacterElement(start - 1).getAttributes() : new SimpleAttributeSet();

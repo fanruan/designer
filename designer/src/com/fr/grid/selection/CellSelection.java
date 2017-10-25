@@ -1,10 +1,21 @@
 package com.fr.grid.selection;
 
-import com.fr.base.*;
+import com.fr.base.BaseFormula;
+import com.fr.base.BaseUtils;
+import com.fr.base.ConfigManager;
+import com.fr.base.NameStyle;
+import com.fr.base.Utils;
 import com.fr.cache.list.IntList;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.cell.*;
+import com.fr.design.actions.cell.CellAttributeAction;
+import com.fr.design.actions.cell.CellExpandAttrAction;
+import com.fr.design.actions.cell.CellWidgetAttrAction;
+import com.fr.design.actions.cell.CleanAuthorityAction;
+import com.fr.design.actions.cell.ConditionAttributesAction;
+import com.fr.design.actions.cell.EditCellAction;
+import com.fr.design.actions.cell.GlobalStyleMenuDef;
 import com.fr.design.actions.cell.GlobalStyleMenuDef.GlobalStyleSelection;
+import com.fr.design.actions.cell.StyleAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
@@ -26,7 +37,6 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.RowColumnPane;
 import com.fr.design.selection.QuickEditor;
-import com.fr.form.ui.CellWidget;
 import com.fr.general.Inter;
 import com.fr.grid.GridUtils;
 import com.fr.report.cell.CellElement;
@@ -293,7 +303,7 @@ public class CellSelection extends Selection {
             for (int c = 0; c < lineTextArray.length; c++) {
                 String textValue = lineTextArray[c];
                 if (textValue.length() > 0 && textValue.charAt(0) == '=') {
-                    ec.setCellValue(column + c, row + r, new Formula(textValue));
+                    ec.setCellValue(column + c, row + r, BaseFormula.createFormulaBuilder().build(textValue));
                 } else {
                     Number number = Utils.string2Number(lineTextArray[c]);
                     if (number != null) {

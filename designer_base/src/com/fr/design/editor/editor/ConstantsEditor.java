@@ -1,11 +1,12 @@
 package com.fr.design.editor.editor;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 
 
 public class ConstantsEditor extends FormulaEditor {
 
-	public ConstantsEditor(String name, Formula formula) {
+	public ConstantsEditor(String name, BaseFormula formula) {
 		super(name, formula);
 	}
 	
@@ -13,7 +14,7 @@ public class ConstantsEditor extends FormulaEditor {
 		// do nothing 防止修改...
 	}
 	
-	public void setValue(Formula value) {
+	public void setValue(BaseFormula value) {
 		// do nothing 防止修改...
     }
 	

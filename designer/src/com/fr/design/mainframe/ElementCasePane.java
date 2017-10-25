@@ -322,7 +322,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     private void initDefaultEditors() {
         Grid grid = this.getGrid();
         grid.setDefaultCellEditor(DSColumn.class, new DSColumnCellEditor(this));
-        grid.setDefaultCellEditor(Formula.class, new FormulaCellEditor(this));
+        grid.setDefaultCellEditor(BaseFormula.class, new FormulaCellEditor(this));
         grid.setDefaultCellEditor(RichText.class, new RichTextCellEditor(this));
 
         grid.setDefaultCellEditor(BiasTextPainter.class, new BiasTextPainterCellEditor(this));

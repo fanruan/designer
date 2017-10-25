@@ -217,55 +217,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         return ob;
     }
 
-
-    /**
-     * 更新日期控件的起止日期
-     *
-     * @param dateWidgetEditor 日期控件
-     */
-    public void updateStartEnd(DateEditor dateWidgetEditor) {
-        Object startObject = startDv.update();
-        Object endObject = endDv.update();
-        // wei : 对公式的处理
-        Calculator cal = null;
-        if (startObject instanceof Formula) {
-            cal = Calculator.createCalculator();
-            Formula startFormula = (Formula) startObject;
-            try {
-                startFormula.setResult(cal.evalValue(startFormula.getContent()));
-            } catch (UtilEvalError e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-            startObject = startFormula.getResult();
-            dateWidgetEditor.setStartDateFM(startFormula);
-            dateWidgetEditor.setStartText(null);
-        } else {
-            try {
-                dateWidgetEditor.setStartText(startObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date) startObject));
-            } catch (ClassCastException e) {
-                //wei : TODO 说明应用的公式不能转化成日期格式，应该做些处理。
-            }
-        }
-        if (endObject instanceof Formula) {
-            cal = Calculator.createCalculator();
-            Formula endFormula = (Formula) endObject;
-            try {
-                endFormula.setResult(cal.evalValue(endFormula.getContent()));
-            } catch (UtilEvalError e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-            endObject = endFormula.getResult();
-            dateWidgetEditor.setEndDateFM(endFormula);
-            dateWidgetEditor.setEndText(null);
-        } else {
-            try {
-                dateWidgetEditor.setEndText(endObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date) endObject));
-            } catch (ClassCastException e) {
-
-            }
-        }
-    }
-
     private SimpleDateFormat getSimpleDateFormat() {
         String text = (String) currentFormatComboBox.getSelectedItem();
         SimpleDateFormat simpleDateFormat;

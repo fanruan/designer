@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.style.background;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.formula.TinyFormulaPane;
@@ -105,8 +105,8 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
 
         customIntervalBackground.setAxisName(backgroundAxis.getSelectedItem().toString());
 
-        customIntervalBackground.setFromFormula(new Formula(bottomValue.updateBean()));
-        customIntervalBackground.setToFormula(new Formula(topValue.updateBean()));
+        customIntervalBackground.setFromFormula(BaseFormula.createFormulaBuilder().build(bottomValue.updateBean()));
+        customIntervalBackground.setToFormula(BaseFormula.createFormulaBuilder().build(topValue.updateBean()));
         customIntervalBackground.setBackgroundColor(color.getSelectObject());
         customIntervalBackground.setAlpha(transparent.updateBean() / VanChartAttrHelper.PERCENT);
         return customIntervalBackground;

@@ -1,16 +1,14 @@
 package com.fr.design.present.dict;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.data.impl.FormulaDictionary;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 import com.fr.stable.StringUtils;
 
@@ -54,7 +52,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         JPanel t = new JPanel(new BorderLayout());
         t.add(tag, BorderLayout.CENTER);
 
-        Formula vf = new Formula("$$$");
+        BaseFormula vf = BaseFormula.createFormulaBuilder().build("$$$");
         valueFormulaEditor = new FormulaEditor(StringUtils.EMPTY, vf);
 
         JPanel valueFormulaContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, LEFT_BORDER, 0));
@@ -88,8 +86,8 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     @Override
     public void populateBean(FormulaDictionary dict) {
-        keyFormulaEditor.setValue(new Formula(dict.getProduceFormula() == null ? StringUtils.EMPTY : dict.getProduceFormula()));
-        valueFormulaEditor.setValue(new Formula(dict.getExcuteFormula() == null ? StringUtils.EMPTY : dict.getExcuteFormula()));
+        keyFormulaEditor.setValue(BaseFormula.createFormulaBuilder().build(dict.getProduceFormula() == null ? StringUtils.EMPTY : dict.getProduceFormula()));
+        valueFormulaEditor.setValue(BaseFormula.createFormulaBuilder().build(dict.getExcuteFormula() == null ? StringUtils.EMPTY : dict.getExcuteFormula()));
     }
 
     @Override

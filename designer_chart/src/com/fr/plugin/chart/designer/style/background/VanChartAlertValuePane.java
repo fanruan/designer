@@ -1,5 +1,6 @@
 package com.fr.plugin.chart.designer.style.background;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.design.beans.BasicBeanPane;
@@ -171,14 +172,14 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     public VanChartAlertValue updateBean(){
         chartAlertValue.setAxisName(alertAxis.getSelectedItem().toString());
 
-        chartAlertValue.setAlertValueFormula(new Formula(alertValue.updateBean()));
+        chartAlertValue.setAlertValueFormula(BaseFormula.createFormulaBuilder().build(alertValue.updateBean()));
         chartAlertValue.getLineColor().setSeriesColor(alertLineColor.getSelectObject());
         chartAlertValue.getLineStyle().setLineStyle(alertLineStyle.getSelectedLineStyle());
 
         String contentString = alertText.updateBean();
         Object contentObj;
         if (StableUtils.maybeFormula(contentString)) {
-            contentObj = new Formula(contentString);
+            contentObj = BaseFormula.createFormulaBuilder().build(contentString);
         } else {
             contentObj = contentString;
         }

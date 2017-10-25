@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data.report;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Bar2DPlot;
@@ -60,7 +61,7 @@ public class CategoryPlotReportDataContentPane extends AbstractReportDataContent
             }
 
             @Override
-            protected void populateTextField(Formula fm) {
+            protected void populateTextField(BaseFormula fm) {
                 formulaTextField.setText(fm.getContent());
             }
 

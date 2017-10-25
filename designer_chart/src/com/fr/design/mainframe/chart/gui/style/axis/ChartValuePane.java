@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style.axis;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartBaseUtils;
@@ -280,11 +281,11 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 				numberAxis.setLogBase(null);
 			} else {
 				numberAxis.setLog(true);
-				Formula formula = new Formula(increment);
+				BaseFormula formula = BaseFormula.createFormulaBuilder().build(increment);
 				Number number = ChartBaseUtils.formula2Number(formula);
 				// 界面处理防止 遇到 对数增量为小于1的值.
 				if (number != null && number.doubleValue() <= 1.0) {
-					numberAxis.setLogBase(new Formula("2"));
+					numberAxis.setLogBase(BaseFormula.createFormulaBuilder().build("2"));
 				} else {
 					numberAxis.setLogBase(formula);
 				}

@@ -127,21 +127,30 @@ public class ActionFactory {
     }
 
     private static QuickEditor createEditor(Class clazz, Map<Class, Class<? extends QuickEditor>> editorMap) {
-        Class<? extends QuickEditor> c = editorMap.get(clazz);
+        Class<? extends QuickEditor> c = findQuickEditorClass(clazz, editorMap);
+        if (c == null) {
+            return null;
+        }
         try {
             Constructor<? extends QuickEditor> constructor = c.getDeclaredConstructor();
             constructor.setAccessible(true);
             return constructor.newInstance();
-        } catch (NoSuchMethodException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        } catch (InstantiationException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
         return null;
+    }
+
+    private static Class<? extends QuickEditor> findQuickEditorClass(Class clazz, Map<Class, Class<? extends QuickEditor>> editorMap) {
+        Class<? extends QuickEditor> c = editorMap.get(clazz);
+        if (c == null) {
+            Class superClazz = clazz.getSuperclass();
+            if (superClazz == null) {
+                return null;
+            }
+            return findQuickEditorClass(superClazz, editorMap);
+        }
+        return c;
     }
 
     public static QuickEditor getCellEditor(Class clazz) {

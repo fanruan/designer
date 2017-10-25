@@ -3,6 +3,7 @@
  */
 package com.fr.design.headerfooter;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.headerfooter.*;
 import com.fr.design.dialog.BasicPane;
@@ -121,7 +122,7 @@ public class HFAttributesEditDialog extends BasicPane {
         formulaButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                Formula valueFormula = new Formula();
+                BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                 String text = formulaContentField.getText();
                 if (text == null || text.length() <= 0) {
                     valueFormula.setContent("");
@@ -135,7 +136,7 @@ public class HFAttributesEditDialog extends BasicPane {
 
                     @Override
                     public void doOk() {
-                        Formula valueFormula = formulaPane.update();
+                        BaseFormula valueFormula = formulaPane.update();
                         if (valueFormula.getContent().length() <= 1) {
                             formulaContentField.setText("");
                         } else {
