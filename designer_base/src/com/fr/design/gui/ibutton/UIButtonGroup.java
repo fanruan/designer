@@ -200,7 +200,11 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
                     if (isPressed(b)) {
                         g.setColor(Color.white);
                     } else {
-                        g.setColor(Color.black);
+                        if (b.isEnabled()) {
+                            g.setColor(Color.black);
+                        } else {
+                            g.setColor(UIConstants.LINE_COLOR);
+                        }
                     }
 
                     SwingUtilities2.drawStringUnderlineCharAt(b, g, text, mnemonicIndex, textRec.x + getTextShiftOffset(), textRec.y + fm.getAscent() + getTextShiftOffset());
