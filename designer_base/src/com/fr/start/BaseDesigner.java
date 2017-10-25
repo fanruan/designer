@@ -62,12 +62,17 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     private Timer timer;
 
     public BaseDesigner(String[] args) {
-
+    
+        init(args);
+    }
+    
+    private void init(String[] args) {
+        
         RestartHelper.deleteRecordFilesWhenStart();
         ConfigManagerFactory.registerConfigManagerProxy(new ConfigManagerCreatorProxy());
         //启动core
         BuildContext.setBuildFilePath(buildPropertiesPath());
-
+        
         if (isDebug()) {
             setDebugEnv();
         } else {
@@ -83,13 +88,13 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         //标记一下是设计器启动
         PluginConversionModule.getInstance().markDesignerStart();
         SiteCenter.getInstance();
-
+        
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
         initLanguage();
-
+        
         // 在 initLanguage 之后加载设计器国际化文件，确保是正确的语言环境
         Inter.loadLocaleFile(GeneralContext.getLocale(), DesignModule.LOCALE_FILE_PATH);
-
+        
         SplashWindow splashWindow = new SplashWindow(createSplashPane());
         if (args != null) {
             for (String arg : args) {
@@ -204,7 +209,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     //在VM options里加入-Ddebug=true激活
     private boolean isDebug() {
-        return "true".equals(System.getProperty("debug"));
+    
+        return ComparatorUtils.equals("true", System.getProperty("debug"));
     }
 
     private static final int DEBUG_PORT = 51463;
