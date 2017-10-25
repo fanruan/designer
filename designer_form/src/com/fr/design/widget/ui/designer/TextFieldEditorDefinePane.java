@@ -61,9 +61,11 @@ public class TextFieldEditorDefinePane extends FieldEditorDefinePane<TextEditor>
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT);
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"), SwingConstants.LEFT),  formWidgetValuePane},
+                new Component[]{widgetValueLabel,  formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark"), SwingConstants.LEFT), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size"), SwingConstants.LEFT), fontSizePane}
         };

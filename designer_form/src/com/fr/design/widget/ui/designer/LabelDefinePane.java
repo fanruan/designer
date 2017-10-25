@@ -62,10 +62,12 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         UILabel fontLabel = new UILabel(Inter.getLocText("FR-Designer_Font-Size"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
+                new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{isStyleAlignmentWrapText, null},
                 new Component[]{isPageSetupVertically, null},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Widget_Display_Position")), hAlignmentPane},

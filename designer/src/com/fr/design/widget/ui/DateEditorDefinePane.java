@@ -58,10 +58,17 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
+		UILabel formatLabel = new UILabel(Inter.getLocText("FR-Engine_Format"));
+		formatLabel.setVerticalAlignment(SwingConstants.TOP);
+		UILabel startDateLabel = new UILabel(Inter.getLocText("FS_Start_Date"));
+		startDateLabel.setVerticalAlignment(SwingConstants.TOP);
+		UILabel endDateLabel = new UILabel(Inter.getLocText("FS_End_Date"));
+		endDateLabel.setVerticalAlignment(SwingConstants.TOP);
+
 		Component[][] components = new Component[][]{
-				new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format")), formatHead},
-				new Component[]{new UILabel(Inter.getLocText("FS_Start_Date")), startDv},
-				new Component[]{new UILabel(Inter.getLocText("FS_End_Date")), endDv},
+				new Component[]{formatLabel, formatHead},
+				new Component[]{startDateLabel, startDv},
+				new Component[]{endDateLabel, endDv},
 				new Component[]{waterMarkDictPane, null},
 				new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
 		};

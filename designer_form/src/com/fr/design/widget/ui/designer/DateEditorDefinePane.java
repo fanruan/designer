@@ -56,6 +56,14 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     @Override
     protected JPanel setFirstContentPane() {
         waterMarkDictPane = new WaterMarkDictPane();
+        UILabel formatLabel = new UILabel(Inter.getLocText("FR-Engine_Format"));
+        formatLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel startDateLabel = new UILabel(Inter.getLocText("FS_Start_Date"));
+        startDateLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel endDateLabel = new UILabel(Inter.getLocText("FS_End_Date"));
+        endDateLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
         JPanel formatHead =  createFormatHead();
@@ -65,10 +73,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format")), formatHead},
-                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date")), startDv},
-                new Component[]{new UILabel(Inter.getLocText("FS_End_Date")), endDv},
+                new Component[]{widgetValueLabel, formWidgetValuePane},
+                new Component[]{formatLabel, formatHead},
+                new Component[]{startDateLabel, startDv},
+                new Component[]{endDateLabel, endDv},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
                 new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}

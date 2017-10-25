@@ -15,6 +15,7 @@ import com.fr.general.Inter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import java.awt.Component;
 
 public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
@@ -33,13 +34,15 @@ public class CheckBoxDefinePane extends AbstractDataModify<CheckBox> {
 		text = new UITextField();
 		fontSizePane = new FontSizeComboPane();
 		labelNameTextField = new UITextField();
+		UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Text")),  text },
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")),  formWidgetValuePane },
+				new Component[]{widgetValueLabel,  formWidgetValuePane },
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
 		};
 		double[] rowSize = {p, p, p, p, p, p};
