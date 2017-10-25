@@ -2,7 +2,7 @@ package com.fr.design.widget;
 
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DataCreatorUI;
-import com.fr.design.designer.IntervalConstants;
+import com.fr.design.dialog.AttrScrollPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
@@ -51,38 +51,24 @@ public class CellWidgetCardPane extends BasicPane {
 
         this.removeAll();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-
-        BasicScrollPane basicScrollPane = new BasicScrollPane() {
-            @Override
-            protected JPanel createContentPane() {
-                return jPanel;
-            }
-
-            @Override
-            public void populateBean(Object ob) {
-
-            }
-
-            @Override
-            protected String title4PopupWindow() {
-                return null;
-            }
-        };
-        this.add(basicScrollPane, BorderLayout.CENTER);
-
         //k
         tabbedPane = new CardLayout();
         center = new JPanel(tabbedPane);
-        jPanel.add(center, BorderLayout.CENTER);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L6, 0, 0));
+        this.add(center, BorderLayout.CENTER);
         attriTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eventTabPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        eventTabPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         initPaneList();
         eventPane = initWidgetEventPane(pane);
         eventTabPane.add(eventPane, BorderLayout.CENTER);
         //k
-        center.add(attriTabPane, Inter.getLocText("FR-Designer_Attribute"));
+        BasicScrollPane basicScrollPane = new AttrScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return attriTabPane;
+            }
+        };
+        center.add(basicScrollPane, Inter.getLocText("FR-Designer_Attribute"));
         center.add(eventTabPane, Inter.getLocText("FR-Designer_Event"));
         final String[] tabTitles = new String[]{Inter.getLocText("FR-Designer_Attribute"), Inter.getLocText("FR-Designer_Event")};
 
@@ -100,7 +86,8 @@ public class CellWidgetCardPane extends BasicPane {
 
         UIExpandablePane uiExpandablePane = new UIExpandablePane(Inter.getLocText("FR-Designer_Basic"), 280, 24, widgetPropertyPane);
 
-        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
+        attriTabPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         attriTabPane.add(uiExpandablePane, BorderLayout.NORTH);
 
         attriCardPane = FRGUIPaneFactory.createCardLayout_S_Pane();

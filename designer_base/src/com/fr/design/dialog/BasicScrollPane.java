@@ -171,13 +171,22 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 	protected void setLeftContentPaneBounds(Container parent, UIScrollBar scrollBar, int beginY, int maxheight) {
         int width = parent.getWidth();
         int height = parent.getHeight();
-        if (leftcontentPane.getPreferredSize().height > maxheight) {
-            leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
+        if (leftcontentPane.getPreferredSize().height > maxheight && scrollBar.isVisible()) {
+            leftcontentPane.setBounds(0, -beginY, width - scrollBar.getWidth() + getOverWidth() - DET_WIDTH_OVER_HEIGHT, height + beginY);
             scrollBar.setBounds(width - scrollBar.getWidth() - 1, 0, scrollBar.getWidth(), height);
         } else {
-            leftcontentPane.setBounds(0, 0, width - DET_WIDTH, height);
+			int hideBarWidth = hideBarWidth() ? scrollBar.getWidth() : 0;
+			leftcontentPane.setBounds(0, 0, width - DET_WIDTH + hideBarWidth, height);
         }
     }
+
+    protected int getOverWidth(){
+		return 0;
+	}
+
+	protected boolean hideBarWidth(){
+    	return false;
+	}
 
     protected boolean isShowScrollBar() {
         return true;

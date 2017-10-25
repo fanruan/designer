@@ -28,6 +28,8 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 	@Override
 	protected JPanel setFirstContentPane() {
 		JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+		UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+		widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
 		formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
 		Component[] removeRepeatPane = new Component[]{createRepeatCheckBox(), null};
 		Component[] dicPane = createDictPane();
@@ -36,7 +38,7 @@ public abstract class DirectWriteEditorDefinePane<T extends DirectWriteEditor> e
 		double p = TableLayout.PREFERRED;
 		Component[][] components = new Component[][]{
 				new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-				new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")),  formWidgetValuePane },
+				new Component[]{widgetValueLabel,  formWidgetValuePane },
 				dicPane,
 				removeRepeatPane,
 				waterMarkComponent,
