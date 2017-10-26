@@ -1,21 +1,7 @@
 package com.fr.design.report;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.math.BigDecimal;
-import java.util.Iterator;
-
-import javax.swing.JPanel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Element;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
+import com.fr.base.BaseFormula;
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.design.cell.editor.RichTextToolBar;
 import com.fr.design.dialog.BasicPane;
@@ -33,6 +19,17 @@ import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Element;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import java.awt.*;
+import java.math.BigDecimal;
+import java.util.Iterator;
 
 public class RichTextPane extends BasicPane {
 	
@@ -82,7 +79,7 @@ public class RichTextPane extends BasicPane {
     	if(cellValue == null){
     		return;
     	}
-    	if(cellValue instanceof Formula){
+    	if(cellValue instanceof BaseFormula){
     		cellValue = RichTextConverter.asFormula(String.valueOf(cellValue));
     	}
     	

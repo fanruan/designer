@@ -1,10 +1,11 @@
 package com.fr.design.data.tabledata.tabledatapane;
-import com.fr.base.Formula;
+
+import com.fr.base.BaseFormula;
 import com.fr.base.StoreProcedureParameter;
-import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.CursorEditor;
+import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
 
@@ -16,7 +17,8 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
-import java.util.*;
+import java.util.Date;
+import java.util.TimerTask;
 
 
 /**
@@ -129,7 +131,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
             type = Inter.getLocText("Date");
         else if(value instanceof Boolean)
             type = Inter.getLocText("Parameter-Boolean");
-        else if(value instanceof Formula)
+        else if(value instanceof BaseFormula)
             type = Inter.getLocText("Formula");
         else
             type = Inter.getLocText("Parameter-String");

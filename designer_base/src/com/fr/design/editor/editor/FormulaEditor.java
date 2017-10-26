@@ -4,7 +4,6 @@
 package com.fr.design.editor.editor;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
@@ -143,7 +142,7 @@ public class FormulaEditor extends Editor<BaseFormula> {
      * @return 是公式类型则返回true
      */
     public boolean accept(Object object) {
-        return object instanceof Formula;
+        return object instanceof BaseFormula;
     }
 
     /**
