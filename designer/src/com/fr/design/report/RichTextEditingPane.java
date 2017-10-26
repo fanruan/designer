@@ -5,7 +5,6 @@ package com.fr.design.report;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;

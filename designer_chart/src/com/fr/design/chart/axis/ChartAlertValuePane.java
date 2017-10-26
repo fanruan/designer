@@ -1,7 +1,6 @@
 package com.fr.design.chart.axis;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.ChartAlertValue;
 import com.fr.design.beans.BasicBeanPane;

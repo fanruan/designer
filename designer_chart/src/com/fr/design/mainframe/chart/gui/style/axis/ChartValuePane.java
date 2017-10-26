@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style.axis;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.base.ChartConstants;

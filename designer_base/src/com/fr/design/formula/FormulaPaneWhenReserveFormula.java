@@ -1,7 +1,6 @@
 package com.fr.design.formula;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.general.Inter;
 

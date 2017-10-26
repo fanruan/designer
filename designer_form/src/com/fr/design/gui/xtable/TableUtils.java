@@ -3,16 +3,7 @@
  */
 package com.fr.design.gui.xtable;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
-import java.util.HashMap;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.mainframe.widget.editors.BooleanEditor;
 import com.fr.design.mainframe.widget.editors.ColorEditor;
 import com.fr.design.mainframe.widget.editors.DimensionEditor;
@@ -30,6 +21,11 @@ import com.fr.design.mainframe.widget.renderer.FontCellRenderer;
 import com.fr.design.mainframe.widget.renderer.PointCellRenderer;
 import com.fr.design.mainframe.widget.renderer.RectangleCellRenderer;
 import com.fr.third.com.lowagie.text.Rectangle;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.util.HashMap;
 
 /**
  * @author richer
@@ -56,7 +52,7 @@ public class TableUtils {
         propertyEditorClasses.put(double.class, DoubleEditor.class);
         propertyEditorClasses.put(Double.class, IntegerPropertyEditor.class);
 
-        propertyEditorClasses.put(Formula.class, FormulaEditor.class);
+        propertyEditorClasses.put(BaseFormula.class, FormulaEditor.class);
         // TODO ALEX_SEP
 //        propertyEditorClasses.put(DSColumn.class, DSColumnEditor.class);
 
@@ -78,10 +74,24 @@ public class TableUtils {
     }
 
     public static Class<? extends ExtendedPropertyEditor> getPropertyEditorClass(Class propType) {
-        return propertyEditorClasses.get(propType);
+        Class<? extends ExtendedPropertyEditor> clazz = propertyEditorClasses.get(propType);
+        if (clazz == null) {
+            Class superClazz = propType.getSuperclass();
+            if (superClazz != null) {
+                return getPropertyEditorClass(superClazz);
+            }
+        }
+        return clazz;
     }
 
     public static Class<? extends TableCellRenderer> getTableCellRendererClass(Class propType) {
-        return cellRendererClasses.get(propType);
+        Class<? extends TableCellRenderer> clazz = cellRendererClasses.get(propType);
+        if (clazz == null) {
+            Class superClazz = propType.getSuperclass();
+            if (superClazz != null) {
+                return getTableCellRendererClass(superClazz);
+            }
+        }
+        return clazz;
     }
 }

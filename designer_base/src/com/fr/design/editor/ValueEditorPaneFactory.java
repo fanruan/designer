@@ -1,6 +1,6 @@
 package com.fr.design.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.editor.editor.BooleanEditor;
 import com.fr.design.editor.editor.ColumnRowEditor;
 import com.fr.design.editor.editor.ColumnRowGroupEditor;
@@ -471,9 +471,9 @@ public class ValueEditorPaneFactory {
         if (hyperLinkEditorMap == null) {
             return lists;
         }
-        Iterator<Map.Entry<String, Formula>> entries = hyperLinkEditorMap.entrySet().iterator();
+        Iterator<Map.Entry<String, BaseFormula>> entries = hyperLinkEditorMap.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry<String, Formula> entry = entries.next();
+            Map.Entry<String, BaseFormula> entry = entries.next();
             ConstantsEditor editor = new ConstantsEditor(entry.getKey(), entry.getValue());
             editor.setEnabled(false);
             lists.add(editor);

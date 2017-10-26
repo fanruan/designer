@@ -4,7 +4,6 @@
 package com.fr.design.mainframe.widget.accessibles;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;

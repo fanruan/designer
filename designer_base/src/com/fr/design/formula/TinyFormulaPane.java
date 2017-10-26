@@ -2,18 +2,14 @@ package com.fr.design.formula;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.Inter;
 
 import javax.swing.*;

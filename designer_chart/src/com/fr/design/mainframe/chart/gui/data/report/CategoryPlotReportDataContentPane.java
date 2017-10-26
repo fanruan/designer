@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data.report;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.ChartCollection;

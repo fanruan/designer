@@ -1,7 +1,6 @@
 package com.fr.design.formula;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 

@@ -1,7 +1,6 @@
 package com.fr.design.editor.editor;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 
 
 public class ConstantsEditor extends FormulaEditor {
@@ -19,6 +18,6 @@ public class ConstantsEditor extends FormulaEditor {
     }
 	
 	public boolean accept(Object object) {
-        return object instanceof Formula && object.equals(this.getValue());
+        return object instanceof BaseFormula && object.equals(this.getValue());
     }
 }

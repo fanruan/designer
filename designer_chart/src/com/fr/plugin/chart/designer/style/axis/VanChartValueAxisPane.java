@@ -1,7 +1,6 @@
 package com.fr.plugin.chart.designer.style.axis;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.design.chart.ChartSwingUtils;
 import com.fr.design.gui.icheckbox.UICheckBox;

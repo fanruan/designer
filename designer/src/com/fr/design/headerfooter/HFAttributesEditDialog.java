@@ -4,8 +4,15 @@
 package com.fr.design.headerfooter;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
-import com.fr.base.headerfooter.*;
+import com.fr.base.headerfooter.DateHFElement;
+import com.fr.base.headerfooter.FormulaHFElement;
+import com.fr.base.headerfooter.HFElement;
+import com.fr.base.headerfooter.ImageHFElement;
+import com.fr.base.headerfooter.NewLineHFElement;
+import com.fr.base.headerfooter.NumberOfPageHFElement;
+import com.fr.base.headerfooter.PageNumberHFElement;
+import com.fr.base.headerfooter.TextHFElement;
+import com.fr.base.headerfooter.TimeHFElement;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;

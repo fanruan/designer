@@ -1,6 +1,6 @@
 package com.fr.design.present.dict;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.TableData;
 import com.fr.data.core.db.DBUtils;
 import com.fr.data.impl.DatabaseDictionary;
@@ -205,7 +205,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
             dbDict.setValueColumnIndex(valueColumnIndex);
             dbDict.setValueColumnName(valueColumnName);
         } else {
-            dbDict.setFormula(((Formula) value));
+            dbDict.setFormula(((BaseFormula) value));
         }
 
         return dbDict;

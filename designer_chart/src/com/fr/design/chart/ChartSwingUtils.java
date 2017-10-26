@@ -1,7 +1,6 @@
 package com.fr.design.chart;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
