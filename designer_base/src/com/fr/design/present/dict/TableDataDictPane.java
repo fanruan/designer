@@ -1,6 +1,6 @@
 package com.fr.design.present.dict;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.DBTableData;
@@ -295,7 +295,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
             tableDataDict.setValueColumnIndex(valuleColumnIndex);
             tableDataDict.setValueColumnName(valueColumnName);
         } else {
-            tableDataDict.setFormula(((Formula) object));
+            tableDataDict.setFormula(((BaseFormula) object));
         }
         TableDataWrapper tableDataWrappe = this.tableDataNameComboBox.getSelectedItem();
         if (tableDataWrappe != null) {

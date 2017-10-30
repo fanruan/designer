@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style.series;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.chart.base.AreaColor;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.chartglyph.MapHotAreaColor;
@@ -465,7 +465,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	private class TextFieldGroupPane extends JPanel {
 		private static final long serialVersionUID = -8390474551829486013L;
 
-		public void refreshTextGroupPane(Formula[] values) {
+		public void refreshTextGroupPane(BaseFormula[] values) {
 
 			if (values.length == textFieldList.size()) {
 				for (int i = 0; i < textFieldList.size(); i++) {
@@ -519,13 +519,13 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 				if(i == size - 1) {
 					backValue = -Double.MAX_VALUE;
 				} else {
-					Number backNumber = ChartBaseUtils.formula2Number(new Formula(getValue4Index(i+1)));
+					Number backNumber = ChartBaseUtils.formula2Number(BaseFormula.createFormulaBuilder().build(getValue4Index(i+1)));
 					if(backNumber != null){
 						backValue = backNumber.doubleValue();
 					}
 				}
 
-				Number number =  ChartBaseUtils.formula2Number(new Formula(getValue4Index(i)));
+				Number number =  ChartBaseUtils.formula2Number(BaseFormula.createFormulaBuilder().build(getValue4Index(i)));
 
 				if(number != null) {
 					double value = number.doubleValue();
@@ -633,7 +633,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 	 * @param colorArray 颜色值
 	 * @param valueArray 值区间
 	 */
-	public void refreshGroupPane(Color[] colorArray, Formula[] valueArray) {
+	public void refreshGroupPane(Color[] colorArray, BaseFormula[] valueArray) {
 		colorGroup.refreshColorGroupPane(colorArray);
 		textGroup.refreshTextGroupPane(valueArray);
 
@@ -657,7 +657,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		UIColorPickerPane.this.add(textGroup);
 		UIColorPickerPane.this.add(colorGroup);
 		Color[] colors = hotAreaColor.initColor();
-		Formula[] values = hotAreaColor.initValues();
+		BaseFormula[] values = hotAreaColor.initValues();
 		refreshGroupPane(colors, values);
 		this.initContainerLister();
 		regionNumPane.populateBean(value);
@@ -686,7 +686,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			}
 			hotAreaColor.clearColor();
 			Color[] colors = getColors4Custom(fillStyleCombox.getSelectObject(), regionNumPane.updateBean().intValue());
-			Formula[] value = getValueArray(regionNumPane.updateBean().intValue());
+			BaseFormula[] value = getValueArray(regionNumPane.updateBean().intValue());
 
 			for (int i = 0; i < colors.length; i++) {
 				hotAreaColor.addAreaColor(new AreaColor(value[i], value[i + 1], colors[i]));
@@ -705,7 +705,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			if(StringUtils.isEmpty(getValue4Index(i))){
 				return false;
 			}
-			Number number =  ChartBaseUtils.formula2Number(new Formula(getValue4Index(i)));
+			Number number =  ChartBaseUtils.formula2Number(BaseFormula.createFormulaBuilder().build(getValue4Index(i)));
 			if(number != null) {
 				double value = number.doubleValue();
 				if(value > maxValue) {
@@ -739,13 +739,13 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 		return ChartBaseUtils.createColorsWithHSB(color, sum);
 	}
 
-	private Formula[] getValueArray(int count) {
-		Formula[] valueArray = new Formula[count + 1];
+	private BaseFormula[] getValueArray(int count) {
+		BaseFormula[] valueArray = new BaseFormula[count + 1];
 		for (int i = 0; i < valueArray.length; i++) {
 			if (i >= textFieldList.size()) {
-				valueArray[i] = new Formula(new Double((count + 1 - i) * VALUE).toString());
+				valueArray[i] = BaseFormula.createFormulaBuilder().build((count + 1 - i) * VALUE);
 			} else {
-				valueArray[i] = new Formula(getValue4Index(i));
+				valueArray[i] = BaseFormula.createFormulaBuilder().build(getValue4Index(i));
 			}
 		}
 		return valueArray;

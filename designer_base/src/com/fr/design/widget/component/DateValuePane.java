@@ -1,12 +1,15 @@
 package com.fr.design.widget.component;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.editor.editor.*;
+import com.fr.design.editor.editor.DateEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
+import com.fr.design.editor.editor.NoneEditor;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -61,7 +64,7 @@ public class DateValuePane extends JPanel {
         Editor e = editor[index];
         Object value = e.getValue();
         if(value == null && ComparatorUtils.equals(FORMULA_EDITOR_NAME, e.getName())){
-            value = new Formula(StringUtils.EMPTY);
+            value = BaseFormula.createFormulaBuilder().build();
         }
         return value;
     }

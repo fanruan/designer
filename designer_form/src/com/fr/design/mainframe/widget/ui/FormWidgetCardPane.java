@@ -3,6 +3,7 @@ package com.fr.design.mainframe.widget.ui;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
+import com.fr.design.dialog.AttrScrollPane;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
@@ -112,26 +113,16 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         XCreator innerCreator = getXCreatorDedicated();
 
         final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        BasicScrollPane basicScrollPane = new BasicScrollPane() {
+        BasicScrollPane basicScrollPane = new AttrScrollPane() {
             @Override
             protected JPanel createContentPane() {
                 return jPanel;
-            }
-
-            @Override
-            public void populateBean(Object ob) {
-
-            }
-
-            @Override
-            protected String title4PopupWindow() {
-                return null;
             }
         };
         this.add(basicScrollPane, BorderLayout.CENTER);
         attriCardPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.add(attriCardPane, BorderLayout.CENTER);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
         final boolean isExtraWidget = FormWidgetDefinePaneFactoryBase.isExtraXWidget(innerCreator.toData());
         this.listener = new AttributeChangeListener() {

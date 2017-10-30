@@ -1,6 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
 import com.fr.design.gui.itextarea.UITextArea;
@@ -110,7 +110,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
             tc.getEditingElementCase().addCellElement(cellElement, false);
         }
         if (tmpText != null && (tmpText.length() > 0 && tmpText.charAt(0) == '=')) {
-            Formula textFormula = new Formula(tmpText);
+            BaseFormula textFormula = BaseFormula.createFormulaBuilder().build(tmpText);
             textFormula.setReserveInResult(reserveInResult);
             textFormula.setReserveOnWriteOrAnaly(reserveOnWriteOrAnaly);
             cellElement.setValue(textFormula);
@@ -139,8 +139,8 @@ public class CellStringQuickEditor extends CellQuickEditor {
             Object value = cellElement.getValue();
             if (value == null) {
                 str = StringUtils.EMPTY;
-            } else if (value instanceof Formula) {
-                Formula formula = (Formula) value;
+            } else if (value instanceof BaseFormula) {
+                BaseFormula formula = (BaseFormula) value;
                 str = formula.getContent();
                 reserveInResult = formula.isReserveInResult();
                 reserveOnWriteOrAnaly = formula.isReserveOnWriteOrAnaly();

@@ -38,12 +38,14 @@ public class NumberEditorDefinePane extends FieldEditorDefinePane<NumberEditor> 
     protected JPanel setFirstContentPane() {
         // richer:数字的允许直接编辑没有意义
         waterMarkDictPane = new WaterMarkDictPane();
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")),  formWidgetValuePane},
+                new Component[]{widgetValueLabel,  formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane}
         };

@@ -112,7 +112,7 @@ public class DesignerModule extends DesignModule {
     private void registerCellEditor() {
         ActionFactory.registerCellEditor(String.class, CellStringQuickEditor.class);
         ActionFactory.registerCellEditor(Number.class, CellStringQuickEditor.class);
-        ActionFactory.registerCellEditor(Formula.class, CellFormulaQuickEditor.class);
+        ActionFactory.registerCellEditor(BaseFormula.class, CellFormulaQuickEditor.class);
         ActionFactory.registerCellEditor(SubReport.class, CellSubReportEditor.class);
         ActionFactory.registerCellEditor(RichText.class, CellRichTextEditor.class);
         ActionFactory.registerCellEditor(DSColumn.class, CellDSColumnEditor.class);

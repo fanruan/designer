@@ -1,6 +1,6 @@
 package com.fr.design.formula;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 
@@ -17,20 +17,20 @@ public interface UIFormula {
      * 从已有的公式还原公式面板
      * @param formula 公式
      */
-    void populate(Formula formula);
+    void populate(BaseFormula formula);
 
     /**
      * 根据指定的变量处理和公式还原公式面板
      * @param formula 公式
      * @param variableResolver 变量处理器
      */
-    void populate(Formula formula, VariableResolver variableResolver);
+    void populate(BaseFormula formula, VariableResolver variableResolver);
 
     /**
      * 获取公式面板的参数
      * @return 公式
      */
-    Formula update();
+    BaseFormula update();
 
     /**
      * 显示窗口

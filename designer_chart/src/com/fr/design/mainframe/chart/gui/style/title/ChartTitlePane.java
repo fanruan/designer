@@ -1,22 +1,14 @@
 package com.fr.design.mainframe.chart.gui.style.title;
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Icon;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Title;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -27,11 +19,15 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartBackgroundNoImagePane;
 import com.fr.design.mainframe.chart.gui.style.ChartBorderPane;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-import com.fr.design.dialog.BasicScrollPane;
 import com.fr.general.Inter;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ChartTitlePane extends BasicScrollPane<Chart> {
 	private static final long serialVersionUID = 5748881235830708722L;
@@ -148,8 +144,8 @@ public class ChartTitlePane extends BasicScrollPane<Chart> {
 			return;
 		}
 		isTitleVisable.setSelected(title.isTitleVisible());
-		if (title.getTextObject() instanceof Formula) {
-			titleContent.populateBean(((Formula) title.getTextObject()).getContent());
+		if (title.getTextObject() instanceof BaseFormula) {
+			titleContent.populateBean(((BaseFormula) title.getTextObject()).getContent());
 		} else {
 			titleContent.populateBean(Utils.objectToString(title.getTextObject()));
 		}
@@ -178,7 +174,7 @@ public class ChartTitlePane extends BasicScrollPane<Chart> {
 		String titleString = titleContent.updateBean();
 		Object titleObj;
 		if (StableUtils.maybeFormula(titleString)) {
-			titleObj = new Formula(titleString);
+			titleObj = BaseFormula.createFormulaBuilder().build(titleString);
 		} else {
 			titleObj = titleString;
 		}

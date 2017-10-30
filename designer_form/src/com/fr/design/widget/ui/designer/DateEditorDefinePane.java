@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui.designer;
 
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.data.core.FormatField;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
@@ -15,15 +14,10 @@ import com.fr.design.widget.component.DateValuePane;
 import com.fr.design.widget.component.UIComboBoxNoArrow;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.DateEditor;
-import com.fr.general.DateUtils;
 import com.fr.general.Inter;
-import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.UtilEvalError;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -56,6 +50,14 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
     @Override
     protected JPanel setFirstContentPane() {
         waterMarkDictPane = new WaterMarkDictPane();
+        UILabel formatLabel = new UILabel(Inter.getLocText("FR-Engine_Format"));
+        formatLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel startDateLabel = new UILabel(Inter.getLocText("FS_Start_Date"));
+        startDateLabel.setVerticalAlignment(SwingConstants.TOP);
+        UILabel endDateLabel = new UILabel(Inter.getLocText("FS_End_Date"));
+        endDateLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         returnTypeComboBox = new UIButtonGroup<>(new String[] {Inter.getLocText("Date") ,  Inter.getLocText("String")});
         JPanel formatHead =  createFormatHead();
@@ -65,10 +67,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
-                new Component[]{new UILabel(Inter.getLocText("FR-Engine_Format")), formatHead},
-                new Component[]{new UILabel(Inter.getLocText("FS_Start_Date")), startDv},
-                new Component[]{new UILabel(Inter.getLocText("FS_End_Date")), endDv},
+                new Component[]{widgetValueLabel, formWidgetValuePane},
+                new Component[]{formatLabel, formatHead},
+                new Component[]{startDateLabel, startDv},
+                new Component[]{endDateLabel, endDv},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_WaterMark")), waterMarkDictPane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Font-Size")), fontSizePane},
                 new Component[]{new UILabel(Inter.getLocText("Widget-Date_Selector_Return_Type")), returnTypeComboBox}
@@ -207,55 +209,6 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
         ob.setEndDate(endDv.update());
 
         return ob;
-    }
-
-
-    /**
-     * 更新日期控件的起止日期
-     *
-     * @param dateWidgetEditor 日期控件
-     */
-    public void updateStartEnd(DateEditor dateWidgetEditor) {
-        Object startObject = startDv.update();
-        Object endObject = endDv.update();
-        // wei : 对公式的处理
-        Calculator cal = null;
-        if (startObject instanceof Formula) {
-            cal = Calculator.createCalculator();
-            Formula startFormula = (Formula) startObject;
-            try {
-                startFormula.setResult(cal.evalValue(startFormula.getContent()));
-            } catch (UtilEvalError e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-            startObject = startFormula.getResult();
-            dateWidgetEditor.setStartDateFM(startFormula);
-            dateWidgetEditor.setStartText(null);
-        } else {
-            try {
-                dateWidgetEditor.setStartText(startObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date) startObject));
-            } catch (ClassCastException e) {
-                //wei : TODO 说明应用的公式不能转化成日期格式，应该做些处理。
-            }
-        }
-        if (endObject instanceof Formula) {
-            cal = Calculator.createCalculator();
-            Formula endFormula = (Formula) endObject;
-            try {
-                endFormula.setResult(cal.evalValue(endFormula.getContent()));
-            } catch (UtilEvalError e) {
-                FRContext.getLogger().error(e.getMessage(), e);
-            }
-            endObject = endFormula.getResult();
-            dateWidgetEditor.setEndDateFM(endFormula);
-            dateWidgetEditor.setEndText(null);
-        } else {
-            try {
-                dateWidgetEditor.setEndText(endObject == null ? "" : DateUtils.getDate2Str("MM/dd/yyyy", (Date) endObject));
-            } catch (ClassCastException e) {
-
-            }
-        }
     }
 
     private SimpleDateFormat getSimpleDateFormat() {

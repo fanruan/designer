@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.style.background;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.formula.TinyFormulaPane;
@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.general.GeneralUtils;
 import com.fr.general.Inter;
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
@@ -158,10 +159,10 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
             alertTextPosition.setSelectedIndex(chartAlertValue.getAlertPosition() == Constants.LEFT ? 0 : 1);
         }
 
-        if (chartAlertValue.getAlertContentFormula() instanceof Formula) {
-            alertText.populateBean(((Formula) chartAlertValue.getAlertContentFormula()).getContent());
+        if (chartAlertValue.getAlertContentFormula() instanceof BaseFormula) {
+            alertText.populateBean(((BaseFormula) chartAlertValue.getAlertContentFormula()).getContent());
         } else {
-            alertText.populateBean(Utils.objectToString(chartAlertValue.getAlertContentFormula()));
+            alertText.populateBean(GeneralUtils.objectToString(chartAlertValue.getAlertContentFormula()));
         }
         fontName.setSelectedItem(chartAlertValue.getAlertFont().getName());
         fontSize.setSelectedItem(chartAlertValue.getAlertFont().getSize());
@@ -171,14 +172,14 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     public VanChartAlertValue updateBean(){
         chartAlertValue.setAxisName(alertAxis.getSelectedItem().toString());
 
-        chartAlertValue.setAlertValueFormula(new Formula(alertValue.updateBean()));
+        chartAlertValue.setAlertValueFormula(BaseFormula.createFormulaBuilder().build(alertValue.updateBean()));
         chartAlertValue.getLineColor().setSeriesColor(alertLineColor.getSelectObject());
         chartAlertValue.getLineStyle().setLineStyle(alertLineStyle.getSelectedLineStyle());
 
         String contentString = alertText.updateBean();
         Object contentObj;
         if (StableUtils.maybeFormula(contentString)) {
-            contentObj = new Formula(contentString);
+            contentObj = BaseFormula.createFormulaBuilder().build(contentString);
         } else {
             contentObj = contentString;
         }

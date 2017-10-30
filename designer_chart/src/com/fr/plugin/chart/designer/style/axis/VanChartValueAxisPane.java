@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.style.axis;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.design.chart.ChartSwingUtils;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -162,11 +162,11 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
                 valueAxis.setLogBase(null);
             } else {
                 valueAxis.setLog(true);
-                Formula formula = new Formula(increment);
+                BaseFormula formula = BaseFormula.createFormulaBuilder().build(increment);
                 Number number = ChartBaseUtils.formula2Number(formula);
                 // 界面处理防止 遇到 对数增量为小于1的值.
                 if (number != null && number.doubleValue() <= 1.0) {
-                    valueAxis.setLogBase(new Formula("2"));
+                    valueAxis.setLogBase(BaseFormula.createFormulaBuilder().build("2"));
                 } else {
                     valueAxis.setLogBase(formula);
                 }

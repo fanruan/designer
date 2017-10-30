@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.style.axis.component;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.plugin.chart.range.MinAndMaxValue;
 
 import javax.swing.*;
@@ -35,8 +35,8 @@ public class MinMaxValuePaneWithOutTick extends VanChartMinMaxValuePane {
         if(minAndMaxValue == null) {
             return;
         }
-        minAndMaxValue.setMinValue(new Formula(minValueField.getText()));
-        minAndMaxValue.setMaxValue(new Formula(maxValueField.getText()));
+        minAndMaxValue.setMinValue(BaseFormula.createFormulaBuilder().build(minValueField.getText()));
+        minAndMaxValue.setMaxValue(BaseFormula.createFormulaBuilder().build(maxValueField.getText()));
         minAndMaxValue.setCustomMin(minCheckBox.isSelected());
         minAndMaxValue.setCustomMax(maxCheckBox.isSelected());
     }

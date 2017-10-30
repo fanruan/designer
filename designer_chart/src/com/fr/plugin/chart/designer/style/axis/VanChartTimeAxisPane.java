@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.style.axis;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.design.chart.ChartSwingUtils;
 import com.fr.design.editor.ValueEditorPane;
@@ -267,7 +267,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         public void update(VanChartTimeAxis timeAxis){
             if (minCheckBox.isSelected()) {//最小值
                 if(minValueField.getCurrentEditor() instanceof FormulaEditor){
-                    Formula min = (Formula)minValueField.update();
+                    BaseFormula min = (BaseFormula) minValueField.update();
                     timeAxis.setMinValue(min);
                     timeAxis.setCustomMinValue(StringUtils.isNotEmpty(min.getPureContent()));
                 }else{
@@ -275,14 +275,14 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
                     DateEditor dateEditor = (DateEditor)minValueField.getCurrentEditor();
                     String dateString = dateEditor.getUIDatePickerFormat().format(datetmp);
                     timeAxis.setCustomMinValue(StringUtils.isNotEmpty(dateString));
-                    timeAxis.setMinValue(new Formula(dateString));
+                    timeAxis.setMinValue(BaseFormula.createFormulaBuilder().build(dateString));
                 }
             } else {
                 timeAxis.setCustomMinValue(false);
             }
             if (maxCheckBox.isSelected()) {//最大值
                 if(maxValueField.getCurrentEditor() instanceof FormulaEditor){
-                    Formula max = (Formula)maxValueField.update();
+                    BaseFormula max = (BaseFormula) maxValueField.update();
                     timeAxis.setMaxValue(max);
                     timeAxis.setCustomMaxValue(StringUtils.isNotEmpty(max.getPureContent()));
                 }else{
@@ -290,14 +290,14 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
                     DateEditor dateEditor = (DateEditor)maxValueField.getCurrentEditor();
                     String dateString = dateEditor.getUIDatePickerFormat().format(datetmp);
                     timeAxis.setCustomMaxValue(StringUtils.isNotEmpty(dateString));
-                    timeAxis.setMaxValue(new Formula(dateString));
+                    timeAxis.setMaxValue(BaseFormula.createFormulaBuilder().build(dateString));
                 }
             } else {
                 timeAxis.setCustomMaxValue(false);
             }
             if (mainTickBox.isSelected() && StringUtils.isNotEmpty(mainUnitField.getText())) {//主要刻度单位
                 timeAxis.setCustomMainUnit(true);
-                timeAxis.setMainUnit(new Formula(mainUnitField.getText()));
+                timeAxis.setMainUnit(BaseFormula.createFormulaBuilder().build(mainUnitField.getText()));
                 String item = mainType.getSelectedItem().toString();
                 timeAxis.setMainType(TimeType.parseString(item));
             } else {
@@ -305,7 +305,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             }
             if (secondTickBox.isSelected() && StringUtils.isNotEmpty(secondUnitField.getText())) { //次要刻度单位
                 timeAxis.setCustomSecUnit(true);
-                timeAxis.setSecUnit(new Formula(secondUnitField.getText()));
+                timeAxis.setSecUnit(BaseFormula.createFormulaBuilder().build(secondUnitField.getText()));
                 String item = secondType.getSelectedItem().toString();
                 timeAxis.setSecondType(TimeType.parseString(item));
             } else {
@@ -367,7 +367,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         }
 
         //将从formula读出来的内容转化为指定格式的日期
-        private  Date getDateFromFormula(Formula dateFormula){
+        private  Date getDateFromFormula(BaseFormula dateFormula){
             String dateStr = dateFormula.getPureContent();
             dateStr = Pattern.compile("\"").matcher(dateStr).replaceAll(StringUtils.EMPTY);
             Date toDate = DateUtils.string2Date(dateStr, true);

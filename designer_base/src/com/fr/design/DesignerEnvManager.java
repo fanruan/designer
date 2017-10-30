@@ -14,7 +14,6 @@ import com.fr.env.RemoteEnv;
 import com.fr.env.SignIn;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.FRLevel;
 import com.fr.general.FRLogFormatter;
 import com.fr.general.FRLogger;
 import com.fr.general.GeneralContext;
@@ -34,9 +33,10 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -53,7 +53,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 
 /**
  * The manager of Designer GUI.
@@ -97,7 +96,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private Color paginationLineColor = Color.black; // line color of paper
     private boolean supportCellEditorDef = false;
     private boolean isDragPermited = false;
-    private Level level = Level.INFO;
     private int language;
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
@@ -240,10 +238,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public static void loadLogSetting() {
         DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
-        Level logLevel = designerEnvManager.getLogLevel();
-        if (logLevel != null) {
-            FRContext.getLogger().setLogLevel(logLevel, true);
-        }
         if (StringUtils.isNotEmpty(designerEnvManager.getJdkHome())) {
             System.setProperty("java.home", designerEnvManager.getJdkHome());
         }
@@ -1157,20 +1151,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     /**
-     * 返回日志的等级
-     */
-    public Level getLogLevel() {
-        return this.level;
-    }
-
-    /**
-     * 设置log的等级
-     */
-    public void setLogLevel(Level level) {
-        this.level = level;
-    }
-
-    /**
      * 设置撤销的限制次数
      */
     public void setUndoLimit(int undoLimit) {
@@ -1320,8 +1300,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readActiveKey(reader);
             } else if ("LogLocation".equals(name)) {
                 readLogLocation(reader);
-            } else if ("LogLevel".equals(name)) {
-                this.readLogLevel(reader);
             } else if ("Language".equals(name)) {
                 readLanguage(reader);
             } else if ("JettyServerPort".equals(name)) {
@@ -1516,15 +1494,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         checkRecentOpenedFileNum();
     }
 
-
-    private void readLogLevel(XMLableReader reader) {
-        String level;
-        if ((level = reader.getElementValue()) != null) {
-            this.setLogLevel(FRLevel.getByName(level).getLevel());
-        }
-    }
-
-
     /**
      * Write XML.<br>
      * The method will be invoked when save data to XML file.<br>
@@ -1700,11 +1669,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             writer.end();
         }
 
-        if (this.level != null) {
-            writer.startTAG("LogLevel");
-            writer.textNode(FRLevel.getByLevel(this.level).getName());
-            writer.end();
-        }
         if (StringUtils.isNotBlank(jdkHome)) {
             writer.startTAG("jdkHome");
             writer.textNode(jdkHome);

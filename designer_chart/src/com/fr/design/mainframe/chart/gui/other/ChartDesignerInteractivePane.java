@@ -4,7 +4,7 @@
 
 package com.fr.design.mainframe.chart.gui.other;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
@@ -31,7 +31,7 @@ public class ChartDesignerInteractivePane extends ChartInteractivePane {
 
     protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
-        java.util.HashMap<String, Formula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
+        java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
         list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Hyperlink-Web_link"),
                 new WebHyperlink(), getUseMap(map, WebHyperlink.class)));

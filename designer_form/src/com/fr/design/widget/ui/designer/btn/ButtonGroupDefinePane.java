@@ -35,12 +35,14 @@ public abstract class ButtonGroupDefinePane<T extends ButtonGroup> extends Field
         JPanel advancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         dictionaryEditor = new AccessibleDictionaryEditor();
         buttonGroupDictPane = new ButtonGroupDictPane();
+        UILabel widgetValueLabel = new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value"));
+        widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
         formWidgetValuePane = new FormWidgetValuePane(creator.toData(), false);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_Label_Name")), labelNameTextField},
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer-Estate_Widget_Value")), formWidgetValuePane},
+                new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_DS-Dictionary")), dictionaryEditor},
                 new Component[]{new UILabel(Inter.getLocText("FR-Designer_FRFont")), fontSizePane},
                 new Component[]{buttonGroupDictPane, null}

@@ -3,9 +3,9 @@
  */
 package com.fr.design.actions.insert.flot;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.Formula;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -15,22 +15,15 @@ import com.fr.design.formula.UIFormula;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.report.SelectImagePane;
 import com.fr.general.Inter;
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
-import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.stable.CoreGraphHelper;
-import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.File;
 
 /**
  * Insert formula.
@@ -108,7 +101,7 @@ public class FormulaFloatAction extends ElementCaseAction {
         reportPane.stopEditing();
         final FloatElement floatElement = new FloatElement();
         final UIFormula formulaPane = FormulaFactory.createFormulaPane();
-        formulaPane.populate(new Formula(StringUtils.EMPTY));
+        formulaPane.populate(BaseFormula.createFormulaBuilder().build());
 
         BasicDialog dialog = formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 

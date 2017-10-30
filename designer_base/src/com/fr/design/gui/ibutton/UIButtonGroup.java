@@ -1,12 +1,9 @@
 package com.fr.design.gui.ibutton;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 import sun.swing.SwingUtilities2;
 
@@ -200,7 +197,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
                     if (isPressed(b)) {
                         g.setColor(Color.white);
                     } else {
-                        g.setColor(Color.black);
+                        g.setColor(b.isEnabled() ? Color.black : UIConstants.LINE_COLOR);
                     }
 
                     SwingUtilities2.drawStringUnderlineCharAt(b, g, text, mnemonicIndex, textRec.x + getTextShiftOffset(), textRec.y + fm.getAscent() + getTextShiftOffset());

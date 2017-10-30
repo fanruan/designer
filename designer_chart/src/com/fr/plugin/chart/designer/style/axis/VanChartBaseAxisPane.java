@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.designer.style.axis;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
 import com.fr.chart.chartattr.Title;
@@ -428,8 +428,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     private void populateTitle(VanChartAxis axis){
         Title axisTitle = axis.getTitle();
         if(axisTitle != null){
-            if (axisTitle.getTextObject() instanceof Formula && titleContent != null) {
-                titleContent.populateBean(((Formula) axisTitle.getTextObject()).getContent());
+            if (axisTitle.getTextObject() instanceof BaseFormula && titleContent != null) {
+                titleContent.populateBean(((BaseFormula) axisTitle.getTextObject()).getContent());
             } else if(titleContent != null){
                 titleContent.populateBean(Utils.objectToString(axisTitle.getTextObject()));
             }
@@ -547,7 +547,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
             String titleString = titleContent.updateBean();
             Object titleObj;
             if (StableUtils.maybeFormula(titleString)) {
-                titleObj = new Formula(titleString);
+                titleObj = BaseFormula.createFormulaBuilder().build(titleString);
             } else {
                 titleObj = titleString;
             }
@@ -586,9 +586,9 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         }
         if(labelGapValue != null){
             if(axis.isAutoLabelGap()){
-                axis.setLabelIntervalNumber(new Formula("1"));
+                axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build("1"));
             } else {
-                axis.setLabelIntervalNumber(new Formula(labelGapValue.getText()));
+                axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build(labelGapValue.getText()));
             }
         }
     }

@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.chart.gui.other;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.CoreDecimalFormat;
-import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.base.AttrContents;
@@ -854,7 +854,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
 
     protected List<ChartUIMenuNameableCreator> refreshList(HashMap map) {
         List<ChartUIMenuNameableCreator> list = new ArrayList<ChartUIMenuNameableCreator>();
-        java.util.HashMap<String, Formula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
+        java.util.HashMap<String, BaseFormula> hyperLinkEditorMap = plot.getHyperLinkEditorMap();
 
         list.add(new ChartUIMenuNameableCreator(hyperLinkEditorMap, Inter.getLocText("Chart-Link_Reportlet"),
                 new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));

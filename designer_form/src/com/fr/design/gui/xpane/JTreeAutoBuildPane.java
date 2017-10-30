@@ -1,6 +1,6 @@
 package com.fr.design.gui.xpane;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.data.impl.NameTableData;
 import com.fr.data.impl.RecursionTableData;
 import com.fr.data.impl.TableDataDictionary;
@@ -144,7 +144,7 @@ public class JTreeAutoBuildPane extends BasicPane implements Previewable, Editab
         if (object instanceof Integer) {
             tableDataDict.setValueColumnIndex((Integer) object - 1);
         } else {
-            tableDataDict.setFormula(((Formula) object));
+            tableDataDict.setFormula(((BaseFormula) object));
         }
         TableDataWrapper tableDataWrappe = this.treeTableDataComboBox.getSelectedItem();
         if (tableDataWrappe != null) {

@@ -3,7 +3,7 @@
  */
 package com.fr.design.cell.editor;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
@@ -31,7 +31,7 @@ public class FormulaFloatEditor extends AbstractFloatEditor {
      */
     @Override
     public Object getFloatEditorValue() throws Exception {
-        Formula newFormula = this.formulaEditorPane.update();
+        BaseFormula newFormula = this.formulaEditorPane.update();
         if (newFormula.getContent() != null && newFormula.getContent().trim().length() > 1) {
             return newFormula;
         } else {
@@ -59,12 +59,12 @@ public class FormulaFloatEditor extends AbstractFloatEditor {
     public Component getFloatEditorComponent(Grid grid, FloatElement floatElement, int resolution) {
         //populate data to UI
         Object value = floatElement.getValue();
-        if (value == null || !(value instanceof com.fr.base.Formula)) {
-            value = new Formula("");
+        if (value == null || !(value instanceof BaseFormula)) {
+            value = BaseFormula.createFormulaBuilder().build();
         }
 
         this.formulaEditorPane = FormulaFactory.createFormulaPane();
-        this.formulaEditorPane.populate((Formula) value);
+        this.formulaEditorPane.populate((BaseFormula) value);
 
         return this.formulaEditorPane.showLargeWindow(SwingUtilities.getWindowAncestor(grid), new DialogActionAdapter() {
 

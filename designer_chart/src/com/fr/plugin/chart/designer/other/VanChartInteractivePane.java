@@ -1,6 +1,6 @@
 package com.fr.plugin.chart.designer.other;
 
-import com.fr.base.Formula;
+import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
@@ -296,13 +296,13 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         zoomWidget.setSelectedIndex(zoom.isZoomVisible() ? 0 : 1);
         zoomGesture.setSelectedIndex(zoom.isZoomGesture() ? 0 : 1);
         zoomResize.setSelectedIndex(zoom.isZoomResize() ? 0 : 1);
-        if (zoom.getFrom() instanceof Formula) {
-            from.populateBean(((Formula) zoom.getFrom()).getContent());
+        if (zoom.getFrom() instanceof BaseFormula) {
+            from.populateBean(((BaseFormula) zoom.getFrom()).getContent());
         } else {
             from.populateBean(Utils.objectToString(zoom.getFrom()));
         }
-        if (zoom.getTo() instanceof Formula) {
-            to.populateBean(((Formula) zoom.getTo()).getContent());
+        if (zoom.getTo() instanceof BaseFormula) {
+            to.populateBean(((BaseFormula) zoom.getTo()).getContent());
         } else {
             to.populateBean(Utils.objectToString(zoom.getTo()));
         }
@@ -381,7 +381,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         String fromString = from.updateBean();
         Object fromObject;
         if (StableUtils.maybeFormula(fromString)) {
-            fromObject = new Formula(fromString);
+            fromObject = BaseFormula.createFormulaBuilder().build(fromString);
         } else {
             fromObject = fromString;
         }
@@ -389,7 +389,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         String toString = to.updateBean();
         Object toObject;
         if (StableUtils.maybeFormula(toString)) {
-            toObject = new Formula(toString);
+            toObject = BaseFormula.createFormulaBuilder().build(toString);
         } else {
             toObject = toString;
         }

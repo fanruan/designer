@@ -1,12 +1,8 @@
 package com.fr.grid;
 
-import java.awt.Rectangle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
-import com.fr.base.Formula;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.mainframe.ElementCasePane;
@@ -18,6 +14,10 @@ import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
+
+import java.awt.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Kevin Wang: inner class used by method intelliElements iterating in GridUtils.java.
@@ -199,8 +199,8 @@ public class IntelliElements {
                         newCellElement.setCellExpandAttr(sourceCellElement.getCellExpandAttr());
                     } else if (sourceCellElement.getValue() instanceof Number) {
                         newCellElement.setValue(processNumber((Number) sourceCellElement.getValue()));
-                    } else if (sourceCellElement.getValue() instanceof Formula) {
-                        Formula formula = (Formula) sourceCellElement.getValue();
+                    } else if (sourceCellElement.getValue() instanceof BaseFormula) {
+                        BaseFormula formula = (BaseFormula) sourceCellElement.getValue();
                         formula = this.generateSimpleFormula(formula, 1);
                         newCellElement.setValue(formula);
                     } else {
@@ -231,12 +231,12 @@ public class IntelliElements {
 
         protected abstract ColumnRow processColumnRow(ColumnRow org, int diff);
 
-        private Formula generateSimpleFormula(Formula formula, int diff) {
-            Formula newFormula;
+        private BaseFormula generateSimpleFormula(BaseFormula formula, int diff) {
+            BaseFormula newFormula;
             try {
-                newFormula = (Formula) (formula.clone());
+                newFormula = formula.clone();
             } catch (CloneNotSupportedException e) {
-                newFormula = new Formula();
+                newFormula = BaseFormula.createFormulaBuilder().build();
                 FRContext.getLogger().error(e.getMessage(), e);
             }
             String formulaContent = formula.getContent();

@@ -1,7 +1,7 @@
 package com.fr.plugin.chart.designer.style;
 
+import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.Formula;
 import com.fr.base.Style;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
@@ -272,8 +272,8 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
             return;
         }
         isTitleVisible.setSelected(title.isTitleVisible());
-        if (title.getTextObject() instanceof Formula) {
-            titleContent.populateBean(((Formula) title.getTextObject()).getContent());
+        if (title.getTextObject() instanceof BaseFormula) {
+            titleContent.populateBean(((BaseFormula) title.getTextObject()).getContent());
         } else {
             titleContent.populateBean(Utils.objectToString(title.getTextObject()));
         }
@@ -313,7 +313,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         String titleString = titleContent.updateBean();
         Object titleObj;
         if (StableUtils.maybeFormula(titleString)) {
-            titleObj = new Formula(titleString);
+            titleObj = BaseFormula.createFormulaBuilder().build(titleString);
         } else {
             titleObj = titleString;
         }

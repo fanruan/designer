@@ -3,12 +3,12 @@
  */
 package com.fr.design.mainframe.widget.wrappers;
 
-import com.fr.base.Formula;
-import com.fr.general.Inter;
-import com.fr.stable.StringUtils;
+import com.fr.base.BaseFormula;
 import com.fr.design.Exception.ValidationException;
 import com.fr.design.designer.properties.Decoder;
 import com.fr.design.designer.properties.Encoder;
+import com.fr.general.Inter;
+import com.fr.stable.StringUtils;
 
 /**
  * @author richer
@@ -29,7 +29,7 @@ public class FormulaWrapper implements Encoder, Decoder{
 
     @Override
     public Object decode(String txt) {
-        return new Formula(txt);
+        return BaseFormula.createFormulaBuilder().build(txt);
     }
 
     @Override
