@@ -184,6 +184,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			toolBarDef.addShortCut(dbTableDataMenuHandler.createQueryAction());
 		}
 		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
+		isShareCheckBox.setBackground(Color.WHITE);
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
 		UIToolbar editToolBar = ToolBarDef.createJToolBar();
