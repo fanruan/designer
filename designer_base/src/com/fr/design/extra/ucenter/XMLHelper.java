@@ -12,11 +12,12 @@ import java.io.StringReader;
 import java.util.LinkedList;
 
 /**
- * Created by lp on 2016/9/9.
+ * @author lp
+ * @date 2016/9/9
  */
 public class XMLHelper {
 
-    public static LinkedList<String> uc_unserialize(String input){
+    public static LinkedList<String> ucUnserialize(String input) {
 
         LinkedList<String> result = new LinkedList<String>();
         DOMParser parser = new DOMParser();
@@ -25,9 +26,10 @@ public class XMLHelper {
             Document doc = parser.getDocument();
             NodeList nl = doc.getChildNodes().item(0).getChildNodes();
             int length = nl.getLength();
-            for(int i=0;i<length;i++){
-                if(nl.item(i).getNodeType()==Document.ELEMENT_NODE)
+            for (int i = 0; i < length; i++) {
+                if (nl.item(i).getNodeType() == Document.ELEMENT_NODE) {
                     result.add(nl.item(i).getTextContent());
+                }
             }
         } catch (SAXException e) {
             FRContext.getLogger().info(e.getMessage());

@@ -3,14 +3,6 @@
  */
 package com.fr.design.mainframe.bbs;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
@@ -22,6 +14,14 @@ import com.fr.general.GeneralContext;
 import com.fr.general.Inter;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StringUtils;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -75,6 +75,7 @@ public class UserInfoPane extends BasicPane{
 
 	private void addEnvChangedListener(){
 		GeneralContext.addEnvChangedListener(new EnvChangedListener() {
+			@Override
 			public void envChanged() {
 				String username = ConfigManager.getProviderInstance().getBbsUsername();
 				if (StringUtils.isEmpty(username)){
