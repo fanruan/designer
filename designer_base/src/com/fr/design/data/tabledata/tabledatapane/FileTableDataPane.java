@@ -90,6 +90,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     private Parameter[] params;
     private JPanel filePath;
     private XMLNodeTreePane nodeTreePane;
+    private JPanel textSetPanel;
 
     private UICheckBox needColumnNameCheckBox;// 第一行是否作为标题
     private UIRadioButton tableDismemberRadioButton;// 制表符
@@ -150,8 +151,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         southPanel.add(setPanel, BorderLayout.CENTER);
         setPanel.setPreferredSize(new Dimension(setPanelWidth, 460));
         setPanel.setBorder(BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer_Set")));
-        JPanel controlPane = textSetPanel(width,height);
-        setPanel.add(controlPane, BorderLayout.NORTH);
+        textSetPanel = textSetPanel(width,height);
+        setPanel.add(textSetPanel, BorderLayout.NORTH);
         fileTypeComboBox.addActionListener(getFileTypeListener(setPanel,width,height));
 
         this.add(northPanel, BorderLayout.NORTH);
@@ -464,7 +465,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 } else if (fileTypeComboBox.getSelectedIndex() == EXCEL) {
                     setPanel.add(excelSetPanel(width,height), BorderLayout.NORTH);
                 } else {
-                    setPanel.add(textSetPanel(width,height), BorderLayout.NORTH);
+                    setPanel.add(textSetPanel, BorderLayout.NORTH);
                 }
                 String tipContent = Inter.getLocText("FR-Designer-Type_Parameter") + "reportlets/excel/FineReport${abc}." + getFileSuffixToString() + "<br>"
                         + "http://192.168.100.120:8080/XXServer/Report/excel${abc}.jsp<br>" + "&nbsp</body> </html> ";
