@@ -3,6 +3,8 @@ package com.fr.design.parameter;
 import com.fr.base.BaseUtils;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
+import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.PropertyGroupPane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -23,8 +25,11 @@ import com.fr.general.Background;
 import com.fr.general.Inter;
 import com.fr.report.stable.FormConstants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by ibm on 2017/8/2.
@@ -37,6 +42,10 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
     private AccessibleBackgroundEditor background;
     private UIButtonGroup hAlignmentPane;
     private UITextField labelNameTextField;
+    /**
+     * 插件带来的额外属性
+     */
+    private PropertyGroupPane extraPropertyGroupPane;
 
     public RootDesignDefinePane(XCreator xCreator) {
         super(xCreator);
@@ -100,7 +109,12 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W0, IntervalConstants.INTERVAL_L1);
         panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
-        jPanel.add(panel);
+        CRPropertyDescriptor[] extraTableEditor = new CRPropertyDescriptor[0];
+        extraTableEditor = root.getExtraTableEditor();
+        extraPropertyGroupPane = new PropertyGroupPane(extraTableEditor, root);
+
+        jPanel.add(panel, BorderLayout.NORTH);
+        jPanel.add(extraPropertyGroupPane, BorderLayout.CENTER);
         return jPanel;
     }
 
@@ -117,6 +131,10 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         useParamsTemplate.setSelected(ob.isUseParamsTemplate());
         designerWidth.setValue(ob.getDesignWidth());
         hAlignmentPane.setSelectedItem(ob.getPosition());
+
+        if (extraPropertyGroupPane != null) {
+            extraPropertyGroupPane.populate(ob);
+        }
     }
 
 
