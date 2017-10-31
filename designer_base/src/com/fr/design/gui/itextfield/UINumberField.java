@@ -185,8 +185,8 @@ public class UINumberField extends UITextField {
         // 但是直接限制不能删除中间类似小数点, 那么也可能遇到: 最小值10 , 从100变化到其中的19, 就很难..
         private boolean notChange(String strNew) {
             boolean noChange = false;
-            strNew = strNew.replaceFirst("-", StringUtils.EMPTY); // 控制能输入负数
             boolean isMinus = strNew.startsWith("-");
+            strNew = strNew.replaceFirst("-", StringUtils.EMPTY); // 控制能输入负数
             String strIntPart;
             String strDecPart = StringUtils.EMPTY;
             int decPos = strNew.indexOf(CoreConstants.DOT);
