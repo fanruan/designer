@@ -89,7 +89,7 @@ public class XWParameterLayout extends XWAbsoluteLayout {
     public CRPropertyDescriptor[] getExtraTableEditor(){
         ParameterWindowEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(ParameterWindowEditorProcessor.MARK_STRING);
         if (processor == null) {
-            return  null;
+            return  new CRPropertyDescriptor[0];
         }
         return processor.createPropertyDescriptor(this.data.getClass());
     }
