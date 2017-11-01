@@ -123,7 +123,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         if (isNewStyle()) {
             getPopupEditDialog(cardPane);
             this.add(getLeftPane(), BorderLayout.CENTER);
-            this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 15));
+            this.setBorder(BorderFactory.createEmptyBorder(10, 10, 15, 10));
         } else {
             // 增加边框
             JPanel leftPaneWrapper = new JPanel(new BorderLayout());
