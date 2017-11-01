@@ -52,6 +52,10 @@ public class CustomIconPane extends BasicPane {
 	private UIScrollPane jsPane;
 	// 老一次次去拿真麻烦
 	private IconManager iconManager = null;
+	private UIButton removeButton;
+	private UIButton editButton;
+
+
 
 	private static final int THE_WIDTH = 180;
 	private static final int HORIZONTAL_COUNT = 6;
@@ -151,7 +155,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initRemoveButton(JPanel buttonPane) {
-		UIButton removeButton = new UIButton(Inter.getLocText("FR-Designer_Remove"));
+		removeButton = new UIButton(Inter.getLocText("FR-Designer_Remove"));
 		removeButton.setPreferredSize(new Dimension(80, 25));
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,7 +184,7 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void initEditButton(JPanel buttonPane) {
-		UIButton editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
+		editButton = new UIButton(Inter.getLocText("FR-Designer_Edit"));
 		editButton.setPreferredSize(new Dimension(80, 25));
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -221,11 +225,20 @@ public class CustomIconPane extends BasicPane {
 							JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Inter.getLocText("FR-Designer_Custom_Icon_Message2"), Inter.getLocText("FR-Designer_Tooltips"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
-                });
-				edit.setVisible(true);
+                }).setVisible(true);
 			}
 		});
 		buttonPane.add(editButton);
+	}
+
+	private void updateButtonPane() {
+		if (iconManager.isSystemIcon(selectedIconName)) {
+			editButton.setEnabled(false);
+            removeButton.setEnabled(false);
+		} else {
+            editButton.setEnabled(true);
+            removeButton.setEnabled(true);
+        }
 	}
 	
 	@Override
@@ -263,6 +276,7 @@ public class CustomIconPane extends BasicPane {
 			return;
 		}
 		this.selectedIconName = iconName;
+        updateButtonPane();
 		this.repaint();
 	}
 	
@@ -284,6 +298,7 @@ public class CustomIconPane extends BasicPane {
 		} catch (RuntimeException re) {
             return;
 		}
+        updateButtonPane();
 	}
 	
 	private class IconButton extends JToggleButton implements ActionListener{
@@ -336,6 +351,7 @@ public class CustomIconPane extends BasicPane {
             CustomIconPane.this.selectedIconName = iconName;
 
             fireChagneListener();
+			updateButtonPane();
             CustomIconPane.this.repaint();// repaint
         }
 
