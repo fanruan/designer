@@ -79,34 +79,13 @@ public class UserInfoLabel extends UILabel {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setText(userName);
 
-        LoginWebBridge loginWebBridge = new LoginWebBridge();
-        loginWebBridge.setUserName(userName, UserInfoLabel.this);
-
-        LoginCheckContext.addLoginCheckListener(new LoginCheckListener() {
-            @Override
-            public void loginChecked() {
-                /*
-                if (bbsLoginDialog == null) {
-					bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(), UserInfoLabel.this);
-				}
-				bbsLoginDialog.clearLoginInformation();
-				bbsLoginDialog.showTipForDownloadPluginWithoutLogin();
-				bbsLoginDialog.setModal(true);
-				bbsLoginDialog.showWindow();
-				*/
-            }
-        });
-
-        if (StableUtils.getMajorJavaVersion() == 8) {
-            PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-        }
-        LoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
+        LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
 
         UserLoginContext.addLoginContextListener(new LoginContextListener() {
             @Override
             public void showLoginContext() {
                 WebViewDlgHelper.createLoginDialog();
-                LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
                 clearLoginInformation();
                 updateInfoPane();
             }
@@ -114,8 +93,6 @@ public class UserInfoLabel extends UILabel {
     }
 
     private void clearLoginInformation() {
-        ConfigManager.getProviderInstance().setInShowBBsName(StringUtils.EMPTY);
-        ConfigManager.getProviderInstance().setBbsUid(DEFAULT_BBS_UID);
         BBSLoginUtils.bbsLogout();
     }
 
@@ -214,18 +191,18 @@ public class UserInfoLabel extends UILabel {
         }
 
         this.messageCount = messageCount;
-        StringBuilder sb = new StringBuilder();
+        String sb = StringUtils.BLANK + this.userName +
+                "(" + this.messageCount +
+                ")" + StringUtils.BLANK;
         //内容eg: aaa(11)
-        sb.append(StringUtils.BLANK).append(this.userName)
-                .append("(").append(this.messageCount)
-                .append(")").append(StringUtils.BLANK);
 
         //更新面板Text
-        this.setText(sb.toString());
+        this.setText(sb);
     }
 
     private MouseAdapter userInfoAdapter = new MouseAdapter() {
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             UserInfoLabel.this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
@@ -241,6 +218,7 @@ public class UserInfoLabel extends UILabel {
                 //私人消息
                 UIMenuItem priviteMessage = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Privite-Message"));
                 priviteMessage.addMouseListener(new MouseAdapter() {
+                    @Override
                     public void mousePressed(MouseEvent e) {
                         if (StringUtils.isNotEmpty(userName)) {
                             try {
@@ -249,7 +227,6 @@ public class UserInfoLabel extends UILabel {
                             } catch (Exception exp) {
                                 FRContext.getLogger().info(exp.getMessage());
                             }
-                            return;
                         }
                     }
 
@@ -257,6 +234,7 @@ public class UserInfoLabel extends UILabel {
                 //切换账号
                 UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
+                    @Override
                     public void mousePressed(MouseEvent e) {
                         BBSLoginUtils.bbsLogout();
                         UserLoginContext.fireLoginContextListener();

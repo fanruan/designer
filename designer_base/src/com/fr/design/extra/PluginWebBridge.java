@@ -492,31 +492,19 @@ public class PluginWebBridge {
     }
 
     /**
-     * 登录操作的回调
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    public void defaultLogin(String username, String password, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        String result = LoginWebBridge.getHelper().pluginManageLogin(username, password, uiLabel);
-        jsCallback.execute(result);
-
-    }
-
-    /**
      * 弹出QQ授权页面
      */
     public void showQQ() {
         LoginWebBridge.getHelper().showQQ();
     }
 
-    //通过QQ登录后通知登录
+    /**
+     * 通过QQ登录后通知登录
+     */
     public void ucsynLogin(long uid, String username, String password, final JSONObject callback) {
-        try{
+        try {
             FRContext.getCurrentEnv().writeResource(ConfigManager.getProviderInstance());
-        }catch (Exception e){
+        } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
         uiLabel.setText(username);
