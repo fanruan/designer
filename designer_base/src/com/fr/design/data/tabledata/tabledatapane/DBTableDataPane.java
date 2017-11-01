@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
+	private static final int BOTTOM = 6;
 	private static final String PREVIEW_BUTTON = Inter.getLocText("FR-Designer_Preview");
     private static final String REFRESH_BUTTON = Inter.getLocText("FR-Designer_Refresh");
 	private ConnectionTableProcedurePane connectionTableProcedurePane;
@@ -66,29 +67,11 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private String pageQuery = null;
 	private DBTableData dbTableData;
 
-
-
-	public DBTableDataPane() {
+	private void init() {
 		this.setLayout(new BorderLayout(4, 4));
-
-		Box box = new Box(BoxLayout.Y_AXIS);
 
 		sqlTextPane = new SQLEditPane();
 		sqlTextPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_SQL);
-		JPanel northPane = new JPanel(new BorderLayout(4, 4));
-		JToolBar editToolBar = createToolBar();
-		northPane.add(editToolBar, BorderLayout.CENTER);
-		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
-
-		RTextScrollPane sqlTextScrollPane = new RTextScrollPane(sqlTextPane);
-		sqlTextScrollPane.setLineNumbersEnabled(true);
-		sqlTextScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
-		sqlTextScrollPane.setPreferredSize(new Dimension(680, 600));
-
-		JPanel paraMeanPane = new JPanel(new BorderLayout());
-		paraMeanPane.setPreferredSize(new Dimension(680, 90));
-		UILabel paraMean = new UILabel(Inter.getLocText("FR-Designer-Datasource-Param_DES"));
-		paraMeanPane.add(paraMean, BorderLayout.CENTER);
 
 		ParameterTableModel model = new ParameterTableModel() {
 			@Override
@@ -97,14 +80,6 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			}
 		};
 		editorPane = new UITableEditorPane<ParameterProvider>(model);
-
-		box.add(northPane);
-		box.add(sqlTextScrollPane);
-		box.add(paraMeanPane);
-		box.add(editorPane);
-
-		JPanel sqlSplitPane = new JPanel(new BorderLayout(4, 4));
-		sqlSplitPane.add(box, BorderLayout.CENTER);
 
 		// 左边的Panel,上面是选择DatabaseConnection的ComboBox,下面DatabaseConnection对应的Table
 		connectionTableProcedurePane = new ConnectionTableProcedurePane() {
@@ -131,7 +106,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		});
 		sqlTextPane.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent e) {
-
+				// unsupport
 			}
 
 			public void focusLost(FocusEvent e) {
@@ -140,6 +115,38 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 				}
 			}
 		});
+	}
+
+
+	private void initMainSplitPane() {
+		Box box = new Box(BoxLayout.Y_AXIS);
+
+
+		JPanel northPane = new JPanel(new BorderLayout(4, 4));
+		JToolBar editToolBar = createToolBar();
+		northPane.add(editToolBar, BorderLayout.CENTER);
+		northPane.setBorder(BorderFactory.createEmptyBorder(0, 0, BOTTOM, 0));
+
+		RTextScrollPane sqlTextScrollPane = new RTextScrollPane(sqlTextPane);
+		sqlTextScrollPane.setLineNumbersEnabled(true);
+		sqlTextScrollPane.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, UIConstants.ARC));
+		sqlTextScrollPane.setPreferredSize(new Dimension(680, 600));
+
+		JPanel paraMeanPane = new JPanel(new BorderLayout());
+		paraMeanPane.setPreferredSize(new Dimension(680, 90));
+		UILabel paraMean = new UILabel(Inter.getLocText("FR-Designer-Datasource-Param_DES"));
+		paraMeanPane.add(paraMean, BorderLayout.CENTER);
+
+
+		box.add(northPane);
+		box.add(sqlTextScrollPane);
+		box.add(paraMeanPane);
+		box.add(editorPane);
+
+		JPanel sqlSplitPane = new JPanel(new BorderLayout(4, 4));
+		sqlSplitPane.add(box, BorderLayout.CENTER);
+
+
 		box.setMinimumSize(new Dimension(310, 400));
 		// 使用SplitPane
 		JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, connectionTableProcedurePane, sqlSplitPane);
@@ -147,6 +154,12 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		mainSplitPane.setOneTouchExpandable(true);
 		this.add(mainSplitPane, BorderLayout.CENTER);
 	}
+
+	public DBTableDataPane() {
+		init();
+		initMainSplitPane();
+	}
+
 
 
 	private boolean isPreviewOrRefreshButton (FocusEvent e) {
@@ -184,6 +197,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 			toolBarDef.addShortCut(dbTableDataMenuHandler.createQueryAction());
 		}
 		isShareCheckBox = new UICheckBox(Inter.getLocText("FR-Designer_Is_Share_DBTableData"));
+		isShareCheckBox.setBackground(Color.WHITE);
 		maxPanel = new MaxMemRowCountPanel();
 		maxPanel.setBorder(null);
 		UIToolbar editToolBar = ToolBarDef.createJToolBar();
@@ -296,6 +310,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
 		@Override
 		public void checkEnabled() {
+			// unsupport
 		}
 	}
 
