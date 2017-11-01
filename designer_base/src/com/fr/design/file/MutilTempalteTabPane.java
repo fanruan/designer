@@ -372,7 +372,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
-        g2d.setPaint(new GradientPaint(1, 1, new Color(217, 218, 221), 1, getHeight() - 1, new Color(217, 218, 221)));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND, 1, getHeight() - 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND));
         g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 
@@ -562,7 +562,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         unSelectedClosedPath(generalPath, isLeft, x, y);
         g2d.fill(generalPath);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setPaint(new Color(200, 201, 205));
+        g2d.setPaint(UIConstants.TEMPLATE_TAB_PANE_BACKGROUND);
         //TODO hzzz delete
 //        if (isLeft) {
 //            g2d.draw(new Arc2D.Double(x[0], y[0], CORNOR_RADIUS * 2, CORNOR_RADIUS * 2, 90, 90, 0));

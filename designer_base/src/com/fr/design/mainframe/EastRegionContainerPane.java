@@ -40,7 +40,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private static final int TAB_BUTTON_WIDTH = 32;
     private static final int TAB_BUTTON_HEIGHT = 28;
     private static final int CONTENT_WIDTH = CONTAINER_WIDTH - TAB_WIDTH;
-    private static final int POPUP_TOOLPANE_HEIGHT = 25;
+    private static final int POPUP_TOOLPANE_HEIGHT = 27;
     private static final int ARROW_RANGE_START = CONTENT_WIDTH - 30;
     // 弹出对话框高度
     private static final int POPUP_MIN_HEIGHT = 145;
@@ -826,6 +826,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private String buttonType;
         private JDialog parentDialog;  // 如果不在对话框中，值为null
         private Color originColor;  // 初始背景
+        private JPanel contentPane;
         private boolean isMovable = false;
         private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
 
@@ -842,7 +843,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             public void mouseExited(MouseEvent e) {
                 setCursor(Cursor.getDefaultCursor());
                 if (mouseDownCompCoords == null) {
-                    setBackground(originColor);
+                    contentPane.setBackground(originColor);
                 }
                 repaint();
             }
@@ -856,7 +857,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             public void mouseReleased(MouseEvent e) {
                 mouseDownCompCoords = null;
                 if (!getBounds().contains(e.getPoint())) {
-                    setBackground(originColor);
+                    contentPane.setBackground(originColor);
                 }
             }
             @Override
@@ -874,7 +875,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                     setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 } else if (isMovable) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                    setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
+                    contentPane.setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
                 } else {
                     setCursor(Cursor.getDefaultCursor());
                 }
@@ -916,13 +917,18 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             super();
             this.propertyItem = propertyItem;
             this.title = propertyItem.getTitle();
-            originColor = Color.WHITE;
-            setBackground(originColor);
-            setLayout(new BorderLayout());
-            UILabel label = new UILabel(title);
-            add(label, BorderLayout.WEST);
-            setBorder(new EmptyBorder(5, 10, 5, 0));
+            originColor = UIConstants.UI_TOOLBAR_COLOR;
 
+            contentPane = new JPanel();
+            contentPane.setBackground(originColor);
+            contentPane.setLayout(new BorderLayout());
+            UILabel label = new UILabel(title);
+            contentPane.add(label, BorderLayout.WEST);
+            contentPane.setBorder(new EmptyBorder(5, 10, 5, 0));
+
+            setLayout(new BorderLayout());
+            add(contentPane, BorderLayout.CENTER);
+            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
             initToolButton(buttonType);
         }
 

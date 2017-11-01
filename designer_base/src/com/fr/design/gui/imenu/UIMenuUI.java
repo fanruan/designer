@@ -46,7 +46,7 @@ public class UIMenuUI extends BasicMenuUI {
 
     protected void paintRollOver(Graphics g, int w, int h) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(UIConstants.NORMAL_BACKGROUND);
+        g2d.setColor(UIConstants.UI_MENU_BACKGOURND);
         g2d.fillRect(0, 0, w, h);
     }
 

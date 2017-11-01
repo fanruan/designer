@@ -139,7 +139,6 @@ public class Designer extends BaseDesigner {
         largeToolbar.add(generateEmptyGap(1));
         createRunButton(largeToolbar);
         largeToolbar.add(run);
-        run.setBackground(Color.WHITE);
         largeToolbar.add(generateEmptyGap(GAP));
         largeToolbar.addSeparator(new Dimension(2, 42));
         largeToolbar.setBorder(new MatteBorder(new Insets(0, 0, 1, 0), UIConstants.LINE_COLOR));
@@ -154,7 +153,8 @@ public class Designer extends BaseDesigner {
                 return dim;
             }
         };
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(null);
+        panel.setOpaque(false);
         return panel;
     }
 
@@ -266,7 +266,6 @@ public class Designer extends BaseDesigner {
         run.set4Toolbar();
         run.getUpButton().setToolTipText(Inter.getLocText("FR-Designer_Preview"));
         run.getDownButton().setToolTipText(Inter.getLocText("FR-Designer_Dropdown-More-Preview"));
-        run.setBackground(Color.WHITE);
     }
 
     @Override

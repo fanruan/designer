@@ -27,7 +27,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:51:10
  */
 public class GridColumnUI extends ComponentUI {
-    protected Color withoutDetailsBackground =  new Color(0xf0f0f3);
+    protected Color withoutDetailsBackground =  UIConstants.GRID_COLUMN_DETAILS_BACKGROUND;
     private int resolution ;
 
     public GridColumnUI(int resolution){

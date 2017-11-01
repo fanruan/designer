@@ -3,6 +3,7 @@ package com.fr.design.mainframe.alphafine.component;
 import com.bulenkov.iconloader.IconLoader;
 import com.fr.design.actions.help.alphafine.AlphaFineContext;
 import com.fr.design.actions.help.alphafine.AlphaFineListener;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
@@ -32,7 +33,7 @@ public class AlphaFinePane extends BasicPane {
         refreshButton.set4ToolbarButton();
         refreshButton.setRolloverEnabled(false);
         this.add(refreshButton);
-        this.setBackground(ThemeUtils.WHITE_BORDER_COLOR);
+        this.setBackground(UIConstants.TEMPLATE_TAB_PANE_BACKGROUND);
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

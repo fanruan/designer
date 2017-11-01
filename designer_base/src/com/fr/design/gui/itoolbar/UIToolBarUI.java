@@ -1,6 +1,7 @@
 package com.fr.design.gui.itoolbar;
 
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIToolButtonBorder;
 import com.fr.design.gui.icheckbox.UICheckBox;
 
@@ -76,7 +77,7 @@ public class UIToolBarUI extends MetalToolBarUI {
      */
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
+        g2.setColor(UIConstants.UI_TOOLBAR_COLOR);
         g2.fillRect(0, 0, c.getWidth(), c.getHeight());
     }
 
