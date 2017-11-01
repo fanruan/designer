@@ -5,6 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
@@ -17,6 +18,7 @@ import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -489,6 +491,18 @@ public class PluginWebBridge {
 
     public void setUILabel(UILabel uiLabel) {
         this.uiLabel = uiLabel;
+    }
+
+    /**
+     * 设计器端的用户登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录信息标志
+     */
+    public void defaultLogin(String username, String password, final JSObject callback) {
+        Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password));
+        new Thread(task).start();
     }
 
     /**
