@@ -35,7 +35,7 @@ public class LoginWebPane extends JFXPanel {
                     }
                 });
                 JSObject obj = (JSObject) webEngine.executeScript("window");
-                obj.setMember("LoginHelper", LoginWebBridge.getHelper());
+                obj.setMember("LoginHelper", LoginWebBridge.getHelper(webEngine));
                 webView.setContextMenuEnabled(false);//屏蔽右键
                 root.setCenter(webView);
             }

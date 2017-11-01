@@ -11,7 +11,7 @@ import java.awt.*;
  * Created by vito on 2017/5/5.
  */
 public class LoginDialog extends UIDialog {
-    private static final Dimension DEFAULT_SHOP = new Dimension(401, 201);
+    private static final Dimension DEFAULT_SHOP = new Dimension(401, 301);
 
     public LoginDialog(Frame frame, Component pane) {
         super(frame);
