@@ -68,6 +68,8 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 	private DBTableData dbTableData;
 
 	private void init() {
+		this.setLayout(new BorderLayout(4, 4));
+
 		sqlTextPane = new SQLEditPane();
 		sqlTextPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_SQL);
 
@@ -115,10 +117,8 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		});
 	}
 
-	public DBTableDataPane() {
-		init();
-		this.setLayout(new BorderLayout(4, 4));
 
+	private void initMainSplitPane() {
 		Box box = new Box(BoxLayout.Y_AXIS);
 
 
@@ -154,6 +154,12 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		mainSplitPane.setOneTouchExpandable(true);
 		this.add(mainSplitPane, BorderLayout.CENTER);
 	}
+
+	public DBTableDataPane() {
+		init();
+		initMainSplitPane();
+	}
+
 
 
 	private boolean isPreviewOrRefreshButton (FocusEvent e) {
