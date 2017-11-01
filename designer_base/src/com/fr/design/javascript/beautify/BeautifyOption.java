@@ -35,21 +35,37 @@ public class BeautifyOption {
 
     }
 
+    /**
+     * 缩进个数，默认为4
+     * @param indentSize 缩进个数
+     */
     public BeautifyOption indentSize(int indentSize) {
         this.indentSize = indentSize;
         return this;
     }
 
+    /**
+     * 缩进使用的字符，默认为一个空格
+     * @param indentChar 缩进字符
+     */
     public BeautifyOption indentChar(String indentChar) {
         this.indentChar = indentChar;
         return this;
     }
 
+    /**
+     * 是否使用tab来作为缩进字符，默认为false
+     * @param indentWithTabs 使用tab作为缩进字符则返回true，否则返回false
+     */
     public BeautifyOption indentWithTabs(boolean indentWithTabs) {
         this.indentWithTabs = indentWithTabs;
         return this;
     }
 
+    /**
+     * 换行符，默认为"\n"
+     * @param eol 换行符
+     */
     public BeautifyOption eol(String eol) {
         this.eol = eol;
         return this;
