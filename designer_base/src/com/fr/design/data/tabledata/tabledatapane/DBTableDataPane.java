@@ -5,7 +5,11 @@ import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterHelper;
 import com.fr.data.core.db.TableProcedure;
+import com.fr.data.impl.AbstractDatabaseConnection;
+import com.fr.data.impl.Connection;
 import com.fr.data.impl.DBTableData;
+import com.fr.data.impl.JDBCDatabaseConnection;
+import com.fr.data.impl.JNDIDatabaseConnection;
 import com.fr.data.impl.NameDatabaseConnection;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
@@ -37,6 +41,7 @@ import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
+import org.sqlite.JDBC;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -102,7 +107,12 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		sqlSplitPane.add(box, BorderLayout.CENTER);
 
 		// 左边的Panel,上面是选择DatabaseConnection的ComboBox,下面DatabaseConnection对应的Table
-		connectionTableProcedurePane = new ConnectionTableProcedurePane();
+		connectionTableProcedurePane = new ConnectionTableProcedurePane() {
+			@Override
+			protected void filter(Connection connection, String conName, List<String> nameList) {
+				connection.addConnection(nameList, conName, new Class[]{JDBCDatabaseConnection.class, JNDIDatabaseConnection.class});
+			}
+		};
 		connectionTableProcedurePane.addDoubleClickListener(new DoubleClickSelectedNodeOnTreeListener() {
 
 			@Override
@@ -137,6 +147,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 		mainSplitPane.setOneTouchExpandable(true);
 		this.add(mainSplitPane, BorderLayout.CENTER);
 	}
+
 
 	private boolean isPreviewOrRefreshButton (FocusEvent e) {
 		if (e.getOppositeComponent() != null) {

@@ -58,7 +58,7 @@ public abstract class AbstractTableDataWrapper implements TableDataWrapper {
 		
 		EmbeddedTableData embeddedTableData = null;
 		try {
-			embeddedTableData = DesignTableDataManager.previewTableDataNotNeedInputParameters(tabledata, TableData.RESULT_NOT_NEED, false);
+			embeddedTableData = DesignTableDataManager.previewTableDataNotNeedInputParameters(tds, tabledata, TableData.RESULT_NOT_NEED, false);
 		} catch (Exception e) {
             if (e.getMessage()!=null) {
                 DesignUtils.errorMessage(e.getMessage());

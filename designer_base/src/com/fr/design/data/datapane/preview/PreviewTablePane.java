@@ -6,6 +6,7 @@ package com.fr.design.data.datapane.preview;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.TableData;
+import com.fr.data.TableDataSource;
 import com.fr.data.impl.DBTableData;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -13,6 +14,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
@@ -362,7 +364,8 @@ public class PreviewTablePane extends BasicPane {
                     }
                 }
                 connectionBar.close();
-                previewTableData = DesignTableDataManager.previewTableDataNeedInputParameters(tableData, (int) maxPreviewNumberField.getValue(), true);
+                TableDataSource dataSource = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getTarget();
+                previewTableData = DesignTableDataManager.previewTableDataNeedInputParameters(dataSource, tableData, (int) maxPreviewNumberField.getValue(), true);
                 // parameterInputDialog
                 // update之后的parameters,转成一个parameterMap,用于预览TableData
                 PreviewTableModel previewModel = new PreviewTableModel(previewTableData.createDataModel(null), (int) maxPreviewNumberField.getValue());
