@@ -407,6 +407,9 @@ public abstract class UIListControlPane extends UIControlPane {
                 return;
             }
             popupEditDialog.setLocation(getPopupDialogLocation());
+            if (popupEditDialog instanceof PopupEditDialog) {
+                ((PopupEditDialog)popupEditDialog).setTitle(selectedName);
+            }
             popupEditDialog.setVisible(true);
         }
     }
@@ -773,6 +776,7 @@ public abstract class UIListControlPane extends UIControlPane {
                 nameableList.editItemAt(nameableList.getSelectedIndex());
             } else if (SwingUtilities.isLeftMouseButton(evt) && evt.getX() <= EDIT_RANGE) {
                 editingIndex = nameableList.getSelectedIndex();
+                selectedName = nameableList.getNameAt(editingIndex);
                 popupEditDialog(evt.getPoint());
             }
 

@@ -15,11 +15,12 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Nameable;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * Created by plough on 2017/7/21.
@@ -313,15 +314,18 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
     // 点击"编辑"按钮，弹出面板
     protected class PopupEditDialog extends JDialog {
         private JComponent editPane;
+        private PopupToolPane popupToolPane;
         private static final int WIDTH = 570;
         private static final int HEIGHT = 490;
 
-        PopupEditDialog(JComponent pane) {
+        public PopupEditDialog(JComponent pane) {
             super(DesignerContext.getDesignerFrame());
             setUndecorated(true);
             pane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
             this.editPane = pane;
             JPanel editPaneWrapper = new JPanel(new BorderLayout());
+            popupToolPane = new PopupToolPane(this);
+            editPaneWrapper.add(popupToolPane, BorderLayout.NORTH);
             editPaneWrapper.add(editPane, BorderLayout.CENTER);
             editPaneWrapper.setBorder(BorderFactory.createLineBorder(UIConstants.POP_DIALOG_BORDER, 1));
             this.getContentPane().add(editPaneWrapper, BorderLayout.CENTER);
@@ -329,6 +333,10 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 //            pack();
             this.setVisible(false);
             initListener();
+        }
+
+        public void setTitle(String title) {
+            popupToolPane.setTitle(title);
         }
 
         private void hideDialog() {
@@ -356,6 +364,109 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
                     hideDialog();
                 }
             });
+        }
+    }
+
+    // 移动弹出编辑面板的工具条
+    private class PopupToolPane extends JPanel {
+        private JDialog parentDialog;  // 如果不在对话框中，值为null
+        private Color originColor;  // 初始背景
+        private JPanel contentPane;
+        private UILabel titleLabel;
+        private Point mouseDownCompCoords;  // 存储按下左键的位置，移动对话框时会用到
+
+        private static final int MIN_X = -150;
+        private static final int MAX_X_SHIFT = 50;
+        private static final int MAX_Y_SHIFT = 50;
+
+        private MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(Cursor.getDefaultCursor());
+                if (mouseDownCompCoords == null) {
+                    contentPane.setBackground(originColor);
+                }
+                repaint();
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+                if (!getBounds().contains(e.getPoint())) {
+                    contentPane.setBackground(originColor);
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+        };
+
+        private MouseMotionListener mouseMotionListener = new MouseMotionListener() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                contentPane.setBackground(UIConstants.POPUP_TITLE_BACKGROUND);
+                repaint();
+            }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (mouseDownCompCoords != null) {
+                    Point currCoords = e.getLocationOnScreen();
+                    int x = currCoords.x - mouseDownCompCoords.x;
+                    int y = currCoords.y - mouseDownCompCoords.y;
+                    //屏幕可用区域
+                    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+                    int minY = screen.y;
+                    int maxX = Toolkit.getDefaultToolkit().getScreenSize().width - MAX_X_SHIFT;
+                    int maxY = Toolkit.getDefaultToolkit().getScreenSize().height - MAX_Y_SHIFT;
+                    if (x < MIN_X) {
+                        x = MIN_X;
+                    } else if (x > maxX) {
+                        x = maxX;
+                    }
+                    if (y < minY) {
+                        y = minY;
+                    } else if (y > maxY) {
+                        y = maxY;
+                    }
+                    // 移动到屏幕边缘时，需要校正位置
+                    parentDialog.setLocation(x, y);
+                }
+            }
+        };
+
+        public PopupToolPane(JDialog parentDialog) {
+            this(StringUtils.EMPTY, parentDialog);
+        }
+
+        public PopupToolPane(String title, JDialog parentDialog) {
+            super();
+            this.parentDialog = parentDialog;
+            originColor = UIConstants.UI_TOOLBAR_COLOR;
+
+            contentPane = new JPanel();
+            contentPane.setBackground(originColor);
+            contentPane.setLayout(new BorderLayout());
+            titleLabel = new UILabel(title);
+            contentPane.add(titleLabel, BorderLayout.WEST);
+            contentPane.setBorder(new EmptyBorder(5, 10, 5, 0));
+
+            setLayout(new BorderLayout());
+            add(contentPane, BorderLayout.CENTER);
+            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIConstants.TOOLBAR_BORDER_COLOR));
+
+            addMouseListener(mouseListener);
+            addMouseMotionListener(mouseMotionListener);
+        }
+
+        public void setTitle(String title) {
+            titleLabel.setText(title);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(super.getPreferredSize().width, 25);
         }
     }
 }
