@@ -6,6 +6,7 @@ package com.fr.design.mainframe.bbs;
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
@@ -32,7 +33,7 @@ import java.util.Date;
 public class UserInfoPane extends BasicPane{
 	
 	//默认未登录颜色
-	private static final Color UN_LOGIN_BACKGROUND = new Color(210, 210, 210);
+	private static final Color UN_LOGIN_BACKGROUND = UIConstants.TEMPLATE_TAB_PANE_BACKGROUND;
 	private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
 	private static final int WIDTH = 104;
 	private static final int HEIGHT = 24;

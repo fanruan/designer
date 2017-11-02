@@ -293,7 +293,6 @@ public class UIEastResizableContainer extends JPanel {
         public void paint(Graphics g) {
             Image button;
 
-            g.drawImage(UIConstants.DRAG_BAR, 0, 0, containerWidth, topToolPaneHeight, null);
             if (containerWidth == leftPaneWidth) {
                 if (model == UIConstants.MODEL_NORMAL) {
                     button = UIConstants.DRAG_LEFT_NORMAL;
@@ -307,7 +306,6 @@ public class UIEastResizableContainer extends JPanel {
                     button = UIConstants.DRAG_RIGHT_PRESS;
                 }
             }
-//                g.drawImage(button, 2, ARROW_MARGIN_VERTICAL, 5, toolPaneHeight, null);
             g.drawImage(button, 18, 7, 5, 10, null);
         }
     }

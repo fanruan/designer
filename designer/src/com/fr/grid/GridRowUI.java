@@ -26,7 +26,7 @@ import com.fr.report.elementcase.ElementCase;
  * @since 2012-3-22下午5:54:21
  */
 public class GridRowUI extends ComponentUI {
-    private Color detailsBackground = new Color(0xf0f0f3);
+    private Color detailsBackground = UIConstants.GRID_ROW_DETAILS_BACKGROUND;
     private int resolution ;
 
     GridRowUI(int resolution){

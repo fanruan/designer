@@ -46,7 +46,7 @@ public abstract class NewTemplatePane extends JComponent implements MouseListene
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g2d = (Graphics2D) g;
-		g2d.setColor(UIConstants.COMBOBOX_BTN_NORMAL);
+		g2d.setColor(UIConstants.TEMPLATE_TAB_PANE_BACKGROUND);
 		g2d.fill(new Rectangle2D.Double(0, 0, getWidth(),getHeight()));
 		int sheetIconY = (getHeight() - newWorkBookIconMode.getIconHeight()) / 2;
 		newWorkBookIconMode.paintIcon(this, g2d, newIconStartX, sheetIconY);
