@@ -330,6 +330,7 @@ public abstract class UIListControlPane extends UIControlPane {
         nameableList.ensureIndexIsVisible(index);
 
         nameEdList.repaint();
+        popupEditDialog();
     }
 
     /**
@@ -400,15 +401,19 @@ public abstract class UIListControlPane extends UIControlPane {
         }
     }
 
+    private void popupEditDialog() {
+        popupEditDialog(null);
+    }
+
     protected void popupEditDialog(Point mousePos) {
         if (isNewStyle()) {
             Rectangle currentCellBounds = nameableList.getCellBounds(editingIndex, editingIndex);
-            if (editingIndex < 0 || !currentCellBounds.contains(mousePos)) {
+            if (editingIndex < 0 || (mousePos != null && !currentCellBounds.contains(mousePos))) {
                 return;
             }
             popupEditDialog.setLocation(getPopupDialogLocation());
             if (popupEditDialog instanceof PopupEditDialog) {
-                ((PopupEditDialog)popupEditDialog).setTitle(selectedName);
+                ((PopupEditDialog)popupEditDialog).setTitle(getSelectedName());
             }
             popupEditDialog.setVisible(true);
         }
@@ -418,7 +423,7 @@ public abstract class UIListControlPane extends UIControlPane {
         Point resultPos = new Point(0, 0);
         Point listPos = nameableList.getLocationOnScreen();
         resultPos.x = listPos.x - popupEditDialog.getWidth();
-        resultPos.y = listPos.y + (editingIndex - 1) * EDIT_RANGE;
+        resultPos.y = listPos.y + (nameableList.getSelectedIndex() - 1) * EDIT_RANGE;
 
         // 当对象在屏幕上的位置比较靠下时，往下移动弹窗至与属性面板平齐
         Window frame = DesignerContext.getDesignerFrame();
