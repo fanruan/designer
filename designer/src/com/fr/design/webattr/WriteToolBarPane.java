@@ -50,6 +50,10 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
     private UICheckBox isAutoStash;//自动暂存
 
     public WriteToolBarPane() {
+        init();
+    }
+
+    private void init() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel allPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(allPanel, BorderLayout.CENTER);
@@ -106,7 +110,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         toolBarManager.setToolBarLocation(Location.createTopEmbedLocation());
         this.toolBarManagers = new ToolBarManager[]{toolBarManager};
     }
-    
+
     private ActionListener editBtnListener = new ActionListener() {
 
         public void actionPerformed(ActionEvent e) {
