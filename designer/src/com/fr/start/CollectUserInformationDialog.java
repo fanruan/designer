@@ -72,7 +72,7 @@ public class CollectUserInformationDialog extends UIDialog {
         macSystemHit(keyPane);
 
         UIButton getKeyButton = new UIButton(
-                Inter.getLocText("Collect-Click!_Get_user_information_code"));
+                Inter.getLocText("FR-Designer_Get_Activation_Code"));
         getKeyButton.setMnemonic('F');
         keyPane.add(getKeyButton, BorderLayout.EAST);
         getKeyButton.addActionListener(actionListener);
