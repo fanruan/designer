@@ -74,14 +74,12 @@ public class JSCallback {
      * @return 处理之后的字符串
      */
     private String filterHtmlTag(String origin) {
-        String regEx_html = "<[^>]+>";
-        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
-        Matcher m_html = p_html.matcher(origin);
-        origin = m_html.replaceAll("");
+        String regHtml = "<[^>]+>";
+        Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
+        Matcher matchHtml = patternHtml.matcher(origin);
+        origin = matchHtml.replaceAll("");
         return origin;
     }
-
-
 
 }
 
