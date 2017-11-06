@@ -33,6 +33,15 @@ public class CollectUserInformationDialog extends UIDialog {
     private static final String TW_LOGIN_HTML = "http://www.finereport.com/tw/products/frlogin";
     private static final String JP_LOGIN_HTML = "http://www.finereport.com/jp/products/frlogin";
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
+    private static final int DIALOG_WIDTH = 480;
+    private static final int DIALOG_HEIGHT = 300;
+    private static final int DESCRIPTION_ROWS = 5;
+    private static final int KEYPANE_PADDING_TOP = 32;
+    private static final int KEYPANE_PADDING_LEFT = 2;
+    private static final int KEYPANE_PADDING_DOWN = 32;
+    private static final int KEYPANE_PADDING_RIGHT = 2;
+    private static final int DEFAULTPANE_PADDING_TOP = 2;
+    private static final int DEFAULTPANE_PADDING = 4;
 
     private UITextField keyTextField;
     private DescriptionTextArea descriptionTextArea;
@@ -47,7 +56,7 @@ public class CollectUserInformationDialog extends UIDialog {
     protected void initComponents() {
         JPanel defaultPane = (JPanel) this.getContentPane();
         defaultPane.setLayout(FRGUIPaneFactory.createM_BorderLayout());
-        defaultPane.setBorder(BorderFactory.createEmptyBorder(2, 4, 4, 4));
+        defaultPane.setBorder(BorderFactory.createEmptyBorder(DEFAULTPANE_PADDING_TOP, DEFAULTPANE_PADDING, DEFAULTPANE_PADDING, DEFAULTPANE_PADDING));
         this.applyClosingAction();
         //this.applyEscapeAction();
         JPanel centPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -60,7 +69,7 @@ public class CollectUserInformationDialog extends UIDialog {
                 Inter.getLocText("Collect-Enter_your_user_information_code(It's_free_to_get_from_product's_official_website)"),
                 TitledBorder.LEADING, TitledBorder.TOP));
         JPanel keyPane = new JPanel(new BorderLayout(4, 4));
-        keyPane.setBorder(BorderFactory.createEmptyBorder(32, 2, 32, 2));
+        keyPane.setBorder(BorderFactory.createEmptyBorder(KEYPANE_PADDING_TOP, KEYPANE_PADDING_LEFT, KEYPANE_PADDING_DOWN, KEYPANE_PADDING_RIGHT));
         topPane.add(keyPane);
 
         UILabel avctivenumberLabel = new UILabel();
@@ -72,13 +81,13 @@ public class CollectUserInformationDialog extends UIDialog {
         macSystemHit(keyPane);
 
         UIButton getKeyButton = new UIButton(
-                Inter.getLocText("Collect-Click!_Get_user_information_code"));
+                Inter.getLocText("FR-Designer_Get_Activation_Code"));
         getKeyButton.setMnemonic('F');
         keyPane.add(getKeyButton, BorderLayout.EAST);
         getKeyButton.addActionListener(actionListener);
 
         descriptionTextArea = new DescriptionTextArea();
-        descriptionTextArea.setRows(5);
+        descriptionTextArea.setRows(DESCRIPTION_ROWS);
         descriptionTextArea.setBorder(
                 BorderFactory.createTitledBorder(Inter.getLocText("FR-Designer-Collect_Information_Description")));
         descriptionTextArea.setText(Inter.getLocText("Collect-User_Information_DES"));
@@ -88,13 +97,13 @@ public class CollectUserInformationDialog extends UIDialog {
         defaultPane.add(this.createControlButtonPane(), BorderLayout.SOUTH);
 
         this.setTitle(Inter.getLocText("Collect-Collect_User_Information"));
-        this.setSize(480, 300);
+        this.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         this.setModal(true);
         GUICoreUtils.centerWindow(this);
     }
 
     private void macSystemHit(JPanel keyPane) {
-        if(OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isMacOS()) {
             UITextArea macHit = new UITextArea();
             macHit.setText(Inter.getLocText("FR-Designer-Collect_OSXTips"));
             macHit.setEditable(false);
@@ -119,22 +128,19 @@ public class CollectUserInformationDialog extends UIDialog {
     private void getKeyAction(){
         Locale locale = FRContext.getLocale();
         String url = EN_LOGIN_HTML;
-        if (ComparatorUtils.equals(locale, Locale.TAIWAN))
-        {
+        if (ComparatorUtils.equals(locale, Locale.TAIWAN)) {
             url = TW_LOGIN_HTML;
         }
-        if (ComparatorUtils.equals(locale, Locale.CHINA))
-        {
+        if (ComparatorUtils.equals(locale, Locale.CHINA)) {
             url = CN_LOGIN_HTML;
         }
-        if (ComparatorUtils.equals(locale, Locale.JAPAN))
-        {
+        if (ComparatorUtils.equals(locale, Locale.JAPAN)) {
             url = JP_LOGIN_HTML;
         }
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (Exception ioe) {
-
+            // do nothing
         }
     };
 
@@ -189,5 +195,6 @@ public class CollectUserInformationDialog extends UIDialog {
      *
      */
     public void checkValid() throws Exception {
+        // do nothing
     }
 }
