@@ -46,6 +46,7 @@ import java.util.Map;
 
 public class TableDataTreePane extends BasicTableDataTreePane {
     private static TableDataTreePane singleton = new TableDataTreePane();
+    private static final int TIP_DISMISS_DELAY = 3000;
 
 
     public synchronized static BasicTableDataTreePane getInstance(DesignModelAdapter<?, ?> tc) {
@@ -72,24 +73,20 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     private PreviewTableDataAction previewTableDataAction;
 
     private TableDataTreePane() {
+        init();
+    }
+
+    private void init() {
         this.setLayout(new BorderLayout(4, 0));
         this.setBorder(null);
         dataTree = new TableDataTree();
         ToolTipManager.sharedInstance().registerComponent(dataTree);
-        ToolTipManager.sharedInstance().setDismissDelay(3000);
+        ToolTipManager.sharedInstance().setDismissDelay(TIP_DISMISS_DELAY);
         ToolTipManager.sharedInstance().setInitialDelay(0);
         addMenuDef = new MenuDef(Inter.getLocText("FR-Action_Add"));
         addMenuDef.setIconPath(IconPathConstants.ADD_POPMENU_ICON_PATH);
 
         createAddMenuDef();
-
-        GeneralContext.addPluginReadListener(new PluginReadListener() {
-            @Override
-            public void success(Status status) {
-                addMenuDef.clearShortCuts();
-                createAddMenuDef();
-            }
-        });
 
         editAction = new EditAction();
         removeAction = new RemoveAction();
@@ -113,13 +110,9 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         jPanel.add(buttonPane, BorderLayout.NORTH);
         jPanel.add(scrollPane, BorderLayout.CENTER);
         this.add(jPanel, BorderLayout.CENTER);
-        dataTree.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                checkButtonEnabled();
-            }
-        });
-        dataTree.addKeyListener(getTableTreeNodeListener(editAction, previewTableDataAction, removeAction, op, dataTree));
+
+        initListeners();
+
         // TreeCellEditor
         dataTree.setEditable(true);
         TableDataTreeCellEditor treeCellEditor = new TableDataTreeCellEditor(new UITextField(), dataTree, this);
@@ -127,6 +120,23 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         dataTree.setCellEditor(treeCellEditor);
         new TableDataTreeDragSource(dataTree, DnDConstants.ACTION_COPY);
         checkButtonEnabled();
+    }
+
+    private void initListeners() {
+        GeneralContext.addPluginReadListener(new PluginReadListener() {
+            @Override
+            public void success(Status status) {
+                addMenuDef.clearShortCuts();
+                createAddMenuDef();
+            }
+        });
+        dataTree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                checkButtonEnabled();
+            }
+        });
+        dataTree.addKeyListener(getTableTreeNodeListener(editAction, previewTableDataAction, removeAction, op, dataTree));
     }
 
 
