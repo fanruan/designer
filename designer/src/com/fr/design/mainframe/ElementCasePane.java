@@ -341,6 +341,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         grid.setDefaultFloatEditor(Image.class, new ImageFloatEditor());
 
         DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
+        grid.setGridLineColor(designerEnvManager.getGridLineColor());
         grid.setPaginationLineColor(designerEnvManager.getPaginationLineColor());
     }
 

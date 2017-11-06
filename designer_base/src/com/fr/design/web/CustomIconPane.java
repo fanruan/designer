@@ -232,6 +232,9 @@ public class CustomIconPane extends BasicPane {
 	}
 
 	private void updateButtonPane() {
+		if (editButton == null || removeButton == null){
+			return;
+		}
 		if (iconManager.isSystemIcon(selectedIconName)) {
 			editButton.setEnabled(false);
             removeButton.setEnabled(false);
@@ -298,7 +301,7 @@ public class CustomIconPane extends BasicPane {
 		} catch (RuntimeException re) {
             return;
 		}
-        updateButtonPane();
+		updateButtonPane();
 	}
 	
 	private class IconButton extends JToggleButton implements ActionListener{
