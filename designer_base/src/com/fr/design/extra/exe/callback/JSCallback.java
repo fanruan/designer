@@ -63,7 +63,7 @@ public class JSCallback {
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
             String b = filterHtmlTag(old);
-            return b.replaceAll("\\\\n", "").replaceAll("\\\\t", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
+            return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
         }
         return StringUtils.EMPTY;
     }
@@ -77,7 +77,7 @@ public class JSCallback {
         String regHtml = "<[^>]+>";
         Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
         Matcher matchHtml = patternHtml.matcher(origin);
-        origin = matchHtml.replaceAll("");
+        origin = matchHtml.replaceAll(StringUtils.EMPTY);
         return origin;
     }
 

@@ -112,7 +112,7 @@ public class PluginOperateUtils {
         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
         JSONArray resultArray = JSONArray.create();
         try {
-            HttpClient httpClient = new HttpClient(plistUrl.toString());
+            HttpClient httpClient = new HttpClient(plistUrl);
             String result = httpClient.getResponseText();
             JSONArray jsonArray = new JSONArray(result);
             resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
@@ -126,7 +126,7 @@ public class PluginOperateUtils {
         if (StringUtils.isNotBlank(category)) {
             url.append("cid=").append(category.split("-")[1]);
         } else {
-            url.append("cid=").append("");
+            url.append("cid=").append(StringUtils.EMPTY);
         }
         if (StringUtils.isNotBlank(seller)) {
             switch (seller.split("-")[1]) {
@@ -137,7 +137,7 @@ public class PluginOperateUtils {
                     url.append("&seller=").append(2);
                     break;
                 default:
-                    url.append("&seller=").append("");
+                    url.append("&seller=").append(StringUtils.EMPTY);
             }
         }
         if (StringUtils.isNotBlank(fee)) {
@@ -149,7 +149,7 @@ public class PluginOperateUtils {
                     url.append("&fee=").append(2);
                     break;
                 default:
-                    url.append("&fee=").append("");
+                    url.append("&fee=").append(StringUtils.EMPTY);
             }
         }
     }
@@ -157,11 +157,11 @@ public class PluginOperateUtils {
     public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {
         String username = ConfigManager.getProviderInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
-            jsCallback.execute("");
+            jsCallback.execute(StringUtils.EMPTY);
             uiLabel.setText(Inter.getLocText("FR-Base_UnSignIn"));
         } else {
             uiLabel.setText(username);
-            String result =  username;
+            String result = username;
             jsCallback.execute(result);
         }
     }
@@ -177,11 +177,11 @@ public class PluginOperateUtils {
         StringBuilder pluginInfo = new StringBuilder();
         List<PluginTaskResult> pluginTaskResults = result.asList();
         for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
-            if(pluginInfo.length() != 0){
+            if (pluginInfo.length() != 0) {
                 pluginInfo.append("\n");
             }
             PluginTask pluginTask = pluginTaskResult.getCurrentTask();
-            if(pluginTask == null){
+            if (pluginTask == null) {
                 pluginInfo.append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
                 continue;
             }
@@ -189,13 +189,12 @@ public class PluginOperateUtils {
             PluginContext pluginContext = PluginManager.getContext(pluginMarker);
             if (pluginContext != null) {
                 pluginInfo.append(pluginContext.getName()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
-            }else{
+            } else {
                 pluginInfo.append(pluginMarker.getPluginID()).append(PluginUtils.getMessageByErrorCode(pluginTaskResult.errorCode()));
             }
         }
         return pluginInfo.toString();
     }
-
 
 
 }

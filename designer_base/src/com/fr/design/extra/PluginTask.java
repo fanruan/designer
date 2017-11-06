@@ -95,7 +95,7 @@ public class PluginTask<T> extends Task<T> {
         String regHtml = "<[^>]+>";
         Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
         Matcher matchHtml = patternHtml.matcher(origin);
-        origin = matchHtml.replaceAll("");
+        origin = matchHtml.replaceAll(StringUtils.EMPTY);
         return origin;
     }
 

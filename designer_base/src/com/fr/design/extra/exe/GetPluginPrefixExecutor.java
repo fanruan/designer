@@ -7,7 +7,7 @@ import com.fr.stable.StringUtils;
 /**
  * Created by kerry on 2017/11/3.
  */
-public class getPluginPrefixExecutor implements Executor {
+public class GetPluginPrefixExecutor implements Executor {
     private String result = StringUtils.EMPTY;
 
     @Override

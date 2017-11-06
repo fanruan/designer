@@ -11,7 +11,7 @@ import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
-import com.fr.design.extra.exe.getPluginPrefixExecutor;
+import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -337,7 +337,7 @@ public class PluginWebBridge {
 
 
     public void getPluginPrefix(final JSObject callback) {
-        Task<Void> task = new PluginTask<>(webEngine, callback, new getPluginPrefixExecutor());
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginPrefixExecutor());
         threadPoolExecutor.submit(task);
     }
 
@@ -549,7 +549,7 @@ public class PluginWebBridge {
      * 初始化设计器部分
      */
     public void initExtraDiff(final JSObject callback) {
-
+        //todo  初始化设计器其他部分
     }
 
     /**
