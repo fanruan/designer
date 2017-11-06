@@ -81,7 +81,7 @@ public class PluginTask<T> extends Task<T> {
     private String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
             String b = filterHtmlTag(old);
-            return b.replaceAll("\\\\n", "").replaceAll("\\\\t", "").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
+            return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
         }
         return StringUtils.EMPTY;
     }
