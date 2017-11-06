@@ -2,7 +2,13 @@ package com.fr.design.extra;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.design.extra.exe.callback.*;
+import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
+import com.fr.design.extra.exe.callback.InstallOnlineCallback;
+import com.fr.design.extra.exe.callback.JSCallback;
+import com.fr.design.extra.exe.callback.ModifyStatusCallback;
+import com.fr.design.extra.exe.callback.UninstallPluginCallback;
+import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
+import com.fr.design.extra.exe.callback.UpdateOnlineCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -20,7 +26,8 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.List;
 
@@ -81,17 +88,17 @@ public class PluginOperateUtils {
     }
 
     public static void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSCallback jsCallback) {
-    
+
         SwingUtilities.invokeLater(new Runnable() {
-    
+
             @Override
             public void run() {
                 int rv = JOptionPane.showConfirmDialog(
-                    null,
-                    Inter.getLocText("FR-Plugin_Delete_Confirmed"),
-                    Inter.getLocText("FR-Designer-Plugin_Warning"),
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE
+                        null,
+                        Inter.getLocText("FR-Plugin_Delete_Confirmed"),
+                        Inter.getLocText("FR-Designer-Plugin_Warning"),
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
                 );
                 if (rv == JOptionPane.OK_OPTION) {
                     PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
@@ -101,104 +108,18 @@ public class PluginOperateUtils {
         });
     }
 
-    public static void readUpdateOnline(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<PluginView> plugins = PluginsReaderFromStore.readPluginsForUpdate();
-                    JSONArray jsonArray = new JSONArray();
-                    for (PluginView plugin : plugins) {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("pluginid", plugin.getID());
-                        jsonArray.put(jsonObject);
-                    }
-                    String result = jsonArray.toString();
-                    jsCallback.execute(result);
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-            }
-        }).start();
-
-
-    }
-
-    public static void searchPlugin(final String keyword, final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (StringUtils.isBlank(keyword)) {
-                        getRecommendPlugins(jsCallback);
-                        return;
-                    }
-                    HttpClient httpClient = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
-                    httpClient.asGet();
-                    String result = httpClient.getResponseText();
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
-                    jsCallback.execute(resultJSONArray.toString());
-                } catch (Exception e) {
-                    FRLogger.getLogger().error(e.getMessage());
-                }
-            }
-        }).start();
-
-    }
-
-    public static void getPluginFromStore(final String category, final String seller, final String fee, final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
-                boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee);
-                if (getRecommend) {
-                    getRecommendPlugins(jsCallback);
-                    return;
-                }
-
-                if (StringUtils.isNotBlank(plistUrl)) {
-                    StringBuilder url = new StringBuilder();
-                    url.append(plistUrl);
-                    dealParams(url, category, seller, fee);
-                    try {
-                        HttpClient httpClient = new HttpClient(url.toString());
-                        httpClient.asGet();
-                        String result = httpClient.getResponseText();
-                        JSONObject resultJSONObject = new JSONObject(result);
-                        JSONArray resultArr = resultJSONObject.getJSONArray("result");
-                        JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(resultArr);
-                        jsCallback.execute(resultJSONArray.toString());
-                    } catch (Exception e) {
-                        FRLogger.getLogger().error(e.getMessage());
-                    }
-                } else {
-                    String result = PluginConstants.CONNECTION_404;
-                    jsCallback.execute(result);
-                }
-            }
-        
-        }).start();
-
-    }
-
-    public static void getRecommendPlugins(JSCallback jsCallback) {
+    public static String getRecommendPlugins() {
         String plistUrl = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
+        JSONArray resultArray = JSONArray.create();
         try {
             HttpClient httpClient = new HttpClient(plistUrl.toString());
             String result = httpClient.getResponseText();
             JSONArray jsonArray = new JSONArray(result);
-            JSONArray resultJSONArray = PluginUtils.filterPluginsFromVersion(jsonArray);
-            jsCallback.execute(resultJSONArray.toString());
+            resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
         } catch (Exception e) {
             FRLogger.getLogger().error(e.getMessage());
         }
-
+        return resultArray.toString();
     }
 
     public static void dealParams(StringBuilder url, String category, String seller, String fee) {
@@ -231,35 +152,6 @@ public class PluginOperateUtils {
                     url.append("&fee=").append("");
             }
         }
-    }
-
-    public static void getPluginCategories(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String result;
-                String url = SiteCenter.getInstance().acquireUrlByKind("shop.plugin.category");
-                if (url != null) {
-                    HttpClient httpClient = new HttpClient(url);
-                    result = httpClient.getResponseText();
-                } else {
-                    result = PluginConstants.CONNECTION_404;
-                }
-                jsCallback.execute(result);
-            }
-        }).start();
-    }
-
-    public static void getPluginPrefix(final JSCallback jsCallback) {
-    
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String result = SiteCenter.getInstance().acquireUrlByKind("plugin.url.prefix");
-                jsCallback.execute(result);
-            }
-        }).start();
     }
 
     public static void getLoginInfo(JSCallback jsCallback, UILabel uiLabel) {

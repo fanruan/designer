@@ -5,8 +5,13 @@ import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
+import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
+import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
+import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
+import com.fr.design.extra.exe.getPluginPrefixExecutor;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
@@ -23,14 +28,20 @@ import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 开放给Web组件的接口,用于安装,卸载,更新以及更改插件可用状态
@@ -48,6 +59,7 @@ public class PluginWebBridge {
 
     private UILabel uiLabel;
 
+    private ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * 动作枚举
@@ -222,8 +234,8 @@ public class PluginWebBridge {
      * 已安装插件检查更新
      */
     public void readUpdateOnline(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.readUpdateOnline(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new ReadUpdateOnlineExecutor());
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -306,8 +318,8 @@ public class PluginWebBridge {
      * @param keyword 关键字
      */
     public void searchPlugin(String keyword, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.searchPlugin(keyword, jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new SearchOnlineExecutor(keyword));
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -319,14 +331,14 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginFromStore(String category, String seller, String fee, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginFromStore(category, seller, fee, jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(category, seller, fee));
+        threadPoolExecutor.submit(task);
     }
 
 
     public void getPluginPrefix(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginPrefix(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new getPluginPrefixExecutor());
+        threadPoolExecutor.submit(task);
     }
 
 
@@ -336,8 +348,8 @@ public class PluginWebBridge {
      * @param callback 回调函数
      */
     public void getPluginCategories(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
-        PluginOperateUtils.getPluginCategories(jsCallback);
+        Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginCategoriesExecutor());
+        threadPoolExecutor.submit(task);
     }
 
     /**
@@ -502,7 +514,7 @@ public class PluginWebBridge {
      */
     public void defaultLogin(String username, String password, final JSObject callback) {
         Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password));
-        new Thread(task).start();
+        threadPoolExecutor.submit(task);
     }
 
     /**
