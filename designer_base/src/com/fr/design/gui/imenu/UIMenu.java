@@ -25,6 +25,7 @@ public class UIMenu extends JMenu {
 
 	public JPopupMenu getPopupMenu() {
 		JPopupMenu popupMenu = super.getPopupMenu();
+		popupMenu.setBackground(UIConstants.NORMAL_BACKGROUND);
 		popupMenu.setBorder(new Border() {
 
 			@Override
