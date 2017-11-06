@@ -3,6 +3,7 @@ package com.fr.design.data.datapane;
 import com.fr.base.BaseUtils;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.impl.TableDataSourceDependent;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
@@ -204,6 +205,9 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 tc.renameTableData(oldName, nPanel.getObjectName(), false);
                 TableDataSource tds = tc.getBook();
                 TableData td = uPanel.updateBean();
+                if (td instanceof TableDataSourceDependent) {
+                    ((TableDataSourceDependent) td).setTableDataSource(tds);
+                }
                 String tdName = nPanel.getObjectName();
                 tds.putTableData(tdName, td);
                 Map<String, String> map = new HashMap<String, String>();
