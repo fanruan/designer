@@ -101,11 +101,15 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
             return;
         }
         this.value = value;
+        setTextField(value);
 
+        fireStateChanged();
+    }
+
+    protected void setTextField(double value){
         textField.getDocument().removeDocumentListener(docListener);
         textField.setValue(value);
         textField.getDocument().addDocumentListener(docListener);
-        fireStateChanged();
     }
 
     public void setTextFieldValue(double value) {
@@ -257,6 +261,10 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
                 }
             }
         });
+        initTextFiledListeners();
+    }
+
+    protected void initTextFiledListeners(){
         textField.getDocument().removeDocumentListener(docListener);
         textField.getDocument().addDocumentListener(docListener);
         textField.addFocusListener(new FocusAdapter() {
