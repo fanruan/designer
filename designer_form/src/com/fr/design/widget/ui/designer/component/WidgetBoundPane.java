@@ -2,7 +2,11 @@ package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ispinner.UISpinner;
@@ -48,8 +52,8 @@ public class WidgetBoundPane extends BasicPane {
     }
 
     public void initBoundPane() {
-        width = new UISpinner(0, Integer.MAX_VALUE, 1);
-        height = new UISpinner(0, Integer.MAX_VALUE, 1);
+        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
         width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         height.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         if (creator.acceptType(XWCardLayout.class)) {
@@ -64,6 +68,7 @@ public class WidgetBoundPane extends BasicPane {
         fix();
     }
 
+    @Override
     protected String title4PopupWindow() {
         return "widgetBound";
     }
@@ -86,7 +91,6 @@ public class WidgetBoundPane extends BasicPane {
         if (bounds.height != h) {
             limitHeight(wabs, h, bounds, rec);
         }
-        creator.setBounds(bounds);
     }
 
 

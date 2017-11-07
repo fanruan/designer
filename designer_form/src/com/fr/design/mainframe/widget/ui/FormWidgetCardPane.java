@@ -215,6 +215,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     public void updateWidgetBound (){
         if (widgetBoundPane != null && ComparatorUtils.equals(getGlobalName(), Inter.getLocText("FR-Designer_Coords_And_Size"))) {
             widgetBoundPane.update();
+            designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_RESIZED);
         }
         designer.refreshDesignerUI();
     }
