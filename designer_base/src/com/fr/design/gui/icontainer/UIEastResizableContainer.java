@@ -255,7 +255,7 @@ public class UIEastResizableContainer extends JPanel {
                         setCursor(Cursor.getDefaultCursor());
                         model = UIConstants.MODEL_NORMAL;
                     }
-                    repaint();
+                    refreshContainer();
                 }
 
                 @Override
@@ -267,7 +267,7 @@ public class UIEastResizableContainer extends JPanel {
                 public void mouseExited(MouseEvent e) {
                     setCursor(Cursor.getDefaultCursor());
                     model = UIConstants.MODEL_NORMAL;
-                    repaint();
+                    refreshContainer();
                 }
 
                 @Override
