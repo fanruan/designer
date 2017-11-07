@@ -24,7 +24,7 @@ public class UIMenuBarUI extends BasicMenuBarUI {
             return;
         }
         Color oldColor = g.getColor();
-        g.setColor(UIConstants.TEMPLATE_TAB_PANE_BACKGROUND);
+        g.setColor(UIConstants.UI_MENU_BACKGOURND);
         g.fillRect(0, 0, c.getWidth(), c.getHeight());
         g.setColor(oldColor);
     }
