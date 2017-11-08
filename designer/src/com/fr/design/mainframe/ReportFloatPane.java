@@ -79,9 +79,13 @@ public class ReportFloatPane extends JPanel {
         insertFloatMenu.setTooltip(Inter.getLocText("FR-Designer_T_Insert_Float"));
         insertFloatMenu.setIconPath("com/fr/design/images/control/addPopup.png");
         JTemplate editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-        ElementCasePaneDelegate elementCasePaneDelegate = (ElementCasePaneDelegate) editingTemplate.getCurrentElementCasePane();
-        if (elementCasePaneDelegate != null) {
-            refreshInsertFloatMenu(elementCasePaneDelegate);
+        JComponent currentElementCasePane = editingTemplate.getCurrentElementCasePane();
+        if (currentElementCasePane != null) {
+            insertFloatMenu.clearShortCuts();
+            UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, currentElementCasePane);
+            for (int i = 0; i < actions.length; i++) {
+                insertFloatMenu.addShortCut(actions[i]);
+            }
         }
     }
 
