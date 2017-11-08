@@ -189,8 +189,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
     public void updateUI() {
         ((PolyArea) this.polyArea).setResolution(resolution);
-        polyArea.repaint();
-//        this.polyArea = (JComponent) new PolyArea(this, resolution);
+        repaint();
     }
 
     /**

@@ -97,7 +97,6 @@ public class PolyDesignUI extends ComponentUI {
             paintAddingData(g2d, addData);
         }
         paintPaginateLine(g2d);
-        designer.repaint();
     }
 
     private void paintAddedData(Graphics g) {

@@ -9,6 +9,8 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -45,9 +47,9 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     private final int NUM16 = 16;
     private BarCodePreviewPane barCodePreviewPane;
     private UIComboBox typeComboBox;
-    private UIBasicSpinner barWidthSpinner;
-    private UIBasicSpinner barHeightSpinner;
-    private UIBasicSpinner RCodesizespinner;
+    private UISpinner barWidthSpinner;
+    private UISpinner barHeightSpinner;
+    private UISpinner RCodesizespinner;
     private UICheckBox drawingTextCheckBox;
     private UIComboBox RCodeVersionComboBox;
     private UIComboBox RCodeErrorCorrectComboBox;
@@ -62,8 +64,8 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
 
     private void initComponents() {
         barCodePreviewPane = new BarCodePreviewPane();
-        this.barWidthSpinner = new UIBasicSpinner(new SpinnerNumberModel(10.0, 1, 100, 1.0));
-        this.barHeightSpinner = new UIBasicSpinner(new SpinnerNumberModel(30, 1, 100, 1));
+        this.barWidthSpinner = new UISpinner(1,100.0,1.0,10.0);
+        this.barHeightSpinner = new UISpinner(1,100.0,1.0,30);
         this.barWidthSpinner.setPreferredSize(new Dimension(60, 20));
         this.barHeightSpinner.setPreferredSize(new Dimension(60, 20));
         JPanel borderPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -72,7 +74,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         borderPane.add(barCodePreviewPane, BorderLayout.CENTER);
         setTypeComboBox();
         setSome();
-        RCodesizespinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 6, 1));
+        RCodesizespinner = new UISpinner(1,6,1,2);
         RCodeVersionComboBox = new UIComboBox();
         RCodeErrorCorrectComboBox = new UIComboBox();
         typeSetLabel = new UILabel(Inter.getLocText("FR-Designer_Type_Set"), UILabel.LEFT);
@@ -126,10 +128,10 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
     }
 
     private void setSome() {
-        JFormattedTextField heightTextField = ((JSpinner.DefaultEditor) barHeightSpinner.getEditor()).getTextField();
+        UINumberField heightTextField = barHeightSpinner.getTextField();
         heightTextField.setColumns(2);
 
-        JFormattedTextField widthTextField = ((JSpinner.DefaultEditor) barWidthSpinner.getEditor()).getTextField();
+        UINumberField widthTextField = barWidthSpinner.getTextField();
         widthTextField.setColumns(2);
     }
 
@@ -268,7 +270,7 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         }
         this.setTestText(BarCodeUtils.getTestTextByBarCode(barcodeAttr.getType()));
         this.typeComboBox.setSelectedIndex(barcodeAttr.getType());
-        this.barWidthSpinner.setValue(new Double(barcodeAttr.getBarWidth()));
+        this.barWidthSpinner.setValue(new Double(barcodeAttr.getBarWidth()) * 10);
         this.barHeightSpinner.setValue(new Integer(barcodeAttr.getBarHeight()));
         this.drawingTextCheckBox.setSelected(barcodeAttr.isDrawingText());
         this.RCodesizespinner.setValue(new Integer(barcodeAttr.getRcodeDrawPix()));
@@ -281,11 +283,11 @@ public class BarCodePane extends FurtherBasicBeanPane<BarcodePresent> {
         if ((typeComboBox.getSelectedIndex() == NUM16)) {
             barcodeAttr.setRCodeVersion(this.RCodeVersionComboBox.getSelectedIndex());
             barcodeAttr.setRCodeErrorCorrect(this.RCodeErrorCorrectComboBox.getSelectedIndex());
-            barcodeAttr.setRcodeDrawPix(((Integer) this.RCodesizespinner.getValue()).intValue());
+            barcodeAttr.setRcodeDrawPix((int) this.RCodesizespinner.getValue());
         }
         barcodeAttr.setType(this.typeComboBox.getSelectedIndex());
         barcodeAttr.setBarWidth(((Double) this.barWidthSpinner.getValue()).doubleValue() / 10);
-        barcodeAttr.setBarHeight(((Integer) this.barHeightSpinner.getValue()).intValue());
+        barcodeAttr.setBarHeight((int) this.barHeightSpinner.getValue());
         barcodeAttr.setDrawingText(this.drawingTextCheckBox.isSelected());
         return new BarcodePresent(barcodeAttr);
     }

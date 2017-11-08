@@ -39,7 +39,9 @@ import java.util.Arrays;
  */
 public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameObserver {
     private static final int ANGEL = 90;
-    private static final Dimension SPINNER_DIMENSION = new Dimension(70, 20);
+    private static final int GAP = 23;
+    private static final int VERGAP = 3;
+    private static final Dimension SPINNER_DIMENSION = new Dimension(75, 20);
     private static final String[] TEXT = {Inter.getLocText("FR-Designer_StyleAlignment_Wrap_Text"), Inter.getLocText("FR-Designer_StyleAlignment_Single_Line"),
             Inter.getLocText("FR-Designer_StyleAlignment_Single_Line(Adjust_Font)"), Inter.getLocText("FR-Designer_StyleAlignment_Multi_Line(Adjust_Font)")};
 
@@ -221,17 +223,33 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         spaceBeforeSpinner.setPreferredSize(SPINNER_DIMENSION);
         spaceAfterSpinner.setPreferredSize(SPINNER_DIMENSION);
         lineSpaceSpinner.setPreferredSize(SPINNER_DIMENSION);
+
+        JPanel indentationPane = new JPanel(new BorderLayout());
+        indentationPane.add(new UILabel((Inter.getLocText("FR-Designer-StyleAlignment_Style_Indentation")), SwingConstants.LEFT));
+        indentationPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
+        JPanel partSpacingPane = new JPanel(new BorderLayout());
+        partSpacingPane.add(new UILabel((Inter.getLocText("FR-Designer-StyleAlignment_Style_PartSpacing")), SwingConstants.LEFT));
+        partSpacingPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
+        JPanel spacingPane = new JPanel(new BorderLayout());
+        spacingPane.add(new UILabel((Inter.getLocText("FR-Designer-StyleAlignment_Style_Spacing")), SwingConstants.LEFT));
+        spacingPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, GAP));
+
         Component[][] components = new Component[][]{
                 new Component[]{null, null, null},
-                new Component[]{new UILabel((Inter.getLocText("FR-Designer-StyleAlignment_Style_Indentation")) + "       ", SwingConstants.LEFT), creatSpinnerPane(leftIndentSpinner), creatSpinnerPane(rightIndentSpinner)},
+                new Component[]{indentationPane, creatSpinnerPane(leftIndentSpinner), creatSpinnerPane(rightIndentSpinner)},
                 new Component[]{null, new UILabel((Inter.getLocText("FR-Designer_Left")), SwingConstants.CENTER), new UILabel((Inter.getLocText("FR-Designer_Right")), SwingConstants.CENTER)},
-                new Component[]{new UILabel((Inter.getLocText("FR-Designer-StyleAlignment_Style_PartSpacing")) + "     ", SwingConstants.LEFT), creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},
+                new Component[]{null, null, null},
+                new Component[]{null, null, null},
+                new Component[]{partSpacingPane, creatSpinnerPane(spaceBeforeSpinner), creatSpinnerPane(spaceAfterSpinner)},
                 new Component[]{null, new UILabel((Inter.getLocText("FR-Designer_Front")), SwingConstants.CENTER), new UILabel((Inter.getLocText("FR-Designer_Behind")), SwingConstants.CENTER)},
-                new Component[]{new UILabel((Inter.getLocText("FR-Designer_Style_Line_Spacing")) + "     ", SwingConstants.LEFT), creatSpinnerPane(lineSpaceSpinner), null},
+                new Component[]{null, null, null},
+                new Component[]{null, null, null},
+                new Component[]{spacingPane, creatSpinnerPane(lineSpaceSpinner), null},
         };
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p, p, p, p};
         double[] columnSize = {p, f, f};
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        int[][] rowCount = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, VERGAP);
     }
 
     private JPanel creatSpinnerPane(Component comp) {
