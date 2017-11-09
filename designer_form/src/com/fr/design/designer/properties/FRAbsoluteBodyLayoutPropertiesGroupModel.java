@@ -2,6 +2,7 @@ package com.fr.design.designer.properties;
 
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -97,6 +98,11 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                 if (row == 0) {
                     if (state == WBodyLayoutType.FIT.getTypeValue()) {
                         return switch2FitBodyLayout();
+                    } else {
+                        XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
+                        if (xfl.toData().stashAndRemoveMargin()) {
+                            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
+                        }
                     }
                 }
                 if (row == 1) {
@@ -142,6 +148,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
 
             xfl.getLayoutAdapter().removeBean(xwAbsoluteLayout, xwAbsoluteLayout.getWidth(), xwAbsoluteLayout.getHeight());
             xfl.remove(xwAbsoluteLayout);
+            xfl.toData().restoreMargin();
 
             for (Component comp : components) {
                 XCreator xCreator = (XCreator) comp;
