@@ -14,6 +14,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -24,7 +25,6 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import net.sf.ehcache.util.NamedThreadFactory;
 
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
@@ -40,7 +40,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -124,11 +123,11 @@ public class UserInfoLabel extends UILabel {
     }
 
     public static void showBBSDialog() {
-        ThreadFactory namedThread = new NamedThreadFactory("bbs-dlg");
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 1, 1,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1), namedThread);
+                new LinkedBlockingQueue<Runnable>(1),
+                new ThreadFactoryBuilder().setNameFormat("bbs-dlg-thread-%s").build());
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -151,7 +150,7 @@ public class UserInfoLabel extends UILabel {
                     return;
                 }
                 String res = hc.getResponseText();
-                if (res.indexOf(BBSConstants.UPDATE_KEY) == -1) {
+                if (!res.contains(BBSConstants.UPDATE_KEY)) {
                     return;
                 }
                 try {
@@ -163,6 +162,7 @@ public class UserInfoLabel extends UILabel {
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
                 } catch (Throwable ignored) {
                 }
+
             }
         });
     }
