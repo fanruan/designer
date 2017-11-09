@@ -7,7 +7,11 @@ import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.bbs.BBSLoginUtils;
-import com.fr.design.extra.*;
+import com.fr.design.extra.LoginContextListener;
+import com.fr.design.extra.LoginWebBridge;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.UserLoginContext;
+import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
@@ -18,17 +22,28 @@ import com.fr.general.DateUtils;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
-import com.fr.stable.*;
+import com.fr.stable.EncodeConstants;
+import com.fr.stable.OperatingSystem;
+import com.fr.stable.StringUtils;
+import net.sf.ehcache.util.NamedThreadFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author neil
@@ -104,8 +119,12 @@ public class UserInfoLabel extends UILabel {
      * showBBSDialog 弹出BBS资讯框
      */
     public static void showBBSDialog() {
-        Thread showBBSThread = new Thread(new Runnable() {
-
+        ThreadFactory namedThread = new NamedThreadFactory("bbs-dlg");
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                1, 1,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1), namedThread);
+        threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 // vito:最新mac10.12和javafx弹出框初始化时会有大几率卡死在native方法，这里先屏蔽一下。
@@ -127,18 +146,20 @@ public class UserInfoLabel extends UILabel {
                     return;
                 }
                 String res = hc.getResponseText();
-                if (res.indexOf(BBSConstants.UPDATE_KEY) == -1) {
+                if (!res.contains(BBSConstants.UPDATE_KEY)) {
                     return;
                 }
                 try {
-                    BBSDialog bbsLabel = new BBSDialog(DesignerContext.getDesignerFrame());
-                    bbsLabel.showWindow(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
+                    Class<?> clazz = Class.forName("com.fr.design.mainframe.bbs.BBSDialog");
+                    Constructor constructor = clazz.getConstructor(Frame.class);
+                    Object instance = constructor.newInstance(DesignerContext.getDesignerFrame());
+                    Method showWindow = clazz.getMethod("showWindow", String.class);
+                    showWindow.invoke(instance, SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
-                } catch (Throwable e) {
+                } catch (Throwable ignored) {
                 }
             }
         });
-        showBBSThread.start();
     }
 
     private void sleep(long millis) {

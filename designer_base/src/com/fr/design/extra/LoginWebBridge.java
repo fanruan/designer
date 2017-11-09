@@ -92,7 +92,7 @@ public class LoginWebBridge {
         return messageCount;
     }
 
-    public void setQqDialog(UIDialog qqDialog) {
+    public void setQQDialog(UIDialog qqDialog) {
         closeQQWindow();
         this.qqDialog = qqDialog;
     }

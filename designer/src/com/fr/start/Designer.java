@@ -20,7 +20,12 @@ import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.ActiveKeyGenerator;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.InformationCollector;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
@@ -37,16 +42,24 @@ import com.fr.general.Inter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.web.ServletContext;
 import com.fr.stable.xml.XMLTools;
+import net.sf.ehcache.util.NamedThreadFactory;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Designer extends BaseDesigner {
     private static final int TOOLBARPANEVGAP = -4;
@@ -147,6 +160,7 @@ public class Designer extends BaseDesigner {
 
     private JPanel generateEmptyGap(final int width) {
         JPanel panel = new JPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.width = width;
@@ -163,6 +177,7 @@ public class Designer extends BaseDesigner {
      *
      * @return 按钮
      */
+    @Override
     public UIButton[] createUp() {
         return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
     }
@@ -218,10 +233,12 @@ public class Designer extends BaseDesigner {
 
     private void createRunButton(UILargeToolbar largeToolbar) {
         run = new UIPreviewButton(new UIButton(UIConstants.PAGE_BIG_ICON) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(34, 34);
             }
         }, new UIButton(UIConstants.PREVIEW_DOWN) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(34, 10);
             }
@@ -296,6 +313,7 @@ public class Designer extends BaseDesigner {
      * @param plus             对象
      * @return 更新后的toolbar
      */
+    @Override
     public JComponent resetToolBar(JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
         //如果是处于权限编辑状态
         if (BaseUtils.isAuthorityEditing()) {
@@ -339,6 +357,7 @@ public class Designer extends BaseDesigner {
      *
      * @return 面板组件
      */
+    @Override
     public Component createBBSLoginPane() {
         if (userInfoPane == null) {
             userInfoPane = new UserInfoPane();
@@ -351,11 +370,13 @@ public class Designer extends BaseDesigner {
      *
      * @return 面板组件
      */
+    @Override
     public Component createAlphaFinePane() {
         return AlphaFinePane.getAlphaFinePane();
     }
 
 
+    @Override
     protected SplashPane createSplashPane() {
         return new ReportSplashPane();
     }
@@ -363,6 +384,7 @@ public class Designer extends BaseDesigner {
     /**
      * 收集用户信息吗
      */
+    @Override
     protected void collectUserInformation() {
         //定制的就不弹出来了
         if (!ComparatorUtils.equals(ProductConstants.APP_NAME, ProductConstants.DEFAULT_APP_NAME)) {
@@ -395,14 +417,18 @@ public class Designer extends BaseDesigner {
         int status = envManager.getActiveKeyStatus();
         //没有联网验证过
         if (status != 0) {
-            Thread authThread = new Thread(new Runnable() {
-
+            ThreadFactory namedThread = new NamedThreadFactory("net-verify");
+            ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                    1, 1,
+                    0L, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>(1),
+                    namedThread);
+            threadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     ActiveKeyGenerator.onLineVerify(key);
                 }
             });
-            authThread.start();
         }
     }
 
@@ -443,6 +469,7 @@ public class Designer extends BaseDesigner {
     /**
      * 设计器退出时, 做的一些操作.
      */
+    @Override
     public void shutDown() {
         InformationCollector collector = InformationCollector.getInstance();
         collector.collectStopTime();

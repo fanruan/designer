@@ -27,7 +27,9 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.sf.ehcache.util.NamedThreadFactory;
 import netscape.javascript.JSObject;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -41,25 +43,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 开放给Web组件的接口,用于安装,卸载,更新以及更改插件可用状态
  */
 public class PluginWebBridge {
+    private static final String PREFIX = "pluginbridge-pool";
+    private static final String ACTION = "action";
+    private static final String KEYWORD = "keyword";
+    private static final int COREPOOLSIZE = 3;
+    private static final int MAXPOOLSIZE = 5;
 
     private static PluginWebBridge helper;
 
     private UIDialog uiDialog;
     private ACTIONS action;
-    private String ACTION = "action";
-    private String KEYWORD = "keyword";
+
     private Map<String, Object> config;
     private WebEngine webEngine;
 
     private UILabel uiLabel;
 
-    private ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
+    private ExecutorService threadPoolExecutor = new ThreadPoolExecutor(COREPOOLSIZE, MAXPOOLSIZE,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(COREPOOLSIZE),
+            new NamedThreadFactory(PREFIX));
 
     /**
      * 动作枚举
