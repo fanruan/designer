@@ -80,7 +80,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
         double[] rowSize = {p, p, p};
         double[] columnSize = {p,f};
         int[][] rowCount = {{1, 1},{1, 1},{1, 1}};
-        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_MEDIUM);
+        JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
         this.add(panel, BorderLayout.CENTER);
 
     }

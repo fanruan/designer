@@ -20,11 +20,12 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         super(source);
     }
 
+    @Override
     public void initBoundPane() {
-        x = new UISpinner(0, Integer.MAX_VALUE, 1);
-        y = new UISpinner(0, Integer.MAX_VALUE, 1);
-        width = new UISpinner(0, Integer.MAX_VALUE, 1);
-        height = new UISpinner(0, Integer.MAX_VALUE, 1);
+        x = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        y = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
         x.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         y.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
         width.setGlobalName(Inter.getLocText("FR-Designer_Coords_And_Size"));
@@ -32,7 +33,7 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         this.add(WidgetBoundsPaneFactory.createAbsoluteBoundsPane(x, y, width, height));
     }
 
-
+    @Override
     public void update() {
         super.update();
         Rectangle bounds = new Rectangle(creator.getBounds());
@@ -46,20 +47,22 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
         creator.setBounds(bounds);
     }
 
-
+    @Override
     public void limitWidth(WLayout wabs, int w, Rectangle bounds, Rectangle rec){
         bounds.width = w;
     }
 
+    @Override
     public void limitHeight(WLayout wabs, int h, Rectangle bounds, Rectangle rec){
         bounds.height = h;
     }
 
-
+    @Override
     protected String title4PopupWindow() {
         return "absoluteBound";
     }
 
+    @Override
     public void populate() {
         super.populate();
         Rectangle bounds = new Rectangle(creator.getBounds());
