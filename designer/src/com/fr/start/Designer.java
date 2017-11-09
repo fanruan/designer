@@ -36,6 +36,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -43,7 +44,6 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
-import net.sf.ehcache.util.NamedThreadFactory;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -417,12 +417,13 @@ public class Designer extends BaseDesigner {
         int status = envManager.getActiveKeyStatus();
         //没有联网验证过
         if (status != 0) {
-            ThreadFactory namedThread = new NamedThreadFactory("net-verify");
+            ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                    .setNameFormat("net-verify-thread-%s").build();
             ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                     1, 1,
                     0L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>(1),
-                    namedThread);
+                    namedThreadFactory);
             threadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {

@@ -16,6 +16,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -25,7 +26,6 @@ import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
-import net.sf.ehcache.util.NamedThreadFactory;
 
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
@@ -119,11 +119,12 @@ public class UserInfoLabel extends UILabel {
      * showBBSDialog 弹出BBS资讯框
      */
     public static void showBBSDialog() {
-        ThreadFactory namedThread = new NamedThreadFactory("bbs-dlg");
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("bbs-dlg-thread-%s").build();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 1, 1,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1), namedThread);
+                new LinkedBlockingQueue<Runnable>(1), namedThreadFactory);
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {

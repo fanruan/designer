@@ -7,12 +7,13 @@ import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
 import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
+import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
 import com.fr.design.extra.exe.callback.JSCallback;
-import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.general.SiteCenter;
@@ -27,7 +28,6 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import net.sf.ehcache.util.NamedThreadFactory;
 import netscape.javascript.JSObject;
 
 import javax.swing.JDialog;
@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
  * 开放给Web组件的接口,用于安装,卸载,更新以及更改插件可用状态
  */
 public class PluginWebBridge {
-    private static final String PREFIX = "pluginbridge-pool";
+    private static final String THREAD_NAME_TEMPLATE = "pluginbridge-thread-%s";
     private static final String ACTION = "action";
     private static final String KEYWORD = "keyword";
     private static final int COREPOOLSIZE = 3;
@@ -70,7 +70,7 @@ public class PluginWebBridge {
     private ExecutorService threadPoolExecutor = new ThreadPoolExecutor(COREPOOLSIZE, MAXPOOLSIZE,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(COREPOOLSIZE),
-            new NamedThreadFactory(PREFIX));
+            new ThreadFactoryBuilder().setNameFormat(THREAD_NAME_TEMPLATE).build());
 
     /**
      * 动作枚举
