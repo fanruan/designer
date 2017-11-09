@@ -161,19 +161,18 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
             EastRegionContainerPane.getInstance().replaceCellElementPane(QuickEditorRegion.getInstance());
             EastRegionContainerPane.getInstance().replaceWidgetSettingsPane(CellWidgetPropertyPane.getInstance());
+            // 条件属性
+            ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
+            conditionAttributesGroupPane.populate(editComponent);
 
             EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
-        }
 
-        EastRegionContainerPane.getInstance().replaceCellAttrPane(CellElementPropertyPane.getInstance());
+        }
 
         // 超级链接
         HyperlinkGroupPane hyperlinkGroupPane = DesignerContext.getDesignerFrame().getSelectedJTemplate()
                 .getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
         hyperlinkGroupPane.populate(editComponent);
-        // 条件属性
-        ConditionAttributesGroupPane conditionAttributesGroupPane = ConditionAttributesGroupPane.getInstance();
-        conditionAttributesGroupPane.populate(editComponent);
     }
 
     private boolean isSelectedOneCell() {

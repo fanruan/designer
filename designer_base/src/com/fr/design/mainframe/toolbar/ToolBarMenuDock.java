@@ -441,14 +441,8 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new VideoAction());
             shortCuts.add(new TutorialAction());
         }
-        shortCuts.add(SeparatorDef.DEFAULT);
-        shortCuts.add(SeparatorDef.DEFAULT);
-        if (ComparatorUtils.equals(ProductConstants.APP_NAME, FINEREPORT)) {
-            shortCuts.add(SeparatorDef.DEFAULT);
-        }
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
-            shortCuts.add(SeparatorDef.DEFAULT);
         }
         shortCuts.add(SeparatorDef.DEFAULT);
         shortCuts.add(new AboutAction());
