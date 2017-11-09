@@ -100,7 +100,7 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
                         return switch2FitBodyLayout();
                     } else {
                         XWFitLayout xfl = (XWFitLayout) xwAbsoluteLayout.getBackupParent();
-                        if (xfl.toData().stashAndRemoveMargin()) {
+                        if (xfl.toData().removeMargin()) {
                             DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
                         }
                     }
@@ -148,7 +148,6 @@ public class FRAbsoluteBodyLayoutPropertiesGroupModel extends FRAbsoluteLayoutPr
 
             xfl.getLayoutAdapter().removeBean(xwAbsoluteLayout, xwAbsoluteLayout.getWidth(), xwAbsoluteLayout.getHeight());
             xfl.remove(xwAbsoluteLayout);
-            xfl.toData().restoreMargin();
 
             for (Component comp : components) {
                 XCreator xCreator = (XCreator) comp;
