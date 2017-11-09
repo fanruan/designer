@@ -79,7 +79,7 @@ public class LoginWebBridge {
         this.pluginuiLabel = uiLabel;
     }
 
-    public void setQqDialog(UIDialog qqDialog) {
+    public void setQQDialog(UIDialog qqDialog) {
         closeQQWindow();
         this.qqDialog = qqDialog;
     }

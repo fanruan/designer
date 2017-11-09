@@ -2,9 +2,9 @@ package com.fr.design.extra;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.general.Inter;
-import javafx.embed.swing.JFXPanel;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * @author richie
@@ -19,7 +19,7 @@ import java.awt.*;
  */
 public class ShopManagerPane extends BasicPane {
 
-    public ShopManagerPane(JFXPanel webPane) {
+    public ShopManagerPane(Component webPane) {
         setLayout(new BorderLayout());
         add(webPane, BorderLayout.CENTER);
     }
