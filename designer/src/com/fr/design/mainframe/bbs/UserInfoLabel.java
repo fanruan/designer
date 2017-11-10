@@ -87,6 +87,10 @@ public class UserInfoLabel extends UILabel {
     }
 
     public UserInfoLabel(UserInfoPane userInfoPane) {
+        init(userInfoPane);
+    }
+
+    private void init(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
         String userName = ConfigManager.getProviderInstance().getBbsUsername();
@@ -158,6 +162,7 @@ public class UserInfoLabel extends UILabel {
                     showWindow.invoke(instance, SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
                 } catch (Throwable ignored) {
+                    // ignored
                 }
             }
         });
