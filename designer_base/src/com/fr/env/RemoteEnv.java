@@ -109,6 +109,7 @@ public class RemoteEnv extends AbstractEnv {
     private Timer logTimer = null;
     private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
     private boolean isReadTimeOut = false;
+    private String buildFilePath;
 
     public RemoteEnv() {
         this.clock = new Clock(this);
@@ -2036,19 +2037,20 @@ public class RemoteEnv extends AbstractEnv {
     public void setLicName(String licName) {
         //do nth
     }
- 
-    
+
+
     /**
      * 获取当前env的build文件路径
      */
     public String getBuildFilePath() {
-        return ResourceConstants.BUILD_PATH;
+        return StringUtils.isEmpty(buildFilePath) ? ResourceConstants.BUILD_PATH : buildFilePath;
     }
 
     /**
      * 设置当前env的build文件路径
      */
     public void setBuildFilePath(String buildFilePath) {
+        this.buildFilePath = buildFilePath;
     }
 
     /**
