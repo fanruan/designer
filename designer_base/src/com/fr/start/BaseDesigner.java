@@ -56,10 +56,10 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
         DesignUtils.setPort(getStartPort());
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
-//        if (DesignUtils.isStarted()) {
-//            DesignUtils.clientSend(args);
-//            return;
-//        }
+        if (DesignUtils.isStarted()) {
+            DesignUtils.clientSend(args);
+            return;
+        }
         BuildContext.setBuildFilePath(buildPropertiesPath());
 
         //下面这两句的位置不能随便调换，因为会影响语言切换的问题
