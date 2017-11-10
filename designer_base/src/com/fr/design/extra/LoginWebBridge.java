@@ -6,14 +6,16 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.scene.web.WebEngine;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+import java.awt.Desktop;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -55,6 +57,10 @@ public class LoginWebBridge {
     private String userName;
 
     public LoginWebBridge() {
+        init();
+    }
+
+    private void init() {
         String username = DesignerEnvManager.getEnvManager().getBBSName();
         setUserName(username, uiLabel);
     }
@@ -216,7 +222,7 @@ public class LoginWebBridge {
             return NET_FAILED;
         }
         String loginResult = login(username, password);
-        if (loginResult.equals(LOGININ)) {
+        if (ComparatorUtils.equals(loginResult, LOGININ)) {
             updateUserInfo(username);
             loginSuccess(username, uiLabel);
             setUserName(username, uiLabel);
@@ -271,23 +277,22 @@ public class LoginWebBridge {
             String result = uc.uc_user_login(username, password);
             result = new String(result.getBytes("iso-8859-1"), "gbk");
             LinkedList<String> list = XMLHelper.uc_unserialize(result);
-            if (list.size() > 0) {
-                int $uid = Integer.parseInt(list.get(0));
-                if ($uid > 0) {
-                    DesignerEnvManager.getEnvManager().setBbsUid($uid);
-                    DesignerEnvManager.getEnvManager().setBBSName(username);
-                    DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-                    DesignerEnvManager.getEnvManager().setBBSPassword(password);
-                    return LOGININ;//登录成功，0
-                } else if ($uid == -1) {
-                    return USERNAME_NOT_EXSIT;//用户名不存在，-1
-                } else if ($uid == -2) {
-                    return PASSWORD_ERROR;//密码错误，-2
-                } else {
-                    return UNKNOWN_ERROR;//未知错误，-3
-                }
-            } else {
+            if (list.size() == 0) {
                 return NET_FAILED;
+            }
+            int uid = Integer.parseInt(list.get(0));
+            if (uid > 0) {
+                DesignerEnvManager.getEnvManager().setBbsUid(uid);
+                DesignerEnvManager.getEnvManager().setBBSName(username);
+                DesignerEnvManager.getEnvManager().setInShowBBsName(username);
+                DesignerEnvManager.getEnvManager().setBBSPassword(password);
+                return LOGININ;//登录成功，0
+            } else if (uid == -1) {
+                return USERNAME_NOT_EXSIT;//用户名不存在，-1
+            } else if (uid == -2) {
+                return PASSWORD_ERROR;//密码错误，-2
+            } else {
+                return UNKNOWN_ERROR;//未知错误，-3
             }
         } catch (Exception e) {
             FRContext.getLogger().info(e.getMessage());
@@ -313,21 +318,22 @@ public class LoginWebBridge {
     public void getLoginInfo(String userInfo) {
         org.json.JSONObject jo = new org.json.JSONObject(userInfo);
         String status = jo.get("status").toString();
-        if (status.equals(LOGIN_SUCCESS)) {
+        if (ComparatorUtils.equals(status, LOGIN_SUCCESS)) {
             String username = jo.get("username").toString();
-            int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
+            int uid = Integer.parseInt(jo.get("uid") == null ? StringUtils.EMPTY : jo.get("uid").toString());
             closeWindow();
             closeQQWindow();
             pluginuiLabel.setText(username);
             DesignerEnvManager.getEnvManager().setBBSName(username);
             DesignerEnvManager.getEnvManager().setBbsUid(uid);
             DesignerEnvManager.getEnvManager().setInShowBBsName(username);
-        } else if (status.equals(LOGIN_FAILED)) {
+        } else if (ComparatorUtils.equals(status, LOGIN_FAILED)) {
             //账号没有QQ授权
             closeQQWindow();
             try {
                 Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-            } catch (Exception exp) {
+            } catch (Exception ignore) {
+                // ignored
             }
         }
     }

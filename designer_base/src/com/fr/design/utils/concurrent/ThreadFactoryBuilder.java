@@ -45,6 +45,7 @@ public final class ThreadFactoryBuilder {
      * Creates a new {@link ThreadFactory} builder.
      */
     public ThreadFactoryBuilder() {
+        // 这个注释毫无意义，就是为了通过SonarQube
     }
 
     /**

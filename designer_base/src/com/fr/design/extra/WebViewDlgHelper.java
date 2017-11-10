@@ -109,6 +109,7 @@ public class WebViewDlgHelper {
             LoginWebBridge.getHelper().setQQDialog(qqLoginDialog);
             qqLoginDialog.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -123,6 +124,7 @@ public class WebViewDlgHelper {
             PluginWebBridge.getHelper().setDialogHandle(dlg);
             dlg.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -136,6 +138,7 @@ public class WebViewDlgHelper {
             LoginWebBridge.getHelper().setDialogHandle(qqdlg);
             qqdlg.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -158,6 +161,7 @@ public class WebViewDlgHelper {
                     PluginHelper.downloadPluginFile(scriptsId, username, password, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
+                            // ignored
                         }
                     });
                 } catch (PluginVerifyException e) {

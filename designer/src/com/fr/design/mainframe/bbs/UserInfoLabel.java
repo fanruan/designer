@@ -49,6 +49,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class UserInfoLabel extends UILabel {
 
+    private static final int JRE_VERSION_8 = 8;
     //默认查询消息时间, 30s
     private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
     //默认论坛检测到更新后的弹出延迟时间
@@ -85,6 +86,10 @@ public class UserInfoLabel extends UILabel {
     }
 
     public UserInfoLabel(UserInfoPane userInfoPane) {
+        init(userInfoPane);
+    }
+
+    private void init(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
         String userName = DesignerEnvManager.getEnvManager().getBBSName();
@@ -95,7 +100,7 @@ public class UserInfoLabel extends UILabel {
         LoginWebBridge loginWebBridge = new LoginWebBridge();
         loginWebBridge.setUserName(userName, UserInfoLabel.this);
 
-        if (StableUtils.getMajorJavaVersion() == 8) {
+        if (StableUtils.getMajorJavaVersion() == JRE_VERSION_8) {
             PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
         }
         LoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
@@ -161,6 +166,7 @@ public class UserInfoLabel extends UILabel {
                     showWindow.invoke(instance, SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
                 } catch (Throwable ignored) {
+                    // ignored
                 }
 
             }
