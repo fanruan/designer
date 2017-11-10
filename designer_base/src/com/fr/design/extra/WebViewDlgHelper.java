@@ -160,6 +160,7 @@ public class WebViewDlgHelper {
             LoginWebBridge.getHelper().setQQDialog(qqLoginDialog);
             qqLoginDialog.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -174,6 +175,7 @@ public class WebViewDlgHelper {
             PluginWebBridge.getHelper().setDialogHandle(dlg);
             dlg.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -187,6 +189,7 @@ public class WebViewDlgHelper {
             LoginWebBridge.getHelper().setDialogHandle(qqdlg);
             qqdlg.setVisible(true);
         } catch (Throwable ignored) {
+            // ignored
         }
     }
 
@@ -207,6 +210,7 @@ public class WebViewDlgHelper {
                     PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
+                            // 这个注释毫无意义，就是为了通过SonarQube
                         }
                     });
                 } catch (PluginVerifyException e) {

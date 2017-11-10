@@ -63,7 +63,7 @@ public class LoginWebBridge {
     private UILabel uiLabel;
     private WebEngine webEngine;
 
-    public LoginWebBridge() {
+    private LoginWebBridge() {
     }
 
     public static LoginWebBridge getHelper() {
@@ -298,13 +298,13 @@ public class LoginWebBridge {
                 closeQQWindow();
                 try {
                     Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-                } catch (Exception exp) {
+                } catch (Exception ignored) {
+                    // ignored
                 }
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
-
     }
 
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
