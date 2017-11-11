@@ -25,6 +25,7 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.SwingConstants;
@@ -51,6 +52,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class UserInfoLabel extends UILabel {
 
+    private static final int VERSION_8 = 8;
     //默认查询消息时间, 30s
     private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
     //默认论坛检测到更新后的弹出延迟时间
@@ -98,8 +100,10 @@ public class UserInfoLabel extends UILabel {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setText(userName);
 
-        LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-        PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        if (StableUtils.getMajorJavaVersion() == VERSION_8) {
+            LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+            PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        }
 
         UserLoginContext.addLoginContextListener(new LoginContextListener() {
             @Override
