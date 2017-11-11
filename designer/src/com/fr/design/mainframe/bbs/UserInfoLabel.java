@@ -25,6 +25,7 @@ import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.SwingConstants;
@@ -98,8 +99,10 @@ public class UserInfoLabel extends UILabel {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setText(userName);
 
-        LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
-        PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        if (StableUtils.getMajorJavaVersion() == 8) {
+            LoginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+            PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
+        }
 
         UserLoginContext.addLoginContextListener(new LoginContextListener() {
             @Override
