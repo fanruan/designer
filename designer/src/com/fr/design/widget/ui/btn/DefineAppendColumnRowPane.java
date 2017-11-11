@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.btn;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -43,7 +44,9 @@ public class DefineAppendColumnRowPane extends BasicPane {
 		rowCountLable = new UILabel(Inter.getLocText("Edit-Row_Count"));
 		JPanel lpane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		lpane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		lpane.add(new UILabel(Inter.getLocText("Append_Delete_Row_Message")));
+		UILabel label = new UILabel(Inter.getLocText("Append_Delete_Row_Message"));
+		label.setForeground(new Color(0x8F8F92));
+		lpane.add(label);
 		Component[][] components = { { new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor }, { rowCountLable, jNumberEditor } ,{lpane,null}};
 		JPanel contentPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L2, IntervalConstants.INTERVAL_L1);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

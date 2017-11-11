@@ -36,6 +36,7 @@ public class DefineDeleteColumnRowPane extends BasicPane {
 		double columnSize[] = { p, f};
 		crEditor = new ColumnRowEditor();
 		UILabel messageLabel = new UILabel(Inter.getLocText("Append_Delete_Row_Message"));
+		messageLabel.setForeground(new Color(0x8F8F92));
 		Component[][] components = {
 				{ new UILabel(Inter.getLocText(new String[]{"Specify", "Cell"})), crEditor },
 				{ messageLabel, null}};
