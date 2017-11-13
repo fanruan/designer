@@ -16,6 +16,7 @@ import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -41,6 +42,8 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
     public static Integer[] FONT_SIZES = {new Integer(6), new Integer(8), new Integer(9), new Integer(10), new Integer(11), new Integer(12), new Integer(14), new Integer(16),
             new Integer(18), new Integer(20), new Integer(22), new Integer(24), new Integer(26), new Integer(28), new Integer(36), new Integer(48), new Integer(72)};
     private static final Dimension BUTTON_SIZE = new Dimension(20, 18);
+    private static final Dimension UNDER_LINE_SIZE = new Dimension(87, 20);
+    private static final Dimension HIDE_SIZE = new Dimension(0, 0);
     private final String[] fontSizeStyles = {Inter.getLocText("FR-Designer_FRFont_plain"), Inter.getLocText("FR-Designer_FRFont_bold"), Inter.getLocText("FR-Designer_FRFont_italic"), Inter.getLocText("FR-Designer_FRFont_bolditalic")};
     private JPanel buttonPane;
     private JPanel isSuperOrSubPane;
@@ -104,9 +107,11 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
         if (line == Constants.LINE_NONE) {
             underline.setSelected(false);
             cly.show(linePane, "none");
+            linePane.setPreferredSize(HIDE_SIZE);
         } else {
             underline.setSelected(true);
             cly.show(linePane, "combobox");
+            linePane.setPreferredSize(UNDER_LINE_SIZE);
             this.underlineCombo.setSelectedLineStyle(line);
         }
         // effects
@@ -297,8 +302,14 @@ public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObse
             public void stateChanged(ChangeEvent e) {
                 CardLayout cly = (CardLayout) linePane.getLayout();
                 cly.show(linePane, underline.isSelected() ? "combobox" : "none");
+                if(underline.isSelected()){
+                    linePane.setPreferredSize(UNDER_LINE_SIZE);
+                }else{
+                    linePane.setPreferredSize(HIDE_SIZE);
+                }
             }
         });
+
         return linePane;
     }
 
