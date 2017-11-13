@@ -250,26 +250,23 @@ public class MobileWidgetTable extends JTable {
             return new String[0][0];
         }
 
-        //选择的控件
-        XCreator selectedCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
-        Widget selectedModel = selectedCreator != null ? selectedCreator.toData() : null;
+        WFitLayout body = (WFitLayout) designer.getRootComponent().toData();
 
-        if (selectedModel == null) {
+        if (body == null || !body.acceptType(WSortLayout.class)) {
             return new String[0][0];
         }
 
-        // 选择的控件有两种类型，一种是WLayout，代表容器，一种是Widget，代表控件
-        if (selectedModel.acceptType(WSortLayout.class)) {
-            List<String> mobileWidgetList = ((WSortLayout) selectedModel).getOrderedMobileWidgetList();
-            String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
-            widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
-            for (int i = 0; i < mobileWidgetList.size(); i++) {
-                widgetName[i + 1][0] = mobileWidgetList.get(i);
-            }
-            return widgetName;
-        } else {
-            return new String[0][0];
+        List<String> mobileWidgetList = body.getOrderedMobileWidgetList();
+        String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
+        widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
+        for (int i = 0; i < mobileWidgetList.size(); i++) {
+            widgetName[i + 1][0] = mobileWidgetList.get(i);
         }
+        if (!body.isSorted()) {
+            body.setSorted(true);
+        }
+        return widgetName;
+
     }
 
     public boolean isCollapsed() {
