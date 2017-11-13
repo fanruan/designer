@@ -5,11 +5,16 @@ package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.extra.*;
+import com.fr.design.extra.LoginContextListener;
+import com.fr.design.extra.LoginWebBridge;
+import com.fr.design.extra.PluginWebBridge;
+import com.fr.design.extra.UserLoginContext;
+import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -21,15 +26,22 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author neil
@@ -37,6 +49,7 @@ import java.util.Date;
  */
 public class UserInfoLabel extends UILabel {
 
+    private static final int JRE_VERSION_8 = 8;
     //默认查询消息时间, 30s
     private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
     //默认论坛检测到更新后的弹出延迟时间
@@ -73,6 +86,10 @@ public class UserInfoLabel extends UILabel {
     }
 
     public UserInfoLabel(UserInfoPane userInfoPane) {
+        init(userInfoPane);
+    }
+
+    private void init(UserInfoPane userInfoPane) {
         this.userInfoPane = userInfoPane;
 
         String userName = DesignerEnvManager.getEnvManager().getBBSName();
@@ -83,22 +100,7 @@ public class UserInfoLabel extends UILabel {
         LoginWebBridge loginWebBridge = new LoginWebBridge();
         loginWebBridge.setUserName(userName, UserInfoLabel.this);
 
-        LoginCheckContext.addLoginCheckListener(new LoginCheckListener() {
-            @Override
-            public void loginChecked() {
-                /*
-                if (bbsLoginDialog == null) {
-					bbsLoginDialog = new BBSLoginDialog(DesignerContext.getDesignerFrame(), UserInfoLabel.this);
-				}
-				bbsLoginDialog.clearLoginInformation();
-				bbsLoginDialog.showTipForDownloadPluginWithoutLogin();
-				bbsLoginDialog.setModal(true);
-				bbsLoginDialog.showWindow();
-				*/
-            }
-        });
-
-        if (StableUtils.getMajorJavaVersion() == 8) {
+        if (StableUtils.getMajorJavaVersion() == JRE_VERSION_8) {
             PluginWebBridge.getHelper().setUILabel(UserInfoLabel.this);
         }
         LoginWebBridge.getHelper().setUILabelInPlugin(UserInfoLabel.this);
@@ -125,12 +127,13 @@ public class UserInfoLabel extends UILabel {
         userInfoPane.markUnSignIn();
     }
 
-    /**
-     * showBBSDialog 弹出BBS资讯框
-     */
     public static void showBBSDialog() {
-        Thread showBBSThread = new Thread(new Runnable() {
-
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                1, 1,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1),
+                new ThreadFactoryBuilder().setNameFormat("bbs-dlg-thread-%s").build());
+        threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 // vito:最新mac10.12和javafx弹出框初始化时会有大几率卡死在native方法，这里先屏蔽一下。
@@ -152,18 +155,22 @@ public class UserInfoLabel extends UILabel {
                     return;
                 }
                 String res = hc.getResponseText();
-                if (res.indexOf(BBSConstants.UPDATE_KEY) == -1) {
+                if (!res.contains(BBSConstants.UPDATE_KEY)) {
                     return;
                 }
                 try {
-                    BBSDialog bbsLabel = new BBSDialog(DesignerContext.getDesignerFrame());
-                    bbsLabel.showWindow(SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
+                    Class<?> clazz = Class.forName("com.fr.design.mainframe.bbs.BBSDialog");
+                    Constructor constructor = clazz.getConstructor(Frame.class);
+                    Object instance = constructor.newInstance(DesignerContext.getDesignerFrame());
+                    Method showWindow = clazz.getMethod("showWindow", String.class);
+                    showWindow.invoke(instance, SiteCenter.getInstance().acquireUrlByKind("bbs.popup"));
                     DesignerEnvManager.getEnvManager().setLastShowBBSNewsTime(DateUtils.DATEFORMAT2.format(new Date()));
-                } catch (Throwable e) {
+                } catch (Throwable ignored) {
+                    // ignored
                 }
+
             }
         });
-        showBBSThread.start();
     }
 
     private void sleep(long millis) {
@@ -230,6 +237,7 @@ public class UserInfoLabel extends UILabel {
 
     private MouseAdapter userInfoAdapter = new MouseAdapter() {
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             UserInfoLabel.this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
@@ -245,6 +253,7 @@ public class UserInfoLabel extends UILabel {
                 //私人消息
                 UIMenuItem priviteMessage = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Privite-Message"));
                 priviteMessage.addMouseListener(new MouseAdapter() {
+                    @Override
                     public void mousePressed(MouseEvent e) {
                         if (StringUtils.isNotEmpty(userName)) {
                             try {
@@ -261,6 +270,7 @@ public class UserInfoLabel extends UILabel {
                 //切换账号
                 UIMenuItem closeOther = new UIMenuItem(Inter.getLocText("FR-Designer-BBSLogin_Switch-Account"));
                 closeOther.addMouseListener(new MouseAdapter() {
+                    @Override
                     public void mousePressed(MouseEvent e) {
                         UserLoginContext.fireLoginContextListener();
                     }

@@ -15,9 +15,12 @@ import com.fr.general.http.HttpClient;
 import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.StableUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
@@ -97,24 +100,46 @@ public class WebViewDlgHelper {
     }
 
     public static void createQQLoginDialog() {
-        QQLoginWebPane webPane = new QQLoginWebPane(new File(installHome).getAbsolutePath());
-        UIDialog qqlog = new QQLoginDialog(DesignerContext.getDesignerFrame(), webPane);
-        LoginWebBridge.getHelper().setQqDialog(qqlog);
-        qqlog.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.QQLoginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(new File(installHome).getAbsolutePath());
+
+            UIDialog qqLoginDialog = new QQLoginDialog(DesignerContext.getDesignerFrame(), webPane);
+            LoginWebBridge.getHelper().setQQDialog(qqLoginDialog);
+            qqLoginDialog.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static void showPluginDlg(String mainJsPath) {
-        BasicPane managerPane = new ShopManagerPane(new PluginWebPane(mainJsPath));
-        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-        PluginWebBridge.getHelper().setDialogHandle(dlg);
-        dlg.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(mainJsPath);
+
+            BasicPane managerPane = new ShopManagerPane(webPane);
+            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
+            PluginWebBridge.getHelper().setDialogHandle(dlg);
+            dlg.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static void showLoginDlg() {
-        LoginWebPane webPane = new LoginWebPane(new File(installHome).getAbsolutePath());
-        UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
-        LoginWebBridge.getHelper().setDialogHandle(qqdlg);
-        qqdlg.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.LoginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(new File(installHome).getAbsolutePath());
+
+            UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
+            LoginWebBridge.getHelper().setDialogHandle(qqdlg);
+            qqdlg.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static Component initTraditionalStore() {
@@ -136,6 +161,7 @@ public class WebViewDlgHelper {
                     PluginHelper.downloadPluginFile(scriptsId, username, password, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
+                            // ignored
                         }
                     });
                 } catch (PluginVerifyException e) {

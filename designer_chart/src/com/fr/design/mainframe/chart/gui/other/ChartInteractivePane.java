@@ -659,13 +659,6 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
     private void populateHyperlink(Plot plot) {
         HashMap paneMap = renewMapWithPlot(plot);
 
-        //安装平台内打开插件时,添加相应按钮
-        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        for (HyperlinkProvider provider : providers) {
-            NameableCreator nc = provider.createHyperlinkCreator();
-            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
-        }
-
         List<UIMenuNameableCreator> list = refreshList(paneMap);
         superLink.refreshMenuAndAddMenuAction(list);
 

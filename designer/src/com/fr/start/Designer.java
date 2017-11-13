@@ -20,7 +20,12 @@ import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.ActiveKeyGenerator;
+import com.fr.design.mainframe.BaseJForm;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.InformationCollector;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -30,6 +35,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.module.DesignerModule;
+import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
@@ -38,29 +44,36 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLTools;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Designer extends BaseDesigner {
     private static final int TOOLBARPANEVGAP = -4;
     private static final int PREVIEW_DOWN_X_GAP = 92;
     private static final int GAP = 7;
-    
+
     private static final String OLD_ENV_FOLDER_71 = ".FineReport71";
     private static final String OLD_ENV_FOLDER_70 = ".FineReport70";
 
     private UserInfoPane userInfoPane;
-    
+
     private UIButton saveButton;
     private UIButton undo;
     private UIButton redo;
     private UIPreviewButton run;
-    
+
 
     /**
      * 设计器启动的Main方法
@@ -132,6 +145,7 @@ public class Designer extends BaseDesigner {
         UILargeToolbar largeToolbar = super.createLargeToolbar();
         largeToolbar.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 4));
         largeToolbar.add(new JPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.width = 1;
@@ -141,6 +155,7 @@ public class Designer extends BaseDesigner {
         createRunButton(largeToolbar);
         largeToolbar.add(run);
         largeToolbar.add(new JPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension dim = super.getPreferredSize();
                 dim.width = GAP;
@@ -154,8 +169,10 @@ public class Designer extends BaseDesigner {
 
     /**
      * 创建上面一排的工具栏按钮
+     *
      * @return 按钮
      */
+    @Override
     public UIButton[] createUp() {
         return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
     }
@@ -176,7 +193,7 @@ public class Designer extends BaseDesigner {
         });
         return saveButton;
     }
-    
+
     private UIButton createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));
         undo.setToolTipText(KeySetUtils.UNDO.getMenuKeySetName());
@@ -211,10 +228,12 @@ public class Designer extends BaseDesigner {
 
     private void createRunButton(UILargeToolbar largeToolbar) {
         run = new UIPreviewButton(new UIButton(UIConstants.PAGE_BIG_ICON) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(34, 34);
             }
         }, new UIButton(UIConstants.PREVIEW_DOWN) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(34, 10);
             }
@@ -284,10 +303,12 @@ public class Designer extends BaseDesigner {
 
     /**
      * 生成工具栏
+     *
      * @param toolbarComponent 工具栏
      * @param plus             对象
-     * @return  更新后的toolbar
+     * @return 更新后的toolbar
      */
+    @Override
     public JComponent resetToolBar(JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
         //如果是处于权限编辑状态
         if (BaseUtils.isAuthorityEditing()) {
@@ -325,85 +346,90 @@ public class Designer extends BaseDesigner {
     public JTemplate<?, ?> createNewTemplate() {
         return new JWorkBook();
     }
-    
+
     /**
-	 * 创建论坛登录面板, chart那边不需要
-	 * 
-	 * @return 面板组件
-	 * 
-	 */
-    public Component createBBSLoginPane(){
-        if (userInfoPane == null){
-			userInfoPane = new UserInfoPane();
+     * 创建论坛登录面板, chart那边不需要
+     *
+     * @return 面板组件
+     */
+    @Override
+    public Component createBBSLoginPane() {
+        if (userInfoPane == null) {
+            userInfoPane = new UserInfoPane();
         }
         return userInfoPane;
     }
-    
+
+    @Override
     protected SplashPane createSplashPane() {
         return new ReportSplashPane();
     }
-    
+
     /**
-	 * 收集用户信息吗
-	 * 
-	 */
+     * 收集用户信息吗
+     */
+    @Override
     protected void collectUserInformation() {
-    	//定制的就不弹出来了
-    	if (!ComparatorUtils.equals(ProductConstants.APP_NAME, ProductConstants.DEFAULT_APPNAME)) {
-			return;
-		}
-    	
-    	DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-    	final String key = envManager.getActivationKey();
-    	//本地验证通过
-    	if(ActiveKeyGenerator.localVerify(key)){
-    		onLineVerify(envManager, key);
-			UserInfoLabel.showBBSDialog();
-    		return;
-    	}
-    	
-    	if(StableUtils.checkDesignerActive(readOldKey())){
-			//只要有老的key, 就不弹窗, 下次启动的时候, 在线验证下就行.
-			String newKey = ActiveKeyGenerator.generateActiveKey();
-			envManager.setActivationKey(newKey);
-			UserInfoLabel.showBBSDialog();
-			return;
-    	}
-    	
+        //定制的就不弹出来了
+        if (!ComparatorUtils.equals(ProductConstants.APP_NAME, ProductConstants.DEFAULT_APPNAME)) {
+            return;
+        }
+
+        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+        final String key = envManager.getActivationKey();
+        //本地验证通过
+        if (ActiveKeyGenerator.localVerify(key)) {
+            onLineVerify(envManager, key);
+            UserInfoLabel.showBBSDialog();
+            return;
+        }
+
+        if (StableUtils.checkDesignerActive(readOldKey())) {
+            //只要有老的key, 就不弹窗, 下次启动的时候, 在线验证下就行.
+            String newKey = ActiveKeyGenerator.generateActiveKey();
+            envManager.setActivationKey(newKey);
+            UserInfoLabel.showBBSDialog();
+            return;
+        }
+
         CollectUserInformationDialog activeDialog = new CollectUserInformationDialog(
-                    DesignerContext.getDesignerFrame());
+                DesignerContext.getDesignerFrame());
         activeDialog.setVisible(true);
     }
-    
-    private void onLineVerify(DesignerEnvManager envManager, final String key){
-		int status = envManager.getActiveKeyStatus();
-		//没有联网验证过
-		if (status != 0) {
-			Thread authThread = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					ActiveKeyGenerator.onLineVerify(key);
-				}
-			});
-			authThread.start();
-		}
+
+    private void onLineVerify(DesignerEnvManager envManager, final String key) {
+        int status = envManager.getActiveKeyStatus();
+        //没有联网验证过
+        if (status != 0) {
+            ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                    1, 1,
+                    0L, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>(1),
+                    new ThreadFactoryBuilder().setNameFormat("net-verify-thread-%s").build());
+            threadPoolExecutor.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    ActiveKeyGenerator.onLineVerify(key);
+                }
+            });
+        }
     }
-    
-    private File getOldEnvFile(String folderName){
-		String userHome = System.getProperty("user.home");
-		if (userHome == null) {
-			userHome = System.getProperty("userHome");
-		}
-		String filePath = StableUtils.pathJoin(userHome, folderName, ProductConstants.APP_NAME + "Env.xml");
+
+    private File getOldEnvFile(String folderName) {
+        String userHome = System.getProperty("user.home");
+        if (userHome == null) {
+            userHome = System.getProperty("userHome");
+        }
+        String filePath = StableUtils.pathJoin(userHome, folderName, ProductConstants.APP_NAME + "Env.xml");
         return new File(filePath);
     }
-    
-    private String getOldActiveKeyFromFile(File envFile){
+
+    private String getOldActiveKeyFromFile(File envFile) {
         if (!envFile.exists()) {
-			return StringUtils.EMPTY;
-		}
-        
+            return StringUtils.EMPTY;
+        }
+
         DesignerEnvManager temp = new DesignerEnvManager();
         try {
             XMLTools.readFileXML(temp, envFile);
@@ -412,26 +438,26 @@ public class Designer extends BaseDesigner {
         }
         return temp.getActivationKey();
     }
-    
+
     //默认只从7.0和711的设计器里读取key
-    private String readOldKey(){
-    	File file71 = getOldEnvFile(OLD_ENV_FOLDER_71);
-    	if (!file71.exists()) {
-			File file70 = getOldEnvFile(OLD_ENV_FOLDER_70);
-			return getOldActiveKeyFromFile(file70);
-		}
-    	
-    	return getOldActiveKeyFromFile(file71);
+    private String readOldKey() {
+        File file71 = getOldEnvFile(OLD_ENV_FOLDER_71);
+        if (!file71.exists()) {
+            File file70 = getOldEnvFile(OLD_ENV_FOLDER_70);
+            return getOldActiveKeyFromFile(file70);
+        }
+
+        return getOldActiveKeyFromFile(file71);
     }
-    
+
     /**
-	 * 设计器退出时, 做的一些操作.
-	 * 
-	 */
-    public void shutDown(){
-    	InformationCollector collector = InformationCollector.getInstance();
-    	collector.collectStopTime();
-    	collector.saveXMLFile();
+     * 设计器退出时, 做的一些操作.
+     */
+    @Override
+    public void shutDown() {
+        InformationCollector collector = InformationCollector.getInstance();
+        collector.collectStopTime();
+        collector.saveXMLFile();
         Env currentEnv = FRContext.getCurrentEnv();
         currentEnv.doWhenServerShutDown();
     }
