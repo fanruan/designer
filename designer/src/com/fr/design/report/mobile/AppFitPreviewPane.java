@@ -1,5 +1,6 @@
 package com.fr.design.report.mobile;
 
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -31,16 +32,16 @@ public class AppFitPreviewPane extends BasicPane{
     }
 
     private void initCacheImage() {
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png")));
-        cachedVerticalPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png")));
-        cachedHorizonPreviewImage.add(new ImageIcon(IOUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png")));
+        cachedVerticalPreviewImage.add(new ImageIcon(UIConstants.APPFIT_V0));
+        cachedVerticalPreviewImage.add(new ImageIcon(UIConstants.APPFIT_V1));
+        cachedVerticalPreviewImage.add(new ImageIcon(UIConstants.APPFIT_V2));
+        cachedVerticalPreviewImage.add(new ImageIcon(UIConstants.APPFIT_V3));
+        cachedVerticalPreviewImage.add(new ImageIcon(UIConstants.APPFIT_V4));
+        cachedHorizonPreviewImage.add(new ImageIcon(UIConstants.APPFIT_H0));
+        cachedHorizonPreviewImage.add(new ImageIcon(UIConstants.APPFIT_H1));
+        cachedHorizonPreviewImage.add(new ImageIcon(UIConstants.APPFIT_H2));
+        cachedHorizonPreviewImage.add(new ImageIcon(UIConstants.APPFIT_H3));
+        cachedHorizonPreviewImage.add(new ImageIcon(UIConstants.APPFIT_H4));
     }
 
     private void initComponents() {
