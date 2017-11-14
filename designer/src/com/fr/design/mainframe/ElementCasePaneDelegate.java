@@ -188,12 +188,14 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         MenuDef menuDef = new MenuDef(KeySetUtils.CELL.getMenuKeySetName(), KeySetUtils.CELL.getMnemonic());
 
         menuDef.addShortCut(new CellExpandAttrAction());
-        menuDef.addShortCut(new CellWidgetAttrAction());
         menuDef.addShortCut(new GlobalStyleMenuDef(this));
-        menuDef.addShortCut(new ConditionAttributesAction());
-
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
+        menuDef.addShortCut(new CellWidgetAttrAction());
+
+        menuDef.addShortCut(new ConditionAttributesAction());
+
+
         menuDef.addShortCut(new HyperlinkAction());
         menuDef.addShortCut(SeparatorDef.DEFAULT);
         menuDef.addShortCut(new MergeCellAction(this));
