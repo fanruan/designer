@@ -722,11 +722,23 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除组件或者重新拖动时，其它组件重新计算位置大小
      */
     protected void delete(XCreator creator, int creatorWidth, int creatorHeight) {
-        isDel = true;
+        recalculateBeforeDelete();
         int x = creator.getX();
         int y = creator.getY();
         recalculateChildrenSize(x, y, creatorWidth, creatorHeight);
-        isDel = false;
+        recalculateAfterDelete();
+    }
+
+    private void recalculateBeforeDelete() {
+        setDel(false);
+    }
+
+    private void recalculateAfterDelete() {
+        setDel(true);
+    }
+
+    public void setDel(boolean del) {
+        isDel = del;
     }
 
     /**
