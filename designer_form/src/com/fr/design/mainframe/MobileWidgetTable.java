@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -246,25 +247,32 @@ public class MobileWidgetTable extends JTable {
      * @return String[][] 二维数组，[0][0]widgetName
      */
     private String[][] getData() {
+        List<String> mobileWidgetList = new ArrayList<String>();
         if (designer.isFormParaDesigner()) {
             return new String[0][0];
         }
 
-        WFitLayout body = (WFitLayout) designer.getRootComponent().toData();
+        WSortLayout body = (WSortLayout) designer.getRootComponent().toData();
 
-        if (body == null || !body.acceptType(WSortLayout.class)) {
+        if (body == null) {
             return new String[0][0];
         }
 
-        List<String> mobileWidgetList = body.getOrderedMobileWidgetList();
+        body.setSorted(false);
+
+        if (body.getWidgetCount() > 0 && body.getWidget(0).acceptType(WAbsoluteBodyLayout.class)) {
+            WAbsoluteBodyLayout absoluteBodyLayout = (WAbsoluteBodyLayout) ((WAbsoluteLayout.BoundsWidget) body.getWidget(0)).getWidget();
+            mobileWidgetList = absoluteBodyLayout.getOrderedMobileWidgetList();
+        } else {
+            mobileWidgetList = body.getOrderedMobileWidgetList();
+        }
         String[][] widgetName = new String[mobileWidgetList.size() + 1][1];
         widgetName[0][0] = Inter.getLocText("FR-Designer_WidgetOrder");
         for (int i = 0; i < mobileWidgetList.size(); i++) {
             widgetName[i + 1][0] = mobileWidgetList.get(i);
         }
-        if (!body.isSorted()) {
-            body.setSorted(true);
-        }
+
+        body.setSorted(true);
         return widgetName;
 
     }
