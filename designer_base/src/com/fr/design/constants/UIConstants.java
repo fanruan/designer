@@ -128,8 +128,8 @@ public interface UIConstants {
     public static final Color UI_MENU_BACKGOURND = LOG_MESSAGE_BAR_BACKGROUND;
     public static final Color POP_DIALOG_BORDER = new Color(218, 218, 221);
     public static final Color PROPERTY_DIALOG_BORDER = new Color(0xc9c9cd);
-    public static final Color TAB_BUTTON_HOVER = new Color(231, 230, 235);
-    public static final Color TAB_BUTTON_HOVER_SELECTED = new Color(239, 238, 243);
+    public static final Color TAB_BUTTON_HOVER = new Color(248, 248, 248);
+    public static final Color TAB_BUTTON_HOVER_SELECTED = new Color(239, 239, 241);
     public static final Color TAB_BUTTON_PRESS = new Color(228, 227, 232);
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
     public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
