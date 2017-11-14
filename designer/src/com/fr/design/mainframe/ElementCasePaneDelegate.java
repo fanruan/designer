@@ -192,9 +192,7 @@ public class ElementCasePaneDelegate extends ElementCasePane<WorkSheet> {
         // 单元格形态
         menuDef.addShortCut(DeprecatedActionManager.getPresentMenu(this));
         menuDef.addShortCut(new CellWidgetAttrAction());
-
         menuDef.addShortCut(new ConditionAttributesAction());
-
 
         menuDef.addShortCut(new HyperlinkAction());
         menuDef.addShortCut(SeparatorDef.DEFAULT);
