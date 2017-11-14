@@ -12,10 +12,7 @@ import javax.swing.*;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -352,6 +349,17 @@ public class UINameEdList extends UIList implements CellEditorListener {
         repaint(cellRect);
     }
 
+    @Override
+    public int locationToIndex(Point location) {
+        int index = super.locationToIndex(location);
+        if (index != -1 && !getCellBounds(index, index).contains(location)) {
+            return -1;
+        }
+        else {
+            return index;
+        }
+    }
+
     /**
      * 主函数
      *
@@ -374,6 +382,20 @@ public class UINameEdList extends UIList implements CellEditorListener {
                         && SwingUtilities.isLeftMouseButton(evt)) {
                     list.editItemAt(list.getSelectedIndex());
                 }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
+                        && !isMenuShortcutKeyDown(e)) {
+                    list.clearSelection();
+                }
+            }
+
+            private boolean isMenuShortcutKeyDown(InputEvent event) {
+                return (event.getModifiers() & Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMask()) != 0;
             }
         })
         ;

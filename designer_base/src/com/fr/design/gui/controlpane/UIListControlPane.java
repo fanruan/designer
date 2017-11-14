@@ -37,10 +37,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -803,6 +800,20 @@ public abstract class UIListControlPane extends UIControlPane {
             // peter: 只有弹出菜单有子菜单的时候,才需要弹出来.
             GUICoreUtils.showPopupMenu(popupMenu, nameableList, evt.getX() - 1,
                     evt.getY() - 1);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JList list = (JList) e.getSource();
+            if (list.locationToIndex(e.getPoint()) == -1 && !e.isShiftDown()
+                    && !isMenuShortcutKeyDown(e)) {
+                list.clearSelection();
+            }
+        }
+
+        private boolean isMenuShortcutKeyDown(InputEvent event) {
+            return (event.getModifiers() & Toolkit.getDefaultToolkit()
+                    .getMenuShortcutKeyMask()) != 0;
         }
 
         @Override
