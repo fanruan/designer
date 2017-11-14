@@ -14,6 +14,7 @@ import com.fr.general.Inter;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 import java.awt.Component;
 
 
@@ -40,32 +41,37 @@ public class PaddingBoundPane extends BasicPane{
         bottom.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
         left.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
         right.setGlobalName(Inter.getLocText("FR-Designer_Layout-Padding"));
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
-        double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Layout-Padding")), createRightPane(top, bottom)},
-                new Component[]{null, createRightPane(new UILabel(Inter.getLocText("FR-Designer_Top"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Bottom"), SwingConstants.CENTER))},
-                new Component[]{null, createRightPane(left, right)},
-                new Component[]{null, createRightPane(new UILabel(Inter.getLocText("FR-Designer_Left"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Right"), SwingConstants.CENTER))},
-        };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
-        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
+        UILabel label = new UILabel(Inter.getLocText("FR-Designer_Layout-Padding"));
+        label.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
+        label.setVerticalAlignment(SwingConstants.TOP);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
+                new Component[]{label, createRightPane()}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1   );
         this.add(panel);
     }
 
-    public JPanel createRightPane(Component com1, Component com2){
+
+    public JPanel createRightPane(){
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p};
+        double[] rowSize = {p, p};
         double[] columnSize = {f, f};
-        int[][] rowCount = {{1, 1}};
-        Component[][] components = new Component[][]{
-                new Component[]{com1, com2}
+        int[][] rowCount = {{1, 1}, {1, 1}};
+        Component[][] components1 = new Component[][]{
+                new Component[]{top, bottom},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Top"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Bottom"), SwingConstants.CENTER)}
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L1);
+        Component[][] components2 = new Component[][]{
+                new Component[]{left, right},
+                new Component[]{new UILabel(Inter.getLocText("FR-Designer_Left"), SwingConstants.CENTER), new UILabel(Inter.getLocText("FR-Designer_Right"), SwingConstants.CENTER)}
+        };
+        JPanel northPanel = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6);
+        northPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, IntervalConstants.INTERVAL_L1, 0));
+        JPanel centerPanel = TableLayoutHelper.createGapTableLayoutPane(components2, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6);
+        JPanel panel =  FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
+        panel.add(northPanel, BorderLayout.NORTH);
+        panel.add(centerPanel, BorderLayout.CENTER);
+        return panel;
     }
 
 

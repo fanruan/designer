@@ -18,8 +18,19 @@ import java.awt.image.BufferedImage;
 public interface UIConstants {
 
     public static final Icon CPT_ICON = BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png");
-
     public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+
+    public static final Image APPFIT_V0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png");
+    public static final Image APPFIT_V1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png");
+    public static final Image APPFIT_V2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png");
+    public static final Image APPFIT_V3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png");
+    public static final Image APPFIT_V4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png");
+    public static final Image APPFIT_H0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png");
+    public static final Image APPFIT_H1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png");
+    public static final Image APPFIT_H2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png");
+    public static final Image APPFIT_H3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png");
+    public static final Image APPFIT_H4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png");
+
     public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0, 0, 0, 0);
     public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 0);
     public static final Border CELL_ATTR_PRESENTBORDER = BorderFactory.createEmptyBorder(0, 5, 0, 0);
@@ -98,6 +109,7 @@ public interface UIConstants {
     public static final Color ATTRIBUTE_NORMAL = Color.WHITE;
     public static final Color ATTRIBUTE_HOVER = new Color(0xF5F5F7);
     public static final Color UI_TOOLBAR_COLOR = new Color(0xF5F5F7);
+    public static final Color DIALOG_TITLEBAR_BACKGROUND = new Color(0xFCFCFD);
     public static final Color CHECKBOX_HOVER_SELECTED = new Color(0x3394f0);
     public static final Color TEXT_FILED_BORDER_SELECTED = new Color(0x3384f0);
     public static final Color SHEET_NORMAL = new Color(0xc8c8ca);

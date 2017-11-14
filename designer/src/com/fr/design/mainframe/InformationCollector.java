@@ -23,7 +23,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.record.DBRecordManager;
+import com.fr.record.DBRecordXManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
@@ -217,7 +217,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         Table table = new Table(TABLE_NAME);
 
         try {
-            conn = DBRecordManager.getDB().createConnection();
+            conn = DBRecordXManager.getDB().createConnection();
             ResultSet rs = selectAllFromLogDB(conn, table);
 
             if(rs == null){
@@ -254,7 +254,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
     private void deleteLogDB(Connection conn, Table table) {
         try {
-            conn = DBRecordManager.getDB().createConnection();
+            conn = DBRecordXManager.getDB().createConnection();
             Delete delete = new Delete(table);
             delete.execute(conn);
         } catch (Exception e) {
