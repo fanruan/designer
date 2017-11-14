@@ -40,6 +40,8 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     private HoverPainter painter;
     //区分拖拽和编辑宽高
     private boolean isEdit;
+    //区分拖拽边框和 删除
+    private boolean isDel;
 
     public boolean isEdit() {
         return isEdit;
@@ -720,9 +722,11 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除组件或者重新拖动时，其它组件重新计算位置大小
      */
     protected void delete(XCreator creator, int creatorWidth, int creatorHeight) {
+        isDel = true;
         int x = creator.getX();
         int y = creator.getY();
         recalculateChildrenSize(x, y, creatorWidth, creatorHeight);
+        isDel = false;
     }
 
     /**
@@ -1095,7 +1099,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除或拉伸控件左边框时 调整左侧的组件位置大小；
      */
     protected boolean calculateLefttRelatComponent(int objWidth) {
-        if (isBeyondAdjustWidthScope(objWidth)) {
+        if (!isDel && isBeyondAdjustWidthScope(objWidth)) {
             return false;
         }
         int count = leftComps.size();
@@ -1153,7 +1157,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除或拉伸上边框    调整上方的组件位置大小
      */
     protected boolean calculateUpRelatComponent(int objHeight) {
-        if (isBeyondAdjustHeightScope(objHeight)) {
+        if (!isDel && isBeyondAdjustHeightScope(objHeight)) {
             return false;
         }
         int count = upComps.size();
