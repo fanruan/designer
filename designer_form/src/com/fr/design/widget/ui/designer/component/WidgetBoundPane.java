@@ -143,8 +143,8 @@ public class WidgetBoundPane extends BasicPane {
             difference = bounds.height - h;
             bounds.height = h;
         }
+        height.setValue(bounds.height);
         wabs.setBounds(creator.toData(), bounds);
-        creator.setBounds(bounds);
         adjustComponents(bounds, difference, 1);
     }
 
