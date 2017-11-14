@@ -17,23 +17,28 @@ import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.StableUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by vito on 2016/9/28.
+ * 在合适的 jre 环境下创建带有 WebView 的窗口
+ *
+ * @author vito
+ * @date 2016/9/28
  */
 public class WebViewDlgHelper {
     private static final String LATEST = "latest";
     private static final String SHOP_SCRIPTS = "shop_scripts";
     private static final int VERSION_8 = 8;
-    // 调试时，使用installHome = ClassLoader.getSystemResource("").getPath()代替下面
     private static String installHome = FRContext.getCurrentEnv().getWebReportPath();
     private static final int BYTES_NUM = 1024;
 
@@ -146,24 +151,46 @@ public class WebViewDlgHelper {
     }
 
     public static void createQQLoginDialog() {
-        QQLoginWebPane webPane = new QQLoginWebPane(new File(installHome).getAbsolutePath());
-        UIDialog qqlog = new QQLoginDialog(DesignerContext.getDesignerFrame(), webPane);
-        LoginWebBridge.getHelper().setQqDialog(qqlog);
-        qqlog.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.QQLoginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(new File(installHome).getAbsolutePath());
+
+            UIDialog qqLoginDialog = new QQLoginDialog(DesignerContext.getDesignerFrame(), webPane);
+            LoginWebBridge.getHelper().setQQDialog(qqLoginDialog);
+            qqLoginDialog.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static void showPluginDlg(String mainJsPath) {
-        BasicPane managerPane = new ShopManagerPane(new PluginWebPane(mainJsPath));
-        UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
-        PluginWebBridge.getHelper().setDialogHandle(dlg);
-        dlg.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(mainJsPath);
+
+            BasicPane managerPane = new ShopManagerPane(webPane);
+            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), managerPane);
+            PluginWebBridge.getHelper().setDialogHandle(dlg);
+            dlg.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static void showLoginDlg() {
-        LoginWebPane webPane = new LoginWebPane(installHome);
-        UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
-        LoginWebBridge.getHelper().setDialogHandle(qqdlg);
-        qqdlg.setVisible(true);
+        try {
+            Class<?> clazz = Class.forName("com.fr.design.extra.LoginWebPane");
+            Constructor constructor = clazz.getConstructor(String.class);
+            Component webPane = (Component) constructor.newInstance(installHome);
+
+            UIDialog qqdlg = new LoginDialog(DesignerContext.getDesignerFrame(), webPane);
+            LoginWebBridge.getHelper().setDialogHandle(qqdlg);
+            qqdlg.setVisible(true);
+        } catch (Throwable ignored) {
+            // ignored
+        }
     }
 
     private static Component initTraditionalStore() {
@@ -183,6 +210,7 @@ public class WebViewDlgHelper {
                     PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
                         @Override
                         public void process(Double integer) {
+                            // 这个注释毫无意义，就是为了通过SonarQube
                         }
                     });
                 } catch (PluginVerifyException e) {

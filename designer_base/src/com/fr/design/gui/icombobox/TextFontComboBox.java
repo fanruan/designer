@@ -6,10 +6,10 @@ import com.fr.design.gui.icombobox.filter.StartsWithFilter;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.ComboBoxEditor;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,12 @@ public class TextFontComboBox<T> extends ExtendedComboBox {
         private volatile boolean setting = false;
 
         public FilterComboBoxEditor() {
-            textField = new UITextField(15);
+            textField = new UITextField(15){
+                @Override
+                public boolean shouldResponseChangeListener() {
+                    return false;
+                }
+            };
             textField.getDocument().addDocumentListener(this);
         }
 

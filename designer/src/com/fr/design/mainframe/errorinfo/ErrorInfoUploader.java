@@ -35,7 +35,6 @@ public class ErrorInfoUploader {
     public static final String FOLDER_NAME = "errorInfo";
 
     private static ErrorInfoUploader collector;
-    private static boolean licSupport = true;
     // 在一台不能上网的电脑里发现了10w个errorinfo...
     private static final int MAX_ERROR_SIZE = 2000;
 
@@ -51,17 +50,7 @@ public class ErrorInfoUploader {
                 });
             }
         });
-
-        // 这个控制没啥意义, 主要在于宣传功能.
-        licSupport = VT4FR.AlphaFine.support();
-        FRCoreContext.listenerLicense(new LicenseListener() {
-        
-            @Override
-            public void onChange() {
-            
-                licSupport = VT4FR.AlphaFine.support();
-            }
-        });
+    
     }
 
     private ErrorInfoUploader() {
@@ -83,7 +72,8 @@ public class ErrorInfoUploader {
 
     // 从云中心更新最新的解决方案文件
     private void checkUpdateSolution(){
-        if (!licSupport) {
+    
+        if (!VT4FR.AlphaFine.support()) {
             return;
         }
 

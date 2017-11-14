@@ -83,4 +83,12 @@ public class XCheckBox extends XWidgetCreator {
     protected String getIconName() {
         return "check_box_16.png";
     }
+
+	public void firePropertyChange(){
+		((UICheckBox) editor).setText(((CheckBox) data).getText());
+		WidgetValue value = ((CheckBox) data).getWidgetValue();
+		if (value != null && value.getValue() instanceof Boolean) {
+			((UICheckBox) editor).setSelected((Boolean) value.getValue());
+		}
+	}
 }

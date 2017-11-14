@@ -2,6 +2,8 @@ package com.fr.design.widget.ui.designer;
 
 import com.fr.base.FRContext;
 import com.fr.data.core.FormatField;
+import com.fr.design.border.UIRoundedBorder;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -18,6 +20,7 @@ import com.fr.general.Inter;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -87,8 +90,9 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 
     private JPanel createFormatPane(UIComboBox formatComboBox, UILabel sampleLabel){
-        JPanel previewPane = FRGUIPaneFactory.createTitledBorderPane(Inter.getLocText("FR-Base_StyleFormat_Sample"));
-        previewPane.setLayout(new BorderLayout());
+        JPanel previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        TitledBorder titledBorder = new TitledBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5), Inter.getLocText("FR-Base_StyleFormat_Sample"), 4, 2, this.getFont(), UIConstants.LINE_COLOR);
+        previewPane.setBorder(titledBorder);
 
         JPanel sampleLabelWrapper = new JPanel(new BorderLayout());
         sampleLabelWrapper.setBorder(BorderFactory.createEmptyBorder(0, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING, SAMPLE_LABEL_PADDING));

@@ -8,6 +8,7 @@ import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.ucenter.Client;
 import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONObject;
@@ -63,7 +64,7 @@ public class LoginWebBridge {
     private UILabel uiLabel;
     private WebEngine webEngine;
 
-    public LoginWebBridge() {
+    private LoginWebBridge() {
     }
 
     public static LoginWebBridge getHelper() {
@@ -92,7 +93,7 @@ public class LoginWebBridge {
         return messageCount;
     }
 
-    public void setQqDialog(UIDialog qqDialog) {
+    public void setQQDialog(UIDialog qqDialog) {
         closeQQWindow();
         this.qqDialog = qqDialog;
     }
@@ -282,9 +283,9 @@ public class LoginWebBridge {
         try {
             JSONObject jo = new JSONObject(userInfo);
             String status = jo.get("status").toString();
-            if (status.equals(LOGIN_SUCCESS)) {
+            if (ComparatorUtils.equals(status, LOGIN_SUCCESS)) {
                 String username = jo.get("username").toString();
-                int uid = Integer.parseInt(jo.get("uid") == null ? "" : jo.get("uid").toString());
+                int uid = Integer.parseInt(jo.get("uid") == null ? StringUtils.EMPTY : jo.get("uid").toString());
                 closeQQWindow();
                 loginSuccess(username);
 
@@ -293,18 +294,18 @@ public class LoginWebBridge {
                 list.add(username);
                 list.add(StringUtils.EMPTY);
                 BBSLoginUtils.bbsLogin(list);
-            } else if (status.equals(LOGIN_FAILED)) {
+            } else if (ComparatorUtils.equals(status, LOGIN_FAILED)) {
                 //账号没有QQ授权
                 closeQQWindow();
                 try {
                     Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("QQ_binding")));
-                } catch (Exception exp) {
+                } catch (Exception ignored) {
+                    // ignored
                 }
             }
         } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage());
         }
-
     }
 
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
