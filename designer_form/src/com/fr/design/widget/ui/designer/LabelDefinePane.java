@@ -75,7 +75,7 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         boundsPane.add(panel);
         return boundsPane;
     }

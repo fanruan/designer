@@ -443,14 +443,16 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
         public PopupToolPane(String title, JDialog parentDialog) {
             super();
             this.parentDialog = parentDialog;
-            originColor = UIConstants.UI_TOOLBAR_COLOR;
+            originColor = UIConstants.DIALOG_TITLEBAR_BACKGROUND;
 
             contentPane = new JPanel();
             contentPane.setBackground(originColor);
             contentPane.setLayout(new BorderLayout());
             titleLabel = new UILabel(title);
+            Font font = new Font("SimSun", Font.PLAIN, 12);
+            titleLabel.setFont(font);
             contentPane.add(titleLabel, BorderLayout.WEST);
-            contentPane.setBorder(new EmptyBorder(5, 10, 5, 0));
+            contentPane.setBorder(new EmptyBorder(5, 14, 6, 0));
 
             setLayout(new BorderLayout());
             add(contentPane, BorderLayout.CENTER);
@@ -466,7 +468,7 @@ public abstract class UIControlPane extends BasicPane implements UnrepeatedNameH
 
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(super.getPreferredSize().width, 25);
+            return new Dimension(super.getPreferredSize().width, 28);
         }
     }
 }
