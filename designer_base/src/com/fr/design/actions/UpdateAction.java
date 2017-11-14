@@ -504,9 +504,13 @@ public abstract class UpdateAction extends ShortCut implements Action {
 
 			} else if (component instanceof JComboBox) {
 				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
-					text.append(((JComboBox) component).getItemAt(i));
-					String title = String.valueOf(((JComboBox) component).getItemAt(i));
-					handleSearchText(separator, text, pinyin, shortPinyin, title);
+					Object object = ((JComboBox) component).getItemAt(i);
+					if (object instanceof String) {
+						text.append(((JComboBox) component).getItemAt(i));
+						String title = String.valueOf(((JComboBox) component).getItemAt(i));
+						handleSearchText(separator, text, pinyin, shortPinyin, title);
+					}
+
 
 				}
 			} else if (component instanceof JTabbedPane) {
