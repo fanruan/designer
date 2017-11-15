@@ -377,6 +377,7 @@ public class EnvListPane extends JListControlPane {
             previewTextArea.setText(Inter.getLocText("Env-Des2"));
             try {
                 previewTextArea.getDocument().insertString(previewTextArea.getText().length(), Inter.getLocText("Env_Des"), this.getRedSytleAttribute());
+                previewTextArea.getDocument().insertString(previewTextArea.getText().length(), "\n" + Inter.getLocText("FR-Designer_Env_Des_Https"), this.getRedSytleAttribute());
             } catch (BadLocationException e) {
                 FRContext.getLogger().error(e.getMessage(), e);
             }
