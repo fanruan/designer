@@ -722,11 +722,9 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除组件或者重新拖动时，其它组件重新计算位置大小
      */
     protected void delete(XCreator creator, int creatorWidth, int creatorHeight) {
-        recalculateBeforeDelete();
         int x = creator.getX();
         int y = creator.getY();
-        recalculateChildrenSize(x, y, creatorWidth, creatorHeight);
-        recalculateAfterDelete();
+        recalculateChildrenSize(x, y, creatorWidth, creatorHeight, true);
     }
 
     private void recalculateBeforeDelete() {
@@ -750,6 +748,19 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * @param creatorHeight 删除的组件之前所在布局的高度
      */
     public void recalculateChildrenSize(int x, int y, int creatorWidth, int creatorHeight) {
+        recalculateChildrenSize(x, y, creatorWidth, creatorHeight, false);
+    }
+
+    /**
+     * 重新计算内部组件大小
+     *
+     * @param x             坐标x
+     * @param y             坐标y
+     * @param creatorWidth  删除的组件之前所在布局的宽度
+     * @param creatorHeight 删除的组件之前所在布局的高度
+     * @param isDel 删除操作
+     */
+    public void recalculateChildrenSize(int x, int y, int creatorWidth, int creatorHeight, boolean isDel) {
         if (container.getComponentCount() == 0) {
             return;
         } else {
@@ -760,11 +771,11 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
             if (!rightComps.isEmpty() && getAllHeight(rightComps) == height) {
                 calculateRightRelatComponent(x, width + actualVal);
             } else if (!leftComps.isEmpty() && getAllHeight(leftComps) == height) {
-                calculateLefttRelatComponent(width + actualVal);
+                calculateLefttRelatComponent(width + actualVal, isDel);
             } else if (!downComps.isEmpty() && getAllWidth(downComps) == width) {
                 calculateDownRelatComponent(y, height + actualVal);
             } else if (!upComps.isEmpty() && getAllWidth(upComps) == width) {
-                calculateUpRelatComponent(height + actualVal);
+                calculateUpRelatComponent(height + actualVal, isDel);
             } else {
                 // 由于布局三等分的存在，可能会出现删除组件时，找不到关联的组件填充，此时特殊处理
                 calculateNoRelatedComponent(x, y, width, height);
@@ -839,7 +850,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
                 return;
             }
         }
-        recalculateChildrenSize(bound.x, bound.y, bound.width, bound.height);
+        recalculateChildrenSize(bound.x, bound.y, bound.width, bound.height, true);
     }
 
     private void calculateNoRelatedWhileRightBott(Rectangle bound, Component rcomp) {
@@ -874,7 +885,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
                 return;
             }
         }
-        recalculateChildrenSize(bound.x, bound.y, bound.width, bound.height);
+        recalculateChildrenSize(bound.x, bound.y, bound.width, bound.height, true);
     }
 
     private int getMinWidth(List<Component> comps) {
@@ -1111,6 +1122,10 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除或拉伸控件左边框时 调整左侧的组件位置大小；
      */
     protected boolean calculateLefttRelatComponent(int objWidth) {
+        return calculateLefttRelatComponent(objWidth, false);
+    }
+
+    protected boolean calculateLefttRelatComponent(int objWidth, boolean isDel) {
         if (!isDel && isBeyondAdjustWidthScope(objWidth)) {
             return false;
         }
@@ -1169,6 +1184,10 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
      * 删除或拉伸上边框    调整上方的组件位置大小
      */
     protected boolean calculateUpRelatComponent(int objHeight) {
+        return calculateUpRelatComponent(objHeight, false);
+    }
+
+    protected boolean calculateUpRelatComponent(int objHeight, boolean isDel) {
         if (!isDel && isBeyondAdjustHeightScope(objHeight)) {
             return false;
         }
