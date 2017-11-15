@@ -258,12 +258,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
 
     private void setPatternComboBoxAndList(int formatStyle, String pattern) {
         this.typeComboBox.setSelectedItem(formatStyle);
-        int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle), pattern);
-        if (i == -1) {
-            this.textField.setSelectedItem(pattern);
-        } else {
-            this.textField.setSelectedIndex(i);
-        }
+        this.textField.setSelectedItem(pattern);
     }
 
     private boolean isTimeType(String pattern) {
