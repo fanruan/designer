@@ -506,8 +506,8 @@ public abstract class UpdateAction extends ShortCut implements Action {
 				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
 					Object componentName = ((JComboBox) component).getItemAt(i);
 					if (componentName instanceof String && StringUtils.isNotBlank(String.valueOf(componentName))) {
-						text.append(componentName);
-						String title = (String) componentName;
+						String title = String.valueOf(componentName);
+						text.append(title);
 						handleSearchText(separator, text, pinyin, shortPinyin, title);
 					}
 				}
