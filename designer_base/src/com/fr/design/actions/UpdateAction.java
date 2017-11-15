@@ -505,7 +505,7 @@ public abstract class UpdateAction extends ShortCut implements Action {
 			} else if (component instanceof JComboBox) {
 				for (int i = 0; i < ((JComboBox) component).getItemCount(); i++) {
 					Object componentName = ((JComboBox) component).getItemAt(i);
-					if (componentName instanceof String) {
+					if (componentName instanceof String && StringUtils.isNotBlank(String.valueOf(componentName))) {
 						text.append(componentName);
 						String title = (String) componentName;
 						handleSearchText(separator, text, pinyin, shortPinyin, title);
