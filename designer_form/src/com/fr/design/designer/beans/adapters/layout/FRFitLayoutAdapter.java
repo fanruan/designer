@@ -40,8 +40,6 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
     private HoverPainter painter;
     //区分拖拽和编辑宽高
     private boolean isEdit;
-    //区分拖拽边框和 删除
-    private boolean isDel;
 
     public boolean isEdit() {
         return isEdit;
@@ -725,18 +723,6 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         int x = creator.getX();
         int y = creator.getY();
         recalculateChildrenSize(x, y, creatorWidth, creatorHeight, true);
-    }
-
-    private void recalculateBeforeDelete() {
-        setDel(false);
-    }
-
-    private void recalculateAfterDelete() {
-        setDel(true);
-    }
-
-    public void setDel(boolean del) {
-        isDel = del;
     }
 
     /**
