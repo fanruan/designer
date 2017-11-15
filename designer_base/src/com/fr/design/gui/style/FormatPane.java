@@ -262,7 +262,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         if (i == -1) {
             this.textField.setSelectedItem(pattern);
         } else {
-            this.textField.setSelectedIndex(i);
+            this.textField.setSelectedItem(pattern);
         }
     }
 
