@@ -515,7 +515,6 @@ public abstract class UpdateAction extends ShortCut implements Action {
 				getTabPaneTexts((JTabbedPane) component, separator, text, pinyin, shortPinyin);
 			}
 		}
-		panel.removeAll();
 		return String.valueOf(text.append(pinyin).append(shortPinyin));
 	}
 
