@@ -58,7 +58,26 @@ public class StartServer {
                     + "?op=fs");
             return;
         }
-        initDemoServerAndBrowser();
+        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+        if (!envManager.isCurrentEnvDefault()) {
+            InformationPane inf = new InformationPane(envManager.getDefaultEnvName());
+            inf.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                @Override
+                public void doOk() {
+                    try {
+                        SignIn.signIn(DesignerEnvManager.getEnvManager().getDefaultEnv());
+                        TemplateTreePane.getInstance().refreshDockingView();
+                        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+                    } catch (Exception e) {
+                        FRContext.getLogger().errorWithServerLevel(e.getMessage());
+                    }
+                    initDemoServerAndBrowser();
+                }
+
+            }).setVisible(true);
+        } else {
+            initDemoServerAndBrowser();
+        }
     }
 
     private static void initDemoServerAndBrowser() {
