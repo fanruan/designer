@@ -12,6 +12,7 @@ import com.fr.design.mainframe.widget.editors.FitLayoutDirectionEditor;
 import com.fr.design.mainframe.widget.editors.LayoutTypeEditor;
 import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
+import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
@@ -152,6 +153,7 @@ public class FRFitLayoutPropertiesGroupModel implements GroupModel {
 						wAbsoluteBodyLayout.setCompState(WAbsoluteLayout.STATE_FIXED);
 						Component[] components = xfl.getComponents();
 						xfl.removeAll();
+                        xfl.toData().removeMargin();
 						XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0));
 						xfl.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
 						for (Component component : components) {

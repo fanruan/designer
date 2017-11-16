@@ -143,7 +143,6 @@ public class InformationWarnPane extends JPanel{
 			contentPane.add(InformationWarnPane.this);
 			contentPane.add(this.createControlButtonPane());
 			this.setModal(true);
-			this.pack();
 			GUICoreUtils.centerWindow(this);
 		}
 
