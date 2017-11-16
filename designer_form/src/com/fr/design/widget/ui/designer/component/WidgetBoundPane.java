@@ -91,6 +91,7 @@ public class WidgetBoundPane extends BasicPane {
         if (bounds.height != h) {
             limitHeight(wabs, h, bounds, rec);
         }
+        creator.setBounds(bounds);
     }
 
 

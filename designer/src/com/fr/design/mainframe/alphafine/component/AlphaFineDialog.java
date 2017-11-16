@@ -676,7 +676,7 @@ public class AlphaFineDialog extends UIDialog {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() + 1);
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
                     searchResultList.setSelectedIndex(searchResultList.getSelectedIndex() - 1);
-                } else escAlphaFine(e);
+                } else escAlphaFineDialog(e);
             }
         });
 
@@ -888,13 +888,17 @@ public class AlphaFineDialog extends UIDialog {
      *
      * @param e
      */
-    private void escAlphaFine(KeyEvent e) {
+    private void escAlphaFineDialog(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (StringUtils.isBlank(searchTextField.getText()) || ComparatorUtils.equals(searchTextField.getText(), searchTextField.getPlaceHolder())) {
                 AlphaFineDialog.this.setVisible(false);
             } else {
                 searchTextField.setText(null);
                 removeSearchResult();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (searchResultList.getModel().getSize() > 1) {
+                dealWithSearchResult(searchResultList.getSelectedValue());
             }
         }
     }
@@ -969,7 +973,7 @@ public class AlphaFineDialog extends UIDialog {
             addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
-                    escAlphaFine(e);
+                    escAlphaFineDialog(e);
 
                 }
             });
