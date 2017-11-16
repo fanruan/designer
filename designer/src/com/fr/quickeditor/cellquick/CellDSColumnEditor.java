@@ -37,10 +37,18 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.cellattr.core.group.FilterTypeEnum;
 import com.fr.report.cell.cellattr.core.group.SelectCount;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -71,15 +79,31 @@ public class CellDSColumnEditor extends CellQuickEditor {
     private JPanel dsColumnRegion;
     private JPanel centerPane;
 
-    // 基本和高级设置
+    /**
+     * 基本和高级设置
+     */
     private ArrayList<CellEditorPane> paneList;
-    // 基本和高级设置 卡片布局
+    /**
+     * 基本和高级设置 卡片布局
+     */
     private CardLayout card;
-    // 基本和高级设置 容器面板
+    /**
+     * 基本和高级设置 容器面板
+     */
     private JPanel cardContainer;
-    // 卡片布局TAB切换按钮
+    /**
+     * 卡片布局TAB切换按钮
+     */
     private UIHeadGroup tabsHeaderIconPane;
-    // 数据列高级设置
+
+
+    /**
+     * 数据列基本设置
+     */
+    private DSColumnBasicEditorPane cellDSColumnBasicPane;
+    /**
+     * 数据列高级设置
+     */
     private DSColumnAdvancedEditorPane cellDSColumnAdvancedPane;
 
     private CellDSColumnEditor() {
@@ -109,22 +133,12 @@ public class CellDSColumnEditor extends CellQuickEditor {
     }
 
     /**
-     * 内容全部重新动态生成，不然容易出错
      * 刷新详细信息面板
      */
     @Override
     protected void refreshDetails() {
-        this.createPanes();
-        this.createSwitchTab();
-        dsColumnRegion = new JPanel(new BorderLayout());
-        dsColumnRegion.add(tabsHeaderIconPane, BorderLayout.NORTH);
-        dsColumnRegion.add(cardContainer, BorderLayout.CENTER);
-        //必须removeAll之后再添加；重新再实例化一个centerJPanel，因为对象变了会显示不出来
-        centerPane.removeAll();
-        centerPane.add(dsColumnRegion, BorderLayout.CENTER);
-        for (CellEditorPane cellEditorPane : paneList) {
-            cellEditorPane.populate();
-        }
+        cellDSColumnBasicPane.populate();
+        cellDSColumnAdvancedPane.populate();
         this.validate();
     }
 
@@ -162,17 +176,15 @@ public class CellDSColumnEditor extends CellQuickEditor {
     }
 
     /**
-     * 刷新数据列基本和高级设置面板
+     * 数据列基本和高级设置面板
      */
     private void createPanes() {
         paneList = new ArrayList<>();
         /*基本设置面板*/
-        DSColumnBasicEditorPane cellDSColumnBasicPane = new DSColumnBasicEditorPane();
-
+        cellDSColumnBasicPane = new DSColumnBasicEditorPane();
         paneList.add(cellDSColumnBasicPane);
         /*高级设置面板*/
         cellDSColumnAdvancedPane = new DSColumnAdvancedEditorPane();
-
         paneList.add(cellDSColumnAdvancedPane);
     }
 
@@ -186,14 +198,22 @@ public class CellDSColumnEditor extends CellQuickEditor {
      */
     class DSColumnBasicEditorPane extends CellEditorPane {
 
-        //数据集和数据列
+        /**
+         * 数据集和数据列
+         */
         private SelectedDataColumnPane dataPane;
-        //数据分组设置
+        /**
+         * 数据分组设置
+         */
         private ResultSetGroupDockingPane groupPane;
-        //条件过滤按钮面板
+        /**
+         * 条件过滤按钮面板
+         */
         private JPanel conditionPane;
 
-        // 分组设置监听器
+        /**
+         * 分组设置监听器
+         */
         private ItemListener groupListener = new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -209,7 +229,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
                 }
             }
         };
-        //数据集列设置监听器
+        /**
+         * 数据集列设置监听器
+         */
         private ItemListener dataListener = new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -296,21 +318,37 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
     class DSColumnAdvancedEditorPane extends CellEditorPane {
 
-        //排列顺序
+        /**
+         * 排列顺序
+         */
         private ResultSetSortConfigPane sortPane;
-        //结果集筛选
+        /**
+         * 结果集筛选
+         */
         private ResultSetFilterConfigPane filterPane;
-        //自定义值显示
+        /**
+         * 自定义值显示
+         */
         private CustomValuePane valuePane;
-        //横向可扩展性
+        /**
+         * 横向可扩展性
+         */
         private UICheckBox heCheckBox;
-        //纵向可扩展性
+        /**
+         * 纵向可扩展性
+         */
         private UICheckBox veCheckBox;
-        //补充空白数据
+        /**
+         * 补充空白数据
+         */
         private UICheckBox useMultiplyNumCheckBox;
-        //补充空白数据数目输入框
+        /**
+         * 补充空白数据数目输入框
+         */
         private UISpinner multiNumSpinner;
-        //补充空白数据数目面板 可隐藏
+        /**
+         * 补充空白数据数目面板 可隐藏
+         */
         private JPanel multiPane;
 
 
@@ -548,7 +586,6 @@ public class CellDSColumnEditor extends CellQuickEditor {
         public class ResultSetSortConfigPane extends JPanel {
             private static final String DEFAULT_VALUE = "=";
             private JPanel contentPane;
-            //面板
             private UIButtonGroup sortTypePane;
             private JFormulaField formulaField;
             private CardLayout cardLayout;
