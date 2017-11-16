@@ -222,7 +222,7 @@ public class FormatPane extends AbstractBasicStylePane {
 
     private void setPatternComboBoxAndList(int formatStyle, String pattern) {
         this.typeComboBox.setSelectedItem(formatStyle);
-        int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle), pattern);
+        int i = isArrayContainPattern(FormatField.getInstance().getFormatArray(formatStyle, false), pattern);
         if (i == -1) {
             this.patternList.setSelectedIndices(ArrayUtils.EMPTY_INT_ARRAY);
         } else {
