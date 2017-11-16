@@ -2,7 +2,6 @@ package com.fr.start;
 
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
-import com.fr.dav.LocalEnv;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.datapane.TableDataTreePane;
