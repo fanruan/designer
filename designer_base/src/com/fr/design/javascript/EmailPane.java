@@ -27,7 +27,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 	protected UILabel tipsPane2;
 	protected JPanel centerPane;
 	protected UICheckBox showTplContent;
-	private JTextPane mainTextEditor;
+	private JTextArea mainTextEditor;
 	
 	public EmailPane() {
 		this.initComponents();
@@ -44,7 +44,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		UILabel mainTextLabel = new UILabel(Inter.getLocText("FR-Designer_EmailPane-mailContent") + ":");
 		mainTextLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		mainTextLabel.setVerticalAlignment(SwingConstants.TOP);
-		JScrollPane scrollPane = new JScrollPane(mainTextEditor = new JTextPane());
+		JScrollPane scrollPane = new JScrollPane(mainTextEditor = new JTextArea());
 		scrollPane.setBorder(null);
 		double fill = TableLayout.FILL;
 		double preferred = TableLayout.PREFERRED;
