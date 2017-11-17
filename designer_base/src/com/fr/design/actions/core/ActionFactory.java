@@ -7,81 +7,63 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.selection.QuickEditor;
+import com.fr.general.FRLogger;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 插入单元格元素和插入悬浮元素的一些集合方法
+ *
+ * @author null
+ * @version 2017年11月17日14点39分
  */
 public class ActionFactory {
     private static LinkedHashSet<Class<?>> actionClasses = new LinkedHashSet<>();
     private static LinkedHashSet<Class<?>> floatActionClasses = new LinkedHashSet<>();
+    /**
+     * 悬浮元素编辑器
+     */
+    private static ConcurrentMap<Class, QuickEditor> floatEditor = new ConcurrentHashMap<>();
+    private static Class chartCollectionClass = null;
+    /**
+     * 单元格元素编辑器
+     */
+    private static ConcurrentMap<Class, QuickEditor> cellEditor = new ConcurrentHashMap<>();
+    private static UpdateAction chartPreStyleAction = null;
+    private static UpdateAction chartMapEditorAction = null;
 
     private ActionFactory() {
     }
 
-    private static Map<Class, Class<? extends QuickEditor>> floatEditor = new HashMap<>();
-
-    private static Class chartCollectionClass = null;
-
-    private static Map<Class, Class<? extends QuickEditor>> cellEditor = new HashMap<>();
-
-    private static UpdateAction chartPreStyleAction = null;
-
-    private static UpdateAction chartMapEditorAction = null;
-
     /**
-     * 待说明
+     * 注册单元格编辑器
      *
-     * @param clazz  待说明
-     * @param editor 待说明
+     * @param clazz  单元格属性类型
+     * @param editor 单元格编辑器实例
      */
-    public static void registerCellEditor(Class clazz, Class<? extends QuickEditor> editor) {
+    public static void registerCellEditor(Class clazz, QuickEditor editor) {
         cellEditor.put(clazz, editor);
     }
 
 
     /**
-     * 待说明
+     * 注册悬浮元素编辑器
      *
-     * @param clazz  待说明
-     * @param editor 待说明
+     * @param clazz  悬浮元素类型
+     * @param editor 悬浮元素编辑器实例
      */
-    public static void registerFloatEditor(Class clazz, Class<? extends QuickEditor> editor) {
+    public static void registerFloatEditor(Class clazz, QuickEditor editor) {
         floatEditor.put(clazz, editor);
-    }
-
-    /**
-     * 注册图表的 预定义样式.
-     *
-     * @param action 注册的图表预定义样式action
-     */
-    public static void registerChartPreStyleAction(UpdateAction action) {
-        chartPreStyleAction = action;
-    }
-
-    /**
-     * 返回 图表预定义样式Action
-     */
-    public static UpdateAction getChartPreStyleAction() {
-        return chartPreStyleAction;
-    }
-
-    /**
-     * 注册图表的 地图资源
-     *
-     * @param action 地图资源action
-     */
-    public static void registerChartMapEditorAction(UpdateAction action) {
-        chartMapEditorAction = action;
-    }
-
-    public static UpdateAction getChartMapEditorAction() {
-        return chartMapEditorAction;
     }
 
     /**
@@ -93,8 +75,23 @@ public class ActionFactory {
         chartCollectionClass = clazz;
     }
 
-    public static Class getChartCollectionClass() {
-        return chartCollectionClass;
+    /**
+     * 注册图表的 地图资源
+     *
+     * @param action 地图资源action
+     */
+    public static void registerChartMapEditorAction(UpdateAction action) {
+        chartMapEditorAction = action;
+    }
+
+
+    /**
+     * 注册图表的 预定义样式.
+     *
+     * @param action 注册的图表预定义样式action
+     */
+    public static void registerChartPreStyleAction(UpdateAction action) {
+        chartPreStyleAction = action;
     }
 
     /**
@@ -102,7 +99,7 @@ public class ActionFactory {
      *
      * @param editor 待说明
      */
-    public static void registerChartFloatEditorInEditor(Class<? extends QuickEditor> editor) {
+    public static void registerChartFloatEditorInEditor(QuickEditor editor) {
         if (chartCollectionClass != null) {
             floatEditor.put(chartCollectionClass, editor);
         }
@@ -113,46 +110,58 @@ public class ActionFactory {
      *
      * @param editor 待说明
      */
-    public static void registerChartCellEditorInEditor(Class<? extends QuickEditor> editor) {
+    public static void registerChartCellEditorInEditor(QuickEditor editor) {
         if (chartCollectionClass != null) {
             cellEditor.put(chartCollectionClass, editor);
         }
     }
 
     /**
-     * 返回 悬浮元素选中的Editor
+     * 图表预定义样式Action
+     *
+     * @return 图表预定义样式Action
+     */
+    public static UpdateAction getChartPreStyleAction() {
+        return chartPreStyleAction;
+    }
+
+
+    /**
+     * 图表编辑器Action
+     *
+     * @return 图表编辑器Action
+     */
+    public static UpdateAction getChartMapEditorAction() {
+        return chartMapEditorAction;
+    }
+
+
+    /**
+     * 获取图表集合类
+     *
+     * @return 获取图表集合类
+     */
+    public static Class getChartCollectionClass() {
+        return chartCollectionClass;
+    }
+
+
+    /**
+     * 选中的悬浮元素的编辑器
+     *
+     * @param clazz 选中的悬浮元素类型
+     * @return 编辑器实例
      */
     public static QuickEditor getFloatEditor(Class clazz) {
         return createEditor(clazz, floatEditor);
     }
 
-    private static QuickEditor createEditor(Class clazz, Map<Class, Class<? extends QuickEditor>> editorMap) {
-        Class<? extends QuickEditor> c = findQuickEditorClass(clazz, editorMap);
-        if (c == null) {
-            return null;
-        }
-        try {
-            Constructor<? extends QuickEditor> constructor = c.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            return constructor.newInstance();
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    private static Class<? extends QuickEditor> findQuickEditorClass(Class clazz, Map<Class, Class<? extends QuickEditor>> editorMap) {
-        Class<? extends QuickEditor> c = editorMap.get(clazz);
-        if (c == null) {
-            Class superClazz = clazz.getSuperclass();
-            if (superClazz == null) {
-                return null;
-            }
-            return findQuickEditorClass(superClazz, editorMap);
-        }
-        return c;
-    }
-
+    /**
+     * 选中的单元格元素编辑器
+     *
+     * @param clazz 选中的单元格元素类型
+     * @return 编辑器实例
+     */
     public static QuickEditor getCellEditor(Class clazz) {
         return createEditor(clazz, cellEditor);
     }
@@ -288,5 +297,26 @@ public class ActionFactory {
             }
         }
         return actions.toArray(new UpdateAction[actions.size()]);
+    }
+
+    private static QuickEditor createEditor(Class clazz, Map<Class, QuickEditor> editorMap) {
+        QuickEditor c = findQuickEditorClass(clazz, editorMap);
+        if (c == null) {
+            FRLogger.getLogger().error("No Such Editor");
+            return null;
+        }
+        return c;
+    }
+
+    private static QuickEditor findQuickEditorClass(Class clazz, Map<Class, QuickEditor> editorMap) {
+        QuickEditor c = editorMap.get(clazz);
+        if (c == null) {
+            Class superClazz = clazz.getSuperclass();
+            if (superClazz == null) {
+                return null;
+            }
+            return findQuickEditorClass(superClazz, editorMap);
+        }
+        return c;
     }
 }

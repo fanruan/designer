@@ -3,6 +3,7 @@ package com.fr.quickeditor.cellquick;
 import com.fr.base.BaseFormula;
 import com.fr.base.Style;
 import com.fr.base.TextFormat;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.grid.GridKeyListener;
 import com.fr.grid.selection.CellSelection;
@@ -12,10 +13,12 @@ import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -50,7 +53,7 @@ public class CellStringQuickEditor extends CellQuickEditor {
 
     };
 
-    private CellStringQuickEditor() {
+    public CellStringQuickEditor() {
         super();
     }
 

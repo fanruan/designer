@@ -1,7 +1,6 @@
 package com.fr.quickeditor.cellquick;
 
 import com.fr.base.BaseFormula;
-import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.columnrow.DSColumnConditionAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.DSColumnCellAction;
@@ -26,7 +25,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.cell.CellEditorPane;
+import com.fr.design.mainframe.cell.AbstractDSCellEditorPane;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
@@ -71,7 +70,6 @@ import static com.fr.report.cell.cellattr.core.group.FilterTypeEnum.UNDEFINE;
  * @since 9.0
  */
 public class CellDSColumnEditor extends CellQuickEditor {
-
     private static final double P = TableLayout.PREFERRED, F = TableLayout.FILL;
     private static final Color TIP_FONT_COLOR = new Color(0x7F333334, true);
 
@@ -82,7 +80,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
     /**
      * 基本和高级设置
      */
-    private ArrayList<CellEditorPane> paneList;
+    private ArrayList<AbstractDSCellEditorPane> paneList;
     /**
      * 基本和高级设置 卡片布局
      */
@@ -106,7 +104,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
      */
     private DSColumnAdvancedEditorPane cellDSColumnAdvancedPane;
 
-    private CellDSColumnEditor() {
+    public CellDSColumnEditor() {
         super();
     }
 
@@ -146,6 +144,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
     /**
      * 关闭时候释放
      */
+    @Override
     public void release() {
         super.release();
         dsColumnRegion = null;
@@ -161,7 +160,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
         card = new CardLayout();
         cardContainer = new JPanel(card);
         for (int i = 0; i < paneList.size(); i++) {
-            CellEditorPane pane = paneList.get(i);
+            AbstractDSCellEditorPane pane = paneList.get(i);
             iconArray[i] = pane.getIconPath();
             cardContainer.add(pane, pane.title4PopupWindow());
         }
@@ -196,7 +195,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
      * @version 2017年7月25日
      * @since 9.0
      */
-    class DSColumnBasicEditorPane extends CellEditorPane {
+    class DSColumnBasicEditorPane extends AbstractDSCellEditorPane {
 
         /**
          * 数据集和数据列
@@ -210,6 +209,16 @@ public class CellDSColumnEditor extends CellQuickEditor {
          * 条件过滤按钮面板
          */
         private JPanel conditionPane;
+
+        /**
+         * 条件过滤按钮触发动作
+         */
+        private DSColumnConditionAction condition;
+
+        /**
+         * 条件过滤按钮
+         */
+        private UIButton conditionUIButton;
 
         /**
          * 分组设置监听器
@@ -251,17 +260,16 @@ public class CellDSColumnEditor extends CellQuickEditor {
             double[] rowSize = {P}, columnSize = {P, F};
             UILabel uiLabel = new UILabel(Inter.getLocText("FR-Designer_Filter_Conditions"));
             uiLabel.setPreferredSize(LABEL_DIMENSION);
-            UIButton uiButton = new UIButton();
+            condition = new DSColumnConditionAction();
             if (tc != null) {
-                //第一次初始化时tc为空，会引发NullPointerException
-                UpdateAction condition = new DSColumnConditionAction(tc);
-                //丢掉icon,修改按钮名称为编辑
-                condition.setSmallIcon(null);
-                condition.setName(Inter.getLocText("FR-Designer_Edit"));
-                uiButton = new UIButton(condition);
+                condition.setEditingComponent(tc);
             }
+            //丢掉icon,修改按钮名称为编辑
+            condition.setSmallIcon(null);
+            condition.setName(Inter.getLocText("FR-Designer_Edit"));
+            conditionUIButton = new UIButton(condition);
             Component[][] components = new Component[][]{
-                    new Component[]{uiLabel, uiButton}
+                    new Component[]{uiLabel, conditionUIButton}
             };
             conditionPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
             this.createScrollPane();
@@ -291,6 +299,9 @@ public class CellDSColumnEditor extends CellQuickEditor {
         public void populate() {
             dataPane.populate(null, cellElement);
             groupPane.populate(cellElement);
+            if (tc != null) {
+                condition.setEditingComponent(tc);
+            }
         }
 
 
@@ -299,6 +310,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return content JPanel
          */
+        @Override
         protected JPanel createContentPane() {
 
             double[] columnSize = {F};
@@ -316,7 +328,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
     }
 
 
-    class DSColumnAdvancedEditorPane extends CellEditorPane {
+    class DSColumnAdvancedEditorPane extends AbstractDSCellEditorPane {
 
         /**
          * 排列顺序
@@ -464,6 +476,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
          *
          * @return 内容面板
          */
+        @Override
         protected JPanel createContentPane() {
             this.setLayout(FRGUIPaneFactory.createBorderLayout());
             //结果集排序
@@ -539,6 +552,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             multiPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
             multiNumPane.add(multiPane);
             useMultiplyNumCheckBox.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     checkButtonEnabled();
                     cellDSColumnAdvancedPane.updateMultipleConfig();
@@ -712,6 +726,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             private JFormulaField bottomFormulaPane;
 
             private ActionListener actionListener = new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     int selectIndex = rsComboBox.getSelectedIndex();
                     CardLayout setCardPaneLayout = (CardLayout) setCardPane.getLayout();
@@ -1015,6 +1030,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             }
 
             private ActionListener formulaButtonActionListener = new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
                     String text = formulaTextField.getText();

@@ -2,10 +2,12 @@ package com.fr.design.mainframe.cell;
 
 import com.fr.design.gui.iscrollbar.UIScrollBar;
 import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.quickeditor.cellquick.CellElementBarLayout;
+import com.fr.quickeditor.cellquick.layout.CellElementBarLayout;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
@@ -18,9 +20,11 @@ import java.awt.event.MouseWheelListener;
  * @version 2017年7月25日
  * @since 9.0
  */
-public abstract class CellEditorPane extends JPanel {
+public abstract class AbstractDSCellEditorPane extends JPanel {
 
-    /*滚动条相关配置*/
+    /**
+     * 滚动条相关配置
+     */
     private static final int MAXVALUE = 100;
     private static final int TITLE_HEIGHT = 95;
     private static final int CONTENT_PANE_WIDTH_GAP = 3;
