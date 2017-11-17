@@ -289,4 +289,21 @@ public class XButton extends XWidgetCreator {
     protected String getIconName() {
         return "button_16.png";
     }
+
+	/**
+	 * data属性改变触发其他操作
+	 *
+	 */
+	public void firePropertyChange(){
+		FreeButton button = (FreeButton) data;
+		setButtonText(button.getText());
+		checkButonType();
+		if (button.getFont() != null) {
+			contentLabel.setFont(button.getFont().applyResolutionNP(
+					ScreenResolution.getScreenResolution()));
+			contentLabel.setForeground(button.getFont().getForeground());
+		}
+
+	}
+
 }
