@@ -88,7 +88,7 @@ public class MapDataPane extends DataContentsPane {
 					protected void initLayout() {
 						this.setLayout(new BorderLayout(0, 6));
 						JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-						northPane.add(new BoldFontTextLabel(Inter.getLocText("Map Show Type") + ":"));
+						northPane.add(new BoldFontTextLabel(Inter.getLocText("FR-Chart-Map_ShowWay") + ":"));
 						northPane.add(jcb);
 						this.add(northPane, BorderLayout.NORTH);
 						this.add(cardPane, BorderLayout.CENTER);
