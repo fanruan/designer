@@ -165,38 +165,37 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         columnRowTextField.setText(columnRow.toString());
         cellElement = tc.getEditingElementCase().getTemplateCellElement(cs.getColumn(), cs.getRow());
 
-        comboBox.removeActionListener(comboBoxActionListener);
-        comboBox.removeAllItems();
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (jTemplate != null) {
+            comboBox.removeActionListener(comboBoxActionListener);
+            comboBox.removeAllItems();
             String[] items = getDefaultComboBoxItems();
             for (String item : items) {
                 comboBox.addItem(item);
             }
-        }
-        Object comboBoxSelected = getComboBoxSelected();
-        if (comboBoxSelected != null) {
-            comboBox.setSelectedItem(((ShortCut) comboBoxSelected).getMenuKeySet().getMenuKeySetName());
-        } else {
-            comboBox.setSelectedIndex(1);
-        }
-        currentSelectedIndex = comboBox.getSelectedIndex();
-        comboBoxActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
-                selectedIndex = comboBox.getSelectedIndex();
-                comboBox.setPopupVisible(false);
-                comboBox.repaint();
-                if (selectedIndex < cellInsertActions.length) {
-                    cellInsertActions[selectedIndex].actionPerformed(e);
-                }
-                comboBox.setSelectedIndex(currentSelectedIndex);
+            Object comboBoxSelected = getComboBoxSelected();
+            if (comboBoxSelected != null) {
+                comboBox.setSelectedItem(((ShortCut) comboBoxSelected).getMenuKeySet().getMenuKeySetName());
+            } else {
+                comboBox.setSelectedIndex(1);
             }
-        };
-        comboBox.addActionListener(comboBoxActionListener);
+            currentSelectedIndex = comboBox.getSelectedIndex();
+            comboBoxActionListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
+                    selectedIndex = comboBox.getSelectedIndex();
+                    comboBox.setPopupVisible(false);
+                    comboBox.repaint();
+                    if (selectedIndex < cellInsertActions.length) {
+                        cellInsertActions[selectedIndex].actionPerformed(e);
+                    }
+                    comboBox.setSelectedIndex(currentSelectedIndex);
+                }
+            };
+            comboBox.addActionListener(comboBoxActionListener);
+        }
         refreshDetails();
-
     }
 
     /**
