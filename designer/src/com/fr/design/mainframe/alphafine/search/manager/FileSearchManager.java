@@ -88,6 +88,7 @@ public class FileSearchManager implements AlphaFineSearchProcessor {
         Env env = FRContext.getCurrentEnv();
         fileNodes = new ArrayList<>();
         fileNodes = listTpl(env, ProjectConstants.REPORTLETS_NAME, true);
+        AlphaFineHelper.checkCancel();
         isContainCpt = true;
         isContainFrm = true;
         for (FileNode node : fileNodes) {
