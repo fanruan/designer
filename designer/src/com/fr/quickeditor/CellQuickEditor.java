@@ -18,13 +18,25 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
 import com.fr.general.Inter;
 import com.fr.grid.selection.CellSelection;
-import com.fr.quickeditor.cellquick.CellElementBarLayout;
+import com.fr.quickeditor.cellquick.layout.CellElementBarLayout;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.stable.ColumnRow;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
 /**
@@ -35,19 +47,22 @@ import java.util.ArrayList;
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
 
-    /*面板配置*/
+    /**
+     * 面板配置
+     */
     protected UITextField columnRowTextField;
     protected TemplateCellElement cellElement;
-    /*占位label*/
-    protected static final Dimension LABEL_DIMENSION = new Dimension(60, 20);
-    protected static final UILabel EMPTY_LABEL = new UILabel();
+    /**
+     * 占位label
+     */
+    protected final Dimension LABEL_DIMENSION = new Dimension(60, 20);
+    protected final UILabel EMPTY_LABEL = new UILabel();
     protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
 
-    static {
-        EMPTY_LABEL.setPreferredSize(LABEL_DIMENSION);
-    }
 
-    /*滚动条相关配置*/
+    /**
+     * 滚动条相关配置
+     */
     private static final int MAXVALUE = 100;
     private static final int CONTENT_PANE_WIDTH_GAP = 3;
     private static final int MOUSE_WHEEL_SPEED = 5;
@@ -61,8 +76,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     private int currentSelectedIndex;
     private JPanel leftContentPane;
     private UIScrollBar scrollBar;
+    private ActionListener comboBoxActionListener;
 
     public CellQuickEditor() {
+        EMPTY_LABEL.setPreferredSize(LABEL_DIMENSION);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {p, f};
@@ -147,7 +164,39 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         ColumnRow columnRow = ColumnRow.valueOf(cs.getColumn(), cs.getRow());
         columnRowTextField.setText(columnRow.toString());
         cellElement = tc.getEditingElementCase().getTemplateCellElement(cs.getColumn(), cs.getRow());
+
+        comboBox.removeActionListener(comboBoxActionListener);
+        comboBox.removeAllItems();
+        JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (jTemplate != null) {
+            String[] items = getDefaultComboBoxItems();
+            for (String item : items) {
+                comboBox.addItem(item);
+            }
+        }
+        Object comboBoxSelected = getComboBoxSelected();
+        if (comboBoxSelected != null) {
+            comboBox.setSelectedItem(((ShortCut) comboBoxSelected).getMenuKeySet().getMenuKeySetName());
+        } else {
+            comboBox.setSelectedIndex(1);
+        }
+        currentSelectedIndex = comboBox.getSelectedIndex();
+        comboBoxActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
+                selectedIndex = comboBox.getSelectedIndex();
+                comboBox.setPopupVisible(false);
+                comboBox.repaint();
+                if (selectedIndex < cellInsertActions.length) {
+                    cellInsertActions[selectedIndex].actionPerformed(e);
+                }
+                comboBox.setSelectedIndex(currentSelectedIndex);
+            }
+        };
+        comboBox.addActionListener(comboBoxActionListener);
         refreshDetails();
+
     }
 
     /**
@@ -165,10 +214,10 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         cellLabel.setPreferredSize(LABEL_DIMENSION);
         UILabel insertContentLabel = new UILabel(Inter.getLocText("FR-Designer_Insert_Cell_Element"));
         insertContentLabel.setPreferredSize(LABEL_DIMENSION);
-        UIComboBox cellElementEditComboBox = initCellElementEditComboBox();
+        initCellElementEditComboBox();
         Component[][] components = new Component[][]{
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
-                new Component[]{insertContentLabel, cellElementEditComboBox},
+                new Component[]{insertContentLabel, comboBox},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
     }
@@ -214,13 +263,12 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
     /**
      * 初始化添加按钮
-     *
-     * @return UIButton
      */
-    private UIComboBox initCellElementEditComboBox() {
+    private void initCellElementEditComboBox() {
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (jTemplate == null) {
-            return comboBox = new UIComboBox();
+            comboBox = new UIComboBox();
+            return;
         }
         final String[] items = getDefaultComboBoxItems();
         comboBox = new UIComboBox(items);
@@ -231,18 +279,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
             comboBox.setSelectedIndex(1);
         }
         currentSelectedIndex = comboBox.getSelectedIndex();
-        comboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cellInsertActions = ActionFactory.createCellInsertAction(ElementCasePane.class, tc);
-                selectedIndex = comboBox.getSelectedIndex();
-                comboBox.setPopupVisible(false);
-                comboBox.repaint();
-                cellInsertActions[selectedIndex].actionPerformed(e);
-                comboBox.setSelectedIndex(currentSelectedIndex);
-            }
-        });
-        return comboBox;
+        comboBox.addActionListener(comboBoxActionListener);
     }
 
     private String[] getDefaultComboBoxItems() {

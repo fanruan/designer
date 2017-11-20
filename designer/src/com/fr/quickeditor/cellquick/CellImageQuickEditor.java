@@ -5,6 +5,7 @@ import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.ImageCellAction;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
@@ -14,8 +15,11 @@ import com.fr.general.Inter;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.cellattr.CellImage;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +31,7 @@ import java.awt.event.ActionListener;
  */
 public class CellImageQuickEditor extends CellQuickEditor {
 
-    private CellImageQuickEditor() {
+    public CellImageQuickEditor() {
         super();
     }
 
