@@ -83,6 +83,8 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
     private StringBuilder process = new StringBuilder("");  // 制作模板的过程
     public int resolution = ScreenResolution.getScreenResolution();
 
+    public JTemplate() {}
+
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
         openTime = System.currentTimeMillis();
@@ -883,6 +885,13 @@ public abstract class JTemplate<T extends IOFile, U extends BaseUndoState<?>> ex
      * @return 是则返回true
      */
     public abstract boolean isJWorkBook();
+
+    /**
+     * 是否是虚拟工作薄，用于释放该template内存
+     *
+     * @return 是则返回true
+     */
+    public abstract boolean isJVirtualTemplate();
 
     /**
      * 返回当前支持的超链界面pane

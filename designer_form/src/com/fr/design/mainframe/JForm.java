@@ -142,6 +142,11 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return false;
     }
 
+    @Override
+    public boolean isJVirtualTemplate() {
+        return false;
+    }
+
     /**
      * 返回当前支持的超链界面pane
      *

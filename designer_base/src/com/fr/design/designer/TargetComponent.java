@@ -22,6 +22,8 @@ public abstract class TargetComponent<T> extends JComponent {
 		this.target = t;
 	}
 
+	public TargetComponent() {}
+
 	// TODO ALEX_SEP JWorkBook不想有copy, paste, cut的操作,怎么办?
 	public abstract void copy();
 

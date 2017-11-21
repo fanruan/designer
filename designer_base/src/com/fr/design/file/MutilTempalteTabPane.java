@@ -219,12 +219,14 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             templates[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     selectedIndex = index;
-                    DesignerContext.getDesignerFrame().addAndActivateJTemplate(tem);
+                    if (!tem.isJVirtualTemplate()) {
+                        DesignerContext.getDesignerFrame().addAndActivateJTemplate(tem);
+                    } else {
+                        DesignerContext.getDesignerFrame().openTemplate(tem.getEditingFILE());
+                    }
                 }
             });
         }
-
-
         return templates;
     }
 
@@ -672,7 +674,12 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                     this.repaint();
                     return;
                 }
-                DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(getTemplateIndex(evtX)));
+                JTemplate evtXTemplate = openedTemplate.get(getTemplateIndex(evtX));
+                if (!evtXTemplate.isJVirtualTemplate()) {
+                    DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(getTemplateIndex(evtX)));
+                } else {
+                    DesignerContext.getDesignerFrame().openTemplate(evtXTemplate.getEditingFILE());
+                }
             }
             isShowList = false;
         }
@@ -779,7 +786,12 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 //如果关闭的模板不是当前选中的模板，则激活的模板不变
                 selectedIndex = HistoryTemplateListPane.getInstance().contains(fileName);
             }
-            DesignerContext.getDesignerFrame().activateJTemplate(openedTemplate.get(selectedIndex));
+            //如果是已后台关闭的模板，则重新打开文件
+            if (!openedTemplate.get(selectedIndex).isJVirtualTemplate()) {
+                DesignerContext.getDesignerFrame().activateJTemplate(openedTemplate.get(selectedIndex));
+            } else {
+                DesignerContext.getDesignerFrame().openTemplate(openedTemplate.get(selectedIndex).getEditingFILE());
+            }
         }
     }
 

@@ -25,6 +25,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilist.UIList;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -36,6 +37,8 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.design.utils.gui.GUIPaintUtils;
 
 public class HistoryTemplateListPane extends JPanel implements FileOperations {
+    //最大保存内存中面板数,为0时关闭优化内存
+    private static final int DEAD_LINE = 5;
     private static final int LIST_BORDER = 4;
     private List<JTemplate<?, ?>> historyList;
     private JTemplate<?, ?> editingTemplate;
@@ -122,6 +125,26 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
             FRContext.getLogger().error(e.getMessage(), e);
         }
 
+    }
+
+    /**
+     * 临时关闭选择的文件
+     * @param selected 选择的
+     */
+    public void closeVirtualSelectedReport(JTemplate<?, ?> selected) {
+        DesignModuleFactory.clearChartPropertyPane();
+        DesignTableDataManager.closeTemplate(selected);
+        GeneralContext.removeEnvWillChangedListener(selected.getFullPathName());
+        if (contains(selected) == -1) {
+            return;
+        }
+        selected.fireJTemplateClosed();
+        selected.stopEditing();
+        try {
+            selected.getEditingFILE().closeTemplate();
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
     }
 
     public JTemplate<?, ?> getCurrentEditingTemplate() {
@@ -281,8 +304,28 @@ public class HistoryTemplateListPane extends JPanel implements FileOperations {
 
         public void add(JTemplate<?, ?> jt) {
             historyList.add(jt);
+            closeOverLineTemplate();
             refresh();
         }
+    }
+
+    /**
+     * 打开new模板的同时关闭old模板,优先关已保存的、先打开的
+     */
+    public void closeOverLineTemplate() {
+        int size = historyList.size();
+        int vCount = size - DEAD_LINE;
+        if (DEAD_LINE == 0 || vCount <= 0) {
+            return;
+        }
+        for (int i = 0; i < vCount; i++) {
+            JTemplate overTemplate = historyList.get(i);
+            if (!overTemplate.isJVirtualTemplate() && overTemplate.getEditingFILE().exists() && overTemplate.isALLSaved() && overTemplate != editingTemplate) {
+                closeVirtualSelectedReport(overTemplate);
+                historyList.set(i, new JVirtualTemplate(overTemplate.getEditingFILE()));
+            }
+        }
+        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
     }
 
     /**

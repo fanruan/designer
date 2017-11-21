@@ -850,6 +850,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
+    public boolean isJVirtualTemplate() {
+        return false;
+    }
+
+    @Override
     public HyperlinkGroupPane getHyperLinkPane(HyperlinkGroupPaneActionProvider hyperlinkGroupPaneActionProvider) {
         return ReportHyperlinkGroupPane.getInstance(hyperlinkGroupPaneActionProvider);
     }
