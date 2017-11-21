@@ -151,7 +151,7 @@ public class DesignerModule extends DesignModule {
         ActionFactory.registerCellEditor(BiasTextPainter.class, new CellBiasTextPainterEditor());
         ActionFactory.registerCellEditor(BufferedImage.class, new CellImageQuickEditor());
 
-        ActionFactory.registerChartCellEditorInEditor(new BasicChartQuickEditor());
+        ActionFactory.registerChartCellEditorInEditor(BasicChartQuickEditor.class);
 
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
@@ -173,13 +173,13 @@ public class DesignerModule extends DesignModule {
      * kunnat: 注册悬浮选中Editor
      */
     private void registerFloatEditor() {
-        
+
         ActionFactory.registerFloatEditor(String.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Formula.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Image.class, new FloatImageQuickEditor());
         ActionFactory.registerFloatEditor(BufferedImage.class, new FloatImageQuickEditor());
 
-        ActionFactory.registerChartFloatEditorInEditor(new FloatChartQuickEditor());
+        ActionFactory.registerChartFloatEditorInEditor(FloatChartQuickEditor.class);
     }
 
     /**
